@@ -2,10 +2,22 @@
 
 Automated daily scraper for ski resort grooming and lift status data. Runs via GitHub Actions and provides historical data through a simple JSON API.
 
+## 🔗 Live Data API
+
+**API Documentation:** https://jacobschulman.github.io/ski-run-scraper/data/index.html
+
+**Quick Links:**
+- All resorts (latest): https://jacobschulman.github.io/ski-run-scraper/data/latest.json
+- File index: https://jacobschulman.github.io/ski-run-scraper/data/index.json
+- Keystone: https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-11-06.json
+- Vail: https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-11-06.json
+- Park City: https://jacobschulman.github.io/ski-run-scraper/data/parkcity/2025-11-06.json
+- Beaver Creek: https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/2025-11-06.json
+
 ## Features
 
 - **Daily automated scraping** at 7 AM MST via GitHub Actions
-- **Historical data tracking** with timestamped files
+- **Historical data tracking** with timestamped files (one file per resort per day)
 - **Multi-resort support** with easy configuration
 - **Configurable season dates** (automatically skips scraping after season end)
 - **GitHub Pages API** for easy data access
@@ -15,6 +27,8 @@ Automated daily scraper for ski resort grooming and lift status data. Runs via G
 
 - Keystone
 - Vail
+- Park City
+- Beaver Creek
 
 ## Quick Start
 
