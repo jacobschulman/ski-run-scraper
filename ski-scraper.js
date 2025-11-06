@@ -76,16 +76,20 @@ async function scrapeGroomingData(resortKey, url) {
 
     // Try loading with a more lenient wait strategy
     try {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
     } catch (e) {
       console.log('Initial load issue:', e.message);
+      // Try to continue anyway
     }
+
+    // Give the page extra time to settle
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     // Wait for the script tag or FR object to be available
     console.log('Waiting for data to load...');
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
-      { timeout: 30000 }
+      { timeout: 45000 }
     ).catch(() => console.log('FR.TerrainStatusFeed not found via wait'));
 
     // Extract the FR.TerrainStatusFeed data (includes both trails and lifts)
