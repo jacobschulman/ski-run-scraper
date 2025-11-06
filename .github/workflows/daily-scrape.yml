@@ -1,0 +1,50 @@
+name: Daily Ski Data Scraper
+
+on:
+  schedule:
+    # Run at 7 AM MST (2 PM UTC in winter / 1 PM UTC in summer)
+    # Adjust the hour in cron expression if needed: "0 14 * * *" for 2 PM UTC
+    - cron: '0 14 * * *'
+
+  workflow_dispatch: # Allow manual triggering
+
+permissions:
+  contents: write  # Required to commit and push changes
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run scraper
+        run: node ski-scraper.js all
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code data/ || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push data
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git commit -m "Update ski data - $(date +'%Y-%m-%d')"
+          git push
+
+      - name: No changes detected
+        if: steps.git-check.outputs.changes != 'true'
+        run: echo "No new data to commit"
