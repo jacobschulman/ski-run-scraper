@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaver Creek Grooming Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #3a7bd5 100%);
+            color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .back-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            font-size: 0.9em;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .date-nav {
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .date-nav-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .date-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .date-display {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #2c5aa0;
+        }
+        .nav-btn {
+            background: #3a7bd5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover:not(:disabled) {
+            background: #2c5aa0;
+        }
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        input[type="date"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .area-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .area-title {
+            color: #2c5aa0;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f4f8;
+        }
+        .trail-list {
+            list-style: none;
+        }
+        .trail-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .trail-item:last-child {
+            border-bottom: none;
+        }
+        .difficulty-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .difficulty-Green { background: #4CAF50; }
+        .difficulty-Blue { background: #2196F3; }
+        .difficulty-Black { background: #424242; }
+        .difficulty-DoubleBlack { background: #000; }
+        .trail-name {
+            flex-grow: 1;
+            font-weight: 500;
+        }
+        .trail-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .groomed-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .new-badge {
+            background: #ff9800;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .closed-badge {
+            background: #f44336;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        .footer a {
+            color: #3a7bd5;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            .date-nav-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .date-controls {
+                flex-direction: column;
+            }
+            .trail-item {
+                flex-wrap: wrap;
+            }
+            .trail-name {
+                width: 100%;
+                order: 1;
+            }
+            .difficulty-indicator {
+                order: 0;
+            }
+            .trail-status {
+                order: 2;
+                margin-left: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <a href="index.html" class="back-link">← Back to API Docs</a>
+            <h1>🦫 Beaver Creek Grooming Report</h1>
+        </div>
+    </div>
+
+    <div class="date-nav">
+        <div class="date-nav-content">
+            <div class="date-controls">
+                <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)">← Previous</button>
+                <span class="date-display" id="dateDisplay">Loading...</span>
+                <button class="nav-btn" id="nextBtn" onclick="navigateDate(1)">Next →</button>
+            </div>
+            <div>
+                <input type="date" id="datePicker" onchange="selectDate()">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="content">
+            <div class="loading">Loading grooming data...</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><a href="#" id="rawJsonLink" target="_blank">View Raw JSON Data</a></p>
+        <p>Data updated daily at 7 AM MST</p>
+    </div>
+
+    <script>
+        const RESORT_KEY = 'beavercreek';
+        let availableDates = [];
+        let currentDateIndex = 0;
+        let yesterdayData = null;
+
+        async function loadIndex() {
+            try {
+                const response = await fetch('index.json');
+                const index = await response.json();
+
+                if (index[RESORT_KEY] && index[RESORT_KEY].files) {
+                    availableDates = index[RESORT_KEY].files
+                        .map(f => f.date)
+                        .sort()
+                        .reverse(); // Most recent first
+
+                    currentDateIndex = 0;
+                    await loadDate(availableDates[currentDateIndex]);
+                } else {
+                    showError('No data available for this resort.');
+                }
+            } catch (error) {
+                showError('Failed to load data index: ' + error.message);
+            }
+        }
+
+        async function loadDate(date) {
+            try {
+                const filePath = `${RESORT_KEY}/${date}.json`;
+                const response = await fetch(filePath);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Load yesterday's data for comparison
+                const dateIdx = availableDates.indexOf(date);
+                if (dateIdx < availableDates.length - 1) {
+                    const yesterdayDate = availableDates[dateIdx + 1];
+                    try {
+                        const yResponse = await fetch(`${RESORT_KEY}/${yesterdayDate}.json`);
+                        yesterdayData = await yResponse.json();
+                    } catch {
+                        yesterdayData = null;
+                    }
+                } else {
+                    yesterdayData = null;
+                }
+
+                renderData(data, date);
+                updateNavigation(date);
+
+                // Update raw JSON link
+                document.getElementById('rawJsonLink').href = filePath;
+            } catch (error) {
+                showError(`Failed to load data for ${date}: ${error.message}`);
+            }
+        }
+
+        function renderData(data, date) {
+            const content = document.getElementById('content');
+
+            if (!data.GroomingAreas || data.GroomingAreas.length === 0) {
+                content.innerHTML = '<div class="error">No grooming data available for this date.</div>';
+                return;
+            }
+
+            // Get set of groomed trails from yesterday
+            const yesterdayGroomed = new Set();
+            if (yesterdayData && yesterdayData.GroomingAreas) {
+                yesterdayData.GroomingAreas.forEach(area => {
+                    area.Trails.forEach(trail => {
+                        if (trail.IsGroomed) {
+                            yesterdayGroomed.add(trail.Id);
+                        }
+                    });
+                });
+            }
+
+            let html = '';
+
+            data.GroomingAreas.forEach(area => {
+                if (!area.Trails || area.Trails.length === 0) return;
+
+                // Filter to only groomed trails
+                const groomedTrails = area.Trails.filter(t => t.IsGroomed);
+                if (groomedTrails.length === 0) return;
+
+                html += `<div class="area-section">`;
+                html += `<h2 class="area-title">${escapeHtml(area.Name)}</h2>`;
+                html += `<ul class="trail-list">`;
+
+                groomedTrails.forEach(trail => {
+                    const isNew = !yesterdayGroomed.has(trail.Id);
+                    const difficulty = trail.Difficulty || 'Blue';
+
+                    html += `<li class="trail-item">`;
+                    html += `<span class="difficulty-indicator difficulty-${difficulty}"></span>`;
+                    html += `<span class="trail-name">${escapeHtml(trail.Name)}</span>`;
+                    html += `<span class="trail-status">`;
+                    html += `<span class="groomed-badge">✓ Groomed</span>`;
+                    if (isNew && yesterdayData) {
+                        html += `<span class="new-badge">New!</span>`;
+                    }
+                    if (!trail.IsOpen) {
+                        html += `<span class="closed-badge">Closed</span>`;
+                    }
+                    html += `</span>`;
+                    html += `</li>`;
+                });
+
+                html += `</ul></div>`;
+            });
+
+            if (html === '') {
+                content.innerHTML = '<div class="error">No groomed trails found for this date.</div>';
+            } else {
+                content.innerHTML = html;
+            }
+        }
+
+        function updateNavigation(date) {
+            // Update date display
+            const dateObj = new Date(date + 'T00:00:00');
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateDisplay').textContent = dateObj.toLocaleDateString('en-US', options);
+
+            // Update date picker
+            document.getElementById('datePicker').value = date;
+
+            // Update prev/next buttons
+            document.getElementById('prevBtn').disabled = currentDateIndex === 0;
+            document.getElementById('nextBtn').disabled = currentDateIndex === availableDates.length - 1;
+        }
+
+        function navigateDate(direction) {
+            const newIndex = currentDateIndex + direction;
+            if (newIndex >= 0 && newIndex < availableDates.length) {
+                currentDateIndex = newIndex;
+                loadDate(availableDates[currentDateIndex]);
+            }
+        }
+
+        function selectDate() {
+            const selectedDate = document.getElementById('datePicker').value;
+            const index = availableDates.indexOf(selectedDate);
+            if (index !== -1) {
+                currentDateIndex = index;
+                loadDate(availableDates[currentDateIndex]);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('content').innerHTML =
+                `<div class="error"><strong>Error:</strong> ${escapeHtml(message)}</div>`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize on page load
+        loadIndex();
+    </script>
+</body>
+</html>
