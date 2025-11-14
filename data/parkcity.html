@@ -263,9 +263,9 @@
                 const response = await fetch('index.json');
                 const index = await response.json();
 
-                if (index[RESORT_KEY] && index[RESORT_KEY].files) {
-                    availableDates = index[RESORT_KEY].files
-                        .map(f => f.date)
+                if (index.resorts && index.resorts[RESORT_KEY] && index.resorts[RESORT_KEY].files) {
+                    availableDates = index.resorts[RESORT_KEY].files
+                        .map(f => f.replace('.json', ''))
                         .sort()
                         .reverse(); // Most recent first
 

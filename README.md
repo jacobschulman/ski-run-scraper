@@ -273,3 +273,12 @@ To add support for additional resorts:
 3. Add the resort to `config.json`
 4. Test locally with `node ski-scraper.js {resort-key}`
 5. Submit a PR!
+
+## 📊 Browse Grooming Reports
+
+View formatted grooming data with date navigation and historical tracking:
+
+- **Keystone:** https://jacobschulman.github.io/ski-run-scraper/data/keystone.html
+- **Vail:** https://jacobschulman.github.io/ski-run-scraper/data/vail.html
+- **Park City:** https://jacobschulman.github.io/ski-run-scraper/data/parkcity.html
+- **Beaver Creek:** https://jacobschulman.github.io/ski-run-scraper/data/beavercreek.html
