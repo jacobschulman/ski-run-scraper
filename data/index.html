@@ -39,11 +39,63 @@
             border-left: 4px solid #ffa726;
             margin: 20px 0;
         }
+        .resort-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .resort-card {
+            background: linear-gradient(135deg, #2c5aa0 0%, #3a7bd5 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .resort-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(42, 90, 160, 0.3);
+        }
+        .resort-card h3 {
+            margin: 0;
+            color: white;
+            font-size: 1.3em;
+        }
+        .resort-card p {
+            margin: 8px 0 0 0;
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
     <h1>🎿 Ski Run Scraper API</h1>
     <p>Daily grooming and lift status data for ski resorts. Updated every morning at 7 AM MST.</p>
+
+    <h2>📊 Browse Grooming Data</h2>
+    <p>View formatted grooming reports with date navigation and historical data:</p>
+
+    <div class="resort-grid">
+        <a href="keystone.html" class="resort-card">
+            <h3>⛷️ Keystone</h3>
+            <p>View grooming report</p>
+        </a>
+        <a href="vail.html" class="resort-card">
+            <h3>🏔️ Vail</h3>
+            <p>View grooming report</p>
+        </a>
+        <a href="parkcity.html" class="resort-card">
+            <h3>🎿 Park City</h3>
+            <p>View grooming report</p>
+        </a>
+        <a href="beavercreek.html" class="resort-card">
+            <h3>🦫 Beaver Creek</h3>
+            <p>View grooming report</p>
+        </a>
+    </div>
 
     <h2>Available Endpoints</h2>
 
