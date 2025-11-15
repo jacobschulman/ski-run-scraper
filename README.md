@@ -76,7 +76,7 @@ Automated daily scraper for ski resort grooming and lift status data. Runs via G
 
 ### Adding New Resorts
 
-Edit `config.json` to add resorts:
+1. Edit `config.json` to add the resort:
 
 ```json
 {
@@ -84,15 +84,24 @@ Edit `config.json` to add resorts:
     {
       "key": "keystone",
       "name": "Keystone",
-      "url": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx"
-    },
-    {
-      "key": "beavercreek",
-      "name": "Beaver Creek",
-      "url": "https://www.beavercreek.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx"
+      "timezone": "America/Denver",
+      "terrainUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+      "snowReportUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
     }
   ]
 }
+```
+
+2. Generate landing pages for the new resort:
+
+```bash
+node generate-landing-pages.js
+```
+
+3. Test locally:
+
+```bash
+node ski-scraper.js keystone
 ```
 
 ### Adjusting Schedule
@@ -212,20 +221,35 @@ fetch('https://{username}.github.io/{repo}/data/vail/2025-01-05.json')
 ski-run-scraper/
 ├── .github/
 │   └── workflows/
-│       └── daily-scrape.yml      # GitHub Actions workflow
+│       └── daily-scrape.yml         # GitHub Actions workflow
 ├── data/
-│   ├── index.html                # API documentation
-│   ├── latest.json               # Latest data from all resorts
-│   ├── index.json                # Manifest of all files
+│   ├── index.html                   # API documentation
+│   ├── latest.json                  # Latest terrain data from all resorts
+│   ├── latest-snow.json             # Latest snow data from all resorts
+│   ├── index.json                   # Manifest of all files
+│   ├── styles.css                   # Shared styles for landing pages
+│   ├── resort.js                    # Shared JavaScript for grooming pages
 │   ├── keystone/
-│   │   ├── 2025-01-05.json
-│   │   ├── 2025-01-06.json
-│   │   └── ...
+│   │   ├── grooming.html            # Grooming report landing page
+│   │   ├── snow.html                # Snow report landing page
+│   │   ├── terrain/
+│   │   │   ├── 2025-11-05.json
+│   │   │   └── 2025-11-06.json
+│   │   └── snow/
+│   │       ├── 2025-11-05.json
+│   │       ├── 2025-11-06.json
+│   │       └── latest.json
 │   └── vail/
-│       └── 2025-01-05.json
-├── config.json                   # Resort and schedule configuration
-├── ski-scraper.js                # Main scraper script
-├── package.json                  # Node.js dependencies
+│       ├── grooming.html
+│       ├── snow.html
+│       └── ...
+├── templates/
+│   ├── grooming.html                # Universal grooming page template
+│   └── snow.html                    # Universal snow page template
+├── config.json                      # Resort and schedule configuration
+├── ski-scraper.js                   # Main scraper script
+├── generate-landing-pages.js        # Landing page generator
+├── package.json                     # Node.js dependencies
 └── README.md
 ```
 
@@ -274,11 +298,54 @@ To add support for additional resorts:
 4. Test locally with `node ski-scraper.js {resort-key}`
 5. Submit a PR!
 
-## 📊 Browse Grooming Reports
+## 📊 Browse Grooming & Snow Reports
 
-View formatted grooming data with date navigation and historical tracking:
+View formatted grooming and snow data with date navigation and historical tracking:
 
-- **Keystone:** https://jacobschulman.github.io/ski-run-scraper/data/keystone.html
-- **Vail:** https://jacobschulman.github.io/ski-run-scraper/data/vail.html
-- **Park City:** https://jacobschulman.github.io/ski-run-scraper/data/parkcity.html
-- **Beaver Creek:** https://jacobschulman.github.io/ski-run-scraper/data/beavercreek.html
+**Grooming Reports:**
+- **Keystone:** https://jacobschulman.github.io/ski-run-scraper/data/keystone/grooming.html
+- **Vail:** https://jacobschulman.github.io/ski-run-scraper/data/vail/grooming.html
+- **Park City:** https://jacobschulman.github.io/ski-run-scraper/data/parkcity/grooming.html
+- **Beaver Creek:** https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/grooming.html
+
+**Snow Reports:**
+- **Keystone:** https://jacobschulman.github.io/ski-run-scraper/data/keystone/snow.html
+- **Vail:** https://jacobschulman.github.io/ski-run-scraper/data/vail/snow.html
+- **Park City:** https://jacobschulman.github.io/ski-run-scraper/data/parkcity/snow.html
+- **Beaver Creek:** https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow.html
+
+## 🎨 Landing Page Management
+
+Landing pages are generated from universal templates that auto-detect the resort from the URL.
+
+### Current Resorts
+
+The scraper now supports 40+ resorts across North America and Australia. See `config.json` for the complete list.
+
+### Generating Landing Pages
+
+After adding a new resort to `config.json`, run:
+
+```bash
+node generate-landing-pages.js
+```
+
+This will:
+- Create `grooming.html` and `snow.html` for each resort with appropriate URLs configured
+- Update existing pages if templates have changed
+- Auto-detect resort name and timezone from the URL path
+
+**Important:** Changes to template files require re-running the script to propagate:
+
+```bash
+# 1. Edit templates/grooming.html or templates/snow.html
+# 2. Regenerate all landing pages
+node generate-landing-pages.js
+```
+
+### Template Files
+
+- `templates/grooming.html` - Universal grooming report template
+- `templates/snow.html` - Universal snow report template
+
+Both templates use JavaScript to auto-detect which resort they're displaying based on the URL path.
