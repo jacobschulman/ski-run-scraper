@@ -1,9 +1,22 @@
 {
+  "_comment": "Ski Run Scraper Configuration",
+  "_documentation": {
+    "resorts": "List of resorts to scrape. Each resort is scraped automatically when running ski-scraper.js",
+    "fields": {
+      "key": "Unique identifier for the resort (used for folder names in data/)",
+      "name": "Display name of the resort",
+      "terrainUrl": "URL to the terrain and lift status page (required for trail/grooming data)",
+      "snowReportUrl": "URL to the snow and weather report page (optional, enables snow data scraping)"
+    },
+    "adding_resorts": "To add a new resort: 1) Add entry to resorts array, 2) Run scraper - data folders are created automatically",
+    "url_pattern": "Most Vail Resorts follow: https://www.[resort].com/the-mountain/mountain-conditions/[page-type].aspx"
+  },
   "resorts": [
     {
       "key": "keystone",
       "name": "Keystone",
-      "url": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx"
+      "terrainUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+      "snowReportUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
     },
     {
       "key": "vail",
@@ -14,7 +27,8 @@
     {
       "key": "parkcity",
       "name": "Park City",
-      "url": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx"
+      "terrainUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+      "snowReportUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
     },
     {
       "key": "beavercreek",
