@@ -1,10 +1,11 @@
-name: Daily Ski Data Scraper
+name: Timezone-Aware Ski Data Scraper
 
 on:
   schedule:
-    # Run at 7 AM MST (2 PM UTC in winter / 1 PM UTC in summer)
-    # Adjust the hour in cron expression if needed: "0 14 * * *" for 2 PM UTC
-    - cron: '0 14 * * *'
+    # Run every 3 hours to catch all resorts at their local 7 AM time
+    # Each resort is scraped once daily at its own 7 AM local time (configurable)
+    # Scraper checks timezone, season dates, and existing data before scraping
+    - cron: '0 */3 * * *'
 
   workflow_dispatch: # Allow manual triggering
 
