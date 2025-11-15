@@ -103,22 +103,33 @@
         <h3>Latest Data (All Resorts)</h3>
         <code>GET /data/latest.json</code>
         <p>Returns the most recent data for all configured resorts in a single JSON file.</p>
-        <pre>https://{username}.github.io/{repo}/data/latest.json</pre>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/latest.json</pre>
     </div>
 
     <div class="endpoint">
         <h3>Data Index</h3>
         <code>GET /data/index.json</code>
         <p>Returns a manifest of all available data files for all resorts, including file counts and latest dates.</p>
-        <pre>https://{username}.github.io/{repo}/data/index.json</pre>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/index.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Grooming Reports (Web Interface)</h3>
+        <p>View interactive grooming reports with date navigation:</p>
+        <ul style="list-style: none; padding-left: 0;">
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/keystone.html">⛷️ Keystone Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail.html">🏔️ Vail Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/parkcity.html">🎿 Park City Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek.html">🦫 Beaver Creek Grooming Report</a></li>
+        </ul>
     </div>
 
     <div class="endpoint">
         <h3>Resort-Specific Data (by date)</h3>
         <code>GET /data/{resort}/{YYYY-MM-DD}.json</code>
         <p>Returns data for a specific resort on a specific date.</p>
-        <pre>https://{username}.github.io/{repo}/data/keystone/2025-01-05.json
-https://{username}.github.io/{repo}/data/vail/2025-01-05.json</pre>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-01-05.json
+https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-01-05.json</pre>
     </div>
 
     <h2>Data Structure</h2>
@@ -139,7 +150,7 @@ https://{username}.github.io/{repo}/data/vail/2025-01-05.json</pre>
 
     <h3>JavaScript / Node.js</h3>
     <pre>// Fetch latest data for all resorts
-const response = await fetch('https://{username}.github.io/{repo}/data/latest.json');
+const response = await fetch('https://jacobschulman.github.io/ski-run-scraper/data/latest.json');
 const data = await response.json();
 
 // Access specific resort
@@ -151,7 +162,7 @@ console.log(`Keystone has ${keystoneData.GroomingAreas.length} areas`);
     <pre>import requests
 
 # Fetch specific resort data
-url = 'https://{username}.github.io/{repo}/data/keystone/2025-01-05.json'
+url = 'https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-01-05.json'
 response = requests.get(url)
 data = response.json()
 
@@ -161,7 +172,7 @@ print(f"Total areas: {len(data['GroomingAreas'])}")
 
     <h3>LED Matrix / IoT</h3>
     <pre>// Fetch only the data you need for a specific resort
-fetch('https://{username}.github.io/{repo}/data/vail/2025-01-05.json')
+fetch('https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-01-05.json')
   .then(res => res.json())
   .then(data => {
     // Process groomed trails
@@ -172,16 +183,11 @@ fetch('https://{username}.github.io/{repo}/data/vail/2025-01-05.json')
   });
 </pre>
 
-    <div class="note">
-        <strong>Note:</strong> Replace <code>{username}</code> and <code>{repo}</code> with your GitHub username and repository name.
-        Enable GitHub Pages in your repository settings to serve these files.
-    </div>
-
     <h2>Update Schedule</h2>
     <p>Data is automatically scraped daily at <strong>7:00 AM MST</strong> via GitHub Actions.</p>
     <p>Historical data is retained indefinitely. Season typically runs through May 1st.</p>
 
     <h2>Source Code</h2>
-    <p>View the scraper source code and configuration on <a href="https://github.com/{username}/{repo}">GitHub</a>.</p>
+    <p>View the scraper source code and configuration on <a href="https://github.com/jacobschulman/ski-run-scraper">GitHub</a>.</p>
 </body>
 </html>
