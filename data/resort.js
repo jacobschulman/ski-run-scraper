@@ -28,7 +28,7 @@ async function loadIndex() {
 
 async function loadDate(date) {
     try {
-        const filePath = `${RESORT_KEY}/${date}.json`;
+        const filePath = `${RESORT_KEY}/terrain/${date}.json`;
         const response = await fetch(filePath);
 
         if (!response.ok) {
@@ -42,7 +42,7 @@ async function loadDate(date) {
         if (dateIdx < availableDates.length - 1) {
             const yesterdayDate = availableDates[dateIdx + 1];
             try {
-                const yResponse = await fetch(`${RESORT_KEY}/${yesterdayDate}.json`);
+                const yResponse = await fetch(`${RESORT_KEY}/terrain/${yesterdayDate}.json`);
                 yesterdayData = await yResponse.json();
             } catch {
                 yesterdayData = null;
