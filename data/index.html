@@ -73,27 +73,41 @@
 </head>
 <body>
     <h1>🎿 Ski Run Scraper API</h1>
-    <p>Daily grooming and lift status data for ski resorts. Updated every morning at 7 AM MST.</p>
+    <p>Daily grooming, lift status, and snow report data for ski resorts. Updated every morning at 7 AM MST.</p>
 
     <h2>📊 Browse Grooming Data</h2>
     <p>View formatted grooming reports with date navigation and historical data:</p>
 
     <div class="resort-grid">
-        <a href="keystone.html" class="resort-card">
+        <a href="keystone/grooming.html" class="resort-card">
             <h3>⛷️ Keystone</h3>
             <p>View grooming report</p>
         </a>
-        <a href="vail.html" class="resort-card">
+        <a href="vail/grooming.html" class="resort-card">
             <h3>🏔️ Vail</h3>
             <p>View grooming report</p>
         </a>
-        <a href="parkcity.html" class="resort-card">
+        <a href="parkcity/grooming.html" class="resort-card">
             <h3>🎿 Park City</h3>
             <p>View grooming report</p>
         </a>
-        <a href="beavercreek.html" class="resort-card">
+        <a href="beavercreek/grooming.html" class="resort-card">
             <h3>🦫 Beaver Creek</h3>
             <p>View grooming report</p>
+        </a>
+    </div>
+
+    <h2>❄️ Browse Snow Reports</h2>
+    <p>View snow conditions, base depth, and weather forecasts:</p>
+
+    <div class="resort-grid">
+        <a href="vail/snow.html" class="resort-card">
+            <h3>🏔️ Vail</h3>
+            <p>View snow report</p>
+        </a>
+        <a href="beavercreek/snow.html" class="resort-card">
+            <h3>🦫 Beaver Creek</h3>
+            <p>View snow report</p>
         </a>
     </div>
 
@@ -117,23 +131,49 @@
         <h3>Grooming Reports (Web Interface)</h3>
         <p>View interactive grooming reports with date navigation:</p>
         <ul style="list-style: none; padding-left: 0;">
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/keystone.html">⛷️ Keystone Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail.html">🏔️ Vail Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/parkcity.html">🎿 Park City Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek.html">🦫 Beaver Creek Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/keystone/grooming.html">⛷️ Keystone Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail/grooming.html">🏔️ Vail Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/parkcity/grooming.html">🎿 Park City Grooming Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/grooming.html">🦫 Beaver Creek Grooming Report</a></li>
         </ul>
     </div>
 
     <div class="endpoint">
-        <h3>Resort-Specific Data (by date)</h3>
-        <code>GET /data/{resort}/{YYYY-MM-DD}.json</code>
-        <p>Returns data for a specific resort on a specific date.</p>
-        <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-01-05.json
-https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-01-05.json</pre>
+        <h3>Latest Snow Reports (All Resorts)</h3>
+        <code>GET /data/latest-snow.json</code>
+        <p>Returns the most recent snow report data for all resorts with snow reporting.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/latest-snow.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Snow Reports (Web Interface)</h3>
+        <p>View interactive snow reports with conditions and forecasts:</p>
+        <ul style="list-style: none; padding-left: 0;">
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail/snow.html">🏔️ Vail Snow Report</a></li>
+            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow.html">🦫 Beaver Creek Snow Report</a></li>
+        </ul>
+    </div>
+
+    <div class="endpoint">
+        <h3>Resort-Specific Terrain/Grooming Data (by date)</h3>
+        <code>GET /data/{resort}/terrain/{YYYY-MM-DD}.json</code>
+        <p>Returns terrain and grooming data for a specific resort on a specific date.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/terrain/2025-01-05.json
+https://jacobschulman.github.io/ski-run-scraper/data/vail/terrain/2025-01-05.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Resort-Specific Snow Data (by date)</h3>
+        <code>GET /data/{resort}/snow/{YYYY-MM-DD}.json</code>
+        <p>Returns snow report data for a specific resort on a specific date.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/2025-01-05.json
+https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/latest.json</pre>
     </div>
 
     <h2>Data Structure</h2>
-    <p>Each resort's data file contains:</p>
+
+    <h3>Grooming Data</h3>
+    <p>Each resort's grooming data file contains:</p>
     <ul>
         <li><strong>Date</strong>: ISO 8601 timestamp</li>
         <li><strong>ResortId</strong>: Numeric resort identifier</li>
@@ -144,6 +184,29 @@ https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-01-05.json</pre>
             </ul>
         </li>
         <li><strong>Lifts</strong>: Array of lift information (status, wait times, etc.)</li>
+    </ul>
+
+    <h3>Snow Report Data</h3>
+    <p>Each resort's snow report file contains:</p>
+    <ul>
+        <li><strong>resort</strong>: Resort key (e.g., "vail")</li>
+        <li><strong>date</strong>: Date in YYYY-MM-DD format</li>
+        <li><strong>timestamp</strong>: ISO 8601 timestamp</li>
+        <li><strong>conditions</strong>: Overall snow conditions (e.g., "Early Season", "Powder")</li>
+        <li><strong>snowfall</strong>: Snowfall measurements in inches and cm
+            <ul>
+                <li>overnight, 24hour, 48hour, 7day, season_total</li>
+            </ul>
+        </li>
+        <li><strong>baseDepth</strong>: Base depth in inches and cm</li>
+        <li><strong>forecast</strong>: Weather forecast data
+            <ul>
+                <li>Multiple locations (base, mid-mountain, summit)</li>
+                <li>Temperature hi/low in Fahrenheit and Celsius</li>
+                <li>Weather descriptions, wind, precipitation</li>
+                <li>5-day forecast</li>
+            </ul>
+        </li>
     </ul>
 
     <h2>Example Usage</h2>
