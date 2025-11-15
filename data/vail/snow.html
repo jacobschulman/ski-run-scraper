@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vail Snow Report</title>
+    <title id="page-title">Snow Report</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
         .snow-grid {
@@ -98,7 +98,7 @@
     <div class="header">
         <div class="header-content">
             <a href="../index.html" class="back-link">← Back to API Docs</a>
-            <h1>❄️ Vail Snow Report</h1>
+            <h1 id="page-heading">❄️ Snow Report</h1>
             <div class="date-nav">
                 <div class="date-controls">
                     <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">
@@ -127,15 +127,31 @@
 
     <div class="footer">
         <p><a href="#" id="rawJsonLink" target="_blank">View Raw JSON Data</a></p>
-        <p>Data updated daily at 7 AM MST</p>
+        <p id="update-time">Data updated daily</p>
     </div>
 
     <script>
-        const RESORT_KEY = 'vail';
+        // Auto-detect resort key from URL path
+        const pathParts = window.location.pathname.split('/');
+        const dataIndex = pathParts.findIndex(part => part === 'data');
+        const RESORT_KEY = pathParts[dataIndex + 1];
         const DATA_PATH = 'snow';
         let currentDate = null;
         let useMetric = false;
         let snowData = null;
+
+        // Fetch resort config to get display name
+        fetch('../index.json')
+            .then(r => r.json())
+            .then(index => {
+                const resortInfo = index.resorts[RESORT_KEY];
+                if (resortInfo) {
+                    const resortName = resortInfo.name;
+                    document.getElementById('page-title').textContent = `${resortName} Snow Report`;
+                    document.getElementById('page-heading').textContent = `❄️ ${resortName} Snow Report`;
+                }
+            })
+            .catch(err => console.warn('Could not load resort name:', err));
 
         function formatDate(dateStr) {
             const date = new Date(dateStr + 'T12:00:00');
