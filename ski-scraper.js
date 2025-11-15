@@ -4,6 +4,7 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const { formatInTimeZone, toZonedTime } = require('date-fns-tz');
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -45,6 +46,143 @@ function ensureDirectoryExists(dirPath) {
   if (!fs.existsSync(dirPath)) {
     fs.mkdirSync(dirPath, { recursive: true });
   }
+}
+
+/**
+ * Get current date in YYYY-MM-DD format for a specific timezone
+ */
+function getResortLocalDate(timezone) {
+  const now = new Date();
+  return formatInTimeZone(now, timezone, 'yyyy-MM-dd');
+}
+
+/**
+ * Get current hour (0-23) in a specific timezone
+ */
+function getResortLocalHour(timezone) {
+  const now = new Date();
+  return parseInt(formatInTimeZone(now, timezone, 'H'));
+}
+
+/**
+ * Get current time formatted for display in a specific timezone
+ */
+function getResortLocalTimeFormatted(timezone) {
+  const now = new Date();
+  return formatInTimeZone(now, timezone, 'h:mm a zzz');
+}
+
+/**
+ * Check if a resort is currently in season
+ * Uses resort-specific seasonStart/seasonEnd or falls back to defaults from config
+ */
+function isResortInSeason(resort) {
+  const timezone = resort.timezone;
+  const localDate = getResortLocalDate(timezone);
+  const [currentYear, currentMonth, currentDay] = localDate.split('-').map(Number);
+
+  // Get season dates (use resort-specific or defaults)
+  const seasonStart = resort.seasonStart || config.schedule.defaultSeasonStart;
+  const seasonEnd = resort.seasonEnd || config.schedule.defaultSeasonEnd;
+
+  const [startMonth, startDay] = seasonStart.split('-').map(Number);
+  const [endMonth, endDay] = seasonEnd.split('-').map(Number);
+
+  // Ski seasons span two calendar years (e.g., Nov 2024 - May 2025)
+  // Determine which year the season started and ends
+  let seasonStartYear, seasonEndYear;
+
+  if (currentMonth >= startMonth) {
+    // We're in the second half of the year (e.g., Nov-Dec)
+    // Season started this year, ends next year
+    seasonStartYear = currentYear;
+    seasonEndYear = currentYear + 1;
+  } else {
+    // We're in the first half of the year (e.g., Jan-Jun)
+    // Season started last year, ends this year
+    seasonStartYear = currentYear - 1;
+    seasonEndYear = currentYear;
+  }
+
+  const seasonStartDate = new Date(seasonStartYear, startMonth - 1, startDay);
+  const seasonEndDate = new Date(seasonEndYear, endMonth - 1, endDay);
+  const currentDate = new Date(currentYear, currentMonth - 1, currentDay);
+
+  return currentDate >= seasonStartDate && currentDate < seasonEndDate;
+}
+
+/**
+ * Check if a resort has already been scraped today
+ * Checks in the resort's local timezone
+ */
+function hasBeenScrapedToday(resort, dataType = 'terrain') {
+  const localDate = getResortLocalDate(resort.timezone);
+  const dataDir = path.join('data', resort.key, dataType);
+  const todayFile = path.join(dataDir, `${localDate}.json`);
+
+  return fs.existsSync(todayFile);
+}
+
+/**
+ * Check if current time is within the scraping window for a resort
+ */
+function isInScrapingWindow(resort) {
+  const currentHour = getResortLocalHour(resort.timezone);
+  const targetHour = resort.targetHour !== undefined ? resort.targetHour : config.schedule.targetHour;
+  const windowHours = config.schedule.scrapingWindowHours;
+
+  // Check if current hour is within [targetHour, targetHour + windowHours)
+  // e.g., if target is 7 and window is 3, allow 7, 8, 9
+  return currentHour >= targetHour && currentHour < (targetHour + windowHours);
+}
+
+/**
+ * Determine if a resort should be scraped for a specific data type
+ * Logic: Scrape if in season, has URL, not scraped yet, and we're at or past the target hour
+ * This allows catch-up scraping if a previous run was missed
+ */
+function shouldScrapeResort(resort, dataType = 'terrain') {
+  const currentHour = getResortLocalHour(resort.timezone);
+  const targetHour = resort.targetHour !== undefined ? resort.targetHour : config.schedule.targetHour;
+  const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
+
+  const checks = {
+    inSeason: isResortInSeason(resort),
+    hasUrl: dataType === 'terrain' ? !!resort.terrainUrl : !!resort.snowReportUrl,
+    notScraped: !hasBeenScraped,
+    isPastTargetHour: currentHour >= targetHour
+  };
+
+  // Scrape if: in season, has URL, not scraped today, and at/past target hour
+  // This allows scraping during the window (7-10 AM) AND catch-up scraping after the window if file doesn't exist
+  return checks.inSeason && checks.hasUrl && checks.notScraped && checks.isPastTargetHour;
+}
+
+/**
+ * Get detailed status for a resort (for logging)
+ */
+function getResortStatus(resort) {
+  const localTime = getResortLocalTimeFormatted(resort.timezone);
+  const inSeason = isResortInSeason(resort);
+  const inWindow = isInScrapingWindow(resort);
+  const terrainScraped = hasBeenScrapedToday(resort, 'terrain');
+  const snowScraped = hasBeenScrapedToday(resort, 'snow');
+  const currentHour = getResortLocalHour(resort.timezone);
+  const targetHour = resort.targetHour !== undefined ? resort.targetHour : config.schedule.targetHour;
+  const windowHours = config.schedule.scrapingWindowHours;
+
+  return {
+    localTime,
+    inSeason,
+    inWindow,
+    terrainScraped,
+    snowScraped,
+    currentHour,
+    targetHour,
+    windowHours,
+    shouldScrapeTerrain: shouldScrapeResort(resort, 'terrain'),
+    shouldScrapeSnow: shouldScrapeResort(resort, 'snow')
+  };
 }
 
 /**
@@ -466,40 +604,92 @@ function generateIndexFile() {
  * Main execution function
  */
 async function main() {
-  console.log('🎿 Ski Run Scraper');
-  console.log('='.repeat(50));
-
-  // Check if season is active
-  if (!isSeasonActive()) {
-    console.log(`\n⏸️  Season ended on ${config.season.endDate}. Skipping scrape.`);
-    console.log('Update config.json to change the season end date.\n');
-    return;
-  }
+  console.log('🎿 Ski Run Scraper (Timezone-Aware)');
+  console.log('='.repeat(80));
+  console.log(`Run time: ${new Date().toISOString()}`);
+  console.log(`Check interval: Every ${config.schedule.checkIntervalHours} hours`);
+  console.log(`Target scraping time: ${config.schedule.targetHour}:00 local (${config.schedule.scrapingWindowHours} hour window)`);
+  console.log('='.repeat(80));
 
   // Get resort from command line argument, default to all
   const args = process.argv.slice(2);
   const resortArg = args[0];
 
-  const scrapedData = [];
+  let resortsToCheck = [];
 
   if (resortArg && resortArg !== 'all') {
-    // Scrape single resort
-    const result = await scrapeResort(resortArg);
-    if (result) scrapedData.push(result);
-  } else {
-    // Scrape all resorts
-    console.log('Scraping all resorts...\n');
-    for (const resortKey of Object.keys(RESORTS)) {
-      const result = await scrapeResort(resortKey);
-      if (result) scrapedData.push(result);
+    // Check single resort
+    if (RESORTS[resortArg]) {
+      resortsToCheck = [RESORTS[resortArg]];
+    } else {
+      console.error(`\n❌ Unknown resort: ${resortArg}`);
+      console.error(`Available resorts: ${Object.keys(RESORTS).join(', ')}\n`);
+      return;
     }
+  } else {
+    // Check all resorts
+    resortsToCheck = Object.values(RESORTS);
   }
+
+  console.log(`\n📋 Checking ${resortsToCheck.length} resort(s)...\n`);
+
+  // Analyze each resort and determine what to scrape
+  const scrapedData = [];
+  let scrapedCount = 0;
+  let skippedCount = 0;
+
+  for (const resort of resortsToCheck) {
+    const status = getResortStatus(resort);
+
+    console.log(`[${resort.name}]`);
+    console.log(`  🕐 Local time: ${status.localTime}`);
+    console.log(`  📅 Season: ${status.inSeason ? '✓ Active' : '✗ Out of season'}`);
+    console.log(`  ⏰ Window: ${status.inWindow ? `✓ In range (${status.targetHour}:00-${status.targetHour + status.windowHours}:00)` : `✗ Outside range (current: ${status.currentHour}:00, target: ${status.targetHour}:00-${status.targetHour + status.windowHours}:00)`}`);
+    console.log(`  🎿 Terrain: ${status.terrainScraped ? '✗ Already scraped today' : '○ Not scraped yet'}`);
+    console.log(`  ❄️  Snow: ${status.snowScraped ? '✗ Already scraped today' : '○ Not scraped yet'}`);
+
+    // Determine what to scrape
+    const shouldScrapeTerrain = status.shouldScrapeTerrain;
+    const shouldScrapeSnow = status.shouldScrapeSnow;
+
+    if (shouldScrapeTerrain || shouldScrapeSnow) {
+      console.log(`  → ACTION: Scraping ${shouldScrapeTerrain ? 'terrain' : ''}${shouldScrapeTerrain && shouldScrapeSnow ? ' & ' : ''}${shouldScrapeSnow ? 'snow' : ''}`);
+
+      const options = {
+        terrain: shouldScrapeTerrain,
+        snow: shouldScrapeSnow
+      };
+
+      const result = await scrapeResort(resort.key, options);
+      if (result) scrapedData.push(result);
+      scrapedCount++;
+    } else {
+      let reason = '';
+      if (!status.inSeason) {
+        reason = 'out of season';
+      } else if (!status.inWindow) {
+        reason = `outside scraping window (${status.targetHour}:00-${status.targetHour + status.windowHours}:00)`;
+      } else if (status.terrainScraped && status.snowScraped) {
+        reason = 'already scraped today';
+      } else {
+        reason = 'no eligible data to scrape';
+      }
+      console.log(`  → SKIPPING: ${reason}`);
+      skippedCount++;
+    }
+    console.log('');
+  }
+
+  // Summary
+  console.log('='.repeat(80));
+  console.log(`📊 Summary: ${scrapedCount} resort(s) scraped, ${skippedCount} skipped`);
+  console.log('='.repeat(80));
 
   // Generate aggregated files
   if (scrapedData.length > 0) {
-    console.log('\n' + '='.repeat(50));
+    console.log('\n' + '='.repeat(80));
     console.log('Generating aggregated data files...');
-    console.log('='.repeat(50));
+    console.log('='.repeat(80));
     generateLatestFile(scrapedData);
     generateLatestSnowFile(scrapedData);
     generateIndexFile();

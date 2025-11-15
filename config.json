@@ -3,46 +3,400 @@
   "_documentation": {
     "resorts": "List of resorts to scrape. Each resort is scraped automatically when running ski-scraper.js",
     "fields": {
-      "key": "Unique identifier for the resort (used for folder names in data/)",
-      "name": "Display name of the resort",
-      "terrainUrl": "URL to the terrain and lift status page (required for trail/grooming data)",
-      "snowReportUrl": "URL to the snow and weather report page (optional, enables snow data scraping)"
+      "key": "Unique identifier for the resort (used for folder names in data/) - REQUIRED",
+      "name": "Display name of the resort - REQUIRED",
+      "timezone": "IANA timezone (e.g., America/Denver, America/Los_Angeles, America/New_York) - REQUIRED",
+      "terrainUrl": "URL to the terrain and lift status page (required for trail/grooming data) - REQUIRED",
+      "snowReportUrl": "URL to the snow and weather report page (optional, enables snow data scraping) - OPTIONAL",
+      "targetHour": "Hour to scrape in local time (0-23, defaults to schedule.targetHour) - OPTIONAL",
+      "seasonStart": "Season start date in MM-DD format (defaults to schedule.defaultSeasonStart) - OPTIONAL",
+      "seasonEnd": "Season end date in MM-DD format (defaults to schedule.defaultSeasonEnd) - OPTIONAL"
     },
-    "adding_resorts": "To add a new resort: 1) Add entry to resorts array, 2) Run scraper - data folders are created automatically",
-    "url_pattern": "Most Vail Resorts follow: https://www.[resort].com/the-mountain/mountain-conditions/[page-type].aspx"
-  },
-  "resorts": [
-    {
-      "key": "keystone",
-      "name": "Keystone",
-      "terrainUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
-      "snowReportUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
-    },
-    {
-      "key": "vail",
-      "name": "Vail",
-      "terrainUrl": "https://www.vail.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
-      "snowReportUrl": "https://www.vail.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
-    },
-    {
-      "key": "parkcity",
-      "name": "Park City",
-      "terrainUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
-      "snowReportUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
-    },
-    {
-      "key": "beavercreek",
-      "name": "Beaver Creek",
-      "terrainUrl": "https://www.beavercreek.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
-      "snowReportUrl": "https://www.beavercreek.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx"
+    "adding_resorts": "To add a new resort: 1) Add entry to resorts array with at minimum: key, name, timezone, terrainUrl. 2) Run scraper - data folders are created automatically",
+    "url_pattern": "Most Vail Resorts follow: https://www.[resort].com/the-mountain/mountain-conditions/[page-type].aspx",
+    "common_timezones": {
+      "Mountain": "America/Denver (CO, UT, MT, NM, WY)",
+      "Pacific": "America/Los_Angeles (CA, WA, OR, NV)",
+      "Eastern": "America/New_York (VT, NH, ME, NY, NC)"
     }
-  ],
-  "schedule": {
-    "comment": "Scraper runs at 7 AM MST (2 PM UTC winter / 1 PM UTC summer DST)",
-    "timezone": "America/Denver"
   },
-  "season": {
-    "endDate": "05-01",
-    "comment": "Format: MM-DD. Scraper will skip runs after this date each year."
+
+  "resorts": [
+      {
+        "key": "vail",
+        "name": "Vail",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.vail.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.vail.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-01",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "beavercreek",
+        "name": "Beaver Creek",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.beavercreek.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.beavercreek.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-13",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "breckenridge",
+        "name": "Breckenridge",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.breckenridge.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.breckenridge.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "10-25",
+        "seasonEnd": "05-28"
+      },
+      {
+        "key": "parkcity",
+        "name": "Park City",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.parkcitymountain.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "keystone",
+        "name": "Keystone",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.keystoneresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "10-01",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "crestedbutte",
+        "name": "Crested Butte",
+        "timezone": "America/Denver",
+        "terrainUrl": "https://www.skicb.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skicb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-13",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "heavenly",
+        "name": "Heavenly",
+        "timezone": "America/Los_Angeles",
+        "terrainUrl": "https://www.skiheavenly.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skiheavenly.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "northstar",
+        "name": "Northstar",
+        "timezone": "America/Los_Angeles",
+        "terrainUrl": "https://www.northstarcalifornia.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.northstarcalifornia.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "kirkwood",
+        "name": "Kirkwood",
+        "timezone": "America/Los_Angeles",
+        "terrainUrl": "https://www.kirkwood.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.kirkwood.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "stevenspass",
+        "name": "Stevens Pass",
+        "timezone": "America/Los_Angeles",
+        "terrainUrl": "https://www.stevenspass.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.stevenspass.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "stowe",
+        "name": "Stowe",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.stowe.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.stowe.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "okemo",
+        "name": "Okemo",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.okemo.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.okemo.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "mountsnow",
+        "name": "Mount Snow",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.mountsnow.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.mountsnow.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-01",
+        "seasonEnd": "04-28"
+      },
+      {
+        "key": "hunter",
+        "name": "Hunter Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.huntermtn.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.huntermtn.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "04-14"
+      },
+      {
+        "key": "attitash",
+        "name": "Attitash",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.attitash.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.attitash.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "04-14"
+      },
+      {
+        "key": "wildcat",
+        "name": "Wildcat Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.skiwildcat.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skiwildcat.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "04-14"
+      },
+      {
+        "key": "mountsunapee",
+        "name": "Mount Sunapee",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.mountsunapee.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.mountsunapee.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "04-14"
+      },
+      {
+        "key": "crotched",
+        "name": "Crotched Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.crotchedmtn.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.crotchedmtn.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "12-06",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "liberty",
+        "name": "Liberty Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.libertymountainresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.libertymountainresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "roundtop",
+        "name": "Roundtop Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.skiroundtop.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skiroundtop.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "whitetail",
+        "name": "Whitetail",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.skiwhitetail.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skiwhitetail.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "jackfrost",
+        "name": "Jack Frost",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.jfbb.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.jfbb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "bigboulder",
+        "name": "Big Boulder",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.jfbb.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.jfbb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "hiddenvalleypa",
+        "name": "Hidden Valley PA",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.hiddenvalleyresort.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.hiddenvalleyresort.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "laurelmountain",
+        "name": "Laurel Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.laurelmountainski.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.laurelmountainski.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "12-13",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "sevensprings",
+        "name": "Seven Springs",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.7springs.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.7springs.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-30"
+      },
+      {
+        "key": "wilmot",
+        "name": "Wilmot Mountain",
+        "timezone": "America/Chicago",
+        "terrainUrl": "https://www.wilmotmountain.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.wilmotmountain.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "aftonalps",
+        "name": "Afton Alps",
+        "timezone": "America/Chicago",
+        "terrainUrl": "https://www.aftonalps.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.aftonalps.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "mtbrighton",
+        "name": "Mt Brighton",
+        "timezone": "America/Detroit",
+        "terrainUrl": "https://www.mtbrighton.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.mtbrighton.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "alpinevalley",
+        "name": "Alpine Valley",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.alpinevalleyohio.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.alpinevalleyohio.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "bostonmills",
+        "name": "Boston Mills",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.bmbw.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.bmbw.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "brandywine",
+        "name": "Brandywine",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.bmbw.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.bmbw.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "madrivermountain",
+        "name": "Mad River Mountain",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.skimadriver.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skimadriver.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-22",
+        "seasonEnd": "03-16"
+      },
+      {
+        "key": "hiddenvalley",
+        "name": "Hidden Valley",
+        "timezone": "America/Chicago",
+        "terrainUrl": "https://www.hiddenvalleyski.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.hiddenvalleyski.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "12-06",
+        "seasonEnd": "03-02"
+      },
+      {
+        "key": "snowcreek",
+        "name": "Snow Creek",
+        "timezone": "America/Chicago",
+        "terrainUrl": "https://www.skisnowcreek.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skisnowcreek.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "12-06",
+        "seasonEnd": "03-02"
+      },
+      {
+        "key": "paolipeaks",
+        "name": "Paoli Peaks",
+        "timezone": "America/New_York",
+        "terrainUrl": "https://www.paolipeaks.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.paolipeaks.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "12-06",
+        "seasonEnd": "03-02"
+      },
+      {
+        "key": "whistlerblackcomb",
+        "name": "Whistler Blackcomb",
+        "timezone": "America/Vancouver",
+        "terrainUrl": "https://www.whistlerblackcomb.com/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.whistlerblackcomb.com/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "11-08",
+        "seasonEnd": "05-28"
+      },
+      {
+        "key": "perisher",
+        "name": "Perisher",
+        "timezone": "Australia/Sydney",
+        "terrainUrl": "https://www.perisher.com.au/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.perisher.com.au/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "05-25",
+        "seasonEnd": "10-20"
+      },
+      {
+        "key": "fallscreek",
+        "name": "Falls Creek",
+        "timezone": "Australia/Sydney",
+        "terrainUrl": "https://www.skifalls.com.au/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.skifalls.com.au/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "05-25",
+        "seasonEnd": "10-20"
+      },
+      {
+        "key": "hotham",
+        "name": "Hotham",
+        "timezone": "Australia/Sydney",
+        "terrainUrl": "https://www.mthotham.com.au/the-mountain/mountain-conditions/terrain-and-lift-status.aspx",
+        "snowReportUrl": "https://www.mthotham.com.au/the-mountain/mountain-conditions/snow-and-weather-report.aspx",
+        "seasonStart": "05-25",
+        "seasonEnd": "10-20"
+      }
+    ],
+    
+  "schedule": {
+    "comment": "GitHub Actions workflow runs every 3 hours. Each resort is scraped once daily at its local target time.",
+    "checkIntervalHours": 3,
+    "targetHour": 7,
+    "scrapingWindowHours": 3,
+    "defaultSeasonStart": "11-15",
+    "defaultSeasonEnd": "05-01",
+    "explanation": {
+      "checkIntervalHours": "How often the workflow runs (in hours). Must be frequent enough to catch all resort timezones.",
+      "targetHour": "Default hour to scrape in resort's local time (0-23). Individual resorts can override this.",
+      "scrapingWindowHours": "Number of hours after targetHour to allow scraping (provides buffer for missed runs).",
+      "defaultSeasonStart": "Default season start date (MM-DD). Resorts can override with their own seasonStart field.",
+      "defaultSeasonEnd": "Default season end date (MM-DD). Resorts can override with their own seasonEnd field."
+    }
   }
 }
