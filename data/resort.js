@@ -214,29 +214,21 @@ function displayWeatherWidget(data) {
     }
 
     const html = `
-        <div class="weather-summary">
-            <div class="weather-item">
-                <div class="weather-label">Conditions</div>
-                <div class="weather-value">${escapeHtml(conditions)}</div>
+        <a href="snow.html" class="weather-conditions-link">${escapeHtml(conditions)} →</a>
+        <div class="weather-summary-compact">
+            <div class="weather-item-compact">
+                <div class="weather-label">Today</div>
+                <div class="weather-value">${escapeHtml(todayDesc)} • ${escapeHtml(todayHigh)} / ${escapeHtml(todayLow)}</div>
             </div>
-            <div class="weather-item">
+            <div class="weather-item-compact">
                 <div class="weather-label">Base Depth</div>
                 <div class="weather-value">${escapeHtml(baseDepth)}</div>
             </div>
-            <div class="weather-item">
+            <div class="weather-item-compact">
                 <div class="weather-label">24hr Snow</div>
                 <div class="weather-value">${escapeHtml(snowfall24h)}</div>
             </div>
-            <div class="weather-item">
-                <div class="weather-label">Today</div>
-                <div class="weather-value">${escapeHtml(todayDesc)}</div>
-            </div>
-            <div class="weather-item">
-                <div class="weather-label">High/Low</div>
-                <div class="weather-value">${escapeHtml(todayHigh)} / ${escapeHtml(todayLow)}</div>
-            </div>
         </div>
-        <a href="snow.html" class="weather-link">View Full Snow Report →</a>
     `;
 
     widget.innerHTML = html;

@@ -199,54 +199,51 @@ input[type="date"] {
 .weather-widget {
     background: var(--bg-secondary);
     border-radius: 8px;
-    padding: 16px;
+    padding: 12px 16px;
     margin-bottom: 16px;
     box-shadow: var(--shadow-sm);
     border-left: 4px solid var(--accent-primary);
 }
 
-.weather-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.weather-item {
-    text-align: center;
-    padding: 8px;
-    background: var(--bg-primary);
-    border-radius: 6px;
-}
-
-.weather-label {
-    font-size: 0.75em;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-}
-
-.weather-value {
-    font-size: 1.1em;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
-.weather-link {
-    display: inline-block;
+.weather-conditions-link {
+    display: block;
     color: var(--accent-primary);
     text-decoration: none;
-    font-size: 0.9em;
-    font-weight: 500;
+    font-size: 0.85em;
+    font-weight: 600;
+    margin-bottom: 10px;
     transition: all 0.2s;
 }
 
-.weather-link:hover,
-.weather-link:focus {
+.weather-conditions-link:hover,
+.weather-conditions-link:focus {
     text-decoration: underline;
     outline: 2px solid var(--accent-primary);
     outline-offset: 2px;
+}
+
+.weather-summary-compact {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 12px;
+}
+
+.weather-item-compact {
+    padding: 6px 0;
+}
+
+.weather-label {
+    font-size: 0.7em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+}
+
+.weather-value {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
 /* Area Sections */
@@ -353,6 +350,16 @@ input[type="date"] {
 }
 
 /* Responsive Design */
+@media (max-width: 479px) {
+    .weather-summary-compact {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    .weather-item-compact:first-child {
+        grid-column: 1 / -1;
+    }
+}
+
 @media (min-width: 480px) {
     .nav-btn .nav-text-full {
         display: inline;
