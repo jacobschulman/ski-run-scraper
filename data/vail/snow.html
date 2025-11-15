@@ -223,7 +223,7 @@
 
         async function loadData(dateStr) {
             try {
-                const url = `${RESORT_KEY}/${DATA_PATH}/${dateStr}.json`;
+                const url = `../${RESORT_KEY}/${DATA_PATH}/${dateStr}.json`;
                 document.getElementById('rawJsonLink').href = url;
 
                 const response = await fetch(url);
@@ -261,7 +261,7 @@
         }
 
         // Load latest data on page load
-        fetch(`${RESORT_KEY}/${DATA_PATH}/latest.json`)
+        fetch(`../${RESORT_KEY}/${DATA_PATH}/latest.json`)
             .then(r => r.json())
             .then(data => {
                 currentDate = data.date;

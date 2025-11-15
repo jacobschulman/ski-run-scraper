@@ -7,7 +7,7 @@ let yesterdayData = null;
 
 async function loadIndex() {
     try {
-        const response = await fetch('index.json');
+        const response = await fetch('../index.json');
         const index = await response.json();
 
         if (index.resorts && index.resorts[RESORT_KEY] && index.resorts[RESORT_KEY].files) {
@@ -28,7 +28,7 @@ async function loadIndex() {
 
 async function loadDate(date) {
     try {
-        const filePath = `${RESORT_KEY}/terrain/${date}.json`;
+        const filePath = `../${RESORT_KEY}/terrain/${date}.json`;
         const response = await fetch(filePath);
 
         if (!response.ok) {
@@ -42,7 +42,7 @@ async function loadDate(date) {
         if (dateIdx < availableDates.length - 1) {
             const yesterdayDate = availableDates[dateIdx + 1];
             try {
-                const yResponse = await fetch(`${RESORT_KEY}/terrain/${yesterdayDate}.json`);
+                const yResponse = await fetch(`../${RESORT_KEY}/terrain/${yesterdayDate}.json`);
                 yesterdayData = await yResponse.json();
             } catch {
                 yesterdayData = null;
@@ -53,6 +53,7 @@ async function loadDate(date) {
 
         renderData(data, date);
         updateNavigation(date);
+        loadWeatherData();
 
         // Update raw JSON link
         document.getElementById('rawJsonLink').href = filePath;
@@ -172,6 +173,81 @@ function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
+}
+
+async function loadWeatherData() {
+    try {
+        const response = await fetch(`../${RESORT_KEY}/snow/latest.json`);
+        if (!response.ok) {
+            // No weather data available for this resort
+            hideWeatherWidget();
+            return;
+        }
+        const data = await response.json();
+        displayWeatherWidget(data);
+    } catch (error) {
+        // Silently hide weather widget if data not available
+        hideWeatherWidget();
+    }
+}
+
+function displayWeatherWidget(data) {
+    const widget = document.getElementById('weatherWidget');
+    if (!widget) return;
+
+    const conditions = data.conditions || 'N/A';
+    const baseDepth = data.baseDepth ? `${data.baseDepth.inches}"` : 'N/A';
+    const snowfall24h = data.snowfall ? `${data.snowfall['24hour_inches']}"` : '0"';
+
+    // Get today's forecast from first location
+    let todayHigh = 'N/A';
+    let todayLow = 'N/A';
+    let todayDesc = 'N/A';
+
+    if (data.forecast && data.forecast.locations && data.forecast.locations.length > 0) {
+        const firstLocation = data.forecast.locations[0];
+        if (firstLocation.today) {
+            todayHigh = firstLocation.today.high_f ? `${firstLocation.today.high_f}°F` : 'N/A';
+            todayLow = firstLocation.today.low_f ? `${firstLocation.today.low_f}°F` : 'N/A';
+            todayDesc = firstLocation.today.description || 'N/A';
+        }
+    }
+
+    const html = `
+        <div class="weather-summary">
+            <div class="weather-item">
+                <div class="weather-label">Conditions</div>
+                <div class="weather-value">${escapeHtml(conditions)}</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-label">Base Depth</div>
+                <div class="weather-value">${escapeHtml(baseDepth)}</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-label">24hr Snow</div>
+                <div class="weather-value">${escapeHtml(snowfall24h)}</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-label">Today</div>
+                <div class="weather-value">${escapeHtml(todayDesc)}</div>
+            </div>
+            <div class="weather-item">
+                <div class="weather-label">High/Low</div>
+                <div class="weather-value">${escapeHtml(todayHigh)} / ${escapeHtml(todayLow)}</div>
+            </div>
+        </div>
+        <a href="snow.html" class="weather-link">View Full Snow Report →</a>
+    `;
+
+    widget.innerHTML = html;
+    widget.style.display = 'block';
+}
+
+function hideWeatherWidget() {
+    const widget = document.getElementById('weatherWidget');
+    if (widget) {
+        widget.style.display = 'none';
+    }
 }
 
 // Allow Enter/Space to trigger date picker when focused
