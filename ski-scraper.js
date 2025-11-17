@@ -358,6 +358,12 @@ function saveResortData(resortKey, data) {
         } else if (count > 0) {
           console.log(`✓ Saved ${count} terrain records to database`);
         }
+
+        // Generate trail-specific JSON files after saving to database
+        // Only for Vail for now (we'll expand to other resorts later)
+        if (resortKey === 'vail') {
+          generateTrailData(resortKey, resortId, today, data);
+        }
       });
     }
   });
@@ -658,6 +664,286 @@ function generateIndexFile() {
 
   fs.writeFileSync('data/index.json', JSON.stringify(index, null, 2));
   console.log('✓ Generated data/index.json (file manifest)');
+}
+
+/**
+ * Convert trail name to URL-safe slug
+ */
+function slugifyTrailName(name) {
+  return name
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove special characters
+    .replace(/\s+/g, '-')      // Replace spaces with hyphens
+    .replace(/--+/g, '-')      // Replace multiple hyphens with single
+    .trim();
+}
+
+/**
+ * Get the start date of the current ski season for a resort
+ */
+function getSeasonStartDate(resort) {
+  const timezone = resort.timezone || 'America/Denver';
+  const localDate = getResortLocalDate(timezone);
+  const [currentYear, currentMonth] = localDate.split('-').map(Number);
+
+  const seasonStart = resort.seasonStart || config.schedule.defaultSeasonStart;
+  const [startMonth, startDay] = seasonStart.split('-').map(Number);
+
+  // Determine which year the season started
+  let seasonStartYear;
+  if (currentMonth >= startMonth) {
+    // We're in the second half of the year (e.g., Nov-Dec)
+    seasonStartYear = currentYear;
+  } else {
+    // We're in the first half of the year (e.g., Jan-Jun)
+    // Season started last year
+    seasonStartYear = currentYear - 1;
+  }
+
+  const year = String(seasonStartYear);
+  const month = String(startMonth).padStart(2, '0');
+  const day = String(startDay).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+/**
+ * Calculate grooming streak for a trail
+ * Returns { currentStreak, longestStreak, lastGroomedDate }
+ */
+function calculateGroomingStreaks(records) {
+  if (!records || records.length === 0) {
+    return { currentStreak: 0, longestStreak: 0, lastGroomedDate: null };
+  }
+
+  // Sort by date descending (most recent first)
+  const sorted = records.slice().sort((a, b) => b.date.localeCompare(a.date));
+
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let tempStreak = 0;
+  let lastGroomedDate = null;
+
+  // Find last groomed date
+  for (const record of sorted) {
+    if (record.grooming_status) {
+      lastGroomedDate = record.date;
+      break;
+    }
+  }
+
+  // Calculate current streak (from most recent date backwards)
+  for (const record of sorted) {
+    if (record.grooming_status) {
+      currentStreak++;
+    } else {
+      break; // Streak broken
+    }
+  }
+
+  // Calculate longest streak
+  for (const record of sorted.reverse()) { // Go chronologically forward
+    if (record.grooming_status) {
+      tempStreak++;
+      longestStreak = Math.max(longestStreak, tempStreak);
+    } else {
+      tempStreak = 0;
+    }
+  }
+
+  return { currentStreak, longestStreak, lastGroomedDate };
+}
+
+/**
+ * Calculate grooming statistics by day of week
+ */
+function calculateDayOfWeekStats(records) {
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const stats = daysOfWeek.map(day => ({ day, groomed: 0, total: 0 }));
+
+  records.forEach(record => {
+    const date = new Date(record.date);
+    const dayIndex = date.getDay();
+    stats[dayIndex].total++;
+    if (record.grooming_status) {
+      stats[dayIndex].groomed++;
+    }
+  });
+
+  return stats.map(s => ({
+    day: s.day,
+    percentage: s.total > 0 ? Math.round((s.groomed / s.total) * 100) : 0,
+    groomed: s.groomed,
+    total: s.total
+  }));
+}
+
+/**
+ * Generate trail-specific JSON files with historical data and statistics
+ */
+function generateTrailData(resortKey, resortId, date, terrainData) {
+  if (!terrainData || !terrainData.GroomingAreas) {
+    return;
+  }
+
+  const resort = RESORTS[resortKey];
+  const seasonStartDate = getSeasonStartDate(resort);
+  const database = getDb();
+
+  console.log(`\n📄 Generating trail data files for ${resort.name}...`);
+  console.log(`   Season start: ${seasonStartDate}`);
+
+  // Ensure trails directory exists
+  const trailsDataDir = path.join('data', resortKey, 'trails', 'data');
+  ensureDirectoryExists(trailsDataDir);
+
+  let trailCount = 0;
+
+  // Process each grooming area and trail
+  terrainData.GroomingAreas.forEach(area => {
+    if (!area.Trails) return;
+
+    area.Trails.forEach(trail => {
+      const trailName = trail.Name;
+      const trailSlug = slugifyTrailName(trailName);
+
+      // Query database for historical data for this trail (current season only)
+      database.all(
+        `SELECT date, status, grooming_status, grooming_type, raw_data
+         FROM terrain_status
+         WHERE resort_id = ? AND item_name = ? AND item_type = 'trail' AND date >= ?
+         ORDER BY date DESC`,
+        [resortId, trailName, seasonStartDate],
+        (err, rows) => {
+          if (err) {
+            console.error(`  ⚠️  Error querying trail data for ${trailName}:`, err.message);
+            return;
+          }
+
+          // Calculate statistics
+          const daysTracked = rows.length;
+          const daysGroomed = rows.filter(r => r.grooming_status).length;
+          const groomingPercentage = daysTracked > 0 ? Math.round((daysGroomed / daysTracked) * 100) : 0;
+
+          const streaks = calculateGroomingStreaks(rows);
+          const dayOfWeekStats = calculateDayOfWeekStats(rows);
+
+          // Build historical records array (last 90 days max for reasonable file size)
+          const historicalRecords = rows.slice(0, 90).map(row => ({
+            date: row.date,
+            isOpen: row.status === 'Open',
+            isGroomed: !!row.grooming_status,
+            groomingStatus: row.grooming_status || null,
+            groomingType: row.grooming_type || null
+          }));
+
+          // Create trail data object
+          const trailData = {
+            trailName: trailName,
+            trailSlug: trailSlug,
+            resort: resortKey,
+            resortName: resort.name,
+            area: area.Name,
+            difficulty: trail.Difficulty || 'Unknown',
+            trailType: trail.TrailType || 'Skiing',
+
+            // Current status (from today's scrape)
+            currentStatus: {
+              date: date,
+              isOpen: trail.IsOpen,
+              isGroomed: trail.IsGroomed,
+              groomingStatus: trail.GroomingStatus || null,
+              status: trail.Status || null
+            },
+
+            // Statistics
+            stats: {
+              seasonStartDate: seasonStartDate,
+              daysTracked: daysTracked,
+              daysGroomed: daysGroomed,
+              groomingPercentage: groomingPercentage,
+              currentStreak: streaks.currentStreak,
+              longestStreak: streaks.longestStreak,
+              lastGroomed: streaks.lastGroomedDate,
+              dayOfWeek: dayOfWeekStats
+            },
+
+            // Historical data (last 90 days)
+            history: historicalRecords,
+
+            // Metadata
+            generated: new Date().toISOString()
+          };
+
+          // Save trail JSON file
+          const trailFile = path.join(trailsDataDir, `${trailSlug}.json`);
+          fs.writeFileSync(trailFile, JSON.stringify(trailData, null, 2));
+
+          trailCount++;
+        }
+      );
+    });
+  });
+
+  // Give database queries time to complete, then print summary
+  setTimeout(() => {
+    console.log(`✓ Generated ${trailCount} trail data files`);
+
+    // Also generate a trails index file
+    generateTrailsIndex(resortKey);
+  }, 1000);
+}
+
+/**
+ * Generate trails index file with metadata for all trails
+ */
+function generateTrailsIndex(resortKey) {
+  const trailsDataDir = path.join('data', resortKey, 'trails', 'data');
+
+  if (!fs.existsSync(trailsDataDir)) {
+    return;
+  }
+
+  const trailFiles = fs.readdirSync(trailsDataDir)
+    .filter(f => f.endsWith('.json'))
+    .sort();
+
+  const trailsIndex = {
+    resort: resortKey,
+    resortName: RESORTS[resortKey].name,
+    trailCount: trailFiles.length,
+    trails: [],
+    lastUpdated: new Date().toISOString()
+  };
+
+  // Read each trail file and extract key metadata
+  trailFiles.forEach(file => {
+    try {
+      const trailData = JSON.parse(fs.readFileSync(path.join(trailsDataDir, file), 'utf8'));
+      trailsIndex.trails.push({
+        name: trailData.trailName,
+        slug: trailData.trailSlug,
+        area: trailData.area,
+        difficulty: trailData.difficulty,
+        isGroomedToday: trailData.currentStatus.isGroomed,
+        isOpen: trailData.currentStatus.isOpen,
+        groomingPercentage: trailData.stats.groomingPercentage,
+        currentStreak: trailData.stats.currentStreak
+      });
+    } catch (e) {
+      console.error(`  ⚠️  Error reading trail file ${file}:`, e.message);
+    }
+  });
+
+  // Sort trails by area, then name
+  trailsIndex.trails.sort((a, b) => {
+    if (a.area !== b.area) return a.area.localeCompare(b.area);
+    return a.name.localeCompare(b.name);
+  });
+
+  const indexFile = path.join('data', resortKey, 'trails', 'index.json');
+  fs.writeFileSync(indexFile, JSON.stringify(trailsIndex, null, 2));
+  console.log(`✓ Generated trails/index.json for ${RESORTS[resortKey].name}`);
 }
 
 /**

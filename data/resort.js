@@ -5,6 +5,26 @@ let availableDates = [];
 let currentDateIndex = 0;
 let yesterdayData = null;
 
+/**
+ * Convert trail name to URL-safe slug (matches backend logic)
+ */
+function slugifyTrailName(name) {
+    return name
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/\s+/g, '-')      // Replace spaces with hyphens
+        .replace(/--+/g, '-')      // Replace multiple hyphens with single
+        .trim();
+}
+
+/**
+ * Check if trail pages are available for this resort
+ */
+function hasTrailPages() {
+    // For now, only Vail has trail pages
+    return RESORT_KEY === 'vail';
+}
+
 async function loadIndex() {
     try {
         const response = await fetch('../index.json');
@@ -54,9 +74,6 @@ async function loadDate(date) {
         renderData(data, date);
         updateNavigation(date);
         loadWeatherData();
-
-        // Update raw JSON link
-        document.getElementById('rawJsonLink').href = filePath;
     } catch (error) {
         showError(`Failed to load data for ${date}: ${error.message}`);
     }
@@ -98,10 +115,19 @@ function renderData(data, date) {
         groomedTrails.forEach(trail => {
             const isNew = !yesterdayGroomed.has(trail.Id);
             const difficulty = trail.Difficulty || 'Blue';
+            const trailName = escapeHtml(trail.Name);
 
             html += `<li class="trail-item">`;
             html += `<span class="difficulty-indicator difficulty-${difficulty}"></span>`;
-            html += `<span class="trail-name">${escapeHtml(trail.Name)}</span>`;
+
+            // Make trail name clickable if trail pages are available
+            if (hasTrailPages()) {
+                const trailSlug = slugifyTrailName(trail.Name);
+                html += `<a href="trail.html?name=${encodeURIComponent(trailSlug)}" class="trail-name trail-link">${trailName}</a>`;
+            } else {
+                html += `<span class="trail-name">${trailName}</span>`;
+            }
+
             html += `<span class="trail-status">`;
             html += `<span class="groomed-badge">✓ Groomed</span>`;
             if (isNew && yesterdayData) {
