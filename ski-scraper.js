@@ -5,6 +5,13 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone, toZonedTime } = require('date-fns-tz');
+const {
+  initializeDatabase,
+  getOrCreateResort,
+  saveTerrainStatus,
+  saveSnowConditions,
+  closeDatabase
+} = require('./database');
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -12,6 +19,15 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
   acc[resort.key] = resort;
   return acc;
 }, {});
+
+// Initialize database connection
+let db = null;
+function getDb() {
+  if (!db) {
+    db = initializeDatabase();
+  }
+  return db;
+}
 
 /**
  * Check if we're past the season end date
@@ -318,6 +334,7 @@ function saveResortData(resortKey, data) {
   }
 
   const resortName = RESORTS[resortKey].name;
+  const resortTimezone = RESORTS[resortKey].timezone || 'America/Denver';
   const today = getTodayDate();
 
   // Ensure data directory structure exists
@@ -328,6 +345,22 @@ function saveResortData(resortKey, data) {
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(data, null, 2));
   console.log(`✓ Saved data to ${timestampedFile}`);
+
+  // Save to database
+  const database = getDb();
+  getOrCreateResort(database, resortKey, resortName, resortTimezone, (err, resortId) => {
+    if (err) {
+      console.error('  ⚠️  Database error (resort):', err.message);
+    } else {
+      saveTerrainStatus(database, resortId, today, { FMR: data }, (err, count) => {
+        if (err) {
+          console.error('  ⚠️  Database error (terrain):', err.message);
+        } else if (count > 0) {
+          console.log(`✓ Saved ${count} terrain records to database`);
+        }
+      });
+    }
+  });
 
   // Print summary
   console.log('\n📊 Data Summary:');
@@ -458,6 +491,33 @@ function saveSnowData(resortKey, rawData) {
   const latestFile = path.join(snowDir, 'latest.json');
   fs.writeFileSync(latestFile, JSON.stringify(cleanData, null, 2));
   console.log(`✓ Updated ${latestFile}`);
+
+  // Save to database
+  const database = getDb();
+  const resortTimezone = RESORTS[resortKey].timezone || 'America/Denver';
+  getOrCreateResort(database, resortKey, resortName, resortTimezone, (err, resortId) => {
+    if (err) {
+      console.error('  ⚠️  Database error (resort):', err.message);
+    } else {
+      const snowDataForDb = {
+        overnightSnowfall: { inches: cleanData.snowfall.overnight_inches },
+        baseDepth: { inches: cleanData.baseDepth.inches },
+        newSnow24Hours: { inches: cleanData.snowfall['24hour_inches'] },
+        newSnow48Hours: { inches: cleanData.snowfall['48hour_inches'] },
+        newSnow7Days: { inches: cleanData.snowfall['7day_inches'] },
+        seasonTotal: { inches: cleanData.snowfall.season_total_inches },
+        currentConditions: { weather: cleanData.conditions }
+      };
+
+      saveSnowConditions(database, resortId, today, snowDataForDb, (err, id) => {
+        if (err) {
+          console.error('  ⚠️  Database error (snow):', err.message);
+        } else if (id) {
+          console.log(`✓ Saved snow conditions to database`);
+        }
+      });
+    }
+  });
 
   // Print summary
   console.log('\n❄️  Snow Report Summary:');
@@ -696,6 +756,12 @@ async function main() {
   }
 
   console.log('\n✅ Scraping complete!\n');
+
+  // Close database connection
+  if (db) {
+    closeDatabase(db);
+    console.log('🔒 Database connection closed\n');
+  }
 }
 
 main();
