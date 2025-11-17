@@ -117,14 +117,19 @@ function saveTerrainStatus(db, resortId, date, terrainData, callback) {
   terrainData.FMR.GroomingAreas.forEach(area => {
     if (area.Trails) {
       area.Trails.forEach(trail => {
+        // Map Vail API properties to database fields
+        const status = trail.Status || (trail.IsOpen ? 'Open' : 'Closed');
+        const groomingStatus = trail.GroomingStatus || (trail.IsGroomed ? 'Groomed' : null);
+        const groomingType = trail.Type || trail.TrailType || null;
+
         stmt.run(
           resortId,
           date,
           trail.Name || 'Unknown',
           'trail',
-          trail.Status || null,
-          trail.GroomingStatus || null,
-          trail.Type || null,
+          status,
+          groomingStatus,
+          groomingType,
           JSON.stringify(trail)
         );
         insertCount++;
@@ -133,12 +138,15 @@ function saveTerrainStatus(db, resortId, date, terrainData, callback) {
 
     if (area.Lifts) {
       area.Lifts.forEach(lift => {
+        // Map lift status
+        const liftStatus = lift.Status || (lift.IsOpen ? 'Open' : 'Closed');
+
         stmt.run(
           resortId,
           date,
           lift.Name || 'Unknown',
           'lift',
-          lift.Status || null,
+          liftStatus,
           null,
           null,
           JSON.stringify(lift)
