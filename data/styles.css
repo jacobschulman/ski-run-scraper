@@ -298,6 +298,18 @@ input[type="date"] {
     font-size: 0.95em;
 }
 
+.trail-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.trail-link:hover,
+.trail-link:focus {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
 .trail-status {
     display: flex;
     align-items: center;
@@ -398,6 +410,375 @@ input[type="date"] {
     .closed-badge {
         padding: 4px 10px;
         font-size: 0.85em;
+    }
+}
+
+/* Trail Page Specific Styles */
+
+/* Trail Subtitle */
+.trail-subtitle {
+    margin-top: 8px;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.trail-area {
+    opacity: 0.9;
+}
+
+/* Difficulty Badges */
+.difficulty-badge {
+    display: inline-block;
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-green { background: #4CAF50; }
+.badge-blue { background: #2196F3; }
+.badge-black { background: #424242; }
+.badge-double-black { background: #000000; border: 1px solid #666; }
+.badge-unknown { background: #757575; }
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 0.9em;
+    font-weight: 600;
+}
+
+.status-groomed { background: var(--badge-groomed); }
+.status-open { background: #2196F3; }
+.status-closed { background: var(--badge-closed); }
+
+/* Stats Cards */
+.trail-content {
+    display: grid;
+    gap: 16px;
+}
+
+.stats-card {
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.stats-card h2 {
+    font-size: 1.2em;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Current Status */
+.current-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+}
+
+.status-row .label {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+.status-row .value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Streak Display */
+.streak-display {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+}
+
+.streak-current,
+.streak-record {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+.streak-icon {
+    font-size: 2.5em;
+    line-height: 1;
+}
+
+.streak-label {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.streak-value {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* Season Statistics */
+.season-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 16px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+.stat-value {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--accent-primary);
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.season-info {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: 8px;
+}
+
+/* Calendar Heatmap */
+.calendar-heatmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12px, 1fr));
+    gap: 4px;
+    margin-bottom: 16px;
+    max-width: 100%;
+}
+
+.cal-cell {
+    aspect-ratio: 1;
+    border-radius: 2px;
+    cursor: help;
+    transition: transform 0.2s;
+}
+
+.cal-cell:hover {
+    transform: scale(1.3);
+    z-index: 10;
+}
+
+.cal-groomed {
+    background: var(--badge-groomed);
+}
+
+.cal-open {
+    background: #FFA726;
+}
+
+.cal-closed {
+    background: var(--border-color);
+}
+
+.cal-no-data {
+    background: var(--bg-primary);
+    opacity: 0.3;
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+
+.calendar-legend span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-box {
+    width: 14px;
+    height: 14px;
+    border-radius: 2px;
+}
+
+.calendar-empty {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Day of Week Chart */
+.chart-subtitle {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.day-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.day-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 12px;
+    align-items: center;
+}
+
+.day-label {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--text-primary);
+}
+
+.day-bar-container {
+    background: var(--bg-primary);
+    border-radius: 4px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.day-bar {
+    background: var(--accent-primary);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.day-value {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    min-width: 90px;
+    text-align: right;
+}
+
+.chart-empty {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Trail Info Grid */
+.trail-info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row .label {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.info-row .value {
+    color: var(--text-primary);
+}
+
+/* Responsive Design for Trail Pages */
+@media (min-width: 640px) {
+    .streak-display {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .calendar-heatmap {
+        grid-template-columns: repeat(auto-fill, minmax(16px, 1fr));
+        gap: 5px;
+    }
+}
+
+@media (min-width: 768px) {
+    .trail-content {
+        gap: 20px;
+    }
+
+    .stats-card {
+        padding: 24px;
+    }
+
+    .stats-card h2 {
+        font-size: 1.4em;
+    }
+
+    .season-stats {
+        gap: 20px;
+    }
+
+    .stat-value {
+        font-size: 2.5em;
+    }
+
+    .calendar-heatmap {
+        grid-template-columns: repeat(auto-fill, minmax(18px, 1fr));
+        gap: 6px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .calendar-heatmap {
+        grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+        gap: 7px;
     }
 }
 

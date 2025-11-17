@@ -11,6 +11,7 @@ const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const TEMPLATES_DIR = 'templates';
 const GROOMING_TEMPLATE = path.join(TEMPLATES_DIR, 'grooming.html');
 const SNOW_TEMPLATE = path.join(TEMPLATES_DIR, 'snow.html');
+const TRAIL_TEMPLATE = path.join(TEMPLATES_DIR, 'trail.html');
 
 /**
  * Ensure directory exists, create if not
@@ -92,6 +93,27 @@ function generateLandingPages() {
     } else {
       console.log(`  ⊘ Skipped snow.html (no snowReportUrl configured)`);
       skippedCount++;
+    }
+
+    // Create/update trail page for Vail only (for now)
+    // TODO: Expand to other resorts once perfected
+    if (resort.key === 'vail' && resort.terrainUrl) {
+      const trailPage = path.join(resortDir, 'trail.html');
+      const trailExists = fs.existsSync(trailPage);
+
+      if (fs.existsSync(TRAIL_TEMPLATE)) {
+        copyTemplate(TRAIL_TEMPLATE, trailPage);
+
+        if (trailExists) {
+          console.log(`  ✓ Updated trail.html`);
+          updatedCount++;
+        } else {
+          console.log(`  ✓ Created trail.html`);
+          createdCount++;
+        }
+      } else {
+        console.log(`  ⚠️  Trail template not found: ${TRAIL_TEMPLATE}`);
+      }
     }
   });
 
