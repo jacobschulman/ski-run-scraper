@@ -175,7 +175,7 @@
                     <li class="leaderboard-item">
                         <span class="leaderboard-rank ${rankClass}">${i + 1}</span>
                         <div class="leaderboard-trail">
-                            <a href="trail.html?name=${encodeURIComponent(trail.name)}" class="leaderboard-trail-name" title="${trail.name}">
+                            <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="leaderboard-trail-name" title="${trail.name}">
                                 ${trail.name}
                             </a>
                         </div>
@@ -229,7 +229,7 @@
                 tbody.innerHTML = tableTrails.map(trail => `
                     <tr>
                         <td>
-                            <a href="trail.html?name=${encodeURIComponent(trail.name)}" class="trail-table-name">
+                            <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="trail-table-name">
                                 ${trail.name}
                             </a>
                         </td>
@@ -248,7 +248,7 @@
             if (notGroomedTrails.length > 0 && !searchTerm) {
                 notGroomedSection.style.display = 'block';
                 notGroomedList.innerHTML = notGroomedTrails.map(trail => `
-                    <a href="trail.html?name=${encodeURIComponent(trail.name)}" class="not-groomed-item">
+                    <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="not-groomed-item">
                         ${trail.name}
                     </a>
                 `).join('');
