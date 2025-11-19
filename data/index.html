@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 900px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 0 20px;
             line-height: 1.6;
@@ -15,6 +15,7 @@
         }
         h1 { color: #2c5aa0; }
         h2 { color: #3a7bd5; margin-top: 40px; }
+        h3 { color: #4a90e2; }
         code {
             background: #f4f4f4;
             padding: 2px 6px;
@@ -39,16 +40,26 @@
             border-left: 4px solid #ffa726;
             margin: 20px 0;
         }
+        .region-section {
+            margin: 30px 0;
+        }
+        .region-title {
+            color: #555;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+        }
         .resort-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
         }
         .resort-card {
             background: linear-gradient(135deg, #2c5aa0 0%, #3a7bd5 100%);
             color: white;
-            padding: 25px;
+            padding: 18px;
             border-radius: 8px;
             text-align: center;
             text-decoration: none;
@@ -59,198 +70,767 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(42, 90, 160, 0.3);
         }
-        .resort-card h3 {
+        .resort-card h4 {
             margin: 0;
             color: white;
-            font-size: 1.3em;
+            font-size: 1.1em;
         }
         .resort-card p {
-            margin: 8px 0 0 0;
+            margin: 5px 0 0 0;
             opacity: 0.9;
-            font-size: 0.9em;
+            font-size: 0.8em;
+        }
+        .resort-card.snow {
+            background: linear-gradient(135deg, #1976d2 0%, #42a5f5 100%);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background: #f4f4f4;
+        }
+        .field-table code {
+            background: none;
+            padding: 0;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #f4f4f4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .tab.active {
+            background: #3a7bd5;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>🎿 Ski Run Scraper API</h1>
-    <p>Daily grooming, lift status, and snow report data for ski resorts. Updated every morning at 7 AM MST.</p>
+    <h1>Ski Run Scraper API</h1>
+    <p>Daily grooming, lift status, and snow report data for 40+ ski resorts across North America and Australia. Data is automatically updated at each resort's local morning time.</p>
 
-    <h2>📊 Browse Grooming Data</h2>
-    <p>View formatted grooming reports with date navigation and historical data:</p>
+    <h2>Browse Resorts</h2>
+    <p>View interactive reports with date navigation, historical comparisons, and weather forecasts:</p>
 
-    <div class="resort-grid">
-        <a href="keystone/grooming.html" class="resort-card">
-            <h3>⛷️ Keystone</h3>
-            <p>View grooming report</p>
-        </a>
-        <a href="vail/grooming.html" class="resort-card">
-            <h3>🏔️ Vail</h3>
-            <p>View grooming report</p>
-        </a>
-        <a href="parkcity/grooming.html" class="resort-card">
-            <h3>🎿 Park City</h3>
-            <p>View grooming report</p>
-        </a>
-        <a href="beavercreek/grooming.html" class="resort-card">
-            <h3>🦫 Beaver Creek</h3>
-            <p>View grooming report</p>
-        </a>
+    <div class="region-section">
+        <div class="region-title">Colorado / Utah (Mountain Time)</div>
+        <div class="resort-grid">
+            <a href="vail/grooming.html" class="resort-card">
+                <h4>Vail</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="beavercreek/grooming.html" class="resort-card">
+                <h4>Beaver Creek</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="breckenridge/grooming.html" class="resort-card">
+                <h4>Breckenridge</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="keystone/grooming.html" class="resort-card">
+                <h4>Keystone</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="crestedbutte/grooming.html" class="resort-card">
+                <h4>Crested Butte</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="parkcity/grooming.html" class="resort-card">
+                <h4>Park City</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
     </div>
 
-    <h2>❄️ Browse Snow Reports</h2>
-    <p>View snow conditions, base depth, and weather forecasts:</p>
-
-    <div class="resort-grid">
-        <a href="vail/snow.html" class="resort-card">
-            <h3>🏔️ Vail</h3>
-            <p>View snow report</p>
-        </a>
-        <a href="beavercreek/snow.html" class="resort-card">
-            <h3>🦫 Beaver Creek</h3>
-            <p>View snow report</p>
-        </a>
+    <div class="region-section">
+        <div class="region-title">California / Pacific Northwest</div>
+        <div class="resort-grid">
+            <a href="heavenly/grooming.html" class="resort-card">
+                <h4>Heavenly</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="northstar/grooming.html" class="resort-card">
+                <h4>Northstar</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="kirkwood/grooming.html" class="resort-card">
+                <h4>Kirkwood</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="stevenspass/grooming.html" class="resort-card">
+                <h4>Stevens Pass</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
     </div>
 
-    <h2>Available Endpoints</h2>
+    <div class="region-section">
+        <div class="region-title">Northeast / New England</div>
+        <div class="resort-grid">
+            <a href="stowe/grooming.html" class="resort-card">
+                <h4>Stowe</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="okemo/grooming.html" class="resort-card">
+                <h4>Okemo</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="mountsnow/grooming.html" class="resort-card">
+                <h4>Mount Snow</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="huntermountain/grooming.html" class="resort-card">
+                <h4>Hunter Mountain</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="attitash/grooming.html" class="resort-card">
+                <h4>Attitash</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="wildcat/grooming.html" class="resort-card">
+                <h4>Wildcat</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="mountsunapee/grooming.html" class="resort-card">
+                <h4>Mount Sunapee</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="crotched/grooming.html" class="resort-card">
+                <h4>Crotched</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="region-section">
+        <div class="region-title">Mid-Atlantic</div>
+        <div class="resort-grid">
+            <a href="liberty/grooming.html" class="resort-card">
+                <h4>Liberty</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="roundtop/grooming.html" class="resort-card">
+                <h4>Roundtop</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="whitetail/grooming.html" class="resort-card">
+                <h4>Whitetail</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="jackfrost/grooming.html" class="resort-card">
+                <h4>Jack Frost</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="bigboulder/grooming.html" class="resort-card">
+                <h4>Big Boulder</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="hiddenvalleypa/grooming.html" class="resort-card">
+                <h4>Hidden Valley PA</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="laurelmountain/grooming.html" class="resort-card">
+                <h4>Laurel Mountain</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="sevensprings/grooming.html" class="resort-card">
+                <h4>Seven Springs</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="region-section">
+        <div class="region-title">Midwest</div>
+        <div class="resort-grid">
+            <a href="paolipeaks/grooming.html" class="resort-card">
+                <h4>Paoli Peaks</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="bostonmills/grooming.html" class="resort-card">
+                <h4>Boston Mills</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="brandywine/grooming.html" class="resort-card">
+                <h4>Brandywine</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="madriver/grooming.html" class="resort-card">
+                <h4>Mad River</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="alpinevalley/grooming.html" class="resort-card">
+                <h4>Alpine Valley</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="wilmotmountain/grooming.html" class="resort-card">
+                <h4>Wilmot Mountain</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="aftonalps/grooming.html" class="resort-card">
+                <h4>Afton Alps</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="hiddenvalley/grooming.html" class="resort-card">
+                <h4>Hidden Valley MO</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="mtbrighton/grooming.html" class="resort-card">
+                <h4>Mt Brighton</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="region-section">
+        <div class="region-title">Canada</div>
+        <div class="resort-grid">
+            <a href="whistlerblackcomb/grooming.html" class="resort-card">
+                <h4>Whistler Blackcomb</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="region-section">
+        <div class="region-title">Australia</div>
+        <div class="resort-grid">
+            <a href="perisher/grooming.html" class="resort-card">
+                <h4>Perisher</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="fallscreek/grooming.html" class="resort-card">
+                <h4>Falls Creek</h4>
+                <p>Grooming Report</p>
+            </a>
+            <a href="hotham/grooming.html" class="resort-card">
+                <h4>Hotham</h4>
+                <p>Grooming Report</p>
+            </a>
+        </div>
+    </div>
+
+    <h2>API Endpoints</h2>
 
     <div class="endpoint">
-        <h3>Latest Data (All Resorts)</h3>
-        <code>GET /data/latest.json</code>
-        <p>Returns the most recent data for all configured resorts in a single JSON file.</p>
-        <pre>https://jacobschulman.github.io/ski-run-scraper/data/latest.json</pre>
-    </div>
-
-    <div class="endpoint">
-        <h3>Data Index</h3>
+        <h3>Data Index (File Manifest)</h3>
         <code>GET /data/index.json</code>
         <p>Returns a manifest of all available data files for all resorts, including file counts and latest dates.</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/index.json</pre>
     </div>
 
     <div class="endpoint">
-        <h3>Grooming Reports (Web Interface)</h3>
-        <p>View interactive grooming reports with date navigation:</p>
-        <ul style="list-style: none; padding-left: 0;">
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/keystone/grooming.html">⛷️ Keystone Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail/grooming.html">🏔️ Vail Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/parkcity/grooming.html">🎿 Park City Grooming Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/grooming.html">🦫 Beaver Creek Grooming Report</a></li>
-        </ul>
-    </div>
-
-    <div class="endpoint">
         <h3>Latest Snow Reports (All Resorts)</h3>
         <code>GET /data/latest-snow.json</code>
-        <p>Returns the most recent snow report data for all resorts with snow reporting.</p>
+        <p>Returns the most recent snow report data for all resorts with snow reporting enabled.</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/latest-snow.json</pre>
     </div>
 
     <div class="endpoint">
-        <h3>Snow Reports (Web Interface)</h3>
-        <p>View interactive snow reports with conditions and forecasts:</p>
-        <ul style="list-style: none; padding-left: 0;">
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/vail/snow.html">🏔️ Vail Snow Report</a></li>
-            <li><a href="https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow.html">🦫 Beaver Creek Snow Report</a></li>
-        </ul>
-    </div>
-
-    <div class="endpoint">
-        <h3>Resort-Specific Terrain/Grooming Data (by date)</h3>
+        <h3>Resort Terrain/Grooming Data (by date)</h3>
         <code>GET /data/{resort}/terrain/{YYYY-MM-DD}.json</code>
-        <p>Returns terrain and grooming data for a specific resort on a specific date.</p>
-        <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/terrain/2025-01-05.json
-https://jacobschulman.github.io/ski-run-scraper/data/vail/terrain/2025-01-05.json</pre>
+        <p>Returns terrain, grooming, and lift data for a specific resort on a specific date.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/terrain/2025-11-18.json
+https://jacobschulman.github.io/ski-run-scraper/data/vail/terrain/2025-11-18.json</pre>
     </div>
 
     <div class="endpoint">
-        <h3>Resort-Specific Snow Data (by date)</h3>
+        <h3>Resort Snow Data (by date)</h3>
         <code>GET /data/{resort}/snow/{YYYY-MM-DD}.json</code>
         <p>Returns snow report data for a specific resort on a specific date.</p>
-        <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/2025-01-05.json
-https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/latest.json</pre>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/2025-11-18.json
+https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/2025-11-18.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Latest Resort Snow Data</h3>
+        <code>GET /data/{resort}/snow/latest.json</code>
+        <p>Returns the most recent snow data for a specific resort.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/latest.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Interactive Web Pages</h3>
+        <p>View formatted reports with date navigation and historical comparisons:</p>
+        <ul>
+            <li><code>/data/{resort}/grooming.html</code> - Grooming and lift status report</li>
+            <li><code>/data/{resort}/snow.html</code> - Snow conditions and weather forecast</li>
+            <li><code>/data/{resort}/trails.html</code> - Trail listing with grooming history</li>
+        </ul>
     </div>
 
     <h2>Data Structure</h2>
 
-    <h3>Grooming Data</h3>
-    <p>Each resort's grooming data file contains:</p>
-    <ul>
-        <li><strong>Date</strong>: ISO 8601 timestamp</li>
-        <li><strong>ResortId</strong>: Numeric resort identifier</li>
-        <li><strong>GroomingAreas</strong>: Array of areas with trail information
-            <ul>
-                <li>Trail name, difficulty, open status, groomed status</li>
-                <li>Trail length, type, and other metadata</li>
-            </ul>
-        </li>
-        <li><strong>Lifts</strong>: Array of lift information (status, wait times, etc.)</li>
-    </ul>
+    <h3>Terrain/Grooming Data</h3>
+    <p>Each daily terrain file contains complete resort status:</p>
+
+    <pre>{
+  "Date": "2025-11-19T08:20:52.616Z",
+  "ResortId": 15,
+  "GroomingAreas": [
+    {
+      "Id": 336,
+      "Name": "Blue Sky Basin",
+      "order": 0,
+      "Trails": [
+        {
+          "Id": 4900,
+          "Name": "Big Rock Park - East",
+          "Difficulty": "Blue",
+          "IsOpen": false,
+          "IsGroomed": false,
+          "TrailInfo": "",
+          "TrailLength": "0 (ft)",
+          "TrailType": "Skiing",
+          "IsTrailWork": false
+        }
+      ],
+      "Lifts": [
+        {
+          "Id": 1,
+          "Name": "Skyline Express",
+          "Status": "Closed",
+          "IsOpen": false
+        }
+      ]
+    }
+  ]
+}</pre>
+
+    <h4>Trail Object Fields</h4>
+    <table class="field-table">
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>Id</code></td>
+            <td>number</td>
+            <td>Unique trail identifier</td>
+        </tr>
+        <tr>
+            <td><code>Name</code></td>
+            <td>string</td>
+            <td>Trail name</td>
+        </tr>
+        <tr>
+            <td><code>Difficulty</code></td>
+            <td>string</td>
+            <td>"Green", "Blue", "Black", or "Double Black"</td>
+        </tr>
+        <tr>
+            <td><code>IsOpen</code></td>
+            <td>boolean</td>
+            <td>Whether the trail is currently open</td>
+        </tr>
+        <tr>
+            <td><code>IsGroomed</code></td>
+            <td>boolean</td>
+            <td>Whether the trail was groomed today</td>
+        </tr>
+        <tr>
+            <td><code>TrailInfo</code></td>
+            <td>string</td>
+            <td>Additional trail information (often empty)</td>
+        </tr>
+        <tr>
+            <td><code>TrailLength</code></td>
+            <td>string</td>
+            <td>Trail length (e.g., "3.5 miles" or "0 (ft)")</td>
+        </tr>
+        <tr>
+            <td><code>TrailType</code></td>
+            <td>string</td>
+            <td>"Skiing" or "Snowboarding"</td>
+        </tr>
+        <tr>
+            <td><code>IsTrailWork</code></td>
+            <td>boolean</td>
+            <td>Whether trail work is in progress</td>
+        </tr>
+    </table>
+
+    <h4>Lift Object Fields</h4>
+    <table class="field-table">
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>Id</code></td>
+            <td>number</td>
+            <td>Unique lift identifier</td>
+        </tr>
+        <tr>
+            <td><code>Name</code></td>
+            <td>string</td>
+            <td>Lift name</td>
+        </tr>
+        <tr>
+            <td><code>Status</code></td>
+            <td>string</td>
+            <td>"Open", "Closed", or "Scheduled"</td>
+        </tr>
+        <tr>
+            <td><code>IsOpen</code></td>
+            <td>boolean</td>
+            <td>Whether the lift is currently operating</td>
+        </tr>
+    </table>
 
     <h3>Snow Report Data</h3>
-    <p>Each resort's snow report file contains:</p>
-    <ul>
-        <li><strong>resort</strong>: Resort key (e.g., "vail")</li>
-        <li><strong>date</strong>: Date in YYYY-MM-DD format</li>
-        <li><strong>timestamp</strong>: ISO 8601 timestamp</li>
-        <li><strong>conditions</strong>: Overall snow conditions (e.g., "Early Season", "Powder")</li>
-        <li><strong>snowfall</strong>: Snowfall measurements in inches and cm
-            <ul>
-                <li>overnight, 24hour, 48hour, 7day, season_total</li>
-            </ul>
-        </li>
-        <li><strong>baseDepth</strong>: Base depth in inches and cm</li>
-        <li><strong>forecast</strong>: Weather forecast data
-            <ul>
-                <li>Multiple locations (base, mid-mountain, summit)</li>
-                <li>Temperature hi/low in Fahrenheit and Celsius</li>
-                <li>Weather descriptions, wind, precipitation</li>
-                <li>5-day forecast</li>
-            </ul>
-        </li>
-    </ul>
+    <p>Each daily snow file contains conditions and forecasts:</p>
+
+    <pre>{
+  "resort": "vail",
+  "resortName": "Vail",
+  "date": "2025-11-19",
+  "timestamp": "2025-11-19T15:23:40.113Z",
+  "lastUpdated": "Updated November 19, 2025 at 5:02 AM MST",
+  "conditions": "Snow Groomed",
+  "snowfall": {
+    "overnight_inches": 0,
+    "overnight_cm": 0,
+    "24hour_inches": 0,
+    "24hour_cm": 0,
+    "48hour_inches": 2,
+    "48hour_cm": 5,
+    "7day_inches": 5,
+    "7day_cm": 12,
+    "season_total_inches": 8,
+    "season_total_cm": 20
+  },
+  "baseDepth": {
+    "inches": 18,
+    "cm": 45
+  },
+  "forecast": {
+    "locations": [
+      {
+        "name": "Unknown",
+        "elevation": null,
+        "today": {
+          "high_f": 43,
+          "high_c": 6,
+          "low_f": 26,
+          "low_c": -4,
+          "description": "Partly Cloudy",
+          "wind": "SSW",
+          "wind_speed": 3.69,
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0
+        },
+        "forecast_days": [
+          {
+            "date": "2025-11-20T07:00:00Z",
+            "high_f": 44,
+            "high_c": 7,
+            "low_f": 29,
+            "low_c": -2,
+            "description": "Cloudy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 1
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+
+    <h4>Snow Report Fields</h4>
+    <table class="field-table">
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>resort</code></td>
+            <td>string</td>
+            <td>Resort key (e.g., "vail")</td>
+        </tr>
+        <tr>
+            <td><code>resortName</code></td>
+            <td>string</td>
+            <td>Display name (e.g., "Vail")</td>
+        </tr>
+        <tr>
+            <td><code>date</code></td>
+            <td>string</td>
+            <td>Date in YYYY-MM-DD format</td>
+        </tr>
+        <tr>
+            <td><code>timestamp</code></td>
+            <td>string</td>
+            <td>ISO 8601 timestamp of when data was scraped</td>
+        </tr>
+        <tr>
+            <td><code>lastUpdated</code></td>
+            <td>string</td>
+            <td>Human-readable update time from resort</td>
+        </tr>
+        <tr>
+            <td><code>conditions</code></td>
+            <td>string</td>
+            <td>Overall conditions (e.g., "Snow Groomed", "Powder")</td>
+        </tr>
+    </table>
+
+    <h4>Forecast Location Fields</h4>
+    <table class="field-table">
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>high_f</code> / <code>high_c</code></td>
+            <td>number</td>
+            <td>High temperature in Fahrenheit/Celsius</td>
+        </tr>
+        <tr>
+            <td><code>low_f</code> / <code>low_c</code></td>
+            <td>number|null</td>
+            <td>Low temperature in Fahrenheit/Celsius</td>
+        </tr>
+        <tr>
+            <td><code>description</code></td>
+            <td>string</td>
+            <td>Weather description (e.g., "Partly Cloudy")</td>
+        </tr>
+        <tr>
+            <td><code>wind</code></td>
+            <td>string</td>
+            <td>Wind direction (e.g., "SSW")</td>
+        </tr>
+        <tr>
+            <td><code>wind_speed</code></td>
+            <td>number</td>
+            <td>Wind speed in mph</td>
+        </tr>
+        <tr>
+            <td><code>snowfall_day_inches</code></td>
+            <td>number</td>
+            <td>Expected daytime snowfall in inches</td>
+        </tr>
+        <tr>
+            <td><code>snowfall_night_inches</code></td>
+            <td>number</td>
+            <td>Expected nighttime snowfall in inches</td>
+        </tr>
+        <tr>
+            <td><code>date</code></td>
+            <td>string</td>
+            <td>ISO 8601 date for forecast day</td>
+        </tr>
+    </table>
 
     <h2>Example Usage</h2>
 
     <h3>JavaScript / Node.js</h3>
-    <pre>// Fetch latest data for all resorts
-const response = await fetch('https://jacobschulman.github.io/ski-run-scraper/data/latest.json');
+    <pre>// Fetch terrain data for a specific resort and date
+const response = await fetch(
+  'https://jacobschulman.github.io/ski-run-scraper/data/keystone/terrain/2025-11-18.json'
+);
 const data = await response.json();
 
-// Access specific resort
-const keystoneData = data.keystone.data;
-console.log(`Keystone has ${keystoneData.GroomingAreas.length} areas`);
+// Count groomed trails
+const groomedTrails = data.GroomingAreas.flatMap(area =>
+  area.Trails.filter(trail => trail.IsGroomed)
+);
+console.log(`${groomedTrails.length} trails groomed today`);
+
+// Get open lifts
+const openLifts = data.GroomingAreas.flatMap(area =>
+  area.Lifts.filter(lift => lift.IsOpen)
+);
+console.log(`${openLifts.length} lifts operating`);
 </pre>
 
     <h3>Python</h3>
     <pre>import requests
 
-# Fetch specific resort data
-url = 'https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-01-05.json'
+# Fetch snow report data
+url = 'https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/latest.json'
 response = requests.get(url)
 data = response.json()
 
-print(f"Resort ID: {data['ResortId']}")
-print(f"Total areas: {len(data['GroomingAreas'])}")
+print(f"Conditions: {data['conditions']}")
+print(f"24hr snowfall: {data['snowfall']['24hour_inches']}\"")
+print(f"Base depth: {data['baseDepth']['inches']}\"")
+print(f"Season total: {data['snowfall']['season_total_inches']}\"")
 </pre>
 
-    <h3>LED Matrix / IoT</h3>
-    <pre>// Fetch only the data you need for a specific resort
-fetch('https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-01-05.json')
-  .then(res => res.json())
-  .then(data => {
-    // Process groomed trails
-    const groomed = data.GroomingAreas.flatMap(area =>
-      area.Trails.filter(t => t.IsGroomed)
-    );
-    displayOnMatrix(groomed);
-  });
+    <h3>Get All Available Files</h3>
+    <pre>// Fetch the index to see all available data
+const indexResponse = await fetch(
+  'https://jacobschulman.github.io/ski-run-scraper/data/index.json'
+);
+const index = await indexResponse.json();
+
+// List all resorts and their file counts
+for (const [resort, info] of Object.entries(index.resorts)) {
+  console.log(`${info.name}: ${info.count} days of data (latest: ${info.latest})`);
+}
 </pre>
 
     <h2>Update Schedule</h2>
-    <p>Data is automatically scraped daily at <strong>7:00 AM MST</strong> via GitHub Actions.</p>
-    <p>Historical data is retained indefinitely. Season typically runs through May 1st.</p>
+    <p>Data is automatically scraped via GitHub Actions with timezone-aware scheduling:</p>
+    <ul>
+        <li><strong>Frequency:</strong> The scraper runs every 3 hours</li>
+        <li><strong>Target Time:</strong> 7:00 AM local time for each resort</li>
+        <li><strong>Window:</strong> Resorts are scraped within 3 hours of their target time</li>
+    </ul>
+    <p>Each resort is scraped in its local timezone (e.g., America/Denver for Colorado resorts, America/Los_Angeles for California resorts, Australia/Sydney for Australian resorts).</p>
+    <p>Historical data is retained indefinitely. The North American season typically runs November through May; Australian season runs June through October.</p>
+
+    <h2>Resort Keys</h2>
+    <p>Use these keys in API URLs:</p>
+    <pre>vail, beavercreek, breckenridge, keystone, crestedbutte, parkcity,
+heavenly, northstar, kirkwood, stevenspass,
+stowe, okemo, mountsnow, huntermountain, attitash, wildcat, mountsunapee, crotched,
+liberty, roundtop, whitetail, jackfrost, bigboulder, hiddenvalleypa, laurelmountain, sevensprings,
+paolipeaks, bostonmills, brandywine, madriver, alpinevalley, wilmotmountain, aftonalps, hiddenvalley, mtbrighton,
+whistlerblackcomb,
+perisher, fallscreek, hotham</pre>
+
+    <h2>Technical Details</h2>
+
+    <h3>CORS</h3>
+    <p>All endpoints are served via GitHub Pages, which includes CORS headers allowing access from any origin. You can fetch data directly from browser JavaScript or mobile apps without proxy servers.</p>
+
+    <h3>Error Handling</h3>
+    <p>The API returns standard HTTP status codes:</p>
+    <ul>
+        <li><strong>200 OK</strong> - Success, JSON data returned</li>
+        <li><strong>404 Not Found</strong> - Resort key invalid, date not available, or file doesn't exist</li>
+    </ul>
+    <p>When a file doesn't exist (e.g., requesting data for a future date or a date before scraping started), you'll receive a 404. Always check response status before parsing JSON.</p>
+
+    <h3>Rate Limiting</h3>
+    <p>GitHub Pages has no explicit rate limiting for static file serving, but excessive requests may be throttled. For bulk data access, clone the repository directly.</p>
+
+    <h3>Data Availability</h3>
+    <ul>
+        <li>Terrain data starts from November 6, 2025 for most resorts</li>
+        <li>Snow data starts from November 15, 2025 for supported resorts</li>
+        <li>Not all resorts have snow reporting enabled</li>
+        <li>Data is typically available within 3 hours of the resort's 7 AM local time</li>
+    </ul>
+
+    <h3>TypeScript Types</h3>
+    <p>Here are TypeScript interfaces for the main data structures:</p>
+    <pre>interface Trail {
+  Id: number;
+  Name: string;
+  Difficulty: "Green" | "Blue" | "Black" | "Double Black";
+  IsOpen: boolean;
+  IsGroomed: boolean;
+  TrailInfo: string;
+  TrailLength: string;
+  TrailType: "Skiing" | "Snowboarding";
+  IsTrailWork: boolean;
+}
+
+interface Lift {
+  Id: number;
+  Name: string;
+  Status: "Open" | "Closed" | "Scheduled";
+  IsOpen: boolean;
+}
+
+interface GroomingArea {
+  Id: number;
+  Name: string;
+  order: number;
+  Trails: Trail[];
+  Lifts: Lift[];
+}
+
+interface TerrainData {
+  Date: string;
+  ResortId: number;
+  GroomingAreas: GroomingArea[];
+}
+
+interface SnowData {
+  resort: string;
+  resortName: string;
+  date: string;
+  timestamp: string;
+  lastUpdated: string;
+  conditions: string;
+  snowfall: {
+    overnight_inches: number;
+    overnight_cm: number;
+    "24hour_inches": number;
+    "24hour_cm": number;
+    "48hour_inches": number;
+    "48hour_cm": number;
+    "7day_inches": number;
+    "7day_cm": number;
+    season_total_inches: number;
+    season_total_cm: number;
+  };
+  baseDepth: {
+    inches: number;
+    cm: number;
+  };
+  forecast: {
+    locations: ForecastLocation[];
+  };
+}
+
+interface ForecastLocation {
+  name: string;
+  elevation: number | null;
+  today: ForecastDay;
+  forecast_days: ForecastDay[];
+}
+
+interface ForecastDay {
+  date?: string;
+  high_f: number;
+  high_c: number | null;
+  low_f: number;
+  low_c: number;
+  description: string;
+  wind?: string;
+  wind_speed?: number;
+  snowfall_day_inches: number;
+  snowfall_night_inches: number;
+}
+
+interface ResortIndex {
+  resorts: {
+    [key: string]: {
+      name: string;
+      files: string[];
+      latest: string;
+      count: number;
+    };
+  };
+}</pre>
 
     <h2>Source Code</h2>
     <p>View the scraper source code and configuration on <a href="https://github.com/jacobschulman/ski-run-scraper">GitHub</a>.</p>
+
+    <p>The project also includes a SQLite database for historical analysis. See <a href="https://github.com/jacobschulman/ski-run-scraper/blob/main/DATABASE.md">DATABASE.md</a> for schema and query examples.</p>
 </body>
 </html>
