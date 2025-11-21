@@ -1,0 +1,71 @@
+name: Real-Time Lift Wait-Time Scraper
+
+on:
+  schedule:
+    # Run every 4 minutes during the day
+    # Cron format: minute hour day month day-of-week
+    # */4 means every 4 minutes (0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56)
+    - cron: '*/4 * * * *'
+
+  workflow_dispatch: # Allow manual triggering
+
+concurrency:
+  group: lift-scraper
+  cancel-in-progress: false  # Let each run complete independently
+
+permissions:
+  contents: write  # Required to commit and push changes
+
+jobs:
+  scrape-lifts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lift scraper
+        run: node lift-scraper.js
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          # Check if any lift data files changed
+          if git diff --quiet data/**/lifts/; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No lift data changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Lift data changes detected"
+          fi
+
+      - name: Commit and push lift data
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Pull latest changes with rebase to avoid conflicts
+          git pull --rebase --autostash origin main
+
+          # Add only lift data files
+          git add data/**/lifts/
+
+          # Create commit with timestamp
+          git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # Push changes
+          git push
+
+      - name: No changes detected
+        if: steps.git-check.outputs.changes != 'true'
+        run: echo "✓ No lift data changes - resorts likely outside operating hours"
