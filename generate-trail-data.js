@@ -34,6 +34,17 @@ function slugifyTrailName(name) {
 }
 
 /**
+ * Sanitize trail name by removing pagination text and other artifacts
+ * Fixes issues like "Black Forest 0   5073\t Items per page : 20 1 - 20 of 54"
+ */
+function sanitizeTrailName(name) {
+  return name
+    // Remove pagination text pattern: "0   5073\t Items per page : 20 1 - 20 of 54"
+    .replace(/\s*\d+\s+\d+\s*\t\s*Items per page\s*:\s*\d+\s+\d+\s*-\s*\d+\s+of\s+\d+.*$/i, '')
+    .trim();
+}
+
+/**
  * Get the start date of the current ski season for a resort
  */
 function getSeasonStartDate(resort) {
@@ -185,7 +196,7 @@ function generateTrailDataForResort(db, resortKey) {
 
           // Process each trail
           trails.forEach((trailRow, index) => {
-            const trailName = trailRow.item_name;
+            const trailName = sanitizeTrailName(trailRow.item_name);
             const trailSlug = slugifyTrailName(trailName);
 
             // Get historical data for this trail
@@ -234,7 +245,7 @@ function generateTrailDataForResort(db, resortKey) {
                       if (terrainData.GroomingAreas) {
                         for (const area of terrainData.GroomingAreas) {
                           if (area.Trails) {
-                            const trail = area.Trails.find(t => t.Name === trailName);
+                            const trail = area.Trails.find(t => sanitizeTrailName(t.Name) === trailName);
                             if (trail) {
                               trailMetadata.area = area.Name;
                               break;

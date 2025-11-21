@@ -679,6 +679,17 @@ function slugifyTrailName(name) {
 }
 
 /**
+ * Sanitize trail name by removing pagination text and other artifacts
+ * Fixes issues like "Black Forest 0   5073\t Items per page : 20 1 - 20 of 54"
+ */
+function sanitizeTrailName(name) {
+  return name
+    // Remove pagination text pattern: "0   5073\t Items per page : 20 1 - 20 of 54"
+    .replace(/\s*\d+\s+\d+\s*\t\s*Items per page\s*:\s*\d+\s+\d+\s*-\s*\d+\s+of\s+\d+.*$/i, '')
+    .trim();
+}
+
+/**
  * Get the start date of the current ski season for a resort
  */
 function getSeasonStartDate(resort) {
@@ -804,7 +815,7 @@ function generateTrailData(resortKey, resortId, date, terrainData) {
     if (!area.Trails) return;
 
     area.Trails.forEach(trail => {
-      const trailName = trail.Name;
+      const trailName = sanitizeTrailName(trail.Name);
       const trailSlug = slugifyTrailName(trailName);
 
       // Query database for historical data for this trail (current season only)
