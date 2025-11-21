@@ -359,19 +359,31 @@ async function main() {
 
   const results = [];
 
-  for (const resortKey of resortKeys) {
-    try {
-      const result = await processResort(resortKey);
-      results.push(result);
-    } catch (error) {
-      console.log(`\n❌ Unexpected error processing ${resortKey}: ${error.message}`);
-      results.push({
-        resortKey,
-        status: 'error',
-        liftsRecorded: 0,
-        error: error.message
-      });
-    }
+  // Process resorts in parallel batches to speed up execution
+  // Process 5 resorts at a time to balance speed vs resource usage
+  const BATCH_SIZE = 5;
+
+  for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
+    const batch = resortKeys.slice(i, i + BATCH_SIZE);
+    console.log(`\n📦 Processing batch ${Math.floor(i / BATCH_SIZE) + 1} of ${Math.ceil(resortKeys.length / BATCH_SIZE)} (${batch.length} resorts in parallel)...`);
+
+    // Process this batch in parallel
+    const batchPromises = batch.map(async (resortKey) => {
+      try {
+        return await processResort(resortKey);
+      } catch (error) {
+        console.log(`\n❌ Unexpected error processing ${resortKey}: ${error.message}`);
+        return {
+          resortKey,
+          status: 'error',
+          liftsRecorded: 0,
+          error: error.message
+        };
+      }
+    });
+
+    const batchResults = await Promise.all(batchPromises);
+    results.push(...batchResults);
   }
 
   // Print final summary
