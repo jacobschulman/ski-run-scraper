@@ -7,6 +7,15 @@ on:
     # */4 means every 4 minutes (0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56)
     - cron: '*/4 * * * *'
 
+  # Temporary: Allow testing on feature branch via push
+  # TODO: Remove this push trigger after testing and before merging to main
+  push:
+    branches:
+      - lift-line-scraper
+    paths:
+      - '.github/workflows/lift-scraper.yml'
+      - 'lift-scraper.js'
+
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
