@@ -1,5 +1,5 @@
 // lift-scraper.js - Real-time lift wait-time tracker
-// Runs frequently (every 4 minutes by default) to capture lift status and wait times
+// Runs frequently (every 5 minutes by default) to capture lift status and wait times
 // Only records data during lift operating hours
 
 const puppeteer = require('puppeteer');
