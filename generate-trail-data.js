@@ -196,16 +196,17 @@ function generateTrailDataForResort(db, resortKey) {
 
           // Process each trail
           trails.forEach((trailRow, index) => {
-            const trailName = sanitizeTrailName(trailRow.item_name);
+            const rawTrailName = trailRow.item_name; // Keep unsanitized for DB queries
+            const trailName = sanitizeTrailName(rawTrailName); // Sanitized for display
             const trailSlug = slugifyTrailName(trailName);
 
-            // Get historical data for this trail
+            // Get historical data for this trail (use raw name to query DB)
             db.all(
               `SELECT date, status, grooming_status, grooming_type, raw_data
                FROM terrain_status
                WHERE resort_id = ? AND item_name = ? AND item_type = 'trail' AND date >= ?
                ORDER BY date DESC`,
-              [resortId, trailName, seasonStartDate],
+              [resortId, rawTrailName, seasonStartDate],
               (err, rows) => {
                 if (err) {
                   console.error(`  ⚠️  Error querying ${trailName}:`, err.message);
@@ -245,7 +246,7 @@ function generateTrailDataForResort(db, resortKey) {
                       if (terrainData.GroomingAreas) {
                         for (const area of terrainData.GroomingAreas) {
                           if (area.Trails) {
-                            const trail = area.Trails.find(t => sanitizeTrailName(t.Name) === trailName);
+                            const trail = area.Trails.find(t => t.Name === rawTrailName || sanitizeTrailName(t.Name) === trailName);
                             if (trail) {
                               trailMetadata.area = area.Name;
                               break;
