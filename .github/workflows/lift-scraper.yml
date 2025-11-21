@@ -1,0 +1,85 @@
+name: Real-Time Lift Wait-Time Scraper
+
+on:
+  schedule:
+    # Run every 5 minutes
+    # Cron format: minute hour day month day-of-week
+    # */5 means every 5 minutes (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55)
+    # With parallel processing of 5 resorts at a time, 16 resorts takes ~4 minutes
+    - cron: '*/5 * * * *'
+
+  # Temporary: Allow testing on feature branch via push
+  # TODO: Remove this push trigger after testing and before merging to main
+  push:
+    branches:
+      - lift-line-scraper
+    paths:
+      - '.github/workflows/lift-scraper.yml'
+      - 'lift-scraper.js'
+
+  workflow_dispatch: # Allow manual triggering
+
+concurrency:
+  group: lift-scraper
+  cancel-in-progress: false  # Let each run complete independently
+
+permissions:
+  contents: write  # Required to commit and push changes
+
+jobs:
+  scrape-lifts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lift scraper
+        run: node lift-scraper.js
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          # Check if any lift data files changed
+          if git diff --quiet data/**/lifts/; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No lift data changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Lift data changes detected"
+          fi
+
+      - name: Commit and push lift data
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Get the current branch name
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+          # Pull latest changes with rebase to avoid conflicts
+          # Pull from the current branch, not main
+          git pull --rebase --autostash origin "$BRANCH_NAME"
+
+          # Add only lift data files
+          git add data/**/lifts/
+
+          # Create commit with timestamp
+          git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # Push changes to the current branch
+          git push origin "$BRANCH_NAME"
+
+      - name: No changes detected
+        if: steps.git-check.outputs.changes != 'true'
+        run: echo "✓ No lift data changes - resorts likely outside operating hours"
