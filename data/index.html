@@ -121,7 +121,7 @@
 </head>
 <body>
     <h1>Ski Run Scraper API</h1>
-    <p>Daily grooming, lift status, and snow report data for 40+ ski resorts across North America and Australia. Data is automatically updated at each resort's local morning time.</p>
+    <p>Daily grooming, lift status, snow report data, and <strong>real-time lift wait times</strong> for 40+ ski resorts across North America and Australia. Data is automatically updated at each resort's local morning time, with lift wait times tracked every 5 minutes during operating hours.</p>
 
     <h2>Browse Resorts</h2>
     <p>View interactive reports with date navigation, historical comparisons, and weather forecasts:</p>
@@ -361,6 +361,17 @@ https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/2025-11-18
         <code>GET /data/{resort}/snow/latest.json</code>
         <p>Returns the most recent snow data for a specific resort.</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/snow/latest.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Real-Time Lift Wait Times (NDJSON)</h3>
+        <code>GET /data/{resort}/lifts/{YYYY-MM-DD}.ndjson</code>
+        <p>Returns real-time lift wait-time data captured every 5 minutes during operating hours. Data is stored in NDJSON format (newline-delimited JSON), with one lift snapshot per line. Each line represents the status of one lift at a specific moment in time.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/lifts/2025-11-21.ndjson
+https://jacobschulman.github.io/ski-run-scraper/data/keystone/lifts/2025-11-21.ndjson</pre>
+        <div class="note">
+            <strong>Note:</strong> Lift data is only recorded during lift operating hours (automatically detected from lift schedules). Outside of operating hours, no data is collected. Files may be large for busy days with many lifts.
+        </div>
     </div>
 
     <div class="endpoint">
@@ -641,6 +652,97 @@ https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/2025-11-18
         </tr>
     </table>
 
+    <h3>Real-Time Lift Wait-Time Data (NDJSON)</h3>
+    <p>Lift wait times are captured every 5 minutes during operating hours and stored in NDJSON (newline-delimited JSON) format. Each line is a complete JSON object representing one lift's status at a specific moment:</p>
+
+    <pre>{
+  "timestamp": "2025-11-21T18:03:41.360Z",
+  "localTime": "11:03:41",
+  "resort": "vail",
+  "liftId": "3",
+  "name": "Gondola One",
+  "status": "Open",
+  "type": "gondola",
+  "waitMinutes": 2,
+  "capacity": 10,
+  "mountain": "Vail Village",
+  "openTime": "09:00",
+  "closeTime": "15:15"
+}</pre>
+
+    <h4>Lift Record Fields</h4>
+    <table class="field-table">
+        <tr>
+            <th>Field</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>timestamp</code></td>
+            <td>string</td>
+            <td>ISO 8601 timestamp (UTC) when data was captured</td>
+        </tr>
+        <tr>
+            <td><code>localTime</code></td>
+            <td>string</td>
+            <td>Time in resort's local timezone (HH:mm:ss format)</td>
+        </tr>
+        <tr>
+            <td><code>resort</code></td>
+            <td>string</td>
+            <td>Resort key (e.g., "vail", "keystone")</td>
+        </tr>
+        <tr>
+            <td><code>liftId</code></td>
+            <td>string|null</td>
+            <td>Unique identifier for the lift</td>
+        </tr>
+        <tr>
+            <td><code>name</code></td>
+            <td>string</td>
+            <td>Lift name</td>
+        </tr>
+        <tr>
+            <td><code>status</code></td>
+            <td>string</td>
+            <td>"Open", "Closed", "Scheduled", or "Hold"</td>
+        </tr>
+        <tr>
+            <td><code>type</code></td>
+            <td>string</td>
+            <td>Lift type (e.g., "gondola", "quad", "six-pack", "surface")</td>
+        </tr>
+        <tr>
+            <td><code>waitMinutes</code></td>
+            <td>number|null</td>
+            <td>Current wait time in minutes (null if not available)</td>
+        </tr>
+        <tr>
+            <td><code>capacity</code></td>
+            <td>number</td>
+            <td>Number of people per chair/cabin</td>
+        </tr>
+        <tr>
+            <td><code>mountain</code></td>
+            <td>string</td>
+            <td>Mountain area or base location</td>
+        </tr>
+        <tr>
+            <td><code>openTime</code></td>
+            <td>string</td>
+            <td>Scheduled opening time (HH:mm format, local time)</td>
+        </tr>
+        <tr>
+            <td><code>closeTime</code></td>
+            <td>string</td>
+            <td>Scheduled closing time (HH:mm format, local time)</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <strong>NDJSON Format:</strong> Files contain one JSON object per line, making them efficient for streaming and time-series analysis. To parse, read the file line by line and parse each line as separate JSON. Perfect for building heatmaps, analyzing wait-time patterns, and tracking historical lift performance.
+    </div>
+
     <h2>Example Usage</h2>
 
     <h3>JavaScript / Node.js</h3>
@@ -690,14 +792,149 @@ for (const [resort, info] of Object.entries(index.resorts)) {
 }
 </pre>
 
+    <h3>Fetch and Parse Lift Wait Times (JavaScript)</h3>
+    <pre>// Fetch real-time lift wait-time data (NDJSON format)
+const response = await fetch(
+  'https://jacobschulman.github.io/ski-run-scraper/data/vail/lifts/2025-11-21.ndjson'
+);
+const text = await response.text();
+
+// Parse NDJSON (one JSON object per line)
+const liftRecords = text
+  .trim()
+  .split('\n')
+  .map(line => JSON.parse(line));
+
+// Find lifts with wait times
+const liftsWithWaits = liftRecords.filter(record =>
+  record.waitMinutes && record.waitMinutes > 0
+);
+
+console.log(`Found ${liftsWithWaits.length} lifts with wait times`);
+
+// Group by lift name to see wait times over time
+const liftsByName = {};
+for (const record of liftRecords) {
+  if (!liftsByName[record.name]) {
+    liftsByName[record.name] = [];
+  }
+  liftsByName[record.name].push({
+    time: record.localTime,
+    wait: record.waitMinutes,
+    status: record.status
+  });
+}
+
+// Find the busiest lift
+let busiestLift = null;
+let maxWait = 0;
+for (const [name, records] of Object.entries(liftsByName)) {
+  const avgWait = records
+    .filter(r => r.wait)
+    .reduce((sum, r) => sum + r.wait, 0) / records.length;
+  if (avgWait > maxWait) {
+    maxWait = avgWait;
+    busiestLift = name;
+  }
+}
+
+console.log(`Busiest lift: ${busiestLift} (avg ${maxWait.toFixed(1)} min wait)`);
+</pre>
+
+    <h3>Analyze Lift Wait Times (Python)</h3>
+    <pre>import requests
+import json
+from collections import defaultdict
+
+# Fetch lift wait-time data
+url = 'https://jacobschulman.github.io/ski-run-scraper/data/vail/lifts/2025-11-21.ndjson'
+response = requests.get(url)
+
+# Parse NDJSON format
+lift_records = [json.loads(line) for line in response.text.strip().split('\n')]
+
+# Group by lift and calculate average wait times
+lift_waits = defaultdict(list)
+for record in lift_records:
+    if record['waitMinutes'] is not None:
+        lift_waits[record['name']].append(record['waitMinutes'])
+
+# Calculate average wait time per lift
+for lift_name, waits in lift_waits.items():
+    avg_wait = sum(waits) / len(waits)
+    max_wait = max(waits)
+    print(f"{lift_name}: avg {avg_wait:.1f} min, max {max_wait} min")
+
+# Build a heatmap of wait times by hour
+import pandas as pd
+from datetime import datetime
+
+df = pd.DataFrame(lift_records)
+df['hour'] = df['localTime'].str[:2].astype(int)
+hourly_avg = df.groupby('hour')['waitMinutes'].mean()
+print("\nAverage wait time by hour:")
+print(hourly_avg)
+</pre>
+
+    <h3>Real-Time Wait-Time Dashboard Example</h3>
+    <pre>// Fetch current lift status and display on a dashboard
+async function getLiftStatus(resort, date) {
+  const url = `https://jacobschulman.github.io/ski-run-scraper/data/${resort}/lifts/${date}.ndjson`;
+  const response = await fetch(url);
+  const text = await response.text();
+  const records = text.trim().split('\n').map(line => JSON.parse(line));
+
+  // Get the latest snapshot for each lift
+  const latestByLift = {};
+  for (const record of records) {
+    const key = record.liftId || record.name;
+    if (!latestByLift[key] || record.timestamp > latestByLift[key].timestamp) {
+      latestByLift[key] = record;
+    }
+  }
+
+  // Display on dashboard
+  return Object.values(latestByLift)
+    .filter(lift => lift.status === 'Open')
+    .sort((a, b) => (b.waitMinutes || 0) - (a.waitMinutes || 0))
+    .map(lift => ({
+      name: lift.name,
+      wait: lift.waitMinutes || 0,
+      capacity: lift.capacity,
+      type: lift.type,
+      mountain: lift.mountain
+    }));
+}
+
+// Usage
+const openLifts = await getLiftStatus('vail', '2025-11-21');
+console.log('Open lifts with wait times:');
+openLifts.forEach(lift => {
+  console.log(`${lift.name} (${lift.type}): ${lift.wait} min wait`);
+});
+</pre>
+
     <h2>Update Schedule</h2>
-    <p>Data is automatically scraped via GitHub Actions with timezone-aware scheduling:</p>
+
+    <h3>Daily Terrain & Grooming Data</h3>
+    <p>Terrain, grooming, and snow report data is automatically scraped via GitHub Actions with timezone-aware scheduling:</p>
     <ul>
         <li><strong>Frequency:</strong> The scraper runs every 3 hours</li>
         <li><strong>Target Time:</strong> 7:00 AM local time for each resort</li>
         <li><strong>Window:</strong> Resorts are scraped within 3 hours of their target time</li>
     </ul>
     <p>Each resort is scraped in its local timezone (e.g., America/Denver for Colorado resorts, America/Los_Angeles for California resorts, Australia/Sydney for Australian resorts).</p>
+
+    <h3>Real-Time Lift Wait Times</h3>
+    <p>Lift wait-time data is captured much more frequently for real-time tracking:</p>
+    <ul>
+        <li><strong>Frequency:</strong> Every 5 minutes during lift operating hours</li>
+        <li><strong>Operating Hours:</strong> Automatically detected from each lift's schedule (no hardcoded times)</li>
+        <li><strong>Coverage:</strong> All in-season resorts with available lift data</li>
+        <li><strong>Format:</strong> NDJSON (newline-delimited JSON) for efficient time-series storage</li>
+    </ul>
+    <p><strong>Smart Recording:</strong> The lift scraper only records data when lifts are actually operating. It automatically detects the earliest lift opening time and latest closing time for each resort, capturing snapshots every 5 minutes during this window. Outside operating hours, no data is collected to save resources and keep file sizes manageable.</p>
+
     <p>Historical data is retained indefinitely. The North American season typically runs November through May; Australian season runs June through October.</p>
 
     <h2>Resort Keys</h2>
@@ -730,8 +967,10 @@ perisher, fallscreek, hotham</pre>
     <ul>
         <li>Terrain data starts from November 6, 2025 for most resorts</li>
         <li>Snow data starts from November 15, 2025 for supported resorts</li>
+        <li>Lift wait-time data starts from November 21, 2025 for all in-season resorts</li>
         <li>Not all resorts have snow reporting enabled</li>
-        <li>Data is typically available within 3 hours of the resort's 7 AM local time</li>
+        <li>Daily terrain/snow data is typically available within 3 hours of the resort's 7 AM local time</li>
+        <li>Lift wait-time data is updated every 5 minutes during operating hours</li>
     </ul>
 
     <h3>TypeScript Types</h3>
@@ -826,7 +1065,35 @@ interface ResortIndex {
       count: number;
     };
   };
+}
+
+// Lift wait-time record (NDJSON format)
+interface LiftRecord {
+  timestamp: string;           // ISO 8601 timestamp (UTC)
+  localTime: string;            // HH:mm:ss in resort's timezone
+  resort: string;               // Resort key (e.g., "vail")
+  liftId: string | null;        // Unique lift identifier
+  name: string;                 // Lift name
+  status: "Open" | "Closed" | "Scheduled" | "Hold";
+  type: string;                 // Lift type (e.g., "gondola", "quad")
+  waitMinutes: number | null;   // Wait time in minutes (null if unavailable)
+  capacity: number;             // People per chair/cabin
+  mountain: string;             // Mountain area or base location
+  openTime: string;             // Scheduled opening (HH:mm format)
+  closeTime: string;            // Scheduled closing (HH:mm format)
 }</pre>
+
+    <h2>Use Cases</h2>
+    <p>The real-time lift wait-time data enables powerful applications:</p>
+    <ul>
+        <li><strong>Live wait-time displays:</strong> Show current conditions in apps or websites</li>
+        <li><strong>Historical heatmaps:</strong> Identify busiest times by lift, day, and hour</li>
+        <li><strong>Predictive analytics:</strong> "Lift wait times usually spike at 11 AM on Saturdays"</li>
+        <li><strong>Push notifications:</strong> Alert users to unexpected closures or short wait times</li>
+        <li><strong>Optimization recommendations:</strong> "Best time to ski Run X is between 2-3 PM"</li>
+        <li><strong>Resort comparisons:</strong> Compare crowd levels across multiple mountains</li>
+        <li><strong>Season analysis:</strong> Track how wait times change throughout the season</li>
+    </ul>
 
     <h2>Source Code</h2>
     <p>View the scraper source code and configuration on <a href="https://github.com/jacobschulman/ski-run-scraper">GitHub</a>.</p>
