@@ -8,15 +8,6 @@ on:
     # With parallel processing of 5 resorts at a time, 16 resorts takes ~4 minutes
     - cron: '*/5 * * * *'
 
-  # Temporary: Allow testing on feature branch via push
-  # TODO: Remove this push trigger after testing and before merging to main
-  push:
-    branches:
-      - lift-line-scraper
-    paths:
-      - '.github/workflows/lift-scraper.yml'
-      - 'lift-scraper.js'
-
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
