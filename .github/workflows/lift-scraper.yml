@@ -65,8 +65,8 @@ jobs:
           # Pull from the current branch, not main
           git pull --rebase --autostash origin "$BRANCH_NAME"
 
-          # Add only lift data files
-          git add data/**/lifts/
+          # Add lift data files and active resort cache
+          git add data/**/lifts/ cache/
 
           # Create commit with timestamp
           git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
