@@ -47,6 +47,137 @@ function getResortLocalTimeFormatted(timezone) {
 }
 
 /**
+ * Get current hour and minute in a specific timezone
+ */
+function getResortLocalHourMinute(timezone) {
+  const now = new Date();
+  const hour = parseInt(formatInTimeZone(now, timezone, 'H'));
+  const minute = parseInt(formatInTimeZone(now, timezone, 'm'));
+  return { hour, minute };
+}
+
+/**
+ * Check if we're in discovery mode for a resort
+ * Discovery mode: 7:15 AM - 10:00 AM local time
+ * During this window, we check ALL in-season resorts to find which are opening
+ */
+function isInDiscoveryWindow(timezone) {
+  const { hour, minute } = getResortLocalHourMinute(timezone);
+  const currentMinutes = hour * 60 + minute;
+
+  const discoveryStart = 7 * 60 + 15; // 7:15 AM
+  const discoveryEnd = 10 * 60; // 10:00 AM
+
+  return currentMinutes >= discoveryStart && currentMinutes < discoveryEnd;
+}
+
+/**
+ * Load the active resort cache for today
+ * Returns a Set of resort keys that have shown activity today
+ */
+function loadActiveResortCache() {
+  const today = new Date().toISOString().split('T')[0];
+  const cacheDir = path.join('cache');
+  const cachePath = path.join(cacheDir, `active-resorts-${today}.json`);
+
+  if (!fs.existsSync(cachePath)) {
+    return new Set();
+  }
+
+  try {
+    const data = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+    return new Set(data.resorts || []);
+  } catch (error) {
+    console.log(`⚠️  Could not read active resort cache: ${error.message}`);
+    return new Set();
+  }
+}
+
+/**
+ * Save a resort to the active cache for today
+ */
+function addToActiveResortCache(resortKey) {
+  const today = new Date().toISOString().split('T')[0];
+  const cacheDir = path.join('cache');
+  const cachePath = path.join(cacheDir, `active-resorts-${today}.json`);
+
+  ensureDirectoryExists(cacheDir);
+
+  // Load existing cache
+  let cache = { date: today, resorts: [] };
+  if (fs.existsSync(cachePath)) {
+    try {
+      cache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+    } catch (error) {
+      // Ignore, will create new cache
+    }
+  }
+
+  // Add resort if not already in cache
+  if (!cache.resorts.includes(resortKey)) {
+    cache.resorts.push(resortKey);
+    fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), 'utf8');
+  }
+}
+
+/**
+ * Check if a resort should be scraped based on:
+ * 1. Discovery window (7:15 AM - 10 AM local time) - always check
+ * 2. Active cache - resort showed activity earlier today
+ * 3. Previous lift data - has scheduled/open lifts within operating window
+ */
+function shouldCheckResort(resortKey, timezone, activeCache) {
+  // Always check during discovery window
+  if (isInDiscoveryWindow(timezone)) {
+    return { shouldCheck: true, reason: 'discovery_window' };
+  }
+
+  // Check if resort was active earlier today
+  if (activeCache.has(resortKey)) {
+    return { shouldCheck: true, reason: 'active_cache' };
+  }
+
+  // Check if we have recent lift data showing scheduled/open lifts
+  const localDate = getResortLocalDate(timezone);
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  if (!fs.existsSync(todayFile)) {
+    return { shouldCheck: false, reason: 'no_prior_data' };
+  }
+
+  try {
+    // Read the most recent lift data from today
+    const lines = fs.readFileSync(todayFile, 'utf8').trim().split('\n');
+    if (lines.length === 0) {
+      return { shouldCheck: false, reason: 'empty_data' };
+    }
+
+    // Parse the last record to get most recent status
+    const lastRecord = JSON.parse(lines[lines.length - 1]);
+
+    // If we saw activity recently, keep checking
+    if (lastRecord.status === 'Open' || lastRecord.status === 'Scheduled') {
+      // Check if we're within operating window (with 30 min buffer)
+      if (lastRecord.openTime && lastRecord.closeTime) {
+        const openMinutes = timeToMinutes(lastRecord.openTime) - 30; // 30 min before
+        const closeMinutes = timeToMinutes(lastRecord.closeTime) + 15; // 15 min after
+        const currentMinutes = timeToMinutes(getResortLocalTime(timezone));
+
+        if (currentMinutes >= openMinutes && currentMinutes <= closeMinutes) {
+          return { shouldCheck: true, reason: 'within_operating_hours' };
+        }
+      }
+    }
+
+    return { shouldCheck: false, reason: 'outside_operating_hours' };
+  } catch (error) {
+    // If we can't read data, err on the side of checking
+    return { shouldCheck: true, reason: 'data_read_error' };
+  }
+}
+
+/**
  * Check if a resort is currently in season
  */
 function isResortInSeason(resort) {
@@ -331,6 +462,12 @@ async function processResort(resortKey) {
   }
   console.log(`  💾 Saved ${liftData.Lifts.length} lift records to ${localDate}.ndjson`);
 
+  // Add resort to active cache if we recorded data with open lifts
+  if (openLifts > 0) {
+    addToActiveResortCache(resortKey);
+    console.log(`  ✓ Added to active resort cache`);
+  }
+
   return {
     resortKey,
     status: 'success',
@@ -351,16 +488,38 @@ async function main() {
   console.log('╚════════════════════════════════════════════════════════════╝');
   console.log(`\n⏱️  Run started at ${new Date().toISOString()}`);
 
+  // Load active resort cache for today
+  const activeCache = loadActiveResortCache();
+  console.log(`📦 Active resort cache: ${activeCache.size} resorts from earlier today`);
+
   // Automatically get all resorts that are in season
   const inSeasonResorts = getInSeasonResorts();
 
+  // Filter resorts based on discovery window, active cache, and operating hours
+  const resortsToCheck = [];
+  const resortsSkipped = [];
+
+  for (const resort of inSeasonResorts) {
+    const checkDecision = shouldCheckResort(resort.key, resort.timezone, activeCache);
+
+    if (checkDecision.shouldCheck) {
+      resortsToCheck.push({ resort, reason: checkDecision.reason });
+    } else {
+      resortsSkipped.push({ resort, reason: checkDecision.reason });
+    }
+  }
+
   // Randomize resort order to avoid predictable scraping patterns
-  const resortKeys = inSeasonResorts
-    .map(r => r.key)
+  const resortKeys = resortsToCheck
+    .map(r => r.resort.key)
     .sort(() => Math.random() - 0.5);
 
   console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
-  console.log(`🎿 Checking: ${resortKeys.join(', ')}`);
+  console.log(`✅ Checking ${resortsToCheck.length} resorts`);
+  if (resortsSkipped.length > 0) {
+    console.log(`⏭️  Skipping ${resortsSkipped.length} resorts (outside operating window)`);
+  }
+  console.log(`🎿 Will check: ${resortKeys.join(', ')}`);
 
   const results = [];
 
