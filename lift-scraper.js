@@ -185,8 +185,9 @@ async function scrapeLiftData(resortKey, url) {
       console.log(`  ⚠️  Initial load issue: ${e.message}`);
     }
 
-    // Give the page extra time to settle
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    // Give the page extra time to settle (randomized 2-5 seconds)
+    const settleTime = 2000 + Math.floor(Math.random() * 3000);
+    await new Promise(resolve => setTimeout(resolve, settleTime));
 
     // Wait for the FR object to be available
     await page.waitForFunction(
@@ -352,7 +353,11 @@ async function main() {
 
   // Automatically get all resorts that are in season
   const inSeasonResorts = getInSeasonResorts();
-  const resortKeys = inSeasonResorts.map(r => r.key);
+
+  // Randomize resort order to avoid predictable scraping patterns
+  const resortKeys = inSeasonResorts
+    .map(r => r.key)
+    .sort(() => Math.random() - 0.5);
 
   console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
   console.log(`🎿 Checking: ${resortKeys.join(', ')}`);
@@ -360,8 +365,8 @@ async function main() {
   const results = [];
 
   // Process resorts in parallel batches to speed up execution
-  // Process 5 resorts at a time to balance speed vs resource usage
-  const BATCH_SIZE = 5;
+  // Randomize batch size between 3-7 resorts to vary traffic patterns
+  const BATCH_SIZE = 3 + Math.floor(Math.random() * 5);
 
   for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
     const batch = resortKeys.slice(i, i + BATCH_SIZE);
