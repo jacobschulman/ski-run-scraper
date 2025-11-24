@@ -346,22 +346,12 @@ function appendLiftRecord(resortKey, localDate, record) {
 /**
  * Scrape lift data from a resort
  * Reuses the same terrain scraping logic to get lift information
+ * @param {Browser} browser - Shared browser instance for reuse
  */
-async function scrapeLiftData(resortKey, url) {
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--disable-gpu'
-    ]
-  });
+async function scrapeLiftData(resortKey, url, browser) {
+  const page = await browser.newPage();
 
   try {
-    const page = await browser.newPage();
-
     // Set a realistic user agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
@@ -372,8 +362,8 @@ async function scrapeLiftData(resortKey, url) {
       console.log(`  ⚠️  Initial load issue: ${e.message}`);
     }
 
-    // Give the page extra time to settle (randomized 2-5 seconds)
-    const settleTime = 2000 + Math.floor(Math.random() * 3000);
+    // Give the page extra time to settle (reduced to 1-2 seconds for better performance)
+    const settleTime = 1000 + Math.floor(Math.random() * 2000);
     await new Promise(resolve => setTimeout(resolve, settleTime));
 
     // Wait for the FR object to be available
@@ -398,14 +388,16 @@ async function scrapeLiftData(resortKey, url) {
     return data;
 
   } finally {
-    await browser.close();
+    await page.close();
   }
 }
 
 /**
  * Process and record lift data for a single resort
+ * @param {string} resortKey - Resort identifier
+ * @param {Browser} browser - Shared browser instance
  */
-async function processResort(resortKey) {
+async function processResort(resortKey, browser) {
   const resort = RESORTS[resortKey];
 
   if (!resort) {
@@ -437,7 +429,7 @@ async function processResort(resortKey) {
   console.log(`  📡 Fetching lift data...`);
   let liftData;
   try {
-    liftData = await scrapeLiftData(resortKey, terrainUrl);
+    liftData = await scrapeLiftData(resortKey, terrainUrl, browser);
   } catch (error) {
     console.log(`  ❌ Error scraping: ${error.message}`);
     return { resortKey, status: 'scrape_error', liftsRecorded: 0, error: error.message };
@@ -545,9 +537,23 @@ async function main() {
   console.log('╚════════════════════════════════════════════════════════════╝');
   console.log(`\n⏱️  Run started at ${new Date().toISOString()}`);
 
-  // Load active resort cache for today
-  const activeCache = loadActiveResortCache();
-  console.log(`📦 Active resort cache: ${activeCache.size} resorts from earlier today`);
+  // Launch shared browser instance for better performance
+  console.log('🌐 Launching browser...');
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--disable-gpu'
+    ]
+  });
+
+  try {
+    // Load active resort cache for today
+    const activeCache = loadActiveResortCache();
+    console.log(`📦 Active resort cache: ${activeCache.size} resorts from earlier today`);
 
   // Automatically get all resorts that are in season
   const inSeasonResorts = getInSeasonResorts();
@@ -611,71 +617,76 @@ async function main() {
     });
   }
 
-  const results = [];
+    const results = [];
 
-  // Process resorts in parallel batches to speed up execution
-  // Randomize batch size between 3-7 resorts to vary traffic patterns
-  const BATCH_SIZE = 3 + Math.floor(Math.random() * 5);
+    // Process resorts in parallel batches to speed up execution
+    // Increased batch size from 3-7 to 10-15 resorts for better performance
+    const BATCH_SIZE = 10 + Math.floor(Math.random() * 6);
 
-  for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
-    const batch = resortKeys.slice(i, i + BATCH_SIZE);
-    console.log(`\n📦 Processing batch ${Math.floor(i / BATCH_SIZE) + 1} of ${Math.ceil(resortKeys.length / BATCH_SIZE)} (${batch.length} resorts in parallel)...`);
+    for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
+      const batch = resortKeys.slice(i, i + BATCH_SIZE);
+      console.log(`\n📦 Processing batch ${Math.floor(i / BATCH_SIZE) + 1} of ${Math.ceil(resortKeys.length / BATCH_SIZE)} (${batch.length} resorts in parallel)...`);
 
-    // Process this batch in parallel
-    const batchPromises = batch.map(async (resortKey) => {
-      try {
-        return await processResort(resortKey);
-      } catch (error) {
-        console.log(`\n❌ Unexpected error processing ${resortKey}: ${error.message}`);
-        return {
-          resortKey,
-          status: 'error',
-          liftsRecorded: 0,
-          error: error.message
-        };
-      }
-    });
+      // Process this batch in parallel
+      const batchPromises = batch.map(async (resortKey) => {
+        try {
+          return await processResort(resortKey, browser);
+        } catch (error) {
+          console.log(`\n❌ Unexpected error processing ${resortKey}: ${error.message}`);
+          return {
+            resortKey,
+            status: 'error',
+            liftsRecorded: 0,
+            error: error.message
+          };
+        }
+      });
 
-    const batchResults = await Promise.all(batchPromises);
-    results.push(...batchResults);
+      const batchResults = await Promise.all(batchPromises);
+      results.push(...batchResults);
+    }
+
+    // Print final summary
+    console.log('\n' + '═'.repeat(60));
+    console.log('📈 FINAL SUMMARY');
+    console.log('═'.repeat(60));
+
+    const successfulResorts = results.filter(r => r.status === 'success');
+    const totalLiftsRecorded = results.reduce((sum, r) => sum + (r.liftsRecorded || 0), 0);
+
+    console.log(`✅ Successfully recorded: ${successfulResorts.length}/${results.length} resorts`);
+    console.log(`📊 Total lift snapshots: ${totalLiftsRecorded}`);
+
+    if (successfulResorts.length > 0) {
+      console.log(`\n🎿 Active resorts:`);
+      successfulResorts.forEach(r => {
+        const resort = RESORTS[r.resortKey];
+        console.log(`   • ${resort.name}: ${r.liftsRecorded} lifts (${r.openLifts} open${r.liftsWithWaitTimes > 0 ? `, ${r.liftsWithWaitTimes} with waits` : ''})`);
+      });
+    }
+
+    const skippedResorts = results.filter(r => r.status !== 'success');
+    if (skippedResorts.length > 0) {
+      console.log(`\n⏭️  Skipped/unavailable: ${skippedResorts.length} resorts`);
+      skippedResorts.forEach(r => {
+        const resort = RESORTS[r.resortKey];
+        const reason = r.status === 'outside_hours' ? 'outside operating hours' :
+                       r.status === 'out_of_season' ? 'out of season' :
+                       r.status === 'no_url' ? 'no URL configured' :
+                       r.status === 'no_data' ? 'no lift data' :
+                       r.status === 'scrape_error' ? `scrape error` :
+                       'unknown error';
+        console.log(`   • ${resort.name}: ${reason}`);
+      });
+    }
+
+    console.log(`\n⏱️  Run completed at ${new Date().toISOString()}`);
+    console.log('═'.repeat(60) + '\n');
+  } finally {
+    // Clean up browser
+    await browser.close();
+    console.log('🌐 Browser closed');
   }
-
-  // Print final summary
-  console.log('\n' + '═'.repeat(60));
-  console.log('📈 FINAL SUMMARY');
-  console.log('═'.repeat(60));
-
-  const successfulResorts = results.filter(r => r.status === 'success');
-  const totalLiftsRecorded = results.reduce((sum, r) => sum + (r.liftsRecorded || 0), 0);
-
-  console.log(`✅ Successfully recorded: ${successfulResorts.length}/${results.length} resorts`);
-  console.log(`📊 Total lift snapshots: ${totalLiftsRecorded}`);
-
-  if (successfulResorts.length > 0) {
-    console.log(`\n🎿 Active resorts:`);
-    successfulResorts.forEach(r => {
-      const resort = RESORTS[r.resortKey];
-      console.log(`   • ${resort.name}: ${r.liftsRecorded} lifts (${r.openLifts} open${r.liftsWithWaitTimes > 0 ? `, ${r.liftsWithWaitTimes} with waits` : ''})`);
-    });
-  }
-
-  const skippedResorts = results.filter(r => r.status !== 'success');
-  if (skippedResorts.length > 0) {
-    console.log(`\n⏭️  Skipped/unavailable: ${skippedResorts.length} resorts`);
-    skippedResorts.forEach(r => {
-      const resort = RESORTS[r.resortKey];
-      const reason = r.status === 'outside_hours' ? 'outside operating hours' :
-                     r.status === 'out_of_season' ? 'out of season' :
-                     r.status === 'no_url' ? 'no URL configured' :
-                     r.status === 'no_data' ? 'no lift data' :
-                     r.status === 'scrape_error' ? `scrape error` :
-                     'unknown error';
-      console.log(`   • ${resort.name}: ${reason}`);
-    });
-  }
-
-  console.log(`\n⏱️  Run completed at ${new Date().toISOString()}`);
-  console.log('═'.repeat(60) + '\n');
 }
 
 // Run the scraper

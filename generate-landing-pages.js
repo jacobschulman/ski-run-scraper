@@ -12,6 +12,8 @@ const TEMPLATES_DIR = 'templates';
 const GROOMING_TEMPLATE = path.join(TEMPLATES_DIR, 'grooming.html');
 const SNOW_TEMPLATE = path.join(TEMPLATES_DIR, 'snow.html');
 const TRAIL_TEMPLATE = path.join(TEMPLATES_DIR, 'trail.html');
+const LIFTS_TEMPLATE = path.join(TEMPLATES_DIR, 'lifts.html');
+const LIFT_TEMPLATE = path.join(TEMPLATES_DIR, 'lift.html');
 
 /**
  * Ensure directory exists, create if not
@@ -113,6 +115,42 @@ function generateLandingPages() {
         }
       } else {
         console.log(`  ⚠️  Trail template not found: ${TRAIL_TEMPLATE}`);
+      }
+    }
+
+    // Create/update lift pages if resort has lift data
+    const liftsDir = path.join(resortDir, 'lifts');
+    if (fs.existsSync(liftsDir)) {
+      const liftsPage = path.join(resortDir, 'lifts.html');
+      const liftPage = path.join(resortDir, 'lift.html');
+
+      // Check if templates exist
+      if (fs.existsSync(LIFTS_TEMPLATE) && fs.existsSync(LIFT_TEMPLATE)) {
+        // Create/update lifts.html
+        const liftsExists = fs.existsSync(liftsPage);
+        copyTemplate(LIFTS_TEMPLATE, liftsPage);
+
+        if (liftsExists) {
+          console.log(`  ✓ Updated lifts.html`);
+          updatedCount++;
+        } else {
+          console.log(`  ✓ Created lifts.html`);
+          createdCount++;
+        }
+
+        // Create/update lift.html
+        const liftExists = fs.existsSync(liftPage);
+        copyTemplate(LIFT_TEMPLATE, liftPage);
+
+        if (liftExists) {
+          console.log(`  ✓ Updated lift.html`);
+          updatedCount++;
+        } else {
+          console.log(`  ✓ Created lift.html`);
+          createdCount++;
+        }
+      } else {
+        console.log(`  ⚠️  Lift templates not found`);
       }
     }
   });

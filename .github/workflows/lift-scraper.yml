@@ -40,11 +40,14 @@ jobs:
       - name: Generate lift JSON files
         run: npm run generate:lifts all
 
+      - name: Generate latest lifts aggregation
+        run: npm run generate:latest-lifts
+
       - name: Check for changes
         id: git-check
         run: |
           # Check if any lift data files changed
-          if git diff --quiet data/**/lifts/; then
+          if git diff --quiet data/**/lifts/ data/latest-lifts.json; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No lift data changes detected"
           else
@@ -65,8 +68,8 @@ jobs:
           # Pull from the current branch, not main
           git pull --rebase --autostash origin "$BRANCH_NAME"
 
-          # Add lift data files and active resort cache
-          git add data/**/lifts/ cache/
+          # Add lift data files, latest-lifts aggregation, and active resort cache
+          git add data/**/lifts/ data/latest-lifts.json cache/
 
           # Create commit with timestamp
           git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
