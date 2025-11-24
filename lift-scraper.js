@@ -72,39 +72,49 @@ function isInDiscoveryWindow(timezone) {
 }
 
 /**
- * Load the active resort cache for today
- * Returns a Set of resort keys that have shown activity today
+ * Load the active resort cache
+ * Returns a Map of resort keys to their local dates
+ * This is timezone-aware - each resort tracks its own local date
  */
 function loadActiveResortCache() {
-  const today = new Date().toISOString().split('T')[0];
   const cacheDir = path.join('cache');
-  const cachePath = path.join(cacheDir, `active-resorts-${today}.json`);
+  const cachePath = path.join(cacheDir, 'active-resorts.json');
 
   if (!fs.existsSync(cachePath)) {
-    return new Set();
+    return new Map();
   }
 
   try {
     const data = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
-    return new Set(data.resorts || []);
+    // Convert array of {resortKey, localDate} to Map
+    const cacheMap = new Map();
+    if (data.resorts && Array.isArray(data.resorts)) {
+      data.resorts.forEach(entry => {
+        if (entry.resortKey && entry.localDate) {
+          cacheMap.set(entry.resortKey, entry.localDate);
+        }
+      });
+    }
+    return cacheMap;
   } catch (error) {
     console.log(`⚠️  Could not read active resort cache: ${error.message}`);
-    return new Set();
+    return new Map();
   }
 }
 
 /**
- * Save a resort to the active cache for today
+ * Save a resort to the active cache with its local date
+ * This ensures timezone-aware caching - we track each resort's local date
  */
-function addToActiveResortCache(resortKey) {
-  const today = new Date().toISOString().split('T')[0];
+function addToActiveResortCache(resortKey, timezone) {
+  const localDate = getResortLocalDate(timezone);
   const cacheDir = path.join('cache');
-  const cachePath = path.join(cacheDir, `active-resorts-${today}.json`);
+  const cachePath = path.join(cacheDir, 'active-resorts.json');
 
   ensureDirectoryExists(cacheDir);
 
   // Load existing cache
-  let cache = { date: today, resorts: [] };
+  let cache = { resorts: [] };
   if (fs.existsSync(cachePath)) {
     try {
       cache = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
@@ -113,11 +123,23 @@ function addToActiveResortCache(resortKey) {
     }
   }
 
-  // Add resort if not already in cache
-  if (!cache.resorts.includes(resortKey)) {
-    cache.resorts.push(resortKey);
-    fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), 'utf8');
+  // Ensure resorts array exists
+  if (!Array.isArray(cache.resorts)) {
+    cache.resorts = [];
   }
+
+  // Find existing entry for this resort
+  const existingIndex = cache.resorts.findIndex(r => r.resortKey === resortKey);
+
+  if (existingIndex >= 0) {
+    // Update existing entry with current local date
+    cache.resorts[existingIndex].localDate = localDate;
+  } else {
+    // Add new entry
+    cache.resorts.push({ resortKey, localDate });
+  }
+
+  fs.writeFileSync(cachePath, JSON.stringify(cache, null, 2), 'utf8');
 }
 
 /**
@@ -143,6 +165,7 @@ function isInDeadHours(timezone) {
  */
 function shouldCheckResort(resortKey, resort, activeCache) {
   const timezone = resort.timezone;
+  const localDate = getResortLocalDate(timezone); // Resort's current local date
 
   // TIER 1: Dead hours - no ski resort operates 6 PM - 7 AM (local time)
   // This is the first check to quickly filter out resorts that are definitely closed
@@ -157,16 +180,21 @@ function shouldCheckResort(resortKey, resort, activeCache) {
     return { shouldCheck: true, reason: 'discovery_window', tier: 2 };
   }
 
-  // TIER 3: Active cache - resort has shown lift activity today
+  // TIER 3: Active cache - resort has shown lift activity today (in resort's local time)
   // Once a resort shows open lifts, we cache it and keep checking throughout the day
+  // Cache is timezone-aware: we validate the cached date matches the resort's current local date
   if (activeCache.has(resortKey)) {
-    return { shouldCheck: true, reason: 'active_cache', tier: 3 };
+    const cachedDate = activeCache.get(resortKey);
+    // Only use cache if it's for the same local date as the resort
+    if (cachedDate === localDate) {
+      return { shouldCheck: true, reason: 'active_cache', tier: 3 };
+    }
+    // Cache is stale (from yesterday in resort's timezone), ignore it
   }
 
   // TIER 4: Operating hours from prior lift data
   // Check if we have recent data showing lifts were open/scheduled
   // Use actual open/close times with buffers to determine if we should check now
-  const localDate = getResortLocalDate(timezone);
   const liftsDir = path.join('data', resortKey, 'lifts');
   const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
 
@@ -491,9 +519,10 @@ async function processResort(resortKey) {
   console.log(`  💾 Saved ${liftData.Lifts.length} lift records to ${localDate}.ndjson`);
 
   // Add resort to active cache if we recorded data with open lifts
+  // Pass timezone to ensure cache uses resort's local date
   if (openLifts > 0) {
-    addToActiveResortCache(resortKey);
-    console.log(`  ✓ Added to active resort cache`);
+    addToActiveResortCache(resortKey, resort.timezone);
+    console.log(`  ✓ Added to active resort cache (${localDate})`);
   }
 
   return {
