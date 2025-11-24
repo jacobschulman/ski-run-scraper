@@ -121,59 +121,87 @@ function addToActiveResortCache(resortKey) {
 }
 
 /**
- * Check if a resort should be scraped based on:
- * 1. Discovery window (7:15 AM - 10 AM local time) - always check
- * 2. Active cache - resort showed activity earlier today
- * 3. Previous lift data - has scheduled/open lifts within operating window
+ * Check if current time is in "dead hours" when ski resorts are definitely closed
+ * Dead hours: 6 PM - 7 AM local time (no ski resorts operate during these hours)
+ * This check is timezone-aware - uses the resort's local time
  */
-function shouldCheckResort(resortKey, timezone, activeCache) {
-  // Always check during discovery window
+function isInDeadHours(timezone) {
+  const { hour } = getResortLocalHourMinute(timezone);
+  // Dead hours: 6 PM (18:00) to 7 AM (07:00) in the resort's local timezone
+  return hour >= 18 || hour < 7;
+}
+
+/**
+ * Systematic multi-tier resort filtering for scalability
+ *
+ * TIER 1: Dead Hours (6 PM - 7 AM local) - Skip ALL resorts
+ * TIER 2: Discovery Window (7:15 AM - 10 AM local) - Check ALL in-season resorts
+ * TIER 3: Active Cache - Resort confirmed operational today
+ * TIER 4: Operating Hours - Use actual lift times from prior data
+ *
+ * All checks are timezone-aware using each resort's local time
+ */
+function shouldCheckResort(resortKey, resort, activeCache) {
+  const timezone = resort.timezone;
+
+  // TIER 1: Dead hours - no ski resort operates 6 PM - 7 AM (local time)
+  // This is the first check to quickly filter out resorts that are definitely closed
+  if (isInDeadHours(timezone)) {
+    return { shouldCheck: false, reason: 'dead_hours', tier: 1 };
+  }
+
+  // TIER 2: Discovery window (7:15 AM - 10 AM local time)
+  // During this window, check ALL in-season resorts to discover which are opening
+  // This runs once per day in each resort's morning to detect new openings
   if (isInDiscoveryWindow(timezone)) {
-    return { shouldCheck: true, reason: 'discovery_window' };
+    return { shouldCheck: true, reason: 'discovery_window', tier: 2 };
   }
 
-  // Check if resort was active earlier today
+  // TIER 3: Active cache - resort has shown lift activity today
+  // Once a resort shows open lifts, we cache it and keep checking throughout the day
   if (activeCache.has(resortKey)) {
-    return { shouldCheck: true, reason: 'active_cache' };
+    return { shouldCheck: true, reason: 'active_cache', tier: 3 };
   }
 
-  // Check if we have recent lift data showing scheduled/open lifts
+  // TIER 4: Operating hours from prior lift data
+  // Check if we have recent data showing lifts were open/scheduled
+  // Use actual open/close times with buffers to determine if we should check now
   const localDate = getResortLocalDate(timezone);
   const liftsDir = path.join('data', resortKey, 'lifts');
   const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
 
   if (!fs.existsSync(todayFile)) {
-    return { shouldCheck: false, reason: 'no_prior_data' };
+    return { shouldCheck: false, reason: 'no_prior_data', tier: 4 };
   }
 
   try {
     // Read the most recent lift data from today
     const lines = fs.readFileSync(todayFile, 'utf8').trim().split('\n');
     if (lines.length === 0) {
-      return { shouldCheck: false, reason: 'empty_data' };
+      return { shouldCheck: false, reason: 'empty_data', tier: 4 };
     }
 
     // Parse the last record to get most recent status
     const lastRecord = JSON.parse(lines[lines.length - 1]);
 
-    // If we saw activity recently, keep checking
+    // If we saw activity recently, keep checking if within operating window
     if (lastRecord.status === 'Open' || lastRecord.status === 'Scheduled') {
-      // Check if we're within operating window (with 30 min buffer)
+      // Check if we're within operating window (with 30 min before, 15 min after buffers)
       if (lastRecord.openTime && lastRecord.closeTime) {
         const openMinutes = timeToMinutes(lastRecord.openTime) - 30; // 30 min before
         const closeMinutes = timeToMinutes(lastRecord.closeTime) + 15; // 15 min after
         const currentMinutes = timeToMinutes(getResortLocalTime(timezone));
 
         if (currentMinutes >= openMinutes && currentMinutes <= closeMinutes) {
-          return { shouldCheck: true, reason: 'within_operating_hours' };
+          return { shouldCheck: true, reason: 'within_operating_hours', tier: 4 };
         }
       }
     }
 
-    return { shouldCheck: false, reason: 'outside_operating_hours' };
+    return { shouldCheck: false, reason: 'outside_operating_hours', tier: 4 };
   } catch (error) {
     // If we can't read data, err on the side of checking
-    return { shouldCheck: true, reason: 'data_read_error' };
+    return { shouldCheck: true, reason: 'data_read_error', tier: 4 };
   }
 }
 
@@ -495,17 +523,21 @@ async function main() {
   // Automatically get all resorts that are in season
   const inSeasonResorts = getInSeasonResorts();
 
-  // Filter resorts based on discovery window, active cache, and operating hours
+  // Filter resorts based on multi-tier systematic checks
+  // TIER 1: Dead hours (6 PM - 7 AM local)
+  // TIER 2: Discovery window (7:15 AM - 10 AM local)
+  // TIER 3: Active cache (resort operational today)
+  // TIER 4: Operating hours (from actual lift data)
   const resortsToCheck = [];
   const resortsSkipped = [];
 
   for (const resort of inSeasonResorts) {
-    const checkDecision = shouldCheckResort(resort.key, resort.timezone, activeCache);
+    const checkDecision = shouldCheckResort(resort.key, resort, activeCache);
 
     if (checkDecision.shouldCheck) {
-      resortsToCheck.push({ resort, reason: checkDecision.reason });
+      resortsToCheck.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
     } else {
-      resortsSkipped.push({ resort, reason: checkDecision.reason });
+      resortsSkipped.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
     }
   }
 
@@ -517,9 +549,38 @@ async function main() {
   console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
   console.log(`✅ Checking ${resortsToCheck.length} resorts`);
   if (resortsSkipped.length > 0) {
-    console.log(`⏭️  Skipping ${resortsSkipped.length} resorts (outside operating window)`);
+    console.log(`⏭️  Skipping ${resortsSkipped.length} resorts`);
+
+    // Group skipped resorts by reason for better visibility
+    const skipReasons = {};
+    resortsSkipped.forEach(s => {
+      if (!skipReasons[s.reason]) {
+        skipReasons[s.reason] = [];
+      }
+      skipReasons[s.reason].push(s.resort.name);
+    });
+
+    Object.entries(skipReasons).forEach(([reason, resorts]) => {
+      console.log(`   • ${reason}: ${resorts.length} resorts`);
+    });
   }
-  console.log(`🎿 Will check: ${resortKeys.join(', ')}`);
+
+  if (resortsToCheck.length > 0) {
+    console.log(`🎿 Will check: ${resortKeys.join(', ')}`);
+
+    // Show check reasons
+    const checkReasons = {};
+    resortsToCheck.forEach(c => {
+      if (!checkReasons[c.reason]) {
+        checkReasons[c.reason] = [];
+      }
+      checkReasons[c.reason].push(c.resort.name);
+    });
+
+    Object.entries(checkReasons).forEach(([reason, resorts]) => {
+      console.log(`   • ${reason}: ${resorts.length} resorts`);
+    });
+  }
 
   const results = [];
 
