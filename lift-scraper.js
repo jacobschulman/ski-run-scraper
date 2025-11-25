@@ -278,10 +278,57 @@ function timeToMinutes(timeStr) {
 }
 
 /**
+ * Check if we have recent data showing lifts as "Open"
+ * If so, we should continue scraping to capture the status change
+ */
+function hasRecentOpenLifts(resortKey, timezone) {
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  if (!fs.existsSync(liftsDir)) {
+    return false;
+  }
+
+  // Get today's date in resort's timezone
+  const localDate = getResortLocalDate(timezone);
+  const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  if (!fs.existsSync(todayFile)) {
+    return false;
+  }
+
+  try {
+    // Read the last few lines of the file to check recent status
+    const content = fs.readFileSync(todayFile, 'utf8');
+    const lines = content.trim().split('\n').filter(l => l.trim());
+
+    if (lines.length === 0) {
+      return false;
+    }
+
+    // Check the most recent scrape (last timestamp)
+    const lastLine = lines[lines.length - 1];
+    const lastRecord = JSON.parse(lastLine);
+    const lastTimestamp = lastRecord.timestamp;
+
+    // Get all records from the last scrape (same timestamp)
+    const lastScrapeRecords = lines
+      .map(line => JSON.parse(line))
+      .filter(record => record.timestamp === lastTimestamp);
+
+    // If any lift in the last scrape was "Open", continue scraping
+    const hasOpenLifts = lastScrapeRecords.some(record => record.status === 'Open');
+
+    return hasOpenLifts;
+  } catch (error) {
+    console.error(`  ⚠️  Error checking recent lift data: ${error.message}`);
+    return false;
+  }
+}
+
+/**
  * Check if current time is within lift operating hours
  * Uses the earliest open time and latest close time from all lifts
  */
-function getLiftOperatingWindow(lifts, timezone) {
+function getLiftOperatingWindow(lifts, timezone, resortKey) {
   if (!lifts || lifts.length === 0) {
     return { isOpen: false, reason: 'No lift data available' };
   }
@@ -310,14 +357,35 @@ function getLiftOperatingWindow(lifts, timezone) {
   const localTimeStr = formatInTimeZone(now, timezone, 'HH:mm');
   const currentMinutes = timeToMinutes(localTimeStr);
 
-  const isOpen = currentMinutes >= minOpenMinutes && currentMinutes <= maxCloseMinutes;
+  // Check if within normal operating hours
+  const withinOperatingHours = currentMinutes >= minOpenMinutes && currentMinutes <= maxCloseMinutes;
+
+  // If past close time, check if we have recent data showing lifts were open
+  // Continue scraping until we capture the status change to "Closed"/"Scheduled"
+  let isOpen = withinOperatingHours;
+  let reason = '';
+
+  if (withinOperatingHours) {
+    reason = 'Within operating hours';
+  } else if (currentMinutes < minOpenMinutes) {
+    reason = `Before opening time (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
+  } else {
+    // Past close time - check if we should continue scraping
+    const hasOpenLifts = hasRecentOpenLifts(resortKey, timezone);
+    if (hasOpenLifts) {
+      isOpen = true;
+      reason = 'Past close time but lifts still showing as Open - continuing to capture status change';
+    } else {
+      reason = `Past close time and all lifts closed (${localTimeStr} > ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`;
+    }
+  }
 
   return {
     isOpen,
     openTime: `${Math.floor(minOpenMinutes / 60).toString().padStart(2, '0')}:${(minOpenMinutes % 60).toString().padStart(2, '0')}`,
     closeTime: `${Math.floor(maxCloseMinutes / 60).toString().padStart(2, '0')}:${(maxCloseMinutes % 60).toString().padStart(2, '0')}`,
     currentTime: localTimeStr,
-    reason: isOpen ? 'Within operating hours' : `Outside operating hours (${localTimeStr} not in ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')} - ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`
+    reason
   };
 }
 
@@ -443,7 +511,7 @@ async function processResort(resortKey, browser) {
   console.log(`  ✓ Found ${liftData.Lifts.length} lifts`);
 
   // Check if we're within operating hours
-  const operatingWindow = getLiftOperatingWindow(liftData.Lifts, resort.timezone);
+  const operatingWindow = getLiftOperatingWindow(liftData.Lifts, resort.timezone, resortKey);
 
   if (!operatingWindow.isOpen) {
     console.log(`  🌙 ${operatingWindow.reason}`);
@@ -456,7 +524,7 @@ async function processResort(resortKey, browser) {
   }
 
   console.log(`  ⏰ Operating hours: ${operatingWindow.openTime} - ${operatingWindow.closeTime}`);
-  console.log(`  ✅ Within operating hours - recording data`);
+  console.log(`  ✅ ${operatingWindow.reason} - recording data`);
 
   // Record each lift's current state
   const timestamp = new Date().toISOString();
