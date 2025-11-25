@@ -20,6 +20,24 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
   return acc;
 }, {});
 
+// Reuse a single browser for all scrapes to reduce launch overhead
+let sharedBrowser = null;
+async function getSharedBrowser() {
+  if (!sharedBrowser) {
+    sharedBrowser = await puppeteer.launch({
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu'
+      ]
+    });
+  }
+  return sharedBrowser;
+}
+
 // Initialize database connection
 let db = null;
 function getDb() {
@@ -158,20 +176,17 @@ function isInScrapingWindow(resort) {
  * This allows catch-up scraping if a previous run was missed
  */
 function shouldScrapeResort(resort, dataType = 'terrain') {
-  const currentHour = getResortLocalHour(resort.timezone);
-  const targetHour = resort.targetHour !== undefined ? resort.targetHour : config.schedule.targetHour;
   const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
 
   const checks = {
     inSeason: isResortInSeason(resort),
     hasUrl: dataType === 'terrain' ? !!resort.terrainUrl : !!resort.snowReportUrl,
     notScraped: !hasBeenScraped,
-    isPastTargetHour: currentHour >= targetHour
+    inWindow: isInScrapingWindow(resort)
   };
 
-  // Scrape if: in season, has URL, not scraped today, and at/past target hour
-  // This allows scraping during the window (7-10 AM) AND catch-up scraping after the window if file doesn't exist
-  return checks.inSeason && checks.hasUrl && checks.notScraped && checks.isPastTargetHour;
+  // Scrape if: in season, has URL, not scraped today, and within the daily scraping window
+  return checks.inSeason && checks.hasUrl && checks.notScraped && checks.inWindow;
 }
 
 /**
@@ -209,20 +224,10 @@ async function scrapeGroomingData(resortKey, url) {
   console.log(`Scraping ${RESORTS[resortKey].name}...`);
   console.log('='.repeat(50));
 
-  const browser = await puppeteer.launch({
-    headless: 'new', // Use new headless mode
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--disable-gpu'
-    ]
-  });
+  const browser = await getSharedBrowser();
+  const page = await browser.newPage();
 
   try {
-    const page = await browser.newPage();
-
     // Set a realistic user agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
@@ -257,7 +262,7 @@ async function scrapeGroomingData(resortKey, url) {
     return data;
 
   } finally {
-    await browser.close();
+    await page.close();
   }
 }
 
@@ -269,20 +274,10 @@ async function scrapeSnowReport(resortKey, url) {
   console.log(`Scraping Snow Report for ${RESORTS[resortKey].name}...`);
   console.log('='.repeat(50));
 
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-accelerated-2d-canvas',
-      '--disable-gpu'
-    ]
-  });
+  const browser = await getSharedBrowser();
+  const page = await browser.newPage();
 
   try {
-    const page = await browser.newPage();
-
     // Set a realistic user agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
@@ -320,7 +315,7 @@ async function scrapeSnowReport(resortKey, url) {
     return data;
 
   } finally {
-    await browser.close();
+    await page.close();
   }
 }
 
@@ -333,9 +328,11 @@ function saveResortData(resortKey, data) {
     return null;
   }
 
-  const resortName = RESORTS[resortKey].name;
-  const resortTimezone = RESORTS[resortKey].timezone || 'America/Denver';
-  const today = getTodayDate();
+  const resort = RESORTS[resortKey];
+  const resortName = resort.name;
+  const resortTimezone = resort.timezone || 'America/Denver';
+  // Use resort-local date for all filenames/DB rows to avoid UTC drift re-scrapes
+  const today = getResortLocalDate(resortTimezone);
 
   // Ensure data directory structure exists
   const terrainDir = path.join('data', resortKey, 'terrain');
@@ -343,6 +340,23 @@ function saveResortData(resortKey, data) {
 
   // Save timestamped file
   const timestampedFile = path.join(terrainDir, `${today}.json`);
+  let previousData = null;
+  if (fs.existsSync(timestampedFile)) {
+    try {
+      previousData = JSON.parse(fs.readFileSync(timestampedFile, 'utf8'));
+    } catch (_) {
+      // ignore parse errors and treat as no previous data
+    }
+  }
+
+  const previousRuns = previousData && previousData.GroomingAreas ? JSON.stringify(previousData.GroomingAreas) : null;
+  const currentRuns = data && data.GroomingAreas ? JSON.stringify(data.GroomingAreas) : null;
+
+  if (previousRuns && currentRuns && previousRuns === currentRuns) {
+    console.log(`✓ No grooming changes for ${resortName} (${today}); skipping save/DB to avoid double work`);
+    return { resortKey, date: today, data: previousData || data, skipped: true };
+  }
+
   fs.writeFileSync(timestampedFile, JSON.stringify(data, null, 2));
   console.log(`✓ Saved data to ${timestampedFile}`);
 
@@ -414,8 +428,10 @@ function saveSnowData(resortKey, rawData) {
     return null;
   }
 
-  const resortName = RESORTS[resortKey].name;
-  const today = getTodayDate();
+  const resort = RESORTS[resortKey];
+  const resortName = resort.name;
+  const timezone = resort.timezone || 'America/Denver';
+  const today = getResortLocalDate(timezone);
   const now = new Date();
 
   const snow = rawData.snowReport;
@@ -1053,6 +1069,12 @@ async function main() {
   }
 
   console.log('\n✅ Scraping complete!\n');
+
+  if (sharedBrowser) {
+    await sharedBrowser.close();
+    sharedBrowser = null;
+    console.log('🧹 Browser closed\n');
+  }
 
   // Close database connection
   if (db) {
