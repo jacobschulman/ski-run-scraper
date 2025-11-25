@@ -1,12 +1,13 @@
-name: Real-Time Lift Wait-Time Scraper
+name: Lift Wait-Time Scraper
 
 on:
   schedule:
-    # Run every 5 minutes during lift operating hours
+    # Run every 10 minutes during lift operating hours
     # Cron format: minute hour day month day-of-week
-    # */5 means every 5 minutes (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55)
-    # With parallel processing of 3-7 resorts at a time, 35 resorts takes ~4-8 minutes
-    - cron: '*/5 * * * *'
+    # */10 means every 10 minutes (0, 10, 20, 30, 40, 50)
+    # With optimized parallel processing, 35 resorts takes ~4-8 minutes
+    # This ensures each run completes before the next one starts
+    - cron: '*/10 * * * *'
 
   workflow_dispatch: # Allow manual triggering
 
