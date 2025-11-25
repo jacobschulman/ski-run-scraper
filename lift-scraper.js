@@ -214,10 +214,11 @@ function shouldCheckResort(resortKey, resort, activeCache) {
 
     // If we saw activity recently, keep checking if within operating window
     if (lastRecord.status === 'Open' || lastRecord.status === 'Scheduled') {
-      // Check if we're within operating window (with 30 min before, 15 min after buffers)
+      // Check if we're within operating window (with 30 min before, 60 min after buffers)
+      // Extended after-buffer ensures we capture status changes from Open → Scheduled/Closed
       if (lastRecord.openTime && lastRecord.closeTime) {
         const openMinutes = timeToMinutes(lastRecord.openTime) - 30; // 30 min before
-        const closeMinutes = timeToMinutes(lastRecord.closeTime) + 15; // 15 min after
+        const closeMinutes = timeToMinutes(lastRecord.closeTime) + 60; // 60 min after to capture status changes
         const currentMinutes = timeToMinutes(getResortLocalTime(timezone));
 
         if (currentMinutes >= openMinutes && currentMinutes <= closeMinutes) {

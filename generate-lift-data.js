@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
+const { formatInTimeZone } = require('date-fns-tz');
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -88,9 +89,27 @@ async function readLiftData(resortKey) {
 }
 
 /**
- * Get the most recent status for each lift
+ * Check if a lift is currently within operating hours
  */
-function getLatestLiftStatus(records) {
+function isWithinOperatingHours(openTime, closeTime, timezone) {
+  if (!openTime || !closeTime || !timezone) return null;
+
+  try {
+    const now = new Date();
+    const currentTime = formatInTimeZone(now, timezone, 'HH:mm');
+
+    // Simple string comparison works for HH:mm format
+    return currentTime >= openTime && currentTime <= closeTime;
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
+ * Get the most recent status for each lift
+ * Corrects status to 'Closed' if outside operating hours
+ */
+function getLatestLiftStatus(records, resortTimezone) {
   if (!records || records.length === 0) return null;
 
   // Sort by timestamp descending
@@ -98,7 +117,19 @@ function getLatestLiftStatus(records) {
     new Date(b.timestamp) - new Date(a.timestamp)
   );
 
-  return sorted[0];
+  const latest = { ...sorted[0] };
+
+  // Check if lift is actually open based on operating hours
+  if (latest.openTime && latest.closeTime && resortTimezone) {
+    const withinHours = isWithinOperatingHours(latest.openTime, latest.closeTime, resortTimezone);
+
+    // If we're outside operating hours, override status to Closed
+    if (withinHours === false && latest.status === 'Open') {
+      latest.status = 'Closed';
+    }
+  }
+
+  return latest;
 }
 
 /**
@@ -160,11 +191,11 @@ function getWaitTimeHistory(records) {
 /**
  * Generate lift overview index file
  */
-async function generateLiftIndex(resortKey, resortName, liftsByLiftId) {
+async function generateLiftIndex(resortKey, resortName, liftsByLiftId, resortTimezone) {
   const lifts = [];
 
   for (const [liftId, records] of liftsByLiftId.entries()) {
-    const latest = getLatestLiftStatus(records);
+    const latest = getLatestLiftStatus(records, resortTimezone);
     if (!latest) continue;
 
     const waitStats = calculateWaitTimeStats(records);
@@ -212,14 +243,14 @@ async function generateLiftIndex(resortKey, resortName, liftsByLiftId) {
 /**
  * Generate individual lift detail files
  */
-async function generateLiftDetailFiles(resortKey, resortName, liftsByLiftId) {
+async function generateLiftDetailFiles(resortKey, resortName, liftsByLiftId, resortTimezone) {
   const outputDir = path.join('data', resortKey, 'lifts', 'data');
   ensureDirectoryExists(outputDir);
 
   let count = 0;
 
   for (const [liftId, records] of liftsByLiftId.entries()) {
-    const latest = getLatestLiftStatus(records);
+    const latest = getLatestLiftStatus(records, resortTimezone);
     if (!latest) continue;
 
     const slug = slugifyLiftName(latest.name);
@@ -287,8 +318,10 @@ async function generateLiftData(resortKey) {
     return;
   }
 
-  await generateLiftIndex(resortKey, resort.name, liftsByLiftId);
-  await generateLiftDetailFiles(resortKey, resort.name, liftsByLiftId);
+  const timezone = resort.timezone || 'America/Denver';
+
+  await generateLiftIndex(resortKey, resort.name, liftsByLiftId, timezone);
+  await generateLiftDetailFiles(resortKey, resort.name, liftsByLiftId, timezone);
 
   console.log(`✓ Completed ${resort.name}`);
 }
