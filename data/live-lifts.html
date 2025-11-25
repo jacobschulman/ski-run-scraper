@@ -293,10 +293,7 @@
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
 
       const promise = (async () => {
-        try {
-          const res = await fetch(\`\${resortKey}/lifts/\${dateKey}.ndjson\`);
-          if (!res.ok) throw new Error('NDJSON not found');
-          const text = await res.text();
+        const parseNdjson = (text) => {
           const lines = text.trim().split('\\n').filter(Boolean);
           const parsed = [];
           for (const line of lines) {
@@ -312,6 +309,37 @@
             bucket.push(entry);
           }
           return history;
+        };
+
+        const tryFetch = async (rangeBytes) => {
+          const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
+          const res = await fetch(\`\${resortKey}/lifts/\${dateKey}.ndjson\`, { headers });
+          if (!res.ok) throw new Error(\`NDJSON \${res.status}\`);
+          return res.text();
+        };
+
+        try {
+          let text;
+          let usedTail = true;
+
+          try {
+            // First, try a tail fetch to avoid downloading the full file
+            text = await tryFetch(120000); // ~120 KB from end
+          } catch (tailErr) {
+            usedTail = false;
+            console.warn('Tail fetch failed; retrying full file', tailErr.message || tailErr);
+            text = await tryFetch(); // full file
+          }
+
+          let history = parseNdjson(text);
+
+          // If tail fetch didn't have enough depth, fetch the whole file once
+          const hasDepth = Object.values(history).some(list => list.length >= historyDepth);
+          if (usedTail && !hasDepth) {
+            text = await tryFetch(); // full file
+            history = parseNdjson(text);
+          }
+          return history;
         } catch (err) {
           console.warn('History fetch failed for', resortKey, dateKey, err);
           return {};
@@ -325,6 +353,12 @@
     function renderResortOptions() {
       const select = $('resort-select');
       select.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Select a resort';
+      placeholder.disabled = true;
+      placeholder.selected = true;
+      select.appendChild(placeholder);
       resortList.forEach(({ key, name }) => {
         const opt = document.createElement('option');
         opt.value = key;
@@ -457,10 +491,13 @@
 
         const params = new URLSearchParams(window.location.search);
         const requested = params.get('resort');
-        const initial = requested && latestData[requested] ? requested : (resortList[0]?.key || '');
+        const initial = requested && latestData[requested] ? requested : '';
         if (initial) {
           $('resort-select').value = initial;
           await loadResort(initial);
+        } else {
+          $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Pick a resort to load live lift waits.</td></tr>';
+          $('notice').textContent = 'Select a resort to load data.';
         }
       } catch (err) {
         console.error(err);
