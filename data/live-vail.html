@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vail Live Lift Waits</title>
+  <style>
+    :root {
+      --bg: #0c1a2b;
+      --panel: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #9bb3d1;
+      --accent: #7bd8ff;
+      --positive: #7bffc3;
+      --negative: #ff8f87;
+      --shadow: 0 10px 40px rgba(0,0,0,0.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(123, 216, 255, 0.08), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(155, 123, 255, 0.12), transparent 32%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 18px 60px;
+    }
+    .page { max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 2rem; letter-spacing: -0.02em; }
+    .subtitle { margin: 8px 0 20px; color: var(--muted); }
+    .meta {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+    }
+    .pill {
+      padding: 10px 14px; border-radius: 10px;
+      background: var(--panel); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.95rem;
+    }
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 10px;
+      background: var(--panel); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { font-size: 0.85rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    .lift-name { font-weight: 600; margin-bottom: 4px; }
+    .lift-sub { color: var(--muted); font-size: 0.9rem; }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); }
+    .status.open { color: var(--positive); border-color: rgba(123,255,195,0.3); }
+    .status.closed { color: var(--negative); border-color: rgba(255,143,135,0.3); }
+    .current-wait { font-weight: 700; font-size: 1.1rem; }
+    .current-meta { color: var(--muted); font-size: 0.9rem; margin-top: 4px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border); background: rgba(255,255,255,0.04); color: var(--text); font-size: 0.9rem; }
+    .chip time { color: var(--muted); font-size: 0.85rem; }
+    .notice { margin-top: 10px; color: var(--muted); }
+    .error { color: var(--negative); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Vail Live Lift Waits</h1>
+    <div class="subtitle">Debug view powered by the latest Vail lift index plus the most recent NDJSON tail.</div>
+    <div class="meta" id="meta"></div>
+    <table>
+      <thead>
+        <tr><th>Lift</th><th>Status</th><th>Current Wait</th><th>Recent Runs</th></tr>
+      </thead>
+      <tbody id="rows"><tr><td colspan="4">Loading…</td></tr></tbody>
+    </table>
+    <div class="notice" id="notice"></div>
+  </div>
+
+  <script>
+    const resortKey = 'vail';
+    const historyDepth = 6;
+    const $ = (id) => document.getElementById(id);
+
+    const timeAgo = (iso) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (Number.isNaN(t)) return '';
+      const diffMs = Date.now() - t.getTime();
+      const minutes = Math.max(0, Math.round(diffMs / 60000));
+      if (minutes < 1) return 'just now';
+      if (minutes < 60) return minutes + 'm ago';
+      const hours = Math.floor(minutes / 60);
+      const rem = minutes % 60;
+      if (hours < 24) return rem ? hours + 'h ' + rem + 'm ago' : hours + 'h ago';
+      const days = Math.floor(hours / 24);
+      return days + 'd ' + (hours % 24) + 'h ago';
+    };
+
+    const formatClock = (iso) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (Number.isNaN(t)) return '';
+      return t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    };
+
+    const formatWait = (value) => {
+      if (value === null || value === undefined) return '—';
+      if (Number.isNaN(Number(value))) return String(value);
+      return value + ' min';
+    };
+
+    const deriveDateKey = (resort) => {
+      const fromGenerated = resort.generated ? resort.generated.split('T')[0] : null;
+      const fromLift = resort.lifts && resort.lifts.length ? resort.lifts[0].lastUpdated?.split('T')[0] : null;
+      return fromGenerated || fromLift || new Date().toISOString().slice(0, 10);
+    };
+
+    const parseHistory = (text) => {
+      const lines = text.trim().split('\n').filter(Boolean);
+      const parsed = [];
+      for (const line of lines) {
+        try { parsed.push(JSON.parse(line)); } catch (_) {}
+      }
+      const history = {};
+      for (let i = parsed.length - 1; i >= 0; i--) {
+        const entry = parsed[i];
+        if (!entry || !entry.liftId) continue;
+        const bucket = history[entry.liftId] || (history[entry.liftId] = []);
+        if (bucket.length >= historyDepth) continue;
+        if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
+        bucket.push(entry);
+      }
+      return history;
+    };
+
+    async function fetchHistory(resort, dateKey) {
+      const tryFetch = async (rangeBytes) => {
+        const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
+        const res = await fetch(`${resort}/lifts/${dateKey}.ndjson`, { headers });
+        if (!res.ok) throw new Error(`NDJSON ${res.status}`);
+        return res.text();
+      };
+
+      let text;
+      let usedTail = true;
+      try {
+        text = await tryFetch(120000); // ~120 KB tail first
+      } catch (err) {
+        usedTail = false;
+        text = await tryFetch(); // full file fallback
+      }
+
+      let history = parseHistory(text);
+      const hasDepth = Object.values(history).some(list => list.length >= historyDepth);
+      if (usedTail && !hasDepth) {
+        text = await tryFetch(); // full file
+        history = parseHistory(text);
+      }
+      return history;
+    }
+
+    function render(resort, history) {
+      const tbody = $('rows');
+      tbody.innerHTML = '';
+      const lifts = [...(resort.lifts || [])].sort((a, b) => a.name.localeCompare(b.name));
+      lifts.forEach((lift) => {
+        const tr = document.createElement('tr');
+
+        const liftCell = document.createElement('td');
+        liftCell.innerHTML = '<div class="lift-name">' + lift.name + '</div>' +
+          '<div class="lift-sub">' + [lift.mountain || 'Unknown zone', lift.type || ''].filter(Boolean).join(' · ') + '</div>';
+        tr.appendChild(liftCell);
+
+        const statusCell = document.createElement('td');
+        const status = document.createElement('span');
+        status.className = 'status ' + (lift.status && lift.status.toLowerCase() === 'open' ? 'open' : 'closed');
+        status.textContent = lift.status || '—';
+        statusCell.appendChild(status);
+        tr.appendChild(statusCell);
+
+        const currentCell = document.createElement('td');
+        currentCell.innerHTML = '<div class="current-wait">' + formatWait(lift.waitMinutes) + '</div>' +
+          '<div class="current-meta">' + (lift.lastUpdated ? ('as of ' + formatClock(lift.lastUpdated) + ' (' + timeAgo(lift.lastUpdated) + ')') : 'no timestamp') + '</div>';
+        tr.appendChild(currentCell);
+
+        const histCell = document.createElement('td');
+        const hist = history[lift.liftId] || [];
+        if (hist.length === 0) {
+          histCell.innerHTML = '<div class="lift-sub">No recent runs</div>';
+        } else {
+          const wrap = document.createElement('div');
+          wrap.className = 'chips';
+          hist.forEach(entry => {
+            const chip = document.createElement('span');
+            chip.className = 'chip';
+            chip.innerHTML = '<strong>' + formatWait(entry.waitMinutes) + '</strong> <time>' + timeAgo(entry.timestamp) + '</time>';
+            wrap.appendChild(chip);
+          });
+          histCell.appendChild(wrap);
+        }
+        tr.appendChild(histCell);
+
+        tbody.appendChild(tr);
+      });
+      $('notice').textContent = 'Showing ' + lifts.length + ' lifts for ' + (resort.resortName || 'Vail') + '.';
+    }
+
+    function renderMeta(resort, dateKey) {
+      const meta = $('meta');
+      meta.innerHTML = '';
+      const items = [
+        ['Lifts', resort.liftCount || (resort.lifts ? resort.lifts.length : '—')],
+        ['Last scrape', resort.generated ? timeAgo(resort.generated) + ' · ' + formatClock(resort.generated) : '—'],
+        ['Data file', `${dateKey}.ndjson`]
+      ];
+      items.forEach(([label, value]) => {
+        const pill = document.createElement('div');
+        pill.className = 'pill';
+        pill.innerHTML = '<strong>' + label + ':</strong> ' + value;
+        meta.appendChild(pill);
+      });
+    }
+
+    async function init() {
+      try {
+        const res = await fetch(`${resortKey}/lifts/index.json`);
+        if (!res.ok) throw new Error('Index fetch failed');
+        const data = await res.json();
+        const dateKey = deriveDateKey(data);
+        renderMeta(data, dateKey);
+        const history = await fetchHistory(resortKey, dateKey);
+        render(data, history);
+      } catch (err) {
+        $('rows').innerHTML = '<tr><td colspan="4" class="error">Failed to load Vail live data.</td></tr>';
+        $('notice').textContent = err.message || String(err);
+        console.error(err);
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
