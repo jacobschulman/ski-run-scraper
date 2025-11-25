@@ -1,6 +1,7 @@
-// lift-scraper.js - Real-time lift wait-time tracker
-// Runs frequently (every 5 minutes by default) to capture lift status and wait times
+// lift-scraper.js - Lift wait-time tracker
+// Runs every 10-15 minutes to capture lift status and wait times
 // Only records data during lift operating hours
+// Timestamps are recorded in UTC and local resort time
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
@@ -602,7 +603,7 @@ async function processResort(resortKey, browser) {
  */
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════╗');
-  console.log('║     🎿 Real-Time Lift Wait-Time Tracker 🎿                ║');
+  console.log('║     🎿 Lift Wait-Time Tracker 🎿                          ║');
   console.log('╚════════════════════════════════════════════════════════════╝');
   console.log(`\n⏱️  Run started at ${new Date().toISOString()}`);
 
@@ -689,8 +690,8 @@ async function main() {
     const results = [];
 
     // Process resorts in parallel batches to speed up execution
-    // Increased batch size from 3-7 to 10-15 resorts for better performance
-    const BATCH_SIZE = 10 + Math.floor(Math.random() * 6);
+    // Optimized batch size: 15-20 resorts for maximum performance
+    const BATCH_SIZE = 15 + Math.floor(Math.random() * 6);
 
     for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
       const batch = resortKeys.slice(i, i + BATCH_SIZE);
