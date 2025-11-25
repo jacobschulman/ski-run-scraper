@@ -169,9 +169,9 @@
     }
     .chips {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 8px;
-      align-items: center;
+      align-items: flex-start;
     }
     .chip {
       display: inline-flex;
@@ -198,9 +198,23 @@
       color: var(--muted);
       font-size: 0.9rem;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 860px) {
       .header { flex-direction: column; align-items: flex-start; }
-      table { display: block; overflow-x: auto; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tbody tr { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: rgba(255,255,255,0.02); }
+      td { border-bottom: 1px solid var(--border); padding: 12px 14px; }
+      td:last-child { border-bottom: none; }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      .chips { align-items: stretch; }
     }
   </style>
 </head>
@@ -209,7 +223,7 @@
     <div class="header">
       <div>
         <h1>Live Lift Wait Monitor</h1>
-        <p class="subtitle">Debug view for all resorts with live lift scraping. Pick a resort to see current waits plus the last few runs.</p>
+        <p class="subtitle">Debug view for all resorts with live lift scraping. Pick a resort to see most recent waits plus the last few runs.</p>
       </div>
       <div class="pill" id="resort-count">Loading…</div>
     </div>
@@ -233,8 +247,8 @@
           <tr>
             <th>Lift</th>
             <th>Status</th>
-            <th>Current Wait</th>
-            <th>Recent Runs</th>
+            <th>Most Recent Wait</th>
+            <th>Prior Runs</th>
           </tr>
         </thead>
         <tbody id="lift-rows">
@@ -246,11 +260,11 @@
   </div>
 
   <script>
-    const latestUrl = 'latest-lifts.json';
     const historyDepth = 6;
-    let latestData = {};
-    let resortList = [];
+    let resorts = [];
+    let resortMap = {};
     const historyCache = new Map();
+    const cachedIndex = {};
 
     const $ = (id) => document.getElementById(id);
 
@@ -269,11 +283,11 @@
       return days + 'd ' + (hours % 24) + 'h ago';
     };
 
-    const formatClock = (iso) => {
+    const formatClock = (iso, tz) => {
       if (!iso) return '';
       const t = new Date(iso);
       if (Number.isNaN(t)) return '';
-      return t.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+      return new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit', timeZone: tz || 'UTC' }).format(t);
     };
 
     const formatWait = (value) => {
@@ -294,10 +308,10 @@
 
       const promise = (async () => {
         const parseNdjson = (text) => {
-          const lines = text.trim().split('\\n').filter(Boolean);
+          const lines = text.trim().split('\n').filter(Boolean);
           const parsed = [];
           for (const line of lines) {
-            try { parsed.push(JSON.parse(line)); } catch (_) { /* ignore bad lines */ }
+            try { parsed.push(JSON.parse(line)); } catch (_) {}
           }
           const history = {};
           for (let i = parsed.length - 1; i >= 0; i--) {
@@ -313,8 +327,8 @@
 
         const tryFetch = async (rangeBytes) => {
           const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
-          const res = await fetch(\`\${resortKey}/lifts/\${dateKey}.ndjson\`, { headers });
-          if (!res.ok) throw new Error(\`NDJSON \${res.status}\`);
+          const res = await fetch(`${resortKey}/lifts/${dateKey}.ndjson`, { headers });
+          if (!res.ok) throw new Error(`NDJSON ${res.status}`);
           return res.text();
         };
 
@@ -323,25 +337,20 @@
           let usedTail = true;
 
           try {
-            // First, try a tail fetch to avoid downloading the full file
-            text = await tryFetch(120000); // ~120 KB from end
-          } catch (tailErr) {
+            text = await tryFetch(120000);
+          } catch (_) {
             usedTail = false;
-            console.warn('Tail fetch failed; retrying full file', tailErr.message || tailErr);
-            text = await tryFetch(); // full file
+            text = await tryFetch();
           }
 
           let history = parseNdjson(text);
-
-          // If tail fetch didn't have enough depth, fetch the whole file once
           const hasDepth = Object.values(history).some(list => list.length >= historyDepth);
           if (usedTail && !hasDepth) {
-            text = await tryFetch(); // full file
+            text = await tryFetch();
             history = parseNdjson(text);
           }
           return history;
-        } catch (err) {
-          console.warn('History fetch failed for', resortKey, dateKey, err);
+        } catch (_) {
           return {};
         }
       })();
@@ -359,7 +368,7 @@
       placeholder.disabled = true;
       placeholder.selected = true;
       select.appendChild(placeholder);
-      resortList.forEach(({ key, name }) => {
+      resorts.forEach(({ key, name }) => {
         const opt = document.createElement('option');
         opt.value = key;
         opt.textContent = name;
@@ -367,16 +376,15 @@
       });
     }
 
-    function setMeta(resortKey) {
-      const resort = latestData[resortKey];
+    function setMeta(resortData, dateKey, tz) {
       const metaBar = $('meta-bar');
       metaBar.innerHTML = '';
-      if (!resort) return;
+      if (!resortData) return;
 
       const metaItems = [
-        { label: 'Lifts', value: resort.liftCount || (resort.lifts ? resort.lifts.length : '—') },
-        { label: 'Last scrape', value: resort.generated ? timeAgo(resort.generated) + ' · ' + formatClock(resort.generated) : '—' },
-        { label: 'Data file', value: deriveDateKey(resort) + '.ndjson' }
+        { label: 'Lifts', value: resortData.liftCount || (resortData.lifts ? resortData.lifts.length : '—') },
+        { label: 'Last scrape', value: resortData.generated ? timeAgo(resortData.generated) + ' · ' + formatClock(resortData.generated, tz) : '—' },
+        { label: 'Data file', value: dateKey + '.ndjson' }
       ];
 
       metaItems.forEach(item => {
@@ -387,16 +395,15 @@
       });
     }
 
-    function renderRows(resortKey, history) {
+    function renderRows(resortData, history, tz) {
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
-      const resort = latestData[resortKey];
-      if (!resort || !resort.lifts) {
+      if (!resortData || !resortData.lifts) {
         tbody.innerHTML = '<tr><td colspan="4" class="empty">No lift data found.</td></tr>';
         return;
       }
 
-      const lifts = [...resort.lifts].sort((a, b) => a.name.localeCompare(b.name));
+      const lifts = [...resortData.lifts].sort((a, b) => a.name.localeCompare(b.name));
       let shown = 0;
       tbody.innerHTML = '';
 
@@ -407,11 +414,13 @@
         const tr = document.createElement('tr');
 
         const liftCell = document.createElement('td');
+        liftCell.setAttribute('data-label', 'Lift');
         liftCell.innerHTML = '<div class="lift-name">' + lift.name + '</div>' +
           '<div class="lift-sub">' + [lift.mountain || 'Unknown zone', lift.type || ''].filter(Boolean).join(' · ') + '</div>';
         tr.appendChild(liftCell);
 
         const statusCell = document.createElement('td');
+        statusCell.setAttribute('data-label', 'Status');
         const status = document.createElement('span');
         status.className = 'status ' + (lift.status && lift.status.toLowerCase() === 'open' ? 'open' : 'closed');
         status.textContent = lift.status || '—';
@@ -419,22 +428,24 @@
         tr.appendChild(statusCell);
 
         const currentCell = document.createElement('td');
+        currentCell.setAttribute('data-label', 'Most Recent Wait');
         const currentWait = document.createElement('div');
         currentWait.className = 'current-wait';
         currentWait.textContent = formatWait(lift.waitMinutes);
         const meta = document.createElement('div');
         meta.className = 'current-meta';
-        meta.textContent = lift.lastUpdated ? 'as of ' + formatClock(lift.lastUpdated) + ' (' + timeAgo(lift.lastUpdated) + ')' : 'no timestamp';
+        meta.textContent = lift.lastUpdated ? 'as of ' + formatClock(lift.lastUpdated, tz) + ' (' + timeAgo(lift.lastUpdated) + ')' : 'no timestamp';
         currentCell.appendChild(currentWait);
         currentCell.appendChild(meta);
         tr.appendChild(currentCell);
 
         const histCell = document.createElement('td');
+        histCell.setAttribute('data-label', 'Prior Runs');
         const chipsWrap = document.createElement('div');
         chipsWrap.className = 'chips';
         const hist = history[lift.liftId] || [];
         if (hist.length === 0) {
-          histCell.innerHTML = '<div class="lift-sub">No recent runs found</div>';
+          histCell.innerHTML = '<div class="lift-sub">No prior runs</div>';
         } else {
           hist.forEach((entry, idx) => {
             const chip = document.createElement('span');
@@ -461,15 +472,26 @@
     }
 
     async function loadResort(resortKey) {
-      const resort = latestData[resortKey];
-      if (!resort) return;
-
-      setMeta(resortKey);
+      const resortInfo = resortMap[resortKey];
+      if (!resortInfo) return;
       $('notice').textContent = 'Loading recent runs…';
 
-      const dateKey = deriveDateKey(resort);
-      const history = await fetchHistory(resortKey, dateKey);
-      renderRows(resortKey, history);
+      try {
+        if (!cachedIndex[resortKey]) {
+          const res = await fetch(`${resortKey}/lifts/index.json`);
+          if (!res.ok) throw new Error('Index fetch failed');
+          cachedIndex[resortKey] = await res.json();
+        }
+        const resortData = cachedIndex[resortKey];
+        const dateKey = deriveDateKey(resortData);
+        const tz = resortInfo.timezone || 'UTC';
+        setMeta(resortData, dateKey, tz);
+        const history = await fetchHistory(resortKey, dateKey);
+        renderRows(resortData, history, tz);
+      } catch (err) {
+        $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load resort data.</td></tr>';
+        $('notice').textContent = err.message || String(err);
+      }
     }
 
     function applyQueryParam(resortKey) {
@@ -480,18 +502,17 @@
 
     async function init() {
       try {
-        const res = await fetch(latestUrl);
-        latestData = await res.json();
-        resortList = Object.entries(latestData)
-          .map(([key, value]) => ({ key, name: value.name || key }))
-          .sort((a, b) => a.name.localeCompare(b.name));
+        const configRes = await fetch('../config.json');
+        const config = await configRes.json();
+        resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
+        resortMap = resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
 
-        $('resort-count').textContent = resortList.length + ' resorts live';
+        $('resort-count').textContent = resorts.length + ' resorts configured';
         renderResortOptions();
 
         const params = new URLSearchParams(window.location.search);
         const requested = params.get('resort');
-        const initial = requested && latestData[requested] ? requested : '';
+        const initial = requested && resortMap[requested] ? requested : '';
         if (initial) {
           $('resort-select').value = initial;
           await loadResort(initial);
@@ -500,9 +521,8 @@
           $('notice').textContent = 'Select a resort to load data.';
         }
       } catch (err) {
-        console.error(err);
-        $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load latest-lifts.json</td></tr>';
-        $('notice').textContent = 'Could not load the aggregated feed.';
+        $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load config.json</td></tr>';
+        $('notice').textContent = 'Could not load resort list.';
       }
     }
 
@@ -514,10 +534,12 @@
 
     $('lift-filter').addEventListener('input', () => {
       const key = $('resort-select').value;
-      const resort = latestData[key];
-      if (!resort) return;
-      const dateKey = deriveDateKey(resort);
-      fetchHistory(key, dateKey).then((history) => renderRows(key, history));
+      const resortInfo = resortMap[key];
+      if (!resortInfo || !cachedIndex[key]) return;
+      const resortData = cachedIndex[key];
+      const dateKey = deriveDateKey(resortData);
+      const tz = resortInfo.timezone || 'UTC';
+      fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
     });
 
     init();
