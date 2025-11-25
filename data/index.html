@@ -121,7 +121,16 @@
 </head>
 <body>
     <h1>Ski Run Scraper API</h1>
-    <p>Daily grooming, lift status, snow report data, and <strong>real-time lift wait times</strong> for 40+ ski resorts across North America and Australia. Data is automatically updated at each resort's local morning time, with lift wait times tracked every 5 minutes during operating hours.</p>
+    <p>Daily grooming, lift status, snow report data, and <strong>real-time lift wait times</strong> for 40+ ski resorts across North America and Australia. Grooming/snow is fetched once each morning in the resort's local window; lift wait times run separately every few minutes.</p>
+
+    <div class="note">
+        <strong>Freshness & cadence:</strong>
+        <ul>
+            <li>Grooming & snow: scraped once per resort per local day during a morning window; filenames are keyed to the resort's local date.</li>
+            <li>Grooming files only rewrite when <code>GroomingAreas</code> change (lift wait/status churn is ignored here).</li>
+            <li>Lift wait times: separate lift scraper batches multiple resorts in a single browser for speed; data lands in <code>data/{resort}/lifts/YYYY-MM-DD.ndjson</code>.</li>
+        </ul>
+    </div>
 
     <h2>Browse Resorts</h2>
     <p>View interactive reports with date navigation, historical comparisons, and weather forecasts:</p>

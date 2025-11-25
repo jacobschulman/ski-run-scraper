@@ -16,12 +16,13 @@ Automated daily scraper for ski resort grooming and lift status data. Runs via G
 
 ## Features
 
-- **Daily automated scraping** at 7 AM MST via GitHub Actions
+- **Daily automated scraping** once per resort per local morning window (filenames use the resort's local date)
 - **Historical data tracking** with timestamped files (one file per resort per day)
 - **Multi-resort support** with easy configuration
 - **Configurable season dates** (automatically skips scraping after season end)
 - **GitHub Pages API** for easy data access
 - **Separate data per resort** for efficient querying
+- **Separate, fast lift wait-time scraper** batching multiple resorts per browser
 
 ## Current Resorts
 
@@ -167,6 +168,10 @@ Each resort's JSON file contains:
   ]
 }
 ```
+
+### Cadence & lift data
+- Grooming and snow files are written once per resort per local day during the morning window; they only rewrite when `GroomingAreas` change (lift churn is ignored).
+- Real-time lift wait/status data is captured by a separate lift scraper that batches multiple resorts in a single browser for speed; output lives in `data/{resort}/lifts/YYYY-MM-DD.ndjson`.
 
 ## Usage Examples
 
