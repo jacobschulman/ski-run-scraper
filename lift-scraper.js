@@ -580,12 +580,11 @@ async function processResort(resortKey, browser) {
   }
   console.log(`  💾 Saved ${liftData.Lifts.length} lift records to ${localDate}.ndjson`);
 
-  // Add resort to active cache if we recorded data with open lifts
+  // Add resort to active cache if we recorded any lift data
+  // This ensures we continue tracking resorts even if lifts haven't opened yet
   // Pass timezone to ensure cache uses resort's local date
-  if (openLifts > 0) {
-    addToActiveResortCache(resortKey, resort.timezone);
-    console.log(`  ✓ Added to active resort cache (${localDate})`);
-  }
+  addToActiveResortCache(resortKey, resort.timezone);
+  console.log(`  ✓ Added to active resort cache (${localDate})`)
 
   return {
     resortKey,
