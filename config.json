@@ -385,16 +385,16 @@
     ],
     
   "schedule": {
-    "comment": "GitHub Actions workflow runs every 3 hours. Each resort is scraped once daily at its local target time.",
-    "checkIntervalHours": 3,
-    "targetHour": 7,
+    "comment": "GitHub Actions workflow runs hourly. Grooming data is scraped once daily at 5 AM local time (grooming happens overnight). Lift wait times are tracked separately throughout the day.",
+    "checkIntervalHours": 1,
+    "targetHour": 5,
     "scrapingWindowHours": 3,
     "defaultSeasonStart": "11-15",
     "defaultSeasonEnd": "05-01",
     "explanation": {
-      "checkIntervalHours": "How often the workflow runs (in hours). Must be frequent enough to catch all resort timezones.",
-      "targetHour": "Default hour to scrape in resort's local time (0-23). Individual resorts can override this.",
-      "scrapingWindowHours": "Number of hours after targetHour to allow scraping (provides buffer for missed runs).",
+      "checkIntervalHours": "How often the workflow runs (in hours). Set to 1 hour to ensure all resort timezones are covered.",
+      "targetHour": "Default hour to scrape grooming data in resort's local time (0-23). Set to 5 AM when overnight grooming data becomes available. Individual resorts can override this.",
+      "scrapingWindowHours": "Number of hours after targetHour to allow scraping (provides buffer for missed runs). 5 AM - 8 AM window.",
       "defaultSeasonStart": "Default season start date (MM-DD). Resorts can override with their own seasonStart field.",
       "defaultSeasonEnd": "Default season end date (MM-DD). Resorts can override with their own seasonEnd field."
     }
