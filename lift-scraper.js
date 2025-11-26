@@ -59,15 +59,18 @@ function getResortLocalHourMinute(timezone) {
 
 /**
  * Check if we're in discovery mode for a resort
- * Discovery mode: 7:15 AM - 10:00 AM local time
+ * Discovery mode: 7:00 AM - 12:00 PM local time
  * During this window, we check ALL in-season resorts to find which are opening
+ *
+ * Extended from the original 7:15-10:00 window to give more coverage for
+ * resorts that open later or are in different timezones.
  */
 function isInDiscoveryWindow(timezone) {
   const { hour, minute } = getResortLocalHourMinute(timezone);
   const currentMinutes = hour * 60 + minute;
 
-  const discoveryStart = 7 * 60 + 15; // 7:15 AM
-  const discoveryEnd = 10 * 60; // 10:00 AM
+  const discoveryStart = 7 * 60; // 7:00 AM
+  const discoveryEnd = 12 * 60; // 12:00 PM (noon)
 
   return currentMinutes >= discoveryStart && currentMinutes < discoveryEnd;
 }
