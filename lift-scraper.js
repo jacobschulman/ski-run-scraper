@@ -253,16 +253,22 @@ function isResortInSeason(resort) {
   const [startMonth, startDay] = seasonStart.split('-').map(Number);
   const [endMonth, endDay] = seasonEnd.split('-').map(Number);
 
-  // Ski seasons span two calendar years (e.g., Nov 2024 - May 2025)
-  let seasonStartYear, seasonEndYear;
+  const seasonCrossesYear = startMonth > endMonth || (startMonth === endMonth && startDay > endDay);
 
-  if (currentMonth >= startMonth) {
-    // We're in the second half of the year (e.g., Nov-Dec)
-    seasonStartYear = currentYear;
-    seasonEndYear = currentYear + 1;
+  // Support both cross-year (e.g., Nov-May) and same-year (e.g., May-Oct) seasons
+  let seasonStartYear;
+  let seasonEndYear;
+
+  if (seasonCrossesYear) {
+    if (currentMonth >= startMonth) {
+      seasonStartYear = currentYear;
+      seasonEndYear = currentYear + 1;
+    } else {
+      seasonStartYear = currentYear - 1;
+      seasonEndYear = currentYear;
+    }
   } else {
-    // We're in the first half of the year (e.g., Jan-Jun)
-    seasonStartYear = currentYear - 1;
+    seasonStartYear = currentYear;
     seasonEndYear = currentYear;
   }
 
