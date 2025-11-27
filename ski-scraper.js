@@ -340,23 +340,6 @@ function saveResortData(resortKey, data) {
 
   // Save timestamped file
   const timestampedFile = path.join(terrainDir, `${today}.json`);
-  let previousData = null;
-  if (fs.existsSync(timestampedFile)) {
-    try {
-      previousData = JSON.parse(fs.readFileSync(timestampedFile, 'utf8'));
-    } catch (_) {
-      // ignore parse errors and treat as no previous data
-    }
-  }
-
-  const previousRuns = previousData && previousData.GroomingAreas ? JSON.stringify(previousData.GroomingAreas) : null;
-  const currentRuns = data && data.GroomingAreas ? JSON.stringify(data.GroomingAreas) : null;
-
-  if (previousRuns && currentRuns && previousRuns === currentRuns) {
-    console.log(`✓ No grooming changes for ${resortName} (${today}); skipping save/DB to avoid double work`);
-    return { resortKey, date: today, data: previousData || data, skipped: true };
-  }
-
   fs.writeFileSync(timestampedFile, JSON.stringify(data, null, 2));
   console.log(`✓ Saved data to ${timestampedFile}`);
 
@@ -373,11 +356,8 @@ function saveResortData(resortKey, data) {
           console.log(`✓ Saved ${count} terrain records to database`);
         }
 
-        // Generate trail-specific JSON files after saving to database
-        // Only for Vail for now (we'll expand to other resorts later)
-        if (resortKey === 'vail') {
-          generateTrailData(resortKey, resortId, today, data);
-        }
+        // Generate trail-specific JSON files after saving to database for all resorts
+        generateTrailData(resortKey, resortId, today, data);
       });
     }
   });
@@ -393,13 +373,31 @@ function saveResortData(resortKey, data) {
   // Count total trails
   if (data.GroomingAreas) {
     let totalTrails = 0;
+    let openTrails = 0;
+    let closedTrails = 0;
     let groomedTrails = 0;
+    let openGroomed = 0;
+    let openNotGroomed = 0;
     const groomedList = [];
 
     data.GroomingAreas.forEach(area => {
       area.Trails.forEach(trail => {
         totalTrails++;
-        if (trail.IsGroomed) {
+        const isOpen = trail.IsOpen || trail.Status === 'Open';
+        const isGroomed = !!trail.IsGroomed;
+
+        if (isOpen) {
+          openTrails++;
+          if (isGroomed) {
+            openGroomed++;
+          } else {
+            openNotGroomed++;
+          }
+        } else {
+          closedTrails++;
+        }
+
+        if (isGroomed) {
           groomedTrails++;
           groomedList.push(`${area.Name} - ${trail.Name}`);
         }
@@ -407,8 +405,9 @@ function saveResortData(resortKey, data) {
     });
 
     console.log(`   Total Trails: ${totalTrails}`);
-    console.log(`   Groomed: ${groomedTrails}`);
-    console.log(`   Not Groomed: ${totalTrails - groomedTrails}`);
+    console.log(`   Open: ${openTrails} (Groomed: ${openGroomed}, Not Groomed: ${openNotGroomed})`);
+    console.log(`   Closed: ${closedTrails}`);
+    console.log(`   Groomed (all states): ${groomedTrails}`);
 
     if (groomedTrails > 0) {
       console.log('\n✓ Currently Groomed Trails:');
