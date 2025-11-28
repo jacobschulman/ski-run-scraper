@@ -343,7 +343,7 @@
       const key = resortKey + '-' + dateKey;
       if (state.terrainCache.has(key)) return state.terrainCache.get(key);
       const promise = (async () => {
-        const res = await fetch(`./${resortKey}/terrain/${dateKey}.json`);
+        const res = await fetch(`${resortKey}/terrain/${dateKey}.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status} for ${resortKey}/terrain/${dateKey}.json - ${res.statusText}`);
         return res.json();
       })().catch((err) => {
@@ -781,7 +781,7 @@
         state.resortMap = state.resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
         $('resort-count').textContent = state.resorts.length + ' resorts configured';
 
-        const indexJson = await fetch('./index.json').then(r => {
+        const indexJson = await fetch('index.json').then(r => {
           if (!r.ok) throw new Error(`HTTP ${r.status} loading index.json`);
           return r.json();
         });
