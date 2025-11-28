@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terrain & Grooming Dashboard</title>
+  <style>
+    :root {
+      --bg: #0b1a12;
+      --panel: rgba(255, 255, 255, 0.02);
+      --card: rgba(255, 255, 255, 0.04);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e8f5ec;
+      --muted: #9bb7a7;
+      --accent: #6fe3b2;
+      --accent-2: #74c7ff;
+      --positive: #7bffc3;
+      --negative: #ff9c8f;
+      --shadow: 0 14px 60px rgba(0, 0, 0, 0.45);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Sora", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(111, 227, 178, 0.11), transparent 28%),
+        radial-gradient(circle at 82% 0%, rgba(116, 199, 255, 0.15), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(111, 227, 178, 0.08), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 32px 18px 60px;
+    }
+    .page { max-width: 1250px; margin: 0 auto; }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    h1 { margin: 0; font-size: 2rem; letter-spacing: -0.02em; }
+    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 0.98rem; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+    }
+    select, input {
+      width: 100%;
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 1rem;
+      box-shadow: var(--shadow);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    select:focus, input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .meta-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .grid { display: grid; gap: 14px; }
+    .stats-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-bottom: 14px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+    }
+    .card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .stat-value {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--text);
+    }
+    .stat-sub { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+    .delta { color: var(--positive); font-weight: 600; }
+    .delta.negative { color: var(--negative); }
+    .secondary-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 4px; }
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.01em;
+    }
+    .sparkline { display: flex; align-items: flex-end; gap: 6px; height: 150px; }
+    .spark-bar {
+      flex: 1;
+      background: linear-gradient(180deg, rgba(111, 227, 178, 0.6), rgba(111, 227, 178, 0.1));
+      border: 1px solid rgba(111, 227, 178, 0.3);
+      border-radius: 6px 6px 3px 3px;
+      position: relative;
+      min-height: 8px;
+    }
+    .spark-bar small {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+    .spark-bar strong {
+      position: absolute;
+      top: -26px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.85rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .area-list, .new-list, .trail-list { display: flex; flex-direction: column; gap: 10px; }
+    .area-row, .new-row, .trail-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .area-name, .trail-name { font-weight: 700; letter-spacing: -0.01em; }
+    .pill-mini {
+      padding: 6px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+    .difficulty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .difficulty .dot { border: 1px solid rgba(255,255,255,0.25); }
+    .difficulty.green { color: #7bffc3; }
+    .difficulty.blue { color: #74c7ff; }
+    .difficulty.black { color: #f5f5f5; }
+    .difficulty.double { color: #ffd166; }
+    .badge {
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .badge.good { color: var(--positive); border-color: rgba(123, 255, 195, 0.3); }
+    .badge.warn { color: var(--negative); border-color: rgba(255, 156, 143, 0.3); }
+    .row-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
+    .table-card { margin-top: 16px; }
+    .table-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .empty {
+      padding: 16px;
+      color: var(--muted);
+      text-align: center;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    @media (max-width: 860px) {
+      .header { flex-direction: column; align-items: flex-start; }
+      .area-row, .new-row, .trail-row { align-items: flex-start; flex-direction: column; }
+      .table-head { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div>
+        <h1>Terrain & Grooming Dashboard</h1>
+        <p class="subtitle">Pick a resort to see raw terrain data: grooming counts, deltas vs yesterday, and the latest trail-level details.</p>
+      </div>
+      <div class="pill" id="resort-count">Loading…</div>
+    </div>
+
+    <div class="controls">
+      <div>
+        <label for="resort-select">Resort</label>
+        <select id="resort-select" aria-label="Choose resort"></select>
+      </div>
+      <div>
+        <label for="trail-filter">Filter groomed trails (name or area)</label>
+        <input id="trail-filter" type="search" placeholder="e.g. Riva Ridge, Back Bowls, Gondola One" aria-label="Filter groomed trails">
+      </div>
+    </div>
+
+    <div class="meta-bar" id="meta-bar"></div>
+
+    <div class="grid stats-grid" id="stats-grid"></div>
+
+    <div class="grid secondary-grid">
+      <div class="card">
+        <div class="section-title">Groomed Trend (last 7 days)</div>
+        <div id="trend" class="sparkline"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Difficulty Mix</div>
+        <div id="difficulty" class="legend"></div>
+        <div id="difficulty-bars" class="legend" style="flex-direction: column; margin-top: 10px;"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Area Leaderboard</div>
+        <div id="areas" class="area-list"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Fresh Corduroy (new vs yesterday)</div>
+        <div id="new-trails" class="new-list"></div>
+      </div>
+    </div>
+
+    <div class="card table-card">
+      <div class="table-head">
+        <div>
+          <div class="section-title">Currently Groomed Trails</div>
+          <div class="subtitle" id="table-sub">Showing latest scrape</div>
+        </div>
+        <div class="pill">Raw view from terrain JSON</div>
+      </div>
+      <div id="trail-list" class="trail-list"></div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const state = {
+      resorts: [],
+      resortMap: {},
+      index: {},
+      terrainCache: new Map(),
+      currentTrails: [],
+      currentResort: null,
+      currentDate: null,
+      history: []
+    };
+
+    const difficultyColors = {
+      green: '#7bffc3',
+      blue: '#74c7ff',
+      black: '#f5f5f5',
+      double: '#ffd166',
+      park: '#e5b3ff',
+      other: '#9bb7a7'
+    };
+
+    const stripExt = (name) => name ? name.replace(/\\.json$/i, '') : name;
+
+    const timeAgo = (iso) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (Number.isNaN(t)) return '';
+      const diff = Date.now() - t.getTime();
+      const mins = Math.max(0, Math.round(diff / 60000));
+      if (mins < 1) return 'just now';
+      if (mins < 60) return mins + 'm ago';
+      const hours = Math.floor(mins / 60);
+      const rem = mins % 60;
+      if (hours < 24) return rem ? hours + 'h ' + rem + 'm ago' : hours + 'h ago';
+      const days = Math.floor(hours / 24);
+      return days + 'd ' + (hours % 24) + 'h ago';
+    };
+
+    const formatClock = (iso, tz) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (Number.isNaN(t)) return '';
+      return new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit', timeZone: tz || 'UTC' }).format(t);
+    };
+
+    async function fetchTerrain(resortKey, dateKey) {
+      const key = resortKey + '-' + dateKey;
+      if (state.terrainCache.has(key)) return state.terrainCache.get(key);
+      const promise = (async () => {
+        const res = await fetch(`${resortKey}/terrain/${dateKey}.json`);
+        if (!res.ok) throw new Error(`HTTP ${res.status} for ${dateKey}`);
+        return res.json();
+      })();
+      state.terrainCache.set(key, promise);
+      return promise;
+    }
+
+    function flattenTrails(data) {
+      const map = new Map();
+      if (!data || !data.GroomingAreas) return [];
+      data.GroomingAreas.forEach(area => {
+        (area.Trails || []).forEach(trail => {
+          if (!map.has(trail.Id)) {
+            map.set(trail.Id, {
+              id: trail.Id,
+              name: trail.Name,
+              difficulty: trail.Difficulty || 'Unknown',
+              isOpen: !!trail.IsOpen,
+              isGroomed: !!trail.IsGroomed,
+              area: area.Name || 'Unknown',
+              type: trail.TrailType || '',
+              length: trail.TrailLength || ''
+            });
+          }
+        });
+      });
+      return Array.from(map.values());
+    }
+
+    function summarize(trails, prevTrails) {
+      const groomedIds = new Set(trails.filter(t => t.isGroomed).map(t => t.id));
+      const prevGroomedIds = new Set(prevTrails.filter(t => t.isGroomed).map(t => t.id));
+      const prevOpenIds = new Set(prevTrails.filter(t => t.isOpen).map(t => t.id));
+
+      const stats = {
+        total: trails.length,
+        open: trails.filter(t => t.isOpen).length,
+        groomed: groomedIds.size,
+        openGroomed: trails.filter(t => t.isOpen && t.isGroomed).length,
+        newGroomed: trails.filter(t => t.isGroomed && !prevGroomedIds.has(t.id)),
+        reopened: trails.filter(t => t.isOpen && !prevOpenIds.has(t.id)),
+        areas: {},
+        difficulties: {}
+      };
+
+      trails.forEach(trail => {
+        const area = stats.areas[trail.area] || (stats.areas[trail.area] = { total: 0, groomed: 0, open: 0 });
+        area.total += 1;
+        if (trail.isGroomed) area.groomed += 1;
+        if (trail.isOpen) area.open += 1;
+
+        const key = normalizeDifficulty(trail.difficulty);
+        const diff = stats.difficulties[key] || (stats.difficulties[key] = { total: 0, groomed: 0, open: 0, label: key });
+        diff.total += 1;
+        if (trail.isGroomed) diff.groomed += 1;
+        if (trail.isOpen) diff.open += 1;
+      });
+
+      stats.groomedDelta = prevTrails.length ? stats.groomed - prevGroomedIds.size : null;
+      stats.openDelta = prevTrails.length ? stats.open - prevOpenIds.size : null;
+      return stats;
+    }
+
+    function normalizeDifficulty(raw) {
+      if (!raw) return 'Unknown';
+      const value = raw.toLowerCase();
+      if (value.includes('green')) return 'Green';
+      if (value.includes('blue')) return 'Blue';
+      if (value.includes('double')) return 'Double Black';
+      if (value.includes('black')) return 'Black';
+      if (value.includes('terrain') || value.includes('park')) return 'Terrain Park';
+      return raw;
+    }
+
+    function renderMeta(data, resortInfo, dateKey) {
+      const meta = $('meta-bar');
+      meta.innerHTML = '';
+      if (!data) return;
+      const generated = data.Date || data.generated;
+      const items = [
+        { label: 'Data file', value: `${dateKey}.json` },
+        { label: 'Last scrape', value: generated ? timeAgo(generated) + ' · ' + formatClock(generated, resortInfo?.timezone) : '—' },
+        { label: 'Timezone', value: resortInfo?.timezone || 'Unknown' }
+      ];
+      items.forEach(item => {
+        const pill = document.createElement('div');
+        pill.className = 'meta-pill';
+        pill.innerHTML = '<strong>' + item.label + '</strong> ' + item.value;
+        meta.appendChild(pill);
+      });
+    }
+
+    function renderStats(stats) {
+      const grid = $('stats-grid');
+      grid.innerHTML = '';
+      if (!stats) return;
+
+      const cards = [
+        {
+          label: 'Groomed Today',
+          value: stats.groomed,
+          sub: stats.groomedDelta === null ? 'No comparison yet' :
+            (stats.groomedDelta > 0 ? `+${stats.groomedDelta} vs yesterday` : `${stats.groomedDelta} vs yesterday`),
+          deltaClass: stats.groomedDelta < 0 ? 'negative' : '',
+        },
+        {
+          label: 'Newly Groomed',
+          value: stats.newGroomed.length,
+          sub: 'Not groomed yesterday',
+          deltaClass: ''
+        },
+        {
+          label: 'Open Now',
+          value: stats.open,
+          sub: stats.openDelta === null ? '' :
+            (stats.openDelta > 0 ? `+${stats.openDelta} vs yesterday` : `${stats.openDelta} vs yesterday`),
+          deltaClass: stats.openDelta < 0 ? 'negative' : ''
+        },
+        {
+          label: 'Total Trails',
+          value: stats.total,
+          sub: `${stats.openGroomed} open & groomed`,
+          deltaClass: ''
+        }
+      ];
+
+      cards.forEach(card => {
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <h3>${card.label}</h3>
+          <p class="stat-value">${card.value}</p>
+          <div class="stat-sub ${card.deltaClass ? 'delta ' + card.deltaClass : ''}">${card.sub}</div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    function renderTrend(history) {
+      const wrap = $('trend');
+      wrap.innerHTML = '';
+      if (!history || !history.length) {
+        wrap.innerHTML = '<div class="empty">No history available.</div>';
+        return;
+      }
+      const max = Math.max(...history.map(h => h.groomed || 0));
+      history.forEach(day => {
+        const height = max ? Math.max(6, Math.round((day.groomed / max) * 100)) : 6;
+        const bar = document.createElement('div');
+        bar.className = 'spark-bar';
+        bar.style.height = height + '%';
+        bar.innerHTML = `<strong>${day.groomed || 0}</strong><small>${day.date.slice(5)}</small>`;
+        wrap.appendChild(bar);
+      });
+    }
+
+    function renderDifficulties(stats) {
+      const legend = $('difficulty');
+      const bars = $('difficulty-bars');
+      legend.innerHTML = '';
+      bars.innerHTML = '';
+      if (!stats) return;
+
+      const entries = Object.entries(stats.difficulties);
+      if (!entries.length) {
+        legend.innerHTML = '<div class="empty">No difficulty metadata.</div>';
+        return;
+      }
+
+      entries.sort((a, b) => b[1].groomed - a[1].groomed);
+      entries.forEach(([label, data]) => {
+        const color = pickColor(label);
+        const item = document.createElement('span');
+        item.innerHTML = `<span class="dot" style="background:${color}"></span>${label} · ${data.groomed} groomed`;
+        legend.appendChild(item);
+
+        const pct = data.total ? Math.round((data.groomed / data.total) * 100) : 0;
+        const bar = document.createElement('div');
+        bar.style.display = 'grid';
+        bar.style.gridTemplateColumns = '120px 1fr';
+        bar.style.alignItems = 'center';
+        bar.innerHTML = `
+          <span>${label}</span>
+          <div style="height:12px;background:rgba(255,255,255,0.06);border:1px solid var(--border);border-radius:999px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:${color};"></div>
+          </div>
+        `;
+        bars.appendChild(bar);
+      });
+    }
+
+    function renderAreas(stats) {
+      const list = $('areas');
+      list.innerHTML = '';
+      const entries = Object.entries(stats.areas);
+      if (!entries.length) {
+        list.innerHTML = '<div class="empty">No areas reported.</div>';
+        return;
+      }
+      entries.sort((a, b) => b[1].groomed - a[1].groomed);
+      entries.slice(0, 8).forEach(([name, data]) => {
+        const pct = data.total ? Math.round((data.groomed / data.total) * 100) : 0;
+        const row = document.createElement('div');
+        row.className = 'area-row';
+        row.innerHTML = `
+          <div>
+            <div class="area-name">${name}</div>
+            <div class="row-meta">
+              <span>${data.groomed} groomed</span>
+              <span>${data.open} open</span>
+              <span>${data.total} total</span>
+            </div>
+          </div>
+          <div class="pill-mini">${pct}% groomed</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function renderNewTrails(stats) {
+      const list = $('new-trails');
+      list.innerHTML = '';
+      if (!stats.newGroomed.length) {
+        list.innerHTML = '<div class="empty">No new grooming compared to yesterday.</div>';
+        return;
+      }
+      stats.newGroomed.slice(0, 12).forEach(trail => {
+        const row = document.createElement('div');
+        row.className = 'new-row';
+        const diff = renderDifficulty(trail.difficulty);
+        row.innerHTML = `
+          <div>
+            <div class="trail-name">${trail.name}</div>
+            <div class="row-meta">
+              <span>${trail.area}</span>
+              <span class="badge ${trail.isOpen ? 'good' : 'warn'}">${trail.isOpen ? 'Open' : 'Closed'}</span>
+            </div>
+          </div>
+          <div>${diff}</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function renderTrailTable(trails) {
+      const list = $('trail-list');
+      list.innerHTML = '';
+      if (!trails.length) {
+        list.innerHTML = '<div class="empty">No groomed trails for this scrape.</div>';
+        return;
+      }
+
+      trails.forEach(trail => {
+        const row = document.createElement('div');
+        row.className = 'trail-row';
+        const diff = renderDifficulty(trail.difficulty);
+        row.innerHTML = `
+          <div>
+            <div class="trail-name">${trail.name}</div>
+            <div class="row-meta">
+              <span>${trail.area}</span>
+              <span>${trail.type || 'Skiing'}</span>
+              <span class="badge ${trail.isOpen ? 'good' : 'warn'}">${trail.isOpen ? 'Open' : 'Closed'}</span>
+            </div>
+          </div>
+          <div>${diff}</div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function renderDifficulty(label) {
+      const normalized = normalizeDifficulty(label);
+      const color = pickColor(normalized);
+      const cls = normalized.toLowerCase().includes('double') ? 'double' :
+        normalized.toLowerCase().includes('black') ? 'black' :
+        normalized.toLowerCase().includes('blue') ? 'blue' :
+        normalized.toLowerCase().includes('green') ? 'green' : '';
+      return `<span class="difficulty ${cls}"><span class="dot" style="background:${color}"></span>${normalized}</span>`;
+    }
+
+    function pickColor(label) {
+      const key = label.toLowerCase();
+      if (key.includes('green')) return difficultyColors.green;
+      if (key.includes('blue')) return difficultyColors.blue;
+      if (key.includes('double')) return difficultyColors.double;
+      if (key.includes('black')) return difficultyColors.black;
+      if (key.includes('terrain') || key.includes('park')) return difficultyColors.park;
+      return difficultyColors.other;
+    }
+
+    function applyQueryParam(resortKey) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('resort', resortKey);
+      window.history.replaceState({}, '', url);
+    }
+
+    async function buildHistory(resortKey, dates) {
+      const trimmed = dates.slice(0, 7);
+      const history = [];
+      for (const date of trimmed) {
+        try {
+          const data = await fetchTerrain(resortKey, date);
+          const trails = flattenTrails(data);
+          history.push({
+            date,
+            groomed: trails.filter(t => t.isGroomed).length,
+            open: trails.filter(t => t.isOpen).length,
+            total: trails.length
+          });
+        } catch (_) {
+          // Skip missing days
+        }
+      }
+      return history;
+    }
+
+    async function loadResort(resortKey) {
+      state.currentResort = resortKey;
+      const resortInfo = state.resortMap[resortKey];
+      const indexEntry = state.index.resorts?.[resortKey];
+      if (!indexEntry || !indexEntry.files || !indexEntry.files.length) {
+        $('meta-bar').innerHTML = '';
+        $('stats-grid').innerHTML = '';
+        $('trend').innerHTML = '<div class="empty">No data found for this resort.</div>';
+        return;
+      }
+
+      const files = [...indexEntry.files].map(stripExt).sort().reverse();
+      const latest = stripExt(indexEntry.latest) || files[0];
+      const previous = files.find(d => d !== latest);
+
+      state.currentDate = latest;
+      $('table-sub').textContent = `Latest scrape: ${latest}`;
+
+      try {
+        const latestData = await fetchTerrain(resortKey, latest);
+        const prevData = previous ? await fetchTerrain(resortKey, previous).catch(() => null) : null;
+        const allTrails = flattenTrails(latestData);
+        const groomedOnly = allTrails.filter(t => t.isGroomed);
+        const prevTrails = prevData ? flattenTrails(prevData) : [];
+        state.currentTrails = groomedOnly;
+
+        const stats = summarize(allTrails, prevTrails);
+        renderMeta(latestData, resortInfo, latest);
+        renderStats(stats);
+
+        const history = await buildHistory(resortKey, files);
+        state.history = history;
+        renderTrend(history);
+        renderDifficulties(stats);
+        renderAreas(stats);
+        renderNewTrails(stats);
+        renderTrailTable(groomedOnly);
+        $('table-sub').textContent = `Showing ${groomedOnly.length} groomed trails · ${latest}`;
+      } catch (err) {
+        $('stats-grid').innerHTML = '';
+        $('trend').innerHTML = '<div class="empty">Failed to load terrain data.</div>';
+        $('meta-bar').innerHTML = '<div class="meta-pill">Error: ' + (err.message || err) + '</div>';
+      }
+    }
+
+    function renderResortOptions() {
+      const select = $('resort-select');
+      select.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Select a resort';
+      placeholder.disabled = true;
+      placeholder.selected = true;
+      select.appendChild(placeholder);
+      state.resorts.forEach(({ key, name }) => {
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.textContent = name;
+        select.appendChild(opt);
+      });
+    }
+
+    function filterTrails() {
+      const query = $('trail-filter').value.trim().toLowerCase();
+      if (!state.currentTrails.length) {
+        $('trail-list').innerHTML = '<div class="empty">No groomed trails loaded.</div>';
+        return;
+      }
+      const filtered = query
+        ? state.currentTrails.filter(t =>
+            (t.name + ' ' + t.area + ' ' + t.difficulty).toLowerCase().includes(query))
+        : state.currentTrails;
+      renderTrailTable(filtered);
+      const suffix = state.currentDate ? ` · ${state.currentDate}` : '';
+      $('table-sub').textContent = `Showing ${filtered.length} of ${state.currentTrails.length} groomed trails${suffix}`;
+    }
+
+    async function init() {
+      try {
+        const config = await fetch('../config.json').then(r => r.json());
+        state.resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
+        state.resortMap = state.resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
+        $('resort-count').textContent = state.resorts.length + ' resorts configured';
+
+        const indexJson = await fetch('index.json').then(r => r.json());
+        state.index = indexJson;
+
+        renderResortOptions();
+        const params = new URLSearchParams(window.location.search);
+        const requested = params.get('resort');
+        const initial = requested && state.resortMap[requested] ? requested : '';
+        if (initial) {
+          $('resort-select').value = initial;
+          await loadResort(initial);
+        }
+      } catch (err) {
+        $('resort-count').textContent = 'Load error';
+        $('meta-bar').innerHTML = '<div class="meta-pill">Failed to load config/index: ' + (err.message || err) + '</div>';
+      }
+    }
+
+    $('resort-select').addEventListener('change', async (e) => {
+      const key = e.target.value;
+      applyQueryParam(key);
+      await loadResort(key);
+      filterTrails();
+    });
+
+    $('trail-filter').addEventListener('input', filterTrails);
+
+    init();
+  </script>
+</body>
+</html>
