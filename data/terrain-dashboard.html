@@ -343,12 +343,13 @@
       const key = resortKey + '-' + dateKey;
       if (state.terrainCache.has(key)) return state.terrainCache.get(key);
       const promise = (async () => {
-        const res = await fetch(`${resortKey}/terrain/${dateKey}.json`);
-        if (!res.ok) throw new Error(`HTTP ${res.status} for ${dateKey}`);
+        const res = await fetch(`./${resortKey}/terrain/${dateKey}.json`);
+        if (!res.ok) throw new Error(`HTTP ${res.status} for ${resortKey}/terrain/${dateKey}.json - ${res.statusText}`);
         return res.json();
       })().catch((err) => {
         // Allow retries on failures by clearing the cache entry
         state.terrainCache.delete(key);
+        console.error(`Failed to fetch terrain for ${resortKey} on ${dateKey}:`, err);
         throw err;
       });
       state.terrainCache.set(key, promise);
@@ -764,13 +765,26 @@
     }
 
     async function init() {
+      // Check if opened via file:// protocol
+      if (window.location.protocol === 'file:') {
+        $('resort-count').textContent = 'Server required';
+        $('meta-bar').innerHTML = '<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">⚠️ This dashboard must be served via HTTP. Run: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;margin:0 4px;">python3 -m http.server 8000</code> from the data/ directory, then open <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;margin:0 4px;">http://localhost:8000/terrain-dashboard.html</code></div>';
+        return;
+      }
+
       try {
-        const config = await fetch('../config.json').then(r => r.json());
+        const config = await fetch('../config.json').then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status} loading config.json`);
+          return r.json();
+        });
         state.resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
         state.resortMap = state.resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
         $('resort-count').textContent = state.resorts.length + ' resorts configured';
 
-        const indexJson = await fetch('index.json').then(r => r.json());
+        const indexJson = await fetch('./index.json').then(r => {
+          if (!r.ok) throw new Error(`HTTP ${r.status} loading index.json`);
+          return r.json();
+        });
         state.index = indexJson;
 
         renderResortOptions();
@@ -782,6 +796,7 @@
           await loadResort(initial);
         }
       } catch (err) {
+        console.error('Initialization error:', err);
         $('resort-count').textContent = 'Load error';
         $('meta-bar').innerHTML = '<div class="meta-pill">Failed to load config/index: ' + (err.message || err) + '</div>';
       }
