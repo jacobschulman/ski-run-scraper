@@ -346,7 +346,11 @@
         const res = await fetch(`${resortKey}/terrain/${dateKey}.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status} for ${dateKey}`);
         return res.json();
-      })();
+      })().catch((err) => {
+        // Allow retries on failures by clearing the cache entry
+        state.terrainCache.delete(key);
+        throw err;
+      });
       state.terrainCache.set(key, promise);
       return promise;
     }
@@ -673,7 +677,28 @@
       }
 
       const files = [...indexEntry.files].map(stripExt).sort().reverse();
-      const latest = stripExt(indexEntry.latest) || files[0];
+
+      const pickAvailableDate = async () => {
+        for (const date of files) {
+          try {
+            await fetchTerrain(resortKey, date);
+            return date;
+          } catch (_) {
+            // Skip missing date
+          }
+        }
+        return null;
+      };
+
+      const latest = await pickAvailableDate();
+      if (!latest) {
+        $('stats-grid').innerHTML = '';
+        $('trend').innerHTML = '<div class="empty">No terrain files available for this resort.</div>';
+        $('meta-bar').innerHTML = '<div class="meta-pill">No terrain JSON files found.</div>';
+        $('table-sub').textContent = 'No data';
+        return;
+      }
+
       const previous = files.find(d => d !== latest);
 
       state.currentDate = latest;
