@@ -23,6 +23,7 @@ function generateTerrainIndex(resortKey) {
 
   const files = fs.readdirSync(terrainDir)
     .filter(f => f.endsWith('.json') && f !== 'index.json')
+    .map(f => f.replace(/\.json$/, '')) // Remove .json extension
     .sort()
     .reverse(); // Most recent first
 
