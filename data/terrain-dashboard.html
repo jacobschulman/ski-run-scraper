@@ -54,6 +54,30 @@
       font-size: 0.95rem;
       white-space: nowrap;
     }
+    .nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-toggle:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .nav-toggle::before {
+      content: '↔';
+      font-size: 1.1rem;
+    }
     .controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -242,7 +266,10 @@
         <h1>Terrain & Grooming Dashboard</h1>
         <p class="subtitle">Pick a resort to see raw terrain data: grooming counts, deltas vs yesterday, and the latest trail-level details.</p>
       </div>
-      <div class="pill" id="resort-count">Loading…</div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a href="live-lifts.html" class="nav-toggle">Live Lifts</a>
+        <div class="pill" id="resort-count">Loading…</div>
+      </div>
     </div>
 
     <div class="controls">

@@ -62,6 +62,30 @@
       font-size: 0.95rem;
       white-space: nowrap;
     }
+    .nav-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .nav-toggle:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .nav-toggle::before {
+      content: '↔';
+      font-size: 1.1rem;
+    }
     .controls {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -196,33 +220,42 @@
     .wait-graph {
       margin-top: 12px;
       width: 100%;
-      height: 60px;
+      height: 70px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
-      padding: 4px;
+      padding: 8px;
       border: 1px solid var(--border);
+      position: relative;
     }
     .wait-graph svg {
+      display: block;
       width: 100%;
       height: 100%;
     }
     .graph-line {
       fill: none;
       stroke: var(--accent);
-      stroke-width: 2;
+      stroke-width: 2.5;
       stroke-linecap: round;
       stroke-linejoin: round;
     }
+    .graph-area {
+      fill: var(--accent);
+      opacity: 0.15;
+    }
     .graph-dot {
       fill: var(--accent);
+      stroke: var(--bg);
+      stroke-width: 1;
     }
     .graph-axis {
-      stroke: var(--border);
+      stroke: rgba(255, 255, 255, 0.15);
       stroke-width: 1;
     }
     .graph-label {
       fill: var(--muted);
-      font-size: 10px;
+      font-size: 9px;
+      font-family: "Inter", -apple-system, sans-serif;
     }
     .notice {
       margin-top: 10px;
@@ -256,17 +289,13 @@
         <h1>Live Lift Wait Monitor</h1>
         <p class="subtitle">Debug view for all resorts with live lift scraping. Pick a resort to see most recent waits plus the last few runs.</p>
       </div>
-      <div class="pill" id="resort-count">Loading…</div>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <a href="terrain-dashboard.html" class="nav-toggle">Terrain Dashboard</a>
+        <div class="pill" id="resort-count">Loading…</div>
+      </div>
     </div>
 
     <div class="controls">
-      <div>
-        <label for="data-folder-select">Data Folder</label>
-        <select id="data-folder-select" aria-label="Choose data folder">
-          <option value=".">data (default)</option>
-          <option value="../data-local">data-local</option>
-        </select>
-      </div>
       <div>
         <label for="resort-select">Resort</label>
         <select id="resort-select" aria-label="Choose resort"></select>
@@ -274,6 +303,16 @@
       <div>
         <label for="lift-filter">Filter lifts (name or mountain)</label>
         <input id="lift-filter" type="search" placeholder="e.g. Gondola, Peak 8, Summit" aria-label="Filter lifts">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 24px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="open-only-filter" style="width: auto; margin: 0;">
+          <label for="open-only-filter" style="margin: 0; cursor: pointer;">Open lifts only</label>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="local-data-mode" style="width: auto; margin: 0;">
+          <label for="local-data-mode" style="margin: 0; cursor: pointer; color: var(--muted); font-size: 0.9rem;" title="Use data from ../data-local folder for testing">Use local test data</label>
+        </div>
       </div>
     </div>
 
@@ -437,12 +476,6 @@
     function createWaitGraph(history, openTime, closeTime, tz) {
       if (!history || history.length === 0) return null;
 
-      const width = 100;
-      const height = 100;
-      const padding = { top: 10, right: 10, bottom: 20, left: 30 };
-      const graphWidth = width - padding.left - padding.right;
-      const graphHeight = height - padding.top - padding.bottom;
-
       // Parse open/close times to get time range
       const parseTime = (timeStr) => {
         if (!timeStr) return null;
@@ -457,7 +490,7 @@
       const dataPoints = history
         .map(entry => {
           const t = new Date(entry.timestamp);
-          if (Number.isNaN(t)) return null;
+          if (Number.isNaN(t.getTime())) return null;
           const minutes = t.getHours() * 60 + t.getMinutes();
           return {
             time: minutes,
@@ -465,7 +498,7 @@
             timestamp: entry.timestamp
           };
         })
-        .filter(p => p && p.wait !== null && p.wait !== undefined)
+        .filter(p => p && p.wait !== null && p.wait !== undefined && p.wait >= 0)
         .sort((a, b) => a.time - b.time);
 
       if (dataPoints.length === 0) return null;
@@ -473,7 +506,13 @@
       // Calculate scales
       const minTime = Math.min(openMinutes, ...dataPoints.map(p => p.time));
       const maxTime = Math.max(closeMinutes, ...dataPoints.map(p => p.time));
-      const maxWait = Math.max(...dataPoints.map(p => p.wait), 5);
+      const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
+
+      const width = 300;
+      const height = 60;
+      const padding = { top: 8, right: 8, bottom: 18, left: 28 };
+      const graphWidth = width - padding.left - padding.right;
+      const graphHeight = height - padding.top - padding.bottom;
 
       const xScale = (minutes) => padding.left + ((minutes - minTime) / (maxTime - minTime)) * graphWidth;
       const yScale = (wait) => padding.top + graphHeight - ((wait / maxWait) * graphHeight);
@@ -481,14 +520,15 @@
       // Create SVG
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      svg.setAttribute('preserveAspectRatio', 'none');
+      svg.style.width = '100%';
+      svg.style.height = '100%';
 
       // Draw axes
       const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
       xAxis.setAttribute('class', 'graph-axis');
       xAxis.setAttribute('x1', padding.left);
       xAxis.setAttribute('y1', padding.top + graphHeight);
-      xAxis.setAttribute('x2', padding.left + graphWidth);
+      xAxis.setAttribute('x2', width - padding.right);
       xAxis.setAttribute('y2', padding.top + graphHeight);
       svg.appendChild(xAxis);
 
@@ -504,7 +544,7 @@
       const startLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       startLabel.setAttribute('class', 'graph-label');
       startLabel.setAttribute('x', padding.left);
-      startLabel.setAttribute('y', height - 4);
+      startLabel.setAttribute('y', height - 2);
       startLabel.setAttribute('text-anchor', 'start');
       startLabel.textContent = openTime || '00:00';
       svg.appendChild(startLabel);
@@ -512,7 +552,7 @@
       const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       endLabel.setAttribute('class', 'graph-label');
       endLabel.setAttribute('x', width - padding.right);
-      endLabel.setAttribute('y', height - 4);
+      endLabel.setAttribute('y', height - 2);
       endLabel.setAttribute('text-anchor', 'end');
       endLabel.textContent = closeTime || '23:59';
       svg.appendChild(endLabel);
@@ -521,10 +561,22 @@
       const maxLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       maxLabel.setAttribute('class', 'graph-label');
       maxLabel.setAttribute('x', 2);
-      maxLabel.setAttribute('y', padding.top + 8);
+      maxLabel.setAttribute('y', padding.top + 10);
       maxLabel.setAttribute('text-anchor', 'start');
       maxLabel.textContent = maxWait + 'm';
       svg.appendChild(maxLabel);
+
+      // Draw area fill
+      if (dataPoints.length > 0) {
+        const areaData = 'M' + padding.left + ',' + (padding.top + graphHeight) + ' ' +
+          dataPoints.map(p => 'L' + xScale(p.time) + ',' + yScale(p.wait)).join(' ') + ' ' +
+          'L' + xScale(dataPoints[dataPoints.length - 1].time) + ',' + (padding.top + graphHeight) + ' Z';
+
+        const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        area.setAttribute('class', 'graph-area');
+        area.setAttribute('d', areaData);
+        svg.appendChild(area);
+      }
 
       // Draw line
       if (dataPoints.length > 1) {
@@ -546,7 +598,7 @@
         circle.setAttribute('class', 'graph-dot');
         circle.setAttribute('cx', xScale(p.time));
         circle.setAttribute('cy', yScale(p.wait));
-        circle.setAttribute('r', 1.5);
+        circle.setAttribute('r', 2.5);
         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
         title.textContent = formatClock(p.timestamp, tz) + ': ' + p.wait + ' min';
         circle.appendChild(title);
@@ -559,18 +611,29 @@
     function renderRows(resortData, history, tz) {
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
+      const openOnly = $('open-only-filter').checked;
       if (!resortData || !resortData.lifts) {
         tbody.innerHTML = '<tr><td colspan="4" class="empty">No lift data found.</td></tr>';
         return;
       }
 
-      const lifts = [...resortData.lifts].sort((a, b) => a.name.localeCompare(b.name));
+      const lifts = [...resortData.lifts].sort((a, b) => {
+        // Sort open lifts first
+        const aOpen = a.status && a.status.toLowerCase() === 'open' ? 1 : 0;
+        const bOpen = b.status && b.status.toLowerCase() === 'open' ? 1 : 0;
+        if (aOpen !== bOpen) return bOpen - aOpen;
+        return a.name.localeCompare(b.name);
+      });
       let shown = 0;
       tbody.innerHTML = '';
 
       for (const lift of lifts) {
         const text = (lift.name + ' ' + (lift.mountain || '')).toLowerCase();
         if (filter && !text.includes(filter)) continue;
+
+        // Filter by open status if checkbox is checked
+        const isOpen = lift.status && lift.status.toLowerCase() === 'open';
+        if (openOnly && !isOpen) continue;
 
         const tr = document.createElement('tr');
 
@@ -602,13 +665,23 @@
         meta.textContent = lift.lastUpdated ? 'as of ' + formatClock(lift.lastUpdated, tz) + ' (' + timeAgo(lift.lastUpdated) + ')' : 'no timestamp';
         currentCell.appendChild(currentWait);
         currentCell.appendChild(meta);
+
+        // Add wait time graph to current wait column
+        const hist = history[lift.liftId] || [];
+        const graph = createWaitGraph(hist, lift.openTime, lift.closeTime, tz);
+        if (graph) {
+          const graphContainer = document.createElement('div');
+          graphContainer.className = 'wait-graph';
+          graphContainer.appendChild(graph);
+          currentCell.appendChild(graphContainer);
+        }
+
         tr.appendChild(currentCell);
 
         const histCell = document.createElement('td');
         histCell.setAttribute('data-label', 'Prior Runs');
         const chipsWrap = document.createElement('div');
         chipsWrap.className = 'chips';
-        const hist = history[lift.liftId] || [];
         if (hist.length === 0) {
           histCell.innerHTML = '<div class="lift-sub">No prior runs</div>';
         } else {
@@ -622,15 +695,6 @@
             chipsWrap.appendChild(chip);
           });
           histCell.appendChild(chipsWrap);
-
-          // Add wait time graph
-          const graph = createWaitGraph(hist, lift.openTime, lift.closeTime, tz);
-          if (graph) {
-            const graphContainer = document.createElement('div');
-            graphContainer.className = 'wait-graph';
-            graphContainer.appendChild(graph);
-            histCell.appendChild(graphContainer);
-          }
         }
         tr.appendChild(histCell);
 
@@ -676,11 +740,11 @@
     }
 
     async function init() {
-      // Restore data folder preference from localStorage
-      const savedFolder = localStorage.getItem('dataFolder');
-      if (savedFolder) {
-        dataFolder = savedFolder;
-        $('data-folder-select').value = savedFolder;
+      // Restore local data mode preference from localStorage
+      const savedLocalMode = localStorage.getItem('localDataMode');
+      if (savedLocalMode === 'true') {
+        dataFolder = '../data-local';
+        $('local-data-mode').checked = true;
       }
 
       try {
@@ -725,9 +789,20 @@
       fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
     });
 
-    $('data-folder-select').addEventListener('change', async (e) => {
-      dataFolder = e.target.value;
-      localStorage.setItem('dataFolder', dataFolder);
+    $('open-only-filter').addEventListener('change', () => {
+      const key = $('resort-select').value;
+      const resortInfo = resortMap[key];
+      const cacheKey = `${dataFolder}-${key}`;
+      if (!resortInfo || !cachedIndex[cacheKey]) return;
+      const resortData = cachedIndex[cacheKey];
+      const dateKey = deriveDateKey(resortData);
+      const tz = resortInfo.timezone || 'UTC';
+      fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
+    });
+
+    $('local-data-mode').addEventListener('change', async (e) => {
+      dataFolder = e.target.checked ? '../data-local' : '.';
+      localStorage.setItem('localDataMode', e.target.checked);
       // Clear caches
       historyCache.clear();
       Object.keys(cachedIndex).forEach(key => delete cachedIndex[key]);
