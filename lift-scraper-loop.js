@@ -2,6 +2,8 @@
 // Runs the lift scraper in a loop with no delay between runs
 // Press Ctrl+C to stop gracefully
 
+// TO RUN - CD TO PROJECT ROOT AND RUN: npm run scrape:lifts:loop
+
 const { spawn } = require('child_process');
 
 // Configuration

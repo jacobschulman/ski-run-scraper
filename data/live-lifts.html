@@ -193,6 +193,37 @@
       color: var(--muted);
       text-align: center;
     }
+    .wait-graph {
+      margin-top: 12px;
+      width: 100%;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      padding: 4px;
+      border: 1px solid var(--border);
+    }
+    .wait-graph svg {
+      width: 100%;
+      height: 100%;
+    }
+    .graph-line {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .graph-dot {
+      fill: var(--accent);
+    }
+    .graph-axis {
+      stroke: var(--border);
+      stroke-width: 1;
+    }
+    .graph-label {
+      fill: var(--muted);
+      font-size: 10px;
+    }
     .notice {
       margin-top: 10px;
       color: var(--muted);
@@ -230,6 +261,13 @@
 
     <div class="controls">
       <div>
+        <label for="data-folder-select">Data Folder</label>
+        <select id="data-folder-select" aria-label="Choose data folder">
+          <option value=".">data (default)</option>
+          <option value="../data-local">data-local</option>
+        </select>
+      </div>
+      <div>
         <label for="resort-select">Resort</label>
         <select id="resort-select" aria-label="Choose resort"></select>
       </div>
@@ -265,6 +303,7 @@
     let resortMap = {};
     const historyCache = new Map();
     const cachedIndex = {};
+    let dataFolder = '.';
 
     const $ = (id) => document.getElementById(id);
 
@@ -303,7 +342,7 @@
     };
 
     async function fetchHistory(resortKey, dateKey) {
-      const cacheKey = resortKey + '-' + dateKey;
+      const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey;
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
 
       const promise = (async () => {
@@ -327,7 +366,7 @@
 
         const tryFetch = async (rangeBytes) => {
           const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
-          const res = await fetch(`${resortKey}/lifts/${dateKey}.ndjson`, { headers });
+          const res = await fetch(`${dataFolder}/${resortKey}/lifts/${dateKey}.ndjson`, { headers });
           if (!res.ok) throw new Error(`NDJSON ${res.status}`);
           return res.text();
         };
@@ -395,6 +434,128 @@
       });
     }
 
+    function createWaitGraph(history, openTime, closeTime, tz) {
+      if (!history || history.length === 0) return null;
+
+      const width = 100;
+      const height = 100;
+      const padding = { top: 10, right: 10, bottom: 20, left: 30 };
+      const graphWidth = width - padding.left - padding.right;
+      const graphHeight = height - padding.top - padding.bottom;
+
+      // Parse open/close times to get time range
+      const parseTime = (timeStr) => {
+        if (!timeStr) return null;
+        const [h, m] = timeStr.split(':').map(Number);
+        return h * 60 + m; // minutes since midnight
+      };
+
+      const openMinutes = parseTime(openTime) || 0;
+      const closeMinutes = parseTime(closeTime) || 1440;
+
+      // Prepare data points
+      const dataPoints = history
+        .map(entry => {
+          const t = new Date(entry.timestamp);
+          if (Number.isNaN(t)) return null;
+          const minutes = t.getHours() * 60 + t.getMinutes();
+          return {
+            time: minutes,
+            wait: entry.waitMinutes,
+            timestamp: entry.timestamp
+          };
+        })
+        .filter(p => p && p.wait !== null && p.wait !== undefined)
+        .sort((a, b) => a.time - b.time);
+
+      if (dataPoints.length === 0) return null;
+
+      // Calculate scales
+      const minTime = Math.min(openMinutes, ...dataPoints.map(p => p.time));
+      const maxTime = Math.max(closeMinutes, ...dataPoints.map(p => p.time));
+      const maxWait = Math.max(...dataPoints.map(p => p.wait), 5);
+
+      const xScale = (minutes) => padding.left + ((minutes - minTime) / (maxTime - minTime)) * graphWidth;
+      const yScale = (wait) => padding.top + graphHeight - ((wait / maxWait) * graphHeight);
+
+      // Create SVG
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+
+      // Draw axes
+      const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      xAxis.setAttribute('class', 'graph-axis');
+      xAxis.setAttribute('x1', padding.left);
+      xAxis.setAttribute('y1', padding.top + graphHeight);
+      xAxis.setAttribute('x2', padding.left + graphWidth);
+      xAxis.setAttribute('y2', padding.top + graphHeight);
+      svg.appendChild(xAxis);
+
+      const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      yAxis.setAttribute('class', 'graph-axis');
+      yAxis.setAttribute('x1', padding.left);
+      yAxis.setAttribute('y1', padding.top);
+      yAxis.setAttribute('x2', padding.left);
+      yAxis.setAttribute('y2', padding.top + graphHeight);
+      svg.appendChild(yAxis);
+
+      // Add time labels
+      const startLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      startLabel.setAttribute('class', 'graph-label');
+      startLabel.setAttribute('x', padding.left);
+      startLabel.setAttribute('y', height - 4);
+      startLabel.setAttribute('text-anchor', 'start');
+      startLabel.textContent = openTime || '00:00';
+      svg.appendChild(startLabel);
+
+      const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      endLabel.setAttribute('class', 'graph-label');
+      endLabel.setAttribute('x', width - padding.right);
+      endLabel.setAttribute('y', height - 4);
+      endLabel.setAttribute('text-anchor', 'end');
+      endLabel.textContent = closeTime || '23:59';
+      svg.appendChild(endLabel);
+
+      // Add max wait label
+      const maxLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      maxLabel.setAttribute('class', 'graph-label');
+      maxLabel.setAttribute('x', 2);
+      maxLabel.setAttribute('y', padding.top + 8);
+      maxLabel.setAttribute('text-anchor', 'start');
+      maxLabel.textContent = maxWait + 'm';
+      svg.appendChild(maxLabel);
+
+      // Draw line
+      if (dataPoints.length > 1) {
+        const pathData = dataPoints.map((p, i) => {
+          const x = xScale(p.time);
+          const y = yScale(p.wait);
+          return (i === 0 ? 'M' : 'L') + x + ',' + y;
+        }).join(' ');
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('class', 'graph-line');
+        path.setAttribute('d', pathData);
+        svg.appendChild(path);
+      }
+
+      // Draw dots
+      dataPoints.forEach(p => {
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('class', 'graph-dot');
+        circle.setAttribute('cx', xScale(p.time));
+        circle.setAttribute('cy', yScale(p.wait));
+        circle.setAttribute('r', 1.5);
+        const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+        title.textContent = formatClock(p.timestamp, tz) + ': ' + p.wait + ' min';
+        circle.appendChild(title);
+        svg.appendChild(circle);
+      });
+
+      return svg;
+    }
+
     function renderRows(resortData, history, tz) {
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
@@ -415,8 +576,12 @@
 
         const liftCell = document.createElement('td');
         liftCell.setAttribute('data-label', 'Lift');
+        const liftMetadata = [lift.mountain || 'Unknown zone', lift.type || ''];
+        if (lift.openTime && lift.closeTime) {
+          liftMetadata.push(lift.openTime + ' - ' + lift.closeTime);
+        }
         liftCell.innerHTML = '<div class="lift-name">' + lift.name + '</div>' +
-          '<div class="lift-sub">' + [lift.mountain || 'Unknown zone', lift.type || ''].filter(Boolean).join(' · ') + '</div>';
+          '<div class="lift-sub">' + liftMetadata.filter(Boolean).join(' · ') + '</div>';
         tr.appendChild(liftCell);
 
         const statusCell = document.createElement('td');
@@ -457,6 +622,15 @@
             chipsWrap.appendChild(chip);
           });
           histCell.appendChild(chipsWrap);
+
+          // Add wait time graph
+          const graph = createWaitGraph(hist, lift.openTime, lift.closeTime, tz);
+          if (graph) {
+            const graphContainer = document.createElement('div');
+            graphContainer.className = 'wait-graph';
+            graphContainer.appendChild(graph);
+            histCell.appendChild(graphContainer);
+          }
         }
         tr.appendChild(histCell);
 
@@ -477,12 +651,13 @@
       $('notice').textContent = 'Loading recent runs…';
 
       try {
-        if (!cachedIndex[resortKey]) {
-          const res = await fetch(`${resortKey}/lifts/index.json`);
+        const cacheKey = `${dataFolder}-${resortKey}`;
+        if (!cachedIndex[cacheKey]) {
+          const res = await fetch(`${dataFolder}/${resortKey}/lifts/index.json`);
           if (!res.ok) throw new Error('Index fetch failed');
-          cachedIndex[resortKey] = await res.json();
+          cachedIndex[cacheKey] = await res.json();
         }
-        const resortData = cachedIndex[resortKey];
+        const resortData = cachedIndex[cacheKey];
         const dateKey = deriveDateKey(resortData);
         const tz = resortInfo.timezone || 'UTC';
         setMeta(resortData, dateKey, tz);
@@ -501,6 +676,13 @@
     }
 
     async function init() {
+      // Restore data folder preference from localStorage
+      const savedFolder = localStorage.getItem('dataFolder');
+      if (savedFolder) {
+        dataFolder = savedFolder;
+        $('data-folder-select').value = savedFolder;
+      }
+
       try {
         const configRes = await fetch('../config.json');
         const config = await configRes.json();
@@ -535,11 +717,25 @@
     $('lift-filter').addEventListener('input', () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
-      if (!resortInfo || !cachedIndex[key]) return;
-      const resortData = cachedIndex[key];
+      const cacheKey = `${dataFolder}-${key}`;
+      if (!resortInfo || !cachedIndex[cacheKey]) return;
+      const resortData = cachedIndex[cacheKey];
       const dateKey = deriveDateKey(resortData);
       const tz = resortInfo.timezone || 'UTC';
       fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
+    });
+
+    $('data-folder-select').addEventListener('change', async (e) => {
+      dataFolder = e.target.value;
+      localStorage.setItem('dataFolder', dataFolder);
+      // Clear caches
+      historyCache.clear();
+      Object.keys(cachedIndex).forEach(key => delete cachedIndex[key]);
+      // Reload current resort if one is selected
+      const key = $('resort-select').value;
+      if (key) {
+        await loadResort(key);
+      }
     });
 
     init();
