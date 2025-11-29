@@ -669,25 +669,46 @@
     async function loadResort(resortKey) {
       state.currentResort = resortKey;
       const resortInfo = state.resortMap[resortKey];
-      const indexEntry = state.index.resorts?.[resortKey];
+
+      // Fetch per-resort terrain index (like live-lifts does)
+      let indexEntry;
+      try {
+        const res = await fetch(`${resortKey}/terrain/index.json`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        indexEntry = await res.json();
+        console.log(`Loaded terrain index for ${resortKey}:`, indexEntry);
+      } catch (err) {
+        console.error(`Failed to load terrain index for ${resortKey}:`, err);
+        $('meta-bar').innerHTML = `<div class="meta-pill">Failed to load terrain index: ${err.message}</div>`;
+        $('stats-grid').innerHTML = '';
+        $('trend').innerHTML = '<div class="empty">Could not load terrain index for this resort.</div>';
+        return;
+      }
+
       if (!indexEntry || !indexEntry.files || !indexEntry.files.length) {
         $('meta-bar').innerHTML = '';
         $('stats-grid').innerHTML = '';
-        $('trend').innerHTML = '<div class="empty">No data found for this resort.</div>';
+        $('trend').innerHTML = '<div class="empty">No terrain files found for this resort.</div>';
         return;
       }
 
       const files = [...indexEntry.files].map(stripExt).sort().reverse();
 
       const pickAvailableDate = async () => {
+        console.log(`Trying to load terrain files for ${resortKey}, found ${files.length} dates:`, files);
         for (const date of files) {
+          const url = `${resortKey}/terrain/${date}.json`;
+          console.log(`Attempting to fetch: ${url}`);
           try {
             await fetchTerrain(resortKey, date);
+            console.log(`✓ Successfully loaded ${url}`);
             return date;
-          } catch (_) {
+          } catch (err) {
+            console.warn(`✗ Failed to load ${url}:`, err.message);
             // Skip missing date
           }
         }
+        console.error(`No terrain files could be loaded for ${resortKey}`);
         return null;
       };
 
@@ -695,8 +716,10 @@
       if (!latest) {
         $('stats-grid').innerHTML = '';
         $('trend').innerHTML = '<div class="empty">No terrain files available for this resort.</div>';
-        $('meta-bar').innerHTML = '<div class="meta-pill">No terrain JSON files found.</div>';
+        $('meta-bar').innerHTML = `<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">⚠️ Could not load terrain files for ${resortKey}. Index lists ${files.length} files but none could be fetched. Check browser console for details.</div>`;
         $('table-sub').textContent = 'No data';
+        console.error('Index entry:', indexEntry);
+        console.error('Files attempted:', files);
         return;
       }
 
@@ -781,12 +804,6 @@
         state.resortMap = state.resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
         $('resort-count').textContent = state.resorts.length + ' resorts configured';
 
-        const indexJson = await fetch('index.json').then(r => {
-          if (!r.ok) throw new Error(`HTTP ${r.status} loading index.json`);
-          return r.json();
-        });
-        state.index = indexJson;
-
         renderResortOptions();
         const params = new URLSearchParams(window.location.search);
         const requested = params.get('resort');
@@ -798,7 +815,7 @@
       } catch (err) {
         console.error('Initialization error:', err);
         $('resort-count').textContent = 'Load error';
-        $('meta-bar').innerHTML = '<div class="meta-pill">Failed to load config/index: ' + (err.message || err) + '</div>';
+        $('meta-bar').innerHTML = '<div class="meta-pill">Failed to load config: ' + (err.message || err) + '</div>';
       }
     }
 
