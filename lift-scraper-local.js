@@ -1,12 +1,15 @@
-// lift-scraper.js - Lift wait-time tracker
-// Runs every 10-15 minutes to capture lift status and wait times
-// Only records data during lift operating hours
-// Timestamps are recorded in UTC and local resort time
+// lift-scraper-local.js - Local high-frequency lift tracking
+// Identical logic to lift-scraper.js but writes to data-local/ to avoid conflicts with GitHub Actions
+// Uses the same smart multi-tier filtering to avoid scraping closed resorts
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
+
+// Use local data directory (separate from GitHub Actions)
+const DATA_DIR = 'data-local';
+const CACHE_DIR = 'cache-local';
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -17,7 +20,6 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
 
 /**
  * Get all resorts that are currently in season
- * This automatically scales - no need to manually maintain a list
  */
 function getInSeasonResorts() {
   return config.resorts.filter(resort => isResortInSeason(resort));
@@ -60,10 +62,6 @@ function getResortLocalHourMinute(timezone) {
 /**
  * Check if we're in discovery mode for a resort
  * Discovery mode: 7:00 AM - 12:00 PM local time
- * During this window, we check ALL in-season resorts to find which are opening
- *
- * Extended from the original 7:15-10:00 window to give more coverage for
- * resorts that open later or are in different timezones.
  */
 function isInDiscoveryWindow(timezone) {
   const { hour, minute } = getResortLocalHourMinute(timezone);
@@ -76,13 +74,10 @@ function isInDiscoveryWindow(timezone) {
 }
 
 /**
- * Load the active resort cache
- * Returns a Map of resort keys to their local dates
- * This is timezone-aware - each resort tracks its own local date
+ * Load the active resort cache (local version)
  */
 function loadActiveResortCache() {
-  const cacheDir = path.join('cache');
-  const cachePath = path.join(cacheDir, 'active-resorts.json');
+  const cachePath = path.join(CACHE_DIR, 'active-resorts.json');
 
   if (!fs.existsSync(cachePath)) {
     return new Map();
@@ -90,7 +85,6 @@ function loadActiveResortCache() {
 
   try {
     const data = JSON.parse(fs.readFileSync(cachePath, 'utf8'));
-    // Convert array of {resortKey, localDate} to Map
     const cacheMap = new Map();
     if (data.resorts && Array.isArray(data.resorts)) {
       data.resorts.forEach(entry => {
@@ -107,17 +101,14 @@ function loadActiveResortCache() {
 }
 
 /**
- * Save a resort to the active cache with its local date
- * This ensures timezone-aware caching - we track each resort's local date
+ * Save a resort to the active cache (local version)
  */
 function addToActiveResortCache(resortKey, timezone) {
   const localDate = getResortLocalDate(timezone);
-  const cacheDir = path.join('cache');
-  const cachePath = path.join(cacheDir, 'active-resorts.json');
+  const cachePath = path.join(CACHE_DIR, 'active-resorts.json');
 
-  ensureDirectoryExists(cacheDir);
+  ensureDirectoryExists(CACHE_DIR);
 
-  // Load existing cache
   let cache = { resorts: [] };
   if (fs.existsSync(cachePath)) {
     try {
@@ -127,19 +118,15 @@ function addToActiveResortCache(resortKey, timezone) {
     }
   }
 
-  // Ensure resorts array exists
   if (!Array.isArray(cache.resorts)) {
     cache.resorts = [];
   }
 
-  // Find existing entry for this resort
   const existingIndex = cache.resorts.findIndex(r => r.resortKey === resortKey);
 
   if (existingIndex >= 0) {
-    // Update existing entry with current local date
     cache.resorts[existingIndex].localDate = localDate;
   } else {
-    // Add new entry
     cache.resorts.push({ resortKey, localDate });
   }
 
@@ -148,12 +135,10 @@ function addToActiveResortCache(resortKey, timezone) {
 
 /**
  * Check if current time is in "dead hours" when ski resorts are definitely closed
- * Dead hours: 6 PM - 7 AM local time (no ski resorts operate during these hours)
- * This check is timezone-aware - uses the resort's local time
+ * Dead hours: 6 PM - 7 AM local time
  */
 function isInDeadHours(timezone) {
   const { hour } = getResortLocalHourMinute(timezone);
-  // Dead hours: 6 PM (18:00) to 7 AM (07:00) in the resort's local timezone
   return hour >= 18 || hour < 7;
 }
 
@@ -161,54 +146,52 @@ function isInDeadHours(timezone) {
  * Systematic multi-tier resort filtering for scalability
  *
  * TIER 1: Dead Hours (6 PM - 7 AM local) - Skip ALL resorts
- * TIER 2: Discovery Window (7:15 AM - 10 AM local) - Check ALL in-season resorts
+ * TIER 2: Discovery Window (7:00 AM - 12:00 PM local) - Check ALL in-season resorts
  * TIER 3: Active Cache - Resort confirmed operational today
  * TIER 4: Operating Hours - Use actual lift times from prior data
- *
- * All checks are timezone-aware using each resort's local time
  */
 function shouldCheckResort(resortKey, resort, activeCache) {
   const timezone = resort.timezone;
-  const localDate = getResortLocalDate(timezone); // Resort's current local date
+  const localDate = getResortLocalDate(timezone);
 
   // TIER 1: Dead hours - no ski resort operates 6 PM - 7 AM (local time)
-  // This is the first check to quickly filter out resorts that are definitely closed
   if (isInDeadHours(timezone)) {
     return { shouldCheck: false, reason: 'dead_hours', tier: 1 };
   }
 
-  // TIER 2: Discovery window (7:15 AM - 10 AM local time)
-  // During this window, check ALL in-season resorts to discover which are opening
-  // This runs once per day in each resort's morning to detect new openings
+  // TIER 2: Discovery window (7:00 AM - 12:00 PM local time)
   if (isInDiscoveryWindow(timezone)) {
     return { shouldCheck: true, reason: 'discovery_window', tier: 2 };
   }
 
-  // TIER 3: Active cache - resort has shown lift activity today (in resort's local time)
-  // Once a resort shows open lifts, we cache it and keep checking throughout the day
-  // Cache is timezone-aware: we validate the cached date matches the resort's current local date
+  // TIER 3: Active cache - resort has shown lift activity today
   if (activeCache.has(resortKey)) {
     const cachedDate = activeCache.get(resortKey);
-    // Only use cache if it's for the same local date as the resort
     if (cachedDate === localDate) {
       return { shouldCheck: true, reason: 'active_cache', tier: 3 };
     }
-    // Cache is stale (from yesterday in resort's timezone), ignore it
   }
 
   // TIER 4: Operating hours from prior lift data
-  // Check if we have recent data showing lifts were open/scheduled
-  // Use actual open/close times with buffers to determine if we should check now
-  const liftsDir = path.join('data', resortKey, 'lifts');
-  const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
+  // Check local data first, fall back to GitHub Actions data
+  const localLiftsDir = path.join(DATA_DIR, resortKey, 'lifts');
+  const githubLiftsDir = path.join('data', resortKey, 'lifts');
+  const todayFile = `${localDate}.ndjson`;
 
-  if (!fs.existsSync(todayFile)) {
+  let liftsDir = null;
+  if (fs.existsSync(path.join(localLiftsDir, todayFile))) {
+    liftsDir = localLiftsDir;
+  } else if (fs.existsSync(path.join(githubLiftsDir, todayFile))) {
+    liftsDir = githubLiftsDir;
+  }
+
+  if (!liftsDir) {
     return { shouldCheck: false, reason: 'no_prior_data', tier: 4 };
   }
 
   try {
-    // Read the most recent lift data from today
-    const lines = fs.readFileSync(todayFile, 'utf8').trim().split('\n');
+    const filePath = path.join(liftsDir, todayFile);
+    const lines = fs.readFileSync(filePath, 'utf8').trim().split('\n');
     if (lines.length === 0) {
       return { shouldCheck: false, reason: 'empty_data', tier: 4 };
     }
@@ -234,7 +217,7 @@ function shouldCheckResort(resortKey, resort, activeCache) {
       const closeTimes = openLifts.map(r => timeToMinutes(r.closeTime));
 
       const earliestOpen = Math.min(...openTimes) - 30; // 30 min before
-      const latestClose = Math.max(...closeTimes) + 60; // 60 min after to capture status changes
+      const latestClose = Math.max(...closeTimes) + 60; // 60 min after
       const currentMinutes = timeToMinutes(getResortLocalTime(timezone));
 
       if (currentMinutes >= earliestOpen && currentMinutes <= latestClose) {
@@ -244,7 +227,6 @@ function shouldCheckResort(resortKey, resort, activeCache) {
 
     return { shouldCheck: false, reason: 'outside_operating_hours', tier: 4 };
   } catch (error) {
-    // If we can't read data, err on the side of checking
     return { shouldCheck: true, reason: 'data_read_error', tier: 4 };
   }
 }
@@ -257,7 +239,6 @@ function isResortInSeason(resort) {
   const localDate = getResortLocalDate(timezone);
   const [currentYear, currentMonth, currentDay] = localDate.split('-').map(Number);
 
-  // Get season dates (use resort-specific or defaults)
   const seasonStart = resort.seasonStart || config.schedule.defaultSeasonStart;
   const seasonEnd = resort.seasonEnd || config.schedule.defaultSeasonEnd;
 
@@ -266,7 +247,6 @@ function isResortInSeason(resort) {
 
   const seasonCrossesYear = startMonth > endMonth || (startMonth === endMonth && startDay > endDay);
 
-  // Support both cross-year (e.g., Nov-May) and same-year (e.g., May-Oct) seasons
   let seasonStartYear;
   let seasonEndYear;
 
@@ -301,42 +281,37 @@ function timeToMinutes(timeStr) {
 
 /**
  * Check if we have recent data showing lifts as "Open"
- * If so, we should continue scraping to capture the status change
  */
 function hasRecentOpenLifts(resortKey, timezone) {
-  const liftsDir = path.join('data', resortKey, 'lifts');
-  if (!fs.existsSync(liftsDir)) {
-    return false;
-  }
-
-  // Get today's date in resort's timezone
   const localDate = getResortLocalDate(timezone);
-  const todayFile = path.join(liftsDir, `${localDate}.ndjson`);
 
-  if (!fs.existsSync(todayFile)) {
+  // Check local data first
+  const localFile = path.join(DATA_DIR, resortKey, 'lifts', `${localDate}.ndjson`);
+  const githubFile = path.join('data', resortKey, 'lifts', `${localDate}.ndjson`);
+
+  const filePath = fs.existsSync(localFile) ? localFile :
+                   fs.existsSync(githubFile) ? githubFile : null;
+
+  if (!filePath) {
     return false;
   }
 
   try {
-    // Read the last few lines of the file to check recent status
-    const content = fs.readFileSync(todayFile, 'utf8');
+    const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.trim().split('\n').filter(l => l.trim());
 
     if (lines.length === 0) {
       return false;
     }
 
-    // Check the most recent scrape (last timestamp)
     const lastLine = lines[lines.length - 1];
     const lastRecord = JSON.parse(lastLine);
     const lastTimestamp = lastRecord.timestamp;
 
-    // Get all records from the last scrape (same timestamp)
     const lastScrapeRecords = lines
       .map(line => JSON.parse(line))
       .filter(record => record.timestamp === lastTimestamp);
 
-    // If any lift in the last scrape was "Open", continue scraping
     const hasOpenLifts = lastScrapeRecords.some(record => record.status === 'Open');
 
     return hasOpenLifts;
@@ -348,14 +323,12 @@ function hasRecentOpenLifts(resortKey, timezone) {
 
 /**
  * Check if current time is within lift operating hours
- * Uses the earliest open time and latest close time from all lifts
  */
 function getLiftOperatingWindow(lifts, timezone, resortKey) {
   if (!lifts || lifts.length === 0) {
     return { isOpen: false, reason: 'No lift data available' };
   }
 
-  // Extract open and close times from all lifts
   const openTimes = lifts
     .map(l => l.OpenTime)
     .filter(Boolean)
@@ -370,20 +343,15 @@ function getLiftOperatingWindow(lifts, timezone, resortKey) {
     return { isOpen: false, reason: 'No operating hours available' };
   }
 
-  // Get the operating window (earliest open to latest close)
   const minOpenMinutes = Math.min(...openTimes);
   const maxCloseMinutes = Math.max(...closeTimes);
 
-  // Get current time in resort's timezone
   const now = new Date();
   const localTimeStr = formatInTimeZone(now, timezone, 'HH:mm');
   const currentMinutes = timeToMinutes(localTimeStr);
 
-  // Check if within normal operating hours
   const withinOperatingHours = currentMinutes >= minOpenMinutes && currentMinutes <= maxCloseMinutes;
 
-  // If past close time, check if we have recent data showing lifts were open
-  // Continue scraping until we capture the status change to "Closed"/"Scheduled"
   let isOpen = withinOperatingHours;
   let reason = '';
 
@@ -392,7 +360,6 @@ function getLiftOperatingWindow(lifts, timezone, resortKey) {
   } else if (currentMinutes < minOpenMinutes) {
     reason = `Before opening time (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
   } else {
-    // Past close time - check if we should continue scraping
     const hasOpenLifts = hasRecentOpenLifts(resortKey, timezone);
     if (hasOpenLifts) {
       isOpen = true;
@@ -412,7 +379,7 @@ function getLiftOperatingWindow(lifts, timezone, resortKey) {
 }
 
 /**
- * Ensure directory exists, create if not
+ * Ensure directory exists
  */
 function ensureDirectoryExists(dirPath) {
   if (!fs.existsSync(dirPath)) {
@@ -421,10 +388,10 @@ function ensureDirectoryExists(dirPath) {
 }
 
 /**
- * Append a lift record to the NDJSON file for today
+ * Append lift record to NDJSON file
  */
 function appendLiftRecord(resortKey, localDate, record) {
-  const liftsDir = path.join('data', resortKey, 'lifts');
+  const liftsDir = path.join(DATA_DIR, resortKey, 'lifts');
   ensureDirectoryExists(liftsDir);
 
   const filePath = path.join(liftsDir, `${localDate}.ndjson`);
@@ -435,28 +402,22 @@ function appendLiftRecord(resortKey, localDate, record) {
 
 /**
  * Scrape lift data from a resort
- * Reuses the same terrain scraping logic to get lift information
- * @param {Browser} browser - Shared browser instance for reuse
  */
 async function scrapeLiftData(resortKey, url, browser) {
   const page = await browser.newPage();
 
   try {
-    // Set a realistic user agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    // Try loading with a more lenient wait strategy
     try {
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
     } catch (e) {
       console.log(`  ⚠️  Initial load issue: ${e.message}`);
     }
 
-    // Give the page extra time to settle (reduced to 1-2 seconds for better performance)
     const settleTime = 1000 + Math.floor(Math.random() * 2000);
     await new Promise(resolve => setTimeout(resolve, settleTime));
 
-    // Wait for the FR object to be available
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
       { timeout: 45000 }
@@ -464,7 +425,6 @@ async function scrapeLiftData(resortKey, url, browser) {
       throw new Error('FR.TerrainStatusFeed not found');
     });
 
-    // Extract just the Lifts data
     const data = await page.evaluate(() => {
       if (typeof FR !== 'undefined' && FR.TerrainStatusFeed) {
         return {
@@ -484,8 +444,6 @@ async function scrapeLiftData(resortKey, url, browser) {
 
 /**
  * Process and record lift data for a single resort
- * @param {string} resortKey - Resort identifier
- * @param {Browser} browser - Shared browser instance
  */
 async function processResort(resortKey, browser) {
   const resort = RESORTS[resortKey];
@@ -502,20 +460,17 @@ async function processResort(resortKey, browser) {
   console.log(`🎿 ${resortName} (${localTime})`);
   console.log('─'.repeat(60));
 
-  // Check if resort is in season
   if (!isResortInSeason(resort)) {
     console.log(`  ⏭️  Out of season - skipping`);
     return { resortKey, status: 'out_of_season', liftsRecorded: 0 };
   }
 
-  // Check if resort has terrain URL
   const terrainUrl = resort.terrainUrl || resort.url;
   if (!terrainUrl) {
     console.log(`  ❌ No terrain URL configured - skipping`);
     return { resortKey, status: 'no_url', liftsRecorded: 0 };
   }
 
-  // Scrape lift data
   console.log(`  📡 Fetching lift data...`);
   let liftData;
   try {
@@ -532,7 +487,6 @@ async function processResort(resortKey, browser) {
 
   console.log(`  ✓ Found ${liftData.Lifts.length} lifts`);
 
-  // Check if we're within operating hours
   const operatingWindow = getLiftOperatingWindow(liftData.Lifts, resort.timezone, resortKey);
 
   if (!operatingWindow.isOpen) {
@@ -548,7 +502,6 @@ async function processResort(resortKey, browser) {
   console.log(`  ⏰ Operating hours: ${operatingWindow.openTime} - ${operatingWindow.closeTime}`);
   console.log(`  ✅ ${operatingWindow.reason} - recording data`);
 
-  // Record each lift's current state
   const timestamp = new Date().toISOString();
   const localDate = getResortLocalDate(resort.timezone);
   const localTimeStr = getResortLocalTime(resort.timezone);
@@ -558,7 +511,6 @@ async function processResort(resortKey, browser) {
   let openLifts = 0;
 
   for (const lift of liftData.Lifts) {
-    // Create lift record
     const record = {
       timestamp,
       localTime: localTimeStr,
@@ -574,10 +526,8 @@ async function processResort(resortKey, browser) {
       closeTime: lift.CloseTime
     };
 
-    // Append to NDJSON file
     appendLiftRecord(resortKey, localDate, record);
 
-    // Track statistics
     if (lift.WaitTimeInMinutes && lift.WaitTimeInMinutes > 0) {
       liftsWithWaitTimes++;
     }
@@ -589,7 +539,6 @@ async function processResort(resortKey, browser) {
     }
   }
 
-  // Print summary
   console.log(`  📊 Summary:`);
   console.log(`     • ${openLifts} lifts open`);
   if (closedLifts > 0) {
@@ -600,11 +549,8 @@ async function processResort(resortKey, browser) {
   }
   console.log(`  💾 Saved ${liftData.Lifts.length} lift records to ${localDate}.ndjson`);
 
-  // Add resort to active cache if we recorded any lift data
-  // This ensures we continue tracking resorts even if lifts haven't opened yet
-  // Pass timezone to ensure cache uses resort's local date
   addToActiveResortCache(resortKey, resort.timezone);
-  console.log(`  ✓ Added to active resort cache (${localDate})`)
+  console.log(`  ✓ Added to active resort cache (${localDate})`);
 
   return {
     resortKey,
@@ -618,15 +564,16 @@ async function processResort(resortKey, browser) {
 }
 
 /**
- * Main function - process all in-season resorts
+ * Main function - process all in-season resorts with smart filtering
  */
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════╗');
-  console.log('║     🎿 Lift Wait-Time Tracker 🎿                          ║');
+  console.log('║     🎿 Local Lift Tracker (High-Frequency) 🎿            ║');
   console.log('╚════════════════════════════════════════════════════════════╝');
-  console.log(`\n⏱️  Run started at ${new Date().toISOString()}`);
+  console.log(`\n📂 Data directory: ${DATA_DIR}/`);
+  console.log(`📦 Cache directory: ${CACHE_DIR}/`);
+  console.log(`⏱️  Run started at ${new Date().toISOString()}`);
 
-  // Launch shared browser instance for better performance
   console.log('🌐 Launching browser...');
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -640,83 +587,72 @@ async function main() {
   });
 
   try {
-    // Load active resort cache for today
     const activeCache = loadActiveResortCache();
     console.log(`📦 Active resort cache: ${activeCache.size} resorts from earlier today`);
 
-  // Automatically get all resorts that are in season
-  const inSeasonResorts = getInSeasonResorts();
+    const inSeasonResorts = getInSeasonResorts();
 
-  // Filter resorts based on multi-tier systematic checks
-  // TIER 1: Dead hours (6 PM - 7 AM local)
-  // TIER 2: Discovery window (7:15 AM - 10 AM local)
-  // TIER 3: Active cache (resort operational today)
-  // TIER 4: Operating hours (from actual lift data)
-  const resortsToCheck = [];
-  const resortsSkipped = [];
+    // Use the SAME multi-tier filtering as the main scraper
+    const resortsToCheck = [];
+    const resortsSkipped = [];
 
-  for (const resort of inSeasonResorts) {
-    const checkDecision = shouldCheckResort(resort.key, resort, activeCache);
+    for (const resort of inSeasonResorts) {
+      const checkDecision = shouldCheckResort(resort.key, resort, activeCache);
 
-    if (checkDecision.shouldCheck) {
-      resortsToCheck.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
-    } else {
-      resortsSkipped.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
+      if (checkDecision.shouldCheck) {
+        resortsToCheck.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
+      } else {
+        resortsSkipped.push({ resort, reason: checkDecision.reason, tier: checkDecision.tier });
+      }
     }
-  }
 
-  // Randomize resort order to avoid predictable scraping patterns
-  const resortKeys = resortsToCheck
-    .map(r => r.resort.key)
-    .sort(() => Math.random() - 0.5);
+    const resortKeys = resortsToCheck
+      .map(r => r.resort.key)
+      .sort(() => Math.random() - 0.5);
 
-  console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
-  console.log(`✅ Checking ${resortsToCheck.length} resorts`);
-  if (resortsSkipped.length > 0) {
-    console.log(`⏭️  Skipping ${resortsSkipped.length} resorts`);
+    console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
+    console.log(`✅ Checking ${resortsToCheck.length} resorts`);
+    if (resortsSkipped.length > 0) {
+      console.log(`⏭️  Skipping ${resortsSkipped.length} resorts`);
 
-    // Group skipped resorts by reason for better visibility
-    const skipReasons = {};
-    resortsSkipped.forEach(s => {
-      if (!skipReasons[s.reason]) {
-        skipReasons[s.reason] = [];
-      }
-      skipReasons[s.reason].push(s.resort.name);
-    });
+      const skipReasons = {};
+      resortsSkipped.forEach(s => {
+        if (!skipReasons[s.reason]) {
+          skipReasons[s.reason] = [];
+        }
+        skipReasons[s.reason].push(s.resort.name);
+      });
 
-    Object.entries(skipReasons).forEach(([reason, resorts]) => {
-      console.log(`   • ${reason}: ${resorts.length} resorts`);
-    });
-  }
+      Object.entries(skipReasons).forEach(([reason, resorts]) => {
+        console.log(`   • ${reason}: ${resorts.length} resorts`);
+      });
+    }
 
-  if (resortsToCheck.length > 0) {
-    console.log(`🎿 Will check: ${resortKeys.join(', ')}`);
+    if (resortsToCheck.length > 0) {
+      console.log(`🎿 Will check: ${resortKeys.join(', ')}`);
 
-    // Show check reasons
-    const checkReasons = {};
-    resortsToCheck.forEach(c => {
-      if (!checkReasons[c.reason]) {
-        checkReasons[c.reason] = [];
-      }
-      checkReasons[c.reason].push(c.resort.name);
-    });
+      const checkReasons = {};
+      resortsToCheck.forEach(c => {
+        if (!checkReasons[c.reason]) {
+          checkReasons[c.reason] = [];
+        }
+        checkReasons[c.reason].push(c.resort.name);
+      });
 
-    Object.entries(checkReasons).forEach(([reason, resorts]) => {
-      console.log(`   • ${reason}: ${resorts.length} resorts`);
-    });
-  }
+      Object.entries(checkReasons).forEach(([reason, resorts]) => {
+        console.log(`   • ${reason}: ${resorts.length} resorts`);
+      });
+    }
 
     const results = [];
 
-    // Process resorts in parallel batches to speed up execution
-    // Optimized batch size: 15-20 resorts for maximum performance
-    const BATCH_SIZE = 15 + Math.floor(Math.random() * 6);
+    // Smaller batch size for continuous local scraping
+    const BATCH_SIZE = 10 + Math.floor(Math.random() * 6);
 
     for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
       const batch = resortKeys.slice(i, i + BATCH_SIZE);
       console.log(`\n📦 Processing batch ${Math.floor(i / BATCH_SIZE) + 1} of ${Math.ceil(resortKeys.length / BATCH_SIZE)} (${batch.length} resorts in parallel)...`);
 
-      // Process this batch in parallel
       const batchPromises = batch.map(async (resortKey) => {
         try {
           return await processResort(resortKey, browser);
@@ -735,7 +671,6 @@ async function main() {
       results.push(...batchResults);
     }
 
-    // Print final summary
     console.log('\n' + '═'.repeat(60));
     console.log('📈 FINAL SUMMARY');
     console.log('═'.repeat(60));
@@ -772,7 +707,6 @@ async function main() {
     console.log(`\n⏱️  Run completed at ${new Date().toISOString()}`);
     console.log('═'.repeat(60) + '\n');
   } finally {
-    // Clean up browser
     await browser.close();
     console.log('🌐 Browser closed');
   }
