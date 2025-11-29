@@ -246,7 +246,14 @@
     .graph-dot {
       fill: var(--accent);
       stroke: var(--bg);
-      stroke-width: 1;
+      stroke-width: 1.5;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .graph-dot:hover {
+      fill: var(--positive);
+      stroke-width: 2;
+      r: 4;
     }
     .graph-axis {
       stroke: rgba(255, 255, 255, 0.15);
@@ -380,8 +387,8 @@
       return fromGenerated || fromLift || new Date().toISOString().slice(0, 10);
     };
 
-    async function fetchHistory(resortKey, dateKey) {
-      const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey;
+    async function fetchHistory(resortKey, dateKey, fullHistory = false) {
+      const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
 
       const promise = (async () => {
@@ -396,7 +403,7 @@
             const entry = parsed[i];
             if (!entry || !entry.liftId) continue;
             const bucket = history[entry.liftId] || (history[entry.liftId] = []);
-            if (bucket.length >= historyDepth) continue;
+            if (!fullHistory && bucket.length >= historyDepth) continue;
             if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
             bucket.push(entry);
           }
@@ -412,8 +419,15 @@
 
         try {
           let text;
-          let usedTail = true;
 
+          // If we need full history, always fetch the entire file
+          if (fullHistory) {
+            text = await tryFetch();
+            return parseNdjson(text);
+          }
+
+          // Otherwise, try to use tail optimization for recent history
+          let usedTail = true;
           try {
             text = await tryFetch(120000);
           } catch (_) {
@@ -598,9 +612,9 @@
         circle.setAttribute('class', 'graph-dot');
         circle.setAttribute('cx', xScale(p.time));
         circle.setAttribute('cy', yScale(p.wait));
-        circle.setAttribute('r', 2.5);
+        circle.setAttribute('r', 3);
         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        title.textContent = formatClock(p.timestamp, tz) + ': ' + p.wait + ' min';
+        title.textContent = formatClock(p.timestamp, tz) + ' — ' + p.wait + ' min wait';
         circle.appendChild(title);
         svg.appendChild(circle);
       });
@@ -608,7 +622,7 @@
       return svg;
     }
 
-    function renderRows(resortData, history, tz) {
+    function renderRows(resortData, history, fullHistory, tz) {
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
       const openOnly = $('open-only-filter').checked;
@@ -666,9 +680,9 @@
         currentCell.appendChild(currentWait);
         currentCell.appendChild(meta);
 
-        // Add wait time graph to current wait column
-        const hist = history[lift.liftId] || [];
-        const graph = createWaitGraph(hist, lift.openTime, lift.closeTime, tz);
+        // Add wait time graph to current wait column (using full history for all data points)
+        const fullHist = fullHistory[lift.liftId] || [];
+        const graph = createWaitGraph(fullHist, lift.openTime, lift.closeTime, tz);
         if (graph) {
           const graphContainer = document.createElement('div');
           graphContainer.className = 'wait-graph';
@@ -682,6 +696,8 @@
         histCell.setAttribute('data-label', 'Prior Runs');
         const chipsWrap = document.createElement('div');
         chipsWrap.className = 'chips';
+        // Use limited history for the chips
+        const hist = history[lift.liftId] || [];
         if (hist.length === 0) {
           histCell.innerHTML = '<div class="lift-sub">No prior runs</div>';
         } else {
@@ -725,8 +741,12 @@
         const dateKey = deriveDateKey(resortData);
         const tz = resortInfo.timezone || 'UTC';
         setMeta(resortData, dateKey, tz);
-        const history = await fetchHistory(resortKey, dateKey);
-        renderRows(resortData, history, tz);
+        // Fetch limited history for chips and full history for graphs
+        const [history, fullHistory] = await Promise.all([
+          fetchHistory(resortKey, dateKey, false),
+          fetchHistory(resortKey, dateKey, true)
+        ]);
+        renderRows(resortData, history, fullHistory, tz);
       } catch (err) {
         $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load resort data.</td></tr>';
         $('notice').textContent = err.message || String(err);
@@ -778,7 +798,7 @@
       await loadResort(key);
     });
 
-    $('lift-filter').addEventListener('input', () => {
+    $('lift-filter').addEventListener('input', async () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
       const cacheKey = `${dataFolder}-${key}`;
@@ -786,10 +806,14 @@
       const resortData = cachedIndex[cacheKey];
       const dateKey = deriveDateKey(resortData);
       const tz = resortInfo.timezone || 'UTC';
-      fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
+      const [history, fullHistory] = await Promise.all([
+        fetchHistory(key, dateKey, false),
+        fetchHistory(key, dateKey, true)
+      ]);
+      renderRows(resortData, history, fullHistory, tz);
     });
 
-    $('open-only-filter').addEventListener('change', () => {
+    $('open-only-filter').addEventListener('change', async () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
       const cacheKey = `${dataFolder}-${key}`;
@@ -797,7 +821,11 @@
       const resortData = cachedIndex[cacheKey];
       const dateKey = deriveDateKey(resortData);
       const tz = resortInfo.timezone || 'UTC';
-      fetchHistory(key, dateKey).then((history) => renderRows(resortData, history, tz));
+      const [history, fullHistory] = await Promise.all([
+        fetchHistory(key, dateKey, false),
+        fetchHistory(key, dateKey, true)
+      ]);
+      renderRows(resortData, history, fullHistory, tz);
     });
 
     $('local-data-mode').addEventListener('change', async (e) => {
