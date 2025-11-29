@@ -220,12 +220,33 @@
     .wait-graph {
       margin-top: 12px;
       width: 100%;
-      height: 70px;
+      height: 140px;
       background: rgba(0, 0, 0, 0.2);
       border-radius: 8px;
       padding: 8px;
       border: 1px solid var(--border);
       position: relative;
+    }
+    .graph-tooltip {
+      position: absolute;
+      padding: 6px 8px;
+      background: rgba(12, 26, 43, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.85rem;
+      pointer-events: none;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translate(-50%, -120%);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      white-space: nowrap;
+      z-index: 2;
+    }
+    .max-wait {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
     }
     .wait-graph svg {
       display: block;
@@ -308,6 +329,10 @@
         <select id="resort-select" aria-label="Choose resort"></select>
       </div>
       <div>
+        <label for="date-select">Date</label>
+        <select id="date-select" aria-label="Select date"></select>
+      </div>
+      <div>
         <label for="lift-filter">Filter lifts (name or mountain)</label>
         <input id="lift-filter" type="search" placeholder="e.g. Gondola, Peak 8, Summit" aria-label="Filter lifts">
       </div>
@@ -349,7 +374,9 @@
     let resortMap = {};
     const historyCache = new Map();
     const cachedIndex = {};
+    const availableDatesCache = {};
     let dataFolder = '.';
+    let currentDateKey = '';
 
     const $ = (id) => document.getElementById(id);
 
@@ -386,6 +413,76 @@
       const fromLift = resort.lifts && resort.lifts.length ? resort.lifts[0].lastUpdated?.split('T')[0] : null;
       return fromGenerated || fromLift || new Date().toISOString().slice(0, 10);
     };
+
+    const showGraphTooltip = (dot, tooltip, container, event) => {
+      if (!tooltip || !dot || !container) return;
+      const rect = container.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      tooltip.textContent = `${dot.dataset.wait} min at ${dot.dataset.clock}`;
+      tooltip.style.left = `${x}px`;
+      tooltip.style.top = `${y}px`;
+      tooltip.style.opacity = '1';
+      tooltip.style.transform = 'translate(-50%, -140%)';
+    };
+
+    const hideGraphTooltip = (tooltip) => {
+      if (!tooltip) return;
+      tooltip.style.opacity = '0';
+      tooltip.style.transform = 'translate(-50%, -120%)';
+    };
+
+    async function getAvailableDates(resortKey, resortData) {
+      const cacheKey = dataFolder + '-' + resortKey;
+      if (availableDatesCache[cacheKey]) return availableDatesCache[cacheKey];
+      const dates = new Set();
+      const fallbackDate = deriveDateKey(resortData || {});
+      if (fallbackDate) dates.add(fallbackDate);
+
+      try {
+        const res = await fetch(`${dataFolder}/${resortKey}/lifts/dates.json`);
+        if (res.ok) {
+          const list = await res.json();
+          (list || []).forEach(d => dates.add(d));
+        }
+      } catch (_) {}
+
+      // Probe recent dates only if we still have very few options
+      if (dates.size < 3) {
+        const now = new Date();
+        for (let i = 0; i < 21; i++) {
+          const probe = new Date(now);
+          probe.setDate(now.getDate() - i);
+          const key = probe.toISOString().slice(0, 10);
+          if (dates.has(key)) continue;
+          try {
+            const res = await fetch(`${dataFolder}/${resortKey}/lifts/${key}.ndjson`, { method: 'HEAD' });
+            if (res.ok) dates.add(key);
+          } catch (_) {}
+        }
+      }
+
+      if (dates.size === 0) dates.add(new Date().toISOString().slice(0, 10));
+      const sorted = Array.from(dates).sort();
+      availableDatesCache[cacheKey] = sorted;
+      return sorted;
+    }
+
+    async function populateDateSelect(resortKey, resortData, activeDate) {
+      const select = $('date-select');
+      select.innerHTML = '';
+      const dates = await getAvailableDates(resortKey, resortData);
+      const unique = new Set(dates);
+      if (activeDate) unique.add(activeDate);
+      const sorted = Array.from(unique).sort();
+      sorted.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = d;
+        select.appendChild(opt);
+      });
+      select.value = activeDate || sorted[sorted.length - 1] || '';
+    }
 
     async function fetchHistory(resortKey, dateKey, fullHistory = false) {
       const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
@@ -523,7 +620,7 @@
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
 
       const width = 300;
-      const height = 60;
+      const height = 120;
       const padding = { top: 8, right: 8, bottom: 18, left: 28 };
       const graphWidth = width - padding.left - padding.right;
       const graphHeight = height - padding.top - padding.bottom;
@@ -613,6 +710,8 @@
         circle.setAttribute('cx', xScale(p.time));
         circle.setAttribute('cy', yScale(p.wait));
         circle.setAttribute('r', 3);
+        circle.dataset.wait = p.wait;
+        circle.dataset.clock = formatClock(p.timestamp, tz);
         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
         title.textContent = formatClock(p.timestamp, tz) + ' — ' + p.wait + ' min wait';
         circle.appendChild(title);
@@ -622,16 +721,34 @@
       return svg;
     }
 
-    function renderRows(resortData, history, fullHistory, tz) {
+    function renderRows(resortData, history, fullHistory, tz, dateKey) {
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
       const openOnly = $('open-only-filter').checked;
-      if (!resortData || !resortData.lifts) {
+      const liftsSource = resortData && resortData.lifts ? [...resortData.lifts] : [];
+      // Ensure we include lifts seen in history even if not in index
+      Object.keys(fullHistory || {}).forEach(liftId => {
+        if (!liftsSource.some(l => String(l.liftId) === String(liftId))) {
+          const latest = fullHistory[liftId] && fullHistory[liftId][0];
+          if (latest) {
+            liftsSource.push({
+              liftId,
+              name: latest.name || `Lift ${liftId}`,
+              mountain: latest.mountain,
+              type: latest.type,
+              openTime: latest.openTime,
+              closeTime: latest.closeTime
+            });
+          }
+        }
+      });
+
+      if (!liftsSource.length) {
         tbody.innerHTML = '<tr><td colspan="4" class="empty">No lift data found.</td></tr>';
         return;
       }
 
-      const lifts = [...resortData.lifts].sort((a, b) => {
+      const lifts = liftsSource.sort((a, b) => {
         // Sort open lifts first
         const aOpen = a.status && a.status.toLowerCase() === 'open' ? 1 : 0;
         const bOpen = b.status && b.status.toLowerCase() === 'open' ? 1 : 0;
@@ -650,22 +767,32 @@
         if (openOnly && !isOpen) continue;
 
         const tr = document.createElement('tr');
+        const fullHist = fullHistory[lift.liftId] || [];
+        const latestEntry = fullHist[0];
+        const displayLift = { ...lift };
+        if (latestEntry) {
+          displayLift.waitMinutes = latestEntry.waitMinutes;
+          displayLift.status = latestEntry.status || displayLift.status;
+          displayLift.lastUpdated = latestEntry.timestamp;
+          displayLift.openTime = displayLift.openTime || latestEntry.openTime;
+          displayLift.closeTime = displayLift.closeTime || latestEntry.closeTime;
+        }
 
         const liftCell = document.createElement('td');
         liftCell.setAttribute('data-label', 'Lift');
-        const liftMetadata = [lift.mountain || 'Unknown zone', lift.type || ''];
-        if (lift.openTime && lift.closeTime) {
-          liftMetadata.push(lift.openTime + ' - ' + lift.closeTime);
+        const liftMetadata = [displayLift.mountain || 'Unknown zone', displayLift.type || ''];
+        if (displayLift.openTime && displayLift.closeTime) {
+          liftMetadata.push(displayLift.openTime + ' - ' + displayLift.closeTime);
         }
-        liftCell.innerHTML = '<div class="lift-name">' + lift.name + '</div>' +
+        liftCell.innerHTML = '<div class="lift-name">' + displayLift.name + '</div>' +
           '<div class="lift-sub">' + liftMetadata.filter(Boolean).join(' · ') + '</div>';
         tr.appendChild(liftCell);
 
         const statusCell = document.createElement('td');
         statusCell.setAttribute('data-label', 'Status');
         const status = document.createElement('span');
-        status.className = 'status ' + (lift.status && lift.status.toLowerCase() === 'open' ? 'open' : 'closed');
-        status.textContent = lift.status || '—';
+        status.className = 'status ' + (displayLift.status && displayLift.status.toLowerCase() === 'open' ? 'open' : 'closed');
+        status.textContent = displayLift.status || '—';
         statusCell.appendChild(status);
         tr.appendChild(statusCell);
 
@@ -673,21 +800,40 @@
         currentCell.setAttribute('data-label', 'Most Recent Wait');
         const currentWait = document.createElement('div');
         currentWait.className = 'current-wait';
-        currentWait.textContent = formatWait(lift.waitMinutes);
+        currentWait.textContent = formatWait(displayLift.waitMinutes);
         const meta = document.createElement('div');
         meta.className = 'current-meta';
-        meta.textContent = lift.lastUpdated ? 'as of ' + formatClock(lift.lastUpdated, tz) + ' (' + timeAgo(lift.lastUpdated) + ')' : 'no timestamp';
+        meta.textContent = displayLift.lastUpdated ? 'as of ' + formatClock(displayLift.lastUpdated, tz) + ' (' + timeAgo(displayLift.lastUpdated) + ')' : 'no timestamp';
         currentCell.appendChild(currentWait);
         currentCell.appendChild(meta);
 
         // Add wait time graph to current wait column (using full history for all data points)
-        const fullHist = fullHistory[lift.liftId] || [];
-        const graph = createWaitGraph(fullHist, lift.openTime, lift.closeTime, tz);
+        const graph = createWaitGraph(fullHist, displayLift.openTime, displayLift.closeTime, tz);
         if (graph) {
           const graphContainer = document.createElement('div');
           graphContainer.className = 'wait-graph';
+          const tooltip = document.createElement('div');
+          tooltip.className = 'graph-tooltip';
+          graphContainer.appendChild(tooltip);
           graphContainer.appendChild(graph);
           currentCell.appendChild(graphContainer);
+          const longest = fullHist.reduce((acc, entry) => {
+            if (entry.waitMinutes === null || entry.waitMinutes === undefined) return acc;
+            if (!acc || entry.waitMinutes > acc.waitMinutes) return entry;
+            return acc;
+          }, null);
+          if (longest) {
+            const longestEl = document.createElement('div');
+            longestEl.className = 'max-wait';
+            longestEl.textContent = 'Longest wait: ' + longest.waitMinutes + ' min at ' + formatClock(longest.timestamp, tz) + (dateKey ? ' (' + dateKey + ')' : '');
+            currentCell.appendChild(longestEl);
+          }
+          const attachTooltip = (evt, dot) => showGraphTooltip(dot, tooltip, graphContainer, evt);
+          graph.querySelectorAll('.graph-dot').forEach(dot => {
+            dot.addEventListener('mouseenter', (evt) => attachTooltip(evt, dot));
+            dot.addEventListener('mousemove', (evt) => attachTooltip(evt, dot));
+            dot.addEventListener('mouseleave', () => hideGraphTooltip(tooltip));
+          });
         }
 
         tr.appendChild(currentCell);
@@ -725,7 +871,7 @@
       $('notice').textContent = 'Showing ' + shown + ' of ' + lifts.length + ' lifts' + (filter ? ' (filtered)' : '') + '.';
     }
 
-    async function loadResort(resortKey) {
+    async function loadResort(resortKey, requestedDate) {
       const resortInfo = resortMap[resortKey];
       if (!resortInfo) return;
       $('notice').textContent = 'Loading recent runs…';
@@ -738,7 +884,9 @@
           cachedIndex[cacheKey] = await res.json();
         }
         const resortData = cachedIndex[cacheKey];
-        const dateKey = deriveDateKey(resortData);
+        const dateKey = requestedDate || currentDateKey || deriveDateKey(resortData);
+        currentDateKey = dateKey;
+        await populateDateSelect(resortKey, resortData, dateKey);
         const tz = resortInfo.timezone || 'UTC';
         setMeta(resortData, dateKey, tz);
         // Fetch limited history for chips and full history for graphs
@@ -746,7 +894,7 @@
           fetchHistory(resortKey, dateKey, false),
           fetchHistory(resortKey, dateKey, true)
         ]);
-        renderRows(resortData, history, fullHistory, tz);
+        renderRows(resortData, history, fullHistory, tz, dateKey);
       } catch (err) {
         $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load resort data.</td></tr>';
         $('notice').textContent = err.message || String(err);
@@ -794,8 +942,16 @@
 
     $('resort-select').addEventListener('change', async (e) => {
       const key = e.target.value;
+      currentDateKey = '';
       applyQueryParam(key);
       await loadResort(key);
+    });
+
+    $('date-select').addEventListener('change', async (e) => {
+      const key = $('resort-select').value;
+      if (!key) return;
+      currentDateKey = e.target.value;
+      await loadResort(key, currentDateKey);
     });
 
     $('lift-filter').addEventListener('input', async () => {
@@ -804,13 +960,13 @@
       const cacheKey = `${dataFolder}-${key}`;
       if (!resortInfo || !cachedIndex[cacheKey]) return;
       const resortData = cachedIndex[cacheKey];
-      const dateKey = deriveDateKey(resortData);
+      const dateKey = currentDateKey || deriveDateKey(resortData);
       const tz = resortInfo.timezone || 'UTC';
       const [history, fullHistory] = await Promise.all([
         fetchHistory(key, dateKey, false),
         fetchHistory(key, dateKey, true)
       ]);
-      renderRows(resortData, history, fullHistory, tz);
+      renderRows(resortData, history, fullHistory, tz, dateKey);
     });
 
     $('open-only-filter').addEventListener('change', async () => {
@@ -819,13 +975,13 @@
       const cacheKey = `${dataFolder}-${key}`;
       if (!resortInfo || !cachedIndex[cacheKey]) return;
       const resortData = cachedIndex[cacheKey];
-      const dateKey = deriveDateKey(resortData);
+      const dateKey = currentDateKey || deriveDateKey(resortData);
       const tz = resortInfo.timezone || 'UTC';
       const [history, fullHistory] = await Promise.all([
         fetchHistory(key, dateKey, false),
         fetchHistory(key, dateKey, true)
       ]);
-      renderRows(resortData, history, fullHistory, tz);
+      renderRows(resortData, history, fullHistory, tz, dateKey);
     });
 
     $('local-data-mode').addEventListener('change', async (e) => {
@@ -834,6 +990,7 @@
       // Clear caches
       historyCache.clear();
       Object.keys(cachedIndex).forEach(key => delete cachedIndex[key]);
+      Object.keys(availableDatesCache).forEach(key => delete availableDatesCache[key]);
       // Reload current resort if one is selected
       const key = $('resort-select').value;
       if (key) {
