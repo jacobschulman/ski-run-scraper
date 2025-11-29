@@ -7,6 +7,10 @@ const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 
+// Operating window buffers
+const PRE_OPEN_BUFFER_MINUTES = 30; // start a bit before posted open
+const POST_CLOSE_GRACE_MINUTES = 10; // short grace to capture final close states
+
 // Use local data directory (separate from GitHub Actions)
 const DATA_DIR = 'data-local';
 const CACHE_DIR = 'cache-local';
@@ -216,12 +220,21 @@ function shouldCheckResort(resortKey, resort, activeCache) {
       const openTimes = openLifts.map(r => timeToMinutes(r.openTime));
       const closeTimes = openLifts.map(r => timeToMinutes(r.closeTime));
 
-      const earliestOpen = Math.min(...openTimes) - 30; // 30 min before
-      const latestClose = Math.max(...closeTimes) + 60; // 60 min after
+      const earliestOpen = Math.min(...openTimes) - PRE_OPEN_BUFFER_MINUTES;
+      const latestClose = Math.max(...closeTimes);
+      const hardStop = latestClose + POST_CLOSE_GRACE_MINUTES;
       const currentMinutes = timeToMinutes(getResortLocalTime(timezone));
 
-      if (currentMinutes >= earliestOpen && currentMinutes <= latestClose) {
+      if (currentMinutes < earliestOpen) {
+        return { shouldCheck: false, reason: 'before_operating_hours', tier: 4 };
+      }
+
+      if (currentMinutes <= latestClose) {
         return { shouldCheck: true, reason: 'within_operating_hours', tier: 4 };
+      }
+
+      if (currentMinutes <= hardStop) {
+        return { shouldCheck: true, reason: 'post_close_grace', tier: 4 };
       }
     }
 
@@ -349,24 +362,33 @@ function getLiftOperatingWindow(lifts, timezone, resortKey) {
   const now = new Date();
   const localTimeStr = formatInTimeZone(now, timezone, 'HH:mm');
   const currentMinutes = timeToMinutes(localTimeStr);
+  const hardStopMinutes = maxCloseMinutes + POST_CLOSE_GRACE_MINUTES;
 
   const withinOperatingHours = currentMinutes >= minOpenMinutes && currentMinutes <= maxCloseMinutes;
 
   let isOpen = withinOperatingHours;
   let reason = '';
 
-  if (withinOperatingHours) {
+  if (currentMinutes < minOpenMinutes - PRE_OPEN_BUFFER_MINUTES) {
+    reason = `Before operating window (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
+    isOpen = false;
+  } else if (withinOperatingHours) {
     reason = 'Within operating hours';
-  } else if (currentMinutes < minOpenMinutes) {
-    reason = `Before opening time (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
-  } else {
+  } else if (currentMinutes > hardStopMinutes) {
+    reason = `Past close +${POST_CLOSE_GRACE_MINUTES}m buffer (${localTimeStr} > ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`;
+    isOpen = false;
+  } else if (currentMinutes > maxCloseMinutes) {
     const hasOpenLifts = hasRecentOpenLifts(resortKey, timezone);
     if (hasOpenLifts) {
       isOpen = true;
-      reason = 'Past close time but lifts still showing as Open - continuing to capture status change';
+      reason = `Within ${POST_CLOSE_GRACE_MINUTES}m post-close buffer and lifts still showing as Open`;
     } else {
+      isOpen = false;
       reason = `Past close time and all lifts closed (${localTimeStr} > ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`;
     }
+  } else {
+    reason = `Before opening time (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
+    isOpen = false;
   }
 
   return {
