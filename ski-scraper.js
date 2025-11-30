@@ -652,38 +652,12 @@ function generateLatestSnowFile(scrapedData) {
 
 /**
  * Generate index.json manifest of all available data files
+ * @deprecated Use fileStorage.generateDataIndex(config) instead
  */
 function generateIndexFile() {
-  const index = {
-    resorts: {},
-    lastUpdated: new Date().toISOString()
-  };
-
-  const dataDir = 'data';
-  if (!fs.existsSync(dataDir)) {
-    return;
-  }
-
-  // Scan each resort directory
-  Object.keys(RESORTS).forEach(resortKey => {
-    const terrainDir = path.join(dataDir, resortKey, 'terrain');
-    if (fs.existsSync(terrainDir)) {
-      const files = fs.readdirSync(terrainDir)
-        .filter(f => f.endsWith('.json'))
-        .sort()
-        .reverse(); // Most recent first
-
-      index.resorts[resortKey] = {
-        name: RESORTS[resortKey].name,
-        files: files,
-        latest: files[0] || null,
-        count: files.length
-      };
-    }
-  });
-
-  fs.writeFileSync('data/index.json', JSON.stringify(index, null, 2));
-  console.log('✓ Generated data/index.json (file manifest)');
+  // Delegate to shared utility
+  const fileStorage = require('./lib/file-storage');
+  fileStorage.generateDataIndex(config);
 }
 
 /**

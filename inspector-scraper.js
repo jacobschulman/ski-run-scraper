@@ -625,16 +625,20 @@ async function main() {
 
   if (resortsToScrape.length === 0) {
     console.log('\n✅ No resorts need scraping at this time\n');
-    return;
+  } else {
+    // Scrape the resorts
+    const scrapedData = await scrapeInspectorResorts(resortsToScrape);
+
+    // Summary
+    console.log('\n' + '='.repeat(80));
+    console.log(`📊 Summary: ${scrapedData.length} resort(s) scraped, ${skippedResorts.length} skipped`);
+    console.log('='.repeat(80));
   }
 
-  // Scrape the resorts
-  const scrapedData = await scrapeInspectorResorts(resortsToScrape);
-
-  // Summary
-  console.log('\n' + '='.repeat(80));
-  console.log(`📊 Summary: ${scrapedData.length} resort(s) scraped, ${skippedResorts.length} skipped`);
-  console.log('='.repeat(80));
+  // Always generate/update the global data index with all resorts (both Vail and Inspector)
+  // This ensures the index includes resorts even when scraping is skipped
+  console.log('\n📋 Updating global data index...');
+  fileStorage.generateDataIndex(config);
 
   console.log('\n✅ Inspector scraping complete!\n');
 
