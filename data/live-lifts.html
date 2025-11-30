@@ -385,6 +385,11 @@
       .replace(/\s+/g, '-')
       .replace(/--+/g, '-')
       .trim();
+    const canonicalLiftId = (lift) => {
+      if (!lift) return '';
+      if (lift.liftId !== undefined && lift.liftId !== null) return String(lift.liftId);
+      return `${slugify(lift.mountain || 'unknown')}:${slugify(lift.name || 'unknown')}`;
+    };
 
     const timeAgo = (iso) => {
       if (!iso) return '';
@@ -495,25 +500,31 @@
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
 
       const promise = (async () => {
-        const parseNdjson = (text) => {
-          const lines = text.trim().split('\n').filter(Boolean);
-          const parsed = [];
-          for (const line of lines) {
-            try { parsed.push(JSON.parse(line)); } catch (_) {}
-          }
-          const history = {};
-          for (let i = parsed.length - 1; i >= 0; i--) {
-            const entry = parsed[i];
-            if (!entry) continue;
-            const fallbackId = `${slugify(entry.mountain || 'unknown')}:${slugify(entry.name || 'unknown')}`;
-            const liftId = entry.liftId || fallbackId;
-            const bucket = history[liftId] || (history[liftId] = []);
-            if (!fullHistory && bucket.length >= historyDepth) continue;
-            if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
-            bucket.push({ ...entry, liftId });
-          }
-          return history;
-        };
+      const parseNdjson = (text) => {
+        const lines = text.trim().split('\n').filter(Boolean);
+        const parsed = [];
+        for (const line of lines) {
+          try { parsed.push(JSON.parse(line)); } catch (_) {}
+        }
+        const history = {};
+        const nameKeyToId = new Map();
+        for (let i = parsed.length - 1; i >= 0; i--) {
+          const entry = parsed[i];
+          if (!entry) continue;
+          const nameKey = `${slugify(entry.mountain || 'unknown')}:${slugify(entry.name || 'unknown')}`;
+          const canonicalId = (() => {
+            if (nameKeyToId.has(nameKey)) return nameKeyToId.get(nameKey);
+            const chosen = entry.liftId !== undefined && entry.liftId !== null ? String(entry.liftId) : nameKey;
+            nameKeyToId.set(nameKey, chosen);
+            return chosen;
+          })();
+          const bucket = history[canonicalId] || (history[canonicalId] = []);
+          if (!fullHistory && bucket.length >= historyDepth) continue;
+          if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
+          bucket.push({ ...entry, liftId: canonicalId });
+        }
+        return history;
+      };
 
         const tryFetch = async (rangeBytes) => {
           const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
@@ -598,8 +609,16 @@
       // Parse open/close times to get time range
       const parseTime = (timeStr) => {
         if (!timeStr) return null;
-        const [h, m] = timeStr.split(':').map(Number);
-        return h * 60 + m; // minutes since midnight
+        const match = timeStr.match(/(\d+):(\d+)\s*(am|pm)?/i);
+        if (!match) return null;
+        let hours = parseInt(match[1], 10);
+        const minutes = parseInt(match[2], 10);
+        const meridiem = match[3]?.toLowerCase();
+        if (meridiem) {
+          if (meridiem === 'pm' && hours < 12) hours += 12;
+          if (meridiem === 'am' && hours === 12) hours = 0;
+        }
+        return hours * 60 + minutes; // minutes since midnight
       };
 
       const openMinutes = parseTime(openTime) || 0;
@@ -613,11 +632,12 @@
           const minutes = t.getHours() * 60 + t.getMinutes();
           return {
             time: minutes,
-            wait: entry.waitMinutes,
-            timestamp: entry.timestamp
+            wait: entry.waitMinutes != null ? entry.waitMinutes : 0,
+            timestamp: entry.timestamp,
+            status: entry.status
           };
         })
-        .filter(p => p && p.wait !== null && p.wait !== undefined && p.wait >= 0)
+        .filter(p => p && p.wait >= 0)
         .sort((a, b) => a.time - b.time);
 
       if (dataPoints.length === 0) return null;
@@ -721,7 +741,8 @@
         circle.dataset.wait = p.wait;
         circle.dataset.clock = formatClock(p.timestamp, tz);
         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        title.textContent = formatClock(p.timestamp, tz) + ' — ' + p.wait + ' min wait';
+        const waitLabel = p.wait != null ? `${p.wait} min wait` : (p.status || 'No data');
+        title.textContent = formatClock(p.timestamp, tz) + ' — ' + waitLabel;
         circle.appendChild(title);
         svg.appendChild(circle);
       });
@@ -733,23 +754,42 @@
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
       const openOnly = $('open-only-filter').checked;
-      const liftsSource = resortData && resortData.lifts ? [...resortData.lifts] : [];
+      const liftMap = new Map();
+
+      const addOrMergeLift = (lift) => {
+        if (!lift) return;
+        const id = canonicalLiftId(lift);
+        const existing = liftMap.get(id);
+        if (!existing) {
+          liftMap.set(id, { ...lift, liftId: id });
+          return;
+        }
+        // Prefer entry with status/lastUpdated/open/close populated
+        const merged = { ...existing };
+        if (lift.status) merged.status = lift.status;
+        if (lift.lastUpdated && (!merged.lastUpdated || new Date(lift.lastUpdated) > new Date(merged.lastUpdated))) {
+          merged.lastUpdated = lift.lastUpdated;
+          merged.waitMinutes = lift.waitMinutes !== undefined ? lift.waitMinutes : merged.waitMinutes;
+        }
+        merged.openTime = merged.openTime || lift.openTime;
+        merged.closeTime = merged.closeTime || lift.closeTime;
+        merged.mountain = merged.mountain || lift.mountain;
+        merged.type = merged.type || lift.type;
+        merged.name = merged.name || lift.name;
+        liftMap.set(id, merged);
+      };
+
+      (resortData && resortData.lifts ? resortData.lifts : []).forEach(addOrMergeLift);
+
       // Ensure we include lifts seen in history even if not in index
       Object.keys(fullHistory || {}).forEach(liftId => {
-        if (!liftsSource.some(l => String(l.liftId) === String(liftId))) {
-          const latest = fullHistory[liftId] && fullHistory[liftId][0];
-          if (latest) {
-            liftsSource.push({
-              liftId,
-              name: latest.name || `Lift ${liftId}`,
-              mountain: latest.mountain,
-              type: latest.type,
-              openTime: latest.openTime,
-              closeTime: latest.closeTime
-            });
-          }
+        const latest = fullHistory[liftId] && fullHistory[liftId][0];
+        if (latest) {
+          addOrMergeLift({ liftId, ...latest });
         }
       });
+
+      const liftsSource = Array.from(liftMap.values());
 
       if (!liftsSource.length) {
         tbody.innerHTML = '<tr><td colspan="4" class="empty">No lift data found.</td></tr>';
