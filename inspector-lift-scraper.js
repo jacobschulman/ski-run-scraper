@@ -279,19 +279,30 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
         area.Lifts.forEach(lift => {
           const hours = getTodayLiftHours(lift.Hours, timezone);
 
+          // Parse wait time (handle "--" or numeric values)
+          let waitMinutes = null;
+          if (lift.WaitTime && lift.WaitTime !== '--') {
+            const parsed = parseInt(lift.WaitTime);
+            if (!isNaN(parsed)) {
+              waitMinutes = parsed;
+            }
+          }
+
+          // Normalize to Vail format with Inspector extensions
           const liftRecord = {
             timestamp: timestamp,
-            localDate: localDate,
             localTime: localTime,
+            resort: resortKey,
             name: lift.Name,
             status: lift.Status,
-            liftType: lift.LiftType,
-            waitTime: lift.WaitTime || null,
-            waitTimeString: lift.WaitTime ? `${lift.WaitTime} min` : null,
-            firstTracks: lift.FirstTracks || null,
+            type: lift.LiftType,
+            waitMinutes: waitMinutes,
             openTime: hours.openTime,
             closeTime: hours.closeTime,
-            area: area.Name,
+            mountain: area.Name,
+
+            // Inspector-specific fields (preserve extra data)
+            firstTracks: lift.FirstTracks || null,
             elevationTop: lift.ElevationTop || null,
             elevationBottom: lift.ElevationBottom || null,
             verticalRise: lift.VerticalRise || null,
