@@ -233,6 +233,12 @@ function saveInspectorSnowData(resortKey, inspectorData) {
     if (err) {
       console.error('  ⚠️  Database error (resort):', err.message);
     } else {
+      const primaryConditions =
+        cleanData.currentConditions?.base ||
+        cleanData.currentConditions?.midMountain ||
+        cleanData.currentConditions?.summit ||
+        null;
+
       const snowDataForDb = {
         overnightSnowfall: { inches: cleanData.snowfall.overnight_inches },
         baseDepth: { inches: cleanData.baseDepth.inches },
@@ -240,7 +246,10 @@ function saveInspectorSnowData(resortKey, inspectorData) {
         newSnow48Hours: { inches: cleanData.snowfall['48hour_inches'] },
         newSnow7Days: { inches: cleanData.snowfall['7day_inches'] },
         seasonTotal: { inches: cleanData.snowfall.season_total_inches },
-        currentConditions: { weather: cleanData.conditions }
+        currentConditions: {
+          weather: primaryConditions?.skies || primaryConditions?.conditions || cleanData.conditions,
+          temperature: primaryConditions?.temperature_f ?? primaryConditions?.temperature_c ?? null
+        }
       };
 
       saveSnowConditions(database, resortId, today, snowDataForDb, (err, id) => {
@@ -263,6 +272,16 @@ function saveInspectorSnowData(resortKey, inspectorData) {
   console.log(`   7-day Snowfall: ${cleanData.snowfall['7day_inches']}" (${cleanData.snowfall['7day_cm']}cm)`);
   console.log(`   Season Total: ${cleanData.snowfall.season_total_inches}" (${cleanData.snowfall.season_total_cm}cm)`);
   console.log(`   Terrain: ${cleanData.terrain.openTrails}/${cleanData.terrain.totalTrails} trails, ${cleanData.terrain.openLifts}/${cleanData.terrain.totalLifts} lifts`);
+
+  const weatherNow =
+    cleanData.currentConditions?.base ||
+    cleanData.currentConditions?.midMountain ||
+    cleanData.currentConditions?.summit ||
+    null;
+
+  if (weatherNow) {
+    console.log(`   Current Weather: ${weatherNow.skies || weatherNow.conditions || 'Unknown'} @ ${weatherNow.temperature_f ?? weatherNow.temperature_c ?? '--'}°`);
+  }
 
   return { resortKey, date: today, data: cleanData };
 }
