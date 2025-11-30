@@ -57,6 +57,7 @@ async function readLiftData(resortKey) {
 
   const liftsByLiftId = new Map();
   const allRecords = [];
+  const nameKeyToId = new Map();
 
   // Read all files
   for (const file of files) {
@@ -73,14 +74,22 @@ async function readLiftData(resortKey) {
       try {
         const record = JSON.parse(line);
         allRecords.push(record);
-        const fallbackLiftId = `${slugifyLiftName(record.mountain || 'unknown')}:${slugifyLiftName(record.name || 'unknown')}`;
-        const liftId = record.liftId || fallbackLiftId;
+        const nameKey = `${slugifyLiftName(record.mountain || 'unknown')}:${slugifyLiftName(record.name || 'unknown')}`;
+        const canonicalId = (() => {
+          if (nameKeyToId.has(nameKey)) return nameKeyToId.get(nameKey);
+          if (record.liftId) {
+            nameKeyToId.set(nameKey, record.liftId);
+            return record.liftId;
+          }
+          nameKeyToId.set(nameKey, nameKey);
+          return nameKey;
+        })();
 
         // Group by liftId
-        if (!liftsByLiftId.has(liftId)) {
-          liftsByLiftId.set(liftId, []);
+        if (!liftsByLiftId.has(canonicalId)) {
+          liftsByLiftId.set(canonicalId, []);
         }
-        liftsByLiftId.get(liftId).push({ ...record, liftId });
+        liftsByLiftId.get(canonicalId).push({ ...record, liftId: canonicalId });
       } catch (error) {
         console.error(`Error parsing line in ${file}:`, error.message);
       }
