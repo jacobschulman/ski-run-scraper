@@ -18,9 +18,20 @@ function initializeDatabase() {
         key TEXT UNIQUE NOT NULL,
         name TEXT NOT NULL,
         timezone TEXT,
+        provider TEXT DEFAULT 'vail',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     `);
+
+    // Add provider column to existing resorts table if it doesn't exist
+    db.run(`
+      ALTER TABLE resorts ADD COLUMN provider TEXT DEFAULT 'vail'
+    `, (err) => {
+      // Ignore error if column already exists
+      if (err && !err.message.includes('duplicate column')) {
+        console.error('Warning: Could not add provider column:', err.message);
+      }
+    });
 
     // Create terrain_status table for daily trail/lift/grooming data
     db.run(`
@@ -73,23 +84,39 @@ function initializeDatabase() {
 
 /**
  * Get or create a resort by key
+ * @param {Object} db - Database connection
+ * @param {String} resortKey - Resort key
+ * @param {String} resortName - Resort name
+ * @param {String} timezone - Resort timezone
+ * @param {String} provider - Data provider ('vail' or 'inspector'), defaults to 'vail'
+ * @param {Function} callback - Callback function
  */
-function getOrCreateResort(db, resortKey, resortName, timezone, callback) {
+function getOrCreateResort(db, resortKey, resortName, timezone, providerOrCallback, callback) {
+  // Support legacy 4-parameter call for backward compatibility
+  let provider = 'vail';
+  let cb = callback;
+
+  if (typeof providerOrCallback === 'function') {
+    cb = providerOrCallback;
+  } else {
+    provider = providerOrCallback || 'vail';
+  }
+
   db.get(
     'SELECT id FROM resorts WHERE key = ?',
     [resortKey],
     (err, row) => {
-      if (err) return callback(err);
+      if (err) return cb(err);
 
       if (row) {
-        callback(null, row.id);
+        cb(null, row.id);
       } else {
         db.run(
-          'INSERT INTO resorts (key, name, timezone) VALUES (?, ?, ?)',
-          [resortKey, resortName, timezone],
+          'INSERT INTO resorts (key, name, timezone, provider) VALUES (?, ?, ?, ?)',
+          [resortKey, resortName, timezone, provider],
           function(err) {
-            if (err) return callback(err);
-            callback(null, this.lastID);
+            if (err) return cb(err);
+            cb(null, this.lastID);
           }
         );
       }
