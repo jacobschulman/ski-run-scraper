@@ -73,12 +73,14 @@ async function readLiftData(resortKey) {
       try {
         const record = JSON.parse(line);
         allRecords.push(record);
+        const fallbackLiftId = `${slugifyLiftName(record.mountain || 'unknown')}:${slugifyLiftName(record.name || 'unknown')}`;
+        const liftId = record.liftId || fallbackLiftId;
 
         // Group by liftId
-        if (!liftsByLiftId.has(record.liftId)) {
-          liftsByLiftId.set(record.liftId, []);
+        if (!liftsByLiftId.has(liftId)) {
+          liftsByLiftId.set(liftId, []);
         }
-        liftsByLiftId.get(record.liftId).push(record);
+        liftsByLiftId.get(liftId).push({ ...record, liftId });
       } catch (error) {
         console.error(`Error parsing line in ${file}:`, error.message);
       }

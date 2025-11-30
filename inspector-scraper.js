@@ -94,6 +94,28 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
   fs.writeFileSync(timestampedFile, JSON.stringify(normalizedData, null, 2));
   console.log(`✓ Saved terrain data to ${timestampedFile}`);
 
+  // Update per-resort terrain index (mirrors generate-terrain-indexes.js)
+  const terrainFiles = fs.readdirSync(terrainDir)
+    .filter(f => f.endsWith('.json') && f !== 'index.json')
+    .map(f => f.replace(/\.json$/, ''))
+    .sort()
+    .reverse();
+
+  if (terrainFiles.length > 0) {
+    const terrainIndex = {
+      resort: resortKey,
+      resortName,
+      files: terrainFiles,
+      latest: terrainFiles[0] || null,
+      count: terrainFiles.length,
+      generated: new Date().toISOString()
+    };
+
+    const terrainIndexPath = path.join(terrainDir, 'index.json');
+    fs.writeFileSync(terrainIndexPath, JSON.stringify(terrainIndex, null, 2));
+    console.log(`✓ Updated ${terrainIndexPath} (${terrainFiles.length} files)`);
+  }
+
   // Save to database with provider='inspector'
   const database = getDb();
   getOrCreateResort(database, resortKey, resortName, resortTimezone, (err, resortId) => {

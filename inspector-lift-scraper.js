@@ -263,6 +263,14 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
   const timezone = resort.timezone;
   const localDate = seasonUtils.getResortLocalDate(timezone);
   const localTime = seasonUtils.getResortLocalTime(timezone);
+  const getLiftId = (lift, areaName) => {
+    return (
+      lift.LiftId ||
+      lift.Id ||
+      lift.liftId ||
+      `${(areaName || 'unknown').toLowerCase()}:${(lift.Name || 'unknown').toLowerCase()}`
+    );
+  };
 
   const liftsDir = path.join('data', resortKey, 'lifts');
   fileStorage.ensureDirectoryExists(liftsDir);
@@ -278,6 +286,7 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
       if (area.Lifts && area.Lifts.length > 0) {
         area.Lifts.forEach(lift => {
           const hours = getTodayLiftHours(lift.Hours, timezone);
+          const liftId = getLiftId(lift, area.Name);
 
           // Parse wait time (handle "--" or numeric values)
           let waitMinutes = null;
@@ -289,15 +298,16 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
           }
 
           // Normalize to Vail format with Inspector extensions
-          const liftRecord = {
-            timestamp: timestamp,
-            localTime: localTime,
-            resort: resortKey,
-            name: lift.Name,
-            status: lift.Status,
-            type: lift.LiftType,
-            waitMinutes: waitMinutes,
-            openTime: hours.openTime,
+            const liftRecord = {
+              timestamp: timestamp,
+              localTime: localTime,
+              resort: resortKey,
+              liftId: liftId,
+              name: lift.Name,
+              status: lift.Status,
+              type: lift.LiftType,
+              waitMinutes: waitMinutes,
+              openTime: hours.openTime,
             closeTime: hours.closeTime,
             mountain: area.Name,
 
