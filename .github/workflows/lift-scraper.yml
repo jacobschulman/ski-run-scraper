@@ -35,8 +35,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run lift scraper
+      - name: Run Vail lift scraper
         run: node lift-scraper.js
+
+      - name: Run Inspector lift scraper
+        run: node inspector-lift-scraper.js
 
       - name: Generate lift JSON files
         run: npm run generate:lifts all
