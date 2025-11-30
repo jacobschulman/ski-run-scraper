@@ -63,37 +63,38 @@ function generateLandingPages() {
     // Ensure resort directory exists
     ensureDirectoryExists(resortDir);
 
-    // Create/update grooming page if resort has terrainUrl
-    if (resort.terrainUrl) {
+    // Create/update grooming page if resort has terrainUrl OR is Inspector resort
+    const isInspector = resort.provider === 'inspector';
+    if (resort.terrainUrl || isInspector) {
       const groomingExists = fs.existsSync(groomingPage);
       copyTemplate(GROOMING_TEMPLATE, groomingPage);
 
       if (groomingExists) {
-        console.log(`  ✓ Updated grooming.html`);
+        console.log(`  ✓ Updated grooming.html${isInspector ? ' (Inspector)' : ''}`);
         updatedCount++;
       } else {
-        console.log(`  ✓ Created grooming.html`);
+        console.log(`  ✓ Created grooming.html${isInspector ? ' (Inspector)' : ''}`);
         createdCount++;
       }
     } else {
-      console.log(`  ⊘ Skipped grooming.html (no terrainUrl configured)`);
+      console.log(`  ⊘ Skipped grooming.html (no terrainUrl or provider configured)`);
       skippedCount++;
     }
 
-    // Create/update snow page if resort has snowReportUrl
-    if (resort.snowReportUrl) {
+    // Create/update snow page if resort has snowReportUrl OR is Inspector resort
+    if (resort.snowReportUrl || isInspector) {
       const snowExists = fs.existsSync(snowPage);
       copyTemplate(SNOW_TEMPLATE, snowPage);
 
       if (snowExists) {
-        console.log(`  ✓ Updated snow.html`);
+        console.log(`  ✓ Updated snow.html${isInspector ? ' (Inspector)' : ''}`);
         updatedCount++;
       } else {
-        console.log(`  ✓ Created snow.html`);
+        console.log(`  ✓ Created snow.html${isInspector ? ' (Inspector)' : ''}`);
         createdCount++;
       }
     } else {
-      console.log(`  ⊘ Skipped snow.html (no snowReportUrl configured)`);
+      console.log(`  ⊘ Skipped snow.html (no snowReportUrl or provider configured)`);
       skippedCount++;
     }
 
