@@ -556,7 +556,6 @@ async function main() {
   console.log('='.repeat(80));
   console.log(`Run time: ${new Date().toISOString()}`);
   console.log(`API URL: ${INSPECTOR_API_URL}`);
-  console.log(`Batch size: ${BATCH_SIZE} resorts per request`);
   console.log('='.repeat(80));
 
   // Get Inspector resorts
