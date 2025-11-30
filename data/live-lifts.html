@@ -387,7 +387,6 @@
       .trim();
     const canonicalLiftId = (lift) => {
       if (!lift) return '';
-      if (lift.liftId !== undefined && lift.liftId !== null) return String(lift.liftId);
       return `${slugify(lift.mountain || 'unknown')}:${slugify(lift.name || 'unknown')}`;
     };
 
@@ -502,28 +501,21 @@
       const promise = (async () => {
       const parseNdjson = (text) => {
         const lines = text.trim().split('\n').filter(Boolean);
-        const parsed = [];
-        for (const line of lines) {
-          try { parsed.push(JSON.parse(line)); } catch (_) {}
-        }
-        const history = {};
-        const nameKeyToId = new Map();
-        for (let i = parsed.length - 1; i >= 0; i--) {
-          const entry = parsed[i];
-          if (!entry) continue;
-          const nameKey = `${slugify(entry.mountain || 'unknown')}:${slugify(entry.name || 'unknown')}`;
-          const canonicalId = (() => {
-            if (nameKeyToId.has(nameKey)) return nameKeyToId.get(nameKey);
-            const chosen = entry.liftId !== undefined && entry.liftId !== null ? String(entry.liftId) : nameKey;
-            nameKeyToId.set(nameKey, chosen);
-            return chosen;
-          })();
-          const bucket = history[canonicalId] || (history[canonicalId] = []);
-          if (!fullHistory && bucket.length >= historyDepth) continue;
-          if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
-          bucket.push({ ...entry, liftId: canonicalId });
-        }
-        return history;
+          const parsed = [];
+          for (const line of lines) {
+            try { parsed.push(JSON.parse(line)); } catch (_) {}
+          }
+          const history = {};
+          for (let i = parsed.length - 1; i >= 0; i--) {
+            const entry = parsed[i];
+            if (!entry) continue;
+            const canonicalId = canonicalLiftId(entry);
+            const bucket = history[canonicalId] || (history[canonicalId] = []);
+            if (!fullHistory && bucket.length >= historyDepth) continue;
+            if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
+            bucket.push({ ...entry, liftId: canonicalId });
+          }
+          return history;
       };
 
         const tryFetch = async (rangeBytes) => {
@@ -785,7 +777,7 @@
       Object.keys(fullHistory || {}).forEach(liftId => {
         const latest = fullHistory[liftId] && fullHistory[liftId][0];
         if (latest) {
-          addOrMergeLift({ liftId, ...latest });
+          addOrMergeLift({ ...latest, liftId });
         }
       });
 
