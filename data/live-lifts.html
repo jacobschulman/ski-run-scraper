@@ -379,6 +379,12 @@
     let currentDateKey = '';
 
     const $ = (id) => document.getElementById(id);
+    const slugify = (s) => (s || '')
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/--+/g, '-')
+      .trim();
 
     const timeAgo = (iso) => {
       if (!iso) return '';
@@ -498,11 +504,13 @@
           const history = {};
           for (let i = parsed.length - 1; i >= 0; i--) {
             const entry = parsed[i];
-            if (!entry || !entry.liftId) continue;
-            const bucket = history[entry.liftId] || (history[entry.liftId] = []);
+            if (!entry) continue;
+            const fallbackId = `${slugify(entry.mountain || 'unknown')}:${slugify(entry.name || 'unknown')}`;
+            const liftId = entry.liftId || fallbackId;
+            const bucket = history[liftId] || (history[liftId] = []);
             if (!fullHistory && bucket.length >= historyDepth) continue;
             if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
-            bucket.push(entry);
+            bucket.push({ ...entry, liftId });
           }
           return history;
         };
@@ -762,10 +770,6 @@
         const text = (lift.name + ' ' + (lift.mountain || '')).toLowerCase();
         if (filter && !text.includes(filter)) continue;
 
-        // Filter by open status if checkbox is checked
-        const isOpen = lift.status && lift.status.toLowerCase() === 'open';
-        if (openOnly && !isOpen) continue;
-
         const tr = document.createElement('tr');
         const fullHist = fullHistory[lift.liftId] || [];
         const latestEntry = fullHist[0];
@@ -777,6 +781,10 @@
           displayLift.openTime = displayLift.openTime || latestEntry.openTime;
           displayLift.closeTime = displayLift.closeTime || latestEntry.closeTime;
         }
+
+        // Filter by open status if checkbox is checked (after merging latest status)
+        const isOpen = displayLift.status && displayLift.status.toLowerCase() === 'open';
+        if (openOnly && !isOpen) continue;
 
         const liftCell = document.createElement('td');
         liftCell.setAttribute('data-label', 'Lift');

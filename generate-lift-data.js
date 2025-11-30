@@ -105,12 +105,29 @@ async function readLiftData(resortKey) {
 function isWithinOperatingHours(openTime, closeTime, timezone) {
   if (!openTime || !closeTime || !timezone) return null;
 
+  const toMinutes = (timeStr) => {
+    if (!timeStr) return null;
+    const match = timeStr.match(/(\\d+):(\\d+)\\s*(am|pm)?/i);
+    if (!match) return null;
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const meridiem = match[3]?.toLowerCase();
+    if (meridiem) {
+      if (meridiem === 'pm' && hours < 12) hours += 12;
+      if (meridiem === 'am' && hours === 12) hours = 0;
+    }
+    return hours * 60 + minutes;
+  };
+
   try {
     const now = new Date();
-    const currentTime = formatInTimeZone(now, timezone, 'HH:mm');
-
-    // Simple string comparison works for HH:mm format
-    return currentTime >= openTime && currentTime <= closeTime;
+    const current = formatInTimeZone(now, timezone, 'HH:mm');
+    const [curH, curM] = current.split(':').map(Number);
+    const currentMinutes = curH * 60 + curM;
+    const openMinutes = toMinutes(openTime);
+    const closeMinutes = toMinutes(closeTime);
+    if (openMinutes == null || closeMinutes == null) return null;
+    return currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
   } catch (error) {
     return null;
   }
