@@ -1,0 +1,35 @@
+name: Test Inspector Token
+
+# Temporary workflow to validate Inspector API token works in GitHub Actions
+# This is Phase 0 validation before full implementation
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  test-inspector-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Test Inspector API Token
+        run: node test-inspector-api.js
+
+      - name: Report Results
+        if: always()
+        run: |
+          if [ $? -eq 0 ]; then
+            echo "✅ Inspector API token works in GitHub Actions!"
+            echo "✅ Safe to proceed with full implementation"
+          else
+            echo "❌ Inspector API token failed in GitHub Actions"
+            echo "❌ DO NOT proceed with implementation until fixed"
+            exit 1
+          fi
