@@ -121,14 +121,16 @@
 </head>
 <body>
     <h1>Ski Run Scraper API</h1>
-    <p>Daily grooming, lift status, snow report data, and <strong>real-time lift wait times</strong> for 40+ ski resorts across North America and Australia. Grooming/snow is fetched once each morning in the resort's local window; lift wait times run separately every few minutes.</p>
+    <p>Daily grooming, lift status, snow report data, and <strong>real-time lift wait times</strong> for 40+ ski resorts across North America and Australia. Grooming/snow is fetched once each morning in the resort's local window; lift wait times run separately every few minutes. Data comes from two providers: Vail (Puppeteer) and Inspector/Ikon (HTTP API, normalized to the same schema).</p>
 
     <div class="note">
         <strong>Freshness & cadence:</strong>
         <ul>
             <li>Grooming & snow: scraped once per resort per local day during a morning window; filenames are keyed to the resort's local date.</li>
             <li>Grooming files only rewrite when <code>GroomingAreas</code> change (lift wait/status churn is ignored here).</li>
-            <li>Lift wait times: separate lift scraper batches multiple resorts in a single browser for speed; data lands in <code>data/{resort}/lifts/YYYY-MM-DD.ndjson</code>.</li>
+            <li>Lift wait times: Inspector API scraper fetches all resorts in one call; data lands in <code>data/{resort}/lifts/YYYY-MM-DD.ndjson</code> with per-resort lift indexes.</li>
+            <li>Terrain indexes: <code>data/{resort}/terrain/index.json</code> exists for every resort with terrain data (generated automatically).</li>
+            <li>Force mode (debug/backfill): set <code>FORCE_SCRAPE=true</code> to bypass window checks for Inspector runs.</li>
         </ul>
     </div>
 
@@ -355,7 +357,7 @@
         <p>Returns the most recent lift status, wait times, and counts for all resorts with lift data. Updated every 5 minutes during operating hours.</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/latest-lifts.json</pre>
         <div class="note">
-            <strong>Available for:</strong> 9 resorts currently tracking lift data (Vail, Breckenridge, Keystone, Heavenly, Northstar, Stowe, Mount Snow, Hunter Mountain, Whistler Blackcomb). More resorts added as lift data becomes available.
+            <strong>Available for:</strong> All Vail resorts plus Inspector/Ikon resorts with lift data (see config.json for the active list). More resorts are added as lift feeds come online.
         </div>
     </div>
 
@@ -365,6 +367,14 @@
         <p>Returns terrain, grooming, and lift data for a specific resort on a specific date.</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/keystone/terrain/2025-11-18.json
 https://jacobschulman.github.io/ski-run-scraper/data/vail/terrain/2025-11-18.json</pre>
+    </div>
+
+    <div class="endpoint">
+        <h3>Resort Terrain Index</h3>
+        <code>GET /data/{resort}/terrain/index.json</code>
+        <p>Per-resort manifest of available terrain files (dates, latest, counts). Generated automatically after each scrape.</p>
+        <pre>https://jacobschulman.github.io/ski-run-scraper/data/stratton/terrain/index.json
+https://jacobschulman.github.io/ski-run-scraper/data/breckenridge/terrain/index.json</pre>
     </div>
 
     <div class="endpoint">
@@ -385,7 +395,7 @@ https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/snow/2025-11-18
     <div class="endpoint">
         <h3>Real-Time Lift Wait Times (NDJSON)</h3>
         <code>GET /data/{resort}/lifts/{YYYY-MM-DD}.ndjson</code>
-        <p>Returns real-time lift wait-time data captured every 5 minutes during operating hours. Data is stored in NDJSON format (newline-delimited JSON), with one lift snapshot per line. Each line represents the status of one lift at a specific moment in time.</p>
+        <p>Returns real-time lift wait-time data captured every few minutes during operating hours. Data is stored in NDJSON format (newline-delimited JSON), with one lift snapshot per line. Each line represents the status of one lift at a specific moment in time. Inspector/Ikon resorts include extra metadata (elevation, length, first tracks, etc.).</p>
         <pre>https://jacobschulman.github.io/ski-run-scraper/data/vail/lifts/2025-11-21.ndjson
 https://jacobschulman.github.io/ski-run-scraper/data/keystone/lifts/2025-11-21.ndjson</pre>
         <div class="note">

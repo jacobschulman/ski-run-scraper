@@ -359,6 +359,20 @@
       return days + 'd ' + (hours % 24) + 'h ago';
     };
 
+    const slugify = (s) => (s || '')
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/--+/g, '-')
+      .trim();
+
+    const makeTrailId = (trail, areaName) => {
+      if (trail.Id) return trail.Id;
+      const area = slugify(areaName || 'unknown-area');
+      const name = slugify(trail.Name || 'unknown-trail');
+      return `${area}:${name}`;
+    };
+
     const formatClock = (iso, tz) => {
       if (!iso) return '';
       const t = new Date(iso);
@@ -388,9 +402,10 @@
       if (!data || !data.GroomingAreas) return [];
       data.GroomingAreas.forEach(area => {
         (area.Trails || []).forEach(trail => {
-          if (!map.has(trail.Id)) {
-            map.set(trail.Id, {
-              id: trail.Id,
+          const id = makeTrailId(trail, area.Name);
+          if (!map.has(id)) {
+            map.set(id, {
+              id,
               name: trail.Name,
               difficulty: trail.Difficulty || 'Unknown',
               isOpen: !!trail.IsOpen,

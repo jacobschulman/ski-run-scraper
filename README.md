@@ -1,35 +1,31 @@
 # Ski Run Scraper
 
-Automated daily scraper for ski resort grooming and lift status data. Runs via GitHub Actions and provides historical data through a simple JSON API.
+Automated daily scraper for ski resort grooming, snow, and lift status/waits (Vail + Inspector/Ikon providers). Runs via GitHub Actions and publishes historical data through a simple JSON API.
 
 ## 🔗 Live Data API
 
 **API Documentation:** https://jacobschulman.github.io/ski-run-scraper/data/index.html
 
 **Quick Links:**
-- All resorts (latest): https://jacobschulman.github.io/ski-run-scraper/data/latest.json
-- File index: https://jacobschulman.github.io/ski-run-scraper/data/index.json
-- Keystone: https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-11-06.json
-- Vail: https://jacobschulman.github.io/ski-run-scraper/data/vail/2025-11-06.json
-- Park City: https://jacobschulman.github.io/ski-run-scraper/data/parkcity/2025-11-06.json
-- Beaver Creek: https://jacobschulman.github.io/ski-run-scraper/data/beavercreek/2025-11-06.json
+- All resorts (latest combined groom/snow snapshot): https://jacobschulman.github.io/ski-run-scraper/data/latest.json
+- File index (per-resort manifest): https://jacobschulman.github.io/ski-run-scraper/data/index.json
+- Lift wait index (per-resort): `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/lifts/index.json`
+- Terrain index (per-resort): `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/terrain/index.json`
+- Lift wait NDJSON: `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/lifts/{YYYY-MM-DD}.ndjson`
+- Example groom/snow file: https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-11-06.json
 
 ## Features
 
-- **Daily automated scraping** once per resort per local morning window (filenames use the resort's local date)
-- **Historical data tracking** with timestamped files (one file per resort per day)
-- **Multi-resort support** with easy configuration
-- **Configurable season dates** (automatically skips scraping after season end)
-- **GitHub Pages API** for easy data access
-- **Separate data per resort** for efficient querying
-- **Separate, fast lift wait-time scraper** batching multiple resorts per browser
+- **Dual providers:** Vail (Puppeteer) + Inspector/Ikon (HTTP API), each writing normalized terrain/snow and lift data.
+- **Daily automated scraping** once per resort per local morning window (filenames use the resort's local date).
+- **Historical data tracking** with timestamped files (one file per resort per day) plus per-resort terrain indexes.
+- **Real-time lift waits**: independent lift scraper writes NDJSON and per-resort lift indexes.
+- **Configurable season/window** (skips off-season or outside scraping window unless forced).
+- **GitHub Pages API** for easy data access.
 
 ## Current Resorts
 
-- Keystone
-- Vail
-- Park City
-- Beaver Creek
+See `config.json` for the full list (Vail + Inspector/Ikon resorts).
 
 ## Quick Start
 
@@ -42,17 +38,26 @@ Automated daily scraper for ski resort grooming and lift status data. Runs via G
 
 2. **Run the scraper:**
    ```bash
-   # Scrape all resorts
+   # Scrape all Vail resorts
    npm run scrape
 
-   # Scrape a specific resort
+   # Scrape Inspector (Ikon) resorts via HTTP API
+   node inspector-scraper.js
+
+   # Scrape a specific resort (Vail puppeteer flow)
    node ski-scraper.js keystone
+
+   # Force a backfill/override window checks for debugging
+   FORCE_SCRAPE=true node inspector-scraper.js
    ```
 
 3. **Data will be saved to:**
-   - `data/{resort}/YYYY-MM-DD.json` - Daily timestamped data
-   - `data/latest.json` - Most recent data from all resorts
-   - `data/index.json` - Manifest of all available files
+   - `data/{resort}/YYYY-MM-DD.json` - Daily timestamped terrain/snow data
+   - `data/{resort}/terrain/index.json` - Per-resort terrain manifest
+   - `data/{resort}/lifts/{YYYY-MM-DD}.ndjson` - Lift wait/status stream (real-time)
+   - `data/{resort}/lifts/index.json` - Per-resort lift manifest (latest status + history stats)
+   - `data/latest.json` - Most recent terrain/snow from all resorts
+   - `data/index.json` - Manifest of all available terrain/snow files
 
 ### GitHub Actions Setup
 
@@ -143,11 +148,9 @@ Each resort's JSON file contains:
   "ResortId": 8,
   "GroomingAreas": [
     {
-      "Id": 1,
       "Name": "North Peak",
       "Trails": [
         {
-          "Id": 101,
           "Name": "Schoolmarm",
           "Difficulty": "Green",
           "IsOpen": true,
@@ -155,23 +158,16 @@ Each resort's JSON file contains:
           "TrailLength": "3.5 miles",
           "TrailType": "Skiing"
         }
-      ],
-      "Lifts": []
+      ]
     }
   ],
-  "Lifts": [
-    {
-      "Id": 1,
-      "Name": "River Run Gondola",
-      "Status": "Open"
-    }
-  ]
+  "SnowReport": { ... } // Inspector-normalized fields when present
 }
 ```
 
 ### Cadence & lift data
 - Grooming and snow files are written once per resort per local day during the morning window; they only rewrite when `GroomingAreas` change (lift churn is ignored).
-- Real-time lift wait/status data is captured by a separate lift scraper that batches multiple resorts in a single browser for speed; output lives in `data/{resort}/lifts/YYYY-MM-DD.ndjson`.
+- Real-time lift wait/status data is captured by a separate lift scraper (Inspector API) that fetches all resorts in one call; output lives in `data/{resort}/lifts/YYYY-MM-DD.ndjson` with per-resort lift indexes.
 
 ## Usage Examples
 
