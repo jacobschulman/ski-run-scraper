@@ -182,17 +182,23 @@ function isInScrapingWindow(resort) {
  * This allows catch-up scraping if a previous run was missed
  */
 function shouldScrapeResort(resort, dataType = 'terrain') {
+  const inSeason = isResortInSeason(resort);
+  const hasUrl = dataType === 'terrain' ? !!resort.terrainUrl : !!resort.snowReportUrl;
+
+  if (!inSeason || !hasUrl) {
+    return false;
+  }
+
+  // Snow should be refreshed every run (hourly workflow), even if already scraped earlier today.
+  if (dataType === 'snow') {
+    return true;
+  }
+
+  // Grooming/terrain remains once per day in the morning window.
   const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
+  const inWindow = isInScrapingWindow(resort);
 
-  const checks = {
-    inSeason: isResortInSeason(resort),
-    hasUrl: dataType === 'terrain' ? !!resort.terrainUrl : !!resort.snowReportUrl,
-    notScraped: !hasBeenScraped,
-    inWindow: isInScrapingWindow(resort)
-  };
-
-  // Scrape if: in season, has URL, not scraped today, and within the daily scraping window
-  return checks.inSeason && checks.hasUrl && checks.notScraped && checks.inWindow;
+  return !hasBeenScraped && inWindow;
 }
 
 /**
@@ -509,7 +515,7 @@ function saveSnowData(resortKey, rawData) {
   const snowDir = path.join('data', resortKey, 'snow');
   ensureDirectoryExists(snowDir);
 
-  // Save timestamped file
+  // Save timestamped file (backward compatibility for consumers expecting JSON)
   const timestampedFile = path.join(snowDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(cleanData, null, 2));
   console.log(`✓ Saved snow data to ${timestampedFile}`);
@@ -518,6 +524,11 @@ function saveSnowData(resortKey, rawData) {
   const latestFile = path.join(snowDir, 'latest.json');
   fs.writeFileSync(latestFile, JSON.stringify(cleanData, null, 2));
   console.log(`✓ Updated ${latestFile}`);
+
+  // Append to NDJSON stream for intraday history
+  const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
+  fs.appendFileSync(ndjsonFile, JSON.stringify(cleanData) + '\n', 'utf8');
+  console.log(`✓ Appended snow record to ${ndjsonFile}`);
 
   // Save to database
   const database = getDb();

@@ -217,7 +217,7 @@ function saveInspectorSnowData(resortKey, inspectorData) {
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
 
-  // Save timestamped file
+  // Save timestamped file (backward compatibility for consumers expecting JSON)
   const timestampedFile = path.join(snowDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(cleanData, null, 2));
   console.log(`✓ Saved snow data to ${timestampedFile}`);
@@ -226,6 +226,11 @@ function saveInspectorSnowData(resortKey, inspectorData) {
   const latestFile = path.join(snowDir, 'latest.json');
   fs.writeFileSync(latestFile, JSON.stringify(cleanData, null, 2));
   console.log(`✓ Updated ${latestFile}`);
+
+  // Append to NDJSON stream for intraday history
+  const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
+  fs.appendFileSync(ndjsonFile, JSON.stringify(cleanData) + '\n', 'utf8');
+  console.log(`✓ Appended snow record to ${ndjsonFile}`);
 
   // Save to database
   const database = getDb();
