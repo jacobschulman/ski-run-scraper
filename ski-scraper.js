@@ -12,6 +12,7 @@ const {
   saveSnowConditions,
   closeDatabase
 } = require('./database');
+const briefGenerator = require('./lib/brief-generator');
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -661,6 +662,111 @@ function generateIndexFile() {
 }
 
 /**
+ * Generate morning briefs for all scraped resorts
+ */
+function generateBriefs(scrapedData) {
+  const allBriefs = {};
+  const briefsIndex = { resorts: {} };
+
+  scrapedData.forEach(result => {
+    if (!result || (!result.terrain && !result.snow)) {
+      return;
+    }
+
+    const resortKey = result.resortKey;
+    const resort = RESORTS[resortKey];
+    const today = getResortLocalDate(resort.timezone);
+
+    try {
+      // Generate brief
+      const brief = briefGenerator.generateBrief(resortKey, today, config, RESORTS);
+
+      if (brief) {
+        // Save per-resort brief file
+        const briefDir = path.join('data', resortKey, 'brief');
+        briefGenerator.ensureDirectoryExists(briefDir);
+        const briefFile = path.join(briefDir, `${today}.json`);
+        fs.writeFileSync(briefFile, JSON.stringify(brief, null, 2));
+
+        // Save latest.json for this resort
+        const latestFile = path.join(briefDir, 'latest.json');
+        fs.writeFileSync(latestFile, JSON.stringify(brief, null, 2));
+
+        // Update per-resort index
+        updateBriefIndex(resortKey, briefDir);
+
+        // Add to aggregated briefs
+        allBriefs[resortKey] = {
+          date: today,
+          resortName: resort.name,
+          data: brief
+        };
+
+        console.log(`✓ Generated brief for ${resort.name}`);
+      }
+    } catch (error) {
+      console.error(`⚠️  Error generating brief for ${resort.name}:`, error.message);
+    }
+  });
+
+  // Generate latest-briefs.json (all resorts)
+  if (Object.keys(allBriefs).length > 0) {
+    const latestBriefsFile = path.join('data', 'latest-briefs.json');
+    fs.writeFileSync(latestBriefsFile, JSON.stringify(allBriefs, null, 2));
+    console.log(`✓ Generated latest-briefs.json with ${Object.keys(allBriefs).length} resorts`);
+  }
+
+  // Generate global briefs-index.json
+  try {
+    config.resorts.forEach(resort => {
+      const briefDir = path.join('data', resort.key, 'brief');
+      if (fs.existsSync(briefDir)) {
+        const indexFile = path.join(briefDir, 'index.json');
+        if (fs.existsSync(indexFile)) {
+          const indexData = JSON.parse(fs.readFileSync(indexFile, 'utf8'));
+          briefsIndex.resorts[resort.key] = {
+            files: indexData.files || [],
+            latest: indexData.latest || null,
+            count: indexData.count || 0
+          };
+        }
+      }
+    });
+
+    const briefsIndexFile = path.join('data', 'briefs-index.json');
+    fs.writeFileSync(briefsIndexFile, JSON.stringify(briefsIndex, null, 2));
+    console.log(`✓ Generated briefs-index.json`);
+  } catch (error) {
+    console.error(`⚠️  Error generating briefs-index.json:`, error.message);
+  }
+}
+
+/**
+ * Update the brief index file for a resort
+ */
+function updateBriefIndex(resortKey, briefDir) {
+  const indexFile = path.join(briefDir, 'index.json');
+
+  // Get all brief files
+  const briefFiles = fs.readdirSync(briefDir)
+    .filter(f => f.match(/^\d{4}-\d{2}-\d{2}\.json$/))
+    .map(f => f.replace('.json', ''))
+    .sort()
+    .reverse();
+
+  const indexData = {
+    resort: resortKey,
+    resortName: RESORTS[resortKey]?.name || resortKey,
+    files: briefFiles,
+    latest: briefFiles[0] || null,
+    count: briefFiles.length,
+    generated: new Date().toISOString()
+  };
+
+  fs.writeFileSync(indexFile, JSON.stringify(indexData, null, 2));
+}
+
+/**
  * Convert trail name to URL-safe slug
  */
 function slugifyTrailName(name) {
@@ -1044,6 +1150,12 @@ async function main() {
     generateLatestFile(scrapedData);
     generateLatestSnowFile(scrapedData);
     generateIndexFile();
+
+    // Generate morning briefs
+    console.log('\n' + '='.repeat(80));
+    console.log('Generating morning briefs...');
+    console.log('='.repeat(80));
+    generateBriefs(scrapedData);
   }
 
   console.log('\n✅ Scraping complete!\n');
