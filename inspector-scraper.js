@@ -24,6 +24,8 @@ const RESORTS = configLoader.getResortsMap(config);
 // Inspector API configuration
 const INSPECTOR_API_URL = config.inspector?.apiUrl || 'https://mtnpowder.com/feed/v3.json';
 const BEARER_TOKEN = config.inspector?.bearerToken || 'hPtaTVkbuyZQnrxvru4ApfpXnS21PJO3eTKdibDoLZE';
+const LATEST_TERRAIN_FILE = path.join('data', 'latest.json');
+const LATEST_SNOW_FILE = path.join('data', 'latest-snow.json');
 
 // Initialize database connection
 let db = null;
@@ -595,6 +597,57 @@ async function scrapeInspectorResorts(resortsToScrape) {
 }
 
 /**
+ * Merge inspector results into aggregated latest files without dropping existing data
+ */
+function updateAggregatedLatest(scrapedData) {
+  if (!scrapedData || scrapedData.length === 0) return;
+
+  const latestTerrainUpdates = {};
+  const latestSnowUpdates = {};
+
+  scrapedData.forEach(result => {
+    const resortName = RESORTS[result.resortKey]?.name || result.resortKey;
+
+    if (result.terrain?.data) {
+      latestTerrainUpdates[result.resortKey] = {
+        date: result.terrain.date,
+        name: resortName,
+        data: result.terrain.data
+      };
+    }
+
+    if (result.snow?.data) {
+      latestSnowUpdates[result.resortKey] = {
+        date: result.snow.date,
+        name: resortName,
+        data: result.snow.data
+      };
+    }
+  });
+
+  const mergeAndWrite = (filePath, updates) => {
+    if (Object.keys(updates).length === 0) return;
+
+    let existing = {};
+    if (fs.existsSync(filePath)) {
+      try {
+        existing = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+      } catch (e) {
+        console.warn(`⚠️  Could not parse ${filePath}, recreating file: ${e.message}`);
+      }
+    }
+
+    const merged = { ...existing, ...updates };
+    fileStorage.ensureDirectoryExists(path.dirname(filePath));
+    fs.writeFileSync(filePath, JSON.stringify(merged, null, 2));
+    console.log(`✓ Updated ${filePath} (${Object.keys(merged).length} resorts)`);
+  };
+
+  mergeAndWrite(LATEST_TERRAIN_FILE, latestTerrainUpdates);
+  mergeAndWrite(LATEST_SNOW_FILE, latestSnowUpdates);
+}
+
+/**
  * Main execution function
  */
 async function main() {
@@ -657,6 +710,11 @@ async function main() {
     console.log('\n' + '='.repeat(80));
     console.log(`📊 Summary: ${scrapedData.length} resort(s) scraped, ${skippedResorts.length} skipped`);
     console.log('='.repeat(80));
+
+    if (scrapedData.length > 0) {
+      console.log('\n📦 Updating aggregated latest files...');
+      updateAggregatedLatest(scrapedData);
+    }
   }
 
   // Always generate/update the global data index with all resorts (both Vail and Inspector)
