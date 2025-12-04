@@ -350,9 +350,15 @@ function saveResortData(resortKey, data) {
   const terrainDir = path.join('data', resortKey, 'terrain');
   ensureDirectoryExists(terrainDir);
 
+  // Add provider metadata to terrain data
+  const terrainDataWithProvider = {
+    ...data,
+    provider: resort.provider || 'vail'
+  };
+
   // Save timestamped file
   const timestampedFile = path.join(terrainDir, `${today}.json`);
-  fs.writeFileSync(timestampedFile, JSON.stringify(data, null, 2));
+  fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
   console.log(`✓ Saved data to ${timestampedFile}`);
 
   // Save to database
@@ -452,6 +458,7 @@ function saveSnowData(resortKey, rawData) {
   const cleanData = {
     resort: resortKey,
     resortName: resortName,
+    provider: resort.provider || 'vail',
     date: today,
     timestamp: now.toISOString(),
     lastUpdated: snow.LastUpdatedText || null,
@@ -629,6 +636,7 @@ function generateLatestFile(scrapedData) {
       latest[result.resortKey] = {
         date: result.terrain.date,
         name: RESORTS[result.resortKey].name,
+        provider: RESORTS[result.resortKey].provider || 'vail',
         data: result.terrain.data
       };
     }
@@ -650,6 +658,7 @@ function generateLatestSnowFile(scrapedData) {
       latest[result.resortKey] = {
         date: result.snow.date,
         name: RESORTS[result.resortKey].name,
+        provider: RESORTS[result.resortKey].provider || 'vail',
         data: result.snow.data
       };
     }
@@ -710,6 +719,7 @@ function generateBriefs(scrapedData) {
         allBriefs[resortKey] = {
           date: today,
           resortName: resort.name,
+          provider: resort.provider || 'vail',
           data: brief
         };
 
@@ -768,6 +778,7 @@ function updateBriefIndex(resortKey, briefDir) {
   const indexData = {
     resort: resortKey,
     resortName: RESORTS[resortKey]?.name || resortKey,
+    provider: RESORTS[resortKey]?.provider || 'vail',
     files: briefFiles,
     latest: briefFiles[0] || null,
     count: briefFiles.length,
@@ -994,7 +1005,8 @@ function generateTrailData(resortKey, resortId, date, terrainData) {
             history: historicalRecords,
 
             // Metadata
-            generated: new Date().toISOString()
+            generated: new Date().toISOString(),
+            provider: RESORTS[resortKey].provider || 'vail'
           };
 
           // Save trail JSON file
@@ -1033,6 +1045,7 @@ function generateTrailsIndex(resortKey) {
   const trailsIndex = {
     resort: resortKey,
     resortName: RESORTS[resortKey].name,
+    provider: RESORTS[resortKey].provider || 'vail',
     trailCount: trailFiles.length,
     trails: [],
     lastUpdated: new Date().toISOString()

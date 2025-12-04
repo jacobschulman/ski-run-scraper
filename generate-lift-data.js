@@ -254,6 +254,7 @@ async function generateLiftIndex(resortKey, resortName, liftsByLiftId, resortTim
   const indexData = {
     resort: resortKey,
     resortName,
+    provider: RESORTS[resortKey]?.provider || 'vail',
     liftCount: lifts.length,
     lifts,
     generated: new Date().toISOString()

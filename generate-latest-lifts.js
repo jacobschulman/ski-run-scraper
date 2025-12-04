@@ -41,6 +41,7 @@ function generateLatestLifts() {
       output[resort] = {
         date: generatedDate,
         name: indexData.resortName || resort,
+        provider: indexData.provider || 'vail',
         liftCount: indexData.liftCount || 0,
         lifts: indexData.lifts || [],
         generated: indexData.generated

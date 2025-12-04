@@ -87,13 +87,19 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
   // Normalize Inspector data to Vail format
   const normalizedData = dataNormalization.normalizeInspectorResort(inspectorData);
 
+  // Add provider metadata
+  const terrainDataWithProvider = {
+    ...normalizedData,
+    provider: resort.provider || 'vail'
+  };
+
   // Ensure data directory structure exists
   const terrainDir = path.join('data', resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
   // Save timestamped file
   const timestampedFile = path.join(terrainDir, `${today}.json`);
-  fs.writeFileSync(timestampedFile, JSON.stringify(normalizedData, null, 2));
+  fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
   console.log(`✓ Saved terrain data to ${timestampedFile}`);
 
   // Update per-resort terrain index (mirrors generate-terrain-indexes.js)
@@ -107,6 +113,7 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
     const terrainIndex = {
       resort: resortKey,
       resortName,
+      provider: resort.provider || 'vail',
       files: terrainFiles,
       latest: terrainFiles[0] || null,
       count: terrainFiles.length,
@@ -215,23 +222,29 @@ function saveInspectorSnowData(resortKey, inspectorData) {
     today
   );
 
+  // Add provider metadata
+  const snowDataWithProvider = {
+    ...cleanData,
+    provider: resort.provider || 'vail'
+  };
+
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
 
   // Save timestamped file (backward compatibility for consumers expecting JSON)
   const timestampedFile = path.join(snowDir, `${today}.json`);
-  fs.writeFileSync(timestampedFile, JSON.stringify(cleanData, null, 2));
+  fs.writeFileSync(timestampedFile, JSON.stringify(snowDataWithProvider, null, 2));
   console.log(`✓ Saved snow data to ${timestampedFile}`);
 
   // Also save as latest.json in the snow directory
   const latestFile = path.join(snowDir, 'latest.json');
-  fs.writeFileSync(latestFile, JSON.stringify(cleanData, null, 2));
+  fs.writeFileSync(latestFile, JSON.stringify(snowDataWithProvider, null, 2));
   console.log(`✓ Updated ${latestFile}`);
 
   // Append to NDJSON stream for intraday history
   const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
-  fs.appendFileSync(ndjsonFile, JSON.stringify(cleanData) + '\n', 'utf8');
+  fs.appendFileSync(ndjsonFile, JSON.stringify(snowDataWithProvider) + '\n', 'utf8');
   console.log(`✓ Appended snow record to ${ndjsonFile}`);
 
   // Save to database
@@ -290,7 +303,7 @@ function saveInspectorSnowData(resortKey, inspectorData) {
     console.log(`   Current Weather: ${weatherNow.skies || weatherNow.conditions || 'Unknown'} @ ${weatherNow.temperature_f ?? weatherNow.temperature_c ?? '--'}°`);
   }
 
-  return { resortKey, date: today, data: cleanData };
+  return { resortKey, date: today, data: snowDataWithProvider };
 }
 
 /**
@@ -468,7 +481,7 @@ function generateTrailData(resortKey, resortId, date, terrainData) {
 
             // Metadata
             generated: new Date().toISOString(),
-            provider: 'inspector'
+            provider: resort.provider || 'vail'
           };
 
           // Save trail JSON file
@@ -505,6 +518,7 @@ function generateTrailsIndex(resortKey) {
   const trailsIndex = {
     resort: resortKey,
     resortName: RESORTS[resortKey].name,
+    provider: RESORTS[resortKey].provider || 'vail',
     trailCount: trailFiles.length,
     trails: [],
     lastUpdated: new Date().toISOString()
@@ -612,6 +626,7 @@ function updateAggregatedLatest(scrapedData) {
       latestTerrainUpdates[result.resortKey] = {
         date: result.terrain.date,
         name: resortName,
+        provider: RESORTS[result.resortKey]?.provider || 'vail',
         data: result.terrain.data
       };
     }
@@ -620,6 +635,7 @@ function updateAggregatedLatest(scrapedData) {
       latestSnowUpdates[result.resortKey] = {
         date: result.snow.date,
         name: resortName,
+        provider: RESORTS[result.resortKey]?.provider || 'vail',
         data: result.snow.data
       };
     }

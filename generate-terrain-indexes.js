@@ -35,6 +35,7 @@ function generateTerrainIndex(resortKey) {
   const indexData = {
     resort: resortKey,
     resortName: RESORTS[resortKey]?.name || resortKey,
+    provider: RESORTS[resortKey]?.provider || 'vail',
     files,
     latest: files[0] || null,
     count: files.length,
