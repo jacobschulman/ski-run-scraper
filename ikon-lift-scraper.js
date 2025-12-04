@@ -1,6 +1,26 @@
-// inspector-lift-scraper.js - Inspector (Ikon) API lift wait-time tracker
-// Uses HTTP API for fast, efficient lift status and wait time tracking
-// Runs every 10-15 minutes during operating hours
+// ikon-lift-scraper.js - Ikon Pass lift wait-time tracker
+// Uses Inspector API (mtnpowder.com) for fast, efficient lift status and wait time tracking
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// API DOCUMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// API Endpoint: https://mtnpowder.com/feed/v3.json
+// Provider: Ikon Pass resorts (configured with provider: "ikon" in config.json)
+// Authentication: Bearer token (configured in config.json under inspector.bearerToken)
+// Data Source: Single HTTP call fetches all 123 Ikon resorts, filtered by configured resorts
+// Update Frequency: Every 10 minutes during operating hours
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// USAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// node ikon-lift-scraper.js
+//
+// Runs automatically via .github/workflows/lift-scraper.yml every 10 minutes
+// Uses intelligent filtering to only check resorts during their operating hours
+//
+// ═══════════════════════════════════════════════════════════════════════════════
 
 const https = require('https');
 const fs = require('fs');
@@ -362,7 +382,7 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
 async function scrapeLiftData(resortsToCheck) {
   const scrapedData = [];
 
-  console.log(`\n📦 Fetching all Inspector resort data...`);
+  console.log(`\n📦 Fetching all Ikon resort data from Inspector API...`);
 
   const timestamp = new Date().toISOString();
 
@@ -380,25 +400,25 @@ async function scrapeLiftData(resortsToCheck) {
     console.log(`Processing ${resortsToCheck.length} configured resort(s)...`);
     console.log('='.repeat(80));
 
-    // Process each configured resort
+    // Process each configured Ikon resort
     resortsToCheck.forEach(resort => {
       const inspectorName = resort.inspectorName || resort.name;
 
       // Find matching resort in API data (exact name match)
-      const inspectorResort = apiResponse.Resorts.find(r => r.Name === inspectorName);
+      const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
 
-      if (!inspectorResort) {
+      if (!ikonResortData) {
         console.error(`\n⚠️  ${resort.name}: No matching data found (looking for "${inspectorName}")`);
         return;
       }
 
       console.log(`\n[${resort.name}]`);
-      const result = saveLiftData(resort.key, inspectorResort, timestamp);
+      const result = saveLiftData(resort.key, ikonResortData, timestamp);
       scrapedData.push({ resortKey: resort.key, ...result });
     });
 
   } catch (error) {
-    console.error(`❌ Error fetching Inspector data:`, error.message);
+    console.error(`❌ Error fetching Ikon data from Inspector API:`, error.message);
   }
 
   return scrapedData;
@@ -408,26 +428,26 @@ async function scrapeLiftData(resortsToCheck) {
  * Main execution function
  */
 async function main() {
-  console.log('🎿 Inspector (Ikon) Lift Scraper - HTTP API');
+  console.log('🎿 Ikon Pass Lift Scraper - HTTP API');
   console.log('='.repeat(80));
   console.log(`Run time: ${new Date().toISOString()}`);
   console.log(`API URL: ${INSPECTOR_API_URL}`);
   console.log('='.repeat(80));
 
-  // Get Inspector resorts
-  const inspectorResorts = configLoader.getResortsByProvider(config, 'inspector');
+  // Get Ikon resorts
+  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon');
 
-  if (inspectorResorts.length === 0) {
-    console.log('\n⚠️  No Inspector resorts found in config.json\n');
+  if (ikonResorts.length === 0) {
+    console.log('\n⚠️  No Ikon resorts found in config.json\n');
     return;
   }
 
   // Filter to in-season resorts only
-  const inSeasonResorts = inspectorResorts.filter(resort =>
+  const inSeasonResorts = ikonResorts.filter(resort =>
     seasonUtils.isResortInSeason(resort, config)
   );
 
-  console.log(`\n📋 Found ${inSeasonResorts.length} in-season Inspector resort(s)`);
+  console.log(`\n📋 Found ${inSeasonResorts.length} in-season Ikon resort(s)`);
 
   // Load active cache
   const activeCache = loadActiveResortCache();
@@ -478,7 +498,7 @@ async function main() {
   console.log(`Resorts with open lifts: ${resortsWithOpenLifts}`);
   console.log('='.repeat(80));
 
-  console.log('\n✅ Inspector lift scraping complete!\n');
+  console.log('\n✅ Ikon lift scraping complete!\n');
 }
 
 main();

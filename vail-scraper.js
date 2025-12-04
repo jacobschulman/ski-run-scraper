@@ -1,5 +1,36 @@
-// ski-scraper.js - Multi-resort grooming data extractor using Puppeteer
-// Now with historical data tracking and configurable resorts
+// vail-scraper.js - Vail Resorts terrain/snow data scraper
+// Uses Puppeteer to scrape resort websites (runs once daily in morning)
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// DATA SOURCE DOCUMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// Provider: Vail Resorts (configured with provider: "vail" or no provider in config.json)
+// Method: Puppeteer (headless Chrome) - scrapes JavaScript-rendered pages
+// Data Source: Each resort's terrain page (terrainUrl in config.json)
+// Update Frequency: Once daily during morning scraping window (5-8 AM local time)
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// USAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// node vail-scraper.js [resort-key|all] [terrain|snow|both]
+//
+// Arguments:
+//   resort-key - Specific resort to scrape (e.g., "vail", "breckenridge")
+//   all        - Scrape all Vail resorts (default)
+//
+//   terrain    - Scrape terrain/grooming data only (default)
+//   snow       - Scrape snow reports only
+//   both       - Scrape both terrain and snow data
+//
+// Examples:
+//   node vail-scraper.js all terrain      # Scrape terrain for all Vail resorts
+//   node vail-scraper.js vail both        # Scrape both terrain and snow for Vail only
+//
+// Default: all resorts, terrain only (snow is handled by snow-scraper.js)
+//
+// ═══════════════════════════════════════════════════════════════════════════════
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
@@ -1093,8 +1124,21 @@ async function main() {
   console.log('='.repeat(80));
 
   // Get resort from command line argument, default to all
+  // Second argument can be 'terrain', 'snow', or omitted for both
   const args = process.argv.slice(2);
   const resortArg = args[0];
+  const dataTypeArg = args[1]; // Optional: 'terrain' or 'snow'
+
+  // Determine what to scrape (default to terrain only since snow is handled by snow-scraper.js)
+  const scrapeTerrainOnly = !dataTypeArg || dataTypeArg === 'terrain';
+  const scrapeSnowOnly = dataTypeArg === 'snow';
+  const scrapeBoth = dataTypeArg === 'both';
+
+  if (dataTypeArg && !['terrain', 'snow', 'both'].includes(dataTypeArg)) {
+    console.error(`\n❌ Invalid data type: ${dataTypeArg}`);
+    console.error(`Valid options: terrain, snow, both\n`);
+    return;
+  }
 
   let resortsToCheck = [];
 
@@ -1108,8 +1152,8 @@ async function main() {
       return;
     }
   } else {
-    // Check all resorts
-    resortsToCheck = Object.values(RESORTS);
+    // Check all resorts (filter to Vail only)
+    resortsToCheck = Object.values(RESORTS).filter(r => !r.provider || r.provider === 'vail');
   }
 
   console.log(`\n📋 Checking ${resortsToCheck.length} resort(s)...\n`);
@@ -1129,9 +1173,17 @@ async function main() {
     console.log(`  🎿 Terrain: ${status.terrainScraped ? '✗ Already scraped today' : '○ Not scraped yet'}`);
     console.log(`  ❄️  Snow: ${status.snowScraped ? '✗ Already scraped today' : '○ Not scraped yet'}`);
 
-    // Determine what to scrape
-    const shouldScrapeTerrain = status.shouldScrapeTerrain;
-    const shouldScrapeSnow = status.shouldScrapeSnow;
+    // Determine what to scrape based on command line args and status
+    let shouldScrapeTerrain = false;
+    let shouldScrapeSnow = false;
+
+    if (scrapeTerrainOnly || scrapeBoth) {
+      shouldScrapeTerrain = status.shouldScrapeTerrain;
+    }
+
+    if (scrapeSnowOnly || scrapeBoth) {
+      shouldScrapeSnow = status.shouldScrapeSnow;
+    }
 
     if (shouldScrapeTerrain || shouldScrapeSnow) {
       console.log(`  → ACTION: Scraping ${shouldScrapeTerrain ? 'terrain' : ''}${shouldScrapeTerrain && shouldScrapeSnow ? ' & ' : ''}${shouldScrapeSnow ? 'snow' : ''}`);

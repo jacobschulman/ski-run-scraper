@@ -1,0 +1,78 @@
+name: Snow Report Scraper
+
+on:
+  schedule:
+    # Run every hour to keep snow reports fresh throughout the day
+    # Snow conditions are updated hourly (unlike terrain which updates once daily)
+    - cron: '0 */1 * * *'
+
+  workflow_dispatch: # Allow manual triggering
+
+concurrency:
+  group: snow-scraper
+  cancel-in-progress: false
+
+permissions:
+  contents: write  # Required to commit and push changes
+
+jobs:
+  scrape-snow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Vail snow scraper
+        run: node snow-scraper.js vail
+        # Scrapes snow reports for all Vail Resorts using Puppeteer (batched)
+
+      - name: Run Ikon snow scraper
+        run: node snow-scraper.js ikon
+        # Scrapes snow reports for all Ikon Pass resorts using Inspector API (single call)
+
+      - name: Check for changes
+        id: git-check
+        run: |
+          # Check if any snow data files changed
+          if git diff --quiet data/**/snow/ data/latest-snow.json; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+            echo "No snow data changes detected"
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+            echo "Snow data changes detected"
+          fi
+
+      - name: Commit and push snow data
+        if: steps.git-check.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Get the current branch name
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+          # Pull latest changes with rebase to avoid conflicts
+          git pull --rebase --autostash origin "$BRANCH_NAME"
+
+          # Add snow data files and latest-snow aggregation
+          git add data/**/snow/ data/latest-snow.json
+
+          # Create commit with timestamp
+          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+          # Push changes to the current branch
+          git push origin "$BRANCH_NAME"
+
+      - name: No changes detected
+        if: steps.git-check.outputs.changes != 'true'
+        run: echo "✓ No snow data changes - reports unchanged since last run"

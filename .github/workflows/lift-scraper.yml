@@ -36,10 +36,12 @@ jobs:
         run: npm install
 
       - name: Run Vail lift scraper
-        run: node lift-scraper.js
+        run: node vail-lift-scraper.js
+        # Scrapes lift data for all Vail Resorts using Puppeteer
 
-      - name: Run Inspector lift scraper
-        run: node inspector-lift-scraper.js
+      - name: Run Ikon lift scraper
+        run: node ikon-lift-scraper.js
+        # Scrapes lift data for all Ikon Pass resorts using Inspector API
 
       - name: Generate lift JSON files
         run: npm run generate:lifts all

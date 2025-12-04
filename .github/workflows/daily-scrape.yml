@@ -1,10 +1,11 @@
-name: Timezone-Aware Ski Data Scraper
+name: Daily Terrain Scraper
 
 on:
   schedule:
-    # Run every 1 hour to catch all resorts at their local 7 AM time
-    # Each resort is scraped once daily at its own 7 AM local time (configurable)
+    # Run every 1 hour to catch all resorts at their local 5-8 AM time
+    # Each resort's terrain is scraped once daily in the morning (grooming happens overnight)
     # Scraper checks timezone, season dates, and existing data before scraping
+    # Snow reports are handled by snow-scraper.yml (runs hourly throughout the day)
     - cron: '0 */1 * * *'
 
   workflow_dispatch: # Allow manual triggering
@@ -33,11 +34,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Vail scraper
-        run: node ski-scraper.js all
+      - name: Run Vail terrain scraper
+        run: node vail-scraper.js all terrain
+        # Scrapes terrain/grooming data for all Vail Resorts using Puppeteer (once daily in AM)
 
-      - name: Run Inspector scraper
-        run: node inspector-scraper.js
+      - name: Run Ikon terrain scraper
+        run: node ikon-scraper.js terrain
+        # Scrapes terrain/grooming data for all Ikon Pass resorts using Inspector API (once daily in AM)
 
       - name: Generate trail data
         run: npm run generate:trails all

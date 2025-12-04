@@ -41,14 +41,14 @@ See `config.json` for the full list (Vail + Inspector/Ikon resorts).
    # Scrape all Vail resorts
    npm run scrape
 
-   # Scrape Inspector (Ikon) resorts via HTTP API
-   node inspector-scraper.js
+   # Scrape Ikon resorts via Inspector HTTP API
+   node ikon-scraper.js
 
-   # Scrape a specific resort (Vail puppeteer flow)
-   node ski-scraper.js keystone
+   # Scrape a specific Vail resort (Puppeteer flow)
+   node vail-scraper.js keystone
 
    # Force a backfill/override window checks for debugging
-   FORCE_SCRAPE=true node inspector-scraper.js
+   FORCE_SCRAPE=true node ikon-scraper.js
    ```
 
 3. **Data will be saved to:**
@@ -107,7 +107,7 @@ node generate-landing-pages.js
 3. Test locally:
 
 ```bash
-node ski-scraper.js keystone
+node vail-scraper.js keystone
 ```
 
 ### Adjusting Schedule
@@ -248,7 +248,11 @@ ski-run-scraper/
 │   ├── grooming.html                # Universal grooming page template
 │   └── snow.html                    # Universal snow page template
 ├── config.json                      # Resort and schedule configuration
-├── ski-scraper.js                   # Main scraper script
+├── vail-scraper.js                  # Vail Resorts scraper (Puppeteer)
+├── ikon-scraper.js                  # Ikon Pass scraper (Inspector API)
+├── vail-lift-scraper.js             # Vail lift wait times (Puppeteer)
+├── ikon-lift-scraper.js             # Ikon lift wait times (Inspector API)
+├── snow-scraper.js                  # Hourly snow report scraper (both providers)
 ├── generate-landing-pages.js        # Landing page generator
 ├── package.json                     # Node.js dependencies
 └── README.md
@@ -296,7 +300,7 @@ To add support for additional resorts:
 1. Find the resort's terrain status page (usually `{resort}.com/terrain-and-lift-status`)
 2. Verify it uses the same `FR.TerrainStatusFeed` data structure
 3. Add the resort to `config.json`
-4. Test locally with `node ski-scraper.js {resort-key}`
+4. Test locally with `node vail-scraper.js {resort-key}`
 5. Submit a PR!
 
 ## 📊 Browse Grooming & Snow Reports

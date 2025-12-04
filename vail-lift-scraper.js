@@ -1,7 +1,28 @@
-// lift-scraper.js - Lift wait-time tracker
-// Runs every 10-15 minutes to capture lift status and wait times
-// Only records data during lift operating hours
-// Timestamps are recorded in UTC and local resort time
+// vail-lift-scraper.js - Vail Resorts lift wait-time tracker
+// Uses Puppeteer to scrape lift status and wait times every 10 minutes
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// DATA SOURCE DOCUMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// Provider: Vail Resorts (configured with provider: "vail" or no provider in config.json)
+// Method: Puppeteer (headless Chrome) - scrapes JavaScript-rendered lift pages
+// Data Source: Each resort's terrain page (terrainUrl in config.json)
+// Update Frequency: Every 10 minutes during operating hours
+//
+// Output: NDJSON format (one JSON object per line per lift per timestamp)
+// Timestamps: Recorded in both UTC and local resort time
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// USAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// node vail-lift-scraper.js
+//
+// Runs automatically via .github/workflows/lift-scraper.yml every 10 minutes
+// Uses intelligent filtering to only check resorts during their operating hours
+//
+// ═══════════════════════════════════════════════════════════════════════════════
 
 const puppeteer = require('puppeteer');
 const fs = require('fs');
@@ -20,11 +41,16 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
 }, {});
 
 /**
- * Get all resorts that are currently in season
+ * Get all Vail resorts that are currently in season
  * This automatically scales - no need to manually maintain a list
+ * Only processes Vail resorts - Ikon resorts are handled by ikon-lift-scraper.js
  */
 function getInSeasonResorts() {
-  return config.resorts.filter(resort => isResortInSeason(resort));
+  return config.resorts.filter(resort => {
+    // Only include Vail resorts (exclude Ikon resorts)
+    const isVailResort = !resort.provider || resort.provider === 'vail';
+    return isVailResort && isResortInSeason(resort);
+  });
 }
 
 /**
@@ -174,6 +200,16 @@ function isInDeadHours(timezone) {
 function shouldCheckResort(resortKey, resort, activeCache) {
   const timezone = resort.timezone;
   const localDate = getResortLocalDate(timezone); // Resort's current local date
+
+  // TIER 0: Skip Ikon resorts (handled by inspector-lift-scraper.js)
+  if (resort.provider === 'ikon') {
+    return { shouldCheck: false, reason: 'ikon_resort', tier: 0 };
+  }
+
+  // Check if resort has terrainUrl (required for Vail scraper)
+  if (!resort.terrainUrl && !resort.url) {
+    return { shouldCheck: false, reason: 'no_terrain_url', tier: 0 };
+  }
 
   // TIER 1: Dead hours - no ski resort operates 6 PM - 7 AM (local time)
   // This is the first check to quickly filter out resorts that are definitely closed
@@ -644,7 +680,7 @@ async function processResort(resortKey, browser) {
  */
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════╗');
-  console.log('║     🎿 Lift Wait-Time Tracker 🎿                          ║');
+  console.log('║     🎿 Vail Resorts Lift Wait-Time Tracker 🎿            ║');
   console.log('╚════════════════════════════════════════════════════════════╝');
   console.log(`\n⏱️  Run started at ${new Date().toISOString()}`);
 
@@ -692,7 +728,7 @@ async function main() {
     .map(r => r.resort.key)
     .sort(() => Math.random() - 0.5);
 
-  console.log(`📍 Found ${inSeasonResorts.length} in-season resorts (out of ${config.resorts.length} total)`);
+  console.log(`📍 Found ${inSeasonResorts.length} in-season Vail resorts`);
   console.log(`✅ Checking ${resortsToCheck.length} resorts`);
   if (resortsSkipped.length > 0) {
     console.log(`⏭️  Skipping ${resortsSkipped.length} resorts`);
@@ -730,9 +766,9 @@ async function main() {
 
     const results = [];
 
-    // Process resorts in parallel batches to speed up execution
-    // Optimized batch size: 15-20 resorts for maximum performance
-    const BATCH_SIZE = 15 + Math.floor(Math.random() * 6);
+    // Process resorts in parallel batches to avoid overwhelming the system
+    // Max batch size: 10 resorts to be more defensive
+    const BATCH_SIZE = Math.min(10, resortKeys.length);
 
     for (let i = 0; i < resortKeys.length; i += BATCH_SIZE) {
       const batch = resortKeys.slice(i, i + BATCH_SIZE);

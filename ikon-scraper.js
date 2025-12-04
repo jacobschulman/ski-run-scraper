@@ -1,5 +1,29 @@
-// inspector-scraper.js - Inspector (Ikon) API terrain/snow data scraper
-// Uses HTTP API instead of Puppeteer for better performance and reliability
+// ikon-scraper.js - Ikon Pass terrain/snow data scraper
+// Uses Inspector API (mtnpowder.com) for better performance and reliability (no Puppeteer needed)
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// API DOCUMENTATION
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// API Endpoint: https://mtnpowder.com/feed/v3.json
+// Provider: Ikon Pass resorts (configured with provider: "ikon" in config.json)
+// Authentication: Bearer token (configured in config.json under inspector.bearerToken)
+// Data Source: Single HTTP call fetches all 123 Ikon resorts, filtered by configured resorts
+//
+// ═══════════════════════════════════════════════════════════════════════════════
+// USAGE
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// node ikon-scraper.js [terrain|snow|both]
+//
+// Arguments:
+//   terrain  - Scrape terrain/grooming data only (default)
+//   snow     - Scrape snow reports only
+//   both     - Scrape both terrain and snow data
+//
+// Default: terrain only (snow is handled by snow-scraper.js hourly workflow)
+//
+// ═══════════════════════════════════════════════════════════════════════════════
 
 const https = require('https');
 const fs = require('fs');
@@ -555,12 +579,13 @@ function generateTrailsIndex(resortKey) {
 }
 
 /**
- * Scrape Inspector resorts (fetch all data, filter by name)
+ * Scrape Ikon resorts from Inspector API (fetch all data, filter by name)
  */
-async function scrapeInspectorResorts(resortsToScrape) {
+async function scrapeIkonResorts(resortsToScrape, scrapeOptions = {}) {
   const scrapedData = [];
+  const { scrapeTerrain = true, scrapeSnow = true } = scrapeOptions;
 
-  console.log(`\n📦 Fetching all Inspector resort data...`);
+  console.log(`\n📦 Fetching all Ikon resort data from Inspector API...`);
 
   try {
     // Fetch all resort data in one API call
@@ -576,14 +601,14 @@ async function scrapeInspectorResorts(resortsToScrape) {
     console.log(`Processing ${resortsToScrape.length} configured resort(s)...`);
     console.log('='.repeat(80));
 
-    // Process each configured resort
+    // Process each configured Ikon resort
     resortsToScrape.forEach(resort => {
       const inspectorName = resort.inspectorName || resort.name;
 
       // Find matching resort in API data (exact name match)
-      const inspectorResort = apiResponse.Resorts.find(r => r.Name === inspectorName);
+      const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
 
-      if (!inspectorResort) {
+      if (!ikonResortData) {
         console.error(`\n⚠️  ${resort.name}: No matching data found (looking for "${inspectorName}")`);
         return;
       }
@@ -594,17 +619,21 @@ async function scrapeInspectorResorts(resortsToScrape) {
 
       const result = { resortKey: resort.key, terrain: null, snow: null };
 
-      // Save terrain data
-      result.terrain = saveInspectorTerrainData(resort.key, inspectorResort);
+      // Save terrain data (if requested)
+      if (scrapeTerrain) {
+        result.terrain = saveInspectorTerrainData(resort.key, ikonResortData);
+      }
 
-      // Save snow data
-      result.snow = saveInspectorSnowData(resort.key, inspectorResort);
+      // Save snow data (if requested)
+      if (scrapeSnow) {
+        result.snow = saveInspectorSnowData(resort.key, ikonResortData);
+      }
 
       scrapedData.push(result);
     });
 
   } catch (error) {
-    console.error(`❌ Error fetching Inspector data:`, error.message);
+    console.error(`❌ Error fetching Ikon data from Inspector API:`, error.message);
   }
 
   return scrapedData;
@@ -667,28 +696,45 @@ function updateAggregatedLatest(scrapedData) {
  * Main execution function
  */
 async function main() {
-  console.log('🎿 Inspector (Ikon) Scraper - HTTP API');
+  console.log('🎿 Ikon Pass Scraper - HTTP API');
   console.log('='.repeat(80));
   console.log(`Run time: ${new Date().toISOString()}`);
   console.log(`API URL: ${INSPECTOR_API_URL}`);
   console.log('='.repeat(80));
 
-  // Get Inspector resorts
-  const inspectorResorts = configLoader.getResortsByProvider(config, 'inspector');
+  // Get data type from command line argument (optional: 'terrain' or 'snow')
+  const args = process.argv.slice(2);
+  const dataTypeArg = args[0]; // Optional: 'terrain' or 'snow'
 
-  if (inspectorResorts.length === 0) {
-    console.log('\n⚠️  No Inspector resorts found in config.json');
-    console.log('Add resorts with "provider": "inspector" to enable Inspector scraping\n');
+  // Determine what to scrape (default to terrain only since snow is handled by snow-scraper.js)
+  const scrapeTerrainOnly = !dataTypeArg || dataTypeArg === 'terrain';
+  const scrapeSnowOnly = dataTypeArg === 'snow';
+  const scrapeBoth = dataTypeArg === 'both';
+
+  if (dataTypeArg && !['terrain', 'snow', 'both'].includes(dataTypeArg)) {
+    console.error(`\n❌ Invalid data type: ${dataTypeArg}`);
+    console.error(`Valid options: terrain, snow, both\n`);
     return;
   }
 
-  console.log(`\n📋 Found ${inspectorResorts.length} Inspector resort(s) in config`);
+  console.log(`Data type: ${dataTypeArg || 'terrain (default)'}`);
+
+  // Get Ikon resorts
+  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon');
+
+  if (ikonResorts.length === 0) {
+    console.log('\n⚠️  No Ikon resorts found in config.json');
+    console.log('Add resorts with "provider": "ikon" to enable Ikon scraping\n');
+    return;
+  }
+
+  console.log(`\n📋 Found ${ikonResorts.length} Ikon resort(s) in config`);
 
   // Filter resorts that should be scraped
   const resortsToScrape = [];
   const skippedResorts = [];
 
-  inspectorResorts.forEach(resort => {
+  ikonResorts.forEach(resort => {
     const status = fileStorage.getResortStatus(resort, config, seasonUtils);
 
     if (status.shouldScrapeTerrain || status.shouldScrapeSnow) {
@@ -719,8 +765,12 @@ async function main() {
   if (resortsToScrape.length === 0) {
     console.log('\n✅ No resorts need scraping at this time\n');
   } else {
-    // Scrape the resorts
-    const scrapedData = await scrapeInspectorResorts(resortsToScrape);
+    // Scrape the resorts with specified data types
+    const scrapeOptions = {
+      scrapeTerrain: scrapeTerrainOnly || scrapeBoth,
+      scrapeSnow: scrapeSnowOnly || scrapeBoth
+    };
+    const scrapedData = await scrapeIkonResorts(resortsToScrape, scrapeOptions);
 
     // Summary
     console.log('\n' + '='.repeat(80));
@@ -733,12 +783,12 @@ async function main() {
     }
   }
 
-  // Always generate/update the global data index with all resorts (both Vail and Inspector)
+  // Always generate/update the global data index with all resorts (both Vail and Ikon)
   // This ensures the index includes resorts even when scraping is skipped
   console.log('\n📋 Updating global data index...');
   fileStorage.generateDataIndex(config);
 
-  console.log('\n✅ Inspector scraping complete!\n');
+  console.log('\n✅ Ikon scraping complete!\n');
 
   // Close database connection
   if (db) {
