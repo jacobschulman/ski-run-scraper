@@ -64,8 +64,8 @@ function generateLandingPages() {
     // Ensure resort directory exists
     ensureDirectoryExists(resortDir);
 
-    // Create/update grooming page if resort has terrainUrl OR is Inspector resort
-    const isInspector = resort.provider === 'inspector';
+    // Create/update grooming page if resort has terrainUrl OR is Inspector/Ikon resort
+    const isInspector = resort.provider === 'inspector' || resort.provider === 'ikon';
     if (resort.terrainUrl || isInspector) {
       const groomingExists = fs.existsSync(groomingPage);
       copyTemplate(GROOMING_TEMPLATE, groomingPage);

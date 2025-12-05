@@ -40,6 +40,7 @@ const configLoader = require('./lib/config-loader');
 const seasonUtils = require('./lib/season-utils');
 const fileStorage = require('./lib/file-storage');
 const dataNormalization = require('./lib/data-normalization');
+const briefGenerator = require('./lib/brief-generator');
 
 // Load configuration
 const config = configLoader.loadConfig();
@@ -100,6 +101,12 @@ function fetchAllInspectorData() {
 function saveInspectorTerrainData(resortKey, inspectorData) {
   if (!inspectorData) {
     console.log('✗ No data returned from Inspector API');
+    return null;
+  }
+
+  // Skip if resort doesn't have terrain data (MountainAreas)
+  if (!inspectorData.MountainAreas || inspectorData.MountainAreas.length === 0) {
+    console.log('⏭️  Skipping terrain data - resort does not provide terrain/lift data in Inspector API');
     return null;
   }
 
@@ -640,6 +647,101 @@ async function scrapeIkonResorts(resortsToScrape, scrapeOptions = {}) {
 }
 
 /**
+ * Update brief index for a resort
+ */
+function updateBriefIndex(resortKey, briefDir) {
+  const briefFiles = fs.readdirSync(briefDir)
+    .filter(f => f.endsWith('.json') && f !== 'index.json' && f !== 'latest.json')
+    .map(f => f.replace(/\.json$/, ''))
+    .sort()
+    .reverse();
+
+  if (briefFiles.length > 0) {
+    const briefIndex = {
+      resort: resortKey,
+      resortName: RESORTS[resortKey]?.name || resortKey,
+      provider: RESORTS[resortKey]?.provider || 'vail',
+      files: briefFiles,
+      latest: briefFiles[0] || null,
+      count: briefFiles.length,
+      generated: new Date().toISOString()
+    };
+
+    const indexPath = path.join(briefDir, 'index.json');
+    fs.writeFileSync(indexPath, JSON.stringify(briefIndex, null, 2));
+  }
+}
+
+/**
+ * Generate morning briefs for all scraped resorts
+ */
+function generateBriefs(scrapedData) {
+  const allBriefs = {};
+
+  scrapedData.forEach(result => {
+    if (!result || (!result.terrain && !result.snow)) {
+      return;
+    }
+
+    const resortKey = result.resortKey;
+    const resort = RESORTS[resortKey];
+    const today = seasonUtils.getResortLocalDate(resort.timezone);
+
+    try {
+      // Generate brief
+      const brief = briefGenerator.generateBrief(resortKey, today, config, RESORTS);
+
+      if (brief) {
+        // Save per-resort brief file
+        const briefDir = path.join('data', resortKey, 'brief');
+        briefGenerator.ensureDirectoryExists(briefDir);
+        const briefFile = path.join(briefDir, `${today}.json`);
+        fs.writeFileSync(briefFile, JSON.stringify(brief, null, 2));
+
+        // Save latest.json for this resort
+        const latestFile = path.join(briefDir, 'latest.json');
+        fs.writeFileSync(latestFile, JSON.stringify(brief, null, 2));
+
+        // Update per-resort index
+        updateBriefIndex(resortKey, briefDir);
+
+        // Add to aggregated briefs
+        allBriefs[resortKey] = {
+          date: today,
+          resortName: resort.name,
+          provider: resort.provider || 'ikon',
+          data: brief
+        };
+
+        console.log(`✓ Generated brief for ${resort.name}`);
+      }
+    } catch (error) {
+      console.error(`⚠️  Error generating brief for ${resort.name}:`, error.message);
+    }
+  });
+
+  // Generate latest-briefs.json (all resorts)
+  if (Object.keys(allBriefs).length > 0) {
+    const latestBriefsFile = path.join('data', 'latest-briefs.json');
+
+    // Read existing file to merge with new data
+    let existingBriefs = {};
+    if (fs.existsSync(latestBriefsFile)) {
+      try {
+        existingBriefs = JSON.parse(fs.readFileSync(latestBriefsFile, 'utf8'));
+      } catch (error) {
+        console.error('⚠️  Error reading existing latest-briefs.json:', error.message);
+      }
+    }
+
+    // Merge new briefs with existing
+    const mergedBriefs = { ...existingBriefs, ...allBriefs };
+    fs.writeFileSync(latestBriefsFile, JSON.stringify(mergedBriefs, null, 2));
+    console.log(`✓ Updated latest-briefs.json with ${Object.keys(allBriefs).length} Ikon resort(s)`);
+  }
+}
+
+/**
  * Merge inspector results into aggregated latest files without dropping existing data
  */
 function updateAggregatedLatest(scrapedData) {
@@ -780,6 +882,10 @@ async function main() {
     if (scrapedData.length > 0) {
       console.log('\n📦 Updating aggregated latest files...');
       updateAggregatedLatest(scrapedData);
+
+      // Generate morning briefs
+      console.log('\n📋 Generating morning briefs...');
+      generateBriefs(scrapedData);
     }
   }
 
