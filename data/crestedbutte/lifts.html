@@ -2,23 +2,111 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2c5aa0" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a3a6e" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon.png">
+    <link rel="icon" href="../icons/icon.png" type="image/png">
     <title id="page-title">Lift Status</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        .lift-stat-large {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem 0;
+            color: var(--accent-primary);
+        }
+        .lift-stat-open { color: #22c55e; }
+        .lift-stat-closed { color: #ef4444; }
+        .lift-area-section { margin-bottom: 2rem; }
+        .lift-area-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        .lifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .lift-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            display: block;
+        }
+        .lift-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+        }
+        .lift-card:active {
+            transform: scale(0.98);
+        }
+        .lift-card.lift-open { border-left: 4px solid #22c55e; }
+        .lift-card.lift-closed { border-left: 4px solid #ef4444; opacity: 0.7; }
+        .lift-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .lift-status-icon { font-size: 1.25rem; flex-shrink: 0; }
+        .lift-card-name { font-weight: 600; font-size: 1rem; line-height: 1.3; }
+        .lift-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        .lift-card-type { font-weight: 500; }
+        .lift-card-wait { color: var(--accent-primary); font-weight: 600; }
+        .lift-card-hours { font-size: 0.8rem; }
+        .historical-notice {
+            background: var(--badge-new);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body class="has-bottom-nav">
+    <!-- Pull-to-refresh indicator -->
+    <div class="pull-indicator" id="pullIndicator">
+        <div class="pull-spinner"></div>
+    </div>
+
     <div class="header">
         <div class="header-content">
-            <h1 id="page-heading">🚡 Lift Status</h1>
+            <h1 id="page-heading">Lift Status</h1>
             <p class="trails-subtitle" id="liftCount">Loading lifts...</p>
         </div>
     </div>
 
     <div class="container">
+        <!-- Historical Notice (hidden by default) -->
+        <div id="historicalNotice" class="historical-notice" style="display: none;">
+            Lift wait times are not available for previous days
+        </div>
+
         <!-- Overview Stats -->
         <div class="leaderboard-section" id="statsSection">
             <div class="leaderboard-grid">
-                <!-- Total Lifts -->
                 <div class="leaderboard-card">
                     <div class="leaderboard-title">
                         <span class="leaderboard-icon">🚡</span>
@@ -26,8 +114,6 @@
                     </div>
                     <div class="lift-stat-large" id="totalLifts">-</div>
                 </div>
-
-                <!-- Open Lifts -->
                 <div class="leaderboard-card">
                     <div class="leaderboard-title">
                         <span class="leaderboard-icon">✅</span>
@@ -35,8 +121,6 @@
                     </div>
                     <div class="lift-stat-large lift-stat-open" id="openLifts">-</div>
                 </div>
-
-                <!-- Closed Lifts -->
                 <div class="leaderboard-card">
                     <div class="leaderboard-title">
                         <span class="leaderboard-icon">⛔</span>
@@ -61,8 +145,12 @@
                     </div>
                 </div>
             </div>
-
-            <div id="liftsByArea"></div>
+            <div id="liftsByArea">
+                <div class="skeleton-container">
+                    <div class="skeleton skeleton-card"></div>
+                    <div class="skeleton skeleton-card"></div>
+                </div>
+            </div>
         </div>
 
         <!-- No Results -->
@@ -92,7 +180,7 @@
                 if (resortInfo) {
                     const resortName = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortName} Lift Status`;
-                    document.getElementById('page-heading').textContent = `🚡 ${resortName} Lifts`;
+                    document.getElementById('page-heading').textContent = `${resortName} Lifts`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
@@ -102,17 +190,17 @@
             .then(r => r.json())
             .then(data => {
                 allLifts = data.lifts || [];
-
                 document.getElementById('liftCount').textContent =
                     `${allLifts.length} lifts tracked`;
-
                 renderStats();
                 renderLiftsByArea();
                 updateFooter(data.generated);
             })
             .catch(err => {
                 console.error('Error loading lifts:', err);
-                document.getElementById('liftCount').textContent = 'Error loading lifts';
+                document.getElementById('liftCount').textContent = 'No lift data available';
+                document.getElementById('liftsByArea').innerHTML =
+                    '<div class="error">Lift data is not available for this resort.</div>';
             });
 
         function renderStats() {
@@ -127,12 +215,10 @@
         function renderLiftsByArea() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
-            // Filter by search
             let displayLifts = searchTerm
                 ? allLifts.filter(l => l.name.toLowerCase().includes(searchTerm))
                 : allLifts;
 
-            // Show/hide no results
             const noResults = document.getElementById('noResults');
             const liftListSection = document.getElementById('liftListSection');
             const statsSection = document.getElementById('statsSection');
@@ -152,13 +238,10 @@
             const byArea = {};
             displayLifts.forEach(lift => {
                 const area = lift.mountain || 'Unknown';
-                if (!byArea[area]) {
-                    byArea[area] = [];
-                }
+                if (!byArea[area]) byArea[area] = [];
                 byArea[area].push(lift);
             });
 
-            // Render each area
             const container = document.getElementById('liftsByArea');
             const areas = Object.keys(byArea).sort();
 
@@ -172,7 +255,7 @@
                 return `
                     <div class="lift-area-section">
                         <h3 class="lift-area-title">${area}</h3>
-                        <div class="lifts-grid">
+                        <div class="lifts-grid stagger-fade-in">
                             ${lifts.map(lift => renderLiftCard(lift)).join('')}
                         </div>
                     </div>
@@ -259,111 +342,11 @@
             }
         });
     </script>
-
-    <style>
-        .lift-stat-large {
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 1rem 0;
-            color: var(--primary);
-        }
-
-        .lift-stat-open {
-            color: #22c55e;
-        }
-
-        .lift-stat-closed {
-            color: #ef4444;
-        }
-
-        .lift-area-section {
-            margin-bottom: 2rem;
-        }
-
-        .lift-area-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.5rem;
-        }
-
-        .lifts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-
-        .lift-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 1rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.2s ease;
-            display: block;
-        }
-
-        .lift-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary);
-        }
-
-        .lift-card.lift-open {
-            border-left: 4px solid #22c55e;
-        }
-
-        .lift-card.lift-closed {
-            border-left: 4px solid #ef4444;
-            opacity: 0.7;
-        }
-
-        .lift-card-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .lift-status-icon {
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .lift-card-name {
-            font-weight: 600;
-            font-size: 1rem;
-            line-height: 1.3;
-        }
-
-        .lift-card-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-
-        .lift-card-type {
-            font-weight: 500;
-        }
-
-        .lift-card-wait {
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        .lift-card-hours {
-            font-size: 0.8rem;
-        }
-    </style>
+    <script src="../pwa.js"></script>
+    <script src="../debug.js"></script>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" id="bottomNav">
         <a href="grooming.html" class="nav-tab">
             <span class="nav-tab-icon">🏔️</span>
             <span class="nav-tab-label">Overview</span>
@@ -372,13 +355,13 @@
             <span class="nav-tab-icon">🥽</span>
             <span class="nav-tab-label">Trails</span>
         </a>
-        <a href="lifts.html" class="nav-tab active">
-            <span class="nav-tab-icon">🚡</span>
-            <span class="nav-tab-label">Lifts</span>
-        </a>
         <a href="snow.html" class="nav-tab">
             <span class="nav-tab-icon">❄️</span>
             <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="lifts.html" class="nav-tab active" id="liftsTab">
+            <span class="nav-tab-icon">🚡</span>
+            <span class="nav-tab-label">Lifts</span>
         </a>
     </nav>
 </body>

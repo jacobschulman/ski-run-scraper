@@ -2,7 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2c5aa0" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a3a6e" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon.png">
+    <link rel="icon" href="../icons/icon.png" type="image/png">
     <title id="page-title">Snow Report</title>
     <link rel="stylesheet" href="../styles.css">
     <style>
@@ -13,32 +20,32 @@
             margin: 30px 0;
         }
         .snow-card {
-            background: white;
+            background: var(--bg-secondary);
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-left: 5px solid #3a7bd5;
+            box-shadow: var(--shadow-sm);
+            border-left: 5px solid var(--accent-primary);
         }
         .snow-card h3 {
             margin: 0 0 15px 0;
-            color: #2c5aa0;
+            color: var(--accent-primary);
             font-size: 1.1em;
         }
         .snow-value {
             font-size: 2.5em;
             font-weight: bold;
-            color: #2c5aa0;
+            color: var(--accent-primary);
             margin: 10px 0;
         }
         .snow-label {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9em;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .conditions {
             font-size: 1.3em;
-            color: #3a7bd5;
+            color: var(--accent-primary);
             font-weight: 600;
         }
         .forecast-section {
@@ -72,7 +79,7 @@
         }
         .last-updated {
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.9em;
             margin: 30px 0;
         }
@@ -81,24 +88,33 @@
             margin: 20px 0;
         }
         .metric-toggle button {
-            background: #3a7bd5;
+            background: var(--accent-primary);
             color: white;
             border: none;
             padding: 8px 20px;
             border-radius: 20px;
             cursor: pointer;
             font-size: 0.9em;
+            transition: all 0.2s;
         }
         .metric-toggle button:hover {
-            background: #2c5aa0;
+            background: var(--accent-hover);
+        }
+        .metric-toggle button:active {
+            transform: scale(0.96);
         }
     </style>
 </head>
 <body class="has-bottom-nav">
+    <!-- Pull-to-refresh indicator -->
+    <div class="pull-indicator" id="pullIndicator">
+        <div class="pull-spinner"></div>
+    </div>
+
     <div class="header">
         <div class="header-content">
-            <h1 id="page-heading">❄️ Snow Report</h1>
-            <div class="date-nav">
+            <h1 id="page-heading">Snow Report</h1>
+            <div class="date-nav" id="dateNav">
                 <div class="date-controls">
                     <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">
                         <span class="nav-text-short">‹</span>
@@ -120,7 +136,10 @@
             <button onclick="toggleMetric()" id="metricToggle">Switch to Metric (cm/°C)</button>
         </div>
         <div id="content">
-            <div class="loading">Loading snow report...</div>
+            <div class="skeleton-container">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
         </div>
     </div>
 
@@ -147,7 +166,7 @@
                 if (resortInfo) {
                     const resortName = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortName} Snow Report`;
-                    document.getElementById('page-heading').textContent = `❄️ ${resortName} Snow Report`;
+                    document.getElementById('page-heading').textContent = `${resortName} Snow Report`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
@@ -169,6 +188,9 @@
             if (snowData) {
                 renderSnowData(snowData);
             }
+            if (typeof hapticFeedback === 'function') {
+                hapticFeedback('light');
+            }
         }
 
         function renderSnowData(data) {
@@ -180,7 +202,7 @@
             const conditions = data.conditions || 'Unknown';
 
             let html = `
-                <div class="snow-grid">
+                <div class="snow-grid stagger-fade-in">
                     <div class="snow-card">
                         <h3>Conditions</h3>
                         <div class="conditions">${conditions}</div>
@@ -205,7 +227,7 @@
             `;
 
             if (data.forecast && data.forecast.locations && data.forecast.locations.length > 0) {
-                html += '<div class="forecast-section"><h2>Weather Forecast</h2><div class="forecast-grid">';
+                html += '<div class="forecast-section"><h2>Weather Forecast</h2><div class="forecast-grid stagger-fade-in">';
 
                 data.forecast.locations.forEach((location, idx) => {
                     if (location.today) {
@@ -263,11 +285,15 @@
             date.setDate(date.getDate() + offset);
             const newDate = date.toISOString().split('T')[0];
             loadData(newDate);
+            if (typeof hapticFeedback === 'function') {
+                hapticFeedback('light');
+            }
         }
 
         function openDatePicker() {
-            document.getElementById('datePicker').value = currentDate;
-            document.getElementById('datePicker').showPicker?.();
+            const picker = document.getElementById('datePicker');
+            picker.value = currentDate;
+            if (picker.showPicker) picker.showPicker();
         }
 
         function selectDate() {
@@ -287,9 +313,11 @@
                 loadData(today);
             });
     </script>
+    <script src="../pwa.js"></script>
+    <script src="../debug.js"></script>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" id="bottomNav">
         <a href="grooming.html" class="nav-tab">
             <span class="nav-tab-icon">🏔️</span>
             <span class="nav-tab-label">Overview</span>
@@ -301,6 +329,10 @@
         <a href="snow.html" class="nav-tab active">
             <span class="nav-tab-icon">❄️</span>
             <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="lifts.html" class="nav-tab" id="liftsTab">
+            <span class="nav-tab-icon">🚡</span>
+            <span class="nav-tab-label">Lifts</span>
         </a>
     </nav>
 </body>

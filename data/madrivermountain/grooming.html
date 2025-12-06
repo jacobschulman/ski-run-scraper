@@ -2,15 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2c5aa0" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a3a6e" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="apple-touch-icon" href="../icons/icon.png">
+    <link rel="icon" href="../icons/icon.png" type="image/png">
     <title id="page-title">Grooming Report</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="has-bottom-nav">
+    <!-- Pull-to-refresh indicator -->
+    <div class="pull-indicator" id="pullIndicator">
+        <div class="pull-spinner"></div>
+    </div>
+
     <div class="header">
         <div class="header-content">
-            <h1 id="page-heading">🏔️ Grooming Report</h1>
-            <div class="date-nav">
+            <h1 id="page-heading">Grooming Report</h1>
+            <div class="date-nav" id="dateNav">
                 <div class="date-controls">
                     <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">
                         <span class="nav-text-short">‹</span>
@@ -28,9 +40,19 @@
     </div>
 
     <div class="container">
+        <!-- Morning Brief Widget -->
+        <div id="briefWidget" class="brief-widget" style="display: none;"></div>
+
+        <!-- Weather Widget -->
         <div id="weatherWidget" class="weather-widget" style="display: none;"></div>
+
+        <!-- Main Content -->
         <div id="content">
-            <div class="loading">Loading grooming data...</div>
+            <div class="skeleton-container">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
         </div>
     </div>
 
@@ -44,7 +66,7 @@
         const dataIndex = pathParts.findIndex(part => part === 'data');
         const RESORT_KEY = pathParts[dataIndex + 1];
 
-        // Fetch resort config to get display name and timezone
+        // Fetch resort config to get display name
         fetch('../index.json')
             .then(r => r.json())
             .then(index => {
@@ -52,15 +74,17 @@
                 if (resortInfo) {
                     const resortName = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortName} Grooming Report`;
-                    document.getElementById('page-heading').textContent = `🏔️ ${resortName} Grooming Report`;
+                    document.getElementById('page-heading').textContent = `${resortName} Grooming Report`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
     </script>
+    <script src="../pwa.js"></script>
+    <script src="../debug.js"></script>
     <script src="../resort.js"></script>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav" id="bottomNav">
         <a href="grooming.html" class="nav-tab active">
             <span class="nav-tab-icon">🏔️</span>
             <span class="nav-tab-label">Overview</span>
@@ -72,6 +96,10 @@
         <a href="snow.html" class="nav-tab">
             <span class="nav-tab-icon">❄️</span>
             <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="lifts.html" class="nav-tab" id="liftsTab">
+            <span class="nav-tab-icon">🚡</span>
+            <span class="nav-tab-label">Lifts</span>
         </a>
     </nav>
 </body>
