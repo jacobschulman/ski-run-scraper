@@ -5,6 +5,9 @@ let availableDates = [];
 let currentDateIndex = 0;
 let yesterdayData = null;
 let currentDate = null;
+let terrainData = null;
+let weatherData = null;
+let liftData = null;
 
 /**
  * Convert trail name to URL-safe slug (matches backend logic)
@@ -34,7 +37,7 @@ function showSkeletonLoading() {
     if (content) {
         content.innerHTML = `
             <div class="skeleton-container stagger-fade-in">
-                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-weather"></div>
                 <div class="skeleton skeleton-card"></div>
                 <div class="skeleton skeleton-card"></div>
             </div>
@@ -85,7 +88,7 @@ async function loadDate(date) {
             throw new Error(`HTTP ${response.status}`);
         }
 
-        const data = await response.json();
+        terrainData = await response.json();
 
         // Load yesterday's data for comparison
         const dateIdx = availableDates.indexOf(date);
@@ -101,90 +104,364 @@ async function loadDate(date) {
             yesterdayData = null;
         }
 
-        renderData(data, date);
-        updateNavigation(date);
+        // Load weather and lift data in parallel
+        await Promise.all([
+            loadWeatherData(date),
+            loadLiftData()
+        ]);
 
-        // Load weather for the selected date (not just latest)
-        loadWeatherData(date);
+        renderOverview();
+        updateNavigation(date);
     } catch (error) {
         showError(`Failed to load data for ${date}: ${error.message}`);
     }
 }
 
 /**
- * Render the grooming data
+ * Load weather data for a specific date
  */
-function renderData(data, date) {
+async function loadWeatherData(date = null) {
+    try {
+        let response;
+        let isHistorical = false;
+
+        if (date && date !== getTodayDate()) {
+            response = await fetch(`../${RESORT_KEY}/snow/${date}.json`);
+            isHistorical = true;
+        }
+
+        if (!response || !response.ok) {
+            response = await fetch(`../${RESORT_KEY}/snow/latest.json`);
+            isHistorical = false;
+        }
+
+        if (response.ok) {
+            weatherData = await response.json();
+            weatherData.isHistorical = isHistorical;
+        } else {
+            weatherData = null;
+        }
+    } catch (error) {
+        weatherData = null;
+    }
+}
+
+/**
+ * Load lift data
+ */
+async function loadLiftData() {
+    try {
+        const response = await fetch(`../${RESORT_KEY}/lifts/index.json`);
+        if (response.ok) {
+            liftData = await response.json();
+        } else {
+            liftData = null;
+        }
+    } catch (error) {
+        liftData = null;
+    }
+}
+
+/**
+ * Get today's date in YYYY-MM-DD format
+ */
+function getTodayDate() {
+    return new Date().toISOString().split('T')[0];
+}
+
+/**
+ * Render the complete overview page
+ */
+function renderOverview() {
     const content = document.getElementById('content');
 
-    if (!data.GroomingAreas || data.GroomingAreas.length === 0) {
+    if (!terrainData || !terrainData.GroomingAreas || terrainData.GroomingAreas.length === 0) {
         content.innerHTML = '<div class="error">No grooming data available for this date.</div>';
         return;
     }
 
-    // Get set of groomed trails from yesterday
-    const yesterdayGroomed = new Set();
-    if (yesterdayData && yesterdayData.GroomingAreas) {
-        yesterdayData.GroomingAreas.forEach(area => {
-            area.Trails.forEach(trail => {
-                if (trail.IsGroomed) {
-                    yesterdayGroomed.add(trail.Id);
-                }
-            });
-        });
-    }
+    // Get groomed trails data
+    const { groomedTrails, newlyGroomed, yesterdayGroomed } = getGroomedTrailsData();
 
     let html = '<div class="stagger-fade-in">';
 
-    data.GroomingAreas.forEach(area => {
+    // 1. Snow Conditions Widget
+    html += renderSnowConditionsWidget(groomedTrails.length);
+
+    // 2. Lift Status Widget (if we have lift data)
+    if (liftData && liftData.lifts && liftData.lifts.length > 0) {
+        html += renderLiftStatusWidget();
+    }
+
+    // 3. Groomed Highlights Widget (if we have newly groomed trails or show top groomed)
+    if (groomedTrails.length > 0) {
+        html += renderGroomedHighlightsWidget(groomedTrails, newlyGroomed, yesterdayGroomed);
+    }
+
+    // 4. Full trail list by area
+    html += renderAreaSections(yesterdayGroomed);
+
+    html += '</div>';
+
+    content.innerHTML = html;
+
+    // Update weather widget separately (for legacy support)
+    const weatherWidget = document.getElementById('weatherWidget');
+    if (weatherWidget) {
+        weatherWidget.style.display = 'none';
+    }
+}
+
+/**
+ * Get groomed trails data
+ */
+function getGroomedTrailsData() {
+    const groomedTrails = [];
+    const newlyGroomed = [];
+    const yesterdayGroomed = new Set();
+
+    // Build set of yesterday's groomed trails
+    if (yesterdayData && yesterdayData.GroomingAreas) {
+        yesterdayData.GroomingAreas.forEach(area => {
+            if (area.Trails) {
+                area.Trails.forEach(trail => {
+                    if (trail.IsGroomed) {
+                        yesterdayGroomed.add(trail.Id);
+                    }
+                });
+            }
+        });
+    }
+
+    // Get today's groomed trails
+    terrainData.GroomingAreas.forEach(area => {
+        if (area.Trails) {
+            area.Trails.forEach(trail => {
+                if (trail.IsGroomed) {
+                    const trailWithArea = { ...trail, areaName: area.Name };
+                    groomedTrails.push(trailWithArea);
+                    if (!yesterdayGroomed.has(trail.Id)) {
+                        newlyGroomed.push(trailWithArea);
+                    }
+                }
+            });
+        }
+    });
+
+    return { groomedTrails, newlyGroomed, yesterdayGroomed };
+}
+
+/**
+ * Render Snow Conditions Widget
+ */
+function renderSnowConditionsWidget(groomedCount) {
+    const conditions = weatherData?.conditions || 'Unknown';
+    const snowfall24h = weatherData?.snowfall?.['24hour_inches'] ?? 0;
+
+    // Get temperature
+    let currentTemp = '--';
+    let loTemp = '--';
+    let hiTemp = '--';
+
+    if (weatherData?.forecast?.locations?.[0]?.today) {
+        const today = weatherData.forecast.locations[0].today;
+        hiTemp = today.high_f ?? '--';
+        loTemp = today.low_f ?? '--';
+        currentTemp = hiTemp; // Use high as current for now
+    }
+
+    // Get lift count
+    let openLifts = '--';
+    let totalLifts = '--';
+    if (liftData?.lifts) {
+        const lifts = liftData.lifts;
+        totalLifts = lifts.length;
+        openLifts = lifts.filter(l => l.status === 'Open').length;
+    }
+
+    // Get trail count
+    let totalTrails = 0;
+    terrainData.GroomingAreas.forEach(area => {
+        if (area.Trails) {
+            totalTrails += area.Trails.length;
+        }
+    });
+
+    const lastUpdated = weatherData?.lastUpdated || '';
+    const updateTime = lastUpdated ? lastUpdated.replace('Updated ', '') : '';
+
+    return `
+        <div class="widget-card">
+            <div class="widget-header">
+                <div class="widget-title-group">
+                    <span class="widget-title">Snow Conditions</span>
+                    <span class="widget-subtitle">${updateTime ? `Last updated ${updateTime}` : 'Current conditions'}</span>
+                </div>
+                <a href="snow.html" class="widget-see-all">See all →</a>
+            </div>
+            <div class="weather-condition-banner">${escapeHtml(conditions)}</div>
+            <div class="weather-stats-grid">
+                <div class="weather-stat">
+                    <span class="weather-stat-value">${currentTemp}°</span>
+                    <span class="weather-stat-label">Now</span>
+                </div>
+                <div class="weather-stat">
+                    <span class="weather-stat-value">${loTemp}°/${hiTemp}°</span>
+                    <span class="weather-stat-label">Lo/Hi</span>
+                </div>
+                <div class="weather-stat">
+                    <span class="weather-stat-value">${snowfall24h}"</span>
+                    <span class="weather-stat-label">24hr</span>
+                </div>
+            </div>
+            <div class="weather-terrain-row">
+                <div class="terrain-stat">
+                    <span class="terrain-stat-value">${openLifts}/${totalLifts}</span>
+                    <span class="terrain-stat-label">Open Lifts</span>
+                </div>
+                <div class="terrain-stat">
+                    <span class="terrain-stat-value">${groomedCount}/${totalTrails}</span>
+                    <span class="terrain-stat-label">Groomed Trails</span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+/**
+ * Render Lift Status Widget
+ */
+function renderLiftStatusWidget() {
+    const openLifts = liftData.lifts.filter(l => l.status === 'Open').slice(0, 3);
+
+    if (openLifts.length === 0) {
+        return '';
+    }
+
+    let liftsHtml = openLifts.map(lift => {
+        const statusClass = lift.status.toLowerCase();
+        const closeTime = lift.closeTime || '';
+        return `
+            <li class="lift-item">
+                <span class="lift-status-dot ${statusClass}"></span>
+                <div class="lift-info">
+                    <span class="lift-name">${escapeHtml(lift.name)}</span>
+                    ${closeTime ? `<span class="lift-details">Closes at ${closeTime}</span>` : ''}
+                </div>
+                <span class="lift-badge ${statusClass}">${lift.status}</span>
+            </li>
+        `;
+    }).join('');
+
+    return `
+        <div class="widget-card">
+            <div class="widget-header">
+                <div class="widget-title-group">
+                    <span class="widget-title">Lift Status</span>
+                    <span class="widget-subtitle">Snapshot of today's lifts</span>
+                </div>
+                <a href="lifts.html" class="widget-see-all">See all →</a>
+            </div>
+            <ul class="lift-list">
+                ${liftsHtml}
+            </ul>
+        </div>
+    `;
+}
+
+/**
+ * Render Groomed Highlights Widget
+ */
+function renderGroomedHighlightsWidget(groomedTrails, newlyGroomed, yesterdayGroomed) {
+    // Show newly groomed trails if available, otherwise show first few groomed trails
+    const trailsToShow = newlyGroomed.length > 0 ? newlyGroomed.slice(0, 3) : groomedTrails.slice(0, 3);
+    const showingNew = newlyGroomed.length > 0;
+
+    let trailsHtml = trailsToShow.map(trail => {
+        const difficulty = trail.Difficulty || 'Blue';
+        const diffClass = difficulty.toLowerCase().replace('doubleblack', 'double-black');
+        const isNew = !yesterdayGroomed.has(trail.Id);
+
+        return `
+            <li class="trail-item">
+                <span class="difficulty-dot ${diffClass}"></span>
+                <div class="trail-info">
+                    ${hasTrailPages()
+                        ? `<a href="trail.html?name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
+                        : `<span class="trail-name">${escapeHtml(trail.Name)}</span>`
+                    }
+                    <span class="trail-area">${escapeHtml(trail.areaName)}</span>
+                </div>
+                <div class="trail-badges">
+                    <span class="badge badge-groomed">Groomed</span>
+                    ${isNew && yesterdayData ? '<span class="badge badge-new">NEW</span>' : ''}
+                </div>
+            </li>
+        `;
+    }).join('');
+
+    return `
+        <div class="widget-card">
+            <div class="widget-header">
+                <div class="widget-title-group">
+                    <span class="widget-title">Groomed Highlights</span>
+                    <span class="widget-subtitle">${showingNew ? 'Freshly corduroyed runs' : 'Today\'s groomed runs'}</span>
+                </div>
+                <a href="trails.html" class="widget-see-all">See all →</a>
+            </div>
+            <ul class="trail-list">
+                ${trailsHtml}
+            </ul>
+        </div>
+    `;
+}
+
+/**
+ * Render Area Sections with groomed trails
+ */
+function renderAreaSections(yesterdayGroomed) {
+    let html = '';
+
+    terrainData.GroomingAreas.forEach(area => {
         if (!area.Trails || area.Trails.length === 0) return;
 
         // Filter to only groomed trails
         const groomedTrails = area.Trails.filter(t => t.IsGroomed);
         if (groomedTrails.length === 0) return;
 
-        html += `<div class="area-section">`;
-        html += `<h2 class="area-title">${escapeHtml(area.Name)}</h2>`;
-        html += `<ul class="trail-list">`;
-
-        groomedTrails.forEach(trail => {
+        let trailsHtml = groomedTrails.map(trail => {
             const isNew = !yesterdayGroomed.has(trail.Id);
             const difficulty = trail.Difficulty || 'Blue';
-            const trailName = escapeHtml(trail.Name);
 
-            html += `<li class="trail-item">`;
-            html += `<span class="difficulty-indicator difficulty-${difficulty}"></span>`;
+            return `
+                <li class="trail-item">
+                    <span class="difficulty-indicator difficulty-${difficulty}"></span>
+                    <div class="trail-info">
+                        ${hasTrailPages()
+                            ? `<a href="trail.html?name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
+                            : `<span class="trail-name">${escapeHtml(trail.Name)}</span>`
+                        }
+                    </div>
+                    <div class="trail-status">
+                        <span class="groomed-badge">Groomed</span>
+                        ${isNew && yesterdayData ? '<span class="new-badge">NEW</span>' : ''}
+                        ${!trail.IsOpen ? '<span class="closed-badge">Closed</span>' : ''}
+                    </div>
+                </li>
+            `;
+        }).join('');
 
-            // Make trail name clickable if trail pages are available
-            if (hasTrailPages()) {
-                const trailSlug = slugifyTrailName(trail.Name);
-                html += `<a href="trail.html?name=${encodeURIComponent(trailSlug)}" class="trail-name trail-link">${trailName}</a>`;
-            } else {
-                html += `<span class="trail-name">${trailName}</span>`;
-            }
-
-            html += `<span class="trail-status">`;
-            html += `<span class="groomed-badge">Groomed</span>`;
-            if (isNew && yesterdayData) {
-                html += `<span class="new-badge">New!</span>`;
-            }
-            if (!trail.IsOpen) {
-                html += `<span class="closed-badge">Closed</span>`;
-            }
-            html += `</span>`;
-            html += `</li>`;
-        });
-
-        html += `</ul></div>`;
+        html += `
+            <div class="area-section">
+                <h2 class="area-title">${escapeHtml(area.Name)}</h2>
+                <ul class="trail-list">
+                    ${trailsHtml}
+                </ul>
+            </div>
+        `;
     });
 
-    html += '</div>';
-
-    if (html === '<div class="stagger-fade-in"></div>') {
-        content.innerHTML = '<div class="error">No groomed trails found for this date.</div>';
-    } else {
-        content.innerHTML = html;
-    }
+    return html;
 }
 
 /**
@@ -278,110 +555,6 @@ function escapeHtml(text) {
 }
 
 // ============================================
-// Weather Widget
-// ============================================
-
-/**
- * Load weather data for a specific date (or latest if not specified)
- */
-async function loadWeatherData(date = null) {
-    const widget = document.getElementById('weatherWidget');
-    if (!widget) return;
-
-    try {
-        // Try to load date-specific weather, fall back to latest
-        let response;
-        let isHistorical = false;
-
-        if (date && date !== getTodayDate()) {
-            response = await fetch(`../${RESORT_KEY}/snow/${date}.json`);
-            isHistorical = true;
-        }
-
-        if (!response || !response.ok) {
-            response = await fetch(`../${RESORT_KEY}/snow/latest.json`);
-            isHistorical = false;
-        }
-
-        if (!response.ok) {
-            hideWeatherWidget();
-            return;
-        }
-
-        const data = await response.json();
-        displayWeatherWidget(data, isHistorical);
-    } catch (error) {
-        hideWeatherWidget();
-    }
-}
-
-/**
- * Get today's date in YYYY-MM-DD format
- */
-function getTodayDate() {
-    return new Date().toISOString().split('T')[0];
-}
-
-/**
- * Display the weather widget
- */
-function displayWeatherWidget(data, isHistorical = false) {
-    const widget = document.getElementById('weatherWidget');
-    if (!widget) return;
-
-    const conditions = data.conditions || 'N/A';
-    const baseDepth = data.baseDepth ? `${data.baseDepth.inches}"` : 'N/A';
-    const snowfall24h = data.snowfall ? `${data.snowfall['24hour_inches']}"` : '0"';
-
-    // Get today's forecast from first location
-    let todayHigh = 'N/A';
-    let todayLow = 'N/A';
-    let todayDesc = 'N/A';
-
-    if (data.forecast && data.forecast.locations && data.forecast.locations.length > 0) {
-        const firstLocation = data.forecast.locations[0];
-        if (firstLocation.today) {
-            todayHigh = firstLocation.today.high_f ? `${firstLocation.today.high_f}°F` : 'N/A';
-            todayLow = firstLocation.today.low_f ? `${firstLocation.today.low_f}°F` : 'N/A';
-            todayDesc = firstLocation.today.description || 'N/A';
-        }
-    }
-
-    const historicalNote = isHistorical ? ' <span style="opacity:0.7">(historical)</span>' : '';
-
-    const html = `
-        <a href="snow.html" class="weather-conditions-link">${escapeHtml(conditions)}${historicalNote} →</a>
-        <div class="weather-summary-compact">
-            <div class="weather-item-compact">
-                <div class="weather-label">${isHistorical ? 'Weather' : 'Today'}</div>
-                <div class="weather-value">${escapeHtml(todayDesc)} • ${escapeHtml(todayHigh)} / ${escapeHtml(todayLow)}</div>
-            </div>
-            <div class="weather-item-compact">
-                <div class="weather-label">Base Depth</div>
-                <div class="weather-value">${escapeHtml(baseDepth)}</div>
-            </div>
-            <div class="weather-item-compact">
-                <div class="weather-label">24hr Snow</div>
-                <div class="weather-value">${escapeHtml(snowfall24h)}</div>
-            </div>
-        </div>
-    `;
-
-    widget.innerHTML = html;
-    widget.style.display = 'block';
-}
-
-/**
- * Hide the weather widget
- */
-function hideWeatherWidget() {
-    const widget = document.getElementById('weatherWidget');
-    if (widget) {
-        widget.style.display = 'none';
-    }
-}
-
-// ============================================
 // Morning Brief Widget
 // ============================================
 
@@ -429,13 +602,26 @@ function displayMorningBrief(data) {
     const headline = brief.headline || 'Morning Report';
     const body = brief.body || '';
 
+    if (!headline && !body) {
+        widget.style.display = 'none';
+        return;
+    }
+
     // Check if we should show dismiss button
     const showDismiss = typeof window.debugSettings === 'undefined' ||
                         window.debugSettings.briefDismissable !== false;
 
+    // Determine tag based on insights
+    let tagHtml = '';
+    if (data.computedInsights?.flags?.isPowderDay) {
+        tagHtml = '<span class="brief-tag">Powder Day</span>';
+    } else if (data.computedInsights?.flags?.hasFreshSnow) {
+        tagHtml = '<span class="brief-tag">Fresh Snow</span>';
+    }
+
     // Build alerts HTML
     let alertsHtml = '';
-    if (data.computedInsights && data.computedInsights.alerts && data.computedInsights.alerts.length > 0) {
+    if (data.computedInsights?.alerts?.length > 0) {
         alertsHtml = '<div class="brief-alerts">';
         data.computedInsights.alerts.forEach(alert => {
             alertsHtml += `<span class="brief-alert-tag">${escapeHtml(alert)}</span>`;
@@ -443,11 +629,26 @@ function displayMorningBrief(data) {
         alertsHtml += '</div>';
     }
 
+    const dateStr = new Date().toLocaleDateString('en-US', {
+        weekday: 'long',
+        month: 'short',
+        day: 'numeric'
+    });
+
     widget.innerHTML = `
         ${showDismiss ? '<button class="brief-dismiss" onclick="dismissBrief()" aria-label="Dismiss brief">&times;</button>' : ''}
-        <div class="brief-headline">${escapeHtml(headline)}</div>
-        <div class="brief-body">${escapeHtml(body)}</div>
-        ${alertsHtml}
+        <div class="brief-header">
+            <div class="brief-title-group">
+                <span class="brief-title">Morning Brief</span>
+                <span class="brief-date">${dateStr}</span>
+            </div>
+            ${tagHtml}
+        </div>
+        <div class="brief-content">
+            <div class="brief-headline">${escapeHtml(headline)}</div>
+            <div class="brief-body">${escapeHtml(body)}</div>
+            ${alertsHtml}
+        </div>
     `;
 
     widget.style.display = 'block';
