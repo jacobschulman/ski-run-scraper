@@ -41,6 +41,7 @@ const seasonUtils = require('./lib/season-utils');
 const fileStorage = require('./lib/file-storage');
 const dataNormalization = require('./lib/data-normalization');
 const briefGenerator = require('./lib/brief-generator');
+const providers = require('./lib/providers');
 
 // Load configuration
 const config = configLoader.loadConfig();
@@ -586,61 +587,237 @@ function generateTrailsIndex(resortKey) {
 }
 
 /**
+ * Save normalized terrain data from alternate providers (ReportPal, DOR, Zaneray)
+ */
+function saveAlternateProviderTerrainData(resortKey, normalizedData) {
+  if (!normalizedData) {
+    console.log('✗ No data to save');
+    return null;
+  }
+
+  const resort = RESORTS[resortKey];
+  const resortName = resort.name;
+  const resortTimezone = resort.timezone || 'America/Denver';
+  const today = seasonUtils.getResortLocalDate(resortTimezone);
+
+  // Add provider metadata if not present
+  const terrainDataWithProvider = {
+    ...normalizedData,
+    provider: resort.provider || 'ikon'
+  };
+
+  // Ensure data directory structure exists
+  const terrainDir = path.join('data', resortKey, 'terrain');
+  fileStorage.ensureDirectoryExists(terrainDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(terrainDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
+  console.log(`✓ Saved terrain data to ${timestampedFile}`);
+
+  // Update per-resort terrain index
+  const terrainFiles = fs.readdirSync(terrainDir)
+    .filter(f => f.endsWith('.json') && f !== 'index.json')
+    .map(f => f.replace(/\.json$/, ''))
+    .sort()
+    .reverse();
+
+  if (terrainFiles.length > 0) {
+    const terrainIndex = {
+      resort: resortKey,
+      resortName,
+      provider: resort.provider || 'ikon',
+      apiProvider: resort.apiProvider || null,
+      files: terrainFiles,
+      latest: terrainFiles[0] || null,
+      count: terrainFiles.length,
+      generated: new Date().toISOString()
+    };
+
+    const terrainIndexPath = path.join(terrainDir, 'index.json');
+    fs.writeFileSync(terrainIndexPath, JSON.stringify(terrainIndex, null, 2));
+    console.log(`✓ Updated ${terrainIndexPath} (${terrainFiles.length} files)`);
+  }
+
+  // Print summary
+  console.log('\n📊 Data Summary:');
+  console.log(`   Resort: ${resortName}`);
+  console.log(`   Provider: ${resort.apiProvider}`);
+  console.log(`   Date: ${normalizedData.Date}`);
+  console.log(`   Mountain Areas: ${normalizedData.GroomingAreas ? normalizedData.GroomingAreas.length : 0}`);
+  console.log(`   Lifts: ${normalizedData.Lifts ? normalizedData.Lifts.length : 0}`);
+
+  // Count trails
+  if (normalizedData.GroomingAreas) {
+    let totalTrails = 0;
+    let openTrails = 0;
+    let groomedTrails = 0;
+
+    normalizedData.GroomingAreas.forEach(area => {
+      if (area.Trails) {
+        area.Trails.forEach(trail => {
+          totalTrails++;
+          if (trail.IsOpen) openTrails++;
+          if (trail.IsGroomed) groomedTrails++;
+        });
+      }
+    });
+
+    console.log(`   Total Trails: ${totalTrails}`);
+    console.log(`   Open: ${openTrails}`);
+    console.log(`   Groomed: ${groomedTrails}`);
+  }
+
+  return { resortKey, date: today, data: normalizedData };
+}
+
+/**
+ * Scrape resorts from alternate providers (ReportPal, DOR, Zaneray)
+ */
+async function scrapeAlternateProviderResorts(resortsToScrape, scrapeOptions = {}) {
+  const scrapedData = [];
+  const { scrapeTerrain = true } = scrapeOptions;
+
+  // Group resorts by their apiProvider
+  const resortsByProvider = providers.groupResortsByProvider(resortsToScrape);
+
+  // Process ReportPal resorts
+  if (resortsByProvider.reportpal && resortsByProvider.reportpal.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.reportpal.length} ReportPal resort(s)...`);
+
+    for (const resort of resortsByProvider.reportpal) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (ReportPal)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        const normalizedData = dataNormalization.normalizeReportPalResort(rawData, resort.key);
+
+        if (scrapeTerrain) {
+          const result = saveAlternateProviderTerrainData(resort.key, normalizedData);
+          if (result) {
+            scrapedData.push({ resortKey: resort.key, terrain: result, snow: null });
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
+
+  // Process DOR resorts
+  if (resortsByProvider.dor && resortsByProvider.dor.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.dor.length} DOR resort(s)...`);
+
+    for (const resort of resortsByProvider.dor) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (DOR)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        const normalizedData = dataNormalization.normalizeDORResort(rawData, resort.key);
+
+        if (scrapeTerrain) {
+          const result = saveAlternateProviderTerrainData(resort.key, normalizedData);
+          if (result) {
+            scrapedData.push({ resortKey: resort.key, terrain: result, snow: null });
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
+
+  // Process Zaneray resorts
+  if (resortsByProvider.zaneray && resortsByProvider.zaneray.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.zaneray.length} Zaneray resort(s)...`);
+
+    for (const resort of resortsByProvider.zaneray) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (Zaneray)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        const normalizedData = dataNormalization.normalizeZanerayResort(rawData, resort.key);
+
+        if (scrapeTerrain) {
+          const result = saveAlternateProviderTerrainData(resort.key, normalizedData);
+          if (result) {
+            scrapedData.push({ resortKey: resort.key, terrain: result, snow: null });
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
+
+  return scrapedData;
+}
+
+/**
  * Scrape Ikon resorts from Inspector API (fetch all data, filter by name)
  */
 async function scrapeIkonResorts(resortsToScrape, scrapeOptions = {}) {
   const scrapedData = [];
   const { scrapeTerrain = true, scrapeSnow = true } = scrapeOptions;
 
-  console.log(`\n📦 Fetching all Ikon resort data from Inspector API...`);
+  // Separate resorts by provider type
+  const inspectorResorts = resortsToScrape.filter(r => !r.apiProvider || r.apiProvider === 'inspector');
+  const alternateProviderResorts = resortsToScrape.filter(r => r.apiProvider && r.apiProvider !== 'inspector');
 
-  try {
-    // Fetch all resort data in one API call
-    const apiResponse = await fetchAllInspectorData();
+  // Process Inspector API resorts (batch fetch)
+  if (inspectorResorts.length > 0) {
+    console.log(`\n📦 Fetching ${inspectorResorts.length} resort(s) from Inspector API...`);
 
-    if (!apiResponse || !apiResponse.Resorts || apiResponse.Resorts.length === 0) {
-      console.error('❌ No resort data in API response');
-      return scrapedData;
+    try {
+      const apiResponse = await fetchAllInspectorData();
+
+      if (!apiResponse || !apiResponse.Resorts || apiResponse.Resorts.length === 0) {
+        console.error('❌ No resort data in Inspector API response');
+      } else {
+        console.log(`✓ Received data for ${apiResponse.Resorts.length} resorts from Inspector API`);
+
+        inspectorResorts.forEach(resort => {
+          const inspectorName = resort.inspectorName || resort.name;
+          const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
+
+          if (!ikonResortData) {
+            console.error(`\n⚠️  ${resort.name}: No matching data found in Inspector API (looking for "${inspectorName}")`);
+            return;
+          }
+
+          console.log(`\n${'='.repeat(50)}`);
+          console.log(`Processing ${resort.name} (Inspector)...`);
+          console.log('='.repeat(50));
+
+          const result = { resortKey: resort.key, terrain: null, snow: null };
+
+          if (scrapeTerrain) {
+            result.terrain = saveInspectorTerrainData(resort.key, ikonResortData);
+          }
+
+          if (scrapeSnow) {
+            result.snow = saveInspectorSnowData(resort.key, ikonResortData);
+          }
+
+          scrapedData.push(result);
+        });
+      }
+    } catch (error) {
+      console.error(`❌ Error fetching Ikon data from Inspector API:`, error.message);
     }
+  }
 
-    console.log(`✓ Received data for ${apiResponse.Resorts.length} resorts from API`);
-    console.log(`\n${'='.repeat(80)}`);
-    console.log(`Processing ${resortsToScrape.length} configured resort(s)...`);
-    console.log('='.repeat(80));
-
-    // Process each configured Ikon resort
-    resortsToScrape.forEach(resort => {
-      const inspectorName = resort.inspectorName || resort.name;
-
-      // Find matching resort in API data (exact name match)
-      const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
-
-      if (!ikonResortData) {
-        console.error(`\n⚠️  ${resort.name}: No matching data found (looking for "${inspectorName}")`);
-        return;
-      }
-
-      console.log(`\n${'='.repeat(50)}`);
-      console.log(`Processing ${resort.name}...`);
-      console.log('='.repeat(50));
-
-      const result = { resortKey: resort.key, terrain: null, snow: null };
-
-      // Save terrain data (if requested)
-      if (scrapeTerrain) {
-        result.terrain = saveInspectorTerrainData(resort.key, ikonResortData);
-      }
-
-      // Save snow data (if requested)
-      if (scrapeSnow) {
-        result.snow = saveInspectorSnowData(resort.key, ikonResortData);
-      }
-
-      scrapedData.push(result);
-    });
-
-  } catch (error) {
-    console.error(`❌ Error fetching Ikon data from Inspector API:`, error.message);
+  // Process alternate provider resorts
+  if (alternateProviderResorts.length > 0) {
+    console.log(`\n📦 Processing ${alternateProviderResorts.length} resort(s) from alternate providers...`);
+    const alternateResults = await scrapeAlternateProviderResorts(alternateProviderResorts, scrapeOptions);
+    scrapedData.push(...alternateResults);
   }
 
   return scrapedData;
