@@ -375,7 +375,8 @@ function generateTrailsIndex(resortKey) {
         isGroomedToday: trailData.currentStatus.isGroomed,
         isOpen: trailData.currentStatus.isOpen,
         groomingPercentage: trailData.stats.groomingPercentage,
-        currentStreak: trailData.stats.currentStreak
+        currentStreak: trailData.stats.currentStreak,
+        longestStreak: trailData.stats.longestStreak
       });
     } catch (e) {
       console.error(`  ⚠️  Error reading trail file ${file}:`, e.message);

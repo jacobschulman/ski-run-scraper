@@ -198,8 +198,7 @@ function renderOverview() {
         html += renderGroomedHighlightsWidget(groomedTrails, newlyGroomed, yesterdayGroomed);
     }
 
-    // 4. Full trail list by area
-    html += renderAreaSections(yesterdayGroomed);
+    // Full trail list moved to trails.html page
 
     html += '</div>';
 
@@ -292,13 +291,13 @@ function renderSnowConditionsWidget(groomedCount) {
 
     return `
         <div class="widget-card">
-            <div class="widget-header">
+            <a href="snow.html" class="widget-header widget-header-link">
                 <div class="widget-title-group">
                     <span class="widget-title">Snow Conditions</span>
-                    <span class="widget-subtitle">${updateTime ? `Last updated ${updateTime}` : 'Current conditions'}</span>
+                    <span class="widget-subtitle">${updateTime ? `Updated ${updateTime}` : 'Current conditions'}</span>
                 </div>
-                <a href="snow.html" class="widget-see-all">See all →</a>
-            </div>
+                <span class="widget-see-all">See all →</span>
+            </a>
             <div class="weather-condition-banner">${escapeHtml(conditions)}</div>
             <div class="weather-stats-grid">
                 <div class="weather-stat">
@@ -349,11 +348,9 @@ function renderLiftStatusWidget() {
         const hasWaitData = waitMinutes !== null && waitMinutes !== undefined;
         const liftUrl = lift.slug ? `lift.html?name=${encodeURIComponent(lift.slug)}` : 'lifts.html';
 
-        // Show wait time or close time
+        // Show close time only (wait time shown in badge)
         let detailsHtml = '';
-        if (hasWaitData) {
-            detailsHtml = `<span class="lift-details">${waitMinutes} min wait</span>`;
-        } else if (lift.closeTime) {
+        if (lift.closeTime) {
             detailsHtml = `<span class="lift-details">Closes at ${lift.closeTime}</span>`;
         }
 
@@ -374,19 +371,26 @@ function renderLiftStatusWidget() {
         `;
     }).join('');
 
-    const subtitle = sortedLifts.some(l => l.waitMinutes)
-        ? 'Sorted by longest wait'
-        : 'Open lifts right now';
+    // Format last updated time
+    let lastUpdatedStr = '';
+    if (liftData.generated) {
+        const genDate = new Date(liftData.generated);
+        lastUpdatedStr = genDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    const subtitle = lastUpdatedStr
+        ? `Updated at ${lastUpdatedStr}`
+        : (sortedLifts.some(l => l.waitMinutes) ? 'Sorted by longest wait' : 'Open lifts right now');
 
     return `
         <div class="widget-card">
-            <div class="widget-header">
+            <a href="lifts.html" class="widget-header widget-header-link">
                 <div class="widget-title-group">
                     <span class="widget-title">Lift Status</span>
                     <span class="widget-subtitle">${subtitle}</span>
                 </div>
-                <a href="lifts.html" class="widget-see-all">See all →</a>
-            </div>
+                <span class="widget-see-all">See all →</span>
+            </a>
             <ul class="lift-list">
                 ${liftsHtml}
             </ul>
@@ -500,8 +504,15 @@ function updateNavigation(date) {
 
     if (dateDisplay) {
         const dateObj = new Date(date + 'T00:00:00');
-        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        dateDisplay.textContent = dateObj.toLocaleDateString('en-US', options);
+        const today = getTodayDate();
+
+        // Use short format for header (like "Sat, Dec 6")
+        if (date === today) {
+            dateDisplay.textContent = 'Today';
+        } else {
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            dateDisplay.textContent = dateObj.toLocaleDateString('en-US', options);
+        }
     }
 
     if (datePicker) {

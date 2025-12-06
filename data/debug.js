@@ -9,8 +9,8 @@
   // ============================================
 
   const DEFAULT_SETTINGS = {
-    dailyBriefs: false,        // Show morning brief widget
-    liveLiftData: false,       // Show lifts tab with real-time data
+    dailyBriefs: true,         // Show morning brief widget (default ON)
+    liveLiftData: true,        // Show lifts tab with real-time data (default ON)
     datePicker: false,         // Show date navigation controls
     briefDismissable: true,    // Show X button on brief (default ON)
     showIkonResorts: true,     // Include Ikon resorts in index

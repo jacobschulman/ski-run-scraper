@@ -10,7 +10,7 @@
     <link rel="manifest" href="../manifest.json">
     <link rel="apple-touch-icon" href="../icons/icon.svg">
     <link rel="icon" href="../icons/icon.svg" type="image/svg+xml">
-    <title id="page-title">Trail Leaderboard</title>
+    <title id="page-title">Trails</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="has-bottom-nav">
@@ -22,7 +22,7 @@
     <div class="header">
         <div class="header-content">
             <div class="trails-header">
-                <h1 id="page-heading">Trail Leaderboard</h1>
+                <h1 id="page-heading">Trails</h1>
                 <p class="trails-subtitle" id="trailCount">Loading trails...</p>
             </div>
         </div>
@@ -53,11 +53,23 @@
             </div>
         </div>
 
-        <!-- All Trails -->
+        <!-- Groomed Today Section -->
+        <div class="groomed-today-section" id="groomedTodaySection" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title">Groomed Today</h2>
+                <span class="section-count" id="groomedCount"></span>
+            </div>
+            <div id="groomedAreasList"></div>
+        </div>
+
+        <!-- All Trails (Collapsible) -->
         <div class="trail-list-section" id="trailListSection">
-            <div class="trail-list-header">
-                <span class="trail-list-title">All Trails</span>
-                <div class="sort-controls">
+            <div class="trail-list-header collapsible" onclick="toggleAllTrails()">
+                <div class="trail-list-title-group">
+                    <span class="trail-list-title">All Trails</span>
+                    <span class="collapse-indicator" id="collapseIndicator">▾</span>
+                </div>
+                <div class="sort-controls" onclick="event.stopPropagation()">
                     <button class="sort-btn active" id="sortName" onclick="sortBy('name')">A-Z</button>
                     <button class="sort-btn" id="sortPercent" onclick="sortBy('percent')">%</button>
                     <div class="search-wrapper">
@@ -69,19 +81,21 @@
                     </div>
                 </div>
             </div>
-            <table class="trails-table">
-                <thead>
-                    <tr>
-                        <th>Trail</th>
-                        <th class="hide-mobile">Area</th>
-                        <th>Groomed</th>
-                        <th class="hide-mobile">Streak</th>
-                    </tr>
-                </thead>
-                <tbody id="trailsBody">
-                    <tr><td colspan="4"><div class="skeleton skeleton-row"></div></td></tr>
-                </tbody>
-            </table>
+            <div class="collapsible-content collapsed" id="allTrailsContent">
+                <table class="trails-table">
+                    <thead>
+                        <tr>
+                            <th>Trail</th>
+                            <th class="hide-mobile">Area</th>
+                            <th>Groomed</th>
+                            <th class="hide-mobile">Streak</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trailsBody">
+                        <tr><td colspan="4"><div class="skeleton skeleton-row"></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- No Results -->
@@ -101,7 +115,9 @@
         const dataIndex = pathParts.findIndex(part => part === 'data');
         const RESORT_KEY = pathParts[dataIndex + 1];
         let allTrails = [];
+        let terrainData = null;
         let currentSort = 'name';
+        let allTrailsExpanded = false;
 
         // Fetch resort config to get display name
         fetch('../index.json')
@@ -110,27 +126,52 @@
                 const resortInfo = index.resorts[RESORT_KEY];
                 if (resortInfo) {
                     const resortName = resortInfo.name;
-                    document.getElementById('page-title').textContent = `${resortName} Trail Leaderboard`;
+                    document.getElementById('page-title').textContent = `${resortName} Trails`;
                     document.getElementById('page-heading').textContent = `${resortName} Trails`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
 
-        // Load trail data
-        fetch('trails/index.json')
-            .then(r => r.json())
-            .then(data => {
-                allTrails = data.trails || [];
-                document.getElementById('trailCount').textContent =
-                    `${allTrails.length} trails tracked`;
-                renderLeaderboards();
-                renderTrailList();
-                updateFooter(data.generated);
-            })
-            .catch(err => {
-                console.error('Error loading trails:', err);
-                document.getElementById('trailCount').textContent = 'Error loading trails';
-            });
+        // Load both trail index and terrain data
+        Promise.all([
+            fetch('trails/index.json').then(r => r.json()),
+            loadLatestTerrainData()
+        ]).then(([trailData, terrain]) => {
+            allTrails = trailData.trails || [];
+            terrainData = terrain;
+
+            document.getElementById('trailCount').textContent =
+                `${allTrails.length} trails tracked`;
+
+            renderLeaderboards();
+            renderGroomedToday();
+            renderTrailList();
+            updateFooter(trailData.generated);
+        }).catch(err => {
+            console.error('Error loading data:', err);
+            document.getElementById('trailCount').textContent = 'Error loading trails';
+        });
+
+        async function loadLatestTerrainData() {
+            try {
+                // Try to load index to find latest date
+                const indexResponse = await fetch('../index.json');
+                const index = await indexResponse.json();
+                const resortData = index.resorts[RESORT_KEY];
+
+                if (resortData && resortData.files && resortData.files.length > 0) {
+                    // Files are sorted, get most recent
+                    const latestFile = resortData.files.sort().reverse()[0];
+                    const terrainResponse = await fetch(`terrain/${latestFile}`);
+                    if (terrainResponse.ok) {
+                        return await terrainResponse.json();
+                    }
+                }
+            } catch (e) {
+                console.warn('Could not load terrain data:', e);
+            }
+            return null;
+        }
 
         function renderLeaderboards() {
             // Most groomed (top 5 by percentage)
@@ -174,6 +215,86 @@
             `;
         }
 
+        function renderGroomedToday() {
+            if (!terrainData || !terrainData.GroomingAreas) {
+                return;
+            }
+
+            const groomedByArea = [];
+            let totalGroomed = 0;
+
+            terrainData.GroomingAreas.forEach(area => {
+                if (!area.Trails) return;
+
+                const groomedTrails = area.Trails.filter(t => t.IsGroomed);
+                if (groomedTrails.length === 0) return;
+
+                totalGroomed += groomedTrails.length;
+                groomedByArea.push({
+                    name: area.Name,
+                    trails: groomedTrails
+                });
+            });
+
+            if (groomedByArea.length === 0) {
+                return;
+            }
+
+            document.getElementById('groomedTodaySection').style.display = 'block';
+            document.getElementById('groomedCount').textContent = `${totalGroomed} trails`;
+
+            const areasHtml = groomedByArea.map(area => `
+                <div class="groomed-area">
+                    <div class="groomed-area-header">
+                        <span class="groomed-area-name">${escapeHtml(area.name)}</span>
+                        <span class="groomed-area-count">${area.trails.length}</span>
+                    </div>
+                    <div class="groomed-area-trails">
+                        ${area.trails.map(trail => {
+                            const difficulty = trail.Difficulty || 'Blue';
+                            const slug = slugifyTrailName(trail.Name);
+                            return `
+                                <a href="trail.html?name=${encodeURIComponent(slug)}" class="groomed-trail-chip">
+                                    <span class="difficulty-dot ${difficulty.toLowerCase()}"></span>
+                                    ${escapeHtml(trail.Name)}
+                                </a>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('groomedAreasList').innerHTML = areasHtml;
+        }
+
+        function slugifyTrailName(name) {
+            return name
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/--+/g, '-')
+                .trim();
+        }
+
+        function toggleAllTrails() {
+            const content = document.getElementById('allTrailsContent');
+            const indicator = document.getElementById('collapseIndicator');
+
+            allTrailsExpanded = !allTrailsExpanded;
+
+            if (allTrailsExpanded) {
+                content.classList.remove('collapsed');
+                indicator.textContent = '▴';
+            } else {
+                content.classList.add('collapsed');
+                indicator.textContent = '▾';
+            }
+
+            if (typeof hapticFeedback === 'function') {
+                hapticFeedback('light');
+            }
+        }
+
         function renderTrailList() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
@@ -192,16 +313,28 @@
             const noResults = document.getElementById('noResults');
             const trailListSection = document.getElementById('trailListSection');
             const leaderboardSection = document.getElementById('leaderboardSection');
+            const groomedTodaySection = document.getElementById('groomedTodaySection');
 
             if (displayTrails.length === 0 && searchTerm) {
                 noResults.style.display = 'block';
                 trailListSection.style.display = 'none';
                 leaderboardSection.style.display = 'none';
+                groomedTodaySection.style.display = 'none';
                 return;
             } else {
                 noResults.style.display = 'none';
                 trailListSection.style.display = 'block';
                 leaderboardSection.style.display = searchTerm ? 'none' : 'block';
+                if (terrainData && !searchTerm) {
+                    groomedTodaySection.style.display = 'block';
+                }
+            }
+
+            // Auto-expand when searching
+            if (searchTerm && !allTrailsExpanded) {
+                allTrailsExpanded = true;
+                document.getElementById('allTrailsContent').classList.remove('collapsed');
+                document.getElementById('collapseIndicator').textContent = '▴';
             }
 
             const tbody = document.getElementById('trailsBody');

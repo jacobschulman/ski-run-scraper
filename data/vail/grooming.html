@@ -20,21 +20,21 @@
     </div>
 
     <div class="header">
-        <div class="header-content">
-            <h1 id="page-heading">Grooming Report</h1>
-            <div class="date-nav" id="dateNav">
-                <div class="date-controls">
-                    <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">
-                        <span class="nav-text-short">‹</span>
-                        <span class="nav-text-full">← Previous</span>
-                    </button>
-                    <span class="date-display" id="dateDisplay" onclick="openDatePicker()" tabindex="0" role="button" aria-label="Select date">Loading...</span>
-                    <button class="nav-btn" id="nextBtn" onclick="navigateDate(1)" aria-label="Next day">
-                        <span class="nav-text-short">›</span>
-                        <span class="nav-text-full">Next →</span>
-                    </button>
-                </div>
+        <div class="header-content header-row">
+            <div class="header-left">
+                <span class="resort-name" id="page-heading">Loading...</span>
+                <span class="header-chevron">▾</span>
+            </div>
+            <div class="header-right">
+                <span class="header-date" id="dateDisplay">Today</span>
+            </div>
+        </div>
+        <!-- Hidden date picker for debug mode -->
+        <div class="date-nav" id="dateNav" style="display: none;">
+            <div class="date-controls">
+                <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">‹</button>
                 <input type="date" id="datePicker" onchange="selectDate()" aria-label="Date picker">
+                <button class="nav-btn" id="nextBtn" onclick="navigateDate(1)" aria-label="Next day">›</button>
             </div>
         </div>
     </div>
@@ -73,8 +73,8 @@
                 const resortInfo = index.resorts[RESORT_KEY];
                 if (resortInfo) {
                     const resortName = resortInfo.name;
-                    document.getElementById('page-title').textContent = `${resortName} Grooming Report`;
-                    document.getElementById('page-heading').textContent = `${resortName} Grooming Report`;
+                    document.getElementById('page-title').textContent = `${resortName} Conditions`;
+                    document.getElementById('page-heading').textContent = resortName;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));

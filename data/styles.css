@@ -37,8 +37,8 @@
 
     /* Layout */
     --card-radius: 12px;
-    --card-padding: 16px;
-    --section-gap: 12px;
+    --card-padding: 14px;
+    --section-gap: 10px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -110,6 +110,44 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+}
+
+.header-content.header-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.resort-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.header-chevron {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.header-date {
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.85;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
 }
 
 h1 {
@@ -269,6 +307,22 @@ input[type="date"] {
     opacity: 0.8;
 }
 
+/* Clickable widget headers */
+.widget-header-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.widget-header-link:hover {
+    opacity: 0.85;
+}
+
+.widget-header-link:active {
+    opacity: 0.7;
+}
+
 .widget-content {
     padding: 0 var(--card-padding) var(--card-padding);
 }
@@ -286,8 +340,8 @@ input[type="date"] {
 
 .weather-condition-banner {
     text-align: center;
-    padding: 12px var(--card-padding);
-    font-size: 1rem;
+    padding: 10px var(--card-padding);
+    font-size: 0.95rem;
     font-weight: 600;
     color: var(--text-primary);
     border-bottom: 1px solid var(--divider-color);
@@ -296,8 +350,8 @@ input[type="date"] {
 .weather-stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: var(--card-padding);
-    gap: 8px;
+    padding: 12px var(--card-padding);
+    gap: 6px;
     text-align: center;
 }
 
@@ -561,7 +615,7 @@ input[type="date"] {
 .lift-item {
     display: flex;
     align-items: center;
-    padding: 14px var(--card-padding);
+    padding: 12px var(--card-padding);
     border-bottom: 1px solid var(--divider-color);
 }
 
@@ -644,7 +698,7 @@ input[type="date"] {
 .trail-item {
     display: flex;
     align-items: center;
-    padding: 14px var(--card-padding);
+    padding: 12px var(--card-padding);
     border-bottom: 1px solid var(--divider-color);
 }
 
@@ -1342,6 +1396,145 @@ body.has-bottom-nav {
 
 .leaderboard-trail-name:hover {
     color: var(--text-link);
+}
+
+/* Collapsible Content */
+.trail-list-header.collapsible {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.trail-list-header.collapsible:active {
+    opacity: 0.7;
+}
+
+.trail-list-title-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.collapse-indicator {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    transition: transform 0.2s ease;
+}
+
+.collapsible-content {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    overflow: hidden;
+}
+
+.collapsible-content.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+/* Groomed Today Section */
+.groomed-today-section {
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.section-count {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.groomed-area {
+    background: var(--bg-card);
+    border-radius: var(--card-radius);
+    padding: var(--card-padding);
+    margin-bottom: var(--section-gap);
+    box-shadow: var(--shadow-card);
+}
+
+.groomed-area-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.groomed-area-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.groomed-area-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    background: var(--bg-card-inner);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.groomed-area-trails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.groomed-trail-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-card-inner);
+    border-radius: 16px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.groomed-trail-chip:hover {
+    background: var(--divider-color);
+}
+
+.groomed-trail-chip:active {
+    opacity: 0.7;
+}
+
+.groomed-trail-chip .difficulty-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.groomed-trail-chip .difficulty-dot.green {
+    background: var(--diff-green);
+}
+
+.groomed-trail-chip .difficulty-dot.blue {
+    background: var(--diff-blue);
+}
+
+.groomed-trail-chip .difficulty-dot.black {
+    background: var(--diff-black);
+}
+
+.groomed-trail-chip .difficulty-dot.doubleblack {
+    background: var(--diff-black);
 }
 
 .leaderboard-stat {
