@@ -12,78 +12,6 @@
     <link rel="icon" href="../icons/icon.png" type="image/png">
     <title id="page-title">Lift Status</title>
     <link rel="stylesheet" href="../styles.css">
-    <style>
-        .lift-stat-large {
-            font-size: 3rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 1rem 0;
-            color: var(--accent-primary);
-        }
-        .lift-stat-open { color: #22c55e; }
-        .lift-stat-closed { color: #ef4444; }
-        .lift-area-section { margin-bottom: 2rem; }
-        .lift-area-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 0.5rem;
-        }
-        .lifts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1rem;
-        }
-        .lift-card {
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.2s ease;
-            display: block;
-        }
-        .lift-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-color: var(--accent-primary);
-        }
-        .lift-card:active {
-            transform: scale(0.98);
-        }
-        .lift-card.lift-open { border-left: 4px solid #22c55e; }
-        .lift-card.lift-closed { border-left: 4px solid #ef4444; opacity: 0.7; }
-        .lift-card-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-        .lift-status-icon { font-size: 1.25rem; flex-shrink: 0; }
-        .lift-card-name { font-weight: 600; font-size: 1rem; line-height: 1.3; }
-        .lift-card-details {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-        }
-        .lift-card-type { font-weight: 500; }
-        .lift-card-wait { color: var(--accent-primary); font-weight: 600; }
-        .lift-card-hours { font-size: 0.8rem; }
-        .historical-notice {
-            background: var(--badge-new);
-            color: white;
-            padding: 16px 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-    </style>
 </head>
 <body class="has-bottom-nav">
     <!-- Pull-to-refresh indicator -->
@@ -93,70 +21,19 @@
 
     <div class="header">
         <div class="header-content">
-            <h1 id="page-heading">Lift Status</h1>
-            <p class="trails-subtitle" id="liftCount">Loading lifts...</p>
+            <div class="trails-header">
+                <h1 id="page-heading">Lift Status</h1>
+                <p class="trails-subtitle" id="liftCount">Loading lifts...</p>
+            </div>
         </div>
     </div>
 
     <div class="container">
-        <!-- Historical Notice (hidden by default) -->
-        <div id="historicalNotice" class="historical-notice" style="display: none;">
-            Lift wait times are not available for previous days
-        </div>
-
-        <!-- Overview Stats -->
-        <div class="leaderboard-section" id="statsSection">
-            <div class="leaderboard-grid">
-                <div class="leaderboard-card">
-                    <div class="leaderboard-title">
-                        <span class="leaderboard-icon">🚡</span>
-                        Total Lifts
-                    </div>
-                    <div class="lift-stat-large" id="totalLifts">-</div>
-                </div>
-                <div class="leaderboard-card">
-                    <div class="leaderboard-title">
-                        <span class="leaderboard-icon">✅</span>
-                        Currently Open
-                    </div>
-                    <div class="lift-stat-large lift-stat-open" id="openLifts">-</div>
-                </div>
-                <div class="leaderboard-card">
-                    <div class="leaderboard-title">
-                        <span class="leaderboard-icon">⛔</span>
-                        Currently Closed
-                    </div>
-                    <div class="lift-stat-large lift-stat-closed" id="closedLifts">-</div>
-                </div>
+        <div id="content">
+            <div class="skeleton-container">
+                <div class="skeleton skeleton-card"></div>
+                <div class="skeleton skeleton-card"></div>
             </div>
-        </div>
-
-        <!-- Lifts by Area -->
-        <div class="trail-list-section" id="liftListSection">
-            <div class="trail-list-header">
-                <span class="trail-list-title">Lifts by Area</span>
-                <div class="sort-controls">
-                    <div class="search-wrapper">
-                        <button class="search-btn" id="searchBtn" onclick="toggleSearch()">🔍</button>
-                        <div class="search-dropdown" id="searchDropdown">
-                            <input type="text" class="search-input" id="searchInput" placeholder="Search lifts..." oninput="filterLifts()">
-                            <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="liftsByArea">
-                <div class="skeleton-container">
-                    <div class="skeleton skeleton-card"></div>
-                    <div class="skeleton skeleton-card"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- No Results -->
-        <div class="no-results" id="noResults" style="display: none;">
-            <div class="no-results-icon">🔍</div>
-            <div class="no-results-text">No lifts match your search</div>
         </div>
     </div>
 
@@ -171,6 +48,8 @@
         const RESORT_KEY = pathParts[dataIndex + 1];
 
         let allLifts = [];
+        let currentSort = 'wait'; // 'wait', 'name', 'status'
+        let searchTerm = '';
 
         // Fetch resort config to get display name
         fetch('../index.json')
@@ -190,105 +69,182 @@
             .then(r => r.json())
             .then(data => {
                 allLifts = data.lifts || [];
-                document.getElementById('liftCount').textContent =
-                    `${allLifts.length} lifts tracked`;
-                renderStats();
-                renderLiftsByArea();
+                document.getElementById('liftCount').textContent = `${allLifts.length} lifts tracked`;
+                renderPage();
                 updateFooter(data.generated);
             })
             .catch(err => {
                 console.error('Error loading lifts:', err);
                 document.getElementById('liftCount').textContent = 'No lift data available';
-                document.getElementById('liftsByArea').innerHTML =
+                document.getElementById('content').innerHTML =
                     '<div class="error">Lift data is not available for this resort.</div>';
             });
 
-        function renderStats() {
-            const openLifts = allLifts.filter(l => l.status === 'Open').length;
-            const closedLifts = allLifts.filter(l => l.status === 'Closed').length;
-
-            document.getElementById('totalLifts').textContent = allLifts.length;
-            document.getElementById('openLifts').textContent = openLifts;
-            document.getElementById('closedLifts').textContent = closedLifts;
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        function renderLiftsByArea() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        function renderPage() {
+            const content = document.getElementById('content');
+            const openLifts = allLifts.filter(l => l.status === 'Open');
+            const closedLifts = allLifts.filter(l => l.status === 'Closed');
 
+            let html = '<div class="stagger-fade-in">';
+
+            // Stats Widget
+            html += `
+                <div class="widget-card">
+                    <div class="widget-header">
+                        <div class="widget-title-group">
+                            <span class="widget-title">Lift Summary</span>
+                            <span class="widget-subtitle">Current operating status</span>
+                        </div>
+                    </div>
+                    <div class="weather-stats-grid">
+                        <div class="weather-stat">
+                            <span class="weather-stat-value lift-stat-open">${openLifts.length}</span>
+                            <span class="weather-stat-label">Open</span>
+                        </div>
+                        <div class="weather-stat">
+                            <span class="weather-stat-value lift-stat-closed">${closedLifts.length}</span>
+                            <span class="weather-stat-label">Closed</span>
+                        </div>
+                        <div class="weather-stat">
+                            <span class="weather-stat-value">${allLifts.length}</span>
+                            <span class="weather-stat-label">Total</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Sort & Filter Controls
+            html += `
+                <div class="lifts-controls">
+                    <div class="sort-controls">
+                        <button class="sort-btn ${currentSort === 'wait' ? 'active' : ''}" onclick="setSort('wait')">Wait Time</button>
+                        <button class="sort-btn ${currentSort === 'name' ? 'active' : ''}" onclick="setSort('name')">A-Z</button>
+                        <button class="sort-btn ${currentSort === 'status' ? 'active' : ''}" onclick="setSort('status')">Status</button>
+                    </div>
+                    <div class="search-wrapper">
+                        <button class="search-btn" id="searchBtn" onclick="toggleSearch()">🔍</button>
+                        <div class="search-dropdown" id="searchDropdown">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search lifts..." oninput="filterLifts()">
+                            <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Get filtered and sorted lifts
             let displayLifts = searchTerm
                 ? allLifts.filter(l => l.name.toLowerCase().includes(searchTerm))
                 : allLifts;
 
-            const noResults = document.getElementById('noResults');
-            const liftListSection = document.getElementById('liftListSection');
-            const statsSection = document.getElementById('statsSection');
+            // Sort lifts
+            displayLifts = sortLifts(displayLifts);
 
             if (displayLifts.length === 0 && searchTerm) {
-                noResults.style.display = 'block';
-                liftListSection.style.display = 'none';
-                statsSection.style.display = 'none';
-                return;
-            } else {
-                noResults.style.display = 'none';
-                liftListSection.style.display = 'block';
-                statsSection.style.display = searchTerm ? 'none' : 'block';
-            }
-
-            // Group by mountain area
-            const byArea = {};
-            displayLifts.forEach(lift => {
-                const area = lift.mountain || 'Unknown';
-                if (!byArea[area]) byArea[area] = [];
-                byArea[area].push(lift);
-            });
-
-            const container = document.getElementById('liftsByArea');
-            const areas = Object.keys(byArea).sort();
-
-            if (areas.length === 0) {
-                container.innerHTML = '<div class="loading">No lifts available</div>';
-                return;
-            }
-
-            container.innerHTML = areas.map(area => {
-                const lifts = byArea[area];
-                return `
-                    <div class="lift-area-section">
-                        <h3 class="lift-area-title">${area}</h3>
-                        <div class="lifts-grid stagger-fade-in">
-                            ${lifts.map(lift => renderLiftCard(lift)).join('')}
-                        </div>
+                html += `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <div class="no-results-text">No lifts match your search</div>
                     </div>
                 `;
-            }).join('');
+            } else {
+                // All Lifts List
+                html += `
+                    <div class="widget-card">
+                        <div class="widget-header">
+                            <div class="widget-title-group">
+                                <span class="widget-title">All Lifts</span>
+                                <span class="widget-subtitle">${displayLifts.length} lift${displayLifts.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </div>
+                        <ul class="lift-list">
+                `;
+
+                displayLifts.forEach(lift => {
+                    const isOpen = lift.status === 'Open';
+                    const statusClass = lift.status.toLowerCase();
+                    const waitMinutes = lift.waitMinutes;
+                    const hasWaitData = waitMinutes !== null && waitMinutes !== undefined && isOpen;
+                    const liftUrl = lift.slug ? `lift.html?name=${encodeURIComponent(lift.slug)}` : '#';
+
+                    let detailsHtml = '';
+                    if (hasWaitData) {
+                        detailsHtml = `<span class="lift-details">${waitMinutes} min wait</span>`;
+                    } else if (isOpen && lift.closeTime) {
+                        detailsHtml = `<span class="lift-details">Closes at ${lift.closeTime}</span>`;
+                    } else if (!isOpen) {
+                        detailsHtml = `<span class="lift-details">${formatLiftType(lift.type)}</span>`;
+                    }
+
+                    html += `
+                        <li class="lift-item">
+                            <a href="${liftUrl}" class="lift-item-link">
+                                <span class="lift-status-dot ${statusClass}"></span>
+                                <div class="lift-info">
+                                    <span class="lift-name">${escapeHtml(lift.name)}</span>
+                                    ${detailsHtml}
+                                </div>
+                                ${hasWaitData
+                                    ? `<span class="lift-wait-badge">${waitMinutes} min</span>`
+                                    : `<span class="lift-badge ${statusClass}">${lift.status}</span>`
+                                }
+                            </a>
+                        </li>
+                    `;
+                });
+
+                html += '</ul></div>';
+            }
+
+            html += '</div>';
+            content.innerHTML = html;
         }
 
-        function renderLiftCard(lift) {
-            const isOpen = lift.status === 'Open';
-            const statusClass = isOpen ? 'lift-open' : 'lift-closed';
-            const statusIcon = isOpen ? '✅' : '⛔';
-            const waitDisplay = lift.waitMinutes !== null && isOpen
-                ? `${lift.waitMinutes} min wait`
-                : (isOpen ? 'No wait data' : '');
+        function sortLifts(lifts) {
+            const sorted = [...lifts];
 
-            return `
-                <a href="lift.html?name=${encodeURIComponent(lift.slug)}" class="lift-card ${statusClass}">
-                    <div class="lift-card-header">
-                        <span class="lift-status-icon">${statusIcon}</span>
-                        <div class="lift-card-name">${lift.name}</div>
-                    </div>
-                    <div class="lift-card-details">
-                        <div class="lift-card-type">${formatLiftType(lift.type, lift.capacity)}</div>
-                        ${waitDisplay ? `<div class="lift-card-wait">${waitDisplay}</div>` : ''}
-                        ${lift.openTime && lift.closeTime ? `
-                            <div class="lift-card-hours">${lift.openTime} - ${lift.closeTime}</div>
-                        ` : ''}
-                    </div>
-                </a>
-            `;
+            switch (currentSort) {
+                case 'wait':
+                    // Open lifts first, sorted by wait time (longest first), then closed
+                    sorted.sort((a, b) => {
+                        if (a.status === 'Open' && b.status !== 'Open') return -1;
+                        if (a.status !== 'Open' && b.status === 'Open') return 1;
+                        if (a.status === 'Open' && b.status === 'Open') {
+                            return (b.waitMinutes || 0) - (a.waitMinutes || 0);
+                        }
+                        return a.name.localeCompare(b.name);
+                    });
+                    break;
+                case 'name':
+                    sorted.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'status':
+                    // Open first, then closed, alphabetically within each
+                    sorted.sort((a, b) => {
+                        if (a.status === 'Open' && b.status !== 'Open') return -1;
+                        if (a.status !== 'Open' && b.status === 'Open') return 1;
+                        return a.name.localeCompare(b.name);
+                    });
+                    break;
+            }
+
+            return sorted;
         }
 
-        function formatLiftType(type, capacity) {
+        function setSort(sort) {
+            currentSort = sort;
+            renderPage();
+            if (typeof hapticFeedback === 'function') {
+                hapticFeedback('light');
+            }
+        }
+
+        function formatLiftType(type) {
             const typeMap = {
                 'gondola': 'Gondola',
                 'quad': 'Quad Chair',
@@ -296,8 +252,7 @@
                 'double': 'Double Chair',
                 'triple': 'Triple Chair'
             };
-            const typeName = typeMap[type] || type;
-            return capacity ? `${typeName} (${capacity})` : typeName;
+            return typeMap[type] || type || 'Lift';
         }
 
         function toggleSearch() {
@@ -316,14 +271,16 @@
         }
 
         function filterLifts() {
-            renderLiftsByArea();
+            searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            renderPage();
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
+            searchTerm = '';
             document.getElementById('searchDropdown').classList.remove('show');
             document.getElementById('searchBtn').classList.remove('active');
-            renderLiftsByArea();
+            renderPage();
         }
 
         function updateFooter(generated) {
@@ -337,8 +294,8 @@
         document.addEventListener('click', function(e) {
             const wrapper = document.querySelector('.search-wrapper');
             if (wrapper && !wrapper.contains(e.target)) {
-                document.getElementById('searchDropdown').classList.remove('show');
-                document.getElementById('searchBtn').classList.remove('active');
+                document.getElementById('searchDropdown')?.classList.remove('show');
+                document.getElementById('searchBtn')?.classList.remove('active');
             }
         });
     </script>

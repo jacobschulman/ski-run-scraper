@@ -354,6 +354,152 @@ input[type="date"] {
     font-weight: 500;
 }
 
+/* Unit Toggle Button */
+.unit-toggle {
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: 14px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.unit-toggle:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue);
+}
+
+/* Snow Stats Grid */
+.snow-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: var(--card-padding);
+    gap: 8px;
+    text-align: center;
+}
+
+.snow-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 4px;
+    border-radius: 10px;
+    background: var(--bg-card-inner);
+}
+
+.snow-stat-highlight {
+    background: var(--color-blue);
+}
+
+.snow-stat-highlight .snow-stat-value,
+.snow-stat-highlight .snow-stat-label {
+    color: #ffffff;
+}
+
+.snow-stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.snow-stat-label {
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 479px) {
+    .snow-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Forecast List */
+.forecast-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.forecast-day {
+    display: grid;
+    grid-template-columns: 100px 40px 1fr auto 60px;
+    align-items: center;
+    gap: 8px;
+    padding: 14px var(--card-padding);
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.forecast-day:last-child {
+    border-bottom: none;
+}
+
+.forecast-day-today {
+    background: var(--bg-card-inner);
+}
+
+.forecast-day-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.forecast-day-icon {
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+.forecast-day-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.forecast-day-temps {
+    display: flex;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.forecast-high {
+    color: var(--text-primary);
+}
+
+.forecast-low {
+    color: var(--text-secondary);
+}
+
+.forecast-day-snow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-blue);
+    text-align: right;
+}
+
+@media (max-width: 479px) {
+    .forecast-day {
+        grid-template-columns: 70px 32px 1fr auto;
+    }
+
+    .forecast-day-desc {
+        display: none;
+    }
+
+    .forecast-day-snow {
+        grid-column: span 1;
+    }
+}
+
 /* Legacy weather widget support */
 .weather-conditions-link {
     display: flex;
@@ -464,6 +610,28 @@ input[type="date"] {
 .lift-badge.open { background: var(--badge-open); }
 .lift-badge.closed { background: var(--badge-closed); }
 .lift-badge.hold { background: var(--color-orange); }
+
+.lift-item-link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.lift-item-link:hover .lift-name {
+    color: var(--text-link);
+}
+
+.lift-wait-badge {
+    padding: 6px 14px;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--color-blue);
+    flex-shrink: 0;
+}
 
 /* ============================================
    GROOMED HIGHLIGHTS / TRAIL LIST
@@ -1049,6 +1217,30 @@ body.has-bottom-nav {
     border-color: var(--text-secondary);
 }
 
+.sort-btn.active {
+    background: var(--color-blue);
+    color: #ffffff;
+    border-color: var(--color-blue);
+}
+
+/* Lifts Controls */
+.lifts-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    margin-bottom: 4px;
+}
+
+/* Lift Stat Colors */
+.lift-stat-open {
+    color: var(--color-green) !important;
+}
+
+.lift-stat-closed {
+    color: var(--color-red) !important;
+}
+
 /* ============================================
    TRAIL LIST SECTION
    ============================================ */
@@ -1069,6 +1261,114 @@ body.has-bottom-nav {
     font-size: 1.1rem;
     font-weight: 600;
     color: var(--text-primary);
+}
+
+/* Trails Page Header */
+.trails-header {
+    text-align: center;
+}
+
+.trails-subtitle {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 4px;
+    font-weight: 400;
+}
+
+/* Trails Table */
+.trails-table {
+    width: 100%;
+    background: var(--bg-card);
+    border-radius: var(--card-radius);
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.trails-table thead {
+    background: var(--bg-card-inner);
+}
+
+.trails-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.trails-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--divider-color);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.trails-table tr:last-child td {
+    border-bottom: none;
+}
+
+.trails-table .hide-mobile {
+    display: table-cell;
+}
+
+.trail-table-name {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.trail-table-name:hover {
+    color: var(--text-link);
+}
+
+.trail-table-secondary {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.trail-table-stat {
+    font-weight: 600;
+    color: var(--color-blue);
+}
+
+.leaderboard-trail-name {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.leaderboard-trail-name:hover {
+    color: var(--text-link);
+}
+
+.leaderboard-stat {
+    font-weight: 600;
+    color: var(--text-link);
+    font-size: 0.85rem;
+}
+
+.leaderboard-empty {
+    padding: 16px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+}
+
+.leaderboard-icon {
+    font-size: 1rem;
+}
+
+.leaderboard-rank.gold { color: #FFD700; }
+.leaderboard-rank.silver { color: #C0C0C0; }
+.leaderboard-rank.bronze { color: #CD7F32; }
+
+@media (max-width: 599px) {
+    .trails-table .hide-mobile {
+        display: none;
+    }
 }
 
 /* ============================================

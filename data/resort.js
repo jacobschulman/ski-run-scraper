@@ -332,33 +332,58 @@ function renderSnowConditionsWidget(groomedCount) {
  * Render Lift Status Widget
  */
 function renderLiftStatusWidget() {
-    const openLifts = liftData.lifts.filter(l => l.status === 'Open').slice(0, 3);
+    const openLifts = liftData.lifts.filter(l => l.status === 'Open');
 
-    if (openLifts.length === 0) {
+    // Sort by wait time (longest first), then take top 3
+    const sortedLifts = [...openLifts]
+        .sort((a, b) => (b.waitMinutes || 0) - (a.waitMinutes || 0))
+        .slice(0, 3);
+
+    if (sortedLifts.length === 0) {
         return '';
     }
 
-    let liftsHtml = openLifts.map(lift => {
+    let liftsHtml = sortedLifts.map(lift => {
         const statusClass = lift.status.toLowerCase();
-        const closeTime = lift.closeTime || '';
+        const waitMinutes = lift.waitMinutes;
+        const hasWaitData = waitMinutes !== null && waitMinutes !== undefined;
+        const liftUrl = lift.slug ? `lift.html?name=${encodeURIComponent(lift.slug)}` : 'lifts.html';
+
+        // Show wait time or close time
+        let detailsHtml = '';
+        if (hasWaitData) {
+            detailsHtml = `<span class="lift-details">${waitMinutes} min wait</span>`;
+        } else if (lift.closeTime) {
+            detailsHtml = `<span class="lift-details">Closes at ${lift.closeTime}</span>`;
+        }
+
         return `
             <li class="lift-item">
-                <span class="lift-status-dot ${statusClass}"></span>
-                <div class="lift-info">
-                    <span class="lift-name">${escapeHtml(lift.name)}</span>
-                    ${closeTime ? `<span class="lift-details">Closes at ${closeTime}</span>` : ''}
-                </div>
-                <span class="lift-badge ${statusClass}">${lift.status}</span>
+                <a href="${liftUrl}" class="lift-item-link">
+                    <span class="lift-status-dot ${statusClass}"></span>
+                    <div class="lift-info">
+                        <span class="lift-name">${escapeHtml(lift.name)}</span>
+                        ${detailsHtml}
+                    </div>
+                    ${hasWaitData
+                        ? `<span class="lift-wait-badge">${waitMinutes} min</span>`
+                        : `<span class="lift-badge ${statusClass}">${lift.status}</span>`
+                    }
+                </a>
             </li>
         `;
     }).join('');
+
+    const subtitle = sortedLifts.some(l => l.waitMinutes)
+        ? 'Sorted by longest wait'
+        : 'Open lifts right now';
 
     return `
         <div class="widget-card">
             <div class="widget-header">
                 <div class="widget-title-group">
                     <span class="widget-title">Lift Status</span>
-                    <span class="widget-subtitle">Snapshot of today's lifts</span>
+                    <span class="widget-subtitle">${subtitle}</span>
                 </div>
                 <a href="lifts.html" class="widget-see-all">See all →</a>
             </div>
