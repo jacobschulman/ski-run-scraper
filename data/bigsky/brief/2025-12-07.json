@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-07",
-  "generated": "2025-12-07T19:12:23.638Z",
+  "generated": "2025-12-07T20:16:46.393Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 24,
+          "today": 31,
           "yesterday": 24,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
           "today": 9,
@@ -34,7 +34,43 @@
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Huntley Hollow",
+          "difficulty": "Blue",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Calamity Jane (Lower)",
+          "difficulty": "advanced intermediate",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Calamity Jane (Upper)",
+          "difficulty": "advanced intermediate",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "White Magic",
+          "difficulty": "advanced intermediate",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Buffalo Jump",
+          "difficulty": "Black",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Rice Bowl",
+          "difficulty": "Black",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Soul Hole",
+          "difficulty": "Black",
+          "area": "Swift Current Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -119,8 +155,8 @@
           "low_c": -4,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         },
         {
           "date": "2025-12-10",
@@ -151,14 +187,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "7 new trails opened today",
       "9 trails freshly groomed"
     ],
     "trends": [
-      "1\" snow expected Tuesday"
+      "7 more trails open than yesterday",
+      "2\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Lone Wolf - great for beginners",
@@ -168,7 +206,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. A storm is lining up, so expect conditions to evolve through the day.",
+    "body": "Terrain is expanding with 7 new trails opening up more room to roam. 9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. A storm is lining up, so expect conditions to evolve through the day.",
     "debug": {
       "firedRules": [
         {
@@ -176,6 +214,12 @@
           "category": "weather",
           "priority": 90,
           "usedFor": "headline"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         },
         {
           "id": "terrain_newly_groomed",
@@ -190,7 +234,7 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4
     }
   },
   "errors": []

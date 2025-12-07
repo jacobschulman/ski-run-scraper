@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-07",
-  "generated": "2025-12-07T19:12:23.643Z",
+  "generated": "2025-12-07T20:16:46.398Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 31,
+          "today": 33,
           "yesterday": 32,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 30,
+          "today": 32,
           "yesterday": 30,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 144
       },
@@ -51,16 +51,6 @@
           "name": "Grand Rapids",
           "difficulty": "Blue",
           "area": "NORTH PEAK"
-        },
-        {
-          "name": "Cyclone",
-          "difficulty": "novice",
-          "area": "OZ"
-        },
-        {
-          "name": "Firestar",
-          "difficulty": "Blue",
-          "area": "JORDAN BOWL"
         }
       ],
       "newlyGroomed": [
@@ -95,7 +85,7 @@
         {
           "date": "2025-12-08",
           "high_f": 6,
-          "low_f": 4,
+          "low_f": 5,
           "high_c": -14,
           "low_c": -15,
           "description": "Windy",
@@ -116,7 +106,7 @@
         },
         {
           "date": "2025-12-10",
-          "high_f": 24,
+          "high_f": 23,
           "low_f": 24,
           "high_c": -5,
           "low_c": -4,
@@ -129,7 +119,7 @@
       "tomorrow": {
         "date": "2025-12-08",
         "high_f": 6,
-        "low_f": 4,
+        "low_f": 5,
         "high_c": -14,
         "low_c": -15,
         "description": "Windy",
@@ -151,6 +141,7 @@
       "2 trails freshly groomed"
     ],
     "trends": [
+      "1 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -160,7 +151,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "2 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day. 31 of 144 trails are open with 30 groomed. Current conditions: Windy with a high of 19°F.",
+    "body": "Terrain is expanding with 2 new trails opening up more room to roam. 2 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
     "debug": {
       "firedRules": [
         {
@@ -168,6 +159,12 @@
           "category": "weather",
           "priority": 90,
           "usedFor": "headline"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         },
         {
           "id": "terrain_new_trails_opened",
@@ -179,12 +176,6 @@
           "id": "weather_storm_incoming",
           "category": "weather",
           "priority": 90,
-          "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
           "usedFor": "body"
         }
       ],
