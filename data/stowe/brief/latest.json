@@ -2,19 +2,19 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2025-12-07",
-  "generated": "2025-12-07T10:20:10.897Z",
+  "generated": "2025-12-07T16:21:24.397Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
       "overnight_cm": 2,
-      "24hour_inches": 1,
-      "24hour_cm": 2,
-      "48hour_inches": 1,
-      "48hour_cm": 2,
-      "7day_inches": 13,
-      "7day_cm": 33,
-      "season_total_inches": 76,
-      "season_total_cm": 193,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 14,
+      "7day_cm": 35,
+      "season_total_inches": 77,
+      "season_total_cm": 195,
       "conditions": {
         "today": "Packed Powder",
         "yesterday": "Packed Powder"
@@ -146,12 +146,12 @@
       "today": {
         "date": "2025-12-07",
         "high_f": 16,
-        "low_f": 7,
+        "low_f": 6,
         "high_c": -9,
-        "low_c": -14,
+        "low_c": -15,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 2
       },
       "outlook": [
         {
@@ -167,9 +167,9 @@
         },
         {
           "date": "2025-12-09T05:00:00Z",
-          "high_f": 14,
+          "high_f": 13,
           "low_f": 2,
-          "high_c": -10,
+          "high_c": -11,
           "low_c": -17,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -182,10 +182,10 @@
           "low_f": 14,
           "high_c": -5,
           "low_c": -10,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "description": "Snow & Wind",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
@@ -215,8 +215,9 @@
       "4 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 13\" in last 7 days",
-      "7 more trails open than yesterday"
+      "Great week for snow - 14\" in last 7 days",
+      "7 more trails open than yesterday",
+      "2\" snow expected Wednesday"
     ],
     "recommendations": [
       "Fresh corduroy on Lower Nosedive - perfect for intermediate skiers",
@@ -225,8 +226,37 @@
     ]
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "A light refresh of 1\" makes groomers smoother and off-piste a bit softer. Terrain is expanding with 9 new trails opening up more room to roam. Watch for crowds at FourRunner Quad, which peaked around 20 minutes yesterday."
+    "headline": "Storm on the Horizon",
+    "body": "A light refresh of 2\" makes groomers smoother and off-piste a bit softer. Terrain is expanding with 9 new trails opening up more room to roam. Watch for crowds at FourRunner Quad, which peaked around 20 minutes yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_watch_crowds",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5
+    }
   },
   "errors": []
 }

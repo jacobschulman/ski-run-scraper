@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2025-12-07",
-  "generated": "2025-12-07T10:20:10.922Z",
+  "generated": "2025-12-07T16:21:24.520Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -57,7 +57,7 @@
         "high_c": -3,
         "low_c": -10,
         "description": "Cloudy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
@@ -75,19 +75,19 @@
         {
           "date": "2025-12-09T05:00:00Z",
           "high_f": 31,
-          "low_f": 16,
+          "low_f": 17,
           "high_c": -1,
           "low_c": -9,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-10T05:00:00Z",
           "high_f": 35,
           "low_f": 25,
-          "high_c": 2,
+          "high_c": 1,
           "low_c": -4,
           "description": "Rain/Snow",
           "snowfall_day_inches": 0,
@@ -117,12 +117,43 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Morning Mountain Brief",
-    "body": ""
+    "headline": "Storm on the Horizon",
+    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve. 0 of 11 trails are open with 0 groomed. Current conditions: Cloudy with a high of 27°F.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4
+    }
   },
   "errors": []
 }
