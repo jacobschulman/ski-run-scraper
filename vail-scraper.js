@@ -764,8 +764,21 @@ function generateBriefs(scrapedData) {
   // Generate latest-briefs.json (all resorts)
   if (Object.keys(allBriefs).length > 0) {
     const latestBriefsFile = path.join('data', 'latest-briefs.json');
-    fs.writeFileSync(latestBriefsFile, JSON.stringify(allBriefs, null, 2));
-    console.log(`✓ Generated latest-briefs.json with ${Object.keys(allBriefs).length} resorts`);
+
+    // Read existing file to merge with new data
+    let existingBriefs = {};
+    if (fs.existsSync(latestBriefsFile)) {
+      try {
+        existingBriefs = JSON.parse(fs.readFileSync(latestBriefsFile, 'utf8'));
+      } catch (error) {
+        console.error('⚠️  Error reading existing latest-briefs.json:', error.message);
+      }
+    }
+
+    // Merge new briefs with existing
+    const mergedBriefs = { ...existingBriefs, ...allBriefs };
+    fs.writeFileSync(latestBriefsFile, JSON.stringify(mergedBriefs, null, 2));
+    console.log(`✓ Updated latest-briefs.json with ${Object.keys(allBriefs).length} Vail resort(s)`);
   }
 
   // Generate global briefs-index.json
