@@ -4,44 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resort Data Overview</title>
+  <link rel="stylesheet" href="shared/theme.css">
   <style>
     :root {
       --bg: #0b1a12;
       --panel: rgba(255, 255, 255, 0.02);
       --card: rgba(255, 255, 255, 0.04);
-      --border: rgba(255, 255, 255, 0.08);
       --text: #e8f5ec;
       --muted: #9bb7a7;
       --accent: #6fe3b2;
       --accent-2: #74c7ff;
-      --positive: #7bffc3;
       --negative: #ff9c8f;
-      --shadow: 0 14px 60px rgba(0, 0, 0, 0.45);
     }
-    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: "Sora", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 18% 20%, rgba(111, 227, 178, 0.11), transparent 28%),
         radial-gradient(circle at 82% 0%, rgba(116, 199, 255, 0.15), transparent 30%),
         radial-gradient(circle at 50% 100%, rgba(111, 227, 178, 0.08), transparent 35%),
         var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 32px 18px 60px;
     }
-    .page { max-width: 1400px; margin: 0 auto; }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    h1 { margin: 0; font-size: 2rem; letter-spacing: -0.02em; }
-    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 0.98rem; }
+    .page { max-width: 1400px; }
     .stats {
       display: flex;
       gap: 12px;
@@ -57,14 +39,14 @@
       box-shadow: var(--shadow);
       font-size: 0.85rem;
     }
-    .stat-label {
+    .stat-pill .stat-label {
       color: var(--muted);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: 4px;
     }
-    .stat-value {
+    .stat-pill .stat-value {
       color: var(--accent);
       font-size: 1.1rem;
       font-weight: 600;
@@ -77,8 +59,6 @@
       overflow: hidden;
     }
     table {
-      width: 100%;
-      border-collapse: collapse;
       font-size: 0.9rem;
     }
     thead {
@@ -87,7 +67,6 @@
     }
     th {
       padding: 14px 16px;
-      text-align: left;
       font-weight: 600;
       color: var(--accent);
       font-size: 0.8rem;
@@ -101,9 +80,6 @@
     }
     td.center { text-align: center; }
     tr:last-child td { border-bottom: none; }
-    tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
     .resort-name {
       font-weight: 500;
       color: var(--text);
@@ -237,10 +213,15 @@
     </div>
   </div>
 
+  <script src="shared/nav.js"></script>
   <script>
+    initNav('overview');
+
+    const dataFolder = '../data';
+
     async function loadResortData() {
       try {
-        const response = await fetch('index.json');
+        const response = await fetch(`${dataFolder}/index.json`);
         const data = await response.json();
 
         const resorts = Object.entries(data.resorts).map(([key, resort]) => ({
@@ -319,19 +300,19 @@
           const providerClass = `provider-${resort.provider}`;
 
           const terrainLink = caps.terrainAvailable && resort.latest
-            ? `<a href="${resort.key}/terrain/${resort.latest}" target="_blank">${statusIcon(true)}</a>`
+            ? `<a href="${dataFolder}/${resort.key}/terrain/${resort.latest}" target="_blank">${statusIcon(true)}</a>`
             : statusIcon(false);
 
           const snowLink = caps.snowReportAvailable
-            ? `<a href="${resort.key}/snow/" target="_blank">${statusIcon(true)}</a>`
+            ? `<a href="${dataFolder}/${resort.key}/snow/" target="_blank">${statusIcon(true)}</a>`
             : statusIcon(false);
 
           const briefLink = caps.dailyBriefAvailable
-            ? `<a href="${resort.key}/brief/" target="_blank">${statusIcon(true)}</a>`
+            ? `<a href="${dataFolder}/${resort.key}/brief/" target="_blank">${statusIcon(true)}</a>`
             : statusIcon(false);
 
           const filesInfo = resort.count > 0
-            ? `<span class="file-count">${resort.count} terrain files</span><br><a href="${resort.key}/terrain/" target="_blank">View all →</a>`
+            ? `<span class="file-count">${resort.count} terrain files</span><br><a href="${dataFolder}/${resort.key}/terrain/" target="_blank">View all \u2192</a>`
             : `<span class="file-count" style="opacity: 0.4;">No terrain data</span>`;
 
           return `
@@ -364,9 +345,9 @@
 
     function statusIcon(available) {
       if (available) {
-        return '<span class="status-icon status-yes">✓</span>';
+        return '<span class="status-icon status-yes">\u2713</span>';
       } else {
-        return '<span class="status-icon status-no">✗</span>';
+        return '<span class="status-icon status-no">\u2717</span>';
       }
     }
 

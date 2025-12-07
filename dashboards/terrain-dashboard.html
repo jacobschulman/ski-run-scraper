@@ -4,145 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terrain & Grooming Dashboard</title>
+  <link rel="stylesheet" href="shared/theme.css">
   <style>
     :root {
       --bg: #0b1a12;
       --panel: rgba(255, 255, 255, 0.02);
       --card: rgba(255, 255, 255, 0.04);
-      --border: rgba(255, 255, 255, 0.08);
       --text: #e8f5ec;
       --muted: #9bb7a7;
       --accent: #6fe3b2;
       --accent-2: #74c7ff;
-      --positive: #7bffc3;
       --negative: #ff9c8f;
-      --shadow: 0 14px 60px rgba(0, 0, 0, 0.45);
     }
-    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: "Sora", "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
         radial-gradient(circle at 18% 20%, rgba(111, 227, 178, 0.11), transparent 28%),
         radial-gradient(circle at 82% 0%, rgba(116, 199, 255, 0.15), transparent 30%),
         radial-gradient(circle at 50% 100%, rgba(111, 227, 178, 0.08), transparent 35%),
         var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 32px 18px 60px;
-    }
-    .page { max-width: 1250px; margin: 0 auto; }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-    h1 { margin: 0; font-size: 2rem; letter-spacing: -0.02em; }
-    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 0.98rem; }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      color: var(--text);
-      font-size: 0.95rem;
-      white-space: nowrap;
-    }
-    .nav-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      color: var(--accent);
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-    .nav-toggle:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: var(--accent);
-      transform: translateY(-1px);
-    }
-    .nav-toggle::before {
-      content: '↔';
-      font-size: 1.1rem;
-    }
-    .controls {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    label {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 6px;
-      letter-spacing: 0.01em;
-    }
-    select, input {
-      width: 100%;
-      background: var(--card);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      font-size: 1rem;
-      box-shadow: var(--shadow);
-      outline: none;
-      transition: border-color 0.15s, background 0.15s;
-    }
-    select:focus, input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
-    .meta-bar {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .meta-pill {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 0.92rem;
-      color: var(--muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
     }
     .grid { display: grid; gap: 14px; }
     .stats-grid { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); margin-bottom: 14px; }
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
-      box-shadow: var(--shadow);
-    }
     .card h3 {
       margin: 0 0 8px 0;
       font-size: 1rem;
       letter-spacing: 0.01em;
       color: var(--muted);
       text-transform: uppercase;
-    }
-    .stat-value {
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin: 0;
-      color: var(--text);
     }
     .stat-sub { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
     .delta { color: var(--positive); font-weight: 600; }
@@ -225,14 +113,6 @@
     .difficulty.blue { color: #74c7ff; }
     .difficulty.black { color: #f5f5f5; }
     .difficulty.double { color: #ffd166; }
-    .badge {
-      border-radius: 8px;
-      padding: 6px 8px;
-      font-size: 0.9rem;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.02);
-    }
     .badge.good { color: var(--positive); border-color: rgba(123, 255, 195, 0.3); }
     .badge.warn { color: var(--negative); border-color: rgba(255, 156, 143, 0.3); }
     .row-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: var(--muted); font-size: 0.9rem; }
@@ -244,16 +124,7 @@
       gap: 12px;
       margin-bottom: 12px;
     }
-    .empty {
-      padding: 16px;
-      color: var(--muted);
-      text-align: center;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
     @media (max-width: 860px) {
-      .header { flex-direction: column; align-items: flex-start; }
       .area-row, .new-row, .trail-row { align-items: flex-start; flex-direction: column; }
       .table-head { flex-direction: column; align-items: flex-start; }
     }
@@ -266,10 +137,7 @@
         <h1>Terrain & Grooming Dashboard</h1>
         <p class="subtitle">Pick a resort to see raw terrain data: grooming counts, deltas vs yesterday, and the latest trail-level details.</p>
       </div>
-      <div style="display: flex; gap: 10px; align-items: center;">
-        <a href="live-lifts.html" class="nav-toggle">Live Lifts</a>
-        <div class="pill" id="resort-count">Loading…</div>
-      </div>
+      <div class="pill" id="resort-count">Loading...</div>
     </div>
 
     <div class="controls">
@@ -319,8 +187,12 @@
     </div>
   </div>
 
+  <script src="shared/nav.js"></script>
   <script>
+    initNav('terrain');
+
     const $ = (id) => document.getElementById(id);
+    const dataFolder = '../data';
 
     const state = {
       resorts: [],
@@ -342,7 +214,7 @@
       other: '#9bb7a7'
     };
 
-    const stripExt = (name) => name ? name.replace(/\\.json$/i, '') : name;
+    const stripExt = (name) => name ? name.replace(/\.json$/i, '') : name;
 
     const timeAgo = (iso) => {
       if (!iso) return '';
@@ -384,11 +256,10 @@
       const key = resortKey + '-' + dateKey;
       if (state.terrainCache.has(key)) return state.terrainCache.get(key);
       const promise = (async () => {
-        const res = await fetch(`${resortKey}/terrain/${dateKey}.json`);
+        const res = await fetch(`${dataFolder}/${resortKey}/terrain/${dateKey}.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status} for ${resortKey}/terrain/${dateKey}.json - ${res.statusText}`);
         return res.json();
       })().catch((err) => {
-        // Allow retries on failures by clearing the cache entry
         state.terrainCache.delete(key);
         console.error(`Failed to fetch terrain for ${resortKey} on ${dateKey}:`, err);
         throw err;
@@ -472,7 +343,7 @@
       const generated = data.Date || data.generated;
       const items = [
         { label: 'Data file', value: `${dateKey}.json` },
-        { label: 'Last scrape', value: generated ? timeAgo(generated) + ' · ' + formatClock(generated, resortInfo?.timezone) : '—' },
+        { label: 'Last scrape', value: generated ? timeAgo(generated) + ' \u00b7 ' + formatClock(generated, resortInfo?.timezone) : '\u2014' },
         { label: 'Timezone', value: resortInfo?.timezone || 'Unknown' }
       ];
       items.forEach(item => {
@@ -564,7 +435,7 @@
       entries.forEach(([label, data]) => {
         const color = pickColor(label);
         const item = document.createElement('span');
-        item.innerHTML = `<span class="dot" style="background:${color}"></span>${label} · ${data.groomed} groomed`;
+        item.innerHTML = `<span class="dot" style="background:${color}"></span>${label} \u00b7 ${data.groomed} groomed`;
         legend.appendChild(item);
 
         const pct = data.total ? Math.round((data.groomed / data.total) * 100) : 0;
@@ -712,13 +583,11 @@
       state.currentResort = resortKey;
       const resortInfo = state.resortMap[resortKey];
 
-      // Fetch per-resort terrain index (like live-lifts does)
       let indexEntry;
       try {
-        const res = await fetch(`${resortKey}/terrain/index.json`);
+        const res = await fetch(`${dataFolder}/${resortKey}/terrain/index.json`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         indexEntry = await res.json();
-        console.log(`Loaded terrain index for ${resortKey}:`, indexEntry);
       } catch (err) {
         console.error(`Failed to load terrain index for ${resortKey}:`, err);
         $('meta-bar').innerHTML = `<div class="meta-pill">Failed to load terrain index: ${err.message}</div>`;
@@ -737,20 +606,14 @@
       const files = [...indexEntry.files].sort().reverse();
 
       const pickAvailableDate = async () => {
-        console.log(`Trying to load terrain files for ${resortKey}, found ${files.length} dates:`, files);
         for (const date of files) {
-          const url = `${resortKey}/terrain/${date}.json`;
-          console.log(`Attempting to fetch: ${url}`);
           try {
             await fetchTerrain(resortKey, date);
-            console.log(`✓ Successfully loaded ${url}`);
             return date;
           } catch (err) {
-            console.warn(`✗ Failed to load ${url}:`, err.message);
             // Skip missing date
           }
         }
-        console.error(`No terrain files could be loaded for ${resortKey}`);
         return null;
       };
 
@@ -758,10 +621,8 @@
       if (!latest) {
         $('stats-grid').innerHTML = '';
         $('trend').innerHTML = '<div class="empty">No terrain files available for this resort.</div>';
-        $('meta-bar').innerHTML = `<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">⚠️ Could not load terrain files for ${resortKey}. Index lists ${files.length} files but none could be fetched. Check browser console for details.</div>`;
+        $('meta-bar').innerHTML = `<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">Could not load terrain files for ${resortKey}.</div>`;
         $('table-sub').textContent = 'No data';
-        console.error('Index entry:', indexEntry);
-        console.error('Files attempted:', files);
         return;
       }
 
@@ -789,7 +650,7 @@
         renderAreas(stats);
         renderNewTrails(stats);
         renderTrailTable(groomedOnly);
-        $('table-sub').textContent = `Showing ${groomedOnly.length} groomed trails · ${latest}`;
+        $('table-sub').textContent = `Showing ${groomedOnly.length} groomed trails \u00b7 ${latest}`;
       } catch (err) {
         $('stats-grid').innerHTML = '';
         $('trend').innerHTML = '<div class="empty">Failed to load terrain data.</div>';
@@ -825,15 +686,14 @@
             (t.name + ' ' + t.area + ' ' + t.difficulty).toLowerCase().includes(query))
         : state.currentTrails;
       renderTrailTable(filtered);
-      const suffix = state.currentDate ? ` · ${state.currentDate}` : '';
+      const suffix = state.currentDate ? ` \u00b7 ${state.currentDate}` : '';
       $('table-sub').textContent = `Showing ${filtered.length} of ${state.currentTrails.length} groomed trails${suffix}`;
     }
 
     async function init() {
-      // Check if opened via file:// protocol
       if (window.location.protocol === 'file:') {
         $('resort-count').textContent = 'Server required';
-        $('meta-bar').innerHTML = '<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">⚠️ This dashboard must be served via HTTP. Run: <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;margin:0 4px;">python3 -m http.server 8000</code> from the data/ directory, then open <code style="background:rgba(0,0,0,0.3);padding:2px 6px;border-radius:4px;margin:0 4px;">http://localhost:8000/terrain-dashboard.html</code></div>';
+        $('meta-bar').innerHTML = '<div class="meta-pill" style="background:rgba(255,156,143,0.1);border-color:rgba(255,156,143,0.3);">This dashboard must be served via HTTP.</div>';
         return;
       }
 

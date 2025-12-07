@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morning Briefs Dashboard</title>
+  <link rel="stylesheet" href="shared/theme.css">
+  <style>
+    .page { max-width: 1400px; }
+
+    /* Analytics Section */
+    .analytics-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .analytics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .analytics-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .headline-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .headline-bar {
+      display: grid;
+      grid-template-columns: 200px 1fr 60px;
+      gap: 12px;
+      align-items: center;
+    }
+    .headline-label {
+      font-size: 0.9rem;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .bar-track {
+      height: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .bar-fill.warning {
+      background: var(--warning);
+    }
+    .bar-count {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-align: right;
+    }
+    .warning-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(255, 204, 102, 0.1);
+      border: 1px solid rgba(255, 204, 102, 0.3);
+      border-radius: 10px;
+      color: var(--warning);
+      font-size: 0.9rem;
+      margin-top: 12px;
+    }
+
+    /* Brief Cards Grid */
+    .briefs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 16px;
+    }
+    .brief-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    .brief-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .brief-card.repeated {
+      border-color: rgba(255, 204, 102, 0.4);
+    }
+    .brief-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .resort-name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .rules-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: rgba(123, 216, 255, 0.1);
+      border: 1px solid rgba(123, 216, 255, 0.3);
+      border-radius: 8px;
+      color: var(--accent);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .rules-badge:hover {
+      background: rgba(123, 216, 255, 0.2);
+    }
+    .rules-badge.expanded {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .brief-content {
+      padding: 16px;
+    }
+    .brief-headline {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .brief-body {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .brief-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    /* Rules Debug Panel */
+    .rules-panel {
+      display: none;
+      padding: 0 16px 16px;
+      border-top: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .rules-panel.visible {
+      display: block;
+    }
+    .rules-table {
+      width: 100%;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+    .rules-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .rules-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    .rules-table tr:last-child td {
+      border-bottom: none;
+    }
+    .rule-id {
+      font-family: monospace;
+      color: var(--accent);
+    }
+    .rule-category {
+      text-transform: capitalize;
+    }
+    .rule-usage {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .rule-usage.headline {
+      background: rgba(255, 204, 102, 0.2);
+      color: var(--warning);
+    }
+    .rule-usage.body {
+      background: rgba(123, 255, 195, 0.2);
+      color: var(--positive);
+    }
+
+    /* Raw Data Section */
+    .raw-data-section {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .raw-data-toggle {
+      font-size: 0.85rem;
+      color: var(--accent);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .raw-data-content {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      white-space: pre-wrap;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .raw-data-content.visible {
+      display: block;
+    }
+
+    /* Comparison View */
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .comparison-col {
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 8px;
+    }
+    .comparison-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .comparison-headline {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .comparison-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .same-indicator {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(255, 204, 102, 0.2);
+      color: var(--warning);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-left: 8px;
+    }
+
+    /* Resort History View */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .history-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 16px;
+      padding: 14px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .history-item.streak {
+      border-color: rgba(255, 204, 102, 0.4);
+    }
+    .history-date {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .history-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .streak-warning {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: var(--warning);
+    }
+
+    @media (max-width: 860px) {
+      .briefs-grid {
+        grid-template-columns: 1fr;
+      }
+      .headline-bar {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+      .comparison-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div>
+        <h1>Morning Briefs Dashboard</h1>
+        <p class="subtitle">Debug and analyze brief generation across all resorts</p>
+      </div>
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <div class="view-toggle">
+          <button id="day-view-btn" class="active">Day View</button>
+          <button id="resort-view-btn">Resort View</button>
+        </div>
+        <div class="pill" id="brief-count">Loading...</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div id="day-controls">
+        <label for="date-select">Date</label>
+        <select id="date-select"></select>
+      </div>
+      <div id="resort-controls" style="display: none;">
+        <label for="resort-select">Resort</label>
+        <select id="resort-select"></select>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 24px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="show-yesterday" style="width: auto; margin: 0;">
+          <label for="show-yesterday" style="margin: 0; cursor: pointer;">Show Yesterday (Compare)</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analytics Panel -->
+    <div class="analytics-section" id="analytics-panel">
+      <div class="analytics-header">
+        <div class="analytics-title">Headline Usage</div>
+        <div id="analytics-subtitle" class="subtitle"></div>
+      </div>
+      <div id="headline-bars" class="headline-bars"></div>
+      <div id="analytics-warning"></div>
+    </div>
+
+    <!-- Briefs Container -->
+    <div id="briefs-container"></div>
+  </div>
+
+  <script src="shared/nav.js"></script>
+  <script>
+    initNav('briefs');
+
+    const $ = (id) => document.getElementById(id);
+    const dataFolder = '../data';
+
+    const state = {
+      viewMode: 'day', // 'day' or 'resort'
+      briefs: [],
+      briefsIndex: null,
+      rulesReference: null,
+      resorts: [],
+      selectedDate: null,
+      selectedResort: null,
+      showYesterday: false,
+      yesterdayBriefs: {}
+    };
+
+    // Utility functions
+    const timeAgo = (iso) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (Number.isNaN(t)) return '';
+      const diff = Date.now() - t.getTime();
+      const mins = Math.max(0, Math.round(diff / 60000));
+      if (mins < 1) return 'just now';
+      if (mins < 60) return mins + 'm ago';
+      const hours = Math.floor(mins / 60);
+      if (hours < 24) return hours + 'h ago';
+      return Math.floor(hours / 24) + 'd ago';
+    };
+
+    const formatDate = (dateStr) => {
+      const d = new Date(dateStr + 'T12:00:00');
+      return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+    };
+
+    // Data loading
+    async function loadBriefsIndex() {
+      try {
+        const res = await fetch(`${dataFolder}/briefs-index.json`);
+        if (!res.ok) throw new Error('Failed to load briefs index');
+        state.briefsIndex = await res.json();
+
+        // Get all unique dates
+        const dates = new Set();
+        for (const resort of Object.values(state.briefsIndex.resorts || {})) {
+          (resort.files || []).forEach(d => dates.add(d));
+        }
+        const sortedDates = Array.from(dates).sort().reverse();
+
+        // Populate date select
+        const dateSelect = $('date-select');
+        dateSelect.innerHTML = sortedDates.map(d =>
+          `<option value="${d}">${d}</option>`
+        ).join('');
+
+        state.selectedDate = sortedDates[0] || null;
+
+        // Build resort list
+        state.resorts = Object.entries(state.briefsIndex.resorts || {})
+          .map(([key, data]) => ({ key, name: data.resortName || key }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        // Populate resort select
+        const resortSelect = $('resort-select');
+        resortSelect.innerHTML = '<option value="" disabled selected>Select a resort</option>' +
+          state.resorts.map(r => `<option value="${r.key}">${r.name}</option>`).join('');
+
+        $('brief-count').textContent = `${Object.keys(state.briefsIndex.resorts || {}).length} resorts`;
+
+      } catch (err) {
+        console.error('Error loading briefs index:', err);
+        $('brief-count').textContent = 'Error loading';
+      }
+    }
+
+    async function loadRulesReference() {
+      try {
+        const res = await fetch(`${dataFolder}/rules-reference.json`);
+        if (res.ok) {
+          state.rulesReference = await res.json();
+        }
+      } catch (_) {
+        // Rules reference is optional
+      }
+    }
+
+    async function loadBriefForResort(resortKey, date) {
+      try {
+        const res = await fetch(`${dataFolder}/${resortKey}/brief/${date}.json`);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (_) {
+        return null;
+      }
+    }
+
+    async function loadBriefsForDate(date) {
+      if (!state.briefsIndex) return [];
+
+      const briefs = [];
+      const resorts = state.briefsIndex.resorts || {};
+
+      for (const [key, data] of Object.entries(resorts)) {
+        if ((data.files || []).includes(date)) {
+          const brief = await loadBriefForResort(key, date);
+          if (brief) briefs.push(brief);
+        }
+      }
+
+      return briefs.sort((a, b) => (a.resortName || '').localeCompare(b.resortName || ''));
+    }
+
+    async function loadBriefsForResort(resortKey) {
+      if (!state.briefsIndex) return [];
+
+      const resortData = state.briefsIndex.resorts?.[resortKey];
+      if (!resortData || !resortData.files) return [];
+
+      const briefs = [];
+      const sortedDates = [...resortData.files].sort().reverse();
+
+      for (const date of sortedDates) {
+        const brief = await loadBriefForResort(resortKey, date);
+        if (brief) briefs.push(brief);
+      }
+
+      return briefs;
+    }
+
+    // Analytics
+    function computeHeadlineStats(briefs) {
+      const counts = {};
+      for (const brief of briefs) {
+        const headline = brief.morningBrief?.headline || 'Unknown';
+        counts[headline] = (counts[headline] || 0) + 1;
+      }
+
+      return Object.entries(counts)
+        .map(([headline, count]) => ({ headline, count }))
+        .sort((a, b) => b.count - a.count);
+    }
+
+    function detectRepetition(briefs) {
+      // For resort view, detect consecutive identical headlines
+      const warnings = [];
+      let streak = 1;
+      let streakHeadline = null;
+
+      for (let i = 1; i < briefs.length; i++) {
+        const prev = briefs[i - 1].morningBrief?.headline;
+        const curr = briefs[i].morningBrief?.headline;
+
+        if (prev === curr) {
+          streak++;
+          streakHeadline = curr;
+        } else {
+          if (streak >= 3) {
+            warnings.push({ headline: streakHeadline, days: streak });
+          }
+          streak = 1;
+          streakHeadline = null;
+        }
+      }
+
+      if (streak >= 3) {
+        warnings.push({ headline: streakHeadline, days: streak });
+      }
+
+      return warnings;
+    }
+
+    function renderAnalytics(briefs) {
+      const stats = computeHeadlineStats(briefs);
+      const total = briefs.length;
+      const maxCount = Math.max(...stats.map(s => s.count), 1);
+
+      const barsHtml = stats.map(({ headline, count }) => {
+        const pct = (count / maxCount) * 100;
+        const isWarning = headline === 'Your Morning Mountain Brief' ||
+                          (count / total) > 0.5;
+
+        return `
+          <div class="headline-bar">
+            <div class="headline-label" title="${headline}">${headline}</div>
+            <div class="bar-track">
+              <div class="bar-fill ${isWarning ? 'warning' : ''}" style="width: ${pct}%"></div>
+            </div>
+            <div class="bar-count">${count}</div>
+          </div>
+        `;
+      }).join('');
+
+      $('headline-bars').innerHTML = barsHtml;
+      $('analytics-subtitle').textContent = `${total} briefs analyzed`;
+
+      // Show warning for fallback usage
+      const fallbackCount = stats.find(s => s.headline === 'Your Morning Mountain Brief')?.count || 0;
+      if (fallbackCount > 0) {
+        $('analytics-warning').innerHTML = `
+          <div class="warning-message">
+            \u26a0\ufe0f ${fallbackCount} resort${fallbackCount > 1 ? 's' : ''} using fallback headline
+          </div>
+        `;
+      } else {
+        $('analytics-warning').innerHTML = '';
+      }
+    }
+
+    // Evaluate rules client-side from rawData (for briefs without debug info)
+    function evaluateRulesClientSide(brief) {
+      if (!state.rulesReference?.rules) return [];
+
+      const rawData = brief.rawData || {};
+      const insights = brief.computedInsights || {};
+      const firedRules = [];
+
+      for (const rule of state.rulesReference.rules) {
+        try {
+          // Convert condition string to function and evaluate
+          const conditionFn = new Function('rawData', 'insights', `return (${rule.conditionSource})(rawData, insights)`);
+          if (conditionFn(rawData, insights)) {
+            firedRules.push(rule);
+          }
+        } catch (e) {
+          // Skip rules that fail to evaluate
+        }
+      }
+
+      // Determine which rules were used (same logic as prose-generator)
+      const usedRules = [];
+
+      // Headline: highest priority rule with headlineTemplate
+      const headlineRules = firedRules.filter(r => r.headlineTemplate).sort((a, b) => b.priority - a.priority);
+      if (headlineRules.length > 0) {
+        usedRules.push({ ...headlineRules[0], usedFor: 'headline' });
+      }
+
+      // Body: up to 3 fragments, ordered by category
+      const categoryOrder = ['snow', 'terrain', 'lifts', 'weather'];
+      const bodyRules = firedRules.filter(r => r.bodyFragmentTemplate);
+      const byCategory = {};
+      for (const rule of bodyRules) {
+        if (!byCategory[rule.category]) byCategory[rule.category] = [];
+        byCategory[rule.category].push(rule);
+      }
+      for (const cat in byCategory) {
+        byCategory[cat].sort((a, b) => (a.fragmentOrder || 99) - (b.fragmentOrder || 99));
+      }
+
+      let bodyCount = 0;
+      for (const cat of categoryOrder) {
+        if (byCategory[cat]) {
+          for (const rule of byCategory[cat]) {
+            if (bodyCount < 3) {
+              // Don't add if already added as headline
+              if (!usedRules.some(r => r.id === rule.id)) {
+                usedRules.push({ ...rule, usedFor: 'body' });
+              }
+              bodyCount++;
+            }
+          }
+        }
+      }
+
+      return usedRules;
+    }
+
+    // Rendering
+    function renderBriefCard(brief, yesterdayBrief = null, showYesterday = false) {
+      const headline = brief.morningBrief?.headline || 'No headline';
+      const body = brief.morningBrief?.body || 'No body text';
+
+      // Use stored debug info if available, otherwise evaluate client-side
+      let debugRules = brief.morningBrief?.debug?.firedRules || [];
+      if (debugRules.length === 0) {
+        debugRules = evaluateRulesClientSide(brief);
+      }
+      const totalFired = brief.morningBrief?.debug?.totalRulesFired || debugRules.length;
+
+      const isSameAsYesterday = yesterdayBrief &&
+        brief.morningBrief?.headline === yesterdayBrief.morningBrief?.headline;
+
+      let comparisonHtml = '';
+      if (showYesterday && yesterdayBrief) {
+        const yHeadline = yesterdayBrief.morningBrief?.headline || 'No headline';
+        const yBody = yesterdayBrief.morningBrief?.body || 'No body text';
+        const sameBadge = isSameAsYesterday ? '<span class="same-indicator">Same headline</span>' : '';
+
+        comparisonHtml = `
+          <div class="comparison-row">
+            <div class="comparison-col">
+              <div class="comparison-label">Today</div>
+              <div class="comparison-headline">${headline}</div>
+              <div class="comparison-body">${body}</div>
+            </div>
+            <div class="comparison-col">
+              <div class="comparison-label">Yesterday ${sameBadge}</div>
+              <div class="comparison-headline">${yHeadline}</div>
+              <div class="comparison-body">${yBody}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Rules table
+      let rulesTableHtml = '';
+      if (debugRules.length > 0) {
+        rulesTableHtml = `
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th>Rule ID</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Used For</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${debugRules.map(r => `
+                <tr>
+                  <td class="rule-id">${r.id}</td>
+                  <td class="rule-category">${r.category}</td>
+                  <td>${r.priority}</td>
+                  <td><span class="rule-usage ${r.usedFor}">${r.usedFor}</span></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      } else {
+        rulesTableHtml = '<div style="color: var(--muted); font-size: 0.85rem; margin-top: 12px;">No rules matched (check rawData)</div>';
+      }
+
+      // Raw data summary
+      const snow = brief.rawData?.snow || {};
+      const terrain = brief.rawData?.terrain?.stats || {};
+      const rawDataSummary = JSON.stringify({
+        snow: {
+          '24h': snow['24hour_inches'] + '"',
+          '7day': snow['7day_inches'] + '"'
+        },
+        terrain: {
+          open: terrain.openTrails?.today,
+          groomed: terrain.groomedTrails?.today,
+          newlyOpened: brief.rawData?.terrain?.newlyOpened?.length || 0
+        },
+        flags: brief.computedInsights?.flags
+      }, null, 2);
+
+      const cardId = `brief-${brief.resort}-${brief.date}`;
+
+      return `
+        <div class="brief-card ${isSameAsYesterday ? 'repeated' : ''}" id="${cardId}">
+          <div class="brief-card-header">
+            <span class="resort-name">${brief.resortName || brief.resort}</span>
+            <span class="rules-badge" onclick="toggleRulesPanel('${cardId}')">
+              <span>\ud83d\udee0\ufe0f</span>
+              <span>${debugRules.length || '?'} rules</span>
+            </span>
+          </div>
+          <div class="brief-content">
+            <div class="brief-headline">${headline}</div>
+            <div class="brief-body">${body}</div>
+            <div class="brief-meta">
+              <span class="meta-pill">
+                <strong>Snow</strong> ${snow['24hour_inches'] || 0}" / 24h
+              </span>
+              <span class="meta-pill">
+                <strong>Open</strong> ${terrain.openTrails?.today || '?'} trails
+              </span>
+              <span class="meta-pill">
+                <strong>Generated</strong> ${timeAgo(brief.generated)}
+              </span>
+            </div>
+            ${comparisonHtml}
+          </div>
+          <div class="rules-panel" id="${cardId}-rules">
+            ${rulesTableHtml}
+            <div class="raw-data-section">
+              <div class="raw-data-toggle" onclick="toggleRawData('${cardId}')">
+                \u25b6 View Raw Data Context
+              </div>
+              <div class="raw-data-content" id="${cardId}-raw">${rawDataSummary}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDayView() {
+      const container = $('briefs-container');
+
+      if (!state.briefs.length) {
+        container.innerHTML = '<div class="empty">No briefs found for this date.</div>';
+        return;
+      }
+
+      const showYesterday = state.showYesterday;
+
+      container.innerHTML = `
+        <div class="briefs-grid">
+          ${state.briefs.map(brief => {
+            const yBrief = showYesterday ? state.yesterdayBriefs[brief.resort] : null;
+            return renderBriefCard(brief, yBrief, showYesterday);
+          }).join('')}
+        </div>
+      `;
+
+      renderAnalytics(state.briefs);
+    }
+
+    function renderResortView() {
+      const container = $('briefs-container');
+
+      if (!state.briefs.length) {
+        container.innerHTML = '<div class="empty">Select a resort to view brief history.</div>';
+        return;
+      }
+
+      // Detect repetition streaks
+      const warnings = detectRepetition(state.briefs);
+      const warningsMap = {};
+      warnings.forEach(w => {
+        warningsMap[w.headline] = w.days;
+      });
+
+      // Track consecutive same headlines
+      let prevHeadline = null;
+      let streakStart = -1;
+
+      const items = state.briefs.map((brief, idx) => {
+        const headline = brief.morningBrief?.headline || 'No headline';
+        const body = brief.morningBrief?.body || '';
+
+        // Check for streak
+        let isInStreak = false;
+        if (headline === prevHeadline) {
+          isInStreak = true;
+        } else if (idx > 0 && idx < state.briefs.length - 1 &&
+                   headline === state.briefs[idx + 1]?.morningBrief?.headline) {
+          isInStreak = true;
+        }
+
+        prevHeadline = headline;
+
+        return `
+          <div class="history-item ${isInStreak ? 'streak' : ''}">
+            <div class="history-date">${formatDate(brief.date)}</div>
+            <div class="history-content">
+              <div class="brief-headline">${headline}</div>
+              <div class="brief-body">${body}</div>
+              ${isInStreak ? '<div class="streak-warning">\u26a0\ufe0f Repeated headline</div>' : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = `
+        <div class="history-list">
+          ${items.join('')}
+        </div>
+      `;
+
+      renderAnalytics(state.briefs);
+
+      // Show repetition warnings
+      if (warnings.length > 0) {
+        $('analytics-warning').innerHTML = warnings.map(w => `
+          <div class="warning-message">
+            \u26a0\ufe0f "${w.headline}" used ${w.days} consecutive days
+          </div>
+        `).join('');
+      }
+    }
+
+    // Toggle functions (global)
+    window.toggleRulesPanel = function(cardId) {
+      const panel = document.getElementById(cardId + '-rules');
+      const badge = document.querySelector(`#${cardId} .rules-badge`);
+      if (panel) {
+        panel.classList.toggle('visible');
+        badge?.classList.toggle('expanded');
+      }
+    };
+
+    window.toggleRawData = function(cardId) {
+      const content = document.getElementById(cardId + '-raw');
+      const toggle = content?.previousElementSibling;
+      if (content) {
+        content.classList.toggle('visible');
+        if (toggle) {
+          toggle.innerHTML = content.classList.contains('visible')
+            ? '\u25bc Hide Raw Data Context'
+            : '\u25b6 View Raw Data Context';
+        }
+      }
+    };
+
+    // View switching
+    function setViewMode(mode) {
+      state.viewMode = mode;
+
+      $('day-view-btn').classList.toggle('active', mode === 'day');
+      $('resort-view-btn').classList.toggle('active', mode === 'resort');
+
+      $('day-controls').style.display = mode === 'day' ? 'block' : 'none';
+      $('resort-controls').style.display = mode === 'resort' ? 'block' : 'none';
+
+      if (mode === 'day') {
+        loadDayView();
+      } else {
+        loadResortView();
+      }
+    }
+
+    async function loadDayView() {
+      const date = state.selectedDate;
+      if (!date) return;
+
+      $('brief-count').textContent = 'Loading...';
+      state.briefs = await loadBriefsForDate(date);
+      $('brief-count').textContent = `${state.briefs.length} briefs`;
+
+      // Load yesterday's briefs if comparison enabled
+      if (state.showYesterday) {
+        const yesterday = getPreviousDate(date);
+        const yBriefs = await loadBriefsForDate(yesterday);
+        state.yesterdayBriefs = {};
+        yBriefs.forEach(b => {
+          state.yesterdayBriefs[b.resort] = b;
+        });
+      }
+
+      renderDayView();
+    }
+
+    async function loadResortView() {
+      const resortKey = state.selectedResort;
+      if (!resortKey) {
+        $('briefs-container').innerHTML = '<div class="empty">Select a resort to view brief history.</div>';
+        $('headline-bars').innerHTML = '';
+        $('analytics-subtitle').textContent = '';
+        return;
+      }
+
+      $('brief-count').textContent = 'Loading...';
+      state.briefs = await loadBriefsForResort(resortKey);
+      $('brief-count').textContent = `${state.briefs.length} briefs`;
+
+      renderResortView();
+    }
+
+    function getPreviousDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      d.setDate(d.getDate() - 1);
+      return d.toISOString().slice(0, 10);
+    }
+
+    // Event listeners
+    $('day-view-btn').addEventListener('click', () => setViewMode('day'));
+    $('resort-view-btn').addEventListener('click', () => setViewMode('resort'));
+
+    $('date-select').addEventListener('change', (e) => {
+      state.selectedDate = e.target.value;
+      if (state.viewMode === 'day') loadDayView();
+    });
+
+    $('resort-select').addEventListener('change', (e) => {
+      state.selectedResort = e.target.value;
+      if (state.viewMode === 'resort') loadResortView();
+    });
+
+    $('show-yesterday').addEventListener('change', async (e) => {
+      state.showYesterday = e.target.checked;
+      if (state.viewMode === 'day') {
+        await loadDayView();
+      }
+    });
+
+    // Initialize
+    async function init() {
+      await Promise.all([
+        loadBriefsIndex(),
+        loadRulesReference()
+      ]);
+
+      if (state.selectedDate) {
+        await loadDayView();
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
