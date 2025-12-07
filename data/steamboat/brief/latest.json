@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.783Z",
+  "generated": "2025-12-07T16:18:04.747Z",
   "rawData": {
     "snow": {
       "overnight_inches": 4,
@@ -54,18 +54,18 @@
         "date": "2025-12-07",
         "high_f": 20,
         "low_f": 19,
-        "high_c": -7,
+        "high_c": -6,
         "low_c": -7,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
           "date": "2025-12-08",
-          "high_f": 24,
-          "low_f": 22,
-          "high_c": -5,
+          "high_f": 25,
+          "low_f": 21,
+          "high_c": -4,
           "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 1,
@@ -91,15 +91,15 @@
           "low_c": 0,
           "description": "Snow Wind",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 2
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
         "date": "2025-12-08",
-        "high_f": 24,
-        "low_f": 22,
-        "high_c": -5,
+        "high_f": 25,
+        "low_f": 21,
+        "high_c": -4,
         "low_c": -6,
         "description": "Windy",
         "snowfall_day_inches": 1,
@@ -128,7 +128,36 @@
   },
   "morningBrief": {
     "headline": "Powder Day Alert!",
-    "body": "Powder alert with 9\" of fresh overnight and soft conditions across the hill. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve."
+    "body": "Powder alert with 9\" of fresh overnight and soft conditions across the hill. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4
+    }
   },
   "errors": []
 }

@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.802Z",
+  "generated": "2025-12-07T16:18:04.765Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -95,9 +95,9 @@
     "forecast": {
       "today": {
         "date": "2025-12-07",
-        "high_f": 9,
-        "low_f": -4,
-        "high_c": -13,
+        "high_f": 10,
+        "low_f": -3,
+        "high_c": -12,
         "low_c": -20,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
@@ -106,11 +106,11 @@
       "outlook": [
         {
           "date": "2025-12-08",
-          "high_f": 2,
+          "high_f": 3,
           "low_f": 0,
           "high_c": -16,
           "low_c": -18,
-          "description": "Cold",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -140,11 +140,11 @@
       ],
       "tomorrow": {
         "date": "2025-12-08",
-        "high_f": 2,
+        "high_f": 3,
         "low_f": 0,
         "high_c": -16,
         "low_c": -18,
-        "description": "Cold",
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -175,7 +175,36 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer. Terrain is expanding with 5 new trails opening up more room to roam. A storm is lining up, so expect conditions to evolve through the day."
+    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer. Terrain is expanding with 5 new trails opening up more room to roam. A storm is lining up, so expect conditions to evolve through the day.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4
+    }
   },
   "errors": []
 }

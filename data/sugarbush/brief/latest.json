@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.798Z",
+  "generated": "2025-12-07T16:18:04.760Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 39,
           "yesterday": 40,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 17,
@@ -35,7 +35,13 @@
         "totalTrails": 142
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Downspout",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -65,7 +71,7 @@
           "date": "2025-12-08",
           "high_f": 4,
           "low_f": 4,
-          "high_c": -16,
+          "high_c": -15,
           "low_c": -16,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -99,7 +105,7 @@
         "date": "2025-12-08",
         "high_f": 4,
         "low_f": 4,
-        "high_c": -16,
+        "high_c": -15,
         "low_c": -16,
         "description": "Windy",
         "snowfall_day_inches": 0,
@@ -124,7 +130,30 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A light refresh of 1\" makes groomers smoother and off-piste a bit softer. A storm is lining up, so expect conditions to evolve through the day."
+    "body": "A light refresh of 1\" makes groomers smoother and off-piste a bit softer. A storm is lining up, so expect conditions to evolve through the day.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3
+    }
   },
   "errors": []
 }

@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.815Z",
+  "generated": "2025-12-07T16:18:04.779Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -116,7 +116,30 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day."
+    "body": "A storm is lining up, so expect conditions to evolve through the day. 31 of 85 trails are open with 31 groomed. Current conditions: Mostly Cloudy with a high of 23°F.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3
+    }
   },
   "errors": []
 }

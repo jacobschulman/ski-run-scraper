@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.808Z",
+  "generated": "2025-12-07T16:18:04.772Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -102,7 +102,7 @@
       "outlook": [
         {
           "date": "2025-12-08",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 26,
           "high_c": -3,
           "low_c": -3,
@@ -136,7 +136,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-08",
-        "high_f": 27,
+        "high_f": 26,
         "low_f": 26,
         "high_c": -3,
         "low_c": -3,
@@ -168,7 +168,30 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. A storm is lining up, so expect conditions to evolve through the day."
+    "body": "9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. A storm is lining up, so expect conditions to evolve through the day.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "terrain_newly_groomed",
+          "category": "terrain",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3
+    }
   },
   "errors": []
 }

@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.796Z",
+  "generated": "2025-12-07T16:18:04.758Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -63,14 +63,14 @@
       "outlook": [
         {
           "date": "2025-12-08",
-          "high_f": 38,
-          "low_f": 30,
-          "high_c": 3,
-          "low_c": -1,
+          "high_f": 39,
+          "low_f": 29,
+          "high_c": 4,
+          "low_c": -2,
           "description": "Rain Snow",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 5,
-          "snowfall_expected": 5
+          "snowfall_night_inches": 6,
+          "snowfall_expected": 6
         },
         {
           "date": "2025-12-09",
@@ -97,14 +97,14 @@
       ],
       "tomorrow": {
         "date": "2025-12-08",
-        "high_f": 38,
-        "low_f": 30,
-        "high_c": 3,
-        "low_c": -1,
+        "high_f": 39,
+        "low_f": 29,
+        "high_c": 4,
+        "low_c": -2,
         "description": "Rain Snow",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 5,
-        "snowfall_expected": 5
+        "snowfall_night_inches": 6,
+        "snowfall_expected": 6
       }
     }
   },
@@ -118,13 +118,42 @@
     },
     "alerts": [],
     "trends": [
-      "5\" snow expected Monday"
+      "6\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve."
+    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve. 0 of 86 trails are open with 0 groomed. Current conditions: Rain Snow with a high of 36°F.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4
+    }
   },
   "errors": []
 }

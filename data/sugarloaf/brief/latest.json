@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.811Z",
+  "generated": "2025-12-07T16:18:04.775Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -67,7 +67,7 @@
     "forecast": {
       "today": {
         "date": "2025-12-07",
-        "high_f": 10,
+        "high_f": 11,
         "low_f": -1,
         "high_c": -12,
         "low_c": -18,
@@ -144,7 +144,30 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day."
+    "body": "A storm is lining up, so expect conditions to evolve through the day. 33 of 176 trails are open with 26 groomed. Current conditions: Windy with a high of 11°F.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3
+    }
   },
   "errors": []
 }

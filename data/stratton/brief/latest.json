@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-07",
-  "generated": "2025-12-07T15:14:09.764Z",
+  "generated": "2025-12-07T16:18:04.727Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -197,7 +197,36 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "No fresh overnight, but 12\" in the past week is keeping things lively. Terrain is expanding with 4 new trails opening up more room to roam. A storm is lining up, so expect conditions to evolve through the day."
+    "body": "No fresh overnight, but 12\" in the past week is keeping things lively. Terrain is expanding with 4 new trails opening up more room to roam. A storm is lining up, so expect conditions to evolve through the day.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4
+    }
   },
   "errors": []
 }
