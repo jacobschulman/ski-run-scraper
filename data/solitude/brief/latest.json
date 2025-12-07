@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-07",
-  "generated": "2025-12-07T16:21:24.562Z",
+  "generated": "2025-12-07T17:13:29.812Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 3,
+          "today": 4,
           "yesterday": 3,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 3,
+          "today": 4,
           "yesterday": 3,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Tude Dudes Terrain Park",
+          "difficulty": "Easy",
+          "area": "Moonbeam Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -89,7 +95,7 @@
           "low_f": 35,
           "high_c": 4,
           "low_c": 2,
-          "description": "Cloudy",
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -112,25 +118,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Great week for snow - 22\" in last 7 days"
+      "Great week for snow - 22\" in last 7 days",
+      "Grooming increased 33% from yesterday",
+      "1 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Coat on the Mountain",
-    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer.",
+    "headline": "Terrain is Expanding",
+    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer. Terrain is expanding with 1 new trails opening up more room to roam. Grooming crews stepped it up with noticeably broader coverage on key routes.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,9 +148,21 @@
           "category": "snow",
           "priority": 80,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_grooming_boost",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2
+      "totalRulesFired": 5
     }
   },
   "errors": []
