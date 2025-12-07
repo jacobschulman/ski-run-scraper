@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-07",
-  "generated": "2025-12-07T18:21:45.807Z",
+  "generated": "2025-12-07T19:12:23.649Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 13,
+          "today": 14,
           "yesterday": 14,
-          "delta": -1
+          "delta": 0
         },
         "groomedTrails": {
           "today": 13,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 203
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Foul Play",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Copperopolis",
@@ -111,16 +117,18 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Your Morning Mountain Brief",
-    "body": "13 of 203 trails are open with 13 groomed. Current conditions: Mostly Cloudy with a high of 17°F.",
+    "body": "1 trails opened today expanding access to fresh terrain. 14 of 203 trails are open with 13 groomed. Current conditions: Mostly Cloudy with a high of 17°F.",
     "debug": {
       "firedRules": [
         {
@@ -130,13 +138,19 @@
           "usedFor": "headline"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "fallback_body",
           "category": "weather",
           "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2
+      "totalRulesFired": 3
     }
   },
   "errors": []
