@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-08",
-  "generated": "2025-12-08T09:24:32.751Z",
+  "generated": "2025-12-08T10:25:26.797Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,69 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 34,
           "yesterday": 40,
-          "delta": 0
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 19,
+          "today": 14,
           "yesterday": 19,
-          "delta": 0
+          "delta": -5
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Beauvallon Haut",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Équilibre",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Nansen",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Nansen Bas",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Parc Progression",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Fuddle Duddle Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Rigodon",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Windigo",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Letendre",
+          "difficulty": "Easy",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -63,22 +111,22 @@
       "outlook": [
         {
           "date": "2025-12-08",
-          "high_f": 2,
+          "high_f": 3,
           "low_f": 0,
           "high_c": -16,
           "low_c": -18,
-          "description": "Cold",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2025-12-09",
-          "high_f": 12,
+          "high_f": 13,
           "low_f": 12,
           "high_c": -11,
           "low_c": -11,
-          "description": "Cloudy",
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
           "snowfall_expected": 1
@@ -97,11 +145,11 @@
       ],
       "tomorrow": {
         "date": "2025-12-08",
-        "high_f": 2,
+        "high_f": 3,
         "low_f": 0,
         "high_c": -16,
         "low_c": -18,
-        "description": "Cold",
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -112,11 +160,13 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 17\" in last 7 days",
       "1\" snow expected Tuesday"
@@ -125,7 +175,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "body": "A light refresh of 4\" makes groomers smoother and off-piste a bit softer. 1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +191,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_incoming",
           "category": "weather",
           "priority": 90,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4
+      "totalRulesFired": 5
     }
   },
   "errors": []
