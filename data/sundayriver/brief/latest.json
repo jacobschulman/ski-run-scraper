@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-08",
-  "generated": "2025-12-08T17:17:17.118Z",
+  "generated": "2025-12-08T18:26:03.940Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 33,
+          "today": 34,
           "yesterday": 33,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 33,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jordan",
+          "difficulty": "Unknown",
+          "area": "UPHILL ROUTES"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -76,7 +82,7 @@
           "high_f": 23,
           "low_f": 24,
           "high_c": -5,
-          "low_c": -4,
+          "low_c": -5,
           "description": "Windy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
@@ -84,7 +90,7 @@
         },
         {
           "date": "2025-12-11",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 6,
           "high_c": -3,
           "low_c": -14,
@@ -111,13 +117,15 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "1 new trail opened today",
       "1 trails freshly groomed"
     ],
     "trends": [
+      "1 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -126,7 +134,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. 33 of 144 trails are open with 33 groomed. Current conditions: Windy with a high of 5°F.",
+    "body": "Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
     "debug": {
       "firedRules": [
         {
@@ -136,19 +144,25 @@
           "usedFor": "headline"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_incoming",
           "category": "weather",
           "priority": 90,
           "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4
     }
   },
   "errors": []
