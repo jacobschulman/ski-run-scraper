@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-07",
-  "generated": "2025-12-07T23:14:24.651Z",
+  "generated": "2025-12-08T01:16:22.926Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 16,
+          "today": 14,
           "yesterday": 14,
-          "delta": 2
+          "delta": 0
         },
         "groomedTrails": {
           "today": 13,
@@ -36,17 +36,7 @@
       },
       "newlyOpened": [
         {
-          "name": "Easy Feelin'",
-          "difficulty": "easiest",
-          "area": "West"
-        },
-        {
           "name": "CDL's Trail #20",
-          "difficulty": "Black",
-          "area": "Center"
-        },
-        {
-          "name": "Mine Dump",
           "difficulty": "Black",
           "area": "Center"
         }
@@ -67,12 +57,12 @@
     "forecast": {
       "today": {
         "date": "2025-12-07",
-        "high_f": 17,
+        "high_f": null,
         "low_f": 10,
-        "high_c": -8,
+        "high_c": null,
         "low_c": -12,
         "description": "Mostly Cloudy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
@@ -100,8 +90,8 @@
         },
         {
           "date": "2025-12-10",
-          "high_f": 32,
-          "low_f": 23,
+          "high_f": 31,
+          "low_f": 24,
           "high_c": 0,
           "low_c": -5,
           "description": "Cloudy",
@@ -131,38 +121,42 @@
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "3 new trails opened today"
+      "1 new trail opened today"
     ],
-    "trends": [
-      "2 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "Terrain is expanding with 3 new trails opening up more room to roam. 3 trails opened today expanding access to fresh terrain.",
+    "headline": "Your Morning Mountain Brief",
+    "body": "1 trails opened today expanding access to fresh terrain. Snow expected today or tomorrow with conditions continuing to improve. 14 of 203 trails are open with 13 groomed. Current conditions: Mostly Cloudy with a high of null°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
-        },
-        {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
-          "usedFor": "body"
         },
         {
           "id": "terrain_new_trails_opened",
           "category": "terrain",
           "priority": 65,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4
     }
   },
   "errors": []
