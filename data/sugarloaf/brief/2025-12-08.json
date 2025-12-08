@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-08",
-  "generated": "2025-12-08T14:18:30.179Z",
+  "generated": "2025-12-08T15:18:41.893Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 32,
+          "today": 33,
           "yesterday": 32,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 12,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Alice's Winterland Glade",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -176,18 +182,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "3\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. 32 of 176 trails are open with 12 groomed. Current conditions: Windy with a high of null°F.",
+    "body": "Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
     "debug": {
       "firedRules": [
         {
@@ -197,19 +206,25 @@
           "usedFor": "headline"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_incoming",
           "category": "weather",
           "priority": 90,
           "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4
     }
   },
   "errors": []

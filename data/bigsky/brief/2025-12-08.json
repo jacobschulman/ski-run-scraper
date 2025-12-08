@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-08",
-  "generated": "2025-12-08T14:18:30.176Z",
+  "generated": "2025-12-08T15:18:41.890Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 25,
+          "today": 23,
           "yesterday": 31,
-          "delta": -6
+          "delta": -8
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 0,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 319
       },
       "newlyOpened": [],
       "newlyClosed": [
+        {
+          "name": "Hangman's",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Silverknife",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
         {
           "name": "Mountain Village Learning Area",
           "difficulty": "Green",
@@ -67,7 +77,38 @@
           "area": "Swift Current Area"
         }
       ],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Lone Wolf",
+          "difficulty": "Green",
+          "area": "Explorer Area"
+        },
+        {
+          "name": "Mr. Ed",
+          "difficulty": "Green",
+          "area": "Explorer Area"
+        },
+        {
+          "name": "Mr. K",
+          "difficulty": "Green",
+          "area": "Explorer Area"
+        },
+        {
+          "name": "Safari",
+          "difficulty": "Blue",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Ambush",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Tippy's Tumble",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -139,15 +180,21 @@
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lone Wolf - great for beginners",
+      "Fresh corduroy on Mr. Ed - great for beginners",
+      "Fresh corduroy on Mr. K - great for beginners"
+    ]
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve. 25 of 319 trails are open with 0 groomed. Current conditions: Windy with a high of 25°F.",
+    "body": "6 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area and Ramcharger Area. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -155,6 +202,12 @@
           "category": "weather",
           "priority": 90,
           "usedFor": "headline"
+        },
+        {
+          "id": "terrain_newly_groomed",
+          "category": "terrain",
+          "priority": 70,
+          "usedFor": "body"
         },
         {
           "id": "weather_storm_incoming",
@@ -166,12 +219,6 @@
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
-          "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
           "usedFor": "body"
         }
       ],
