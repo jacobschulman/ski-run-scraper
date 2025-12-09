@@ -206,6 +206,62 @@
       color: var(--positive);
     }
 
+    /* Headline Selection Info */
+    .headline-selection {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: rgba(123, 216, 255, 0.08);
+      border: 1px solid rgba(123, 216, 255, 0.2);
+      border-radius: 8px;
+    }
+    .headline-selection-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .headline-selection-item .label {
+      color: var(--muted);
+    }
+    .headline-selection-item .value {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .headline-selection-item .value.condition {
+      font-family: monospace;
+      background: rgba(123, 216, 255, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .variation-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(123, 255, 195, 0.15);
+      color: var(--positive);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .weekend-badge {
+      background: rgba(255, 204, 102, 0.15);
+      color: var(--warning);
+    }
+    .day-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
     /* Raw Data Section */
     .raw-data-section {
       margin-top: 12px;
@@ -654,6 +710,10 @@
       }
       const totalFired = brief.morningBrief?.debug?.totalRulesFired || debugRules.length;
 
+      // Headline selection info (new rotation system)
+      const headlineSelection = brief.morningBrief?.debug?.headlineSelection || null;
+      const dayOfWeek = brief.morningBrief?.debug?.dayOfWeek || '';
+
       const isSameAsYesterday = yesterdayBrief &&
         brief.morningBrief?.headline === yesterdayBrief.morningBrief?.headline;
 
@@ -675,6 +735,34 @@
               <div class="comparison-headline">${yHeadline}</div>
               <div class="comparison-body">${yBody}</div>
             </div>
+          </div>
+        `;
+      }
+
+      // Headline selection info
+      let headlineSelectionHtml = '';
+      if (headlineSelection) {
+        const variationText = `${headlineSelection.variationIndex + 1} of ${headlineSelection.totalVariations}`;
+        const weekendBadge = headlineSelection.usedWeekendVariation
+          ? '<span class="variation-badge weekend-badge">Weekend variant</span>'
+          : '';
+        const prevHeadline = headlineSelection.previousHeadline
+          ? `<span class="headline-selection-item"><span class="label">Previous:</span> <span class="value" style="color: var(--muted);">"${headlineSelection.previousHeadline}"</span></span>`
+          : '';
+
+        headlineSelectionHtml = `
+          <div class="headline-selection">
+            <span class="headline-selection-item">
+              <span class="label">Condition:</span>
+              <span class="value condition">${headlineSelection.condition}</span>
+            </span>
+            <span class="headline-selection-item">
+              <span class="label">Variation:</span>
+              <span class="variation-badge">${variationText}</span>
+              ${weekendBadge}
+            </span>
+            ${dayOfWeek ? `<span class="day-badge">${dayOfWeek}</span>` : ''}
+            ${prevHeadline}
           </div>
         `;
       }
@@ -752,6 +840,7 @@
             ${comparisonHtml}
           </div>
           <div class="rules-panel" id="${cardId}-rules">
+            ${headlineSelectionHtml}
             ${rulesTableHtml}
             <div class="raw-data-section">
               <div class="raw-data-toggle" onclick="toggleRawData('${cardId}')">
