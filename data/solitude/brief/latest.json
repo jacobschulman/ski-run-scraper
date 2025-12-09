@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-09",
-  "generated": "2025-12-09T17:17:05.989Z",
+  "generated": "2025-12-09T18:21:17.926Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 4,
+          "today": 7,
           "yesterday": 4,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 4,
+          "today": 7,
           "yesterday": 4,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Dean's Dash",
+          "difficulty": "Easy",
+          "area": "Moonbeam Area"
+        },
+        {
+          "name": "Fleet Street",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        },
+        {
+          "name": "Main Street",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -74,8 +90,8 @@
         },
         {
           "date": "2025-12-11",
-          "high_f": 42,
-          "low_f": 34,
+          "high_f": 43,
+          "low_f": 35,
           "high_c": 6,
           "low_c": 1,
           "description": "Sunny",
@@ -85,9 +101,9 @@
         },
         {
           "date": "2025-12-12",
-          "high_f": 40,
+          "high_f": 41,
           "low_f": 34,
-          "high_c": 4,
+          "high_c": 5,
           "low_c": 1,
           "description": "Sunny",
           "snowfall_day_inches": 0,
@@ -112,25 +128,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
-      "Great week for snow - 15\" in last 7 days"
+      "Great week for snow - 15\" in last 7 days",
+      "Grooming increased 75% from yesterday",
+      "3 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Soft Snow Holding Strong",
-    "body": "No fresh overnight, but 15\" in the past week is keeping things lively.",
+    "headline": "Terrain is Expanding",
+    "body": "No fresh overnight, but 15\" in the past week is keeping things lively. Terrain is expanding with 3 new trails opening up more room to roam. Grooming crews stepped it up with noticeably broader coverage on key routes.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,9 +158,21 @@
           "category": "snow",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_grooming_boost",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2
+      "totalRulesFired": 5
     }
   },
   "errors": []
