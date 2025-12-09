@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-09",
-  "generated": "2025-12-09T11:18:34.827Z",
+  "generated": "2025-12-09T12:39:14.686Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 35,
+          "today": 34,
           "yesterday": 34,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 15,
+          "today": 14,
           "yesterday": 12,
-          "delta": 3
+          "delta": 2
         },
         "totalTrails": 176
       },
@@ -41,7 +41,13 @@
           "area": "SuperQuad"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Candy Side",
@@ -87,27 +93,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-08",
-        "high_f": null,
-        "low_f": 1,
-        "high_c": null,
-        "low_c": -17,
+        "date": "2025-12-09",
+        "high_f": 9,
+        "low_f": 9,
+        "high_c": -13,
+        "low_c": -13,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-09",
-          "high_f": 9,
-          "low_f": 9,
-          "high_c": -13,
-          "low_c": -13,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-10",
           "high_f": 23,
@@ -129,18 +124,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-12",
+          "high_f": 9,
+          "low_f": 9,
+          "high_c": -13,
+          "low_c": -13,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-09",
-        "high_f": 9,
-        "low_f": 9,
-        "high_c": -13,
-        "low_c": -13,
-        "description": "Windy",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "date": "2025-12-10",
+        "high_f": 23,
+        "low_f": 23,
+        "high_c": -5,
+        "low_c": -5,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
       }
     }
   },
@@ -149,15 +155,13 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
-      "significantGroomingIncrease": true
+      "significantGroomingIncrease": false
     },
     "alerts": [
       "1 new trail opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 25% from yesterday",
-      "1 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -168,7 +172,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "Terrain is expanding with 1 new trails opening up more room to roam. Grooming crews stepped it up with noticeably broader coverage on key routes. 1 trails opened today expanding access to fresh terrain.",
+    "body": "1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -178,21 +182,21 @@
           "usedFor": "headline"
         },
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
-          "usedFor": "body"
-        },
-        {
-          "id": "terrain_grooming_boost",
-          "category": "terrain",
-          "priority": 75,
-          "usedFor": "body"
-        },
-        {
           "id": "terrain_new_trails_opened",
           "category": "terrain",
           "priority": 65,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_incoming",
+          "category": "weather",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "body"
         }
       ],

@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-09",
-  "generated": "2025-12-09T11:18:34.829Z",
+  "generated": "2025-12-09T12:39:14.688Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 35,
           "yesterday": 34,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 33,
@@ -34,37 +34,44 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Grand Rapids",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Grand Rapids",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Cascades",
+          "difficulty": "Blue",
+          "area": "LOCKE MOUNTAIN"
+        }
+      ]
     },
     "lifts": {
       "available": false
     },
     "forecast": {
       "today": {
-        "date": "2025-12-08",
-        "high_f": null,
-        "low_f": 3,
-        "high_c": null,
-        "low_c": -16,
-        "description": "Windy",
+        "date": "2025-12-09",
+        "high_f": 12,
+        "low_f": 12,
+        "high_c": -11,
+        "low_c": -11,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-09",
-          "high_f": 12,
-          "low_f": 12,
-          "high_c": -11,
-          "low_c": -11,
-          "description": "Mostly Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-10",
           "high_f": 26,
@@ -86,18 +93,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-12",
+          "high_f": 12,
+          "low_f": 13,
+          "high_c": -11,
+          "low_c": -11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-09",
-        "high_f": 12,
-        "low_f": 12,
-        "high_c": -11,
-        "low_c": -11,
-        "description": "Mostly Sunny",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "date": "2025-12-10",
+        "high_f": 26,
+        "low_f": 26,
+        "high_c": -3,
+        "low_c": -3,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
       }
     }
   },
@@ -105,18 +123,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Grand Rapids - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. 34 of 144 trails are open with 33 groomed. Current conditions: Windy with a high of null°F.",
+    "body": "Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain. Bluebird conditions with a high around 12°, so bundle up for crisp turns.",
     "debug": {
       "firedRules": [
         {
@@ -126,19 +150,25 @@
           "usedFor": "headline"
         },
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird_cold",
           "category": "weather",
-          "priority": 5,
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 6
     }
   },
   "errors": []
