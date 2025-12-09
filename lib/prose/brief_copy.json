@@ -1,0 +1,372 @@
+{
+  "version": "2.0",
+  "description": "Morning brief copy - headlines and body sentences. Edit/delete any you don't like!",
+  "conditions": {
+    "powder_alert": {
+      "description": "6+ inches in 24 hours - the big one!",
+      "threshold": "snow['24hour_inches'] >= 6",
+      "priority": 100,
+      "headlines": [
+        "Powder Day Alert! ❄️",
+        "Deep Day at {resortName}",
+        "{snow24h}\" of Fresh Overnight",
+        "The Mountain Got Buried",
+        "Winter Delivered Big",
+        "Fresh Tracks for Days",
+        "Waist-Deep Conditions",
+        "Time to Call in Sick",
+        "Dump Day at {resortName}"
+      ],
+      "weekendHeadlines": [
+        "Weekend Powder Jackpot",
+        "Saturday Stash Day",
+        "Sunday Sent It"
+      ],
+      "body": [
+        "Powder alert! {snow24h}\" of fresh overnight means soft conditions across the entire mountain.",
+        "{snow24h}\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em.",
+        "Mother Nature delivered {snow24h}\" of the good stuff. Face shots are on the menu today.",
+        "It's a {snow24h}\" day. You know what to do. First chair or regret it.",
+        "The mountain is absolutely buried with {snow24h}\" of fresh. This is not a drill.",
+        "Wake up, it's a powder day! {snow24h}\" overnight means hero snow everywhere you look."
+      ]
+    },
+
+    "storm_major": {
+      "description": "6+ inches forecasted in the next 3 days",
+      "threshold": "forecast outlook total >= 6 inches",
+      "priority": 88,
+      "headlines": [
+        "❄️ Storm on the Horizon ❄️",
+        "Big Snow Incoming",
+        "Storm Cycle Building",
+        "Winter's Coming Back",
+        "Major System Approaching",
+        "The Forecast Looks Loaded",
+        "Prepare for Pow!",
+        "Boom Boom Pow!"
+      ],
+      "body": [
+        "A significant storm is brewing with {forecastSnowTotal}\" expected over the next few days. Plan accordingly.",
+        "The weather models are locked in: {forecastSnowTotal}\" of snow heading our way. Clear your schedule.",
+        "Storm cycle alert! {forecastSnowTotal}\" on the way. The mountain is about to get a serious refresh.",
+        "Winter has more to say. {forecastSnowTotal}\" forecasted means conditions are about to level up.",
+        "Big things coming. {forecastSnowTotal}\" in the forecast—might be time to book that midweek day off.",
+        "The jet stream is doing its thing. Expect {forecastSnowTotal}\" of fresh snow rolling in soon."
+      ]
+    },
+
+    "terrain_expansion": {
+      "description": "New trails opened since yesterday",
+      "threshold": "openTrails.delta > 0",
+      "priority": 85,
+      "headlines": [
+        "Terrain is Expanding",
+        "New Runs Now Open",
+        "{newTrailsCount} New Trails Today",
+        "More Mountain to Explore",
+        "Fresh Terrain Unlocked",
+        "The Map Just Got Bigger"
+      ],
+      "body": [
+        "Terrain is expanding with {newTrailsCount} new trails now open. More room to roam, less traffic to dodge.",
+        "{newTrailsCount} new runs just opened up. Time to explore some fresh terrain.",
+        "The ski patrol has been busy—{newTrailsCount} additional trails are now yours to enjoy.",
+        "New terrain alert: {newTrailsCount} trails added to the mix. The mountain just got bigger.",
+        "Rope drop! {newTrailsCount} trails opened overnight, expanding your playground significantly.",
+        "{newTrailsCount} more trails are in play today. The groomers are getting stretched thin (in a good way)."
+      ]
+    },
+
+    "fresh_coat": {
+      "description": "1-6 inches in 24 hours - a nice refresh",
+      "threshold": "snow['24hour_inches'] >= 1 && < 6",
+      "priority": 80,
+      "headlines": [
+        "Fresh Coat on the Mountain",
+        "A Little Sugar on Top",
+        "{snow24h}\" Freshened Things Up",
+        "Overnight Refresh: {snow24h}\" new inches",
+        "The Mountain Got a Touch-Up",
+        "Fresh Layer in Place"
+      ],
+      "body": [
+        "A light refresh of {snow24h}\" overnight makes the groomers smoother and the off-piste a bit softer.",
+        "{snow24h}\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade.",
+        "The mountain got a nice {snow24h}\" touch-up. Expect improved conditions across the board.",
+        "Overnight dusting of {snow24h}\" means the hardpack got a makeover. Looking good out there.",
+        "{snow24h}\" fell while you were sleeping. The bumps are softer and the groomers are primo.",
+        "A fresh {snow24h}\" coating has things skiing better than yesterday. Small gifts matter."
+      ]
+    },
+
+    "grooming_highlight": {
+      "description": "10+ trails freshly groomed",
+      "threshold": "newlyGroomed.length >= 10",
+      "priority": 72,
+      "headlines": [
+        "Fresh Corduroy Awaits",
+        "Groomers Were Busy",
+        "{groomedCount} Runs Groomed Overnight",
+        "Smooth Sailing Today",
+        "The Corduroy Is Calling",
+        "Groomers Did Their Thing",
+        "Snow Cats on Da Loose!"
+      ],
+      "body": [
+        "{groomedCount} runs were freshly groomed overnight. The corduroy is crisp and calling your name.",
+        "The grooming crew went hard last night—{groomedCount} trails of fresh corduroy in {zones}.",
+        "Smooth operators: {groomedCount} runs got the full treatment overnight. Carve it up.",
+        "The snow cats were busy. {groomedCount} trails in {zones} are looking absolutely mint.",
+        "{groomedCount} freshly groomed runs means plenty of velvet corduroy to lay down some turns.",
+        "Grooming report: {groomedCount} trails prepped and ready. First tracks on corduroy hit different."
+      ]
+    },
+
+    "grooming_moderate": {
+      "description": "5-10 trails freshly groomed",
+      "threshold": "newlyGroomed.length > 5 && < 10",
+      "priority": 70,
+      "headlines": null,
+      "body": [
+        "{groomedCount} runs were freshly groomed overnight, with smooth corduroy in {zones}.",
+        "The groomers hit {groomedCount} trails last night. {zones} is where the good stuff is.",
+        "{groomedCount} trails got some love from the snow cats overnight. Solid options in {zones}.",
+        "Grooming update: {groomedCount} runs touched up, mostly in {zones}. Get 'em while they're fresh.",
+        "{groomedCount} freshly groomed options today. Check out {zones} for the best corduroy."
+      ]
+    },
+
+    "bluebird_day": {
+      "description": "Clear/sunny skies with cold temps",
+      "threshold": "sunny/clear description && high_f <= 32",
+      "priority": 70,
+      "headlines": [
+        "Bluebird Day",
+        "Clear Skies, Cold Temps",
+        "Sunny... but crisp!",
+        "Picture-Perfect Conditions",
+        "Not a Cloud in Sight",
+        "Today's Visibility: Unlimited",
+        "It's cold... but sunny!"
+      ],
+      "body": [
+        "Bluebird conditions with a high around {tempHigh}°. Bundle up for some crisp, beautiful turns.",
+        "Sun's out, but so is the cold—expect a high of {tempHigh}°. Gorgeous day if you dress for it.",
+        "Clear skies and {tempHigh}° means stunning views and firm snow. Layer up and enjoy the show.",
+        "Picture-perfect day incoming: sunny skies, {tempHigh}° temps, and not a cloud to block the view.",
+        "It's a postcard kind of day. {tempHigh}° and sunny—the mountain is going to be photogenic.",
+        "Unlimited visibility, {tempHigh}° temps. Cold but worth it. Don't forget the hand warmers."
+      ]
+    },
+
+    "weekend_kickoff": {
+      "description": "Friday only - weekend anticipation",
+      "threshold": "dayOfWeek === 'Friday'",
+      "priority": 65,
+      "dayOfWeekOnly": ["Friday"],
+      "headlines": [
+        "Is it the weekend yet?",
+        "Yayyyyy Fridayyyyyy",
+        "Friday: Ready for the Weekend",
+        "The Weekend Starts Now",
+        "Cheers to the Weekend!"
+      ],
+      "body": null
+    },
+
+    "holding_strong": {
+      "description": "No fresh snow but solid base from recent storms",
+      "threshold": "snow['24hour_inches'] === 0 && snow['7day_inches'] >= 12",
+      "priority": 60,
+      "headlines": [
+        "Soft Snow Holding Strong",
+        "Base Conditions Solid",
+        "Recent Snow Still Skiing Well",
+        "Good Snow Persisting",
+        "The Base Is Holding Up",
+        "Still Soft Out There"
+      ],
+      "body": [
+        "No fresh overnight, but {snow7day}\" in the past week is keeping things soft and fun.",
+        "The {snow7day}\" from this week is still skiing great. No new snow needed (yet).",
+        "Holding steady—that {snow7day}\" base from recent storms is doing the heavy lifting.",
+        "Zero new inches, but who's complaining? {snow7day}\" this week means conditions are still prime.",
+        "The snow from earlier this week ({snow7day}\") is aging gracefully. Still soft, still fun.",
+        "No refresh overnight, but {snow7day}\" of recent snow means the base is doing its job."
+      ]
+    },
+
+    "snow_coming": {
+      "description": "2-6 inches forecasted - something to look forward to",
+      "threshold": "forecast outlook total >= 2 && < 6",
+      "priority": 55,
+      "headlines": [
+        "❄️ Snow ❄️ in the Forecast",
+        "Fresh Snow on the Way",
+        "More Snow Coming",
+        "A Refresh Is Coming",
+        "Snow Showers Ahead ❄️",
+        "The Forecast Looks Promising",
+        "Cloudy with a chance of pow!"
+      ],
+      "body": [
+        "Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+        "Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+        "The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+        "Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+        "A little something coming our way. Light snow expected to dust things up nicely.",
+        "The weather gods are being generous (ish). Some snow headed our way soon."
+      ]
+    },
+
+    "flurries": {
+      "description": "Light snow in forecast (<2 inches)",
+      "threshold": "forecast outlook total > 0 && < 2",
+      "priority": 30,
+      "headlines": null,
+      "body": [
+        "Light snow possible in the forecast. Don't expect much, but every flake counts.",
+        "A few flurries may pass through. Not enough to change conditions, but hey, it's snow.",
+        "Trace amounts of snow possible. More of a dusting than a dump, but we'll take the vibes.",
+        "Light snow showers possible. Just enough to keep things feeling wintery.",
+        "The forecast shows some flurries. Nothing to write home about, but it's the thought that counts."
+      ]
+    },
+
+    "spring_vibes": {
+      "description": "Warm temps with sun - corn snow conditions",
+      "threshold": "high_f >= 40 && sunny/clear",
+      "priority": 50,
+      "headlines": [
+        "Spring Vibes",
+        "It's Getting Warmer Out There",
+        "Springlike Conditions",
+        "It's beginning to look a lot like spring!",
+        "Don't forget your sunscreen!"
+      ],
+      "body": [
+        "Warmer temps with a high of {tempHigh}°. Snow will soften up by afternoon—corn snow incoming.",
+        "Spring skiing vibes: {tempHigh}° and sunny. Hit it early or wait for the afternoon softies.",
+        "The sun is working overtime today. Expect {tempHigh}° and soft, buttery snow by lunchtime.",
+        "Temps climbing to {tempHigh}°. Morning will be firm, afternoon will be slushy. Plan accordingly.",
+        "Springlike conditions today—{tempHigh}° and sunny. Sunscreen > goggle tan lines.",
+        "It's {tempHigh}° out there. The snow will be transitioning throughout the day. Embrace the corn."
+      ]
+    },
+
+    "midweek_mellow": {
+      "description": "Tuesday-Thursday - beat the weekend crowds",
+      "threshold": "dayOfWeek in ['Tuesday', 'Wednesday', 'Thursday']",
+      "priority": 45,
+      "dayOfWeekOnly": ["Tuesday", "Wednesday", "Thursday"],
+      "headlines": [
+        "Midweek Mountain Report",
+        "Beat the Weekend Rush",
+        "Quiet Days on the Hill",
+        "Avoiding the weekend crowds, eh?"
+      ],
+      "body": null
+    },
+
+    "cold_snap": {
+      "description": "Very cold temps - dress warm!",
+      "threshold": "high_f <= 10",
+      "priority": 52,
+      "headlines": [
+        "Bundle Up Out There",
+        "It's gonna be a cold one",
+        "Layer Up, Ski Hard",
+        "Crisp Conditions",
+        "Arctic Air in Place",
+        "BRRRRRRRRR",
+        "Oh dear, it's gonna be a cold one!"
+      ],
+      "body": [
+        "Frigid temps today with a high of only {tempHigh}°. Layer up and take warming breaks.",
+        "It's cold cold cold—{tempHigh}° for a high. Hand warmers are mandatory, not optional.",
+        "Arctic air has settled in. {tempHigh}° means quick laps and hot cocoa breaks.",
+        "Bundle up! {tempHigh}° is no joke. The snow will be fast though, so there's that.",
+        "Brace yourself: {tempHigh}° today. The upside? The snow is going to be cold smoke.",
+        "Temps are brutal at {tempHigh}°. Dress like you mean it. Frostbite is not a vibe."
+      ]
+    },
+
+    "lift_crowds": {
+      "description": "Busy lift lines yesterday",
+      "threshold": "maxWaitTime > 10",
+      "priority": 80,
+      "headlines": null,
+      "body": [
+        "Watch for crowds at {busiestLift}, which peaked around {maxWait} minutes yesterday.",
+        "Heads up: {busiestLift} saw {maxWait}-minute waits yesterday. Might want to have a backup plan.",
+        "{busiestLift} was the hot spot yesterday with {maxWait}-minute lines. Consider alternatives.",
+        "Crowd alert: {busiestLift} hit {maxWait} minutes yesterday. Early birds get shorter lines.",
+        "If you're heading to {busiestLift}, pack patience—{maxWait}-minute waits were the norm yesterday."
+      ]
+    },
+
+    "lift_mellow": {
+      "description": "Short lift lines yesterday",
+      "threshold": "avgWaitTime < 4 && avgWaitTime > 0",
+      "priority": 50,
+      "headlines": null,
+      "body": [
+        "Lift lines stayed mellow yesterday, so early laps should feel quick.",
+        "Good news: lift lines were chill yesterday. Expect a similar vibe today.",
+        "Short waits across the board yesterday. More skiing, less standing around.",
+        "The lift lines were practically nonexistent yesterday. Let's hope that holds.",
+        "Yesterday was a fast one—minimal lift lines. Fingers crossed for a repeat."
+      ]
+    },
+
+    "fallback": {
+      "description": "Default when nothing notable - keep it simple",
+      "threshold": "always true (lowest priority)",
+      "priority": 10,
+      "headlines": [
+        "Your Morning Mountain Brief",
+        "Today at {resortName}",
+        "Mountain Conditions Update",
+        "{resortName} Daily Report",
+        "Here's What's Happening at {resortName}",
+        "Your Daily Ski Report",
+        "Conditions Report"
+      ],
+      "body": [
+        "{openTrails} of {totalTrails} trails are open with {groomedTrails} groomed. Current conditions: {weatherToday} with a high of {tempHigh}°F.",
+        "Today at {resortName}: {openTrails} trails open, {groomedTrails} groomed. {weatherToday}, high of {tempHigh}°.",
+        "{resortName} report: {openTrails}/{totalTrails} trails spinning, {groomedTrails} freshly groomed. {tempHigh}° and {weatherToday}.",
+        "The rundown: {openTrails} trails open, {groomedTrails} groomed. Weather is {weatherToday} with temps around {tempHigh}°.",
+        "Standard day at {resortName}—{openTrails} trails open, conditions are {weatherToday}, highs near {tempHigh}°."
+      ]
+    }
+  },
+
+  "_editingNotes": {
+    "howToEdit": "Delete any copy you don't like, edit wording, or add new options. More options = less repetition.",
+    "variables": {
+      "{resortName}": "Resort display name (e.g., 'Vail', 'Keystone')",
+      "{snow24h}": "24-hour snowfall in inches",
+      "{snow7day}": "7-day snowfall in inches",
+      "{forecastSnowTotal}": "Total forecasted snow in next few days",
+      "{newTrailsCount}": "Number of newly opened trails",
+      "{groomedCount}": "Number of freshly groomed trails",
+      "{openTrails}": "Total open trails",
+      "{totalTrails}": "Total trails at resort",
+      "{groomedTrails}": "Total groomed trails",
+      "{tempHigh}": "Today's high temperature (F)",
+      "{zones}": "Grooming zones (e.g., 'Lionshead and Mid-Vail')",
+      "{busiestLift}": "Name of busiest lift",
+      "{maxWait}": "Max wait time in minutes",
+      "{weatherToday}": "Today's weather description",
+      "{dayOfWeek}": "Day name (e.g., 'Saturday')"
+    },
+    "tips": [
+      "Headlines: Keep short and punchy (2-6 words ideal)",
+      "Body: Can be longer, more descriptive (1-2 sentences)",
+      "The system never repeats the same copy two days in a row",
+      "Weekend headline variants used ~40% on Sat/Sun"
+    ]
+  }
+}
