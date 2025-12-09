@@ -4070,26 +4070,26 @@
     }
   },
   "wilmot": {
-    "date": "2025-12-08",
+    "date": "2025-12-09",
     "resortName": "Wilmot Mountain",
     "provider": "vail",
     "data": {
       "resort": "wilmot",
       "resortName": "Wilmot Mountain",
-      "date": "2025-12-08",
-      "generated": "2025-12-08T11:17:49.860Z",
+      "date": "2025-12-09",
+      "generated": "2025-12-09T11:18:28.890Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
           "overnight_cm": 0,
-          "24hour_inches": 0,
-          "24hour_cm": 0,
-          "48hour_inches": 0,
-          "48hour_cm": 0,
-          "7day_inches": 0,
-          "7day_cm": 0,
-          "season_total_inches": 0,
-          "season_total_cm": 0,
+          "24hour_inches": 6,
+          "24hour_cm": 15,
+          "48hour_inches": 6,
+          "48hour_cm": 15,
+          "7day_inches": 6,
+          "7day_cm": 15,
+          "season_total_inches": 6,
+          "season_total_cm": 15,
           "conditions": {
             "today": "Variable",
             "yesterday": "Variable"
@@ -4117,7 +4117,7 @@
         "lifts": {
           "available": true,
           "yesterday": {
-            "date": "2025-12-07",
+            "date": "2025-12-08",
             "avgWaitTime": 0,
             "maxWaitTime": 0,
             "totalLiftsTracked": 12,
@@ -4126,34 +4126,23 @@
         },
         "forecast": {
           "today": {
-            "date": "2025-12-08",
-            "high_f": 22,
-            "low_f": 9,
-            "high_c": -6,
-            "low_c": -13,
-            "description": "Cloudy",
+            "date": "2025-12-09",
+            "high_f": 36,
+            "low_f": 19,
+            "high_c": 2,
+            "low_c": -7,
+            "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2025-12-09T06:00:00Z",
-              "high_f": 36,
-              "low_f": 18,
-              "high_c": 2,
-              "low_c": -8,
-              "description": "Windy",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2025-12-10T06:00:00Z",
-              "high_f": 36,
-              "low_f": 18,
+              "high_f": 37,
+              "low_f": 15,
               "high_c": 2,
-              "low_c": -8,
-              "description": "Rain/Snow",
+              "low_c": -9,
+              "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -4161,21 +4150,32 @@
             {
               "date": "2025-12-11T06:00:00Z",
               "high_f": 18,
-              "low_f": 11,
+              "low_f": 9,
               "high_c": -8,
-              "low_c": -12,
-              "description": "Mostly Cloudy",
+              "low_c": -13,
+              "description": "Partly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-12T06:00:00Z",
+              "high_f": 25,
+              "low_f": 12,
+              "high_c": -4,
+              "low_c": -11,
+              "description": "Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
             }
           ],
           "tomorrow": {
-            "date": "2025-12-09T06:00:00Z",
-            "high_f": 36,
-            "low_f": 18,
+            "date": "2025-12-10T06:00:00Z",
+            "high_f": 37,
+            "low_f": 15,
             "high_c": 2,
-            "low_c": -8,
+            "low_c": -9,
             "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
@@ -4186,48 +4186,58 @@
       "computedInsights": {
         "flags": {
           "hasFreshSnow": false,
-          "isPowderDay": false,
+          "isPowderDay": true,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
-        "trends": [],
+        "alerts": [
+          "6\" in last 24 hours - powder day!"
+        ],
+        "trends": [
+          "Steady snowfall - 6\" in last 7 days"
+        ],
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Your Morning Mountain Brief",
-        "body": "0 of 26 trails are open with 0 groomed. Current conditions: Cloudy with a high of 22°F.",
+        "headline": "Powder Day Alert!",
+        "body": "Powder alert with 6\" of fresh overnight and soft conditions across the hill. Steady snowfall with 6\" over the last week.",
         "debug": {
           "firedRules": [
             {
-              "id": "fallback_headline",
+              "id": "snow_powder_alert",
               "category": "snow",
-              "priority": 10,
+              "priority": 100,
               "usedFor": "headline"
             },
             {
-              "id": "fallback_body",
-              "category": "weather",
-              "priority": 5,
+              "id": "snow_powder_alert",
+              "category": "snow",
+              "priority": 100,
+              "usedFor": "body"
+            },
+            {
+              "id": "snow_week_total",
+              "category": "snow",
+              "priority": 40,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 2
+          "totalRulesFired": 3
         }
       },
       "errors": []
     }
   },
   "aftonalps": {
-    "date": "2025-12-08",
+    "date": "2025-12-09",
     "resortName": "Afton Alps",
     "provider": "vail",
     "data": {
       "resort": "aftonalps",
       "resortName": "Afton Alps",
-      "date": "2025-12-08",
-      "generated": "2025-12-08T11:17:49.865Z",
+      "date": "2025-12-09",
+      "generated": "2025-12-09T11:18:28.895Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -4269,33 +4279,22 @@
         },
         "forecast": {
           "today": {
-            "date": "2025-12-08",
-            "high_f": 23,
-            "low_f": 3,
-            "high_c": -5,
-            "low_c": -17,
-            "description": "Cloudy",
+            "date": "2025-12-09",
+            "high_f": 33,
+            "low_f": 20,
+            "high_c": null,
+            "low_c": -7,
+            "description": "Rain/Snow",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2025-12-09T06:00:00Z",
-              "high_f": 33,
-              "low_f": 22,
-              "high_c": null,
-              "low_c": -6,
-              "description": "Rain/Snow",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2025-12-10T06:00:00Z",
-              "high_f": 29,
-              "low_f": 10,
+              "high_f": 28,
+              "low_f": 6,
               "high_c": -2,
-              "low_c": -12,
+              "low_c": -14,
               "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -4303,10 +4302,21 @@
             },
             {
               "date": "2025-12-11T06:00:00Z",
-              "high_f": 13,
-              "low_f": 4,
-              "high_c": -11,
-              "low_c": -16,
+              "high_f": 14,
+              "low_f": -1,
+              "high_c": -10,
+              "low_c": -18,
+              "description": "Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-12T06:00:00Z",
+              "high_f": 16,
+              "low_f": -5,
+              "high_c": -9,
+              "low_c": -21,
               "description": "Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -4314,12 +4324,12 @@
             }
           ],
           "tomorrow": {
-            "date": "2025-12-09T06:00:00Z",
-            "high_f": 33,
-            "low_f": 22,
-            "high_c": null,
-            "low_c": -6,
-            "description": "Rain/Snow",
+            "date": "2025-12-10T06:00:00Z",
+            "high_f": 28,
+            "low_f": 6,
+            "high_c": -2,
+            "low_c": -14,
+            "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
             "snowfall_expected": 0
@@ -4339,7 +4349,7 @@
       },
       "morningBrief": {
         "headline": "Your Morning Mountain Brief",
-        "body": "0 of 37 trails are open with 0 groomed. Current conditions: Cloudy with a high of 23°F.",
+        "body": "0 of 37 trails are open with 0 groomed. Current conditions: Rain/Snow with a high of 33°F.",
         "debug": {
           "firedRules": [
             {
@@ -5080,14 +5090,14 @@
     }
   },
   "hiddenvalley": {
-    "date": "2025-12-08",
+    "date": "2025-12-09",
     "resortName": "Hidden Valley",
     "provider": "vail",
     "data": {
       "resort": "hiddenvalley",
       "resortName": "Hidden Valley",
-      "date": "2025-12-08",
-      "generated": "2025-12-08T11:17:49.866Z",
+      "date": "2025-12-09",
+      "generated": "2025-12-09T11:18:28.896Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -5129,33 +5139,22 @@
         },
         "forecast": {
           "today": {
-            "date": "2025-12-08",
-            "high_f": 32,
-            "low_f": 24,
-            "high_c": null,
-            "low_c": -5,
-            "description": "Partly Cloudy",
+            "date": "2025-12-09",
+            "high_f": 52,
+            "low_f": 32,
+            "high_c": 11,
+            "low_c": null,
+            "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2025-12-09T06:00:00Z",
-              "high_f": 52,
-              "low_f": 30,
-              "high_c": 11,
-              "low_c": -1,
-              "description": "Windy",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2025-12-10T06:00:00Z",
-              "high_f": 49,
-              "low_f": 31,
+              "high_f": 48,
+              "low_f": 29,
               "high_c": 9,
-              "low_c": -1,
+              "low_c": -2,
               "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -5163,7 +5162,7 @@
             },
             {
               "date": "2025-12-11T06:00:00Z",
-              "high_f": 35,
+              "high_f": 37,
               "low_f": 27,
               "high_c": 2,
               "low_c": -3,
@@ -5171,14 +5170,25 @@
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-12T06:00:00Z",
+              "high_f": 41,
+              "low_f": 30,
+              "high_c": 5,
+              "low_c": -1,
+              "description": "Mostly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
             }
           ],
           "tomorrow": {
-            "date": "2025-12-09T06:00:00Z",
-            "high_f": 52,
-            "low_f": 30,
-            "high_c": 11,
-            "low_c": -1,
+            "date": "2025-12-10T06:00:00Z",
+            "high_f": 48,
+            "low_f": 29,
+            "high_c": 9,
+            "low_c": -2,
             "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
@@ -5199,7 +5209,7 @@
       },
       "morningBrief": {
         "headline": "Your Morning Mountain Brief",
-        "body": "0 of 0 trails are open with 0 groomed. Current conditions: Partly Cloudy with a high of 32°F.",
+        "body": "0 of 0 trails are open with 0 groomed. Current conditions: Windy with a high of 52°F.",
         "debug": {
           "firedRules": [
             {
@@ -5222,14 +5232,14 @@
     }
   },
   "snowcreek": {
-    "date": "2025-12-08",
+    "date": "2025-12-09",
     "resortName": "Snow Creek",
     "provider": "vail",
     "data": {
       "resort": "snowcreek",
       "resortName": "Snow Creek",
-      "date": "2025-12-08",
-      "generated": "2025-12-08T11:17:49.867Z",
+      "date": "2025-12-09",
+      "generated": "2025-12-09T11:18:28.896Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -5271,33 +5281,22 @@
         },
         "forecast": {
           "today": {
-            "date": "2025-12-08",
-            "high_f": 36,
-            "low_f": 18,
-            "high_c": 2,
-            "low_c": -8,
-            "description": "Partly Cloudy",
+            "date": "2025-12-09",
+            "high_f": 54,
+            "low_f": 32,
+            "high_c": 12,
+            "low_c": null,
+            "description": "Mostly Cloudy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2025-12-09T06:00:00Z",
-              "high_f": 53,
-              "low_f": 31,
-              "high_c": 12,
-              "low_c": -1,
-              "description": "Mostly Cloudy",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2025-12-10T06:00:00Z",
-              "high_f": 49,
-              "low_f": 31,
-              "high_c": 9,
-              "low_c": -1,
+              "high_f": 50,
+              "low_f": 29,
+              "high_c": 10,
+              "low_c": -2,
               "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -5305,23 +5304,34 @@
             },
             {
               "date": "2025-12-11T06:00:00Z",
-              "high_f": 40,
+              "high_f": 45,
               "low_f": 28,
-              "high_c": 4,
-              "low_c": -3,
+              "high_c": 7,
+              "low_c": -2,
               "description": "Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-12T06:00:00Z",
+              "high_f": 38,
+              "low_f": 24,
+              "high_c": 3,
+              "low_c": -5,
+              "description": "Mostly Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
             }
           ],
           "tomorrow": {
-            "date": "2025-12-09T06:00:00Z",
-            "high_f": 53,
-            "low_f": 31,
-            "high_c": 12,
-            "low_c": -1,
-            "description": "Mostly Cloudy",
+            "date": "2025-12-10T06:00:00Z",
+            "high_f": 50,
+            "low_f": 29,
+            "high_c": 10,
+            "low_c": -2,
+            "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
             "snowfall_expected": 0
@@ -5341,7 +5351,7 @@
       },
       "morningBrief": {
         "headline": "Your Morning Mountain Brief",
-        "body": "Warmer, springy vibes with snow likely softening by afternoon. 0 of 0 trails are open with 0 groomed. Current conditions: Partly Cloudy with a high of 36°F.",
+        "body": "0 of 0 trails are open with 0 groomed. Current conditions: Mostly Cloudy with a high of 54°F.",
         "debug": {
           "firedRules": [
             {
@@ -5351,19 +5361,13 @@
               "usedFor": "headline"
             },
             {
-              "id": "weather_spring_vibes",
-              "category": "weather",
-              "priority": 50,
-              "usedFor": "body"
-            },
-            {
               "id": "fallback_body",
               "category": "weather",
               "priority": 5,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 3
+          "totalRulesFired": 2
         }
       },
       "errors": []
@@ -5777,7 +5781,7 @@
       "resort": "stratton",
       "resortName": "Stratton",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.812Z",
+      "generated": "2025-12-09T11:18:34.778Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -5803,16 +5807,22 @@
               "delta": 0
             },
             "groomedTrails": {
-              "today": 35,
+              "today": 34,
               "yesterday": 35,
-              "delta": 0
+              "delta": -1
             },
             "totalTrails": 123
           },
           "newlyOpened": [],
           "newlyClosed": [],
           "newlyGroomed": [],
-          "ungroomed": []
+          "ungroomed": [
+            {
+              "name": "Frank's Fall Line",
+              "difficulty": "Expert",
+              "area": "Upper Mountain"
+            }
+          ]
         },
         "lifts": {
           "available": true,
@@ -5899,7 +5909,7 @@
       },
       "morningBrief": {
         "headline": "Storm on the Horizon",
-        "body": "A storm is lining up, so expect conditions to evolve through the day. 43 of 123 trails are open with 35 groomed. Current conditions: Mostly Clear with a high of null°F.",
+        "body": "A storm is lining up, so expect conditions to evolve through the day. 43 of 123 trails are open with 34 groomed. Current conditions: Mostly Clear with a high of null°F.",
         "debug": {
           "firedRules": [
             {
@@ -5935,7 +5945,7 @@
       "resort": "palisades",
       "resortName": "Palisades Tahoe",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.818Z",
+      "generated": "2025-12-09T11:18:34.785Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6010,7 +6020,7 @@
               "high_f": 55,
               "low_f": 44,
               "high_c": 13,
-              "low_c": 6,
+              "low_c": 7,
               "description": "Sunny",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -6085,7 +6095,7 @@
       "resort": "jacksonhole",
       "resortName": "Jackson Hole",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.874Z",
+      "generated": "2025-12-09T11:18:34.840Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6151,7 +6161,7 @@
             {
               "date": "2025-12-10",
               "high_f": 34,
-              "low_f": 31,
+              "low_f": 32,
               "high_c": 1,
               "low_c": 0,
               "description": "Rain Snow",
@@ -6241,7 +6251,7 @@
       "resort": "bigsky",
       "resortName": "Big Sky",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.858Z",
+      "generated": "2025-12-09T11:18:34.824Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6397,7 +6407,7 @@
       "resort": "deervalley",
       "resortName": "Deer Valley",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.826Z",
+      "generated": "2025-12-09T11:18:34.794Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6470,7 +6480,7 @@
             {
               "date": "2025-12-10",
               "high_f": 39,
-              "low_f": 36,
+              "low_f": 35,
               "high_c": 4,
               "low_c": 2,
               "description": "Partly Cloudy",
@@ -6650,7 +6660,7 @@
       "resort": "snowbird",
       "resortName": "Snowbird",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.867Z",
+      "generated": "2025-12-09T11:18:34.834Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6706,7 +6716,7 @@
               "date": "2025-12-09",
               "high_f": 31,
               "low_f": 29,
-              "high_c": -1,
+              "high_c": 0,
               "low_c": -1,
               "description": "Windy",
               "snowfall_day_inches": 0,
@@ -6740,7 +6750,7 @@
             "date": "2025-12-09",
             "high_f": 31,
             "low_f": 29,
-            "high_c": -1,
+            "high_c": 0,
             "low_c": -1,
             "description": "Windy",
             "snowfall_day_inches": 0,
@@ -6792,7 +6802,7 @@
       "resort": "solitude",
       "resortName": "Solitude",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.833Z",
+      "generated": "2025-12-09T11:18:34.799Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6876,7 +6886,7 @@
             {
               "date": "2025-12-11",
               "high_f": 42,
-              "low_f": 35,
+              "low_f": 34,
               "high_c": 6,
               "low_c": 1,
               "description": "Sunny",
@@ -7146,7 +7156,7 @@
       "resort": "copper",
       "resortName": "Copper Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.870Z",
+      "generated": "2025-12-09T11:18:34.836Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7214,7 +7224,7 @@
               "high_f": 31,
               "low_f": 22,
               "high_c": -1,
-              "low_c": -5,
+              "low_c": -6,
               "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -7288,7 +7298,7 @@
       "resort": "steamboat",
       "resortName": "Steamboat",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.836Z",
+      "generated": "2025-12-09T11:18:34.802Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -7659,7 +7669,7 @@
       "resort": "mammoth",
       "resortName": "Mammoth Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.841Z",
+      "generated": "2025-12-09T11:18:34.807Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7720,7 +7730,7 @@
           "outlook": [
             {
               "date": "2025-12-09",
-              "high_f": 48,
+              "high_f": 47,
               "low_f": 38,
               "high_c": 9,
               "low_c": 3,
@@ -7754,7 +7764,7 @@
           ],
           "tomorrow": {
             "date": "2025-12-09",
-            "high_f": 48,
+            "high_f": 47,
             "low_f": 38,
             "high_c": 9,
             "low_c": 3,
@@ -7809,7 +7819,7 @@
       "resort": "crystal",
       "resortName": "Crystal Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.846Z",
+      "generated": "2025-12-09T11:18:34.812Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7973,7 +7983,7 @@
       "resort": "killington",
       "resortName": "Killington",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.872Z",
+      "generated": "2025-12-09T11:18:34.838Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8039,7 +8049,7 @@
             {
               "date": "2025-12-10",
               "high_f": 26,
-              "low_f": 19,
+              "low_f": 20,
               "high_c": -3,
               "low_c": -7,
               "description": "Snow Wind",
@@ -8049,8 +8059,8 @@
             },
             {
               "date": "2025-12-11",
-              "high_f": 17,
-              "low_f": 5,
+              "high_f": 18,
+              "low_f": 4,
               "high_c": -8,
               "low_c": -15,
               "description": "Windy",
@@ -8123,7 +8133,7 @@
       "resort": "sugarbush",
       "resortName": "Sugarbush",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.848Z",
+      "generated": "2025-12-09T11:18:34.814Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8287,7 +8297,7 @@
       "resort": "sugarloaf",
       "resortName": "Sugarloaf",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.861Z",
+      "generated": "2025-12-09T11:18:34.827Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8308,21 +8318,64 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 34,
+              "today": 35,
               "yesterday": 34,
-              "delta": 0
+              "delta": 1
             },
             "groomedTrails": {
-              "today": 12,
+              "today": 15,
               "yesterday": 12,
-              "delta": 0
+              "delta": 3
             },
             "totalTrails": 176
           },
-          "newlyOpened": [],
+          "newlyOpened": [
+            {
+              "name": "Lower Double Bitter",
+              "difficulty": "Black",
+              "area": "SuperQuad"
+            }
+          ],
           "newlyClosed": [],
-          "newlyGroomed": [],
-          "ungroomed": []
+          "newlyGroomed": [
+            {
+              "name": "Candy Side",
+              "difficulty": "Blue",
+              "area": "SuperQuad"
+            },
+            {
+              "name": "Gin Pole",
+              "difficulty": "Blue",
+              "area": "SuperQuad"
+            },
+            {
+              "name": "Hayburner",
+              "difficulty": "Black",
+              "area": "SuperQuad"
+            },
+            {
+              "name": "Peavy X-Cut",
+              "difficulty": "Novice",
+              "area": "SuperQuad"
+            },
+            {
+              "name": "Pinch",
+              "difficulty": "Blue",
+              "area": "SuperQuad"
+            }
+          ],
+          "ungroomed": [
+            {
+              "name": "Upper Competition Hill",
+              "difficulty": "Black",
+              "area": "SuperQuad"
+            },
+            {
+              "name": "Lower Spillway",
+              "difficulty": "Blue",
+              "area": "Skyline"
+            }
+          ]
         },
         "lifts": {
           "available": false
@@ -8390,18 +8443,27 @@
         "flags": {
           "hasFreshSnow": false,
           "isPowderDay": false,
-          "hasNewTrails": false,
-          "significantGroomingIncrease": false
+          "hasNewTrails": true,
+          "significantGroomingIncrease": true
         },
-        "alerts": [],
+        "alerts": [
+          "1 new trail opened today",
+          "5 trails freshly groomed"
+        ],
         "trends": [
+          "Grooming increased 25% from yesterday",
+          "1 more trails open than yesterday",
           "2\" snow expected Wednesday"
         ],
-        "recommendations": []
+        "recommendations": [
+          "Fresh corduroy on Candy Side - perfect for intermediate skiers",
+          "Fresh corduroy on Gin Pole - perfect for intermediate skiers",
+          "Fresh corduroy on Hayburner - challenging for advanced skiers"
+        ]
       },
       "morningBrief": {
         "headline": "Storm on the Horizon",
-        "body": "A storm is lining up, so expect conditions to evolve through the day. 34 of 176 trails are open with 12 groomed. Current conditions: Windy with a high of null°F.",
+        "body": "Terrain is expanding with 1 new trails opening up more room to roam. Grooming crews stepped it up with noticeably broader coverage on key routes. 1 trails opened today expanding access to fresh terrain.",
         "debug": {
           "firedRules": [
             {
@@ -8411,19 +8473,25 @@
               "usedFor": "headline"
             },
             {
-              "id": "weather_storm_incoming",
-              "category": "weather",
-              "priority": 90,
+              "id": "terrain_expansion",
+              "category": "terrain",
+              "priority": 85,
               "usedFor": "body"
             },
             {
-              "id": "fallback_body",
-              "category": "weather",
-              "priority": 5,
+              "id": "terrain_grooming_boost",
+              "category": "terrain",
+              "priority": 75,
+              "usedFor": "body"
+            },
+            {
+              "id": "terrain_new_trails_opened",
+              "category": "terrain",
+              "priority": 65,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 3
+          "totalRulesFired": 5
         }
       },
       "errors": []
@@ -8437,7 +8505,7 @@
       "resort": "sundayriver",
       "resortName": "Sunday River",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.863Z",
+      "generated": "2025-12-09T11:18:34.829Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8513,9 +8581,9 @@
             },
             {
               "date": "2025-12-11",
-              "high_f": 26,
+              "high_f": 25,
               "low_f": 7,
-              "high_c": -3,
+              "high_c": -4,
               "low_c": -14,
               "description": "Windy",
               "snowfall_day_inches": 0,
@@ -8587,7 +8655,7 @@
       "resort": "loon",
       "resortName": "Loon Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.865Z",
+      "generated": "2025-12-09T11:18:34.831Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8663,11 +8731,11 @@
             },
             {
               "date": "2025-12-11",
-              "high_f": 25,
+              "high_f": 26,
               "low_f": 9,
-              "high_c": -4,
+              "high_c": -3,
               "low_c": -13,
-              "description": "Snow",
+              "description": "Cloudy",
               "snowfall_day_inches": 1,
               "snowfall_night_inches": 1,
               "snowfall_expected": 2
@@ -8737,7 +8805,7 @@
       "resort": "tremblant",
       "resortName": "Tremblant",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.852Z",
+      "generated": "2025-12-09T11:18:34.818Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8842,7 +8910,7 @@
             {
               "date": "2025-12-10",
               "high_f": 24,
-              "low_f": 13,
+              "low_f": 15,
               "high_c": -5,
               "low_c": -10,
               "description": "Snow Wind",
@@ -8852,9 +8920,9 @@
             },
             {
               "date": "2025-12-11",
-              "high_f": 12,
+              "high_f": 14,
               "low_f": 8,
-              "high_c": -11,
+              "high_c": -10,
               "low_c": -13,
               "description": "Windy",
               "snowfall_day_inches": 1,
@@ -8936,21 +9004,21 @@
       "resort": "blue",
       "resortName": "Blue Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.856Z",
+      "generated": "2025-12-09T11:18:34.822Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
           "overnight_cm": 0,
-          "24hour_inches": 2,
-          "24hour_cm": 4,
+          "24hour_inches": 0,
+          "24hour_cm": 1,
           "48hour_inches": 2,
-          "48hour_cm": 6,
+          "48hour_cm": 5,
           "7day_inches": 6,
-          "7day_cm": 14,
+          "7day_cm": 15,
           "season_total_inches": 9,
-          "season_total_cm": 23,
+          "season_total_cm": 24,
           "conditions": {
-            "today": "Variable Conditions",
+            "today": "Machine Groomed",
             "yesterday": "Variable Conditions"
           }
         },
@@ -9042,7 +9110,7 @@
               "high_f": 33,
               "low_f": 16,
               "high_c": 0,
-              "low_c": -8,
+              "low_c": -9,
               "description": "Snow Wind",
               "snowfall_day_inches": 1,
               "snowfall_night_inches": 1,
@@ -9052,7 +9120,7 @@
               "date": "2025-12-11",
               "high_f": 18,
               "low_f": 18,
-              "high_c": -7,
+              "high_c": -8,
               "low_c": -8,
               "description": "Windy",
               "snowfall_day_inches": 1,
@@ -9093,7 +9161,7 @@
       },
       "morningBrief": {
         "headline": "Storm on the Horizon",
-        "body": "A light refresh of 2\" makes groomers smoother and off-piste a bit softer. Steady snowfall with 6\" over the last week. Terrain is expanding with 6 new trails opening up more room to roam.",
+        "body": "Steady snowfall with 6\" over the last week. Terrain is expanding with 6 new trails opening up more room to roam. A storm is lining up, so expect conditions to evolve through the day.",
         "debug": {
           "firedRules": [
             {
@@ -9101,12 +9169,6 @@
               "category": "weather",
               "priority": 90,
               "usedFor": "headline"
-            },
-            {
-              "id": "snow_fresh_coat",
-              "category": "snow",
-              "priority": 80,
-              "usedFor": "body"
             },
             {
               "id": "snow_week_total",
@@ -9119,9 +9181,15 @@
               "category": "terrain",
               "priority": 85,
               "usedFor": "body"
+            },
+            {
+              "id": "weather_storm_incoming",
+              "category": "weather",
+              "priority": 90,
+              "usedFor": "body"
             }
           ],
-          "totalRulesFired": 5
+          "totalRulesFired": 4
         }
       },
       "errors": []
@@ -9238,7 +9306,7 @@
       "resort": "cypressmountain",
       "resortName": "Cypress Mountain",
       "date": "2025-12-09",
-      "generated": "2025-12-09T10:28:26.866Z",
+      "generated": "2025-12-09T11:18:34.832Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
