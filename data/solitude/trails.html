@@ -393,7 +393,7 @@
         function renderTrails() {
             const container = document.getElementById('trailsContainer');
             let trails = showingGroomed
-                ? allTrails.filter(t => t.groomedToday)
+                ? allTrails.filter(t => t.isGroomedToday || t.groomedToday)
                 : allTrails;
 
             // Update title
@@ -405,7 +405,7 @@
             if (trails.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">${showingGroomed ? '\\u2744\\ufe0f' : '\\ud83c\\udfbf'}</div>
+                        <div class="empty-state-icon">${showingGroomed ? '❄️' : '🎿'}</div>
                         <div class="empty-state-text">${showingGroomed ? 'No trails groomed today yet' : 'No trail data available'}</div>
                     </div>
                 `;
@@ -440,14 +440,15 @@
 
         function renderTrailItem(trail) {
             const diffClass = getDifficultyClass(trail.difficulty);
-            const isNew = trail.groomedToday && trail.currentStreak === 1;
+            const isGroomed = trail.isGroomedToday || trail.groomedToday;
+            const isNew = isGroomed && trail.currentStreak === 1;
 
             return `
                 <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="trail-item">
                     <div class="trail-difficulty ${diffClass}"></div>
                     <span class="trail-name">${trail.name}</span>
                     <div class="trail-badges">
-                        ${trail.groomedToday ? '<span class="badge groomed">Groomed</span>' : ''}
+                        ${isGroomed ? '<span class="badge groomed">Groomed</span>' : ''}
                         ${isNew ? '<span class="badge new">NEW</span>' : ''}
                     </div>
                 </a>

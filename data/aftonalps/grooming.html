@@ -75,19 +75,40 @@
             padding: 16px;
             padding-bottom: 100px;
         }
-        .section-card {
+        /* Widget Cards */
+        .widget-card {
             background: var(--card-bg);
             border-radius: 12px;
             margin-bottom: 16px;
             overflow: hidden;
         }
-        .section-header {
-            padding: 16px 16px 8px;
+        .widget-header {
+            padding: 16px 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .widget-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .widget-subtitle {
             font-size: 13px;
-            font-weight: 600;
             color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        .widget-link {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .widget-link::after {
+            content: '→';
         }
         /* Morning Brief */
         .morning-brief {
@@ -113,12 +134,19 @@
             font-size: 12px;
             opacity: 0.75;
         }
-        /* Today's Conditions */
+        /* Weather Conditions */
+        .conditions-description {
+            text-align: center;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
         .conditions-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             text-align: center;
-            padding: 16px;
+            padding: 0 16px 16px;
             gap: 8px;
         }
         .condition-item .value {
@@ -131,80 +159,140 @@
             color: var(--text-secondary);
             margin-top: 4px;
         }
-        .conditions-description {
-            text-align: center;
-            padding: 0 16px 16px;
-            font-size: 15px;
+        /* Lift Status - Individual Items */
+        .lift-list {
+            padding: 8px 16px 16px;
+        }
+        .lift-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f2f2f7;
+            text-decoration: none;
+            color: inherit;
+        }
+        .lift-item:last-child {
+            border-bottom: none;
+        }
+        .lift-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .lift-status-dot.open { background: var(--green); }
+        .lift-status-dot.closed { background: var(--red); }
+        .lift-info {
+            flex: 1;
+        }
+        .lift-name {
+            font-size: 17px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .lift-time {
+            font-size: 13px;
             color: var(--text-secondary);
+            margin-top: 2px;
         }
-        /* Lift Status */
-        .lift-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            text-align: center;
-            padding: 16px;
+        .lift-badge {
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
         }
-        .lift-stat .value {
-            font-size: 32px;
-            font-weight: 700;
+        .lift-badge.open {
+            background: var(--green);
+            color: white;
         }
-        .lift-stat .value.open { color: var(--green); }
-        .lift-stat .value.closed { color: var(--red); }
-        .lift-stat .value.total { color: var(--text-primary); }
-        .lift-stat .label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        .lift-updated {
-            text-align: center;
-            padding: 0 16px 16px;
-            font-size: 12px;
+        .lift-badge.closed {
+            background: #e5e5ea;
             color: var(--text-secondary);
         }
         /* Groomed Highlights */
         .groomed-list {
-            padding: 0 16px 16px;
+            padding: 8px 16px 16px;
         }
         .groomed-item {
             display: flex;
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid #f2f2f7;
+            text-decoration: none;
+            color: inherit;
         }
         .groomed-item:last-child {
             border-bottom: none;
         }
         .trail-difficulty {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-            color: white;
+            flex-shrink: 0;
         }
-        .trail-difficulty.green { background: #34c759; border-radius: 50%; }
-        .trail-difficulty.blue { background: #007aff; border-radius: 4px; }
-        .trail-difficulty.black { background: #1c1c1e; clip-path: polygon(50% 0%, 0% 100%, 100% 100%); border-radius: 0; }
-        .trail-difficulty.double-black { background: #1c1c1e; }
-        .trail-name {
+        .trail-difficulty.green {
+            width: 14px;
+            height: 14px;
+            background: #34c759;
+            border-radius: 50%;
+        }
+        .trail-difficulty.blue {
+            width: 14px;
+            height: 14px;
+            background: #007aff;
+            border-radius: 3px;
+        }
+        .trail-difficulty.black {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 14px solid #1c1c1e;
+            background: none;
+        }
+        .trail-difficulty.double-black {
+            position: relative;
+            width: 18px;
+            height: 14px;
+        }
+        .trail-difficulty.double-black::before,
+        .trail-difficulty.double-black::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 10px solid #1c1c1e;
+        }
+        .trail-difficulty.double-black::before { left: 0; }
+        .trail-difficulty.double-black::after { right: 0; }
+        .trail-info {
             flex: 1;
-            font-size: 15px;
+        }
+        .trail-name {
+            font-size: 17px;
             font-weight: 500;
             color: var(--text-primary);
+        }
+        .trail-area {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
         }
         .trail-badges {
             display: flex;
             gap: 6px;
+            flex-shrink: 0;
         }
         .badge {
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 13px;
             font-weight: 600;
         }
         .badge.groomed {
@@ -215,15 +303,11 @@
             background: var(--accent);
             color: white;
         }
-        .view-all-link {
-            display: block;
+        /* Empty State */
+        .empty-state {
+            padding: 24px 16px;
             text-align: center;
-            padding: 12px;
-            color: var(--accent);
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-            border-top: 1px solid #f2f2f7;
+            color: var(--text-secondary);
         }
         /* Resort Picker Modal */
         .modal-overlay {
@@ -287,7 +371,6 @@
             color: var(--accent);
             font-weight: 600;
         }
-        /* Hidden date input */
         #datePicker {
             position: absolute;
             opacity: 0;
@@ -296,7 +379,6 @@
     </style>
 </head>
 <body class="has-bottom-nav">
-    <!-- App Header -->
     <header class="app-header">
         <span class="app-title">Groomd</span>
         <div class="header-controls">
@@ -321,54 +403,58 @@
             <div class="brief-meta" id="briefMeta"></div>
         </div>
 
-        <!-- Today's Conditions -->
-        <div class="section-card" id="conditionsCard">
-            <div class="section-header">Today's Conditions</div>
+        <!-- Weather Conditions -->
+        <div class="widget-card" id="weatherCard">
+            <div class="widget-header">
+                <div>
+                    <div class="widget-title">Weather Conditions</div>
+                    <div class="widget-subtitle" id="weatherUpdated">Loading...</div>
+                </div>
+                <a href="snow.html" class="widget-link">See all</a>
+            </div>
+            <div class="conditions-description" id="conditionsDesc"></div>
             <div class="conditions-grid">
                 <div class="condition-item">
-                    <div class="value" id="tempNow">--</div>
+                    <div class="value" id="tempNow">--°</div>
                     <div class="label">Now</div>
                 </div>
                 <div class="condition-item">
-                    <div class="value" id="tempRange">--</div>
+                    <div class="value" id="tempRange">--°/--°</div>
                     <div class="label">Lo/Hi</div>
                 </div>
                 <div class="condition-item">
-                    <div class="value" id="snow24hr">--</div>
-                    <div class="label">24hr Snow</div>
+                    <div class="value" id="snow24hr">0"</div>
+                    <div class="label">24hr</div>
                 </div>
             </div>
-            <div class="conditions-description" id="conditionsDesc">Loading...</div>
         </div>
 
         <!-- Lift Status -->
-        <div class="section-card" id="liftCard">
-            <div class="section-header">Lift Status</div>
-            <div class="lift-stats">
-                <div class="lift-stat">
-                    <div class="value open" id="liftsOpen">--</div>
-                    <div class="label">Open</div>
+        <div class="widget-card" id="liftCard">
+            <div class="widget-header">
+                <div>
+                    <div class="widget-title">Lift Status</div>
+                    <div class="widget-subtitle" id="liftSubtitle">Loading...</div>
                 </div>
-                <div class="lift-stat">
-                    <div class="value closed" id="liftsClosed">--</div>
-                    <div class="label">Closed</div>
-                </div>
-                <div class="lift-stat">
-                    <div class="value total" id="liftsTotal">--</div>
-                    <div class="label">Total</div>
-                </div>
+                <a href="lifts.html" class="widget-link">See all</a>
             </div>
-            <div class="lift-updated" id="liftUpdated"></div>
-            <a href="lifts.html" class="view-all-link">View All Lifts</a>
+            <div class="lift-list" id="liftList">
+                <div class="empty-state">Loading...</div>
+            </div>
         </div>
 
         <!-- Groomed Highlights -->
-        <div class="section-card" id="groomedCard">
-            <div class="section-header">Groomed Today (<span id="groomedCount">0</span>)</div>
-            <div class="groomed-list" id="groomedList">
-                <div style="padding: 20px; text-align: center; color: var(--text-secondary);">Loading...</div>
+        <div class="widget-card" id="groomedCard">
+            <div class="widget-header">
+                <div>
+                    <div class="widget-title">Groomed Highlights</div>
+                    <div class="widget-subtitle" id="groomedSubtitle">Loading...</div>
+                </div>
+                <a href="trails.html" class="widget-link">See all</a>
             </div>
-            <a href="trails.html" class="view-all-link">View All Trails</a>
+            <div class="groomed-list" id="groomedList">
+                <div class="empty-state">Loading...</div>
+            </div>
         </div>
     </div>
 
@@ -388,21 +474,17 @@
         const dataIndex = pathParts.findIndex(part => part === 'data');
         const RESORT_KEY = pathParts[dataIndex + 1];
         let currentDate = null;
-        let allResorts = {};
 
-        // Load resort info and populate picker
+        // Load resort info
         fetch('../index.json')
             .then(r => r.json())
             .then(index => {
-                allResorts = index.resorts;
                 const resortInfo = index.resorts[RESORT_KEY];
                 if (resortInfo) {
                     document.getElementById('resortName').textContent = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortInfo.name} - Groomd`;
                 }
-                // Populate resort list
-                const listEl = document.getElementById('resortList');
-                listEl.innerHTML = Object.entries(index.resorts)
+                document.getElementById('resortList').innerHTML = Object.entries(index.resorts)
                     .map(([key, info]) => `
                         <a href="../${key}/grooming.html" class="resort-option ${key === RESORT_KEY ? 'current' : ''}">
                             ${info.name}
@@ -426,30 +508,36 @@
             })
             .catch(() => {});
 
-        // Load weather/snow data
+        // Load weather data
         fetch(`snow/latest.json`)
             .then(r => r.json())
             .then(snow => {
                 currentDate = snow.date;
                 updateDateDisplay();
 
-                // Temperature
-                if (snow.forecast?.locations?.[0]?.today) {
-                    const today = snow.forecast.locations[0].today;
-                    document.getElementById('tempNow').textContent = `${today.high_f || '--'}°`;
-                    document.getElementById('tempRange').textContent = `${today.low_f || '--'}°/${today.high_f || '--'}°`;
-                    document.getElementById('conditionsDesc').textContent = today.description || snow.conditions || '';
-                } else if (snow.conditions) {
-                    document.getElementById('conditionsDesc').textContent = snow.conditions;
+                // Last updated
+                if (snow.lastUpdated) {
+                    document.getElementById('weatherUpdated').textContent = snow.lastUpdated.replace('Updated ', 'Last updated ');
+                } else if (snow.timestamp) {
+                    const d = new Date(snow.timestamp);
+                    document.getElementById('weatherUpdated').textContent = `Last updated at ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
                 }
 
+                // Conditions description
+                const location = snow.forecast?.locations?.[0];
+                const today = location?.today || {};
+                document.getElementById('conditionsDesc').textContent = today.description || snow.conditions || '';
+
+                // Temperature
+                document.getElementById('tempNow').textContent = `${today.high_f || '--'}°`;
+                document.getElementById('tempRange').textContent = `${today.low_f || '--'}°/${today.high_f || '--'}°`;
+
                 // 24hr snow
-                if (snow.snowfall) {
-                    document.getElementById('snow24hr').textContent = `${snow.snowfall['24hour_inches'] || 0}"`;
-                }
+                const snow24 = snow.snowfall?.['24hour_inches'] || 0;
+                document.getElementById('snow24hr').textContent = `${snow24}"`;
             })
             .catch(() => {
-                document.getElementById('conditionsDesc').textContent = 'Weather data unavailable';
+                document.getElementById('weatherUpdated').textContent = 'Weather data unavailable';
             });
 
         // Load lift data
@@ -457,37 +545,49 @@
             .then(r => r.json())
             .then(data => {
                 const lifts = data.lifts || [];
-                const open = lifts.filter(l => l.status === 'Open').length;
-                const closed = lifts.filter(l => l.status !== 'Open').length;
+                const openLifts = lifts.filter(l => l.status === 'Open');
+                const total = lifts.length;
 
-                document.getElementById('liftsOpen').textContent = open;
-                document.getElementById('liftsClosed').textContent = closed;
-                document.getElementById('liftsTotal').textContent = lifts.length;
+                // Update subtitle
+                document.getElementById('liftSubtitle').textContent = `${openLifts.length}/${total} open · Snapshot of today's lifts`;
 
-                if (data.generated) {
-                    const d = new Date(data.generated);
-                    document.getElementById('liftUpdated').textContent = `Last updated ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+                if (openLifts.length === 0) {
+                    document.getElementById('liftList').innerHTML = `
+                        <div class="empty-state">No lifts open yet</div>
+                    `;
+                    return;
                 }
+
+                // Show top 3 open lifts
+                document.getElementById('liftList').innerHTML = openLifts.slice(0, 3).map(lift => `
+                    <a href="lift.html?name=${encodeURIComponent(lift.slug || lift.name)}" class="lift-item">
+                        <div class="lift-status-dot open"></div>
+                        <div class="lift-info">
+                            <div class="lift-name">${lift.name}</div>
+                            <div class="lift-time">${lift.hours?.close ? `Closes at ${lift.hours.close}` : ''}</div>
+                        </div>
+                        <span class="lift-badge open">Open</span>
+                    </a>
+                `).join('');
             })
             .catch(() => {
-                document.getElementById('liftCard').style.display = 'none';
+                document.getElementById('liftSubtitle').textContent = 'Lift data unavailable';
+                document.getElementById('liftList').innerHTML = `<div class="empty-state">Unable to load lift data</div>`;
             });
 
-        // Load trail/grooming data
+        // Load trail data
         fetch(`trails/index.json`)
             .then(r => r.json())
             .then(data => {
                 const trails = data.trails || [];
-                const groomed = trails.filter(t => t.groomedToday);
-                const newlyGroomed = trails.filter(t => t.groomedToday && t.currentStreak === 1);
+                const groomed = trails.filter(t => t.isGroomedToday || t.groomedToday);
 
-                document.getElementById('groomedCount').textContent = groomed.length;
+                // Update subtitle
+                document.getElementById('groomedSubtitle').textContent = `${groomed.length} runs groomed today`;
 
                 if (groomed.length === 0) {
                     document.getElementById('groomedList').innerHTML = `
-                        <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
-                            No trails groomed today yet
-                        </div>
+                        <div class="empty-state">No trails groomed today yet</div>
                     `;
                     return;
                 }
@@ -499,13 +599,18 @@
                     return a.name.localeCompare(b.name);
                 });
 
-                document.getElementById('groomedList').innerHTML = groomed.slice(0, 10).map(trail => {
-                    const isNew = trail.currentStreak === 1;
+                document.getElementById('groomedList').innerHTML = groomed.slice(0, 5).map(trail => {
+                    const isGroomed = trail.isGroomedToday || trail.groomedToday;
+                    const isNew = isGroomed && trail.currentStreak === 1;
                     const diffClass = getDifficultyClass(trail.difficulty);
+                    const area = trail.mountain || trail.area || '';
                     return `
                         <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="groomed-item">
                             <div class="trail-difficulty ${diffClass}"></div>
-                            <span class="trail-name">${trail.name}</span>
+                            <div class="trail-info">
+                                <div class="trail-name">${trail.name}</div>
+                                ${area ? `<div class="trail-area">${area}</div>` : ''}
+                            </div>
                             <div class="trail-badges">
                                 <span class="badge groomed">Groomed</span>
                                 ${isNew ? '<span class="badge new">NEW</span>' : ''}
@@ -515,11 +620,8 @@
                 }).join('');
             })
             .catch(() => {
-                document.getElementById('groomedList').innerHTML = `
-                    <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
-                        Trail data unavailable
-                    </div>
-                `;
+                document.getElementById('groomedSubtitle').textContent = 'Trail data unavailable';
+                document.getElementById('groomedList').innerHTML = `<div class="empty-state">Unable to load trail data</div>`;
             });
 
         function getDifficultyClass(difficulty) {
@@ -537,7 +639,6 @@
             const today = new Date();
             today.setHours(12, 0, 0, 0);
             const dateObj = new Date(currentDate + 'T12:00:00');
-
             if (dateObj.toDateString() === today.toDateString()) {
                 document.getElementById('dateDisplay').textContent = 'Today';
             } else {
@@ -556,8 +657,7 @@
             if (selected) {
                 currentDate = selected;
                 updateDateDisplay();
-                // Reload data for new date
-                location.reload(); // Simple approach - could optimize later
+                location.reload();
             }
         }
 
@@ -569,7 +669,6 @@
             document.getElementById('resortModal').classList.remove('show');
         }
 
-        // Close modal on backdrop click
         document.getElementById('resortModal').addEventListener('click', (e) => {
             if (e.target.id === 'resortModal') closeResortPicker();
         });
