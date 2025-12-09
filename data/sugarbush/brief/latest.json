@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-09",
-  "generated": "2025-12-09T13:35:00.213Z",
+  "generated": "2025-12-09T14:18:26.034Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 64,
-          "delta": -1
+          "delta": 0
         },
         "groomedTrails": {
           "today": 17,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Downspout",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Gondolier",
@@ -118,11 +124,13 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "3\" snow expected Wednesday"
     ],
@@ -130,7 +138,7 @@
   },
   "morningBrief": {
     "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve. 63 of 142 trails are open with 17 groomed. Current conditions: Windy with a high of 12°F.",
+    "body": "1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -138,6 +146,12 @@
           "category": "weather",
           "priority": 90,
           "usedFor": "headline"
+        },
+        {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
         },
         {
           "id": "weather_storm_incoming",
@@ -150,15 +164,9 @@
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4
+      "totalRulesFired": 5
     }
   },
   "errors": []

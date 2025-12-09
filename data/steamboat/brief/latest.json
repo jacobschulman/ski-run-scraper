@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-09",
-  "generated": "2025-12-09T13:35:00.199Z",
+  "generated": "2025-12-09T14:18:26.021Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 16,
+          "today": 17,
           "yesterday": 16,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 16,
+          "today": 17,
           "yesterday": 16,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Fawn",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Fawn",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -51,27 +63,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-08",
-        "high_f": null,
-        "low_f": 21,
-        "high_c": null,
-        "low_c": -6,
+        "date": "2025-12-09",
+        "high_f": 30,
+        "low_f": 27,
+        "high_c": -1,
+        "low_c": -3,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
-        {
-          "date": "2025-12-09",
-          "high_f": 30,
-          "low_f": 27,
-          "high_c": -1,
-          "low_c": -3,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
-        },
         {
           "date": "2025-12-10",
           "high_f": 32,
@@ -93,18 +94,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-12",
+          "high_f": 34,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-09",
-        "high_f": 30,
-        "low_f": 27,
-        "high_c": -1,
-        "low_c": -3,
+        "date": "2025-12-10",
+        "high_f": 32,
+        "low_f": 30,
+        "high_c": 0,
+        "low_c": -1,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 1,
-        "snowfall_expected": 1
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -112,26 +124,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 28\" in last 7 days",
-      "1\" snow expected Tuesday"
+      "1 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Fawn - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "No fresh overnight, but 28\" in the past week is keeping things lively. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "No fresh overnight, but 28\" in the past week is keeping things lively. Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,15 +158,15 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
           "usedFor": "body"
         }
       ],
