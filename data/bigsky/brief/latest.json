@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.950Z",
+  "generated": "2025-12-09T19:12:58.128Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -167,15 +167,21 @@
     ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. A storm is lining up, so expect conditions to evolve through the day.",
+    "headline": "Beat the Weekend Rush",
+    "body": "The rundown: 45 trails open, 9 groomed. Weather is Windy with temps around 31°. 9 runs were freshly groomed overnight, with smooth corduroy calling in Explorer Area, Ramcharger Area, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
         },
         {
           "id": "terrain_newly_groomed",
@@ -184,13 +190,21 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 90,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 1,
+        "totalVariations": 4,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

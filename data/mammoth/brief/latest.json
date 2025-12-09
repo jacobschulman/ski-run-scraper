@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.934Z",
+  "generated": "2025-12-09T19:12:58.105Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -54,7 +54,7 @@
         "date": "2025-12-09",
         "high_f": 47,
         "low_f": 38,
-        "high_c": 8,
+        "high_c": 9,
         "low_c": 3,
         "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
@@ -63,7 +63,7 @@
       "outlook": [
         {
           "date": "2025-12-10",
-          "high_f": 49,
+          "high_f": 48,
           "low_f": 39,
           "high_c": 9,
           "low_c": 4,
@@ -97,7 +97,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-10",
-        "high_f": 49,
+        "high_f": 48,
         "low_f": 39,
         "high_c": 9,
         "low_c": 4,
@@ -121,15 +121,21 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Morning Mountain Brief",
-    "body": "Warmer, springy vibes with snow likely softening by afternoon. 62 of 191 trails are open with 16 groomed. Current conditions: Mostly Sunny with a high of 47°F.",
+    "headline": "Spring Vibes",
+    "body": "Mammoth Mountain report: 62/191 trails spinning, 16 freshly groomed. 47° and Mostly Sunny. Temps climbing to 47°. Morning will be firm, afternoon will be slushy. Plan accordingly. 62 of 191 trails are open with 16 groomed. Current conditions: Mostly Sunny with a high of 47°F.",
     "debug": {
       "firedRules": [
+        {
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
-          "usedFor": "headline"
+          "usedFor": "body"
         },
         {
           "id": "weather_spring_vibes",
@@ -144,7 +150,15 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

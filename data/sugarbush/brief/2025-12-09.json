@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.940Z",
+  "generated": "2025-12-09T19:12:58.114Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -132,15 +132,21 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "Sugarbush report: 65/142 trails spinning, 18 freshly groomed. 12° and Windy. New terrain alert: 1 trails added to the mix. The mountain just got bigger. 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
         },
         {
           "id": "terrain_expansion",
@@ -153,15 +159,17 @@
           "category": "terrain",
           "priority": 65,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

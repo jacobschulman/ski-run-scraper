@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.965Z",
+  "generated": "2025-12-09T19:12:58.153Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -57,7 +57,7 @@
         {
           "date": "2025-12-10",
           "high_f": 35,
-          "low_f": 32,
+          "low_f": 31,
           "high_c": 2,
           "low_c": 0,
           "description": "Rain Snow",
@@ -69,7 +69,7 @@
           "date": "2025-12-11",
           "high_f": 35,
           "low_f": 30,
-          "high_c": 1,
+          "high_c": 2,
           "low_c": -1,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -78,7 +78,7 @@
         },
         {
           "date": "2025-12-12",
-          "high_f": 33,
+          "high_f": 32,
           "low_f": 27,
           "high_c": 0,
           "low_c": -3,
@@ -91,7 +91,7 @@
       "tomorrow": {
         "date": "2025-12-10",
         "high_f": 35,
-        "low_f": 32,
+        "low_f": 31,
         "high_c": 2,
         "low_c": 0,
         "description": "Rain Snow",
@@ -115,20 +115,26 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve. 10 of 145 trails are open with 10 groomed. Current conditions: Snow Wind with a high of 32°F.",
+    "headline": "Avoiding the weekend crowds, eh?",
+    "body": "Today at Jackson Hole: 10 trails open, 10 groomed. Snow Wind, high of 32°. Light snow possible in the forecast. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "weather_storm_incoming",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 90,
+          "priority": 30,
           "usedFor": "body"
         },
         {
@@ -136,15 +142,17 @@
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 3,
+        "totalVariations": 4,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

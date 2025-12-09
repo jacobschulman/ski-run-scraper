@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.943Z",
+  "generated": "2025-12-09T19:12:58.119Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -106,9 +106,9 @@
           "high_c": -5,
           "low_c": -10,
           "description": "Snow",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 4
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
         },
         {
           "date": "2025-12-11",
@@ -117,13 +117,13 @@
           "high_c": -11,
           "low_c": -14,
           "description": "Snow Wind",
-          "snowfall_day_inches": 2,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 3
+          "snowfall_expected": 2
         },
         {
           "date": "2025-12-12",
-          "high_f": 16,
+          "high_f": 15,
           "low_f": 13,
           "high_c": -9,
           "low_c": -11,
@@ -140,9 +140,9 @@
         "high_c": -5,
         "low_c": -10,
         "description": "Snow",
-        "snowfall_day_inches": 2,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 4
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
       }
     }
   },
@@ -160,21 +160,21 @@
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
-      "4\" snow expected Wednesday"
+      "2\" snow expected Wednesday"
     ],
     "recommendations": [
       "Fresh corduroy on Nansen Bas - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "Steady snowfall with 9\" over the last week. 3 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day.",
+    "headline": "Snow Showers Ahead ❄️",
+    "body": "Steady snowfall with 9\" over the last week. Today at Tremblant: 36 trails open, 15 groomed. Cloudy, high of 11°. 3 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 90,
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -184,19 +184,27 @@
           "usedFor": "body"
         },
         {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
           "id": "terrain_new_trails_opened",
           "category": "terrain",
           "priority": 65,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "snow_coming",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

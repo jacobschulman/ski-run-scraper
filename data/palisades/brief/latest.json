@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.913Z",
+  "generated": "2025-12-09T19:12:57.963Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -53,7 +53,7 @@
       "today": {
         "date": "2025-12-09",
         "high_f": 52,
-        "low_f": 42,
+        "low_f": 41,
         "high_c": 11,
         "low_c": 5,
         "description": "Sunny",
@@ -121,15 +121,21 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Morning Mountain Brief",
-    "body": "Warmer, springy vibes with snow likely softening by afternoon. 1 of 301 trails are open with 0 groomed. Current conditions: Sunny with a high of 52°F.",
+    "headline": "It's beginning to look a lot like spring!",
+    "body": "Palisades Tahoe report: 1/301 trails spinning, 0 freshly groomed. 52° and Sunny. Warmer temps with a high of 52°. Snow will soften up by afternoon—corn snow incoming. 1 of 301 trails are open with 0 groomed. Current conditions: Sunny with a high of 52°F.",
     "debug": {
       "firedRules": [
+        {
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
-          "usedFor": "headline"
+          "usedFor": "body"
         },
         {
           "id": "weather_spring_vibes",
@@ -144,7 +150,15 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

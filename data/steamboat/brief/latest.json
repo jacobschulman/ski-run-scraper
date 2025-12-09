@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.928Z",
+  "generated": "2025-12-09T19:12:58.099Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -142,7 +142,7 @@
   },
   "morningBrief": {
     "headline": "Terrain is Expanding",
-    "body": "No fresh overnight, but 28\" in the past week is keeping things lively. Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain.",
+    "body": "No refresh overnight, but 28\" of recent snow means the base is doing its job. Today at Steamboat: 17 trails open, 17 groomed. Windy, high of 30°. 1 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
@@ -158,19 +158,27 @@
           "usedFor": "body"
         },
         {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
           "id": "terrain_expansion",
           "category": "terrain",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "terrain_new_trails_opened",
-          "category": "terrain",
-          "priority": 65,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

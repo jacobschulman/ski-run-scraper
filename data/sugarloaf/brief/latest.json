@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.953Z",
+  "generated": "2025-12-09T19:12:58.133Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -108,7 +108,7 @@
           "high_f": 23,
           "low_f": 22,
           "high_c": -5,
-          "low_c": -6,
+          "low_c": -5,
           "description": "Snow Wind",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
@@ -142,7 +142,7 @@
         "high_f": 23,
         "low_f": 22,
         "high_c": -5,
-        "low_c": -6,
+        "low_c": -5,
         "description": "Snow Wind",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 1,
@@ -171,15 +171,21 @@
     ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "1 trails opened today expanding access to fresh terrain. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "A Refresh Is Coming",
+    "body": "Standard day at Sugarloaf—34 trails open, conditions are Windy, highs near 9°. 1 trails opened today expanding access to fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 90,
+          "priority": 55,
           "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
         },
         {
           "id": "terrain_new_trails_opened",
@@ -188,19 +194,21 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 90,
-          "usedFor": "body"
-        },
-        {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "snow_coming",
+        "variationIndex": 3,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.957Z",
+  "generated": "2025-12-09T19:12:58.139Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -82,7 +82,7 @@
           "low_f": 13,
           "high_c": -9,
           "low_c": -10,
-          "description": "Windy",
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -115,36 +115,44 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "Bluebird conditions with a high around 16°, so bundle up for crisp turns. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Big Snow Incoming",
+    "body": "The rundown: 33 trails open, 33 groomed. Weather is Mostly Sunny with temps around 16°. Storm cycle alert! 7\" on the way. The mountain is about to get a serious refresh. Unlimited visibility, 16° temps. Cold but worth it. Don't forget the hand warmers.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_storm_major",
           "category": "weather",
-          "priority": 90,
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "weather_bluebird_cold",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird_day",
           "category": "weather",
           "priority": 70,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
-          "usedFor": "body"
-        },
-        {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 8,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

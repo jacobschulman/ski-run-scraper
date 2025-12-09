@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.926Z",
+  "generated": "2025-12-09T19:12:58.095Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -93,7 +93,7 @@
           "high_f": 43,
           "low_f": 35,
           "high_c": 6,
-          "low_c": 1,
+          "low_c": 2,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -143,8 +143,8 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "No fresh overnight, but 15\" in the past week is keeping things lively. Terrain is expanding with 3 new trails opening up more room to roam. Grooming crews stepped it up with noticeably broader coverage on key routes.",
+    "headline": "The Map Just Got Bigger",
+    "body": "Holding steady—that 15\" base from recent storms is doing the heavy lifting. Standard day at Solitude—7 trails open, conditions are Cloudy, highs near 37°. Rope drop! 3 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
@@ -160,19 +160,27 @@
           "usedFor": "body"
         },
         {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
           "id": "terrain_expansion",
           "category": "terrain",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "terrain_grooming_boost",
-          "category": "terrain",
-          "priority": 75,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []

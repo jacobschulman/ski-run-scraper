@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-09",
-  "generated": "2025-12-09T18:21:17.907Z",
+  "generated": "2025-12-09T19:12:57.956Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 39,
           "yesterday": 43,
-          "delta": -3
+          "delta": -4
         },
         "groomedTrails": {
           "today": 34,
@@ -36,6 +36,11 @@
       },
       "newlyOpened": [],
       "newlyClosed": [
+        {
+          "name": "Spillway",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
         {
           "name": "Rimeline",
           "difficulty": "Expert",
@@ -145,36 +150,44 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "Bluebird conditions with a high around 15°, so bundle up for crisp turns. A storm is lining up, so expect conditions to evolve through the day. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Bluebird Day",
+    "body": "Stratton report: 39/123 trails spinning, 34 freshly groomed. 15° and Mostly Sunny. A little something coming our way. Light snow expected to dust things up nicely. Unlimited visibility, 15° temps. Cold but worth it. Don't forget the hand warmers.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_incoming",
+          "id": "weather_bluebird_day",
           "category": "weather",
-          "priority": 90,
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "weather_bluebird_cold",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird_day",
           "category": "weather",
           "priority": 70,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_storm_incoming",
-          "category": "weather",
-          "priority": 90,
-          "usedFor": "body"
-        },
-        {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "bluebird_day",
+        "variationIndex": 0,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Tuesday"
     }
   },
   "errors": []
