@@ -2,27 +2,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#2c5aa0" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a3a6e" media="(prefers-color-scheme: dark)">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="../manifest.json">
-    <link rel="apple-touch-icon" href="../icons/icon.png">
-    <link rel="icon" href="../icons/icon.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Snow Report</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        .snow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .snow-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #3a7bd5;
+        }
+        .snow-card h3 {
+            margin: 0 0 15px 0;
+            color: #2c5aa0;
+            font-size: 1.1em;
+        }
+        .snow-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2c5aa0;
+            margin: 10px 0;
+        }
+        .snow-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .conditions {
+            font-size: 1.3em;
+            color: #3a7bd5;
+            font-weight: 600;
+        }
+        .forecast-section {
+            margin-top: 40px;
+        }
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .forecast-card {
+            background: linear-gradient(135deg, #2c5aa0 0%, #3a7bd5 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .forecast-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            opacity: 0.9;
+        }
+        .forecast-temp {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .forecast-temp-range {
+            font-size: 0.9em;
+            opacity: 0.85;
+        }
+        .last-updated {
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+            margin: 30px 0;
+        }
+        .metric-toggle {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .metric-toggle button {
+            background: #3a7bd5;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .metric-toggle button:hover {
+            background: #2c5aa0;
+        }
+    </style>
 </head>
 <body class="has-bottom-nav">
-    <!-- Pull-to-refresh indicator -->
-    <div class="pull-indicator" id="pullIndicator">
-        <div class="pull-spinner"></div>
-    </div>
-
     <div class="header">
         <div class="header-content">
-            <h1 id="page-heading">Snow Report</h1>
-            <div class="date-nav" id="dateNav">
+            <h1 id="page-heading">❄️ Snow Report</h1>
+            <div class="date-nav">
                 <div class="date-controls">
                     <button class="nav-btn" id="prevBtn" onclick="navigateDate(-1)" aria-label="Previous day">
                         <span class="nav-text-short">‹</span>
@@ -40,16 +116,16 @@
     </div>
 
     <div class="container">
+        <div class="metric-toggle">
+            <button onclick="toggleMetric()" id="metricToggle">Switch to Metric (cm/°C)</button>
+        </div>
         <div id="content">
-            <div class="skeleton-container">
-                <div class="skeleton skeleton-card"></div>
-                <div class="skeleton skeleton-card"></div>
-                <div class="skeleton skeleton-card"></div>
-            </div>
+            <div class="loading">Loading snow report...</div>
         </div>
     </div>
 
     <div class="footer">
+        <p><a href="#" id="rawJsonLink" target="_blank">View Raw JSON Data</a></p>
         <p id="update-time">Data updated daily</p>
     </div>
 
@@ -58,8 +134,9 @@
         const pathParts = window.location.pathname.split('/');
         const dataIndex = pathParts.findIndex(part => part === 'data');
         const RESORT_KEY = pathParts[dataIndex + 1];
+        const DATA_PATH = 'snow';
         let currentDate = null;
-        let useMetric = localStorage.getItem('snow-metric') === 'true';
+        let useMetric = false;
         let snowData = null;
 
         // Fetch resort config to get display name
@@ -70,7 +147,7 @@
                 if (resortInfo) {
                     const resortName = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortName} Snow Report`;
-                    document.getElementById('page-heading').textContent = `${resortName} Snow`;
+                    document.getElementById('page-heading').textContent = `❄️ ${resortName} Snow Report`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
@@ -79,48 +156,19 @@
             const date = new Date(dateStr + 'T12:00:00');
             return date.toLocaleDateString('en-US', {
                 weekday: 'long',
+                year: 'numeric',
                 month: 'long',
-                day: 'numeric'
-            });
-        }
-
-        function formatShortDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
                 day: 'numeric'
             });
         }
 
         function toggleMetric() {
             useMetric = !useMetric;
-            localStorage.setItem('snow-metric', useMetric);
+            document.getElementById('metricToggle').textContent =
+                useMetric ? 'Switch to Imperial (in/°F)' : 'Switch to Metric (cm/°C)';
             if (snowData) {
                 renderSnowData(snowData);
             }
-            if (typeof hapticFeedback === 'function') {
-                hapticFeedback('light');
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function getWeatherEmoji(description) {
-            const desc = (description || '').toLowerCase();
-            if (desc.includes('snow') && desc.includes('wind')) return '🌨️💨';
-            if (desc.includes('snow')) return '🌨️';
-            if (desc.includes('rain') && desc.includes('snow')) return '🌧️❄️';
-            if (desc.includes('rain')) return '🌧️';
-            if (desc.includes('wind')) return '💨';
-            if (desc.includes('cloudy') || desc.includes('overcast')) return '☁️';
-            if (desc.includes('partly')) return '⛅';
-            if (desc.includes('sun') || desc.includes('clear')) return '☀️';
-            return '🌤️';
         }
 
         function renderSnowData(data) {
@@ -130,140 +178,69 @@
             const snowfall = data.snowfall || {};
             const baseDepth = data.baseDepth || {};
             const conditions = data.conditions || 'Unknown';
-            const forecast = data.forecast?.locations?.[0];
 
-            // Get temperature
-            const today = forecast?.today || {};
-            const tempUnit = useMetric ? '°C' : '°F';
-            const snowUnit = useMetric ? 'cm' : '"';
-            const highTemp = useMetric ? today.high_c : today.high_f;
-            const lowTemp = useMetric ? today.low_c : today.low_f;
-
-            let html = '<div class="stagger-fade-in">';
-
-            // Current Conditions Widget
-            html += `
-                <div class="widget-card">
-                    <div class="widget-header">
-                        <div class="widget-title-group">
-                            <span class="widget-title">Current Conditions</span>
-                            <span class="widget-subtitle">${data.lastUpdated || 'Updated today'}</span>
-                        </div>
-                        <button onclick="toggleMetric()" class="unit-toggle" aria-label="Toggle units">
-                            ${useMetric ? 'Metric' : 'Imperial'}
-                        </button>
+            let html = `
+                <div class="snow-grid">
+                    <div class="snow-card">
+                        <h3>Conditions</h3>
+                        <div class="conditions">${conditions}</div>
                     </div>
-                    <div class="weather-condition-banner">
-                        ${getWeatherEmoji(conditions)} ${escapeHtml(conditions)}
+                    <div class="snow-card">
+                        <div class="snow-label">Base Depth</div>
+                        <div class="snow-value">${useMetric ? baseDepth.cm : baseDepth.inches}${useMetric ? 'cm' : '"'}</div>
                     </div>
-                    <div class="weather-stats-grid">
-                        <div class="weather-stat">
-                            <span class="weather-stat-value">${highTemp ?? '--'}${tempUnit}</span>
-                            <span class="weather-stat-label">High</span>
-                        </div>
-                        <div class="weather-stat">
-                            <span class="weather-stat-value">${lowTemp ?? '--'}${tempUnit}</span>
-                            <span class="weather-stat-label">Low</span>
-                        </div>
-                        <div class="weather-stat">
-                            <span class="weather-stat-value">${today.wind || '--'}</span>
-                            <span class="weather-stat-label">Wind</span>
-                        </div>
+                    <div class="snow-card">
+                        <div class="snow-label">24 Hour</div>
+                        <div class="snow-value">${useMetric ? snowfall['24hour_cm'] : snowfall['24hour_inches']}${useMetric ? 'cm' : '"'}</div>
+                    </div>
+                    <div class="snow-card">
+                        <div class="snow-label">7 Day</div>
+                        <div class="snow-value">${useMetric ? snowfall['7day_cm'] : snowfall['7day_inches']}${useMetric ? 'cm' : '"'}</div>
+                    </div>
+                    <div class="snow-card">
+                        <div class="snow-label">Season Total</div>
+                        <div class="snow-value">${useMetric ? snowfall.season_total_cm : snowfall.season_total_inches}${useMetric ? 'cm' : '"'}</div>
                     </div>
                 </div>
             `;
 
-            // Snowfall Widget
-            const overnight = useMetric ? snowfall.overnight_cm : snowfall.overnight_inches;
-            const h24 = useMetric ? snowfall['24hour_cm'] : snowfall['24hour_inches'];
-            const h48 = useMetric ? snowfall['48hour_cm'] : snowfall['48hour_inches'];
-            const d7 = useMetric ? snowfall['7day_cm'] : snowfall['7day_inches'];
-            const season = useMetric ? snowfall.season_total_cm : snowfall.season_total_inches;
-            const base = useMetric ? baseDepth.cm : baseDepth.inches;
+            if (data.forecast && data.forecast.locations && data.forecast.locations.length > 0) {
+                html += '<div class="forecast-section"><h2>Weather Forecast</h2><div class="forecast-grid">';
 
-            html += `
-                <div class="widget-card">
-                    <div class="widget-header">
-                        <div class="widget-title-group">
-                            <span class="widget-title">Snowfall</span>
-                            <span class="widget-subtitle">Recent accumulation</span>
-                        </div>
-                    </div>
-                    <div class="snow-stats-grid">
-                        <div class="snow-stat snow-stat-highlight">
-                            <span class="snow-stat-value">${overnight ?? 0}${snowUnit}</span>
-                            <span class="snow-stat-label">Overnight</span>
-                        </div>
-                        <div class="snow-stat">
-                            <span class="snow-stat-value">${h24 ?? 0}${snowUnit}</span>
-                            <span class="snow-stat-label">24 Hour</span>
-                        </div>
-                        <div class="snow-stat">
-                            <span class="snow-stat-value">${h48 ?? 0}${snowUnit}</span>
-                            <span class="snow-stat-label">48 Hour</span>
-                        </div>
-                        <div class="snow-stat">
-                            <span class="snow-stat-value">${d7 ?? 0}${snowUnit}</span>
-                            <span class="snow-stat-label">7 Day</span>
-                        </div>
-                    </div>
-                    <div class="weather-terrain-row">
-                        <div class="terrain-stat">
-                            <span class="terrain-stat-value">${base ?? '--'}${snowUnit}</span>
-                            <span class="terrain-stat-label">Base Depth</span>
-                        </div>
-                        <div class="terrain-stat">
-                            <span class="terrain-stat-value">${season ?? '--'}${snowUnit}</span>
-                            <span class="terrain-stat-label">Season Total</span>
-                        </div>
-                    </div>
-                </div>
-            `;
+                data.forecast.locations.forEach((location, idx) => {
+                    if (location.today) {
+                        const t = location.today;
+                        const high = useMetric ? t.high_c : t.high_f;
+                        const low = useMetric ? t.low_c : t.low_f;
+                        const unit = useMetric ? '°C' : '°F';
 
-            // 5-Day Forecast Widget
-            if (forecast?.forecast_days?.length > 0) {
-                html += `
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-title-group">
-                                <span class="widget-title">5-Day Forecast</span>
-                                <span class="widget-subtitle">What's coming next</span>
+                        html += `
+                            <div class="forecast-card">
+                                <h4>${location.name !== 'Unknown' ? location.name : `Location ${idx + 1}`}</h4>
+                                <div class="forecast-temp">${high}${unit}</div>
+                                <div class="forecast-temp-range">Low: ${low}${unit}</div>
+                                <div style="margin-top: 15px; opacity: 0.9;">${t.description || ''}</div>
+                                ${t.wind ? `<div style="margin-top: 8px; font-size: 0.9em; opacity: 0.85;">Wind: ${t.wind} ${t.wind_speed ? Math.round(t.wind_speed) + ' mph' : ''}</div>` : ''}
                             </div>
-                        </div>
-                        <div class="forecast-list">
-                `;
-
-                forecast.forecast_days.slice(0, 5).forEach((day, idx) => {
-                    const dayHigh = useMetric ? day.high_c : day.high_f;
-                    const dayLow = useMetric ? day.low_c : day.low_f;
-                    const daySnow = (day.snowfall_day_inches || 0) + (day.snowfall_night_inches || 0);
-                    const daySnowDisplay = useMetric ? Math.round(daySnow * 2.54) : daySnow;
-                    const emoji = getWeatherEmoji(day.description);
-
-                    html += `
-                        <div class="forecast-day ${idx === 0 ? 'forecast-day-today' : ''}">
-                            <div class="forecast-day-name">${idx === 0 ? 'Today' : formatShortDate(day.date)}</div>
-                            <div class="forecast-day-icon">${emoji}</div>
-                            <div class="forecast-day-desc">${escapeHtml(day.description || '')}</div>
-                            <div class="forecast-day-temps">
-                                <span class="forecast-high">${dayHigh}°</span>
-                                <span class="forecast-low">${dayLow}°</span>
-                            </div>
-                            ${daySnow > 0 ? `<div class="forecast-day-snow">❄️ ${daySnowDisplay}${snowUnit}</div>` : '<div class="forecast-day-snow"></div>'}
-                        </div>
-                    `;
+                        `;
+                    }
                 });
 
                 html += '</div></div>';
             }
 
-            html += '</div>';
+            if (data.lastUpdated) {
+                html += `<div class="last-updated">Last Updated: ${data.lastUpdated}</div>`;
+            }
+
             content.innerHTML = html;
         }
 
         async function loadData(dateStr) {
             try {
-                const url = `../${RESORT_KEY}/snow/${dateStr}.json`;
+                const url = `../${RESORT_KEY}/${DATA_PATH}/${dateStr}.json`;
+                document.getElementById('rawJsonLink').href = url;
+
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('Data not found');
 
@@ -275,14 +252,9 @@
 
                 document.getElementById('prevBtn').disabled = false;
                 document.getElementById('nextBtn').disabled = dateStr >= new Date().toISOString().split('T')[0];
-
-                // Update footer
-                if (data.lastUpdated) {
-                    document.getElementById('update-time').textContent = data.lastUpdated;
-                }
             } catch (error) {
                 document.getElementById('content').innerHTML =
-                    `<div class="error">No snow data available for ${formatDate(dateStr)}</div>`;
+                    `<div class="error">No data available for ${formatDate(dateStr)}</div>`;
             }
         }
 
@@ -291,15 +263,11 @@
             date.setDate(date.getDate() + offset);
             const newDate = date.toISOString().split('T')[0];
             loadData(newDate);
-            if (typeof hapticFeedback === 'function') {
-                hapticFeedback('light');
-            }
         }
 
         function openDatePicker() {
-            const picker = document.getElementById('datePicker');
-            picker.value = currentDate;
-            if (picker.showPicker) picker.showPicker();
+            document.getElementById('datePicker').value = currentDate;
+            document.getElementById('datePicker').showPicker?.();
         }
 
         function selectDate() {
@@ -308,7 +276,7 @@
         }
 
         // Load latest data on page load
-        fetch(`../${RESORT_KEY}/snow/latest.json`)
+        fetch(`../${RESORT_KEY}/${DATA_PATH}/latest.json`)
             .then(r => r.json())
             .then(data => {
                 currentDate = data.date;
@@ -319,26 +287,24 @@
                 loadData(today);
             });
     </script>
-    <script src="../pwa.js"></script>
-    <script src="../debug.js"></script>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav" id="bottomNav">
+    <nav class="bottom-nav">
         <a href="grooming.html" class="nav-tab">
-            <span class="nav-tab-icon">🏔️</span>
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 2048 2048"><path fill="currentColor" d="m1472 640l574 1152H0L768 256l447 897zm0 287l-185 369l47 95l111-111h203zM898 803L768 543L638 803l130 130zm-691 861h1121L958 924l-190 191l-191-191zm1263 0h369l-127-256h-213l-104 104z"/></svg></span>
             <span class="nav-tab-label">Overview</span>
         </a>
         <a href="trails.html" class="nav-tab">
-            <span class="nav-tab-icon">🥽</span>
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 400v64m0-256v64m0-224v32m160 128H102.63a16 16 0 0 1-11.32-4.69L32 144l59.31-59.31A16 16 0 0 1 102.63 80H416a16 16 0 0 1 16 16v96a16 16 0 0 1-16 16M96 400h313.37a16 16 0 0 0 11.32-4.69L480 336l-59.31-59.31a16 16 0 0 0-11.32-4.69H96a16 16 0 0 0-16 16v96a16 16 0 0 0 16 16"/></svg></span>
             <span class="nav-tab-label">Trails</span>
         </a>
-        <a href="snow.html" class="nav-tab active">
-            <span class="nav-tab-icon">❄️</span>
-            <span class="nav-tab-label">Snow</span>
-        </a>
-        <a href="lifts.html" class="nav-tab" id="liftsTab">
-            <span class="nav-tab-icon">🚡</span>
+        <a href="lifts.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 50 50"><path fill="currentColor" d="M42.599 37.17a3.457 3.457 0 0 0 2.224-4.381l-1.333.426a2.09 2.09 0 0 1-1.332 2.633L7.128 47.689L7.579 49zM10.343 16.708a3.61 3.61 0 0 0 2.461-4.479c-.562-1.911-2.582-3.004-4.51-2.447s-3.039 2.567-2.466 4.479c.562 1.912 2.577 3.005 4.515 2.447m-1.487 5.003c-1.917-3.626 3.584-6.564 5.61-3.047l3.95 7.451l7.521-2.121c1.244-.35 2.963.995 2.963 2.578l.042 10.619c.012 2.632-3.93 2.643-3.93-.021c-.012-2.47-.077-7.734-.077-7.734l-7.848 2.337c-1.718.492-3.139-.359-3.81-1.616zM21 23.394V1h-2v22.82zM5.244 26.551c-1.079-2.108 1.707-3.506 2.786-1.398l3.397 6.598a4.37 4.37 0 0 0 3.844 2.295c.517 0 1.001-.132 1.475-.23l4.28-1.244c2.269-.678 3.149 2.292.86 2.961l-4.502 1.298a7.3 7.3 0 0 1-2.147.316a7.45 7.45 0 0 1-6.634-4.008z"/></svg></span>
             <span class="nav-tab-label">Lifts</span>
+        </a>
+        <a href="snow.html" class="nav-tab active">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
+            <span class="nav-tab-label">Snow</span>
         </a>
     </nav>
 </body>

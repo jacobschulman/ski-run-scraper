@@ -2,38 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#2c5aa0" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#1a3a6e" media="(prefers-color-scheme: dark)">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="../manifest.json">
-    <link rel="apple-touch-icon" href="../icons/icon.png">
-    <link rel="icon" href="../icons/icon.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">Lift Status</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="has-bottom-nav">
-    <!-- Pull-to-refresh indicator -->
-    <div class="pull-indicator" id="pullIndicator">
-        <div class="pull-spinner"></div>
-    </div>
-
     <div class="header">
         <div class="header-content">
-            <div class="trails-header">
-                <h1 id="page-heading">Lift Status</h1>
-                <p class="trails-subtitle" id="liftCount">Loading lifts...</p>
-            </div>
+            <h1 id="page-heading">🚡 Lift Status</h1>
+            <p class="trails-subtitle" id="liftCount">Loading lifts...</p>
         </div>
     </div>
 
     <div class="container">
-        <div id="content">
-            <div class="skeleton-container">
-                <div class="skeleton skeleton-card"></div>
-                <div class="skeleton skeleton-card"></div>
+        <!-- Overview Stats -->
+        <div class="leaderboard-section" id="statsSection">
+            <div class="leaderboard-grid">
+                <!-- Total Lifts -->
+                <div class="leaderboard-card">
+                    <div class="leaderboard-title">
+                        <span class="leaderboard-icon">🚡</span>
+                        Total Lifts
+                    </div>
+                    <div class="lift-stat-large" id="totalLifts">-</div>
+                </div>
+
+                <!-- Open Lifts -->
+                <div class="leaderboard-card">
+                    <div class="leaderboard-title">
+                        <span class="leaderboard-icon">✅</span>
+                        Currently Open
+                    </div>
+                    <div class="lift-stat-large lift-stat-open" id="openLifts">-</div>
+                </div>
+
+                <!-- Closed Lifts -->
+                <div class="leaderboard-card">
+                    <div class="leaderboard-title">
+                        <span class="leaderboard-icon">⛔</span>
+                        Currently Closed
+                    </div>
+                    <div class="lift-stat-large lift-stat-closed" id="closedLifts">-</div>
+                </div>
             </div>
+        </div>
+
+        <!-- Lifts by Area -->
+        <div class="trail-list-section" id="liftListSection">
+            <div class="trail-list-header">
+                <span class="trail-list-title">Lifts by Area</span>
+                <div class="sort-controls">
+                    <div class="search-wrapper">
+                        <button class="search-btn" id="searchBtn" onclick="toggleSearch()">🔍</button>
+                        <div class="search-dropdown" id="searchDropdown">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search lifts..." oninput="filterLifts()">
+                            <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="liftsByArea"></div>
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <div class="no-results-text">No lifts match your search</div>
         </div>
     </div>
 
@@ -48,8 +83,6 @@
         const RESORT_KEY = pathParts[dataIndex + 1];
 
         let allLifts = [];
-        let currentSort = 'wait'; // 'wait', 'name', 'status'
-        let searchTerm = '';
 
         // Fetch resort config to get display name
         fetch('../index.json')
@@ -59,7 +92,7 @@
                 if (resortInfo) {
                     const resortName = resortInfo.name;
                     document.getElementById('page-title').textContent = `${resortName} Lift Status`;
-                    document.getElementById('page-heading').textContent = `${resortName} Lifts`;
+                    document.getElementById('page-heading').textContent = `🚡 ${resortName} Lifts`;
                 }
             })
             .catch(err => console.warn('Could not load resort name:', err));
@@ -69,182 +102,110 @@
             .then(r => r.json())
             .then(data => {
                 allLifts = data.lifts || [];
-                document.getElementById('liftCount').textContent = `${allLifts.length} lifts tracked`;
-                renderPage();
+
+                document.getElementById('liftCount').textContent =
+                    `${allLifts.length} lifts tracked`;
+
+                renderStats();
+                renderLiftsByArea();
                 updateFooter(data.generated);
             })
             .catch(err => {
                 console.error('Error loading lifts:', err);
-                document.getElementById('liftCount').textContent = 'No lift data available';
-                document.getElementById('content').innerHTML =
-                    '<div class="error">Lift data is not available for this resort.</div>';
+                document.getElementById('liftCount').textContent = 'Error loading lifts';
             });
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function renderStats() {
+            const openLifts = allLifts.filter(l => l.status === 'Open').length;
+            const closedLifts = allLifts.filter(l => l.status === 'Closed').length;
+
+            document.getElementById('totalLifts').textContent = allLifts.length;
+            document.getElementById('openLifts').textContent = openLifts;
+            document.getElementById('closedLifts').textContent = closedLifts;
         }
 
-        function renderPage() {
-            const content = document.getElementById('content');
-            const openLifts = allLifts.filter(l => l.status === 'Open');
-            const closedLifts = allLifts.filter(l => l.status === 'Closed');
+        function renderLiftsByArea() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
 
-            let html = '<div class="stagger-fade-in">';
-
-            // Stats Widget
-            html += `
-                <div class="widget-card">
-                    <div class="widget-header">
-                        <div class="widget-title-group">
-                            <span class="widget-title">Lift Summary</span>
-                            <span class="widget-subtitle">Current operating status</span>
-                        </div>
-                    </div>
-                    <div class="weather-stats-grid">
-                        <div class="weather-stat">
-                            <span class="weather-stat-value lift-stat-open">${openLifts.length}</span>
-                            <span class="weather-stat-label">Open</span>
-                        </div>
-                        <div class="weather-stat">
-                            <span class="weather-stat-value lift-stat-closed">${closedLifts.length}</span>
-                            <span class="weather-stat-label">Closed</span>
-                        </div>
-                        <div class="weather-stat">
-                            <span class="weather-stat-value">${allLifts.length}</span>
-                            <span class="weather-stat-label">Total</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Sort & Filter Controls
-            html += `
-                <div class="lifts-controls">
-                    <div class="sort-controls">
-                        <button class="sort-btn ${currentSort === 'wait' ? 'active' : ''}" onclick="setSort('wait')">Wait Time</button>
-                        <button class="sort-btn ${currentSort === 'name' ? 'active' : ''}" onclick="setSort('name')">A-Z</button>
-                        <button class="sort-btn ${currentSort === 'status' ? 'active' : ''}" onclick="setSort('status')">Status</button>
-                    </div>
-                    <div class="search-wrapper">
-                        <button class="search-btn" id="searchBtn" onclick="toggleSearch()">🔍</button>
-                        <div class="search-dropdown" id="searchDropdown">
-                            <input type="text" class="search-input" id="searchInput" placeholder="Search lifts..." oninput="filterLifts()">
-                            <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Get filtered and sorted lifts
+            // Filter by search
             let displayLifts = searchTerm
                 ? allLifts.filter(l => l.name.toLowerCase().includes(searchTerm))
                 : allLifts;
 
-            // Sort lifts
-            displayLifts = sortLifts(displayLifts);
+            // Show/hide no results
+            const noResults = document.getElementById('noResults');
+            const liftListSection = document.getElementById('liftListSection');
+            const statsSection = document.getElementById('statsSection');
 
             if (displayLifts.length === 0 && searchTerm) {
-                html += `
-                    <div class="no-results">
-                        <div class="no-results-icon">🔍</div>
-                        <div class="no-results-text">No lifts match your search</div>
+                noResults.style.display = 'block';
+                liftListSection.style.display = 'none';
+                statsSection.style.display = 'none';
+                return;
+            } else {
+                noResults.style.display = 'none';
+                liftListSection.style.display = 'block';
+                statsSection.style.display = searchTerm ? 'none' : 'block';
+            }
+
+            // Group by mountain area
+            const byArea = {};
+            displayLifts.forEach(lift => {
+                const area = lift.mountain || 'Unknown';
+                if (!byArea[area]) {
+                    byArea[area] = [];
+                }
+                byArea[area].push(lift);
+            });
+
+            // Render each area
+            const container = document.getElementById('liftsByArea');
+            const areas = Object.keys(byArea).sort();
+
+            if (areas.length === 0) {
+                container.innerHTML = '<div class="loading">No lifts available</div>';
+                return;
+            }
+
+            container.innerHTML = areas.map(area => {
+                const lifts = byArea[area];
+                return `
+                    <div class="lift-area-section">
+                        <h3 class="lift-area-title">${area}</h3>
+                        <div class="lifts-grid">
+                            ${lifts.map(lift => renderLiftCard(lift)).join('')}
+                        </div>
                     </div>
                 `;
-            } else {
-                // All Lifts List
-                html += `
-                    <div class="widget-card">
-                        <div class="widget-header">
-                            <div class="widget-title-group">
-                                <span class="widget-title">All Lifts</span>
-                                <span class="widget-subtitle">${displayLifts.length} lift${displayLifts.length !== 1 ? 's' : ''}</span>
-                            </div>
-                        </div>
-                        <ul class="lift-list">
-                `;
-
-                displayLifts.forEach(lift => {
-                    const isOpen = lift.status === 'Open';
-                    const statusClass = lift.status.toLowerCase();
-                    const waitMinutes = lift.waitMinutes;
-                    const hasWaitData = waitMinutes !== null && waitMinutes !== undefined && isOpen;
-                    const liftUrl = lift.slug ? `lift.html?name=${encodeURIComponent(lift.slug)}` : '#';
-
-                    let detailsHtml = '';
-                    if (hasWaitData) {
-                        detailsHtml = `<span class="lift-details">${waitMinutes} min wait</span>`;
-                    } else if (isOpen && lift.closeTime) {
-                        detailsHtml = `<span class="lift-details">Closes at ${lift.closeTime}</span>`;
-                    } else if (!isOpen) {
-                        detailsHtml = `<span class="lift-details">${formatLiftType(lift.type)}</span>`;
-                    }
-
-                    html += `
-                        <li class="lift-item">
-                            <a href="${liftUrl}" class="lift-item-link">
-                                <span class="lift-status-dot ${statusClass}"></span>
-                                <div class="lift-info">
-                                    <span class="lift-name">${escapeHtml(lift.name)}</span>
-                                    ${detailsHtml}
-                                </div>
-                                ${hasWaitData
-                                    ? `<span class="lift-wait-badge">${waitMinutes} min</span>`
-                                    : `<span class="lift-badge ${statusClass}">${lift.status}</span>`
-                                }
-                            </a>
-                        </li>
-                    `;
-                });
-
-                html += '</ul></div>';
-            }
-
-            html += '</div>';
-            content.innerHTML = html;
+            }).join('');
         }
 
-        function sortLifts(lifts) {
-            const sorted = [...lifts];
+        function renderLiftCard(lift) {
+            const isOpen = lift.status === 'Open';
+            const statusClass = isOpen ? 'lift-open' : 'lift-closed';
+            const statusIcon = isOpen ? '✅' : '⛔';
+            const waitDisplay = lift.waitMinutes !== null && isOpen
+                ? `${lift.waitMinutes} min wait`
+                : (isOpen ? 'No wait data' : '');
 
-            switch (currentSort) {
-                case 'wait':
-                    // Open lifts first, sorted by wait time (longest first), then closed
-                    sorted.sort((a, b) => {
-                        if (a.status === 'Open' && b.status !== 'Open') return -1;
-                        if (a.status !== 'Open' && b.status === 'Open') return 1;
-                        if (a.status === 'Open' && b.status === 'Open') {
-                            return (b.waitMinutes || 0) - (a.waitMinutes || 0);
-                        }
-                        return a.name.localeCompare(b.name);
-                    });
-                    break;
-                case 'name':
-                    sorted.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'status':
-                    // Open first, then closed, alphabetically within each
-                    sorted.sort((a, b) => {
-                        if (a.status === 'Open' && b.status !== 'Open') return -1;
-                        if (a.status !== 'Open' && b.status === 'Open') return 1;
-                        return a.name.localeCompare(b.name);
-                    });
-                    break;
-            }
-
-            return sorted;
+            return `
+                <a href="lift.html?name=${encodeURIComponent(lift.slug)}" class="lift-card ${statusClass}">
+                    <div class="lift-card-header">
+                        <span class="lift-status-icon">${statusIcon}</span>
+                        <div class="lift-card-name">${lift.name}</div>
+                    </div>
+                    <div class="lift-card-details">
+                        <div class="lift-card-type">${formatLiftType(lift.type, lift.capacity)}</div>
+                        ${waitDisplay ? `<div class="lift-card-wait">${waitDisplay}</div>` : ''}
+                        ${lift.openTime && lift.closeTime ? `
+                            <div class="lift-card-hours">${lift.openTime} - ${lift.closeTime}</div>
+                        ` : ''}
+                    </div>
+                </a>
+            `;
         }
 
-        function setSort(sort) {
-            currentSort = sort;
-            renderPage();
-            if (typeof hapticFeedback === 'function') {
-                hapticFeedback('light');
-            }
-        }
-
-        function formatLiftType(type) {
+        function formatLiftType(type, capacity) {
             const typeMap = {
                 'gondola': 'Gondola',
                 'quad': 'Quad Chair',
@@ -252,7 +213,8 @@
                 'double': 'Double Chair',
                 'triple': 'Triple Chair'
             };
-            return typeMap[type] || type || 'Lift';
+            const typeName = typeMap[type] || type;
+            return capacity ? `${typeName} (${capacity})` : typeName;
         }
 
         function toggleSearch() {
@@ -271,16 +233,14 @@
         }
 
         function filterLifts() {
-            searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            renderPage();
+            renderLiftsByArea();
         }
 
         function clearSearch() {
             document.getElementById('searchInput').value = '';
-            searchTerm = '';
             document.getElementById('searchDropdown').classList.remove('show');
             document.getElementById('searchBtn').classList.remove('active');
-            renderPage();
+            renderLiftsByArea();
         }
 
         function updateFooter(generated) {
@@ -294,31 +254,131 @@
         document.addEventListener('click', function(e) {
             const wrapper = document.querySelector('.search-wrapper');
             if (wrapper && !wrapper.contains(e.target)) {
-                document.getElementById('searchDropdown')?.classList.remove('show');
-                document.getElementById('searchBtn')?.classList.remove('active');
+                document.getElementById('searchDropdown').classList.remove('show');
+                document.getElementById('searchBtn').classList.remove('active');
             }
         });
     </script>
-    <script src="../pwa.js"></script>
-    <script src="../debug.js"></script>
+
+    <style>
+        .lift-stat-large {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem 0;
+            color: var(--primary);
+        }
+
+        .lift-stat-open {
+            color: #22c55e;
+        }
+
+        .lift-stat-closed {
+            color: #ef4444;
+        }
+
+        .lift-area-section {
+            margin-bottom: 2rem;
+        }
+
+        .lift-area-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .lifts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .lift-card {
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            display: block;
+        }
+
+        .lift-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .lift-card.lift-open {
+            border-left: 4px solid #22c55e;
+        }
+
+        .lift-card.lift-closed {
+            border-left: 4px solid #ef4444;
+            opacity: 0.7;
+        }
+
+        .lift-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .lift-status-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .lift-card-name {
+            font-weight: 600;
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        .lift-card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .lift-card-type {
+            font-weight: 500;
+        }
+
+        .lift-card-wait {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .lift-card-hours {
+            font-size: 0.8rem;
+        }
+    </style>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav" id="bottomNav">
+    <nav class="bottom-nav">
         <a href="grooming.html" class="nav-tab">
-            <span class="nav-tab-icon">🏔️</span>
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 2048 2048"><path fill="currentColor" d="m1472 640l574 1152H0L768 256l447 897zm0 287l-185 369l47 95l111-111h203zM898 803L768 543L638 803l130 130zm-691 861h1121L958 924l-190 191l-191-191zm1263 0h369l-127-256h-213l-104 104z"/></svg></span>
             <span class="nav-tab-label">Overview</span>
         </a>
         <a href="trails.html" class="nav-tab">
-            <span class="nav-tab-icon">🥽</span>
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 400v64m0-256v64m0-224v32m160 128H102.63a16 16 0 0 1-11.32-4.69L32 144l59.31-59.31A16 16 0 0 1 102.63 80H416a16 16 0 0 1 16 16v96a16 16 0 0 1-16 16M96 400h313.37a16 16 0 0 0 11.32-4.69L480 336l-59.31-59.31a16 16 0 0 0-11.32-4.69H96a16 16 0 0 0-16 16v96a16 16 0 0 0 16 16"/></svg></span>
             <span class="nav-tab-label">Trails</span>
         </a>
-        <a href="snow.html" class="nav-tab">
-            <span class="nav-tab-icon">❄️</span>
-            <span class="nav-tab-label">Snow</span>
-        </a>
-        <a href="lifts.html" class="nav-tab active" id="liftsTab">
-            <span class="nav-tab-icon">🚡</span>
+        <a href="lifts.html" class="nav-tab active">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 50 50"><path fill="currentColor" d="M42.599 37.17a3.457 3.457 0 0 0 2.224-4.381l-1.333.426a2.09 2.09 0 0 1-1.332 2.633L7.128 47.689L7.579 49zM10.343 16.708a3.61 3.61 0 0 0 2.461-4.479c-.562-1.911-2.582-3.004-4.51-2.447s-3.039 2.567-2.466 4.479c.562 1.912 2.577 3.005 4.515 2.447m-1.487 5.003c-1.917-3.626 3.584-6.564 5.61-3.047l3.95 7.451l7.521-2.121c1.244-.35 2.963.995 2.963 2.578l.042 10.619c.012 2.632-3.93 2.643-3.93-.021c-.012-2.47-.077-7.734-.077-7.734l-7.848 2.337c-1.718.492-3.139-.359-3.81-1.616zM21 23.394V1h-2v22.82zM5.244 26.551c-1.079-2.108 1.707-3.506 2.786-1.398l3.397 6.598a4.37 4.37 0 0 0 3.844 2.295c.517 0 1.001-.132 1.475-.23l4.28-1.244c2.269-.678 3.149 2.292.86 2.961l-4.502 1.298a7.3 7.3 0 0 1-2.147.316a7.45 7.45 0 0 1-6.634-4.008z"/></svg></span>
             <span class="nav-tab-label">Lifts</span>
+        </a>
+        <a href="snow.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
+            <span class="nav-tab-label">Snow</span>
         </a>
     </nav>
 </body>
