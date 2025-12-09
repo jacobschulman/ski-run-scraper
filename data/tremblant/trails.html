@@ -3,312 +3,517 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Trail Leaderboard</title>
+    <title id="page-title">Trails - Groomd</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-primary: #1c1c1e;
+            --text-secondary: #8e8e93;
+            --accent: #007aff;
+            --green: #34c759;
+            --red: #ff3b30;
+        }
+        body {
+            background: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        }
+        .app-header {
+            background: var(--card-bg);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e5ea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .resort-picker {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            border: none;
+        }
+        .resort-picker svg {
+            width: 12px;
+            height: 12px;
+            color: var(--text-secondary);
+        }
+        .date-picker-btn {
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            border: none;
+        }
+        /* Toggle Tabs */
+        .toggle-tabs {
+            display: flex;
+            padding: 8px 16px;
+            gap: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid #e5e5ea;
+        }
+        .toggle-tab {
+            flex: 1;
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-tab:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+        .toggle-tab:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+        .toggle-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+        /* Sort Controls */
+        .sort-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 12px 16px 8px;
+            gap: 8px;
+        }
+        .sort-btn {
+            padding: 6px 12px;
+            background: var(--bg-color);
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .sort-btn.active {
+            background: var(--text-primary);
+            color: white;
+        }
+        .container {
+            padding: 0 0 100px;
+        }
+        /* Section Title */
+        .section-title {
+            padding: 16px 16px 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        /* Area Group */
+        .area-group {
+            background: var(--card-bg);
+            margin: 0 0 16px;
+        }
+        .area-header {
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--bg-color);
+        }
+        .area-count {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        /* Trail Item */
+        .trail-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--bg-color);
+            text-decoration: none;
+            color: inherit;
+        }
+        .trail-item:last-child {
+            border-bottom: none;
+        }
+        .trail-difficulty {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .trail-difficulty.green {
+            width: 16px;
+            height: 16px;
+            background: #34c759;
+            border-radius: 50%;
+        }
+        .trail-difficulty.blue {
+            width: 16px;
+            height: 16px;
+            background: #007aff;
+            border-radius: 3px;
+        }
+        .trail-difficulty.black {
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 16px solid #1c1c1e;
+            background: none;
+        }
+        .trail-difficulty.double-black {
+            position: relative;
+            width: 20px;
+            height: 16px;
+        }
+        .trail-difficulty.double-black::before,
+        .trail-difficulty.double-black::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 12px solid #1c1c1e;
+        }
+        .trail-difficulty.double-black::before {
+            left: 0;
+        }
+        .trail-difficulty.double-black::after {
+            right: 0;
+        }
+        .trail-name {
+            flex: 1;
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+        .trail-badges {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .badge {
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .badge.groomed {
+            background: var(--green);
+            color: white;
+        }
+        .badge.new {
+            background: var(--accent);
+            color: white;
+        }
+        /* Empty State */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .empty-state-text {
+            font-size: 17px;
+        }
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 200;
+            align-items: flex-end;
+        }
+        .modal-overlay.show { display: flex; }
+        .resort-modal {
+            background: var(--card-bg);
+            border-radius: 12px 12px 0 0;
+            width: 100%;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+        }
+        .modal-title { font-size: 17px; font-weight: 600; }
+        .modal-close {
+            color: var(--accent);
+            font-size: 17px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .resort-option {
+            display: block;
+            padding: 14px 16px;
+            font-size: 17px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .resort-option.current {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        #datePicker {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body class="has-bottom-nav">
-    <div class="header">
-        <div class="header-content">
-            <h1 id="page-heading">🥽 Trail Leaderboard</h1>
-            <p class="trails-subtitle" id="trailCount">Loading trails...</p>
+    <header class="app-header">
+        <div class="header-controls">
+            <button class="resort-picker" onclick="openResortPicker()">
+                <span id="resortName">Loading...</span>
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 5l3 3 3-3"/>
+                </svg>
+            </button>
         </div>
+        <button class="date-picker-btn" onclick="openDatePicker()">
+            <span id="dateDisplay">Today</span>
+        </button>
+    </header>
+    <input type="date" id="datePicker" onchange="selectDate()">
+
+    <!-- Toggle Tabs -->
+    <div class="toggle-tabs">
+        <button class="toggle-tab active" id="groomedTab" onclick="showGroomed()">Groomed</button>
+        <button class="toggle-tab" id="allTab" onclick="showAll()">All</button>
     </div>
 
     <div class="container">
-        <!-- Leaderboards -->
-        <div class="leaderboard-section" id="leaderboardSection">
-            <div class="leaderboard-grid">
-                <!-- Most Groomed -->
-                <div class="leaderboard-card">
-                    <div class="leaderboard-title">
-                        <span class="leaderboard-icon">🏆</span>
-                        Most Groomed
-                    </div>
-                    <ul class="leaderboard-list" id="mostGroomedList">
-                        <li class="leaderboard-empty">Loading...</li>
-                    </ul>
-                </div>
+        <div class="section-title" id="sectionTitle">Groomed Trails (0)</div>
 
-                <!-- Longest Streak -->
-                <div class="leaderboard-card">
-                    <div class="leaderboard-title">
-                        <span class="leaderboard-icon">🔥</span>
-                        Longest Streak
-                    </div>
-                    <ul class="leaderboard-list" id="longestStreakList">
-                        <li class="leaderboard-empty">Loading...</li>
-                    </ul>
-                </div>
-            </div>
+        <div class="sort-row" id="sortRow">
+            <button class="sort-btn" id="sortArea" onclick="sortBy('area')">Sort: Area</button>
         </div>
 
-        <!-- Full Trail List -->
-        <div class="trail-list-section" id="trailListSection">
-            <div class="trail-list-header">
-                <span class="trail-list-title">All Trails</span>
-                <div class="sort-controls">
-                    <button class="sort-btn active" id="sortMost" onclick="sortTrails('most')">Most</button>
-                    <button class="sort-btn" id="sortLeast" onclick="sortTrails('least')">Least</button>
-                    <button class="sort-btn" id="sortName" onclick="sortTrails('name')">A-Z</button>
-                    <div class="search-wrapper">
-                        <button class="search-btn" id="searchBtn" onclick="toggleSearch()">🔍</button>
-                        <div class="search-dropdown" id="searchDropdown">
-                            <input type="text" class="search-input" id="searchInput" placeholder="Search trails..." oninput="filterTrails()">
-                            <button class="search-clear" id="searchClear" onclick="clearSearch()">×</button>
-                        </div>
-                    </div>
-                </div>
+        <div id="trailsContainer">
+            <div class="empty-state">
+                <div class="empty-state-icon">Loading...</div>
             </div>
-
-            <table class="trails-table">
-                <thead>
-                    <tr>
-                        <th>Trail</th>
-                        <th>Groomed</th>
-                        <th class="hide-mobile">Streak</th>
-                    </tr>
-                </thead>
-                <tbody id="trailsTableBody">
-                    <tr>
-                        <td colspan="3" class="loading">Loading trails...</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Not Yet Groomed Section -->
-            <div class="not-groomed-section" id="notGroomedSection" style="display: none;">
-                <div class="not-groomed-title">Not Yet Groomed This Season</div>
-                <div class="not-groomed-list" id="notGroomedList"></div>
-            </div>
-        </div>
-
-        <!-- No Results -->
-        <div class="no-results" id="noResults" style="display: none;">
-            <div class="no-results-icon">🔍</div>
-            <div class="no-results-text">No trails match your search</div>
         </div>
     </div>
 
-    <div class="footer">
-        <p id="update-time">Data updated daily</p>
+    <!-- Resort Picker Modal -->
+    <div class="modal-overlay" id="resortModal">
+        <div class="resort-modal">
+            <div class="modal-header">
+                <span class="modal-title">Select Resort</span>
+                <button class="modal-close" onclick="closeResortPicker()">Done</button>
+            </div>
+            <div id="resortList"></div>
+        </div>
     </div>
 
     <script>
-        // Auto-detect resort key from URL path
         const pathParts = window.location.pathname.split('/');
         const dataIndex = pathParts.findIndex(part => part === 'data');
         const RESORT_KEY = pathParts[dataIndex + 1];
 
         let allTrails = [];
-        let filteredTrails = [];
-        let currentSort = 'most';
+        let showingGroomed = true;
+        let currentDate = new Date().toISOString().split('T')[0];
 
-        // Fetch resort config to get display name
+        // Load resort info
         fetch('../index.json')
             .then(r => r.json())
             .then(index => {
                 const resortInfo = index.resorts[RESORT_KEY];
                 if (resortInfo) {
-                    const resortName = resortInfo.name;
-                    document.getElementById('page-title').textContent = `${resortName} Trail Leaderboard`;
-                    document.getElementById('page-heading').textContent = `🥽 ${resortName} Trails`;
+                    document.getElementById('resortName').textContent = resortInfo.name;
+                    document.getElementById('page-title').textContent = `${resortInfo.name} Trails - Groomd`;
                 }
-            })
-            .catch(err => console.warn('Could not load resort name:', err));
+                // Populate resort list
+                document.getElementById('resortList').innerHTML = Object.entries(index.resorts)
+                    .map(([key, info]) => `
+                        <a href="../${key}/trails.html" class="resort-option ${key === RESORT_KEY ? 'current' : ''}">
+                            ${info.name}
+                        </a>
+                    `).join('');
+            });
 
         // Load trail data
         fetch(`trails/index.json`)
             .then(r => r.json())
             .then(data => {
                 allTrails = data.trails || [];
-                filteredTrails = [...allTrails];
-
-                document.getElementById('trailCount').textContent =
-                    `${allTrails.length} trails tracked this season`;
-
-                renderLeaderboards();
-                renderTrailList();
+                if (data.date) currentDate = data.date;
+                updateDateDisplay();
+                renderTrails();
             })
-            .catch(err => {
-                console.error('Error loading trails:', err);
-                document.getElementById('trailCount').textContent = 'Error loading trails';
+            .catch(() => {
+                document.getElementById('trailsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">No data</div>
+                        <div class="empty-state-text">Trail data unavailable</div>
+                    </div>
+                `;
             });
 
-        function renderLeaderboards() {
-            // Filter trails that have been groomed at least once
-            const groomedTrails = allTrails.filter(t => t.groomingPercentage > 0);
+        function renderTrails() {
+            const container = document.getElementById('trailsContainer');
+            let trails = showingGroomed
+                ? allTrails.filter(t => t.groomedToday)
+                : allTrails;
 
-            // Most Groomed (top 5 by percentage)
-            const mostGroomed = [...groomedTrails]
-                .sort((a, b) => b.groomingPercentage - a.groomingPercentage)
-                .slice(0, 5);
-
-            renderLeaderboardList('mostGroomedList', mostGroomed, t => `${t.groomingPercentage}%`);
-
-            // Longest Streak (top 5 by current streak)
-            const longestStreak = [...groomedTrails]
-                .filter(t => t.currentStreak > 0)
-                .sort((a, b) => b.currentStreak - a.currentStreak)
-                .slice(0, 5);
-
-            renderLeaderboardList('longestStreakList', longestStreak, t =>
-                `${t.currentStreak} day${t.currentStreak !== 1 ? 's' : ''}`
-            );
-
-            // Hide leaderboard section if no data
-            if (groomedTrails.length === 0) {
-                document.getElementById('leaderboardSection').style.display = 'none';
-            }
-        }
-
-        function renderLeaderboardList(elementId, trails, statFn) {
-            const list = document.getElementById(elementId);
+            // Update title
+            const title = showingGroomed
+                ? `Groomed Trails (${trails.length})`
+                : `All Trails (${trails.length})`;
+            document.getElementById('sectionTitle').textContent = title;
 
             if (trails.length === 0) {
-                list.innerHTML = '<li class="leaderboard-empty">No data yet</li>';
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${showingGroomed ? '\\u2744\\ufe0f' : '\\ud83c\\udfbf'}</div>
+                        <div class="empty-state-text">${showingGroomed ? 'No trails groomed today yet' : 'No trail data available'}</div>
+                    </div>
+                `;
                 return;
             }
 
-            list.innerHTML = trails.map((trail, i) => {
-                const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
-                return `
-                    <li class="leaderboard-item">
-                        <span class="leaderboard-rank ${rankClass}">${i + 1}</span>
-                        <div class="leaderboard-trail">
-                            <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="leaderboard-trail-name" title="${trail.name}">
-                                ${trail.name}
-                            </a>
+            // Group by mountain/area
+            const byArea = {};
+            trails.forEach(trail => {
+                const area = trail.mountain || trail.area || 'Main Mountain';
+                if (!byArea[area]) byArea[area] = [];
+                byArea[area].push(trail);
+            });
+
+            // Sort trails within each area by name
+            Object.values(byArea).forEach(areaTrails => {
+                areaTrails.sort((a, b) => a.name.localeCompare(b.name));
+            });
+
+            container.innerHTML = Object.entries(byArea)
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .map(([area, areaTrails]) => `
+                    <div class="area-group">
+                        <div class="area-header">
+                            ${area}
+                            <span class="area-count">${areaTrails.length} trails</span>
                         </div>
-                        <span class="leaderboard-stat">${statFn(trail)}</span>
-                    </li>
-                `;
-            }).join('');
-        }
-
-        function renderTrailList() {
-            const tbody = document.getElementById('trailsTableBody');
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-
-            // Filter by search
-            let displayTrails = searchTerm
-                ? filteredTrails.filter(t => t.name.toLowerCase().includes(searchTerm))
-                : filteredTrails;
-
-            // Separate groomed and not groomed
-            const groomedTrails = displayTrails.filter(t => t.groomingPercentage > 0);
-            const notGroomedTrails = displayTrails.filter(t => t.groomingPercentage === 0);
-
-            // Show/hide no results
-            const noResults = document.getElementById('noResults');
-            const trailListSection = document.getElementById('trailListSection');
-            const leaderboardSection = document.getElementById('leaderboardSection');
-
-            if (displayTrails.length === 0 && searchTerm) {
-                noResults.style.display = 'block';
-                trailListSection.style.display = 'none';
-                leaderboardSection.style.display = 'none';
-                return;
-            } else {
-                noResults.style.display = 'none';
-                trailListSection.style.display = 'block';
-                leaderboardSection.style.display = searchTerm ? 'none' : 'block';
-            }
-
-            // Render main table (groomed trails only, or all if searching)
-            const tableTrails = searchTerm ? displayTrails : groomedTrails;
-
-            if (tableTrails.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; padding: 20px; color: var(--text-secondary);">
-                            No groomed trails yet this season
-                        </td>
-                    </tr>
-                `;
-            } else {
-                tbody.innerHTML = tableTrails.map(trail => `
-                    <tr>
-                        <td>
-                            <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="trail-table-name">
-                                ${trail.name}
-                            </a>
-                        </td>
-                        <td class="trail-table-stat">${trail.groomingPercentage}%</td>
-                        <td class="trail-table-secondary hide-mobile">
-                            ${trail.currentStreak > 0 ? `${trail.currentStreak} days` : '—'}
-                        </td>
-                    </tr>
+                        ${areaTrails.map(trail => renderTrailItem(trail)).join('')}
+                    </div>
                 `).join('');
-            }
+        }
 
-            // Render not groomed section
-            const notGroomedSection = document.getElementById('notGroomedSection');
-            const notGroomedList = document.getElementById('notGroomedList');
+        function renderTrailItem(trail) {
+            const diffClass = getDifficultyClass(trail.difficulty);
+            const isNew = trail.groomedToday && trail.currentStreak === 1;
 
-            if (notGroomedTrails.length > 0 && !searchTerm) {
-                notGroomedSection.style.display = 'block';
-                notGroomedList.innerHTML = notGroomedTrails.map(trail => `
-                    <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="not-groomed-item">
-                        ${trail.name}
-                    </a>
-                `).join('');
+            return `
+                <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="trail-item">
+                    <div class="trail-difficulty ${diffClass}"></div>
+                    <span class="trail-name">${trail.name}</span>
+                    <div class="trail-badges">
+                        ${trail.groomedToday ? '<span class="badge groomed">Groomed</span>' : ''}
+                        ${isNew ? '<span class="badge new">NEW</span>' : ''}
+                    </div>
+                </a>
+            `;
+        }
+
+        function getDifficultyClass(difficulty) {
+            if (!difficulty) return 'green';
+            const d = difficulty.toLowerCase();
+            if (d.includes('double') || d.includes('expert') || d.includes('extreme')) return 'double-black';
+            if (d.includes('black') || d.includes('diamond') || d.includes('advanced')) return 'black';
+            if (d.includes('blue') || d.includes('intermediate') || d.includes('more difficult')) return 'blue';
+            return 'green';
+        }
+
+        function showGroomed() {
+            showingGroomed = true;
+            document.getElementById('groomedTab').classList.add('active');
+            document.getElementById('allTab').classList.remove('active');
+            renderTrails();
+        }
+
+        function showAll() {
+            showingGroomed = false;
+            document.getElementById('allTab').classList.add('active');
+            document.getElementById('groomedTab').classList.remove('active');
+            renderTrails();
+        }
+
+        function sortBy(type) {
+            // Could add more sort options later
+            renderTrails();
+        }
+
+        function updateDateDisplay() {
+            const today = new Date().toISOString().split('T')[0];
+            if (currentDate === today) {
+                document.getElementById('dateDisplay').textContent = 'Today';
             } else {
-                notGroomedSection.style.display = 'none';
+                const d = new Date(currentDate + 'T12:00:00');
+                document.getElementById('dateDisplay').textContent = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
             }
         }
 
-        function sortTrails(sortType) {
-            currentSort = sortType;
-
-            // Update button states
-            document.querySelectorAll('.sort-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`sort${sortType.charAt(0).toUpperCase() + sortType.slice(1)}`).classList.add('active');
-
-            // Sort trails
-            if (sortType === 'most') {
-                filteredTrails.sort((a, b) => b.groomingPercentage - a.groomingPercentage);
-            } else if (sortType === 'least') {
-                filteredTrails.sort((a, b) => a.groomingPercentage - b.groomingPercentage);
-            } else if (sortType === 'name') {
-                filteredTrails.sort((a, b) => a.name.localeCompare(b.name));
-            }
-
-            renderTrailList();
+        function openDatePicker() {
+            const picker = document.getElementById('datePicker');
+            picker.value = currentDate;
+            picker.showPicker?.();
         }
 
-        function toggleSearch() {
-            const dropdown = document.getElementById('searchDropdown');
-            const btn = document.getElementById('searchBtn');
-            const input = document.getElementById('searchInput');
-
-            if (dropdown.classList.contains('show')) {
-                dropdown.classList.remove('show');
-                btn.classList.remove('active');
-            } else {
-                dropdown.classList.add('show');
-                btn.classList.add('active');
-                input.focus();
-            }
+        function selectDate() {
+            currentDate = document.getElementById('datePicker').value;
+            updateDateDisplay();
+            location.reload();
         }
 
-        function filterTrails() {
-            renderTrailList();
+        function openResortPicker() {
+            document.getElementById('resortModal').classList.add('show');
         }
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchDropdown').classList.remove('show');
-            document.getElementById('searchBtn').classList.remove('active');
-            renderTrailList();
+        function closeResortPicker() {
+            document.getElementById('resortModal').classList.remove('show');
         }
 
-        // Close search on click outside
-        document.addEventListener('click', function(e) {
-            const wrapper = document.querySelector('.search-wrapper');
-            if (wrapper && !wrapper.contains(e.target)) {
-                document.getElementById('searchDropdown').classList.remove('show');
-                document.getElementById('searchBtn').classList.remove('active');
-            }
+        document.getElementById('resortModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resortModal') closeResortPicker();
         });
     </script>
 
