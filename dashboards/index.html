@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ski Conditions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f2f2f7;
+      --card-bg: #ffffff;
+      --text: #1c1c1e;
+      --text-secondary: #8e8e93;
+      --accent: #007aff;
+      --green: #34c759;
+      --blue: #007aff;
+      --red: #ff3b30;
+      --orange: #ff9500;
+      --border: rgba(0, 0, 0, 0.08);
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .resort-picker {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .resort-picker:hover {
+      background: #e5e5ea;
+    }
+
+    .resort-picker svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-secondary);
+    }
+
+    .date-display {
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* Page content */
+    .page {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 12px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .see-all {
+      font-size: 0.9rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .see-all:hover {
+      text-decoration: underline;
+    }
+
+    /* Morning Brief Card */
+    .brief-card {
+      background: linear-gradient(180deg, #e8f4fd 0%, #f0f8ff 100%);
+      padding: 20px;
+      position: relative;
+    }
+
+    .brief-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .brief-date {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .brief-headline {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .brief-body {
+      font-size: 0.95rem;
+      color: #3c3c43;
+      line-height: 1.5;
+    }
+
+    .brief-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.08);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+    }
+
+    /* Weather Conditions */
+    .weather-content {
+      padding: 0 16px 16px;
+    }
+
+    .weather-condition {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .weather-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .weather-stat {
+      padding: 12px 8px;
+      background: var(--bg);
+      border-radius: 12px;
+    }
+
+    .weather-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .weather-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    /* Lift Status */
+    .lift-list {
+      padding: 0 16px 16px;
+    }
+
+    .lift-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lift-item:last-child {
+      border-bottom: none;
+    }
+
+    .lift-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lift-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .lift-status-dot.open { background: var(--green); }
+    .lift-status-dot.closed { background: var(--red); }
+    .lift-status-dot.scheduled { background: var(--red); }
+    .lift-status-dot.hold { background: var(--orange); }
+
+    .lift-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .lift-time {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .lift-badge {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .lift-badge.scheduled {
+      background: #8e8e93;
+      color: white;
+    }
+
+    .lift-badge.open {
+      background: var(--green);
+      color: white;
+    }
+
+    .lift-badge.wait {
+      background: var(--orange);
+      color: white;
+    }
+
+    /* Groomed Highlights */
+    .groomed-list {
+      padding: 0 16px 16px;
+    }
+
+    .groomed-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .groomed-item:last-child {
+      border-bottom: none;
+    }
+
+    .trail-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .difficulty-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .difficulty-dot.green { background: #34c759; }
+    .difficulty-dot.blue { background: #007aff; }
+    .difficulty-dot.black { background: #1c1c1e; }
+    .difficulty-dot.double { background: #1c1c1e; border: 2px solid #1c1c1e; }
+
+    .trail-name {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .trail-area {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .trail-badges {
+      display: flex;
+      gap: 6px;
+    }
+
+    .trail-badge {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .trail-badge.groomed {
+      background: var(--green);
+      color: white;
+    }
+
+    .trail-badge.new {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 24px;
+      z-index: 100;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      border-radius: 12px;
+      transition: all 0.15s;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: rgba(0, 122, 255, 0.1);
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-item span {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* Resort Picker Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 200;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 500px;
+      max-height: 70vh;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .modal-done {
+      color: var(--accent);
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    .resort-list {
+      overflow-y: auto;
+      max-height: calc(70vh - 60px);
+    }
+
+    .resort-option {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.15s;
+    }
+
+    .resort-option:hover {
+      background: var(--bg);
+    }
+
+    .resort-option.selected {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <button class="resort-picker" id="resort-picker" onclick="openResortModal()">
+      <span id="current-resort-name">Loading...</span>
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 4.5L6 7.5L9 4.5"/>
+      </svg>
+    </button>
+    <div class="date-display" id="date-display"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="page">
+    <!-- Morning Brief -->
+    <div class="card" id="brief-card">
+      <div class="brief-card">
+        <div class="brief-label">MORNING BRIEF</div>
+        <div class="brief-date" id="brief-date"></div>
+        <h1 class="brief-headline" id="brief-headline">Loading...</h1>
+        <p class="brief-body" id="brief-body"></p>
+      </div>
+    </div>
+
+    <!-- Weather Conditions -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Weather Conditions</div>
+          <div class="card-subtitle" id="weather-updated">Last updated</div>
+        </div>
+        <a href="terrain-dashboard.html" class="see-all">See all &rarr;</a>
+      </div>
+      <div class="weather-content">
+        <div class="weather-condition" id="weather-condition">--</div>
+        <div class="weather-stats">
+          <div class="weather-stat">
+            <div class="weather-stat-value" id="temp-now">--</div>
+            <div class="weather-stat-label">Now</div>
+          </div>
+          <div class="weather-stat">
+            <div class="weather-stat-value" id="temp-range">--</div>
+            <div class="weather-stat-label">Lo/Hi</div>
+          </div>
+          <div class="weather-stat">
+            <div class="weather-stat-value" id="snow-24h">--</div>
+            <div class="weather-stat-label">24hr</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lift Status -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Lift Status</div>
+          <div class="card-subtitle" id="lift-subtitle">-- open</div>
+        </div>
+        <a href="live-lifts.html" class="see-all" id="lift-see-all">See all &rarr;</a>
+      </div>
+      <div class="lift-list" id="lift-list">
+        <div class="loading">Loading lift status...</div>
+      </div>
+    </div>
+
+    <!-- Groomed Highlights -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Groomed Highlights</div>
+          <div class="card-subtitle" id="groomed-subtitle">-- runs groomed today</div>
+        </div>
+        <a href="terrain-dashboard.html" class="see-all" id="groomed-see-all">See all &rarr;</a>
+      </div>
+      <div class="groomed-list" id="groomed-list">
+        <div class="loading">Loading groomed trails...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12L12 3l9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001 1h4a1 1 0 001-1v-5a1 1 0 00-1-1h-4a1 1 0 00-1 1v5z"/>
+      </svg>
+      <span>Overview</span>
+    </a>
+    <a href="terrain-dashboard.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19h16M4 15l4-6 4 4 4-6 4 8"/>
+      </svg>
+      <span>Trails</span>
+    </a>
+    <a href="live-lifts.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="5" r="2"/>
+        <path d="M12 7v10m-4-8l4-2 4 2M8 17v2m8-2v2"/>
+      </svg>
+      <span>Lifts</span>
+    </a>
+    <a href="#" class="nav-item" id="snow-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+      </svg>
+      <span>Snow</span>
+    </a>
+  </nav>
+
+  <!-- Resort Picker Modal -->
+  <div class="modal-overlay" id="resort-modal" onclick="closeResortModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">Select Resort</div>
+        <button class="modal-done" onclick="closeResortModal()">Done</button>
+      </div>
+      <div class="resort-list" id="resort-list"></div>
+    </div>
+  </div>
+
+  <script>
+    const dataFolder = '../data';
+    let resorts = [];
+    let currentResort = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    // Format date like "Tue, Dec 9"
+    function formatDate(date) {
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
+
+    // Format date like "Tuesday, Dec 9"
+    function formatBriefDate(date) {
+      return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    }
+
+    // Format time like "8:32 AM"
+    function formatTime(date) {
+      return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
+
+    // Get difficulty class
+    function getDifficultyClass(difficulty) {
+      if (!difficulty) return 'green';
+      const d = difficulty.toLowerCase();
+      if (d.includes('double')) return 'double';
+      if (d.includes('black')) return 'black';
+      if (d.includes('blue')) return 'blue';
+      return 'green';
+    }
+
+    // Open resort picker modal
+    function openResortModal() {
+      $('resort-modal').classList.add('active');
+    }
+
+    // Close resort picker modal
+    function closeResortModal(event) {
+      if (event && event.target !== $('resort-modal')) return;
+      $('resort-modal').classList.remove('active');
+    }
+
+    // Select a resort
+    function selectResort(resortKey) {
+      currentResort = resorts.find(r => r.key === resortKey);
+      if (currentResort) {
+        localStorage.setItem('selectedResort', resortKey);
+        $('current-resort-name').textContent = currentResort.name;
+
+        // Update URL
+        const url = new URL(window.location.href);
+        url.searchParams.set('resort', resortKey);
+        window.history.replaceState({}, '', url);
+
+        // Update see-all links
+        $('lift-see-all').href = `live-lifts.html?resort=${resortKey}`;
+        $('groomed-see-all').href = `terrain-dashboard.html?resort=${resortKey}`;
+
+        loadResortData(resortKey);
+        updateResortList();
+      }
+      closeResortModal();
+    }
+
+    // Update resort list in modal
+    function updateResortList() {
+      const list = $('resort-list');
+      list.innerHTML = resorts.map(r => `
+        <div class="resort-option ${r.key === currentResort?.key ? 'selected' : ''}"
+             onclick="selectResort('${r.key}')">
+          ${r.name}
+        </div>
+      `).join('');
+    }
+
+    // Load brief data
+    async function loadBrief(resortKey) {
+      try {
+        const res = await fetch(`${dataFolder}/${resortKey}/brief/latest.json`);
+        if (!res.ok) throw new Error('No brief available');
+        const data = await res.json();
+
+        const briefDate = new Date(data.date + 'T12:00:00');
+        $('brief-date').textContent = formatBriefDate(briefDate);
+        $('brief-headline').textContent = data.morningBrief?.headline || 'Your Morning Mountain Brief';
+        $('brief-body').textContent = data.morningBrief?.body || 'No conditions data available.';
+
+        // Weather data
+        const snow = data.rawData?.snow || {};
+        const forecast = data.rawData?.forecast?.today || {};
+
+        $('weather-condition').textContent = forecast.description || snow.conditions?.today || '--';
+        $('temp-now').textContent = forecast.high_f ? `${forecast.high_f}°` : '--';
+        $('temp-range').textContent = forecast.low_f && forecast.high_f
+          ? `${forecast.low_f}°/${forecast.high_f}°`
+          : '--';
+        $('snow-24h').textContent = snow['24hour_inches'] !== undefined
+          ? `${snow['24hour_inches']}"`
+          : '--';
+
+        const generated = data.generated ? new Date(data.generated) : null;
+        $('weather-updated').textContent = generated
+          ? `Last updated at ${formatTime(generated)}`
+          : 'Last updated';
+
+        // Groomed trails
+        const terrain = data.rawData?.terrain || {};
+        const groomedCount = terrain.stats?.groomedTrails?.today || 0;
+        const totalTrails = terrain.stats?.totalTrails || 0;
+        $('groomed-subtitle').textContent = `${groomedCount} runs groomed today`;
+
+        // Show newly groomed trails
+        const newlyGroomed = terrain.newlyGroomed || [];
+        const groomedList = $('groomed-list');
+
+        if (newlyGroomed.length === 0) {
+          groomedList.innerHTML = '<div class="empty-state">No grooming data available</div>';
+        } else {
+          groomedList.innerHTML = newlyGroomed.slice(0, 8).map(trail => `
+            <div class="groomed-item">
+              <div class="trail-info">
+                <div class="difficulty-dot ${getDifficultyClass(trail.difficulty)}"></div>
+                <div>
+                  <div class="trail-name">${trail.name}</div>
+                  <div class="trail-area">${trail.area || ''}</div>
+                </div>
+              </div>
+              <div class="trail-badges">
+                <span class="trail-badge groomed">Groomed</span>
+                <span class="trail-badge new">NEW</span>
+              </div>
+            </div>
+          `).join('');
+        }
+
+      } catch (err) {
+        console.error('Error loading brief:', err);
+        $('brief-headline').textContent = 'No Brief Available';
+        $('brief-body').textContent = 'Morning brief data is not available for this resort.';
+        $('groomed-list').innerHTML = '<div class="empty-state">No data available</div>';
+      }
+    }
+
+    // Load lift data
+    async function loadLifts(resortKey) {
+      try {
+        const res = await fetch(`${dataFolder}/${resortKey}/lifts/index.json`);
+        if (!res.ok) throw new Error('No lift data');
+        const data = await res.json();
+
+        const lifts = data.lifts || [];
+        const openLifts = lifts.filter(l => l.status?.toLowerCase() === 'open').length;
+        const totalLifts = lifts.length;
+
+        $('lift-subtitle').textContent = `${openLifts}/${totalLifts} open · Snapshot of today's lifts`;
+
+        // Sort lifts: Open first, then by wait time, then scheduled
+        const sortedLifts = [...lifts].sort((a, b) => {
+          const aOpen = a.status?.toLowerCase() === 'open';
+          const bOpen = b.status?.toLowerCase() === 'open';
+          if (aOpen !== bOpen) return bOpen ? 1 : -1;
+          if (aOpen && bOpen) {
+            return (b.waitMinutes || 0) - (a.waitMinutes || 0);
+          }
+          return 0;
+        });
+
+        const liftList = $('lift-list');
+
+        if (sortedLifts.length === 0) {
+          liftList.innerHTML = '<div class="empty-state">No lift data available</div>';
+        } else {
+          liftList.innerHTML = sortedLifts.slice(0, 3).map(lift => {
+            const isOpen = lift.status?.toLowerCase() === 'open';
+            const statusClass = isOpen ? 'open' : 'scheduled';
+            const badgeClass = isOpen ? (lift.waitMinutes > 5 ? 'wait' : 'open') : 'scheduled';
+            const badgeText = isOpen
+              ? (lift.waitMinutes ? `${lift.waitMinutes} min` : 'Open')
+              : 'Scheduled';
+            const timeText = isOpen
+              ? ''
+              : (lift.openTime ? `Opens at ${formatOpenTime(lift.openTime)}` : '');
+
+            return `
+              <div class="lift-item">
+                <div class="lift-info">
+                  <div class="lift-status-dot ${statusClass}"></div>
+                  <div>
+                    <div class="lift-name">${lift.name}</div>
+                    ${timeText ? `<div class="lift-time">${timeText}</div>` : ''}
+                  </div>
+                </div>
+                <span class="lift-badge ${badgeClass}">${badgeText}</span>
+              </div>
+            `;
+          }).join('');
+        }
+
+      } catch (err) {
+        console.error('Error loading lifts:', err);
+        $('lift-list').innerHTML = '<div class="empty-state">No lift data available</div>';
+        $('lift-subtitle').textContent = 'No data';
+      }
+    }
+
+    function formatOpenTime(time) {
+      if (!time) return '';
+      const [hours, minutes] = time.split(':');
+      const h = parseInt(hours);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+      return `${hour12}:${minutes} ${ampm}`;
+    }
+
+    // Load all resort data
+    async function loadResortData(resortKey) {
+      await Promise.all([
+        loadBrief(resortKey),
+        loadLifts(resortKey)
+      ]);
+    }
+
+    // Initialize
+    async function init() {
+      // Set current date
+      const now = new Date();
+      $('date-display').textContent = formatDate(now);
+
+      try {
+        // Load config
+        const configRes = await fetch('../config.json');
+        const config = await configRes.json();
+        resorts = (config.resorts || [])
+          .map(r => ({ key: r.key, name: r.name, timezone: r.timezone }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        // Determine initial resort
+        const params = new URLSearchParams(window.location.search);
+        const urlResort = params.get('resort');
+        const savedResort = localStorage.getItem('selectedResort');
+        const initialResortKey = (urlResort && resorts.find(r => r.key === urlResort))
+          ? urlResort
+          : (savedResort && resorts.find(r => r.key === savedResort))
+            ? savedResort
+            : resorts[0]?.key;
+
+        if (initialResortKey) {
+          currentResort = resorts.find(r => r.key === initialResortKey);
+          $('current-resort-name').textContent = currentResort.name;
+
+          // Update see-all links
+          $('lift-see-all').href = `live-lifts.html?resort=${initialResortKey}`;
+          $('groomed-see-all').href = `terrain-dashboard.html?resort=${initialResortKey}`;
+
+          updateResortList();
+          await loadResortData(initialResortKey);
+        }
+
+      } catch (err) {
+        console.error('Failed to initialize:', err);
+        $('current-resort-name').textContent = 'Error';
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>

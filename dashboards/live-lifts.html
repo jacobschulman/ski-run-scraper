@@ -3,843 +3,739 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Lift Wait Monitor</title>
-  <link rel="stylesheet" href="shared/theme.css">
+  <title>Lift Status</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .lift-name {
+    :root {
+      --bg: #f2f2f7;
+      --card-bg: #ffffff;
+      --text: #1c1c1e;
+      --text-secondary: #8e8e93;
+      --accent: #007aff;
+      --green: #34c759;
+      --blue: #007aff;
+      --red: #ff3b30;
+      --orange: #ff9500;
+      --border: rgba(0, 0, 0, 0.08);
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    /* Header */
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .resort-picker {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
       font-weight: 600;
-      letter-spacing: -0.01em;
-      margin-bottom: 4px;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.15s;
     }
-    .lift-sub {
-      color: var(--muted);
+
+    .resort-picker:hover { background: #e5e5ea; }
+
+    .resort-picker svg {
+      width: 12px;
+      height: 12px;
+      color: var(--text-secondary);
+    }
+
+    .date-display {
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 10px;
       font-size: 0.9rem;
-    }
-    .current-wait {
-      font-weight: 700;
-      font-size: 1.1rem;
+      font-weight: 500;
       color: var(--text);
     }
-    .current-meta {
-      color: var(--muted);
-      font-size: 0.9rem;
+
+    /* Page */
+    .page {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 16px 12px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Overview Stats */
+    .overview-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 12px 8px;
+      background: var(--bg);
+      border-radius: 12px;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .stat-value.green { color: var(--green); }
+    .stat-value.red { color: var(--red); }
+    .stat-value.neutral { color: var(--text); }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
       margin-top: 4px;
     }
-    .chips {
+
+    /* Filter Tabs */
+    .filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px 16px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: 10px;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-tab.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .sort-button {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--bg);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .sort-button:hover { background: #e5e5ea; }
+
+    /* Area Groups */
+    .area-group {
+      margin-bottom: 16px;
+    }
+
+    .area-header {
+      padding: 12px 16px;
+      background: var(--bg);
+    }
+
+    .area-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .area-count {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Lift Items */
+    .lift-list-container {
+      padding: 0 16px 16px;
+    }
+
+    .lift-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .lift-item:last-child { border-bottom: none; }
+
+    .lift-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lift-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .lift-status-dot.open { background: var(--green); }
+    .lift-status-dot.closed { background: var(--red); }
+    .lift-status-dot.scheduled { background: var(--red); }
+    .lift-status-dot.hold { background: var(--orange); }
+
+    .lift-details {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      align-items: flex-start;
     }
-    .chip time {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    .wait-graph {
-      margin-top: 12px;
-      width: 100%;
-      height: 140px;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 8px;
-      padding: 8px;
-      border: 1px solid var(--border);
-      position: relative;
-    }
-    .graph-tooltip {
-      position: absolute;
-      padding: 6px 8px;
-      background: rgba(12, 26, 43, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+
+    .lift-name {
+      font-size: 0.95rem;
+      font-weight: 500;
       color: var(--text);
+    }
+
+    .lift-time {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .lift-badge {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .lift-badge.scheduled {
+      background: #8e8e93;
+      color: white;
+    }
+
+    .lift-badge.open {
+      background: var(--green);
+      color: white;
+    }
+
+    .lift-badge.wait {
+      background: var(--text);
+      color: white;
+    }
+
+    /* Wait time indicator */
+    .wait-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wait-text {
       font-size: 0.85rem;
-      pointer-events: none;
-      box-shadow: var(--shadow);
-      opacity: 0;
-      transform: translate(-50%, -120%);
-      transition: opacity 0.12s ease, transform 0.12s ease;
-      white-space: nowrap;
-      z-index: 2;
+      font-weight: 600;
+      color: var(--text);
     }
-    .max-wait {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 0.9rem;
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 0 24px;
+      z-index: 100;
     }
-    .wait-graph svg {
-      display: block;
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      text-decoration: none;
+      color: var(--text-secondary);
+      border-radius: 12px;
+      transition: all 0.15s;
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: rgba(0, 122, 255, 0.1);
+    }
+
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .nav-item span {
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    /* Resort Picker Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 200;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: 20px 20px 0 0;
       width: 100%;
-      height: 100%;
+      max-width: 500px;
+      max-height: 70vh;
+      overflow: hidden;
+      animation: slideUp 0.3s ease;
     }
-    .graph-line {
-      fill: none;
-      stroke: var(--accent);
-      stroke-width: 2.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
     }
-    .graph-area {
-      fill: var(--accent);
-      opacity: 0.15;
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
     }
-    .graph-dot {
-      fill: var(--accent);
-      stroke: var(--bg);
-      stroke-width: 1.5;
+
+    .modal-title { font-size: 1.1rem; font-weight: 600; }
+
+    .modal-done {
+      color: var(--accent);
+      font-weight: 600;
+      background: none;
+      border: none;
       cursor: pointer;
-      transition: all 0.15s ease;
+      font-size: 1rem;
     }
-    .graph-dot:hover {
-      fill: var(--positive);
-      stroke-width: 2;
-      r: 4;
+
+    .resort-list {
+      overflow-y: auto;
+      max-height: calc(70vh - 60px);
     }
-    .graph-axis {
-      stroke: rgba(255, 255, 255, 0.15);
-      stroke-width: 1;
+
+    .resort-option {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.15s;
     }
-    .graph-label {
-      fill: var(--muted);
-      font-size: 9px;
-      font-family: "Inter", -apple-system, sans-serif;
-    }
-    .notice {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-    @media (max-width: 860px) {
-      .chips { align-items: stretch; }
+
+    .resort-option:hover { background: var(--bg); }
+    .resort-option.selected { color: var(--accent); font-weight: 600; }
+
+    /* Loading/empty state */
+    .loading, .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="header">
-      <div>
-        <h1>Live Lift Wait Monitor</h1>
-        <p class="subtitle">Debug view for all resorts with live lift scraping. Pick a resort to see most recent waits plus the last few runs.</p>
-      </div>
-      <div class="pill" id="resort-count">Loading...</div>
-    </div>
+  <!-- Header -->
+  <header class="app-header">
+    <button class="resort-picker" id="resort-picker" onclick="openResortModal()">
+      <span id="current-resort-name">Loading...</span>
+      <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 4.5L6 7.5L9 4.5"/>
+      </svg>
+    </button>
+    <div class="date-display" id="date-display"></div>
+  </header>
 
-    <div class="controls">
-      <div>
-        <label for="resort-select">Resort</label>
-        <select id="resort-select" aria-label="Choose resort"></select>
-      </div>
-      <div>
-        <label for="date-select">Date</label>
-        <select id="date-select" aria-label="Select date"></select>
-      </div>
-      <div>
-        <label for="lift-filter">Filter lifts (name or mountain)</label>
-        <input id="lift-filter" type="search" placeholder="e.g. Gondola, Peak 8, Summit" aria-label="Filter lifts">
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 10px; padding-top: 24px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="open-only-filter" style="width: auto; margin: 0;">
-          <label for="open-only-filter" style="margin: 0; cursor: pointer;">Open lifts only</label>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="local-data-mode" style="width: auto; margin: 0;">
-          <label for="local-data-mode" style="margin: 0; cursor: pointer; color: var(--muted); font-size: 0.9rem;" title="Use data from ../data-local folder for testing">Use local test data</label>
+  <!-- Main Content -->
+  <main class="page">
+    <!-- Lifts Overview Card -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Lifts Overview</div>
+          <div class="card-subtitle" id="lifts-updated">Last updated</div>
         </div>
       </div>
+
+      <!-- Stats -->
+      <div class="overview-stats">
+        <div class="stat-item">
+          <div class="stat-value green" id="open-count">-</div>
+          <div class="stat-label">Open Lifts</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value red" id="closed-count">-</div>
+          <div class="stat-label">Closed/Hold</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value neutral" id="total-count">-</div>
+          <div class="stat-label">Total Lifts</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-bar">
+        <div class="filter-tabs">
+          <button class="filter-tab" id="filter-open" onclick="setFilter('open')">Open</button>
+          <button class="filter-tab active" id="filter-all" onclick="setFilter('all')">All</button>
+        </div>
+        <button class="sort-button" id="sort-button" onclick="toggleSort()">
+          Sort: <span id="sort-label">Area</span>
+        </button>
+      </div>
     </div>
 
-    <div class="meta-bar" id="meta-bar"></div>
+    <!-- Lift List -->
+    <div id="lift-groups">
+      <div class="loading">Loading lift data...</div>
+    </div>
+  </main>
 
-    <div id="table-wrapper">
-      <table id="lift-table" aria-live="polite">
-        <thead>
-          <tr>
-            <th>Lift</th>
-            <th>Status</th>
-            <th>Most Recent Wait</th>
-            <th>Prior Runs</th>
-          </tr>
-        </thead>
-        <tbody id="lift-rows">
-          <tr><td colspan="4" class="empty">Loading live data...</td></tr>
-        </tbody>
-      </table>
-      <div class="notice" id="notice"></div>
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12L12 3l9 9M5 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001 1h4a1 1 0 001-1v-5a1 1 0 00-1-1h-4a1 1 0 00-1 1v5z"/>
+      </svg>
+      <span>Overview</span>
+    </a>
+    <a href="terrain-dashboard.html" class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19h16M4 15l4-6 4 4 4-6 4 8"/>
+      </svg>
+      <span>Trails</span>
+    </a>
+    <a href="live-lifts.html" class="nav-item active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="5" r="2"/>
+        <path d="M12 7v10m-4-8l4-2 4 2M8 17v2m8-2v2"/>
+      </svg>
+      <span>Lifts</span>
+    </a>
+    <a href="#" class="nav-item" id="snow-nav">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+      </svg>
+      <span>Snow</span>
+    </a>
+  </nav>
+
+  <!-- Resort Picker Modal -->
+  <div class="modal-overlay" id="resort-modal" onclick="closeResortModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">Select Resort</div>
+        <button class="modal-done" onclick="closeResortModal()">Done</button>
+      </div>
+      <div class="resort-list" id="resort-list"></div>
     </div>
   </div>
 
-  <script src="shared/nav.js"></script>
   <script>
-    initNav('lifts');
-
-    const historyDepth = 6;
+    const dataFolder = '../data';
     let resorts = [];
-    let resortMap = {};
-    const historyCache = new Map();
-    const cachedIndex = {};
-    const availableDatesCache = {};
-    let dataFolder = '../data';
-    let currentDateKey = '';
+    let currentResort = null;
+    let allLifts = [];
+    let currentFilter = 'all';
+    let currentSort = 'area';
 
     const $ = (id) => document.getElementById(id);
-    const slugify = (s) => (s || '')
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/--+/g, '-')
-      .trim();
-    const canonicalLiftId = (lift) => {
-      if (!lift) return '';
-      return `${slugify(lift.mountain || 'unknown')}:${slugify(lift.name || 'unknown')}`;
-    };
 
-    const timeAgo = (iso) => {
-      if (!iso) return '';
-      const t = new Date(iso);
-      if (Number.isNaN(t)) return '';
-      const diffMs = Date.now() - t.getTime();
-      const minutes = Math.max(0, Math.round(diffMs / 60000));
-      if (minutes < 1) return 'just now';
-      if (minutes < 60) return minutes + 'm ago';
-      const hours = Math.floor(minutes / 60);
-      const rem = minutes % 60;
-      if (hours < 24) return rem ? hours + 'h ' + rem + 'm ago' : hours + 'h ago';
-      const days = Math.floor(hours / 24);
-      return days + 'd ' + (hours % 24) + 'h ago';
-    };
+    function formatDate(date) {
+      return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+    }
 
-    const formatClock = (iso, tz) => {
-      if (!iso) return '';
-      const t = new Date(iso);
-      if (Number.isNaN(t)) return '';
-      return new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit', timeZone: tz || 'UTC' }).format(t);
-    };
+    function formatTime(date) {
+      return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    }
 
-    const formatWait = (value) => {
-      if (value === null || value === undefined) return '\u2014';
-      if (Number.isNaN(Number(value))) return String(value);
-      return value + ' min';
-    };
+    function formatOpenTime(time) {
+      if (!time) return '';
+      const [hours, minutes] = time.split(':');
+      const h = parseInt(hours);
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+      return `${hour12}:${minutes} ${ampm}`;
+    }
 
-    const deriveDateKey = (resort) => {
-      const fromGenerated = resort.generated ? resort.generated.split('T')[0] : null;
-      const fromLift = resort.lifts && resort.lifts.length ? resort.lifts[0].lastUpdated?.split('T')[0] : null;
-      return fromGenerated || fromLift || new Date().toISOString().slice(0, 10);
-    };
+    function openResortModal() { $('resort-modal').classList.add('active'); }
+    function closeResortModal(event) {
+      if (event && event.target !== $('resort-modal')) return;
+      $('resort-modal').classList.remove('active');
+    }
 
-    const showGraphTooltip = (dot, tooltip, container, event) => {
-      if (!tooltip || !dot || !container) return;
-      const rect = container.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-      tooltip.textContent = `${dot.dataset.wait} min at ${dot.dataset.clock}`;
-      tooltip.style.left = `${x}px`;
-      tooltip.style.top = `${y}px`;
-      tooltip.style.opacity = '1';
-      tooltip.style.transform = 'translate(-50%, -140%)';
-    };
+    function selectResort(resortKey) {
+      currentResort = resorts.find(r => r.key === resortKey);
+      if (currentResort) {
+        localStorage.setItem('selectedResort', resortKey);
+        $('current-resort-name').textContent = currentResort.name;
+        const url = new URL(window.location.href);
+        url.searchParams.set('resort', resortKey);
+        window.history.replaceState({}, '', url);
+        loadLifts(resortKey);
+        updateResortList();
+      }
+      closeResortModal();
+    }
 
-    const hideGraphTooltip = (tooltip) => {
-      if (!tooltip) return;
-      tooltip.style.opacity = '0';
-      tooltip.style.transform = 'translate(-50%, -120%)';
-    };
+    function updateResortList() {
+      $('resort-list').innerHTML = resorts.map(r => `
+        <div class="resort-option ${r.key === currentResort?.key ? 'selected' : ''}"
+             onclick="selectResort('${r.key}')">
+          ${r.name}
+        </div>
+      `).join('');
+    }
 
-    async function getAvailableDates(resortKey, resortData) {
-      const cacheKey = dataFolder + '-' + resortKey;
-      if (availableDatesCache[cacheKey]) return availableDatesCache[cacheKey];
-      const dates = new Set();
-      const fallbackDate = deriveDateKey(resortData || {});
-      if (fallbackDate) dates.add(fallbackDate);
+    function setFilter(filter) {
+      currentFilter = filter;
+      $('filter-open').classList.toggle('active', filter === 'open');
+      $('filter-all').classList.toggle('active', filter === 'all');
+      renderLifts();
+    }
 
+    function toggleSort() {
+      currentSort = currentSort === 'area' ? 'wait' : 'area';
+      $('sort-label').textContent = currentSort === 'area' ? 'Area' : 'Wait Time';
+      renderLifts();
+    }
+
+    async function loadLifts(resortKey) {
       try {
-        const res = await fetch(`${dataFolder}/${resortKey}/lifts/dates.json`);
-        if (res.ok) {
-          const list = await res.json();
-          (list || []).forEach(d => dates.add(d));
-        }
-      } catch (_) {}
+        const res = await fetch(`${dataFolder}/${resortKey}/lifts/index.json`);
+        if (!res.ok) throw new Error('No lift data');
+        const data = await res.json();
 
-      // Probe recent dates only if we still have very few options
-      if (dates.size < 3) {
-        const now = new Date();
-        for (let i = 0; i < 21; i++) {
-          const probe = new Date(now);
-          probe.setDate(now.getDate() - i);
-          const key = probe.toISOString().slice(0, 10);
-          if (dates.has(key)) continue;
-          try {
-            const res = await fetch(`${dataFolder}/${resortKey}/lifts/${key}.ndjson`, { method: 'HEAD' });
-            if (res.ok) dates.add(key);
-          } catch (_) {}
-        }
+        allLifts = data.lifts || [];
+
+        const openCount = allLifts.filter(l => l.status?.toLowerCase() === 'open').length;
+        const closedCount = allLifts.length - openCount;
+
+        $('open-count').textContent = openCount;
+        $('closed-count').textContent = closedCount;
+        $('total-count').textContent = allLifts.length;
+
+        const generated = data.generated ? new Date(data.generated) : null;
+        $('lifts-updated').textContent = generated
+          ? `Last updated at ${formatTime(generated)}`
+          : 'Last updated';
+
+        renderLifts();
+
+      } catch (err) {
+        console.error('Error loading lifts:', err);
+        $('lift-groups').innerHTML = '<div class="empty-state">No lift data available for this resort</div>';
+      }
+    }
+
+    function renderLifts() {
+      const container = $('lift-groups');
+
+      // Filter lifts
+      let filteredLifts = [...allLifts];
+      if (currentFilter === 'open') {
+        filteredLifts = filteredLifts.filter(l => l.status?.toLowerCase() === 'open');
       }
 
-      if (dates.size === 0) dates.add(new Date().toISOString().slice(0, 10));
-      const sorted = Array.from(dates).sort();
-      availableDatesCache[cacheKey] = sorted;
-      return sorted;
-    }
-
-    async function populateDateSelect(resortKey, resortData, activeDate) {
-      const select = $('date-select');
-      select.innerHTML = '';
-      const dates = await getAvailableDates(resortKey, resortData);
-      const unique = new Set(dates);
-      if (activeDate) unique.add(activeDate);
-      const sorted = Array.from(unique).sort();
-      sorted.forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d;
-        opt.textContent = d;
-        select.appendChild(opt);
-      });
-      select.value = activeDate || sorted[sorted.length - 1] || '';
-    }
-
-    async function fetchHistory(resortKey, dateKey, fullHistory = false) {
-      const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
-      if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
-
-      const promise = (async () => {
-      const parseNdjson = (text) => {
-        const lines = text.trim().split('\n').filter(Boolean);
-          const parsed = [];
-          for (const line of lines) {
-            try { parsed.push(JSON.parse(line)); } catch (_) {}
-          }
-          const history = {};
-          for (let i = parsed.length - 1; i >= 0; i--) {
-            const entry = parsed[i];
-            if (!entry) continue;
-            const canonicalId = canonicalLiftId(entry);
-            const bucket = history[canonicalId] || (history[canonicalId] = []);
-            if (!fullHistory && bucket.length >= historyDepth) continue;
-            if (bucket.some(h => h.timestamp === entry.timestamp)) continue;
-            bucket.push({ ...entry, liftId: canonicalId });
-          }
-          return history;
-      };
-
-        const tryFetch = async (rangeBytes) => {
-          const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
-          const res = await fetch(`${dataFolder}/${resortKey}/lifts/${dateKey}.ndjson`, { headers });
-          if (!res.ok) throw new Error(`NDJSON ${res.status}`);
-          return res.text();
-        };
-
-        try {
-          let text;
-
-          // If we need full history, always fetch the entire file
-          if (fullHistory) {
-            text = await tryFetch();
-            return parseNdjson(text);
-          }
-
-          // Otherwise, try to use tail optimization for recent history
-          let usedTail = true;
-          try {
-            text = await tryFetch(120000);
-          } catch (_) {
-            usedTail = false;
-            text = await tryFetch();
-          }
-
-          let history = parseNdjson(text);
-          const hasDepth = Object.values(history).some(list => list.length >= historyDepth);
-          if (usedTail && !hasDepth) {
-            text = await tryFetch();
-            history = parseNdjson(text);
-          }
-          return history;
-        } catch (_) {
-          return {};
-        }
-      })();
-
-      historyCache.set(cacheKey, promise);
-      return promise;
-    }
-
-    function renderResortOptions() {
-      const select = $('resort-select');
-      select.innerHTML = '';
-      const placeholder = document.createElement('option');
-      placeholder.value = '';
-      placeholder.textContent = 'Select a resort';
-      placeholder.disabled = true;
-      placeholder.selected = true;
-      select.appendChild(placeholder);
-      resorts.forEach(({ key, name }) => {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = name;
-        select.appendChild(opt);
-      });
-    }
-
-    function setMeta(resortData, dateKey, tz) {
-      const metaBar = $('meta-bar');
-      metaBar.innerHTML = '';
-      if (!resortData) return;
-
-      const metaItems = [
-        { label: 'Lifts', value: resortData.liftCount || (resortData.lifts ? resortData.lifts.length : '\u2014') },
-        { label: 'Last scrape', value: resortData.generated ? timeAgo(resortData.generated) + ' \u00b7 ' + formatClock(resortData.generated, tz) : '\u2014' },
-        { label: 'Data file', value: dateKey + '.ndjson' }
-      ];
-
-      metaItems.forEach(item => {
-        const pill = document.createElement('div');
-        pill.className = 'meta-pill';
-        pill.innerHTML = '<strong>' + item.label + '</strong> ' + item.value;
-        metaBar.appendChild(pill);
-      });
-    }
-
-    function createWaitGraph(history, openTime, closeTime, tz) {
-      if (!history || history.length === 0) return null;
-
-      // Parse open/close times to get time range
-      const parseTime = (timeStr) => {
-        if (!timeStr) return null;
-        const match = timeStr.match(/(\d+):(\d+)\s*(am|pm)?/i);
-        if (!match) return null;
-        let hours = parseInt(match[1], 10);
-        const minutes = parseInt(match[2], 10);
-        const meridiem = match[3]?.toLowerCase();
-        if (meridiem) {
-          if (meridiem === 'pm' && hours < 12) hours += 12;
-          if (meridiem === 'am' && hours === 12) hours = 0;
-        }
-        return hours * 60 + minutes; // minutes since midnight
-      };
-
-      const openMinutes = parseTime(openTime) || 0;
-      const closeMinutes = parseTime(closeTime) || 1440;
-
-      // Prepare data points
-      const dataPoints = history
-        .map(entry => {
-          const t = new Date(entry.timestamp);
-          if (Number.isNaN(t.getTime())) return null;
-          const minutes = t.getHours() * 60 + t.getMinutes();
-          return {
-            time: minutes,
-            wait: entry.waitMinutes != null ? entry.waitMinutes : 0,
-            timestamp: entry.timestamp,
-            status: entry.status
-          };
-        })
-        .filter(p => p && p.wait >= 0)
-        .sort((a, b) => a.time - b.time);
-
-      if (dataPoints.length === 0) return null;
-
-      // Calculate scales
-      const minTime = Math.min(openMinutes, ...dataPoints.map(p => p.time));
-      const maxTime = Math.max(closeMinutes, ...dataPoints.map(p => p.time));
-      const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
-
-      const width = 300;
-      const height = 120;
-      const padding = { top: 8, right: 8, bottom: 18, left: 28 };
-      const graphWidth = width - padding.left - padding.right;
-      const graphHeight = height - padding.top - padding.bottom;
-
-      const xScale = (minutes) => padding.left + ((minutes - minTime) / (maxTime - minTime)) * graphWidth;
-      const yScale = (wait) => padding.top + graphHeight - ((wait / maxWait) * graphHeight);
-
-      // Create SVG
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      svg.style.width = '100%';
-      svg.style.height = '100%';
-
-      // Draw axes
-      const xAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      xAxis.setAttribute('class', 'graph-axis');
-      xAxis.setAttribute('x1', padding.left);
-      xAxis.setAttribute('y1', padding.top + graphHeight);
-      xAxis.setAttribute('x2', width - padding.right);
-      xAxis.setAttribute('y2', padding.top + graphHeight);
-      svg.appendChild(xAxis);
-
-      const yAxis = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      yAxis.setAttribute('class', 'graph-axis');
-      yAxis.setAttribute('x1', padding.left);
-      yAxis.setAttribute('y1', padding.top);
-      yAxis.setAttribute('x2', padding.left);
-      yAxis.setAttribute('y2', padding.top + graphHeight);
-      svg.appendChild(yAxis);
-
-      // Add time labels
-      const startLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      startLabel.setAttribute('class', 'graph-label');
-      startLabel.setAttribute('x', padding.left);
-      startLabel.setAttribute('y', height - 2);
-      startLabel.setAttribute('text-anchor', 'start');
-      startLabel.textContent = openTime || '00:00';
-      svg.appendChild(startLabel);
-
-      const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      endLabel.setAttribute('class', 'graph-label');
-      endLabel.setAttribute('x', width - padding.right);
-      endLabel.setAttribute('y', height - 2);
-      endLabel.setAttribute('text-anchor', 'end');
-      endLabel.textContent = closeTime || '23:59';
-      svg.appendChild(endLabel);
-
-      // Add max wait label
-      const maxLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      maxLabel.setAttribute('class', 'graph-label');
-      maxLabel.setAttribute('x', 2);
-      maxLabel.setAttribute('y', padding.top + 10);
-      maxLabel.setAttribute('text-anchor', 'start');
-      maxLabel.textContent = maxWait + 'm';
-      svg.appendChild(maxLabel);
-
-      // Draw area fill
-      if (dataPoints.length > 0) {
-        const areaData = 'M' + padding.left + ',' + (padding.top + graphHeight) + ' ' +
-          dataPoints.map(p => 'L' + xScale(p.time) + ',' + yScale(p.wait)).join(' ') + ' ' +
-          'L' + xScale(dataPoints[dataPoints.length - 1].time) + ',' + (padding.top + graphHeight) + ' Z';
-
-        const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        area.setAttribute('class', 'graph-area');
-        area.setAttribute('d', areaData);
-        svg.appendChild(area);
-      }
-
-      // Draw line
-      if (dataPoints.length > 1) {
-        const pathData = dataPoints.map((p, i) => {
-          const x = xScale(p.time);
-          const y = yScale(p.wait);
-          return (i === 0 ? 'M' : 'L') + x + ',' + y;
-        }).join(' ');
-
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        path.setAttribute('class', 'graph-line');
-        path.setAttribute('d', pathData);
-        svg.appendChild(path);
-      }
-
-      // Draw dots
-      dataPoints.forEach(p => {
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('class', 'graph-dot');
-        circle.setAttribute('cx', xScale(p.time));
-        circle.setAttribute('cy', yScale(p.wait));
-        circle.setAttribute('r', 3);
-        circle.dataset.wait = p.wait;
-        circle.dataset.clock = formatClock(p.timestamp, tz);
-        const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        const waitLabel = p.wait != null ? `${p.wait} min wait` : (p.status || 'No data');
-        title.textContent = formatClock(p.timestamp, tz) + ' \u2014 ' + waitLabel;
-        circle.appendChild(title);
-        svg.appendChild(circle);
-      });
-
-      return svg;
-    }
-
-    function renderRows(resortData, history, fullHistory, tz, dateKey) {
-      const tbody = $('lift-rows');
-      const filter = $('lift-filter').value.trim().toLowerCase();
-      const openOnly = $('open-only-filter').checked;
-      const liftMap = new Map();
-
-      const addOrMergeLift = (lift) => {
-        if (!lift) return;
-        const id = canonicalLiftId(lift);
-        const existing = liftMap.get(id);
-        if (!existing) {
-          liftMap.set(id, { ...lift, liftId: id });
-          return;
-        }
-        // Prefer entry with status/lastUpdated/open/close populated
-        const merged = { ...existing };
-        if (lift.status) merged.status = lift.status;
-        if (lift.lastUpdated && (!merged.lastUpdated || new Date(lift.lastUpdated) > new Date(merged.lastUpdated))) {
-          merged.lastUpdated = lift.lastUpdated;
-          merged.waitMinutes = lift.waitMinutes !== undefined ? lift.waitMinutes : merged.waitMinutes;
-        }
-        merged.openTime = merged.openTime || lift.openTime;
-        merged.closeTime = merged.closeTime || lift.closeTime;
-        merged.mountain = merged.mountain || lift.mountain;
-        merged.type = merged.type || lift.type;
-        merged.name = merged.name || lift.name;
-        liftMap.set(id, merged);
-      };
-
-      (resortData && resortData.lifts ? resortData.lifts : []).forEach(addOrMergeLift);
-
-      // Ensure we include lifts seen in history even if not in index
-      Object.keys(fullHistory || {}).forEach(liftId => {
-        const latest = fullHistory[liftId] && fullHistory[liftId][0];
-        if (latest) {
-          addOrMergeLift({ ...latest, liftId });
-        }
-      });
-
-      const liftsSource = Array.from(liftMap.values());
-
-      if (!liftsSource.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty">No lift data found.</td></tr>';
+      if (filteredLifts.length === 0) {
+        container.innerHTML = currentFilter === 'open'
+          ? '<div class="empty-state">No lifts are currently open</div>'
+          : '<div class="empty-state">No lift data available</div>';
         return;
       }
 
-      const lifts = liftsSource.sort((a, b) => {
-        // Sort open lifts first
-        const aOpen = a.status && a.status.toLowerCase() === 'open' ? 1 : 0;
-        const bOpen = b.status && b.status.toLowerCase() === 'open' ? 1 : 0;
-        if (aOpen !== bOpen) return bOpen - aOpen;
-        return a.name.localeCompare(b.name);
-      });
-      let shown = 0;
-      tbody.innerHTML = '';
+      if (currentSort === 'area') {
+        // Group by area
+        const groups = {};
+        filteredLifts.forEach(lift => {
+          const area = lift.mountain || 'Other';
+          if (!groups[area]) groups[area] = [];
+          groups[area].push(lift);
+        });
 
-      for (const lift of lifts) {
-        const text = (lift.name + ' ' + (lift.mountain || '')).toLowerCase();
-        if (filter && !text.includes(filter)) continue;
+        // Sort each group: open first, then by name
+        Object.keys(groups).forEach(area => {
+          groups[area].sort((a, b) => {
+            const aOpen = a.status?.toLowerCase() === 'open';
+            const bOpen = b.status?.toLowerCase() === 'open';
+            if (aOpen !== bOpen) return bOpen ? 1 : -1;
+            return a.name.localeCompare(b.name);
+          });
+        });
 
-        const tr = document.createElement('tr');
-        const fullHist = fullHistory[lift.liftId] || [];
-        const latestEntry = fullHist[0];
-        const displayLift = { ...lift };
-        if (latestEntry) {
-          displayLift.waitMinutes = latestEntry.waitMinutes;
-          displayLift.status = latestEntry.status || displayLift.status;
-          displayLift.lastUpdated = latestEntry.timestamp;
-          displayLift.openTime = displayLift.openTime || latestEntry.openTime;
-          displayLift.closeTime = displayLift.closeTime || latestEntry.closeTime;
-        }
+        // Render grouped
+        container.innerHTML = Object.entries(groups).map(([area, lifts]) => `
+          <div class="card area-group">
+            <div class="area-header">
+              <div class="area-name">${area}</div>
+              <div class="area-count">${lifts.length} lift${lifts.length !== 1 ? 's' : ''}</div>
+            </div>
+            <div class="lift-list-container">
+              ${lifts.map(lift => renderLiftItem(lift)).join('')}
+            </div>
+          </div>
+        `).join('');
 
-        // Filter by open status if checkbox is checked (after merging latest status)
-        const isOpen = displayLift.status && displayLift.status.toLowerCase() === 'open';
-        if (openOnly && !isOpen) continue;
-
-        const liftCell = document.createElement('td');
-        liftCell.setAttribute('data-label', 'Lift');
-        const liftMetadata = [displayLift.mountain || 'Unknown zone', displayLift.type || ''];
-        if (displayLift.openTime && displayLift.closeTime) {
-          liftMetadata.push(displayLift.openTime + ' - ' + displayLift.closeTime);
-        }
-        liftCell.innerHTML = '<div class="lift-name">' + displayLift.name + '</div>' +
-          '<div class="lift-sub">' + liftMetadata.filter(Boolean).join(' \u00b7 ') + '</div>';
-        tr.appendChild(liftCell);
-
-        const statusCell = document.createElement('td');
-        statusCell.setAttribute('data-label', 'Status');
-        const status = document.createElement('span');
-        status.className = 'status ' + (displayLift.status && displayLift.status.toLowerCase() === 'open' ? 'open' : 'closed');
-        status.textContent = displayLift.status || '\u2014';
-        statusCell.appendChild(status);
-        tr.appendChild(statusCell);
-
-        const currentCell = document.createElement('td');
-        currentCell.setAttribute('data-label', 'Most Recent Wait');
-        const currentWait = document.createElement('div');
-        currentWait.className = 'current-wait';
-        currentWait.textContent = formatWait(displayLift.waitMinutes);
-        const meta = document.createElement('div');
-        meta.className = 'current-meta';
-        meta.textContent = displayLift.lastUpdated ? 'as of ' + formatClock(displayLift.lastUpdated, tz) + ' (' + timeAgo(displayLift.lastUpdated) + ')' : 'no timestamp';
-        currentCell.appendChild(currentWait);
-        currentCell.appendChild(meta);
-
-        // Add wait time graph to current wait column (using full history for all data points)
-        const graph = createWaitGraph(fullHist, displayLift.openTime, displayLift.closeTime, tz);
-        if (graph) {
-          const graphContainer = document.createElement('div');
-          graphContainer.className = 'wait-graph';
-          const tooltip = document.createElement('div');
-          tooltip.className = 'graph-tooltip';
-          graphContainer.appendChild(tooltip);
-          graphContainer.appendChild(graph);
-          currentCell.appendChild(graphContainer);
-          const longest = fullHist.reduce((acc, entry) => {
-            if (entry.waitMinutes === null || entry.waitMinutes === undefined) return acc;
-            if (!acc || entry.waitMinutes > acc.waitMinutes) return entry;
-            return acc;
-          }, null);
-          if (longest) {
-            const longestEl = document.createElement('div');
-            longestEl.className = 'max-wait';
-            longestEl.textContent = 'Longest wait: ' + longest.waitMinutes + ' min at ' + formatClock(longest.timestamp, tz) + (dateKey ? ' (' + dateKey + ')' : '');
-            currentCell.appendChild(longestEl);
+      } else {
+        // Sort by wait time (longest first for open lifts)
+        filteredLifts.sort((a, b) => {
+          const aOpen = a.status?.toLowerCase() === 'open';
+          const bOpen = b.status?.toLowerCase() === 'open';
+          if (aOpen !== bOpen) return bOpen ? 1 : -1;
+          if (aOpen && bOpen) {
+            return (b.waitMinutes || 0) - (a.waitMinutes || 0);
           }
-          const attachTooltip = (evt, dot) => showGraphTooltip(dot, tooltip, graphContainer, evt);
-          graph.querySelectorAll('.graph-dot').forEach(dot => {
-            dot.addEventListener('mouseenter', (evt) => attachTooltip(evt, dot));
-            dot.addEventListener('mousemove', (evt) => attachTooltip(evt, dot));
-            dot.addEventListener('mouseleave', () => hideGraphTooltip(tooltip));
-          });
-        }
+          return a.name.localeCompare(b.name);
+        });
 
-        tr.appendChild(currentCell);
+        container.innerHTML = `
+          <div class="card">
+            <div class="lift-list-container">
+              ${filteredLifts.map(lift => renderLiftItem(lift)).join('')}
+            </div>
+          </div>
+        `;
+      }
+    }
 
-        const histCell = document.createElement('td');
-        histCell.setAttribute('data-label', 'Prior Runs');
-        const chipsWrap = document.createElement('div');
-        chipsWrap.className = 'chips';
-        // Use limited history for the chips
-        const hist = history[lift.liftId] || [];
-        if (hist.length === 0) {
-          histCell.innerHTML = '<div class="lift-sub">No prior runs</div>';
+    function renderLiftItem(lift) {
+      const isOpen = lift.status?.toLowerCase() === 'open';
+      const statusClass = isOpen ? 'open' : (lift.status?.toLowerCase() === 'hold' ? 'hold' : 'scheduled');
+      const timeText = isOpen ? '' : (lift.openTime ? `Opens at ${formatOpenTime(lift.openTime)}` : '');
+
+      let badge = '';
+      if (isOpen) {
+        if (lift.waitMinutes && lift.waitMinutes > 0) {
+          badge = `<span class="lift-badge wait">${lift.waitMinutes} min</span>`;
         } else {
-          hist.forEach((entry, idx) => {
-            const chip = document.createElement('span');
-            chip.className = 'chip';
-            chip.innerHTML = '<strong>' + formatWait(entry.waitMinutes) + '</strong> <time>' + timeAgo(entry.timestamp) + '</time>';
-            if (idx === 0 && lift.lastUpdated && lift.lastUpdated !== entry.timestamp) {
-              chip.title = 'Latest NDJSON time differs from lastUpdated';
-            }
-            chipsWrap.appendChild(chip);
-          });
-          histCell.appendChild(chipsWrap);
+          badge = `<span class="lift-badge open">Open</span>`;
         }
-        tr.appendChild(histCell);
-
-        tbody.appendChild(tr);
-        shown++;
+      } else {
+        badge = `<span class="lift-badge scheduled">Scheduled</span>`;
       }
 
-      if (!shown) {
-        tbody.innerHTML = '<tr><td colspan="4" class="empty">No lifts match that filter.</td></tr>';
-      }
-
-      $('notice').textContent = 'Showing ' + shown + ' of ' + lifts.length + ' lifts' + (filter ? ' (filtered)' : '') + '.';
-    }
-
-    async function loadResort(resortKey, requestedDate) {
-      const resortInfo = resortMap[resortKey];
-      if (!resortInfo) return;
-      $('notice').textContent = 'Loading recent runs...';
-
-      try {
-        const cacheKey = `${dataFolder}-${resortKey}`;
-        if (!cachedIndex[cacheKey]) {
-          const res = await fetch(`${dataFolder}/${resortKey}/lifts/index.json`);
-          if (!res.ok) throw new Error('Index fetch failed');
-          cachedIndex[cacheKey] = await res.json();
-        }
-        const resortData = cachedIndex[cacheKey];
-        const dateKey = requestedDate || currentDateKey || deriveDateKey(resortData);
-        currentDateKey = dateKey;
-        await populateDateSelect(resortKey, resortData, dateKey);
-        const tz = resortInfo.timezone || 'UTC';
-        setMeta(resortData, dateKey, tz);
-        // Fetch limited history for chips and full history for graphs
-        const [history, fullHistory] = await Promise.all([
-          fetchHistory(resortKey, dateKey, false),
-          fetchHistory(resortKey, dateKey, true)
-        ]);
-        renderRows(resortData, history, fullHistory, tz, dateKey);
-      } catch (err) {
-        $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load resort data.</td></tr>';
-        $('notice').textContent = err.message || String(err);
-      }
-    }
-
-    function applyQueryParam(resortKey) {
-      const url = new URL(window.location.href);
-      url.searchParams.set('resort', resortKey);
-      window.history.replaceState({}, '', url);
+      return `
+        <div class="lift-item">
+          <div class="lift-info">
+            <div class="lift-status-dot ${statusClass}"></div>
+            <div class="lift-details">
+              <div class="lift-name">${lift.name}</div>
+              ${timeText ? `<div class="lift-time">${timeText}</div>` : ''}
+            </div>
+          </div>
+          ${badge}
+        </div>
+      `;
     }
 
     async function init() {
-      // Restore local data mode preference from localStorage
-      const savedLocalMode = localStorage.getItem('localDataMode');
-      if (savedLocalMode === 'true') {
-        dataFolder = '../data-local';
-        $('local-data-mode').checked = true;
-      }
+      const now = new Date();
+      $('date-display').textContent = formatDate(now);
 
       try {
         const configRes = await fetch('../config.json');
         const config = await configRes.json();
-        resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
-        resortMap = resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
-
-        $('resort-count').textContent = resorts.length + ' resorts configured';
-        renderResortOptions();
+        resorts = (config.resorts || [])
+          .map(r => ({ key: r.key, name: r.name, timezone: r.timezone }))
+          .sort((a, b) => a.name.localeCompare(b.name));
 
         const params = new URLSearchParams(window.location.search);
-        const requested = params.get('resort');
-        const initial = requested && resortMap[requested] ? requested : '';
-        if (initial) {
-          $('resort-select').value = initial;
-          await loadResort(initial);
-        } else {
-          $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Pick a resort to load live lift waits.</td></tr>';
-          $('notice').textContent = 'Select a resort to load data.';
+        const urlResort = params.get('resort');
+        const savedResort = localStorage.getItem('selectedResort');
+        const initialResortKey = (urlResort && resorts.find(r => r.key === urlResort))
+          ? urlResort
+          : (savedResort && resorts.find(r => r.key === savedResort))
+            ? savedResort
+            : resorts[0]?.key;
+
+        if (initialResortKey) {
+          currentResort = resorts.find(r => r.key === initialResortKey);
+          $('current-resort-name').textContent = currentResort.name;
+          updateResortList();
+          await loadLifts(initialResortKey);
         }
+
       } catch (err) {
-        $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Failed to load config.json</td></tr>';
-        $('notice').textContent = 'Could not load resort list.';
+        console.error('Failed to initialize:', err);
+        $('current-resort-name').textContent = 'Error';
       }
     }
-
-    $('resort-select').addEventListener('change', async (e) => {
-      const key = e.target.value;
-      currentDateKey = '';
-      applyQueryParam(key);
-      await loadResort(key);
-    });
-
-    $('date-select').addEventListener('change', async (e) => {
-      const key = $('resort-select').value;
-      if (!key) return;
-      currentDateKey = e.target.value;
-      await loadResort(key, currentDateKey);
-    });
-
-    $('lift-filter').addEventListener('input', async () => {
-      const key = $('resort-select').value;
-      const resortInfo = resortMap[key];
-      const cacheKey = `${dataFolder}-${key}`;
-      if (!resortInfo || !cachedIndex[cacheKey]) return;
-      const resortData = cachedIndex[cacheKey];
-      const dateKey = currentDateKey || deriveDateKey(resortData);
-      const tz = resortInfo.timezone || 'UTC';
-      const [history, fullHistory] = await Promise.all([
-        fetchHistory(key, dateKey, false),
-        fetchHistory(key, dateKey, true)
-      ]);
-      renderRows(resortData, history, fullHistory, tz, dateKey);
-    });
-
-    $('open-only-filter').addEventListener('change', async () => {
-      const key = $('resort-select').value;
-      const resortInfo = resortMap[key];
-      const cacheKey = `${dataFolder}-${key}`;
-      if (!resortInfo || !cachedIndex[cacheKey]) return;
-      const resortData = cachedIndex[cacheKey];
-      const dateKey = currentDateKey || deriveDateKey(resortData);
-      const tz = resortInfo.timezone || 'UTC';
-      const [history, fullHistory] = await Promise.all([
-        fetchHistory(key, dateKey, false),
-        fetchHistory(key, dateKey, true)
-      ]);
-      renderRows(resortData, history, fullHistory, tz, dateKey);
-    });
-
-    $('local-data-mode').addEventListener('change', async (e) => {
-      dataFolder = e.target.checked ? '../data-local' : '../data';
-      localStorage.setItem('localDataMode', e.target.checked);
-      // Clear caches
-      historyCache.clear();
-      Object.keys(cachedIndex).forEach(key => delete cachedIndex[key]);
-      Object.keys(availableDatesCache).forEach(key => delete availableDatesCache[key]);
-      // Reload current resort if one is selected
-      const key = $('resort-select').value;
-      if (key) {
-        await loadResort(key);
-      }
-    });
 
     init();
   </script>

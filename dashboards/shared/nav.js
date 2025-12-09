@@ -4,10 +4,11 @@
  */
 
 const NAV_PAGES = [
-  { id: 'lifts', label: 'Live Lifts', href: 'live-lifts.html' },
-  { id: 'terrain', label: 'Terrain', href: 'terrain-dashboard.html' },
+  { id: 'home', label: 'Home', href: 'index.html' },
+  { id: 'terrain', label: 'Trails', href: 'terrain-dashboard.html' },
+  { id: 'lifts', label: 'Lifts', href: 'live-lifts.html' },
   { id: 'briefs', label: 'Briefs', href: 'briefs-overview.html' },
-  { id: 'overview', label: 'Overview', href: 'resort-overview.html' }
+  { id: 'overview', label: 'Admin', href: 'resort-overview.html' }
 ];
 
 function initNav(currentPage) {
