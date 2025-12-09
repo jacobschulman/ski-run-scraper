@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-09",
-  "generated": "2025-12-09T14:18:26.012Z",
+  "generated": "2025-12-09T15:19:30.216Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 6,
+          "today": 7,
           "yesterday": 6,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 228
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Trainer",
+          "difficulty": "Easy",
+          "area": "Bald Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,25 +118,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Great week for snow - 17\" in last 7 days"
+      "Great week for snow - 17\" in last 7 days",
+      "1 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Soft Snow Holding Strong",
-    "body": "No fresh overnight, but 17\" in the past week is keeping things lively.",
+    "headline": "Terrain is Expanding",
+    "body": "No fresh overnight, but 17\" in the past week is keeping things lively. Terrain is expanding with 1 new trails opening up more room to roam. 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,9 +147,21 @@
           "category": "snow",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2
+      "totalRulesFired": 4
     }
   },
   "errors": []
