@@ -15,6 +15,7 @@
       --accent: #6fe3b2;
       --accent-2: #74c7ff;
       --negative: #ff9c8f;
+      --warning: #ffcc70;
     }
     body {
       background:
@@ -51,6 +52,73 @@
       font-size: 1.1rem;
       font-weight: 600;
     }
+
+    /* Filter controls */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 8px;
+    }
+    .filter-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: rgba(111, 227, 178, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-btn.filter-missing {
+      border-color: rgba(255, 156, 143, 0.4);
+    }
+    .filter-btn.filter-missing:hover {
+      border-color: var(--negative);
+      color: var(--negative);
+    }
+    .filter-btn.filter-missing.active {
+      background: rgba(255, 156, 143, 0.15);
+      border-color: var(--negative);
+      color: var(--negative);
+    }
+    .filter-count {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-left: 4px;
+    }
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .filter-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      margin: 0 8px;
+    }
+
     .table-container {
       background: var(--panel);
       border-radius: 16px;
@@ -58,28 +126,57 @@
       box-shadow: var(--shadow);
       overflow: hidden;
     }
+    .table-scroll {
+      max-height: calc(100vh - 320px);
+      overflow-y: auto;
+    }
     table {
       font-size: 0.9rem;
+      width: 100%;
+      border-collapse: collapse;
     }
     thead {
       background: var(--card);
-      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    thead::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--border);
     }
     th {
       padding: 14px 16px;
       font-weight: 600;
       color: var(--accent);
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      background: var(--card);
+      white-space: nowrap;
     }
     th.center { text-align: center; }
+    th .th-subtitle {
+      display: block;
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 2px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
     td {
       padding: 12px 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     }
     td.center { text-align: center; }
     tr:last-child td { border-bottom: none; }
+    tr.hidden { display: none; }
     .resort-name {
       font-weight: 500;
       color: var(--text);
@@ -93,6 +190,12 @@
       text-transform: uppercase;
       font-weight: 600;
       letter-spacing: 0.03em;
+    }
+    .resort-api {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 2px;
     }
     .provider-vail {
       background: rgba(111, 227, 178, 0.15);
@@ -120,9 +223,24 @@
       color: var(--negative);
       opacity: 0.4;
     }
+    .status-partial {
+      background: rgba(255, 204, 112, 0.15);
+      color: var(--warning);
+    }
     .file-count {
       color: var(--muted);
       font-size: 0.85rem;
+    }
+    .last-update {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .last-update.stale {
+      color: var(--warning);
+    }
+    .last-update.very-stale {
+      color: var(--negative);
     }
     a {
       color: var(--accent);
@@ -161,6 +279,17 @@
       color: var(--accent);
       margin-left: 8px;
     }
+    .summary-percent.low {
+      color: var(--negative);
+    }
+    .summary-percent.medium {
+      color: var(--warning);
+    }
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
@@ -168,7 +297,7 @@
     <div class="header">
       <div>
         <h1>Resort Data Overview</h1>
-        <div class="subtitle">Complete status of all resorts in the database</div>
+        <div class="subtitle">Data availability status for all resorts</div>
       </div>
       <div class="stats">
         <div class="stat-pill">
@@ -190,26 +319,44 @@
       <div class="summary-bar" id="summary-bar">
         <!-- Summary stats will be inserted here -->
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Resort</th>
-            <th class="center">Terrain</th>
-            <th class="center">Snow Report</th>
-            <th class="center">Lift Status</th>
-            <th class="center">Live Wait Times</th>
-            <th class="center">Daily Briefs</th>
-            <th>Files</th>
-          </tr>
-        </thead>
-        <tbody id="resort-table">
-          <tr>
-            <td colspan="7" style="text-align: center; padding: 40px; color: var(--muted);">
-              Loading resort data...
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="filter-bar" id="filter-bar">
+        <span class="filter-label">Show:</span>
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
+          <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
+          <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
+        </div>
+        <div class="filter-divider"></div>
+        <span class="filter-label">Missing:</span>
+        <div class="filter-group">
+          <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Resort</th>
+              <th class="center">Terrain<span class="th-subtitle">trails &amp; areas</span></th>
+              <th class="center">Snow Report<span class="th-subtitle">conditions</span></th>
+              <th class="center">Lift Status<span class="th-subtitle">open/closed</span></th>
+              <th class="center">Wait Times<span class="th-subtitle">live polling</span></th>
+              <th class="center">Daily Brief<span class="th-subtitle">morning report</span></th>
+              <th>Data Files</th>
+            </tr>
+          </thead>
+          <tbody id="resort-table">
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 40px; color: var(--muted);">
+                Loading resort data...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -218,118 +365,94 @@
     initNav('overview');
 
     const dataFolder = '../data';
+    let allResorts = [];
+    let currentFilter = 'all';
 
     async function loadResortData() {
       try {
         const response = await fetch(`${dataFolder}/index.json`);
         const data = await response.json();
 
-        const resorts = Object.entries(data.resorts).map(([key, resort]) => ({
+        allResorts = Object.entries(data.resorts).map(([key, resort]) => ({
           key,
           ...resort
         }));
 
         // Calculate summary stats
-        const total = resorts.length;
-        const vailCount = resorts.filter(r => r.provider === 'vail').length;
-        const ikonCount = resorts.filter(r => r.provider === 'ikon').length;
+        const total = allResorts.length;
+        const vailCount = allResorts.filter(r => r.provider === 'vail').length;
+        const ikonCount = allResorts.filter(r => r.provider === 'ikon').length;
 
-        const terrainCount = resorts.filter(r => r.dataCapabilities.terrainAvailable).length;
-        const snowCount = resorts.filter(r => r.dataCapabilities.snowReportAvailable).length;
-        const liftStatusCount = resorts.filter(r => r.dataCapabilities.liftStatusAvailable).length;
-        const waitTimesCount = resorts.filter(r => r.dataCapabilities.liftWaitTimesAvailable).length;
-        const briefsCount = resorts.filter(r => r.dataCapabilities.dailyBriefAvailable).length;
+        const terrainCount = allResorts.filter(r => r.dataCapabilities.terrainAvailable).length;
+        const snowCount = allResorts.filter(r => r.dataCapabilities.snowReportAvailable).length;
+        const liftStatusCount = allResorts.filter(r => r.dataCapabilities.liftStatusAvailable).length;
+        const waitTimesCount = allResorts.filter(r => r.dataCapabilities.liftWaitTimesAvailable).length;
+        const briefsCount = allResorts.filter(r => r.dataCapabilities.dailyBriefAvailable).length;
 
         // Update header stats
         document.getElementById('total-resorts').textContent = total;
         document.getElementById('vail-count').textContent = vailCount;
         document.getElementById('ikon-count').textContent = ikonCount;
 
-        // Update summary bar
+        // Update filter counts
+        document.getElementById('count-all').textContent = ` (${total})`;
+        document.getElementById('count-vail').textContent = ` (${vailCount})`;
+        document.getElementById('count-ikon').textContent = ` (${ikonCount})`;
+        document.getElementById('count-no-terrain').textContent = ` (${total - terrainCount})`;
+        document.getElementById('count-no-lifts').textContent = ` (${total - liftStatusCount})`;
+        document.getElementById('count-no-waits').textContent = ` (${total - waitTimesCount})`;
+        document.getElementById('count-no-briefs').textContent = ` (${total - briefsCount})`;
+
+        // Update summary bar with percentages
         const summaryBar = document.getElementById('summary-bar');
         summaryBar.innerHTML = `
           <div class="summary-item">
             <div class="summary-label">Terrain Data</div>
             <div class="summary-value">
               ${terrainCount}/${total}
-              <span class="summary-percent">${Math.round(terrainCount/total*100)}%</span>
+              <span class="summary-percent ${getPercentClass(terrainCount/total)}">${Math.round(terrainCount/total*100)}%</span>
             </div>
           </div>
           <div class="summary-item">
             <div class="summary-label">Snow Reports</div>
             <div class="summary-value">
               ${snowCount}/${total}
-              <span class="summary-percent">${Math.round(snowCount/total*100)}%</span>
+              <span class="summary-percent ${getPercentClass(snowCount/total)}">${Math.round(snowCount/total*100)}%</span>
             </div>
           </div>
           <div class="summary-item">
             <div class="summary-label">Lift Status</div>
             <div class="summary-value">
               ${liftStatusCount}/${total}
-              <span class="summary-percent">${Math.round(liftStatusCount/total*100)}%</span>
+              <span class="summary-percent ${getPercentClass(liftStatusCount/total)}">${Math.round(liftStatusCount/total*100)}%</span>
             </div>
           </div>
           <div class="summary-item">
             <div class="summary-label">Live Wait Times</div>
             <div class="summary-value">
               ${waitTimesCount}/${total}
-              <span class="summary-percent">${Math.round(waitTimesCount/total*100)}%</span>
+              <span class="summary-percent ${getPercentClass(waitTimesCount/total)}">${Math.round(waitTimesCount/total*100)}%</span>
             </div>
           </div>
           <div class="summary-item">
             <div class="summary-label">Daily Briefs</div>
             <div class="summary-value">
               ${briefsCount}/${total}
-              <span class="summary-percent">${Math.round(briefsCount/total*100)}%</span>
+              <span class="summary-percent ${getPercentClass(briefsCount/total)}">${Math.round(briefsCount/total*100)}%</span>
             </div>
           </div>
         `;
 
         // Sort resorts by provider then name
-        resorts.sort((a, b) => {
+        allResorts.sort((a, b) => {
           if (a.provider !== b.provider) {
             return a.provider === 'vail' ? -1 : 1;
           }
           return a.name.localeCompare(b.name);
         });
 
-        // Render table
-        const tbody = document.getElementById('resort-table');
-        tbody.innerHTML = resorts.map(resort => {
-          const caps = resort.dataCapabilities;
-          const providerClass = `provider-${resort.provider}`;
-
-          const terrainLink = caps.terrainAvailable && resort.latest
-            ? `<a href="${dataFolder}/${resort.key}/terrain/${resort.latest}" target="_blank">${statusIcon(true)}</a>`
-            : statusIcon(false);
-
-          const snowLink = caps.snowReportAvailable
-            ? `<a href="${dataFolder}/${resort.key}/snow/" target="_blank">${statusIcon(true)}</a>`
-            : statusIcon(false);
-
-          const briefLink = caps.dailyBriefAvailable
-            ? `<a href="${dataFolder}/${resort.key}/brief/" target="_blank">${statusIcon(true)}</a>`
-            : statusIcon(false);
-
-          const filesInfo = resort.count > 0
-            ? `<span class="file-count">${resort.count} terrain files</span><br><a href="${dataFolder}/${resort.key}/terrain/" target="_blank">View all \u2192</a>`
-            : `<span class="file-count" style="opacity: 0.4;">No terrain data</span>`;
-
-          return `
-            <tr>
-              <td>
-                <span class="resort-name">${resort.name}</span>
-                <span class="resort-provider ${providerClass}">${resort.provider}</span>
-              </td>
-              <td class="center">${terrainLink}</td>
-              <td class="center">${snowLink}</td>
-              <td class="center">${statusIcon(caps.liftStatusAvailable)}</td>
-              <td class="center">${statusIcon(caps.liftWaitTimesAvailable)}</td>
-              <td class="center">${briefLink}</td>
-              <td>${filesInfo}</td>
-            </tr>
-          `;
-        }).join('');
+        renderTable();
+        setupFilterListeners();
 
       } catch (error) {
         console.error('Error loading resort data:', error);
@@ -341,6 +464,122 @@
           </tr>
         `;
       }
+    }
+
+    function getPercentClass(ratio) {
+      if (ratio >= 0.8) return '';
+      if (ratio >= 0.5) return 'medium';
+      return 'low';
+    }
+
+    function getLastUpdateClass(dateStr) {
+      if (!dateStr) return 'very-stale';
+      const date = new Date(dateStr);
+      const now = new Date();
+      const hoursDiff = (now - date) / (1000 * 60 * 60);
+      if (hoursDiff > 48) return 'very-stale';
+      if (hoursDiff > 24) return 'stale';
+      return '';
+    }
+
+    function formatLastUpdate(dateStr) {
+      if (!dateStr) return 'Never';
+      const date = new Date(dateStr);
+      const now = new Date();
+      const hoursDiff = Math.floor((now - date) / (1000 * 60 * 60));
+
+      if (hoursDiff < 1) return 'Just now';
+      if (hoursDiff < 24) return `${hoursDiff}h ago`;
+      const daysDiff = Math.floor(hoursDiff / 24);
+      if (daysDiff === 1) return 'Yesterday';
+      return `${daysDiff} days ago`;
+    }
+
+    function filterResorts(filter) {
+      return allResorts.filter(resort => {
+        const caps = resort.dataCapabilities;
+        switch (filter) {
+          case 'all': return true;
+          case 'vail': return resort.provider === 'vail';
+          case 'ikon': return resort.provider === 'ikon';
+          case 'no-terrain': return !caps.terrainAvailable;
+          case 'no-lifts': return !caps.liftStatusAvailable;
+          case 'no-waits': return !caps.liftWaitTimesAvailable;
+          case 'no-briefs': return !caps.dailyBriefAvailable;
+          default: return true;
+        }
+      });
+    }
+
+    function renderTable() {
+      const filtered = filterResorts(currentFilter);
+      const tbody = document.getElementById('resort-table');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="no-results">No resorts match this filter</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(resort => {
+        const caps = resort.dataCapabilities;
+        const providerClass = `provider-${resort.provider}`;
+
+        const terrainLink = caps.terrainAvailable && resort.latest
+          ? `<a href="${dataFolder}/${resort.key}/terrain/${resort.latest}" target="_blank">${statusIcon(true)}</a>`
+          : statusIcon(false);
+
+        const snowLink = caps.snowReportAvailable
+          ? `<a href="${dataFolder}/${resort.key}/snow/" target="_blank">${statusIcon(true)}</a>`
+          : statusIcon(false);
+
+        const briefLink = caps.dailyBriefAvailable
+          ? `<a href="${dataFolder}/${resort.key}/brief/" target="_blank">${statusIcon(true)}</a>`
+          : statusIcon(false);
+
+        // Lift status with link to lifts index if available
+        const liftStatusLink = caps.liftStatusAvailable
+          ? `<a href="${dataFolder}/${resort.key}/lifts/index.json" target="_blank">${statusIcon(true)}</a>`
+          : statusIcon(false);
+
+        const filesInfo = resort.count > 0
+          ? `<span class="file-count">${resort.count} files</span><br><a href="${dataFolder}/${resort.key}/terrain/" target="_blank">View \u2192</a>`
+          : `<span class="file-count" style="opacity: 0.4;">No data</span>`;
+
+        const lastUpdate = caps.lastTerrainUpdate
+          ? `<div class="last-update ${getLastUpdateClass(caps.lastTerrainUpdate)}">Updated ${formatLastUpdate(caps.lastTerrainUpdate)}</div>`
+          : '';
+
+        return `
+          <tr data-provider="${resort.provider}" data-terrain="${caps.terrainAvailable}" data-lifts="${caps.liftStatusAvailable}" data-waits="${caps.liftWaitTimesAvailable}" data-briefs="${caps.dailyBriefAvailable}">
+            <td>
+              <span class="resort-name">${resort.name}</span>
+              <span class="resort-provider ${providerClass}">${resort.provider}</span>
+              ${lastUpdate}
+            </td>
+            <td class="center">${terrainLink}</td>
+            <td class="center">${snowLink}</td>
+            <td class="center">${liftStatusLink}</td>
+            <td class="center">${statusIcon(caps.liftWaitTimesAvailable)}</td>
+            <td class="center">${briefLink}</td>
+            <td>${filesInfo}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setupFilterListeners() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active from all
+          filterBtns.forEach(b => b.classList.remove('active'));
+          // Add active to clicked
+          btn.classList.add('active');
+          // Update filter and re-render
+          currentFilter = btn.dataset.filter;
+          renderTable();
+        });
+      });
     }
 
     function statusIcon(available) {
