@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-10",
-  "generated": "2025-12-10T10:24:07.081Z",
+  "generated": "2025-12-10T11:16:22.995Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,37 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 40,
           "yesterday": 39,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 34,
+          "today": 36,
           "yesterday": 34,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Spillway",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Duck Soup",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
+        {
+          "name": "Spillway",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -85,10 +102,10 @@
         },
         {
           "date": "2025-12-12",
-          "high_f": 16,
-          "low_f": 16,
+          "high_f": 17,
+          "low_f": 17,
           "high_c": -9,
-          "low_c": -9,
+          "low_c": -8,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -112,25 +129,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "5\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Duck Soup - all skill levels",
+      "Fresh corduroy on Spillway - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Cloudy with a chance of pow!",
-    "body": "Stratton report: 39/123 trails spinning, 34 freshly groomed. null° and Windy. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "The Map Just Got Bigger",
+    "body": "Stratton report: 40/123 trails spinning, 36 freshly groomed. null° and Windy. Rope drop! 1 trails opened overnight, expanding your playground significantly. 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,25 +164,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 5,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Promising"
+        "previousHeadline": "Cloudy with a chance of pow!"
       },
       "dayOfWeek": "Wednesday"
     }
