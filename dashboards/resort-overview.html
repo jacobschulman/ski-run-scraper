@@ -62,6 +62,9 @@
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
       align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
     .filter-label {
       font-size: 0.8rem;
@@ -138,7 +141,7 @@
     thead {
       background: var(--card);
       position: sticky;
-      top: 0;
+      top: 56px; /* Height of filter bar */
       z-index: 10;
     }
     thead::after {
@@ -149,6 +152,9 @@
       right: 0;
       height: 1px;
       background: var(--border);
+    }
+    thead th {
+      box-shadow: 0 1px 0 var(--border);
     }
     th {
       padding: 14px 16px;
@@ -319,23 +325,23 @@
       <div class="summary-bar" id="summary-bar">
         <!-- Summary stats will be inserted here -->
       </div>
-      <div class="filter-bar" id="filter-bar">
-        <span class="filter-label">Show:</span>
-        <div class="filter-group">
-          <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
-          <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
-          <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
-        </div>
-        <div class="filter-divider"></div>
-        <span class="filter-label">Missing:</span>
-        <div class="filter-group">
-          <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
-        </div>
-      </div>
       <div class="table-scroll">
+        <div class="filter-bar" id="filter-bar">
+          <span class="filter-label">Show:</span>
+          <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
+            <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
+            <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
+          </div>
+          <div class="filter-divider"></div>
+          <span class="filter-label">Missing:</span>
+          <div class="filter-group">
+            <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
+            <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
+            <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
+            <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
+          </div>
+        </div>
         <table>
           <thead>
             <tr>
@@ -365,8 +371,10 @@
     initNav('overview');
 
     const dataFolder = '../data';
+    const liveBaseUrl = 'https://jacobschulman.github.io/ski-run-scraper/data';
     let allResorts = [];
     let currentFilter = 'all';
+    let providerFilter = 'all'; // Track provider filter separately
 
     async function loadResortData() {
       try {
@@ -403,45 +411,8 @@
         document.getElementById('count-no-waits').textContent = ` (${total - waitTimesCount})`;
         document.getElementById('count-no-briefs').textContent = ` (${total - briefsCount})`;
 
-        // Update summary bar with percentages
-        const summaryBar = document.getElementById('summary-bar');
-        summaryBar.innerHTML = `
-          <div class="summary-item">
-            <div class="summary-label">Terrain Data</div>
-            <div class="summary-value">
-              ${terrainCount}/${total}
-              <span class="summary-percent ${getPercentClass(terrainCount/total)}">${Math.round(terrainCount/total*100)}%</span>
-            </div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Snow Reports</div>
-            <div class="summary-value">
-              ${snowCount}/${total}
-              <span class="summary-percent ${getPercentClass(snowCount/total)}">${Math.round(snowCount/total*100)}%</span>
-            </div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Lift Status</div>
-            <div class="summary-value">
-              ${liftStatusCount}/${total}
-              <span class="summary-percent ${getPercentClass(liftStatusCount/total)}">${Math.round(liftStatusCount/total*100)}%</span>
-            </div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Live Wait Times</div>
-            <div class="summary-value">
-              ${waitTimesCount}/${total}
-              <span class="summary-percent ${getPercentClass(waitTimesCount/total)}">${Math.round(waitTimesCount/total*100)}%</span>
-            </div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Daily Briefs</div>
-            <div class="summary-value">
-              ${briefsCount}/${total}
-              <span class="summary-percent ${getPercentClass(briefsCount/total)}">${Math.round(briefsCount/total*100)}%</span>
-            </div>
-          </div>
-        `;
+        // Initial summary bar render (will be updated on filter change)
+        updateSummaryBar();
 
         // Sort resorts by provider then name
         allResorts.sort((a, b) => {
@@ -453,6 +424,10 @@
 
         renderTable();
         setupFilterListeners();
+        updateTheadOffset();
+
+        // Update thead offset on window resize (filter bar may wrap)
+        window.addEventListener('resize', updateTheadOffset);
 
       } catch (error) {
         console.error('Error loading resort data:', error);
@@ -470,6 +445,64 @@
       if (ratio >= 0.8) return '';
       if (ratio >= 0.5) return 'medium';
       return 'low';
+    }
+
+    function updateSummaryBar() {
+      // Get base set based on provider filter
+      let baseSet = allResorts;
+      if (providerFilter === 'vail') {
+        baseSet = allResorts.filter(r => r.provider === 'vail');
+      } else if (providerFilter === 'ikon') {
+        baseSet = allResorts.filter(r => r.provider === 'ikon');
+      }
+
+      const total = baseSet.length;
+      const terrainCount = baseSet.filter(r => r.dataCapabilities.terrainAvailable).length;
+      const snowCount = baseSet.filter(r => r.dataCapabilities.snowReportAvailable).length;
+      const liftStatusCount = baseSet.filter(r => r.dataCapabilities.liftStatusAvailable).length;
+      const waitTimesCount = baseSet.filter(r => r.dataCapabilities.liftWaitTimesAvailable).length;
+      const briefsCount = baseSet.filter(r => r.dataCapabilities.dailyBriefAvailable).length;
+
+      const providerLabel = providerFilter === 'all' ? '' : ` (${providerFilter.charAt(0).toUpperCase() + providerFilter.slice(1)})`;
+
+      const summaryBar = document.getElementById('summary-bar');
+      summaryBar.innerHTML = `
+        <div class="summary-item">
+          <div class="summary-label">Terrain Data${providerLabel}</div>
+          <div class="summary-value">
+            ${terrainCount}/${total}
+            <span class="summary-percent ${getPercentClass(terrainCount/total)}">${Math.round(terrainCount/total*100)}%</span>
+          </div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Snow Reports${providerLabel}</div>
+          <div class="summary-value">
+            ${snowCount}/${total}
+            <span class="summary-percent ${getPercentClass(snowCount/total)}">${Math.round(snowCount/total*100)}%</span>
+          </div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Lift Status${providerLabel}</div>
+          <div class="summary-value">
+            ${liftStatusCount}/${total}
+            <span class="summary-percent ${getPercentClass(liftStatusCount/total)}">${Math.round(liftStatusCount/total*100)}%</span>
+          </div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Live Wait Times${providerLabel}</div>
+          <div class="summary-value">
+            ${waitTimesCount}/${total}
+            <span class="summary-percent ${getPercentClass(waitTimesCount/total)}">${Math.round(waitTimesCount/total*100)}%</span>
+          </div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Daily Briefs${providerLabel}</div>
+          <div class="summary-value">
+            ${briefsCount}/${total}
+            <span class="summary-percent ${getPercentClass(briefsCount/total)}">${Math.round(briefsCount/total*100)}%</span>
+          </div>
+        </div>
+      `;
     }
 
     function getLastUpdateClass(dateStr) {
@@ -495,13 +528,17 @@
       return `${daysDiff} days ago`;
     }
 
-    function filterResorts(filter) {
+    function filterResorts() {
       return allResorts.filter(resort => {
         const caps = resort.dataCapabilities;
-        switch (filter) {
+
+        // First apply provider filter
+        if (providerFilter === 'vail' && resort.provider !== 'vail') return false;
+        if (providerFilter === 'ikon' && resort.provider !== 'ikon') return false;
+
+        // Then apply missing data filter
+        switch (currentFilter) {
           case 'all': return true;
-          case 'vail': return resort.provider === 'vail';
-          case 'ikon': return resort.provider === 'ikon';
           case 'no-terrain': return !caps.terrainAvailable;
           case 'no-lifts': return !caps.liftStatusAvailable;
           case 'no-waits': return !caps.liftWaitTimesAvailable;
@@ -512,7 +549,7 @@
     }
 
     function renderTable() {
-      const filtered = filterResorts(currentFilter);
+      const filtered = filterResorts();
       const tbody = document.getElementById('resort-table');
 
       if (filtered.length === 0) {
@@ -524,25 +561,26 @@
         const caps = resort.dataCapabilities;
         const providerClass = `provider-${resort.provider}`;
 
+        // Links to live GitHub Pages GUI
         const terrainLink = caps.terrainAvailable && resort.latest
-          ? `<a href="${dataFolder}/${resort.key}/terrain/${resort.latest}" target="_blank">${statusIcon(true)}</a>`
+          ? `<a href="${liveBaseUrl}/${resort.key}/grooming.html" target="_blank">${statusIcon(true)}</a>`
           : statusIcon(false);
 
         const snowLink = caps.snowReportAvailable
-          ? `<a href="${dataFolder}/${resort.key}/snow/" target="_blank">${statusIcon(true)}</a>`
+          ? `<a href="${liveBaseUrl}/${resort.key}/snow.html" target="_blank">${statusIcon(true)}</a>`
           : statusIcon(false);
 
         const briefLink = caps.dailyBriefAvailable
-          ? `<a href="${dataFolder}/${resort.key}/brief/" target="_blank">${statusIcon(true)}</a>`
+          ? `<a href="${liveBaseUrl}/${resort.key}/brief.html" target="_blank">${statusIcon(true)}</a>`
           : statusIcon(false);
 
-        // Lift status with link to lifts index if available
+        // Lift status with link to lifts GUI
         const liftStatusLink = caps.liftStatusAvailable
-          ? `<a href="${dataFolder}/${resort.key}/lifts/index.json" target="_blank">${statusIcon(true)}</a>`
+          ? `<a href="${liveBaseUrl}/${resort.key}/lifts.html" target="_blank">${statusIcon(true)}</a>`
           : statusIcon(false);
 
         const filesInfo = resort.count > 0
-          ? `<span class="file-count">${resort.count} files</span><br><a href="${dataFolder}/${resort.key}/terrain/" target="_blank">View \u2192</a>`
+          ? `<span class="file-count">${resort.count} files</span><br><a href="${liveBaseUrl}/${resort.key}/grooming.html" target="_blank">View \u2192</a>`
           : `<span class="file-count" style="opacity: 0.4;">No data</span>`;
 
         const lastUpdate = caps.lastTerrainUpdate
@@ -568,15 +606,35 @@
     }
 
     function setupFilterListeners() {
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      filterBtns.forEach(btn => {
+      const providerBtns = document.querySelectorAll('.filter-btn[data-filter="all"], .filter-btn[data-filter="vail"], .filter-btn[data-filter="ikon"]');
+      const missingBtns = document.querySelectorAll('.filter-btn.filter-missing');
+
+      // Provider buttons are exclusive (All, Vail, Ikon)
+      providerBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-          // Remove active from all
-          filterBtns.forEach(b => b.classList.remove('active'));
-          // Add active to clicked
+          providerBtns.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          // Update filter and re-render
-          currentFilter = btn.dataset.filter;
+          providerFilter = btn.dataset.filter;
+          updateSummaryBar();
+          renderTable();
+        });
+      });
+
+      // Missing data buttons are toggleable
+      missingBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const filter = btn.dataset.filter;
+
+          if (btn.classList.contains('active')) {
+            // Turn off - go back to showing all
+            btn.classList.remove('active');
+            currentFilter = 'all';
+          } else {
+            // Turn on - deactivate other missing filters first
+            missingBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = filter;
+          }
           renderTable();
         });
       });
@@ -587,6 +645,15 @@
         return '<span class="status-icon status-yes">\u2713</span>';
       } else {
         return '<span class="status-icon status-no">\u2717</span>';
+      }
+    }
+
+    function updateTheadOffset() {
+      const filterBar = document.getElementById('filter-bar');
+      const thead = document.querySelector('thead');
+      if (filterBar && thead) {
+        const filterBarHeight = filterBar.offsetHeight;
+        thead.style.top = filterBarHeight + 'px';
       }
     }
 
