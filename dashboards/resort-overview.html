@@ -124,11 +124,12 @@
       border-radius: 16px;
       border: 1px solid var(--border);
       box-shadow: var(--shadow);
-      overflow: hidden;
     }
     .table-scroll {
       max-height: calc(100vh - 320px);
       overflow-y: auto;
+      overflow-x: hidden;
+      border-radius: 0 0 16px 16px;
     }
     table {
       font-size: 0.9rem;
@@ -136,16 +137,10 @@
       border-collapse: separate;
       border-spacing: 0;
     }
-    thead {
+    th {
       position: sticky;
       top: 0;
       z-index: 10;
-    }
-    thead th {
-      background: var(--card);
-      box-shadow: 0 1px 0 var(--border);
-    }
-    th {
       padding: 14px 16px;
       font-weight: 600;
       color: var(--accent);
@@ -154,6 +149,7 @@
       letter-spacing: 0.05em;
       background: var(--card);
       white-space: nowrap;
+      box-shadow: 0 1px 0 var(--border);
     }
     th.center { text-align: center; }
     th .th-subtitle {
