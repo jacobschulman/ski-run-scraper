@@ -546,29 +546,56 @@
             .then(data => {
                 const lifts = data.lifts || [];
                 const openLifts = lifts.filter(l => l.status === 'Open');
+                const scheduledLifts = lifts.filter(l => l.status === 'Scheduled' || (l.status !== 'Open' && l.openTime));
+                const closedLifts = lifts.filter(l => l.status === 'Closed' && !l.openTime);
                 const total = lifts.length;
 
                 // Update subtitle
                 document.getElementById('liftSubtitle').textContent = `${openLifts.length}/${total} open · Snapshot of today's lifts`;
 
-                if (openLifts.length === 0) {
+                // If lifts are open, show top 3 open lifts
+                if (openLifts.length > 0) {
+                    document.getElementById('liftList').innerHTML = openLifts.slice(0, 3).map(lift => `
+                        <a href="lift.html?name=${encodeURIComponent(lift.slug || lift.name)}" class="lift-item">
+                            <div class="lift-status-dot open"></div>
+                            <div class="lift-info">
+                                <div class="lift-name">${lift.name}</div>
+                                <div class="lift-time">${lift.hours?.close ? `Closes at ${lift.hours.close}` : ''}</div>
+                            </div>
+                            <span class="lift-badge open">Open</span>
+                        </a>
+                    `).join('');
+                    return;
+                }
+
+                // No lifts open - show scheduled/closed lifts
+                // Prioritize scheduled lifts (those with open times)
+                const liftsToShow = [...scheduledLifts, ...closedLifts].slice(0, 3);
+
+                if (liftsToShow.length === 0) {
                     document.getElementById('liftList').innerHTML = `
                         <div class="empty-state">No lifts open yet</div>
                     `;
                     return;
                 }
 
-                // Show top 3 open lifts
-                document.getElementById('liftList').innerHTML = openLifts.slice(0, 3).map(lift => `
-                    <a href="lift.html?name=${encodeURIComponent(lift.slug || lift.name)}" class="lift-item">
-                        <div class="lift-status-dot open"></div>
-                        <div class="lift-info">
-                            <div class="lift-name">${lift.name}</div>
-                            <div class="lift-time">${lift.hours?.close ? `Closes at ${lift.hours.close}` : ''}</div>
-                        </div>
-                        <span class="lift-badge open">Open</span>
-                    </a>
-                `).join('');
+                document.getElementById('liftList').innerHTML = liftsToShow.map(lift => {
+                    const isScheduled = lift.status === 'Scheduled' || lift.openTime;
+                    const statusClass = isScheduled ? 'scheduled' : 'closed';
+                    const statusText = isScheduled ? 'Scheduled' : 'Closed';
+                    const timeText = lift.openTime ? `Opens at ${lift.openTime}` : (lift.mountain ? `Closed · ${lift.mountain}` : 'Closed');
+
+                    return `
+                        <a href="lift.html?name=${encodeURIComponent(lift.slug || lift.name)}" class="lift-item">
+                            <div class="lift-status-dot closed"></div>
+                            <div class="lift-info">
+                                <div class="lift-name">${lift.name}</div>
+                                <div class="lift-time">${timeText}</div>
+                            </div>
+                            <span class="lift-badge closed">${statusText}</span>
+                        </a>
+                    `;
+                }).join('');
             })
             .catch(() => {
                 document.getElementById('liftSubtitle').textContent = 'Lift data unavailable';

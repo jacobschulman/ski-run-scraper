@@ -14,7 +14,6 @@
             background: #f2f2f7;
             margin: 0;
             padding: 0;
-            padding-bottom: 100px;
         }
         .header {
             background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
@@ -64,6 +63,8 @@
             pointer-events: none;
         }
         .container {
+            max-width: 600px;
+            margin: 0 auto;
             padding: 16px;
         }
         .section {
@@ -169,58 +170,82 @@
 
         /* Forecast */
         .forecast-list {
-            padding: 0 16px 8px;
+            padding: 0;
         }
         .forecast-day {
             display: flex;
             align-items: center;
-            padding: 12px 0;
+            padding: 14px 16px;
             border-bottom: 1px solid #e5e5ea;
+            gap: 12px;
         }
         .forecast-day:last-child {
             border-bottom: none;
         }
+        .forecast-day-info {
+            width: 70px;
+            flex-shrink: 0;
+        }
         .forecast-day-name {
-            width: 80px;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: #1c1c1e;
         }
+        .forecast-day-date {
+            font-size: 12px;
+            color: #8e8e93;
+        }
         .forecast-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 12px;
+            width: 36px;
+            height: 36px;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .forecast-icon svg {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
         }
         .forecast-desc {
             flex: 1;
             font-size: 14px;
-            color: #8e8e93;
+            color: #1c1c1e;
+            font-weight: 500;
+            min-width: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .forecast-temps {
             text-align: right;
+            flex-shrink: 0;
+        }
+        .forecast-temp-row {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            justify-content: flex-end;
         }
         .forecast-high {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
             color: #1c1c1e;
         }
         .forecast-low {
-            font-size: 13px;
+            font-size: 14px;
             color: #8e8e93;
         }
         .forecast-snow {
-            width: 50px;
+            width: 48px;
             text-align: right;
-            font-size: 14px;
+            font-size: 15px;
+            color: #007aff;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .forecast-snow.has-snow {
             color: #34c759;
-            font-weight: 500;
         }
 
         /* Base Depth */
@@ -284,50 +309,7 @@
             color: #ff3b30;
         }
 
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid #e5e5ea;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            padding-bottom: max(8px, env(safe-area-inset-bottom));
-            z-index: 1000;
-        }
-        .nav-tab {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #8e8e93;
-            font-size: 10px;
-            padding: 4px 12px;
-            min-width: 64px;
-        }
-        .nav-tab.active {
-            color: #007aff;
-        }
-        .nav-tab-icon {
-            width: 24px;
-            height: 24px;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .nav-tab-icon svg {
-            width: 24px;
-            height: 24px;
-        }
-        .nav-tab-label {
-            font-weight: 500;
-        }
+        /* Bottom Navigation - uses shared styles from styles.css */
 
         /* Resort Picker Modal */
         .modal-overlay {
@@ -402,7 +384,7 @@
         }
     </style>
 </head>
-<body>
+<body class="has-bottom-nav">
     <div class="header">
         <div class="header-top">
             <div class="resort-picker" onclick="openResortPicker()">
@@ -450,22 +432,44 @@
         // Weather icons by description
         function getWeatherIcon(desc) {
             const d = (desc || '').toLowerCase();
+
+            // Snow with wind
+            if ((d.includes('snow') && d.includes('wind')) || d.includes('blizzard')) {
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#e3f2fd"/><path d="M18 8v8m0 4v4m-5-11l5 5 5-5m-10 8h2m2 0h2m2 0h2M10 22h2m2 0h2" stroke="#1976d2" stroke-width="2" stroke-linecap="round"/><path d="M24 12c2-1 4 0 4 2s-2 3-4 2" stroke="#78909c" stroke-width="1.5" fill="none"/></svg>';
+            }
+
+            // Snow
             if (d.includes('snow') || d.includes('flurr')) {
-                return '<svg viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C9.24 2 7 4.24 7 7c0 .84.21 1.63.58 2.32C5.44 10.08 4 11.87 4 14c0 2.76 2.24 5 5 5h10c2.21 0 4-1.79 4-4 0-1.76-1.14-3.25-2.72-3.78C19.84 8.28 16.94 6 13.5 6c-.58 0-1.14.07-1.68.2C11.93 4.32 12 4.16 12 4c0-1.1-.9-2-2-2zm-2 13l-2 2 2 2m4-4l2 2-2 2m-2-6v8"/></svg>';
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#e3f2fd"/><path d="M18 8v20M10 14l8 4-8 4m16-8l-8 4 8 4" stroke="#1976d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18" cy="18" r="2" fill="#1976d2"/></svg>';
             }
+
+            // Rain
             if (d.includes('rain') || d.includes('shower')) {
-                return '<svg viewBox="0 0 24 24" fill="#007aff"><path d="M12 2C9.24 2 7 4.24 7 7c0 .84.21 1.63.58 2.32C5.44 10.08 4 11.87 4 14c0 2.76 2.24 5 5 5h10c2.21 0 4-1.79 4-4 0-1.76-1.14-3.25-2.72-3.78C19.84 8.28 16.94 6 13.5 6c-.58 0-1.14.07-1.68.2C11.93 4.32 12 4.16 12 4c0-1.1-.9-2-2-2zm-4 15l-1 3m4-3l-2 6m4-6l-1 3"/></svg>';
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#e3f2fd"/><path d="M12 20l-2 6m6-8l-2 8m6-6l-2 6m6-8l-2 8" stroke="#1976d2" stroke-width="2" stroke-linecap="round"/><path d="M9 16h18c0-4-3-7-7-7-2 0-4 1-5 3-1-1-2-2-4-2-3 0-5 2-5 5 0 .3 0 .7.1 1h2.9z" fill="#78909c"/></svg>';
             }
-            if (d.includes('cloud') || d.includes('overcast')) {
-                return '<svg viewBox="0 0 24 24" fill="#8e8e93"><path d="M19 18H6c-2.76 0-5-2.24-5-5 0-2.13 1.34-4 3.28-4.72C4.1 8.17 4 8.08 4 8c0-2.76 2.24-5 5-5 2.05 0 3.81 1.24 4.58 3h.42c2.76 0 5 2.24 5 5 0 .34-.04.67-.1 1H19c1.66 0 3 1.34 3 3s-1.34 3-3 3z"/></svg>';
-            }
+
+            // Windy
             if (d.includes('wind')) {
-                return '<svg viewBox="0 0 24 24" fill="#8e8e93"><path d="M4 10h8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2H4v2zm0 4h12c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2H4v-2zm0 6h6c.55 0 1-.45 1-1s-.45-1-1-1H4v2z"/></svg>';
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#f5f5f5"/><path d="M6 14h14c2 0 3-1 3-2.5S22 9 20 9s-3 1-3 2.5" stroke="#78909c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M6 19h18c2 0 3 1 3 2.5S26 24 24 24s-3-1-3-2.5" stroke="#78909c" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M8 24h10c1.5 0 2.5 1 2.5 2s-1 2-2.5 2-2.5-1-2.5-2" stroke="#78909c" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
             }
-            if (d.includes('clear') || d.includes('sunny')) {
-                return '<svg viewBox="0 0 24 24" fill="#ffcc00"><circle cx="12" cy="12" r="5"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2m-2.93-7.07l-1.41 1.41m-9.32 9.32l-1.41 1.41m0-12.14l1.41 1.41m9.32 9.32l1.41 1.41"/></svg>';
+
+            // Cloudy/Overcast
+            if (d.includes('cloud') || d.includes('overcast')) {
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#f5f5f5"/><path d="M10 24h16c2.2 0 4-1.8 4-4s-1.8-4-4-4c-.3 0-.6 0-.9.1-.6-3-3.2-5.1-6.1-5.1-2.5 0-4.7 1.5-5.7 3.7C12.5 14.3 11.8 14 11 14c-2.2 0-4 1.8-4 4 0 1.9 1.3 3.4 3 3.9z" fill="#b0bec5"/></svg>';
             }
-            return '<svg viewBox="0 0 24 24" fill="#8e8e93"><circle cx="12" cy="12" r="5"/></svg>';
+
+            // Clear/Sunny
+            if (d.includes('clear') || d.includes('sunny') || d.includes('fair')) {
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#fff8e1"/><circle cx="18" cy="18" r="7" fill="#ffc107"/><path d="M18 5v4m0 18v4M5 18h4m18 0h4M8.9 8.9l2.8 2.8m12.6 12.6l2.8 2.8m0-18.2l-2.8 2.8M11.7 24.3l-2.8 2.8" stroke="#ffc107" stroke-width="2" stroke-linecap="round"/></svg>';
+            }
+
+            // Partly cloudy
+            if (d.includes('partly')) {
+                return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#fff8e1"/><circle cx="14" cy="14" r="5" fill="#ffc107"/><path d="M12 26h14c2 0 3.5-1.5 3.5-3.5S28 19 26 19c-.2 0-.4 0-.6.1-.5-2.4-2.6-4.1-5.1-4.1-2 0-3.8 1.2-4.6 3-.6-.2-1.1-.3-1.7-.3-2.5 0-4.5 2-4.5 4.5 0 2.1 1.5 3.8 3.5 4.3z" fill="#b0bec5"/></svg>';
+            }
+
+            // Default
+            return '<svg viewBox="0 0 36 36" width="36" height="36"><circle cx="18" cy="18" r="17" fill="#f5f5f5"/><circle cx="18" cy="18" r="6" fill="#9e9e9e"/></svg>';
         }
 
         function formatDate(dateStr) {
@@ -576,18 +580,29 @@
                 const high = useMetric ? day.high_c : day.high_f;
                 const low = useMetric ? day.low_c : day.low_f;
                 const snowAmt = (day.snowfall_day_inches || 0) + (day.snowfall_night_inches || 0);
-                const snowDisplay = snowAmt > 0 ? `${useMetric ? Math.round(snowAmt * 2.54) : snowAmt}${snowUnit}` : '';
+                const snowAmtMetric = Math.round(snowAmt * 2.54);
+                const snowDisplay = snowAmt > 0 ? `${useMetric ? snowAmtMetric : snowAmt}${snowUnit}` : '';
+                const hasSnow = snowAmt > 0;
+
+                // Format date for display
+                const dateObj = new Date(day.date + 'T12:00:00');
+                const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
                 html += `
                     <div class="forecast-day">
-                        <div class="forecast-day-name">${formatDayName(day.date)}</div>
+                        <div class="forecast-day-info">
+                            <div class="forecast-day-name">${formatDayName(day.date)}</div>
+                            <div class="forecast-day-date">${monthDay}</div>
+                        </div>
                         <div class="forecast-icon">${getWeatherIcon(day.description)}</div>
                         <div class="forecast-desc">${day.description || ''}</div>
-                        <div class="forecast-snow">${snowDisplay}</div>
                         <div class="forecast-temps">
-                            <div class="forecast-high">${high ?? '--'}${tempUnit}</div>
-                            <div class="forecast-low">${low ?? '--'}${tempUnit}</div>
+                            <div class="forecast-temp-row">
+                                <span class="forecast-high">${high ?? '--'}°</span>
+                                <span class="forecast-low">/ ${low ?? '--'}°</span>
+                            </div>
                         </div>
+                        <div class="forecast-snow ${hasSnow ? 'has-snow' : ''}">${snowDisplay || '—'}</div>
                     </div>
                 `;
             });
