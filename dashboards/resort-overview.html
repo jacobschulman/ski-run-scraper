@@ -62,9 +62,6 @@
       border-bottom: 1px solid var(--border);
       flex-wrap: wrap;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 20;
     }
     .filter-label {
       font-size: 0.8rem;
@@ -141,7 +138,7 @@
     thead {
       background: var(--card);
       position: sticky;
-      top: 56px; /* Height of filter bar */
+      top: 0;
       z-index: 10;
     }
     thead::after {
@@ -325,23 +322,23 @@
       <div class="summary-bar" id="summary-bar">
         <!-- Summary stats will be inserted here -->
       </div>
-      <div class="table-scroll">
-        <div class="filter-bar" id="filter-bar">
-          <span class="filter-label">Show:</span>
-          <div class="filter-group">
-            <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
-            <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
-            <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
-          </div>
-          <div class="filter-divider"></div>
-          <span class="filter-label">Missing:</span>
-          <div class="filter-group">
-            <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
-            <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
-            <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
-            <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
-          </div>
+      <div class="filter-bar" id="filter-bar">
+        <span class="filter-label">Show:</span>
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
+          <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
+          <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
         </div>
+        <div class="filter-divider"></div>
+        <span class="filter-label">Missing:</span>
+        <div class="filter-group">
+          <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
+          <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
+        </div>
+      </div>
+      <div class="table-scroll">
         <table>
           <thead>
             <tr>
@@ -424,10 +421,6 @@
 
         renderTable();
         setupFilterListeners();
-        updateTheadOffset();
-
-        // Update thead offset on window resize (filter bar may wrap)
-        window.addEventListener('resize', updateTheadOffset);
 
       } catch (error) {
         console.error('Error loading resort data:', error);
@@ -645,15 +638,6 @@
         return '<span class="status-icon status-yes">\u2713</span>';
       } else {
         return '<span class="status-icon status-no">\u2717</span>';
-      }
-    }
-
-    function updateTheadOffset() {
-      const filterBar = document.getElementById('filter-bar');
-      const thead = document.querySelector('thead');
-      if (filterBar && thead) {
-        const filterBarHeight = filterBar.offsetHeight;
-        thead.style.top = filterBarHeight + 'px';
       }
     }
 
