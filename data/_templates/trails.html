@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Trails - Groomd</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --bg-color: #f2f2f7;
+            --card-bg: #ffffff;
+            --text-primary: #1c1c1e;
+            --text-secondary: #8e8e93;
+            --accent: #007aff;
+            --green: #34c759;
+            --red: #ff3b30;
+        }
+        body {
+            background: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+        }
+        .app-header {
+            background: var(--card-bg);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e5ea;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .resort-picker {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            border: none;
+        }
+        .resort-picker svg {
+            width: 12px;
+            height: 12px;
+            color: var(--text-secondary);
+        }
+        .date-picker-btn {
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            border: none;
+        }
+        /* Toggle Tabs */
+        .toggle-tabs {
+            display: flex;
+            padding: 8px 16px;
+            gap: 0;
+            background: var(--card-bg);
+            border-bottom: 1px solid #e5e5ea;
+        }
+        .toggle-tab {
+            flex: 1;
+            padding: 10px 16px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            background: var(--bg-color);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-tab:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+        .toggle-tab:last-child {
+            border-radius: 0 8px 8px 0;
+        }
+        .toggle-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+        /* Sort Controls */
+        .sort-row {
+            display: flex;
+            justify-content: flex-end;
+            padding: 12px 16px 8px;
+            gap: 8px;
+        }
+        .sort-btn {
+            padding: 6px 12px;
+            background: var(--bg-color);
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        .sort-btn.active {
+            background: var(--text-primary);
+            color: white;
+        }
+        .container {
+            padding: 0 0 100px;
+        }
+        /* Section Title */
+        .section-title {
+            padding: 16px 16px 8px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        /* Area Group */
+        .area-group {
+            background: var(--card-bg);
+            margin: 0 0 16px;
+        }
+        .area-header {
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--bg-color);
+        }
+        .area-count {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        /* Trail Item */
+        .trail-item {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--bg-color);
+            text-decoration: none;
+            color: inherit;
+        }
+        .trail-item:last-child {
+            border-bottom: none;
+        }
+        .trail-difficulty {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .trail-difficulty.green {
+            width: 16px;
+            height: 16px;
+            background: #34c759;
+            border-radius: 50%;
+        }
+        .trail-difficulty.blue {
+            width: 16px;
+            height: 16px;
+            background: #007aff;
+            border-radius: 3px;
+        }
+        .trail-difficulty.black {
+            width: 0;
+            height: 0;
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 16px solid #1c1c1e;
+            background: none;
+        }
+        .trail-difficulty.double-black {
+            position: relative;
+            width: 20px;
+            height: 16px;
+        }
+        .trail-difficulty.double-black::before,
+        .trail-difficulty.double-black::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 12px solid #1c1c1e;
+        }
+        .trail-difficulty.double-black::before {
+            left: 0;
+        }
+        .trail-difficulty.double-black::after {
+            right: 0;
+        }
+        .trail-name {
+            flex: 1;
+            font-size: 17px;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+        .trail-badges {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .badge {
+            padding: 5px 12px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .badge.groomed {
+            background: var(--green);
+            color: white;
+        }
+        .badge.new {
+            background: var(--accent);
+            color: white;
+        }
+        /* Empty State */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .empty-state-text {
+            font-size: 17px;
+        }
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 200;
+            align-items: flex-end;
+        }
+        .modal-overlay.show { display: flex; }
+        .resort-modal {
+            background: var(--card-bg);
+            border-radius: 12px 12px 0 0;
+            width: 100%;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e5ea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+        }
+        .modal-title { font-size: 17px; font-weight: 600; }
+        .modal-close {
+            color: var(--accent);
+            font-size: 17px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .resort-option {
+            display: block;
+            padding: 14px 16px;
+            font-size: 17px;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .resort-option.current {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        #datePicker {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="has-bottom-nav">
+    <header class="app-header">
+        <div class="header-controls">
+            <button class="resort-picker" onclick="openResortPicker()">
+                <span id="resortName">Loading...</span>
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 5l3 3 3-3"/>
+                </svg>
+            </button>
+        </div>
+        <button class="date-picker-btn" onclick="openDatePicker()">
+            <span id="dateDisplay">Today</span>
+        </button>
+    </header>
+    <input type="date" id="datePicker" onchange="selectDate()">
+
+    <!-- Toggle Tabs -->
+    <div class="toggle-tabs">
+        <button class="toggle-tab active" id="groomedTab" onclick="showGroomed()">Groomed</button>
+        <button class="toggle-tab" id="allTab" onclick="showAll()">All</button>
+    </div>
+
+    <div class="container">
+        <div class="section-title" id="sectionTitle">Groomed Trails (0)</div>
+
+        <div class="sort-row" id="sortRow">
+            <button class="sort-btn" id="sortArea" onclick="sortBy('area')">Sort: Area</button>
+        </div>
+
+        <div id="trailsContainer">
+            <div class="empty-state">
+                <div class="empty-state-icon">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resort Picker Modal -->
+    <div class="modal-overlay" id="resortModal">
+        <div class="resort-modal">
+            <div class="modal-header">
+                <span class="modal-title">Select Resort</span>
+                <button class="modal-close" onclick="closeResortPicker()">Done</button>
+            </div>
+            <div id="resortList"></div>
+        </div>
+    </div>
+
+    <script>
+        const pathParts = window.location.pathname.split('/');
+        const dataIndex = pathParts.findIndex(part => part === 'data');
+        const RESORT_KEY = pathParts[dataIndex + 1];
+
+        let allTrails = [];
+        let showingGroomed = true;
+        let currentDate = new Date().toISOString().split('T')[0];
+
+        // Load resort info
+        fetch('../index.json')
+            .then(r => r.json())
+            .then(index => {
+                const resortInfo = index.resorts[RESORT_KEY];
+                if (resortInfo) {
+                    document.getElementById('resortName').textContent = resortInfo.name;
+                    document.getElementById('page-title').textContent = `${resortInfo.name} Trails - Groomd`;
+                }
+                // Populate resort list
+                document.getElementById('resortList').innerHTML = Object.entries(index.resorts)
+                    .map(([key, info]) => `
+                        <a href="../${key}/trails.html" class="resort-option ${key === RESORT_KEY ? 'current' : ''}">
+                            ${info.name}
+                        </a>
+                    `).join('');
+            });
+
+        // Load trail data
+        fetch(`trails/index.json`)
+            .then(r => r.json())
+            .then(data => {
+                allTrails = data.trails || [];
+                if (data.date) currentDate = data.date;
+                updateDateDisplay();
+                renderTrails();
+            })
+            .catch(() => {
+                document.getElementById('trailsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">No data</div>
+                        <div class="empty-state-text">Trail data unavailable</div>
+                    </div>
+                `;
+            });
+
+        function renderTrails() {
+            const container = document.getElementById('trailsContainer');
+            let trails = showingGroomed
+                ? allTrails.filter(t => t.isGroomedToday || t.groomedToday)
+                : allTrails;
+
+            // Update title
+            const title = showingGroomed
+                ? `Groomed Trails (${trails.length})`
+                : `All Trails (${trails.length})`;
+            document.getElementById('sectionTitle').textContent = title;
+
+            if (trails.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${showingGroomed ? '❄️' : '🎿'}</div>
+                        <div class="empty-state-text">${showingGroomed ? 'No trails groomed today yet' : 'No trail data available'}</div>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group by mountain/area
+            const byArea = {};
+            trails.forEach(trail => {
+                const area = trail.mountain || trail.area || 'Main Mountain';
+                if (!byArea[area]) byArea[area] = [];
+                byArea[area].push(trail);
+            });
+
+            // Sort trails within each area by name
+            Object.values(byArea).forEach(areaTrails => {
+                areaTrails.sort((a, b) => a.name.localeCompare(b.name));
+            });
+
+            container.innerHTML = Object.entries(byArea)
+                .sort((a, b) => a[0].localeCompare(b[0]))
+                .map(([area, areaTrails]) => `
+                    <div class="area-group">
+                        <div class="area-header">
+                            ${area}
+                            <span class="area-count">${areaTrails.length} trails</span>
+                        </div>
+                        ${areaTrails.map(trail => renderTrailItem(trail)).join('')}
+                    </div>
+                `).join('');
+        }
+
+        function renderTrailItem(trail) {
+            const diffClass = getDifficultyClass(trail.difficulty);
+            const isGroomed = trail.isGroomedToday || trail.groomedToday;
+            const isNew = isGroomed && trail.currentStreak === 1;
+
+            return `
+                <a href="trail.html?name=${encodeURIComponent(trail.slug)}" class="trail-item">
+                    <div class="trail-difficulty ${diffClass}"></div>
+                    <span class="trail-name">${trail.name}</span>
+                    <div class="trail-badges">
+                        ${isGroomed ? '<span class="badge groomed">Groomed</span>' : ''}
+                        ${isNew ? '<span class="badge new">NEW</span>' : ''}
+                    </div>
+                </a>
+            `;
+        }
+
+        function getDifficultyClass(difficulty) {
+            if (!difficulty) return 'green';
+            const d = difficulty.toLowerCase();
+            if (d.includes('double') || d.includes('expert') || d.includes('extreme')) return 'double-black';
+            if (d.includes('black') || d.includes('diamond') || d.includes('advanced')) return 'black';
+            if (d.includes('blue') || d.includes('intermediate') || d.includes('more difficult')) return 'blue';
+            return 'green';
+        }
+
+        function showGroomed() {
+            showingGroomed = true;
+            document.getElementById('groomedTab').classList.add('active');
+            document.getElementById('allTab').classList.remove('active');
+            renderTrails();
+        }
+
+        function showAll() {
+            showingGroomed = false;
+            document.getElementById('allTab').classList.add('active');
+            document.getElementById('groomedTab').classList.remove('active');
+            renderTrails();
+        }
+
+        function sortBy(type) {
+            // Could add more sort options later
+            renderTrails();
+        }
+
+        function updateDateDisplay() {
+            const today = new Date().toISOString().split('T')[0];
+            if (currentDate === today) {
+                document.getElementById('dateDisplay').textContent = 'Today';
+            } else {
+                const d = new Date(currentDate + 'T12:00:00');
+                document.getElementById('dateDisplay').textContent = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+            }
+        }
+
+        function openDatePicker() {
+            const picker = document.getElementById('datePicker');
+            picker.value = currentDate;
+            picker.showPicker?.();
+        }
+
+        function selectDate() {
+            currentDate = document.getElementById('datePicker').value;
+            updateDateDisplay();
+            location.reload();
+        }
+
+        function openResortPicker() {
+            document.getElementById('resortModal').classList.add('show');
+        }
+
+        function closeResortPicker() {
+            document.getElementById('resortModal').classList.remove('show');
+        }
+
+        document.getElementById('resortModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resortModal') closeResortPicker();
+        });
+    </script>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="grooming.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 2048 2048"><path fill="currentColor" d="m1472 640l574 1152H0L768 256l447 897zm0 287l-185 369l47 95l111-111h203zM898 803L768 543L638 803l130 130zm-691 861h1121L958 924l-190 191l-191-191zm1263 0h369l-127-256h-213l-104 104z"/></svg></span>
+            <span class="nav-tab-label">Overview</span>
+        </a>
+        <a href="trails.html" class="nav-tab active">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 400v64m0-256v64m0-224v32m160 128H102.63a16 16 0 0 1-11.32-4.69L32 144l59.31-59.31A16 16 0 0 1 102.63 80H416a16 16 0 0 1 16 16v96a16 16 0 0 1-16 16M96 400h313.37a16 16 0 0 0 11.32-4.69L480 336l-59.31-59.31a16 16 0 0 0-11.32-4.69H96a16 16 0 0 0-16 16v96a16 16 0 0 0 16 16"/></svg></span>
+            <span class="nav-tab-label">Trails</span>
+        </a>
+        <a href="lifts.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 50 50"><path fill="currentColor" d="M42.599 37.17a3.457 3.457 0 0 0 2.224-4.381l-1.333.426a2.09 2.09 0 0 1-1.332 2.633L7.128 47.689L7.579 49zM10.343 16.708a3.61 3.61 0 0 0 2.461-4.479c-.562-1.911-2.582-3.004-4.51-2.447s-3.039 2.567-2.466 4.479c.562 1.912 2.577 3.005 4.515 2.447m-1.487 5.003c-1.917-3.626 3.584-6.564 5.61-3.047l3.95 7.451l7.521-2.121c1.244-.35 2.963.995 2.963 2.578l.042 10.619c.012 2.632-3.93 2.643-3.93-.021c-.012-2.47-.077-7.734-.077-7.734l-7.848 2.337c-1.718.492-3.139-.359-3.81-1.616zM21 23.394V1h-2v22.82zM5.244 26.551c-1.079-2.108 1.707-3.506 2.786-1.398l3.397 6.598a4.37 4.37 0 0 0 3.844 2.295c.517 0 1.001-.132 1.475-.23l4.28-1.244c2.269-.678 3.149 2.292.86 2.961l-4.502 1.298a7.3 7.3 0 0 1-2.147.316a7.45 7.45 0 0 1-6.634-4.008z"/></svg></span>
+            <span class="nav-tab-label">Lifts</span>
+        </a>
+        <a href="snow.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
+            <span class="nav-tab-label">Snow</span>
+        </a>
+    </nav>
+</body>
+</html>

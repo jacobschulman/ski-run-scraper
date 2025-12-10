@@ -584,9 +584,9 @@
                 const snowDisplay = snowAmt > 0 ? `${useMetric ? snowAmtMetric : snowAmt}${snowUnit}` : '';
                 const hasSnow = snowAmt > 0;
 
-                // Format date for display
-                const dateObj = new Date(day.date + 'T12:00:00');
-                const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                // Format date for display - handle both ISO timestamps and date strings
+                const dateObj = new Date(day.date);
+                const monthDay = !isNaN(dateObj) ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 
                 html += `
                     <div class="forecast-day">
