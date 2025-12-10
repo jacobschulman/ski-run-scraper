@@ -256,15 +256,15 @@
     },
 
     "midweek_mellow": {
-      "description": "Tuesday-Thursday - beat the weekend crowds",
+      "description": "Tuesday-Thursday - enjoy the quieter midweek vibes",
       "threshold": "dayOfWeek in ['Tuesday', 'Wednesday', 'Thursday']",
       "priority": 45,
       "dayOfWeekOnly": ["Tuesday", "Wednesday", "Thursday"],
       "headlines": [
         "Midweek Mountain Report",
-        "Beat the Weekend Rush",
         "Quiet Days on the Hill",
-        "Avoiding the weekend crowds, eh?"
+        "Midweek Bliss",
+        "Fewer Crowds, More Turns"
       ],
       "body": null
     },
@@ -320,25 +320,42 @@
       ]
     },
 
+    "resort_closed": {
+      "description": "No trails open yet - focus on weather and what's coming",
+      "threshold": "openTrails === 0",
+      "priority": 95,
+      "headlines": [
+        "Waiting for Opening Day",
+        "Not Open Yet",
+        "Stay Tuned for Opening",
+        "The Wait Continues",
+        "Almost There...",
+        "Checking the Forecast"
+      ],
+      "body": [
+        "No trails open yet. Current forecast: {weatherToday} with a high of {tempHigh}°F.",
+        "The mountain is still prepping for the season. Weather today: {weatherToday}, {tempHigh}°F.",
+        "Trails aren't spinning yet, but keep an eye out for opening announcements. It's {tempHigh}° and {weatherToday} today.",
+        "Not open for the season yet. Current conditions: {weatherToday} with temps around {tempHigh}°."
+      ]
+    },
+
     "fallback": {
       "description": "Default when nothing notable - keep it simple",
       "threshold": "always true (lowest priority)",
       "priority": 10,
       "headlines": [
         "Your Morning Mountain Brief",
-        "Today at {resortName}",
+        "Today's Conditions",
         "Mountain Conditions Update",
-        "{resortName} Daily Report",
-        "Here's What's Happening at {resortName}",
         "Your Daily Ski Report",
         "Conditions Report"
       ],
       "body": [
-        "{openTrails} of {totalTrails} trails are open with {groomedTrails} groomed. Current conditions: {weatherToday} with a high of {tempHigh}°F.",
-        "Today at {resortName}: {openTrails} trails open, {groomedTrails} groomed. {weatherToday}, high of {tempHigh}°.",
-        "{resortName} report: {openTrails}/{totalTrails} trails spinning, {groomedTrails} freshly groomed. {tempHigh}° and {weatherToday}.",
-        "The rundown: {openTrails} trails open, {groomedTrails} groomed. Weather is {weatherToday} with temps around {tempHigh}°.",
-        "Standard day at {resortName}—{openTrails} trails open, conditions are {weatherToday}, highs near {tempHigh}°."
+        "{openTrails} of {totalTrails} trails are open with {groomedTrails} groomed. {weatherToday} with a high of {tempHigh}°F.",
+        "{openTrails} trails open, {groomedTrails} groomed. {weatherToday}, high of {tempHigh}°.",
+        "{openTrails}/{totalTrails} trails spinning, {groomedTrails} freshly groomed. {tempHigh}° and {weatherToday}.",
+        "The rundown: {openTrails} trails open, {groomedTrails} groomed. {weatherToday} with temps around {tempHigh}°."
       ]
     }
   },
