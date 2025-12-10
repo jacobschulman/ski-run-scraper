@@ -63,6 +63,84 @@ function getDb() {
 }
 
 /**
+ * Generate lifts/index.json from terrain data's Lifts array
+ * This makes Ikon lift data accessible in the same format as Vail lift data
+ */
+function generateLiftIndexFromTerrain(resortKey, resortName, normalizedData, provider = 'ikon', apiProvider = null) {
+  const lifts = normalizedData.Lifts || [];
+
+  if (lifts.length === 0) {
+    console.log(`  ⏭️  No lift data to index for ${resortKey}`);
+    return;
+  }
+
+  // Convert terrain lift format to lifts/index.json format
+  const indexLifts = lifts.map((lift, idx) => {
+    // Parse hours from various formats
+    let openTime = null;
+    let closeTime = null;
+    if (lift.Hours) {
+      if (typeof lift.Hours === 'string') {
+        // Format: "10:00 - 3:30" or "10:00 AM - 3:30 PM"
+        const match = lift.Hours.match(/(\d{1,2}:\d{2})\s*(?:AM|PM)?\s*-\s*(\d{1,2}:\d{2})/i);
+        if (match) {
+          openTime = match[1];
+          closeTime = match[2];
+        }
+      } else if (typeof lift.Hours === 'object') {
+        openTime = lift.Hours.Open || null;
+        closeTime = lift.Hours.Close || null;
+      }
+    }
+
+    // Generate a slug from the lift name
+    const slug = lift.Name
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/--+/g, '-')
+      .trim();
+
+    return {
+      liftId: lift._dorId || lift._reportpalId || lift._zanerayId || lift._inspectorId || String(idx),
+      name: lift.Name,
+      slug: slug,
+      mountain: lift._dorSector || lift._zanerayKey || 'Main',
+      type: lift.LiftType || 'Unknown',
+      capacity: lift.Capacity || null,
+      status: lift.Status || (lift.IsOpen ? 'Open' : 'Closed'),
+      waitMinutes: (lift.WaitTime && lift.WaitTime !== '--' && lift.WaitTime !== 'N/A') ? lift.WaitTime : null,
+      openTime: openTime,
+      closeTime: closeTime,
+      avgWaitTime: null, // No historical data for Ikon
+      lastUpdated: normalizedData.Date || new Date().toISOString()
+    };
+  });
+
+  // Sort by name
+  indexLifts.sort((a, b) => a.name.localeCompare(b.name));
+
+  const indexData = {
+    resort: resortKey,
+    resortName: resortName,
+    provider: provider,
+    apiProvider: apiProvider,
+    liftCount: indexLifts.length,
+    lifts: indexLifts,
+    generated: new Date().toISOString()
+  };
+
+  // Ensure lifts directory exists
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  // Write index.json
+  const indexPath = path.join(liftsDir, 'index.json');
+  fs.writeFileSync(indexPath, JSON.stringify(indexData, null, 2));
+  console.log(`  ✓ Generated ${indexPath} (${indexLifts.length} lifts)`);
+}
+
+/**
  * Fetch all resort data from Inspector API
  * The API returns all 123 resorts in one call - no batching or filtering needed
  * @returns {Promise<Object>} - API response with all resort data
@@ -156,6 +234,9 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
     fs.writeFileSync(terrainIndexPath, JSON.stringify(terrainIndex, null, 2));
     console.log(`✓ Updated ${terrainIndexPath} (${terrainFiles.length} files)`);
   }
+
+  // Generate lifts/index.json from terrain data
+  generateLiftIndexFromTerrain(resortKey, resortName, normalizedData, resort.provider || 'ikon', 'inspector');
 
   // Save to database with provider='inspector'
   const database = getDb();
@@ -638,6 +719,9 @@ function saveAlternateProviderTerrainData(resortKey, normalizedData) {
     fs.writeFileSync(terrainIndexPath, JSON.stringify(terrainIndex, null, 2));
     console.log(`✓ Updated ${terrainIndexPath} (${terrainFiles.length} files)`);
   }
+
+  // Generate lifts/index.json from terrain data
+  generateLiftIndexFromTerrain(resortKey, resortName, normalizedData, resort.provider || 'ikon', resort.apiProvider);
 
   // Print summary
   console.log('\n📊 Data Summary:');
