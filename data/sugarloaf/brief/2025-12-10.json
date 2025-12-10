@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-10",
-  "generated": "2025-12-10T12:39:19.610Z",
+  "generated": "2025-12-10T13:35:58.422Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 35,
+          "today": 33,
           "yesterday": 34,
-          "delta": 1
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 15,
+          "today": 13,
           "yesterday": 14,
-          "delta": 1
+          "delta": -1
         },
         "totalTrails": 176
       },
@@ -41,7 +41,18 @@
           "area": "Skyline"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Middle Narrow Gauge",
+          "difficulty": "Blue",
+          "area": "Double Runner"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Sluice Headwall",
@@ -130,22 +141,20 @@
       "1 new trail opened today",
       "1 trails freshly groomed"
     ],
-    "trends": [
-      "1 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": [
       "Fresh corduroy on Sluice Headwall - challenging for advanced skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "Standard day at Sugarloaf—35 trails open, conditions are Snow Wind, highs near 22°. 1 more trails are in play today. The groomers are getting stretched thin (in a good way). 1 trails opened today expanding access to fresh terrain.",
+    "headline": "Quiet Days on the Hill",
+    "body": "Standard day at Sugarloaf—33 trails open, conditions are Snow Wind, highs near 22°. 1 trails opened today expanding access to fresh terrain. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
@@ -155,25 +164,25 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
-          "usedFor": "body"
-        },
-        {
           "id": "terrain_new_trails_opened",
           "category": "terrain",
           "priority": 65,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 2,
+        "totalVariations": 4,
         "usedWeekendVariation": false,
-        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
+        "previousHeadline": "Terrain is Expanding"
       },
       "dayOfWeek": "Wednesday"
     }
