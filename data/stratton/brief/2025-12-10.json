@@ -2,13 +2,13 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-10",
-  "generated": "2025-12-10T19:17:33.837Z",
+  "generated": "2025-12-10T20:20:16.050Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
       "48hour_inches": 0,
       "48hour_cm": 0,
       "7day_inches": 0,
@@ -80,7 +80,7 @@
       "outlook": [
         {
           "date": "2025-12-11",
-          "high_f": 17,
+          "high_f": 18,
           "low_f": 5,
           "high_c": -8,
           "low_c": -15,
@@ -106,7 +106,7 @@
           "low_f": 13,
           "high_c": -6,
           "low_c": -11,
-          "description": "Cloudy",
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -114,7 +114,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-11",
-        "high_f": 17,
+        "high_f": 18,
         "low_f": 5,
         "high_c": -8,
         "low_c": -15,
@@ -146,8 +146,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "New Runs Now Open",
-    "body": "Stratton report: 40/123 trails spinning, 36 freshly groomed. 29° and Snow Wind. Rope drop! 1 trails opened overnight, expanding your playground significantly. 1 trails opened today expanding access to fresh terrain.",
+    "headline": "1 New Trails Today",
+    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Stratton report: 40/123 trails spinning, 36 freshly groomed. 29° and Snow Wind. Rope drop! 1 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
@@ -155,6 +155,12 @@
           "category": "terrain",
           "priority": 85,
           "usedFor": "headline"
+        },
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "body"
         },
         {
           "id": "fallback_headline",
@@ -167,21 +173,15 @@
           "category": "terrain",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "terrain_new_trails_opened",
-          "category": "terrain",
-          "priority": 65,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "terrain_expansion",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New Trails Today"
+        "previousHeadline": "New Runs Now Open"
       },
       "dayOfWeek": "Wednesday"
     }
