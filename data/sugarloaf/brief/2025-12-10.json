@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-10",
-  "generated": "2025-12-10T11:16:23.058Z",
+  "generated": "2025-12-10T12:39:19.610Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,48 +23,55 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 35,
           "yesterday": 34,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 14,
+          "today": 15,
           "yesterday": 14,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        }
+      ]
     },
     "lifts": {
       "available": false
     },
     "forecast": {
       "today": {
-        "date": "2025-12-09",
-        "high_f": null,
-        "low_f": 10,
-        "high_c": null,
-        "low_c": -12,
-        "description": "Windy",
+        "date": "2025-12-10",
+        "high_f": 22,
+        "low_f": 23,
+        "high_c": -6,
+        "low_c": -5,
+        "description": "Snow Wind",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
-        {
-          "date": "2025-12-10",
-          "high_f": 22,
-          "low_f": 23,
-          "high_c": -6,
-          "low_c": -5,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 2
-        },
         {
           "date": "2025-12-11",
           "high_f": 23,
@@ -86,18 +93,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-13",
+          "high_f": 14,
+          "low_f": 12,
+          "high_c": -10,
+          "low_c": -11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-10",
-        "high_f": 22,
-        "low_f": 23,
-        "high_c": -6,
-        "low_c": -5,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 1,
-        "snowfall_night_inches": 1,
-        "snowfall_expected": 2
+        "date": "2025-12-11",
+        "high_f": 23,
+        "low_f": 1,
+        "high_c": -5,
+        "low_c": -17,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -105,24 +123,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "2\" snow expected Wednesday"
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Sluice Headwall - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "❄️ Snow ❄️ in the Forecast",
-    "body": "Standard day at Sugarloaf—34 trails open, conditions are Windy, highs near null°. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "Standard day at Sugarloaf—35 trails open, conditions are Snow Wind, highs near 22°. 1 more trails are in play today. The groomers are getting stretched thin (in a good way). 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,25 +155,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Snow on the Way"
+        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
       },
       "dayOfWeek": "Wednesday"
     }
