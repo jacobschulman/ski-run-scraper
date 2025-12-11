@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-11",
-  "generated": "2025-12-11T09:21:58.027Z",
+  "generated": "2025-12-11T10:23:32.343Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,58 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 41,
+          "today": 38,
           "yesterday": 41,
-          "delta": 0
+          "delta": -3
         },
         "groomedTrails": {
-          "today": 20,
+          "today": 19,
           "yesterday": 20,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Toufou",
+          "difficulty": "Easy",
+          "area": "South Side"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Chalumeau",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Équilibre",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Parc Progression",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Roger McCarthy",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Dernier Cri",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Toufou",
+          "difficulty": "Easy",
+          "area": "South Side"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -63,9 +101,9 @@
       "outlook": [
         {
           "date": "2025-12-11",
-          "high_f": 12,
+          "high_f": 13,
           "low_f": 6,
-          "high_c": -11,
+          "high_c": -10,
           "low_c": -14,
           "description": "Snow Wind",
           "snowfall_day_inches": 2,
@@ -74,10 +112,10 @@
         },
         {
           "date": "2025-12-12",
-          "high_f": 16,
+          "high_f": 17,
           "low_f": 11,
           "high_c": -9,
-          "low_c": -11,
+          "low_c": -12,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -86,20 +124,20 @@
         {
           "date": "2025-12-13",
           "high_f": 19,
-          "low_f": 10,
+          "low_f": 9,
           "high_c": -7,
-          "low_c": -12,
+          "low_c": -13,
           "description": "Cloudy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 1
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
         "date": "2025-12-11",
-        "high_f": 12,
+        "high_f": 13,
         "low_f": 6,
-        "high_c": -11,
+        "high_c": -10,
         "low_c": -14,
         "description": "Snow Wind",
         "snowfall_day_inches": 2,
@@ -112,20 +150,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 10\" in last 7 days",
       "3\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Dernier Cri - all skill levels",
+      "Fresh corduroy on Toufou - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "2\" Freshened Things Up",
-    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "A Little Sugar on Top",
+    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. 1 trails opened today expanding access to fresh terrain. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +185,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Thursday"
     }
