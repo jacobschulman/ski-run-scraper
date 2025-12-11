@@ -32,6 +32,12 @@
             top: 0;
             z-index: 100;
         }
+        .app-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
         .header-controls {
             display: flex;
             align-items: center;
@@ -300,6 +306,7 @@
 </head>
 <body class="has-bottom-nav">
     <header class="app-header">
+        <span class="app-title">Groomd</span>
         <div class="header-controls">
             <button class="resort-picker" onclick="openResortPicker()">
                 <span id="resortName">Loading...</span>
@@ -307,10 +314,10 @@
                     <path d="M3 5l3 3 3-3"/>
                 </svg>
             </button>
+            <button class="date-picker-btn" onclick="openDatePicker()">
+                <span id="dateDisplay">Today</span>
+            </button>
         </div>
-        <button class="date-picker-btn" onclick="openDatePicker()">
-            <span id="dateDisplay">Today</span>
-        </button>
     </header>
     <input type="date" id="datePicker" onchange="selectDate()">
 
