@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-11",
-  "generated": "2025-12-11T18:23:58.642Z",
+  "generated": "2025-12-11T19:16:50.288Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 33,
+          "today": 34,
           "yesterday": 33,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 8,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "West Sluice Chute",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -94,7 +100,7 @@
         {
           "date": "2025-12-13",
           "high_f": 15,
-          "low_f": 10,
+          "low_f": 11,
           "high_c": -9,
           "low_c": -12,
           "description": "Windy",
@@ -131,22 +137,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Mountain Report",
-    "body": "The rundown: 33 trails open, 8 groomed. Windy with temps around 22°. 33 of 176 trails are open with 8 groomed. Windy with a high of 22°F.",
+    "headline": "The Map Just Got Bigger",
+    "body": "The rundown: 34 trails open, 8 groomed. Windy with temps around 22°. Terrain is expanding with 1 new trails now open. More room to roam, less traffic to dodge.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -156,19 +166,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
-        "totalVariations": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Midweek Mountain Report"
       },
       "dayOfWeek": "Thursday"
     }
