@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-12",
-  "generated": "2025-12-12T10:24:14.435Z",
+  "generated": "2025-12-12T11:16:56.465Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,15 +28,43 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 14,
+          "today": 16,
           "yesterday": 14,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Big Baby",
+          "difficulty": "Easy",
+          "area": "South"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Due North",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Legacy",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,22 +140,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "12\" in last 24 hours - powder day!"
+      "12\" in last 24 hours - powder day!",
+      "1 new trail opened today",
+      "3 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 15\" in last 7 days",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Due North - all skill levels",
+      "Fresh corduroy on Happy Valley - all skill levels",
+      "Fresh corduroy on Legacy - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Powder Day Alert! ❄️",
-    "body": "It's a 12\" day. You know what to do. First chair or regret it. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "Deep Day at Blue Mountain",
+    "body": "It's a 12\" day. You know what to do. First chair or regret it. 1 trails opened today expanding access to fresh terrain. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +177,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 0,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": "Powder Day Alert! ❄️"
       },
       "dayOfWeek": "Friday"
     }

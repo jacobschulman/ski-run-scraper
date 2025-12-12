@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-12",
-  "generated": "2025-12-12T10:24:14.443Z",
+  "generated": "2025-12-12T11:16:56.473Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,70 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 35,
           "yesterday": 34,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 8,
+          "today": 11,
           "yesterday": 8,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Snowbrook",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        },
+        {
+          "name": "The Birches",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "The Birches",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        },
+        {
+          "name": "Boardwalk",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Picaroon",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Gin Pole",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -67,8 +116,8 @@
         },
         {
           "date": "2025-12-13",
-          "high_f": 15,
-          "low_f": 11,
+          "high_f": 14,
+          "low_f": 10,
           "high_c": -10,
           "low_c": -12,
           "description": "Windy",
@@ -81,7 +130,7 @@
           "high_f": 10,
           "low_f": 4,
           "high_c": -12,
-          "low_c": -16,
+          "low_c": -15,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -105,22 +154,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2 new trails opened today",
+      "5 trails freshly groomed"
+    ],
+    "trends": [
+      "Grooming increased 38% from yesterday",
+      "1 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on The Birches - all skill levels",
+      "Fresh corduroy on Boardwalk - all skill levels",
+      "Fresh corduroy on Picaroon - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Yayyyyy Fridayyyyyy",
-    "body": "34 of 176 trails are open with 8 groomed. Windy with a high of null°F. 34 of 176 trails are open with 8 groomed. Windy with a high of null°F.",
+    "headline": "Terrain is Expanding",
+    "body": "35 of 176 trails are open with 11 groomed. Windy with a high of null°F. 2 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +189,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Is it the weekend yet?"
+        "previousHeadline": "Yayyyyy Fridayyyyyy"
       },
       "dayOfWeek": "Friday"
     }
