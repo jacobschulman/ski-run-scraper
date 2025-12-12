@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-12",
-  "generated": "2025-12-12T16:20:30.950Z",
+  "generated": "2025-12-12T17:16:13.722Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,25 +23,25 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 15,
+          "today": 17,
           "yesterday": 16,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 15,
+          "today": 16,
           "yesterday": 14,
-          "delta": 1
+          "delta": 2
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Big Baby",
-          "difficulty": "Easy",
-          "area": "South"
+          "name": "The Grind",
+          "difficulty": "Snowshoe",
+          "area": "Orchard"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Due North",
@@ -129,15 +129,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "2 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 17\" in last 7 days",
+      "1 more trails open than yesterday",
       "2\" snow expected Saturday"
     ],
     "recommendations": [
@@ -146,14 +148,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "More Mountain to Explore",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Rope drop! 1 trails opened overnight, expanding your playground significantly. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -163,19 +165,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 0,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Coat on the Mountain"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Friday"
     }
