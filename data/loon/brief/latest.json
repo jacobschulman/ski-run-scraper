@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-12",
-  "generated": "2025-12-12T13:34:50.035Z",
+  "generated": "2025-12-12T14:16:52.194Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 36,
+          "today": 37,
           "yesterday": 36,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 33,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Skidder",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,22 +111,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Cheers to the Weekend!",
-    "body": "The rundown: 36 trails open, 33 groomed. Windy with temps around 15°. 36 of 85 trails are open with 33 groomed. Windy with a high of 15°F.",
+    "headline": "The Map Just Got Bigger",
+    "body": "The rundown: 37 trails open, 33 groomed. Windy with temps around 15°. The ski patrol has been busy—1 additional trails are now yours to enjoy.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +140,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Cheers to the Weekend!"
       },
       "dayOfWeek": "Friday"
     }

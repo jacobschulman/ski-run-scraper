@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-12",
-  "generated": "2025-12-12T13:34:50.044Z",
+  "generated": "2025-12-12T14:16:52.205Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 16,
+          "today": 17,
           "yesterday": 16,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 15,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 203
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Roundabout (L)",
+          "difficulty": "easiest",
+          "area": "West"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -44,27 +50,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-11",
-        "high_f": null,
+        "date": "2025-12-12",
+        "high_f": 34,
         "low_f": 20,
-        "high_c": null,
+        "high_c": 1,
         "low_c": -7,
-        "description": "Clear",
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-12",
-          "high_f": 34,
-          "low_f": 20,
-          "high_c": 1,
-          "low_c": -7,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-13",
           "high_f": 34,
@@ -86,15 +81,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-15",
+          "high_f": 35,
+          "low_f": 16,
+          "high_c": 2,
+          "low_c": -9,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-12",
+        "date": "2025-12-13",
         "high_f": 34,
-        "low_f": 20,
+        "low_f": 18,
         "high_c": 1,
-        "low_c": -7,
-        "description": "Sunny",
+        "low_c": -8,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -105,22 +111,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Is it the weekend yet?",
-    "body": "16/203 trails spinning, 15 freshly groomed. null° and Clear. 16 of 203 trails are open with 15 groomed. Clear with a high of null°F.",
+    "headline": "Terrain is Expanding",
+    "body": "17/203 trails spinning, 15 freshly groomed. 34° and Sunny. 1 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +140,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Terrain is Expanding"
+        "previousHeadline": "Is it the weekend yet?"
       },
       "dayOfWeek": "Friday"
     }
