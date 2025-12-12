@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-12",
-  "generated": "2025-12-12T15:18:24.129Z",
+  "generated": "2025-12-12T16:20:30.919Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 8,
+          "today": 9,
           "yesterday": 8,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 8,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Silver Lake Loop",
+          "difficulty": "Snowshoe",
+          "area": "Nordic"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,25 +118,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Great week for snow - 13\" in last 7 days"
+      "Great week for snow - 13\" in last 7 days",
+      "1 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Weekend Starts Now",
-    "body": "No fresh overnight, but 13\" in the past week is keeping things soft and fun. Warmer temps with a high of 40°. Snow will soften up by afternoon—corn snow incoming.",
+    "headline": "More Mountain to Explore",
+    "body": "No fresh overnight, but 13\" in the past week is keeping things soft and fun. Terrain is expanding with 1 new trails now open. More room to roam, less traffic to dodge. Warmer temps with a high of 40°. Snow will soften up by afternoon—corn snow incoming.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +149,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_spring_vibes",
           "category": "weather",
           "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
+        "condition": "terrain_expansion",
         "variationIndex": 3,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Cheers to the Weekend!"
+        "previousHeadline": "The Weekend Starts Now"
       },
       "dayOfWeek": "Friday"
     }

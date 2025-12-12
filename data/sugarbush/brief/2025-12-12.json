@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-12",
-  "generated": "2025-12-12T15:18:24.148Z",
+  "generated": "2025-12-12T16:20:30.938Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 64,
+          "today": 65,
           "yesterday": 64,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 17,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sugarbear Forest",
+          "difficulty": "Easy",
+          "area": "North Lynx Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -53,7 +59,7 @@
       "today": {
         "date": "2025-12-12",
         "high_f": 12,
-        "low_f": 11,
+        "low_f": 12,
         "high_c": -11,
         "low_c": -11,
         "description": "Windy",
@@ -64,7 +70,7 @@
         {
           "date": "2025-12-13",
           "high_f": 18,
-          "low_f": 11,
+          "low_f": 10,
           "high_c": -8,
           "low_c": -12,
           "description": "Windy",
@@ -85,7 +91,7 @@
         },
         {
           "date": "2025-12-15",
-          "high_f": 8,
+          "high_f": 7,
           "low_f": 8,
           "high_c": -14,
           "low_c": -13,
@@ -98,7 +104,7 @@
       "tomorrow": {
         "date": "2025-12-13",
         "high_f": 18,
-        "low_f": 11,
+        "low_f": 10,
         "high_c": -8,
         "low_c": -12,
         "description": "Windy",
@@ -112,23 +118,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo.",
+    "headline": "1 New Trails Today",
+    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. 1 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -136,15 +146,21 @@
           "category": "snow",
           "priority": 80,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Friday"
     }
