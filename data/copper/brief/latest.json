@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-12",
-  "generated": "2025-12-12T12:40:08.580Z",
+  "generated": "2025-12-12T13:34:50.044Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 18,
+          "today": 16,
           "yesterday": 16,
-          "delta": 2
+          "delta": 0
         },
         "groomedTrails": {
           "today": 15,
@@ -34,18 +34,7 @@
         },
         "totalTrails": 203
       },
-      "newlyOpened": [
-        {
-          "name": "Roundabout (L)",
-          "difficulty": "easiest",
-          "area": "West"
-        },
-        {
-          "name": "Carefree (U)",
-          "difficulty": "easiest",
-          "area": "Center"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -116,26 +105,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": true,
+      "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [
-      "2 new trails opened today"
-    ],
-    "trends": [
-      "2 more trails open than yesterday"
-    ],
+    "alerts": [],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "18/203 trails spinning, 15 freshly groomed. null° and Clear. 2 new runs just opened up. Time to explore some fresh terrain.",
+    "headline": "Is it the weekend yet?",
+    "body": "16/203 trails spinning, 15 freshly groomed. null° and Clear. 16 of 203 trails are open with 15 groomed. Clear with a high of null°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 65,
           "usedFor": "headline"
         },
         {
@@ -145,19 +130,19 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "terrain_expansion",
+        "condition": "weekend_kickoff",
         "variationIndex": 0,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Terrain is Expanding"
       },
       "dayOfWeek": "Friday"
     }
