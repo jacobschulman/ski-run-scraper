@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-13",
-  "generated": "2025-12-13T09:16:17.094Z",
+  "generated": "2025-12-13T10:23:20.682Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,90 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 46,
+          "today": 41,
           "yesterday": 46,
-          "delta": 0
+          "delta": -5
         },
         "groomedTrails": {
-          "today": 23,
+          "today": 19,
           "yesterday": 23,
-          "delta": 0
+          "delta": -4
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Nansen",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Gagnon Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Beauvallon Haut",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "La Crête",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Mi-Chemin",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Parc Progression",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Roger McCarthy",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Standard",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Parc Mitik",
+          "difficulty": "Terrain Park",
+          "area": "North Side"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Toufou",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Axel",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Gagnon Bas",
+          "difficulty": "Easy",
+          "area": "North Side"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Dernier Cri",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -63,8 +132,8 @@
       "outlook": [
         {
           "date": "2025-12-13",
-          "high_f": 19,
-          "low_f": 5,
+          "high_f": 20,
+          "low_f": 6,
           "high_c": -7,
           "low_c": -15,
           "description": "Snow",
@@ -75,7 +144,7 @@
         {
           "date": "2025-12-14",
           "high_f": 7,
-          "low_f": 4,
+          "low_f": 5,
           "high_c": -14,
           "low_c": -15,
           "description": "Mostly Sunny",
@@ -97,8 +166,8 @@
       ],
       "tomorrow": {
         "date": "2025-12-13",
-        "high_f": 19,
-        "low_f": 5,
+        "high_f": 20,
+        "low_f": 6,
         "high_c": -7,
         "low_c": -15,
         "description": "Snow",
@@ -112,22 +181,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "6\" in last 24 hours - powder day!"
+      "6\" in last 24 hours - powder day!",
+      "2 new trails opened today",
+      "3 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 17\" in last 7 days",
       "2\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Toufou - all skill levels",
+      "Fresh corduroy on Axel - all skill levels",
+      "Fresh corduroy on Gagnon Bas - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Saturday Stash Day",
-    "body": "Mother Nature delivered 6\" of the good stuff. Face shots are on the menu today. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "Sunday Sent It",
+    "body": "Mother Nature delivered 6\" of the good stuff. Face shots are on the menu today. 2 trails opened today expanding access to fresh terrain. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +218,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 1,
         "totalVariations": 12,
         "usedWeekendVariation": true,
-        "previousHeadline": "Sunday Sent It"
+        "previousHeadline": "Saturday Stash Day"
       },
       "dayOfWeek": "Saturday"
     }

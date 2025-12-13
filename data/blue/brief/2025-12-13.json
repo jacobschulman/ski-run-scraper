@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-13",
-  "generated": "2025-12-13T09:16:17.103Z",
+  "generated": "2025-12-13T10:23:20.688Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,57 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 21,
+          "today": 25,
           "yesterday": 21,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 17,
+          "today": 20,
           "yesterday": 17,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "1940",
+          "difficulty": "Snowshoe",
+          "area": "North"
+        },
+        {
+          "name": "Dog Sled",
+          "difficulty": "Intermediate",
+          "area": "North"
+        },
+        {
+          "name": "Going South",
+          "difficulty": "Intermediate",
+          "area": "North"
+        },
+        {
+          "name": "Schuss",
+          "difficulty": "Intermediate",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Dog Sled",
+          "difficulty": "Intermediate",
+          "area": "North"
+        },
+        {
+          "name": "Going South",
+          "difficulty": "Intermediate",
+          "area": "North"
+        },
+        {
+          "name": "Schuss",
+          "difficulty": "Intermediate",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,26 +149,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today",
+      "3 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 17\" in last 7 days",
+      "4 more trails open than yesterday",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Dog Sled - all skill levels",
+      "Fresh corduroy on Going South - all skill levels",
+      "Fresh corduroy on Schuss - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "A light refresh of 2\" overnight makes the groomers smoother and the off-piste a bit softer. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "4 New Trails Today",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother and the off-piste a bit softer. 4 more trails are in play today. The groomers are getting stretched thin (in a good way). The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +186,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Boom Boom Pow!"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Saturday"
     }
