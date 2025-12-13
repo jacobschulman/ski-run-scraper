@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-13",
-  "generated": "2025-12-13T13:26:31.650Z",
+  "generated": "2025-12-13T14:14:50.230Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 9,
-      "7day_cm": 23,
+      "7day_inches": 3,
+      "7day_cm": 8,
       "season_total_inches": 18,
       "season_total_cm": 46,
       "conditions": {
@@ -51,27 +51,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-12",
-        "high_f": null,
-        "low_f": 34,
-        "high_c": null,
-        "low_c": 1,
-        "description": "Clear",
+        "date": "2025-12-13",
+        "high_f": 41,
+        "low_f": 37,
+        "high_c": 5,
+        "low_c": 3,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-13",
-          "high_f": 41,
-          "low_f": 37,
-          "high_c": 5,
-          "low_c": 3,
-          "description": "Mostly Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-14",
           "high_f": 43,
@@ -93,15 +82,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-16",
+          "high_f": 38,
+          "low_f": 34,
+          "high_c": 3,
+          "low_c": 1,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-13",
-        "high_f": 41,
-        "low_f": 37,
-        "high_c": 5,
-        "low_c": 3,
-        "description": "Mostly Sunny",
+        "date": "2025-12-14",
+        "high_f": 43,
+        "low_f": 34,
+        "high_c": 6,
+        "low_c": 1,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -117,36 +117,40 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [
-      "Steady snowfall - 9\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "Steady snowfall with 9\" over the last week.",
+    "headline": "It's beginning to look a lot like spring!",
+    "body": "8/228 trails spinning, 0 freshly groomed. 41° and Mostly Sunny. It's 41° out there. The snow will be transitioning throughout the day. Embrace the corn.",
     "debug": {
       "firedRules": [
+        {
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
-          "usedFor": "headline"
+          "usedFor": "body"
         },
         {
-          "id": "snow_week_total",
-          "category": "snow",
-          "priority": 40,
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
+        "condition": "spring_vibes",
+        "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Mountain Conditions Update"
       },
       "dayOfWeek": "Saturday"
     }

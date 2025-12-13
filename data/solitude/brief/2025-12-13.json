@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-13",
-  "generated": "2025-12-13T13:26:31.657Z",
+  "generated": "2025-12-13T14:14:50.237Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -51,34 +51,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-12",
-        "high_f": null,
-        "low_f": 33,
-        "high_c": null,
-        "low_c": 1,
-        "description": "Clear",
+        "date": "2025-12-13",
+        "high_f": 40,
+        "low_f": 37,
+        "high_c": 4,
+        "low_c": 3,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-13",
-          "high_f": 40,
-          "low_f": 37,
-          "high_c": 5,
-          "low_c": 3,
-          "description": "Mostly Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-14",
           "high_f": 42,
           "low_f": 34,
           "high_c": 5,
           "low_c": 1,
-          "description": "Cloudy",
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -93,15 +82,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-16",
+          "high_f": 39,
+          "low_f": 35,
+          "high_c": 4,
+          "low_c": 2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-13",
-        "high_f": 40,
-        "low_f": 37,
+        "date": "2025-12-14",
+        "high_f": 42,
+        "low_f": 34,
         "high_c": 5,
-        "low_c": 3,
-        "description": "Mostly Sunny",
+        "low_c": 1,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -123,14 +123,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "Steady snowfall with 6\" over the last week.",
+    "headline": "Don't forget your sunscreen!",
+    "body": "Steady snowfall with 6\" over the last week. Spring skiing vibes: 40° and sunny. Hit it early or wait for the afternoon softies.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "headline"
         },
         {
@@ -138,15 +138,21 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_spring_vibes",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
+        "condition": "spring_vibes",
+        "variationIndex": 4,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Base Is Holding Up"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Saturday"
     }
