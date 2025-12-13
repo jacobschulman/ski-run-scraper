@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-13",
-  "generated": "2025-12-13T11:13:44.170Z",
+  "generated": "2025-12-13T12:34:03.534Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 58,
+          "today": 62,
           "yesterday": 58,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 45,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Bear Pause",
+          "difficulty": "Blue",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Rolling Bear",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Loon Peak - Octagon",
+          "difficulty": "Unknown",
+          "area": "Uphill Routes"
+        },
+        {
+          "name": "Loon Peak - Governor Adams",
+          "difficulty": "Unknown",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -44,27 +65,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-12",
-        "high_f": null,
-        "low_f": 14,
-        "high_c": null,
-        "low_c": -10,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 1,
+        "date": "2025-12-13",
+        "high_f": 23,
+        "low_f": 17,
+        "high_c": -5,
+        "low_c": -8,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-13",
-          "high_f": 23,
-          "low_f": 17,
-          "high_c": -5,
-          "low_c": -8,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-14",
           "high_f": 17,
@@ -86,15 +96,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-16",
+          "high_f": 20,
+          "low_f": 14,
+          "high_c": -7,
+          "low_c": -10,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-13",
-        "high_f": 23,
-        "low_f": 17,
-        "high_c": -5,
-        "low_c": -8,
-        "description": "Cloudy",
+        "date": "2025-12-14",
+        "high_f": 17,
+        "low_f": 3,
+        "high_c": -9,
+        "low_c": -16,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -105,22 +126,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
+    "trends": [
+      "4 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "58 of 85 trails are open with 45 groomed. Mostly Cloudy with a high of null°F. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "62 of 85 trails are open with 45 groomed. Cloudy with a high of 23°F. New terrain alert: 4 trails added to the mix. The mountain just got bigger.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +155,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
+          "id": "terrain_expansion",
+          "category": "terrain",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Saturday"
     }
