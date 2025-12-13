@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2025-12-13",
-  "generated": "2025-12-13T16:19:06.702Z",
+  "generated": "2025-12-13T17:14:19.053Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,22 +23,63 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 16,
+          "today": 20,
           "yesterday": 16,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 16,
+          "today": 20,
           "yesterday": 15,
-          "delta": 1
+          "delta": 5
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sundance (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Nez Perce Traverse",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Lupine Way",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Gros Ventre (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
+          "name": "Sundance (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
           "name": "Amphitheater",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Nez Perce Traverse",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Lupine Way",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Gros Ventre (Upper)",
           "difficulty": "Blue",
           "area": "All Terrain"
         }
@@ -111,28 +152,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true
     },
     "alerts": [
-      "1 trails freshly groomed"
+      "4 new trails opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
+      "Grooming increased 33% from yesterday",
+      "4 more trails open than yesterday",
       "1\" snow expected Tuesday"
     ],
     "recommendations": [
-      "Fresh corduroy on Amphitheater - perfect for intermediate skiers"
+      "Fresh corduroy on Sundance (Upper) - perfect for intermediate skiers",
+      "Fresh corduroy on Amphitheater - perfect for intermediate skiers",
+      "Fresh corduroy on Nez Perce Traverse - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Today's Conditions",
-    "body": "16/145 trails spinning, 16 freshly groomed. 34° and Mostly Sunny. Light snow possible in the forecast.",
+    "headline": "4 New Trails Today",
+    "body": "20/145 trails spinning, 20 freshly groomed. 34° and Mostly Sunny. 4 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -142,19 +188,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "Today's Conditions"
       },
       "dayOfWeek": "Saturday"
     }
