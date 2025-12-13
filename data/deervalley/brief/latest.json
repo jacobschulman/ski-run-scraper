@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-13",
-  "generated": "2025-12-13T14:14:50.230Z",
+  "generated": "2025-12-13T15:15:09.228Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 8,
+          "today": 0,
           "yesterday": 8,
-          "delta": 0
+          "delta": -8
         },
         "groomedTrails": {
           "today": 0,
@@ -35,7 +35,48 @@
         "totalTrails": 228
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Birdseye",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Little Reb",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Ottobahn",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Trainer",
+          "difficulty": "Easy",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Rosebud",
+          "difficulty": "Easy",
+          "area": "Bald Eagle Mountain"
+        },
+        {
+          "name": "Silver Link",
+          "difficulty": "Intermediate",
+          "area": "Bald Eagle Mountain"
+        },
+        {
+          "name": "Success",
+          "difficulty": "Easy",
+          "area": "Bald Eagle Mountain"
+        },
+        {
+          "name": "Wide West",
+          "difficulty": "Easy",
+          "area": "Bald Eagle Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -121,36 +162,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "It's beginning to look a lot like spring!",
-    "body": "8/228 trails spinning, 0 freshly groomed. 41° and Mostly Sunny. It's 41° out there. The snow will be transitioning throughout the day. Embrace the corn.",
+    "headline": "The Wait Continues",
+    "body": "No trails open yet. Current forecast: Mostly Sunny with a high of 41°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_spring_vibes",
-          "category": "weather",
-          "priority": 50,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "weather_spring_vibes",
-          "category": "weather",
-          "priority": 50,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "spring_vibes",
+        "condition": "resort_closed",
         "variationIndex": 3,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "It's beginning to look a lot like spring!"
       },
       "dayOfWeek": "Saturday"
     }

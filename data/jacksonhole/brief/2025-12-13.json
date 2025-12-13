@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2025-12-13",
-  "generated": "2025-12-13T14:14:50.301Z",
+  "generated": "2025-12-13T15:15:09.295Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -90,8 +90,8 @@
           "low_c": -1,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -118,21 +118,21 @@
       "1 trails freshly groomed"
     ],
     "trends": [
-      "2\" snow expected Tuesday"
+      "1\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Amphitheater - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Promising",
-    "body": "16/145 trails spinning, 16 freshly groomed. 34° and Mostly Sunny. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Your Daily Ski Report",
+    "body": "16/145 trails spinning, 16 freshly groomed. 34° and Mostly Sunny. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -142,19 +142,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 5,
-        "totalVariations": 7,
+        "condition": "fallback",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Saturday"
     }
