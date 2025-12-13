@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-13",
-  "generated": "2025-12-13T15:15:09.235Z",
+  "generated": "2025-12-13T16:19:06.642Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,62 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 9,
+          "today": 13,
           "yesterday": 9,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 8,
+          "today": 12,
           "yesterday": 8,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Big Redman",
+          "difficulty": "Intermediate",
+          "area": "Nordic"
+        },
+        {
+          "name": "Lake Flat",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Little Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Mid Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Big Redman",
+          "difficulty": "Intermediate",
+          "area": "Nordic"
+        },
+        {
+          "name": "Lake Flat",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Little Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Mid Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,25 +154,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 6\" in last 7 days"
+    "alerts": [
+      "4 new trails opened today",
+      "4 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 6\" in last 7 days",
+      "Grooming increased 50% from yesterday",
+      "4 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Big Redman - all skill levels",
+      "Fresh corduroy on Lake Flat - all skill levels",
+      "Fresh corduroy on Little Redman - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Spring Vibes",
-    "body": "Steady snowfall with 6\" over the last week. Spring skiing vibes: 40° and sunny. Hit it early or wait for the afternoon softies.",
+    "headline": "4 New Trails Today",
+    "body": "Steady snowfall with 6\" over the last week. 4 more trails are in play today. The groomers are getting stretched thin (in a good way). Spring skiing vibes: 40° and sunny. Hit it early or wait for the afternoon softies.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_spring_vibes",
-          "category": "weather",
-          "priority": 50,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +191,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_spring_vibes",
           "category": "weather",
           "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "spring_vibes",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Don't forget your sunscreen!"
+        "previousHeadline": "Spring Vibes"
       },
       "dayOfWeek": "Saturday"
     }

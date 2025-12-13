@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-13",
-  "generated": "2025-12-13T15:15:09.291Z",
+  "generated": "2025-12-13T16:19:06.699Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 103,
+          "today": 107,
           "yesterday": 103,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 45,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Wildfire - Upper",
+          "difficulty": "Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Panic Button",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Vertigo - Headwall",
+          "difficulty": "Double Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Vertigo - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -46,19 +67,19 @@
       "today": {
         "date": "2025-12-13",
         "high_f": 18,
-        "low_f": 12,
+        "low_f": 13,
         "high_c": -8,
         "low_c": -11,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
           "date": "2025-12-14",
-          "high_f": 11,
-          "low_f": -1,
-          "high_c": -12,
+          "high_f": 12,
+          "low_f": 0,
+          "high_c": -11,
           "low_c": -18,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -90,9 +111,9 @@
       ],
       "tomorrow": {
         "date": "2025-12-14",
-        "high_f": 11,
-        "low_f": -1,
-        "high_c": -12,
+        "high_f": 12,
+        "low_f": 0,
+        "high_c": -11,
         "low_c": -18,
         "description": "Windy",
         "snowfall_day_inches": 0,
@@ -105,22 +126,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
+    "trends": [
+      "4 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Today's Conditions",
-    "body": "103 of 222 trails are open with 45 groomed. Windy with a high of 18°F. 103 of 222 trails are open with 45 groomed. Windy with a high of 18°F.",
+    "headline": "Terrain is Expanding",
+    "body": "107 of 222 trails are open with 45 groomed. Windy with a high of 18°F. 4 more trails are in play today. The groomers are getting stretched thin (in a good way).",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +155,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Today's Conditions"
       },
       "dayOfWeek": "Saturday"
     }
