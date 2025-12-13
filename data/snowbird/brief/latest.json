@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2025-12-13",
-  "generated": "2025-12-13T22:15:05.134Z",
+  "generated": "2025-12-13T23:15:10.422Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 41,
+          "today": 42,
           "yesterday": 41,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 8,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lowest Bassackwards",
+          "difficulty": "Blue",
+          "area": "Gad Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -78,11 +84,11 @@
         },
         {
           "date": "2025-12-16",
-          "high_f": 34,
+          "high_f": 33,
           "low_f": 32,
           "high_c": 1,
           "low_c": 0,
-          "description": "Mostly Cloudy",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -105,22 +111,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Morning Mountain Brief",
-    "body": "The rundown: 41 trails open, 8 groomed. Mostly Sunny with temps around 38°. 41 of 200 trails are open with 8 groomed. Mostly Sunny with a high of 38°F.",
+    "headline": "More Mountain to Explore",
+    "body": "The rundown: 42 trails open, 8 groomed. Mostly Sunny with temps around 38°. Rope drop! 1 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +140,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Your Morning Mountain Brief"
       },
       "dayOfWeek": "Saturday"
     }
