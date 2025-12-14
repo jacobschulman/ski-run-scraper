@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-14",
-  "generated": "2025-12-14T12:33:56.496Z",
+  "generated": "2025-12-14T13:27:02.627Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 46,
+          "today": 47,
           "yesterday": 46,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 44,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Mixing Bowl",
+          "difficulty": "novice",
+          "area": "SOUTH RIDGE"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,22 +111,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "46 of 144 trails are open with 44 groomed. Windy with a high of 19°F. 46 of 144 trails are open with 44 groomed. Windy with a high of 19°F.",
+    "headline": "Terrain is Expanding",
+    "body": "47 of 144 trails are open with 45 groomed. Windy with a high of 19°F. 1 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +140,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Sunday"
     }
