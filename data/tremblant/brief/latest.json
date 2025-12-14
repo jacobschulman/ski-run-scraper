@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-14",
-  "generated": "2025-12-14T14:14:51.273Z",
+  "generated": "2025-12-14T15:15:29.667Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,14 +28,25 @@
           "delta": -1
         },
         "groomedTrails": {
-          "today": 20,
+          "today": 19,
           "yesterday": 21,
-          "delta": -1
+          "delta": -2
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Dynagriffe",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ],
       "newlyClosed": [
+        {
+          "name": "Nansen",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
         {
           "name": "Nansen Haut",
           "difficulty": "Easy",
@@ -118,11 +129,13 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 20\" in last 7 days",
       "1\" snow expected Wednesday"
@@ -130,8 +143,8 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "A fresh 4\" coating has things skiing better than yesterday. Small gifts matter. Arctic air has settled in. 8° means quick laps and hot cocoa breaks.",
+    "headline": "Overnight Refresh: 4\" new inches",
+    "body": "A fresh 4\" coating has things skiing better than yesterday. Small gifts matter. 1 trails opened today expanding access to fresh terrain. Arctic air has settled in. 8° means quick laps and hot cocoa breaks.",
     "debug": {
       "firedRules": [
         {
@@ -147,19 +160,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_cold_snap",
           "category": "weather",
           "priority": 52,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" new inches"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Sunday"
     }
