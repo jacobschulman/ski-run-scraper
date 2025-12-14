@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-14",
-  "generated": "2025-12-14T20:17:43.900Z",
+  "generated": "2025-12-14T21:15:00.037Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 21,
+          "today": 23,
           "yesterday": 21,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 21,
+          "today": 23,
           "yesterday": 21,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 203
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "American Flyer",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "Copperopolis",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -82,10 +93,10 @@
           "low_f": 11,
           "high_c": 0,
           "low_c": -12,
-          "description": "Scattered T Storms",
+          "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -105,24 +116,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
-      "2\" snow expected Wednesday"
+      "2 more trails open than yesterday",
+      "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "21 of 203 trails are open with 21 groomed. Mostly Sunny with a high of 38°F. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "23 of 203 trails are open with 23 groomed. Mostly Sunny with a high of 38°F. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +146,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
+        "previousHeadline": "Fresh Snow on the Way"
       },
       "dayOfWeek": "Sunday"
     }
