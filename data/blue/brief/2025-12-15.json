@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-15",
-  "generated": "2025-12-15T09:28:26.784Z",
+  "generated": "2025-12-15T10:28:30.505Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,67 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 33,
+          "today": 37,
           "yesterday": 33,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 23,
+          "today": 28,
           "yesterday": 23,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Hog's Back",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Snowshoe",
+          "area": "North"
+        },
+        {
+          "name": "Senator / Larway",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Waterfall",
+          "difficulty": "Intermediate",
+          "area": "South"
+        },
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Dieppe",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Hog's Back",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Senator / Larway",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -64,7 +111,7 @@
         {
           "date": "2025-12-15",
           "high_f": 22,
-          "low_f": 17,
+          "low_f": 18,
           "high_c": -5,
           "low_c": -8,
           "description": "Windy",
@@ -98,7 +145,7 @@
       "tomorrow": {
         "date": "2025-12-15",
         "high_f": 22,
-        "low_f": 17,
+        "low_f": 18,
         "high_c": -5,
         "low_c": -8,
         "description": "Windy",
@@ -112,25 +159,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 16\" in last 7 days"
+    "alerts": [
+      "4 new trails opened today",
+      "5 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Great week for snow - 16\" in last 7 days",
+      "Grooming increased 22% from yesterday",
+      "4 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Waterfall - all skill levels",
+      "Fresh corduroy on Apple Bowl - all skill levels",
+      "Fresh corduroy on Dieppe - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Still Soft Out There",
-    "body": "The 16\" from this week is still skiing great. No new snow needed (yet). Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "The 16\" from this week is still skiing great. No new snow needed (yet). 4 new runs just opened up. Time to explore some fresh terrain. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +196,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Base Is Holding Up"
+        "previousHeadline": "Still Soft Out There"
       },
       "dayOfWeek": "Monday"
     }
