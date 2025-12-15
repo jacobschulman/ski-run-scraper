@@ -20,11 +20,38 @@ function getResortConfig() {
 }
 
 /**
+ * Promisified version of saveTerrainStatus
+ */
+function saveTerrainStatusAsync(db, resortId, date, data) {
+  return new Promise((resolve, reject) => {
+    saveTerrainStatus(db, resortId, date, data, (err, count) => {
+      if (err) reject(err);
+      else resolve(count || 0);
+    });
+  });
+}
+
+/**
+ * Promisified version of saveSnowConditions
+ */
+function saveSnowConditionsAsync(db, resortId, date, data) {
+  return new Promise((resolve, reject) => {
+    saveSnowConditions(db, resortId, date, data, (err, id) => {
+      if (err) reject(err);
+      else resolve(id ? 1 : 0);
+    });
+  });
+}
+
+/**
  * Import all historical data from JSON files into SQLite
  */
 async function importHistoricalData() {
   console.log('Initializing database...');
   const db = initializeDatabase();
+
+  // Wait for database initialization
+  await new Promise(resolve => setTimeout(resolve, 100));
 
   const resorts = getResortConfig();
   let totalTerrainRecords = 0;
@@ -37,82 +64,65 @@ async function importHistoricalData() {
     const resortName = resort.name;
     const timezone = resort.timezone || 'America/Denver';
 
-    console.log(`Processing ${resortName} (${resortKey})...`);
-
     // Get or create resort in database
-    await new Promise((resolve, reject) => {
-      getOrCreateResort(db, resortKey, resortName, timezone, (err, resortId) => {
-        if (err) return reject(err);
-
-        let terrainCount = 0;
-        let snowCount = 0;
-
-        // Import terrain data
-        const terrainDir = path.join(DATA_DIR, resortKey, 'terrain');
-        if (fs.existsSync(terrainDir)) {
-          const terrainFiles = fs.readdirSync(terrainDir)
-            .filter(f => f.match(/^\d{4}-\d{2}-\d{2}\.json$/));
-
-          terrainFiles.forEach(file => {
-            const date = file.replace('.json', '');
-            const filePath = path.join(terrainDir, file);
-
-            try {
-              const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-              // Wrap the data in FMR format to match expected structure
-              saveTerrainStatus(db, resortId, date, { FMR: data }, (err, count) => {
-                if (err) {
-                  console.error(`  Error importing terrain ${date}:`, err.message);
-                } else if (count > 0) {
-                  terrainCount += count;
-                }
-              });
-            } catch (err) {
-              console.error(`  Error reading ${file}:`, err.message);
-            }
-          });
-        }
-
-        // Import snow data
-        const snowDir = path.join(DATA_DIR, resortKey, 'snow');
-        if (fs.existsSync(snowDir)) {
-          const snowFiles = fs.readdirSync(snowDir)
-            .filter(f => f.match(/^\d{4}-\d{2}-\d{2}\.json$/));
-
-          snowFiles.forEach(file => {
-            const date = file.replace('.json', '');
-            const filePath = path.join(snowDir, file);
-
-            try {
-              const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-
-              saveSnowConditions(db, resortId, date, data, (err, id) => {
-                if (err) {
-                  console.error(`  Error importing snow ${date}:`, err.message);
-                } else if (id) {
-                  snowCount++;
-                }
-              });
-            } catch (err) {
-              console.error(`  Error reading ${file}:`, err.message);
-            }
-          });
-        }
-
-        // Wait a bit for async operations to complete
-        setTimeout(() => {
-          console.log(`  ✓ Imported ${terrainCount} terrain records, ${snowCount} snow records`);
-          totalTerrainRecords += terrainCount;
-          totalSnowRecords += snowCount;
-          resolve();
-        }, 500);
+    const resortId = await new Promise((resolve, reject) => {
+      getOrCreateResort(db, resortKey, resortName, timezone, (err, id) => {
+        if (err) reject(err);
+        else resolve(id);
       });
     });
-  }
 
-  // Wait for all operations to complete
-  await new Promise(resolve => setTimeout(resolve, 1000));
+    let terrainCount = 0;
+    let snowCount = 0;
+
+    // Import terrain data
+    const terrainDir = path.join(DATA_DIR, resortKey, 'terrain');
+    if (fs.existsSync(terrainDir)) {
+      const terrainFiles = fs.readdirSync(terrainDir)
+        .filter(f => f.match(/^\d{4}-\d{2}-\d{2}\.json$/))
+        .sort();
+
+      for (const file of terrainFiles) {
+        const date = file.replace('.json', '');
+        const filePath = path.join(terrainDir, file);
+
+        try {
+          const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+          const count = await saveTerrainStatusAsync(db, resortId, date, { FMR: data });
+          terrainCount += count;
+        } catch (err) {
+          console.error(`  Error importing terrain ${date}:`, err.message);
+        }
+      }
+    }
+
+    // Import snow data
+    const snowDir = path.join(DATA_DIR, resortKey, 'snow');
+    if (fs.existsSync(snowDir)) {
+      const snowFiles = fs.readdirSync(snowDir)
+        .filter(f => f.match(/^\d{4}-\d{2}-\d{2}\.json$/))
+        .sort();
+
+      for (const file of snowFiles) {
+        const date = file.replace('.json', '');
+        const filePath = path.join(snowDir, file);
+
+        try {
+          const data = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+          const count = await saveSnowConditionsAsync(db, resortId, date, data);
+          snowCount += count;
+        } catch (err) {
+          console.error(`  Error importing snow ${date}:`, err.message);
+        }
+      }
+    }
+
+    if (terrainCount > 0 || snowCount > 0) {
+      console.log(`${resortName}: ${terrainCount} terrain, ${snowCount} snow records`);
+    }
+    totalTerrainRecords += terrainCount;
+    totalSnowRecords += snowCount;
+  }
 
   console.log(`\n✅ Import complete!`);
   console.log(`   Total terrain records: ${totalTerrainRecords}`);
