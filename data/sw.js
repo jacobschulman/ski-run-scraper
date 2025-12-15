@@ -1,7 +1,7 @@
 // Service Worker for Ski Conditions PWA
-const CACHE_NAME = 'ski-conditions-v1';
-const STATIC_CACHE = 'ski-static-v1';
-const DATA_CACHE = 'ski-data-v1';
+const CACHE_NAME = 'ski-conditions-v2';
+const STATIC_CACHE = 'ski-static-v2';
+const DATA_CACHE = 'ski-data-v2';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
