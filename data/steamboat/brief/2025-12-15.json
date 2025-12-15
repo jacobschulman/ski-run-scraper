@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-15",
-  "generated": "2025-12-15T10:28:30.475Z",
+  "generated": "2025-12-15T11:17:29.470Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -67,7 +67,7 @@
           "low_f": 28,
           "high_c": 3,
           "low_c": -2,
-          "description": "Mostly Sunny",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -78,7 +78,7 @@
           "low_f": 29,
           "high_c": 1,
           "low_c": -2,
-          "description": "Partly Cloudy",
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -86,13 +86,13 @@
         {
           "date": "2025-12-17",
           "high_f": 34,
-          "low_f": 12,
+          "low_f": 13,
           "high_c": 1,
           "low_c": -11,
           "description": "Thundersnow",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
@@ -101,7 +101,7 @@
         "low_f": 28,
         "high_c": 3,
         "low_c": -2,
-        "description": "Mostly Sunny",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -118,19 +118,19 @@
     },
     "alerts": [],
     "trends": [
-      "1\" snow expected Wednesday"
+      "2\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "The rundown: 22 trails open, 21 groomed. Mostly Clear with temps around null°. Light snow possible in the forecast.",
+    "headline": "Fresh Snow on the Way",
+    "body": "The rundown: 22 trails open, 21 groomed. Mostly Clear with temps around null°. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -140,19 +140,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Monday"
     }
