@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-16",
-  "generated": "2025-12-16T11:17:32.226Z",
+  "generated": "2025-12-16T13:41:59.702Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,39 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 22,
+          "today": 26,
           "yesterday": 22,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 22,
+          "today": 23,
           "yesterday": 22,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 203
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Green Acres Progression Park",
+          "difficulty": "easiest",
+          "area": "Woodward Mountain Park"
+        },
+        {
+          "name": "American Flyer",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "High Point Bypass",
+          "difficulty": "easiest",
+          "area": "Center"
+        },
+        {
+          "name": "Rocky Mountain Coaster",
+          "difficulty": "N/A",
+          "area": "Center"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -60,7 +81,7 @@
           "low_f": 19,
           "high_c": 0,
           "low_c": -7,
-          "description": "Partly Cloudy",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -94,7 +115,7 @@
         "low_f": 19,
         "high_c": 0,
         "low_c": -7,
-        "description": "Partly Cloudy",
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -105,30 +126,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "22/203 trails spinning, 22 freshly groomed. null° and Clear. Light snow possible in the forecast.",
+    "headline": "4 New Trails Today",
+    "body": "26/203 trails spinning, 23 freshly groomed. null° and Clear. New terrain alert: 4 trails added to the mix. The mountain just got bigger. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -140,11 +170,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Fewer Crowds, More Turns"
       },
       "dayOfWeek": "Tuesday"
     }

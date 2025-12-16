@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-16",
-  "generated": "2025-12-16T11:17:32.210Z",
+  "generated": "2025-12-16T13:41:59.686Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,48 +23,96 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 47,
+          "today": 48,
           "yesterday": 47,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 17,
+          "today": 22,
           "yesterday": 17,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Boardwalk",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Bucksaw",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Middle Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper Scoot",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper Windrow",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Sluice",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lower Windrow",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": false
     },
     "forecast": {
       "today": {
-        "date": "2025-12-15",
-        "high_f": null,
-        "low_f": 3,
-        "high_c": null,
-        "low_c": -16,
+        "date": "2025-12-16",
+        "high_f": 17,
+        "low_f": 18,
+        "high_c": -8,
+        "low_c": -8,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-16",
-          "high_f": 17,
-          "low_f": 18,
-          "high_c": -8,
-          "low_c": -8,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-17",
           "high_f": 34,
@@ -86,14 +134,25 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-19",
+          "high_f": 44,
+          "low_f": 3,
+          "high_c": 7,
+          "low_c": -16,
+          "description": "Rain",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2025-12-16",
-        "high_f": 17,
-        "low_f": 18,
-        "high_c": -8,
-        "low_c": -8,
+        "date": "2025-12-17",
+        "high_f": 34,
+        "low_f": 20,
+        "high_c": 1,
+        "low_c": -7,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -105,22 +164,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2 new trails opened today",
+      "6 trails freshly groomed"
+    ],
+    "trends": [
+      "Grooming increased 29% from yesterday",
+      "1 more trails open than yesterday",
+      "1\" snow expected Friday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Boardwalk - all skill levels",
+      "Fresh corduroy on Candy Side - perfect for intermediate skiers",
+      "Fresh corduroy on Bucksaw - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Quiet Days on the Hill",
-    "body": "47 of 176 trails are open with 17 groomed. Windy with a high of null°F. 47 of 176 trails are open with 17 groomed. Windy with a high of null°F.",
+    "headline": "2 New Trails Today",
+    "body": "48 of 176 trails are open with 22 groomed. Windy with a high of 17°F. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +200,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 5,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
-        "totalVariations": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Quiet Days on the Hill"
       },
       "dayOfWeek": "Tuesday"
     }
