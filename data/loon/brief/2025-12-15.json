@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-15",
-  "generated": "2025-12-15T23:16:50.142Z",
+  "generated": "2025-12-16T01:19:08.391Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -66,11 +66,11 @@
     "forecast": {
       "today": {
         "date": "2025-12-15",
-        "high_f": 10,
+        "high_f": null,
         "low_f": 9,
-        "high_c": -12,
+        "high_c": null,
         "low_c": -13,
-        "description": "Cloudy",
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -78,7 +78,7 @@
         {
           "date": "2025-12-16",
           "high_f": 21,
-          "low_f": 16,
+          "low_f": 17,
           "high_c": -6,
           "low_c": -9,
           "description": "Mostly Sunny",
@@ -112,7 +112,7 @@
       "tomorrow": {
         "date": "2025-12-16",
         "high_f": 21,
-        "low_f": 16,
+        "low_f": 17,
         "high_c": -6,
         "low_c": -9,
         "description": "Mostly Sunny",
@@ -134,14 +134,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Bundle Up Out There",
-    "body": "43/85 trails spinning, 33 freshly groomed. 10° and Cloudy. It's cold cold cold—10° for a high. Hand warmers are mandatory, not optional.",
+    "headline": "Conditions Report",
+    "body": "43/85 trails spinning, 33 freshly groomed. null° and Mostly Cloudy. 43 of 85 trails are open with 33 groomed. Mostly Cloudy with a high of null°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_cold_snap",
-          "category": "weather",
-          "priority": 52,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -151,19 +151,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_cold_snap",
+          "id": "fallback_body",
           "category": "weather",
-          "priority": 52,
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "cold_snap",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "fallback",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "It's gonna be a cold one"
+        "previousHeadline": "Bundle Up Out There"
       },
       "dayOfWeek": "Monday"
     }
