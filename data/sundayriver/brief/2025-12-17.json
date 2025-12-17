@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-17",
-  "generated": "2025-12-17T14:18:45.815Z",
+  "generated": "2025-12-17T15:19:18.616Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 52,
+          "today": 53,
           "yesterday": 52,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 46,
@@ -34,8 +34,25 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Three Mile Trail",
+          "difficulty": "novice",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Sluice",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Tempest (Lower)",
+          "difficulty": "Blue",
+          "area": "WHITE CAP"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -105,24 +122,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "52 trails open, 46 groomed. Windy, high of 33°. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "The Map Just Got Bigger",
+    "body": "53 trails open, 46 groomed. Windy, high of 33°. Rope drop! 2 trails opened overnight, expanding your playground significantly. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +152,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Wednesday"
     }
