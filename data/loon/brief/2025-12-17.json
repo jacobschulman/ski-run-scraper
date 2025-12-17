@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-17",
-  "generated": "2025-12-17T13:33:02.281Z",
+  "generated": "2025-12-17T14:18:45.818Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 43,
+          "today": 42,
           "yesterday": 42,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 33,
+          "today": 32,
           "yesterday": 31,
-          "delta": 2
+          "delta": 1
         },
         "totalTrails": 85
       },
@@ -41,7 +41,13 @@
           "area": "West Basin"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Loon Mountain Park",
+          "difficulty": "Blue",
+          "area": "Loon Peak"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Coolidge Street",
@@ -88,7 +94,7 @@
           "low_f": 15,
           "high_c": 9,
           "low_c": -9,
-          "description": "Rain Snow",
+          "description": "Rain",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
           "snowfall_expected": 1
@@ -130,7 +136,6 @@
       "2 trails freshly groomed"
     ],
     "trends": [
-      "1 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": [
@@ -139,14 +144,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "1 New Trails Today",
-    "body": "43 of 85 trails are open with 33 groomed. Cloudy with a high of 34°F. 1 new runs just opened up. Time to explore some fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "More Snow Coming",
+    "body": "42 of 85 trails are open with 32 groomed. Cloudy with a high of 34°F. 1 trails opened today expanding access to fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -156,9 +161,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_new_trails_opened",
           "category": "terrain",
-          "priority": 85,
+          "priority": 65,
           "usedFor": "body"
         },
         {
@@ -170,11 +175,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_expansion",
+        "condition": "snow_coming",
         "variationIndex": 2,
-        "totalVariations": 6,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "{newTrailsCount} New Trails Today"
       },
       "dayOfWeek": "Wednesday"
     }
