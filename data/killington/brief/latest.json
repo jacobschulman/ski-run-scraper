@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-17",
-  "generated": "2025-12-17T20:19:48.438Z",
+  "generated": "2025-12-17T21:17:01.821Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,64 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 111,
           "yesterday": 110,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 46,
+          "today": 42,
           "yesterday": 46,
-          "delta": 0
+          "delta": -4
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Dream Maker - Headwall",
+          "difficulty": "Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Pipe Dream - Upper",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "The Jug - Upper",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Reason Park",
+          "difficulty": "Blue",
+          "area": "North Ridge Area"
+        },
+        {
+          "name": "Dream Maker",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Downdraft - Upper",
+          "difficulty": "Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Snowshed Crossover",
+          "difficulty": "easiest",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -105,24 +148,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "110 of 222 trails are open with 46 groomed. Windy with a high of 29°F. Light snow possible in the forecast.",
+    "headline": "3 New Trails Today",
+    "body": "111 of 222 trails are open with 42 groomed. Windy with a high of 29°F. 3 new runs just opened up. Time to explore some fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +178,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 1,
-        "totalVariations": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Midweek Bliss"
       },
       "dayOfWeek": "Wednesday"
     }
