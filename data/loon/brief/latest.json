@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-17",
-  "generated": "2025-12-17T12:40:21.677Z",
+  "generated": "2025-12-17T13:33:02.281Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,37 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 42,
+          "today": 43,
           "yesterday": 42,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 31,
+          "today": 33,
           "yesterday": 31,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Rumrunner",
+          "difficulty": "Blue",
+          "area": "West Basin"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Coolidge Street",
+          "difficulty": "Blue",
+          "area": "West Basin"
+        },
+        {
+          "name": "Lower Rumrunner",
+          "difficulty": "Blue",
+          "area": "West Basin"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -45,7 +62,7 @@
     "forecast": {
       "today": {
         "date": "2025-12-17",
-        "high_f": 33,
+        "high_f": 34,
         "low_f": 23,
         "high_c": 1,
         "low_c": -5,
@@ -68,10 +85,10 @@
         {
           "date": "2025-12-19",
           "high_f": 48,
-          "low_f": 16,
+          "low_f": 15,
           "high_c": 9,
           "low_c": -9,
-          "description": "Rain",
+          "description": "Rain Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
           "snowfall_expected": 1
@@ -79,7 +96,7 @@
         {
           "date": "2025-12-20",
           "high_f": 19,
-          "low_f": 19,
+          "low_f": 20,
           "high_c": -7,
           "low_c": -7,
           "description": "Windy",
@@ -105,24 +122,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Coolidge Street - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Rumrunner - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "42 of 85 trails are open with 31 groomed. Cloudy with a high of 33°F. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "1 New Trails Today",
+    "body": "43 of 85 trails are open with 33 groomed. Cloudy with a high of 34°F. 1 new runs just opened up. Time to explore some fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +156,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Wednesday"
     }
