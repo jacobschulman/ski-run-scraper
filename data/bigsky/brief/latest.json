@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-18",
-  "generated": "2025-12-18T15:19:03.903Z",
+  "generated": "2025-12-18T16:23:50.005Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,46 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 21,
+          "today": 24,
           "yesterday": 21,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 6,
+          "today": 10,
           "yesterday": 0,
-          "delta": 6
+          "delta": 10
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Safari",
+          "difficulty": "Blue",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Ambush",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Tippy's Tumble",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Elk Park Ridge",
+          "difficulty": "advanced intermediate",
+          "area": "Thunder Wolf Area"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Secret Meadow",
+          "difficulty": "Green",
+          "area": "Explorer Area"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Cupajo",
@@ -58,6 +85,21 @@
           "area": "Explorer Area"
         },
         {
+          "name": "Safari",
+          "difficulty": "Blue",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Ambush",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
+          "name": "Tippy's Tumble",
+          "difficulty": "advanced intermediate",
+          "area": "Ramcharger Area"
+        },
+        {
           "name": "Mountain Village Learning Area",
           "difficulty": "Green",
           "area": "Swift Current Area"
@@ -66,6 +108,11 @@
           "name": "Jay Walk",
           "difficulty": "Blue",
           "area": "Swift Current Area"
+        },
+        {
+          "name": "Elk Park Ridge",
+          "difficulty": "advanced intermediate",
+          "area": "Thunder Wolf Area"
         }
       ],
       "ungroomed": []
@@ -81,7 +128,7 @@
         "high_c": -7,
         "low_c": -6,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 1
       },
       "outlook": [
@@ -91,10 +138,10 @@
           "low_f": 9,
           "high_c": -2,
           "low_c": -13,
-          "description": "Thundersnow",
+          "description": "Snow Wind",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 3
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
         },
         {
           "date": "2025-12-20",
@@ -125,10 +172,10 @@
         "low_f": 9,
         "high_c": -2,
         "low_c": -13,
-        "description": "Thundersnow",
+        "description": "Snow Wind",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 3
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
       }
     }
   },
@@ -136,14 +183,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "6 trails freshly groomed"
+      "4 new trails opened today",
+      "10 trails freshly groomed"
     ],
     "trends": [
-      "3\" snow expected Friday"
+      "3 more trails open than yesterday",
+      "2\" snow expected Friday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -152,14 +201,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "21 trails open, 6 groomed. Windy, high of 20°. 6 runs were freshly groomed overnight, with smooth corduroy calling in Derringer Area, Explorer Area, and more. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "The Map Just Got Bigger",
+    "body": "24 trails open, 10 groomed. Windy, high of 20°. Terrain is expanding with 4 new trails now open. More room to roam, less traffic to dodge. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -169,9 +218,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_newly_groomed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 70,
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -181,13 +230,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Snow on the Way"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Thursday"
     }

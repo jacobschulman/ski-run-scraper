@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-18",
-  "generated": "2025-12-18T15:19:03.863Z",
+  "generated": "2025-12-18T16:23:49.966Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,21 +23,48 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 14,
+          "today": 15,
           "yesterday": 14,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 12,
+          "today": 9,
           "yesterday": 12,
-          "delta": 0
+          "delta": -3
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Redman Loop",
+          "difficulty": "Snowshoe",
+          "area": "Nordic"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Big Redman",
+          "difficulty": "Intermediate",
+          "area": "Nordic"
+        },
+        {
+          "name": "Little Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Mid Redman",
+          "difficulty": "Easy",
+          "area": "Nordic"
+        },
+        {
+          "name": "Redman Loop",
+          "difficulty": "Snowshoe",
+          "area": "Nordic"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,27 +139,29 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trails open than yesterday",
       "3\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "4\" Freshened Things Up",
-    "body": "Overnight dusting of 4\" means the hardpack got a makeover. Looking good out there. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "The Map Just Got Bigger",
+    "body": "Overnight dusting of 4\" means the hardpack got a makeover. Looking good out there. Terrain is expanding with 1 new trails now open. More room to roam, less traffic to dodge. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -142,19 +171,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Thursday"
     }
