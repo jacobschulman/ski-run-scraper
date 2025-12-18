@@ -42,6 +42,10 @@ jobs:
         run: node ikon-scraper.js terrain
         # Scrapes terrain/grooming data for all Ikon Pass resorts using Inspector API (once daily in AM)
 
+      - name: Import terrain data to database
+        run: npm run db:import
+        # Import scraped terrain JSON files into SQLite database for streak calculations
+
       - name: Generate trail data
         run: npm run generate:trails all
 
