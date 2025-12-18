@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-18",
-  "generated": "2025-12-18T10:25:07.895Z",
+  "generated": "2025-12-18T11:17:41.335Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,94 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 46,
           "yesterday": 39,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
-          "today": 29,
+          "today": 32,
           "yesterday": 29,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Butternut",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Finally",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Founders",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Gord's Groove",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Juicer",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Southern Cross",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Mary Jane's Lane",
+          "difficulty": "Easy",
+          "area": "South"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Butternut",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Gord's Groove",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Juicer",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Southern Cross",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Mary Jane's Lane",
+          "difficulty": "Easy",
+          "area": "South"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Rinus Run",
+          "difficulty": "Moderately Difficult",
+          "area": "Village"
+        },
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,25 +185,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 22\" in last 7 days"
+    "alerts": [
+      "7 new trails opened today",
+      "5 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Great week for snow - 22\" in last 7 days",
+      "7 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Butternut - all skill levels",
+      "Fresh corduroy on Gord's Groove - all skill levels",
+      "Fresh corduroy on Juicer - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Recent Snow Still Skiing Well",
-    "body": "The snow from earlier this week (22\") is aging gracefully. Still soft, still fun.",
+    "headline": "The Map Just Got Bigger",
+    "body": "The snow from earlier this week (22\") is aging gracefully. Still soft, still fun. Rope drop! 7 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,15 +219,21 @@
           "category": "snow",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Base Conditions Solid"
+        "previousHeadline": "Recent Snow Still Skiing Well"
       },
       "dayOfWeek": "Thursday"
     }
