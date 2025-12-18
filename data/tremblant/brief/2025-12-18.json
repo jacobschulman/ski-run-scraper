@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-18",
-  "generated": "2025-12-18T09:22:46.361Z",
+  "generated": "2025-12-18T10:25:07.889Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 55,
+          "today": 56,
           "yesterday": 55,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 29,
+          "today": 30,
           "yesterday": 29,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Ryan Haut",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "La Griffe",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -63,7 +75,7 @@
       "outlook": [
         {
           "date": "2025-12-18",
-          "high_f": 35,
+          "high_f": 36,
           "low_f": 36,
           "high_c": 2,
           "low_c": 2,
@@ -74,20 +86,20 @@
         },
         {
           "date": "2025-12-19",
-          "high_f": 42,
+          "high_f": 44,
           "low_f": 10,
           "high_c": 6,
           "low_c": -12,
           "description": "Rain Snow",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 2
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-20",
           "high_f": 15,
-          "low_f": 16,
-          "high_c": -10,
+          "low_f": 17,
+          "high_c": -9,
           "low_c": -9,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -97,7 +109,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-18",
-        "high_f": 35,
+        "high_f": 36,
         "low_f": 36,
         "high_c": 2,
         "low_c": 2,
@@ -112,26 +124,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 22\" in last 7 days",
-      "2\" snow expected Friday"
+      "1 more trails open than yesterday",
+      "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on La Griffe - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 1\" new inches",
-    "body": "A fresh 1\" coating has things skiing better than yesterday. Small gifts matter. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "The Map Just Got Bigger",
+    "body": "A fresh 1\" coating has things skiing better than yesterday. Small gifts matter. Rope drop! 1 trails opened overnight, expanding your playground significantly. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +159,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" new inches"
       },
       "dayOfWeek": "Thursday"
     }
