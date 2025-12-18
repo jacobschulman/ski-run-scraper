@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-18",
-  "generated": "2025-12-18T12:37:05.820Z",
+  "generated": "2025-12-18T13:35:27.839Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 42,
+          "today": 43,
           "yesterday": 42,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 32,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Loon Mountain Park",
+          "difficulty": "Blue",
+          "area": "Loon Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -45,9 +51,9 @@
     "forecast": {
       "today": {
         "date": "2025-12-18",
-        "high_f": 36,
-        "low_f": 31,
-        "high_c": 2,
+        "high_f": 37,
+        "low_f": 32,
+        "high_c": 3,
         "low_c": 0,
         "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
@@ -68,9 +74,9 @@
         {
           "date": "2025-12-20",
           "high_f": 22,
-          "low_f": 22,
+          "low_f": 21,
           "high_c": -6,
-          "low_c": -5,
+          "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -78,7 +84,7 @@
         },
         {
           "date": "2025-12-21",
-          "high_f": 31,
+          "high_f": 30,
           "low_f": 8,
           "high_c": -1,
           "low_c": -13,
@@ -105,24 +111,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "42 trails open, 32 groomed. Partly Cloudy, high of 36°. Light snow possible in the forecast.",
+    "headline": "More Mountain to Explore",
+    "body": "43 trails open, 32 groomed. Partly Cloudy, high of 37°. The ski patrol has been busy—1 additional trails are now yours to enjoy. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
-        "totalVariations": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Fewer Crowds, More Turns"
       },
       "dayOfWeek": "Thursday"
     }

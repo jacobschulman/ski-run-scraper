@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-18",
-  "generated": "2025-12-18T12:37:05.759Z",
+  "generated": "2025-12-18T13:35:27.782Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 5,
+          "today": 8,
           "yesterday": 5,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 228
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Birdseye",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Little Reb",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Ottobahn",
+          "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,27 +128,29 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "3\" fresh snow overnight",
+      "3 new trails opened today"
     ],
     "trends": [
+      "3 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "The rundown: 5 trails open, 0 groomed. Windy with temps around null°. Light snow possible in the forecast.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 8 trails open, 0 groomed. Windy with temps around null°. Rope drop! 3 trails opened overnight, expanding your playground significantly. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -142,19 +160,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
-        "totalVariations": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Fewer Crowds, More Turns"
       },
       "dayOfWeek": "Thursday"
     }
