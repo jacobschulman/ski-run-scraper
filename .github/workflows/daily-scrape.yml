@@ -47,7 +47,8 @@ jobs:
         # Import scraped terrain JSON files into SQLite database for streak calculations
 
       - name: Generate trail data
-        run: npm run generate:trails all
+        run: npm run generate:trails:only all
+        # Uses generate:trails:only since db:import already ran above
 
       - name: Generate terrain indexes
         run: npm run generate:terrain-indexes
