@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-19",
-  "generated": "2025-12-19T17:15:57.322Z",
+  "generated": "2025-12-19T18:24:21.551Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 57,
+          "today": 62,
           "yesterday": 114,
-          "delta": -57
+          "delta": -52
         },
         "groomedTrails": {
-          "today": 36,
+          "today": 41,
           "yesterday": 42,
-          "delta": -6
+          "delta": -1
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Skyewalker",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Powerline",
@@ -112,11 +118,6 @@
           "area": "Bear Mountain"
         },
         {
-          "name": "Stash Way",
-          "difficulty": "Blue",
-          "area": "Bear Mountain"
-        },
-        {
           "name": "Superpipe Trail",
           "difficulty": "Blue",
           "area": "Bear Mountain"
@@ -139,16 +140,6 @@
         {
           "name": "Cruise Control - Upper",
           "difficulty": "Blue",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "Gateway",
-          "difficulty": "Blue",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "Great Eastern - Upper",
-          "difficulty": "easiest",
           "area": "Skye Peak"
         },
         {
@@ -204,11 +195,6 @@
         {
           "name": "Panic Button",
           "difficulty": "Black",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "Skyeburst - Upper",
-          "difficulty": "Blue",
           "area": "Skye Peak"
         },
         {
@@ -312,14 +298,19 @@
           "area": "Uphill Travel"
         }
       ],
-      "newlyGroomed": [],
-      "ungroomed": [
+      "newlyGroomed": [
         {
-          "name": "Bear Trax",
+          "name": "Gateway",
           "difficulty": "Blue",
-          "area": "Killington Peak"
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Skyewalker",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
         }
-      ]
+      ],
+      "ungroomed": []
     },
     "lifts": {
       "available": false
@@ -328,9 +319,9 @@
       "today": {
         "date": "2025-12-19",
         "high_f": 46,
-        "low_f": 9,
+        "low_f": 10,
         "high_c": 8,
-        "low_c": -13,
+        "low_c": -12,
         "description": "Rain Snow",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 1
@@ -339,7 +330,7 @@
         {
           "date": "2025-12-20",
           "high_f": 24,
-          "low_f": 25,
+          "low_f": 26,
           "high_c": -4,
           "low_c": -4,
           "description": "Windy",
@@ -350,8 +341,8 @@
         {
           "date": "2025-12-21",
           "high_f": 26,
-          "low_f": 5,
-          "high_c": -4,
+          "low_f": 4,
+          "high_c": -3,
           "low_c": -15,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -373,7 +364,7 @@
       "tomorrow": {
         "date": "2025-12-20",
         "high_f": 24,
-        "low_f": 25,
+        "low_f": 26,
         "high_c": -4,
         "low_c": -4,
         "description": "Windy",
@@ -387,16 +378,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Gateway - perfect for intermediate skiers",
+      "Fresh corduroy on Skyewalker - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Friday: Ready for the Weekend",
-    "body": "57/222 trails spinning, 36 freshly groomed. 46° and Rain Snow. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "The Weekend Starts Now",
+    "body": "62/222 trails spinning, 41 freshly groomed. 46° and Rain Snow. 1 trails opened today expanding access to fresh terrain. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -412,19 +409,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weekend_kickoff",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Friday: Ready for the Weekend"
       },
       "dayOfWeek": "Friday"
     }
