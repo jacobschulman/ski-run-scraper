@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2025-12-19",
-  "generated": "2025-12-19T16:21:32.369Z",
+  "generated": "2025-12-19T17:15:57.325Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 42,
           "yesterday": 39,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 31,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Symmetry",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Tensleep Bowl",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Tensleep",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -137,13 +153,15 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "3 new trails opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
+      "3 more trails open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": [
@@ -153,8 +171,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "Prepare for Pow!",
-    "body": "39 of 145 trails are open with 31 groomed. Snow Wind with a high of 29°F. Winter has more to say. 13\" forecasted means conditions are about to level up.",
+    "headline": "Boom Boom Pow!",
+    "body": "42 of 145 trails are open with 31 groomed. Snow Wind with a high of 29°F. 3 more trails are in play today. The groomers are getting stretched thin (in a good way). Winter has more to say. 13\" forecasted means conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -170,19 +188,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 6,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Boom Boom Pow!"
+        "previousHeadline": "Prepare for Pow!"
       },
       "dayOfWeek": "Friday"
     }
