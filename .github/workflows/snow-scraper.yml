@@ -40,11 +40,15 @@ jobs:
         run: node snow-scraper.js ikon
         # Scrapes snow reports for all Ikon Pass resorts using Inspector API (single call)
 
+      - name: Generate aggregate data
+        run: node generate-aggregates.js
+        # Regenerate mega recap with latest snow data
+
       - name: Check for changes
         id: git-check
         run: |
           # Check if any snow data files changed
-          if git diff --quiet data/**/snow/ data/latest-snow.json; then
+          if git diff --quiet data/**/snow/ data/latest-snow.json data/aggregates/; then
             echo "changes=false" >> $GITHUB_OUTPUT
             echo "No snow data changes detected"
           else
@@ -64,8 +68,8 @@ jobs:
           # Pull latest changes with rebase to avoid conflicts
           git pull --rebase --autostash origin "$BRANCH_NAME"
 
-          # Add snow data files and latest-snow aggregation
-          git add data/**/snow/ data/latest-snow.json
+          # Add snow data files, latest-snow aggregation, and aggregates
+          git add data/**/snow/ data/latest-snow.json data/aggregates/
 
           # Create commit with timestamp
           git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"

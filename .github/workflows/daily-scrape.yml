@@ -53,6 +53,10 @@ jobs:
       - name: Generate terrain indexes
         run: npm run generate:terrain-indexes
 
+      - name: Generate aggregate data
+        run: node generate-aggregates.js
+        # Generates daily mega recap with superlatives, rankings, and regional aggregates
+
       - name: Check for changes
         id: git-check
         run: |
