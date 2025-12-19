@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2025-12-19",
-  "generated": "2025-12-19T10:25:44.095Z",
+  "generated": "2025-12-19T12:39:50.552Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 22,
+          "today": 23,
           "yesterday": 22,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 21,
+          "today": 22,
           "yesterday": 21,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 203
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Woodwinds Traverse",
+          "difficulty": "easiest",
+          "area": "West"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -72,9 +78,9 @@
           "high_c": -3,
           "low_c": -7,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-21",
@@ -105,22 +111,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday",
+      "1\" snow expected Saturday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Weekend Starts Now",
-    "body": "The rundown: 22 trails open, 21 groomed. Windy with temps around null°. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 23 trails open, 22 groomed. Windy with temps around null°. Terrain is expanding with 1 new trails now open. More room to roam, less traffic to dodge. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +141,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
+          "id": "terrain_expansion",
+          "category": "terrain",
           "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Cheers to the Weekend!"
+        "previousHeadline": "The Weekend Starts Now"
       },
       "dayOfWeek": "Friday"
     }
