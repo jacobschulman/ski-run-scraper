@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-19",
-  "generated": "2025-12-19T19:13:51.470Z",
+  "generated": "2025-12-19T20:18:42.383Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 15,
+          "today": 17,
           "yesterday": 15,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 9,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Blue Spruce",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        },
+        {
+          "name": "TBD",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,25 +123,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
+      "2 more trails open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Friday: Ready for the Weekend",
-    "body": "15/107 trails spinning, 9 freshly groomed. 37° and Windy. Light snow possible in the forecast.",
+    "headline": "Terrain is Expanding",
+    "body": "17/107 trails spinning, 9 freshly groomed. 37° and Windy. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +154,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Friday: Ready for the Weekend"
       },
       "dayOfWeek": "Friday"
     }
