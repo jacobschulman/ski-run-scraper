@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-20",
-  "generated": "2025-12-20T10:22:16.350Z",
+  "generated": "2025-12-20T11:13:55.043Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 53,
+          "today": 54,
           "yesterday": 53,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 52,
+          "today": 53,
           "yesterday": 52,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Black Bear",
+          "difficulty": "Intermediate",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Black Bear",
+          "difficulty": "Intermediate",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -86,9 +98,9 @@
         {
           "date": "2025-12-22",
           "high_f": 20,
-          "low_f": 21,
+          "low_f": 20,
           "high_c": -7,
-          "low_c": -6,
+          "low_c": -7,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -112,23 +124,30 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Black Bear - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "53 of 123 trails are open with 52 groomed. Windy with a high of null°F. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "54 of 123 trails are open with 53 groomed. Windy with a high of null°F. New terrain alert: 1 trails added to the mix. The mountain just got bigger. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,19 +157,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Mountain Conditions Update"
       },
       "dayOfWeek": "Saturday"
     }

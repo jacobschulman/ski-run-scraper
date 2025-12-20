@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-20",
-  "generated": "2025-12-20T10:22:16.410Z",
+  "generated": "2025-12-20T11:13:55.104Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,63 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 37,
+          "today": 40,
           "yesterday": 37,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 27,
+          "today": 31,
           "yesterday": 27,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Gord's Groove",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Little Ripper",
+          "difficulty": "Easy",
+          "area": "South"
+        },
+        {
+          "name": "Memory Lane",
+          "difficulty": "Moderately Difficult",
+          "area": "Village"
+        },
+        {
+          "name": "Susan's Hideaway",
+          "difficulty": "Intermediate",
+          "area": "Village"
+        },
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Butternut",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Little Ripper",
+          "difficulty": "Easy",
+          "area": "South"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,26 +155,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today",
+      "1 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
+      "3 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Little Ripper - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Today's Conditions",
-    "body": "Steady snowfall with 9\" over the last week. Light snow possible in the forecast.",
+    "headline": "5 New Trails Today",
+    "body": "Steady snowfall with 9\" over the last week. 5 new runs just opened up. Time to explore some fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +190,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Today's Conditions"
       },
       "dayOfWeek": "Saturday"
     }
