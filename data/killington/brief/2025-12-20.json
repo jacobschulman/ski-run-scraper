@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-20",
-  "generated": "2025-12-20T13:27:13.021Z",
+  "generated": "2025-12-20T14:14:56.887Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 57,
+          "today": 61,
           "yesterday": 57,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 49,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Cascade - Headwall",
+          "difficulty": "Double Black",
+          "area": "Killington Peak"
+        },
+        {
+          "name": "Downdraft - Headwall",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Skye Hawk",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Skyelark - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,30 +126,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "3\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "❄️ Snow ❄️ in the Forecast",
-    "body": "57 of 222 trails are open with 49 groomed. Windy with a high of 25°F. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+    "headline": "Terrain is Expanding",
+    "body": "61 of 222 trails are open with 49 groomed. Windy with a high of 25°F. 4 more trails are in play today. The groomers are getting stretched thin (in a good way). Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -140,11 +170,11 @@
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Cloudy with a chance of pow!"
+        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
       },
       "dayOfWeek": "Saturday"
     }
