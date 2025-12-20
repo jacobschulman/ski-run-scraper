@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-20",
-  "generated": "2025-12-20T15:15:23.143Z",
+  "generated": "2025-12-20T16:19:34.737Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 23,
+          "today": 24,
           "yesterday": 23,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 21,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Heavenly Daze",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,23 +118,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Today's Conditions",
-    "body": "23 trails open, 21 groomed. Snow Wind, high of 28°. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "New Runs Now Open",
+    "body": "24 trails open, 21 groomed. Snow Wind, high of 28°. The ski patrol has been busy—1 additional trails are now yours to enjoy. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -138,19 +148,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Morning Mountain Brief"
+        "previousHeadline": "Today's Conditions"
       },
       "dayOfWeek": "Saturday"
     }

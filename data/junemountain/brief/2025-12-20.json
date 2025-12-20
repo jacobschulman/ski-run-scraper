@@ -2,7 +2,7 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2025-12-20",
-  "generated": "2025-12-20T15:15:23.156Z",
+  "generated": "2025-12-20T16:19:34.752Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 2,
           "yesterday": 0,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 2,
           "yesterday": 0,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 44
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Baby Face",
+          "difficulty": "Easy",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Bucky's Playground",
+          "difficulty": "Terrain Park",
+          "area": "June Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -52,9 +63,9 @@
     "forecast": {
       "today": {
         "date": "2025-12-20",
-        "high_f": 37,
+        "high_f": 36,
         "low_f": 34,
-        "high_c": 3,
+        "high_c": 2,
         "low_c": 1,
         "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
@@ -66,7 +77,7 @@
           "high_f": 36,
           "low_f": 31,
           "high_c": 2,
-          "low_c": -1,
+          "low_c": 0,
           "description": "Rain Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 2,
@@ -76,8 +87,8 @@
           "date": "2025-12-22",
           "high_f": 35,
           "low_f": 31,
-          "high_c": 1,
-          "low_c": -1,
+          "high_c": 2,
+          "low_c": 0,
           "description": "Snow Wind",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
@@ -100,7 +111,7 @@
         "high_f": 36,
         "low_f": 31,
         "high_c": 2,
-        "low_c": -1,
+        "low_c": 0,
         "description": "Rain Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 2,
@@ -112,41 +123,56 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements. It's 37° and Mostly Cloudy today.",
+    "headline": "Storm Cycle Building",
+    "body": "2 of 44 trails are open with 2 groomed. Mostly Cloudy with a high of 36°F. New terrain alert: 2 trails added to the mix. The mountain just got bigger. The jet stream is doing its thing. Expect 8\" of fresh snow rolling in soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 2,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Saturday"
     }
