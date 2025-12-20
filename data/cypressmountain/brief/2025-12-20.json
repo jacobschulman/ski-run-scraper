@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2025-12-20",
-  "generated": "2025-12-20T16:19:34.790Z",
+  "generated": "2025-12-20T17:13:36.856Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,112 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 0,
-          "delta": 0
+          "delta": 9
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 0,
-          "delta": 0
+          "delta": 9
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Ski School Flats",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sitzmark",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sitzmark (backside)",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Telemark",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Wells Grey",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Burfield",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Hollyburn",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Powerline",
+          "difficulty": "Blue",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Ski School Flats",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sitzmark",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sitzmark (backside)",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Telemark",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Wells Grey",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Burfield",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Hollyburn",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Lower Powerline",
+          "difficulty": "Blue",
+          "area": "Nordic Lower Trails"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Novice",
+          "area": "Nordic Lower Trails"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -78,7 +170,7 @@
         },
         {
           "date": "2025-12-23",
-          "high_f": 28,
+          "high_f": 29,
           "low_f": 29,
           "high_c": -2,
           "low_c": -2,
@@ -105,40 +197,60 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 new trails opened today",
+      "9 trails freshly groomed"
+    ],
     "trends": [
+      "9 more trails open than yesterday",
       "8\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Ski School Flats - all skill levels",
+      "Fresh corduroy on Sitzmark - all skill levels",
+      "Fresh corduroy on Sitzmark (backside) - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "The mountain is still prepping for the season. Weather today: Snow Wind, 29°F.",
+    "headline": "Big Snow Incoming",
+    "body": "The rundown: 9 trails open, 9 groomed. Snow Wind with temps around 29°. Terrain is expanding with 9 new trails now open. More room to roam, less traffic to dodge. A significant storm is brewing with 18\" expected over the next few days. Plan accordingly.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waiting for Opening Day"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Saturday"
     }
