@@ -40,7 +40,7 @@ const BEARER_TOKEN = config.inspector?.bearerToken || 'hPtaTVkbuyZQnrxvru4ApfpXn
 
 // Operating window buffers
 const PRE_OPEN_BUFFER_MINUTES = 30;
-const POST_CLOSE_GRACE_MINUTES = 10;
+const POST_CLOSE_GRACE_MINUTES = 60; // extended grace period to ensure we capture all lift closings
 
 /**
  * Fetch all resort data from Inspector API
@@ -98,11 +98,13 @@ function timeToMinutes(timeStr) {
 
 /**
  * Check if current time is in "dead hours" when ski resorts are closed
- * Dead hours: 6 PM - 7 AM local time
+ * Dead hours: 10 PM - 7 AM local time
+ * Extended from 6 PM to 10 PM to ensure we capture closing transitions for all lifts
  */
 function isInDeadHours(timezone) {
   const hour = seasonUtils.getResortLocalHour(timezone);
-  return hour >= 18 || hour < 7;
+  // Dead hours: 10 PM (22:00) to 7 AM (07:00) in the resort's local timezone
+  return hour >= 22 || hour < 7;
 }
 
 /**
@@ -239,12 +241,17 @@ function shouldCheckResort(resortKey, resort, activeCache) {
         return { shouldCheck: false, reason: 'before_operating_hours', tier: 4 };
       }
 
-      if (currentMinutes <= hardStop) {
+      if (currentMinutes <= latestClose) {
         return { shouldCheck: true, reason: 'within_operating_hours', tier: 4 };
+      }
+
+      if (currentMinutes <= hardStop) {
+        // Always check during grace period to capture closing transitions
+        return { shouldCheck: true, reason: 'post_close_grace', tier: 4 };
       }
     }
 
-    return { shouldCheck: false, reason: 'outside_operating_hours', tier: 4 };
+    return { shouldCheck: false, reason: 'past_grace_period', tier: 4 };
   } catch (error) {
     return { shouldCheck: true, reason: 'data_read_error', tier: 4 };
   }

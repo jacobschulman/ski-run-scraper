@@ -31,7 +31,7 @@ const { formatInTimeZone } = require('date-fns-tz');
 
 // Operating window buffers
 const PRE_OPEN_BUFFER_MINUTES = 30; // start a bit before posted open
-const POST_CLOSE_GRACE_MINUTES = 10; // short grace to capture final close states
+const POST_CLOSE_GRACE_MINUTES = 60; // extended grace period to ensure we capture all lift closings
 
 // Load configuration
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
@@ -178,13 +178,15 @@ function addToActiveResortCache(resortKey, timezone) {
 
 /**
  * Check if current time is in "dead hours" when ski resorts are definitely closed
- * Dead hours: 6 PM - 7 AM local time (no ski resorts operate during these hours)
+ * Dead hours: 10 PM - 7 AM local time
+ * Extended from 6 PM to 10 PM to ensure we capture closing transitions for all lifts
  * This check is timezone-aware - uses the resort's local time
  */
 function isInDeadHours(timezone) {
   const { hour } = getResortLocalHourMinute(timezone);
-  // Dead hours: 6 PM (18:00) to 7 AM (07:00) in the resort's local timezone
-  return hour >= 18 || hour < 7;
+  // Dead hours: 10 PM (22:00) to 7 AM (07:00) in the resort's local timezone
+  // Extended to 10 PM to ensure we capture all lift closings (some may close as late as 8-9 PM)
+  return hour >= 22 || hour < 7;
 }
 
 /**
@@ -287,11 +289,12 @@ function shouldCheckResort(resortKey, resort, activeCache) {
       }
 
       if (currentMinutes <= hardStop) {
+        // Always check during grace period to capture closing transitions
         return { shouldCheck: true, reason: 'post_close_grace', tier: 4 };
       }
     }
 
-    return { shouldCheck: false, reason: 'outside_operating_hours', tier: 4 };
+    return { shouldCheck: false, reason: 'past_grace_period', tier: 4 };
   } catch (error) {
     // If we can't read data, err on the side of checking
     return { shouldCheck: true, reason: 'data_read_error', tier: 4 };
@@ -446,15 +449,10 @@ function getLiftOperatingWindow(lifts, timezone, resortKey) {
     reason = `Past close +${POST_CLOSE_GRACE_MINUTES}m buffer (${localTimeStr} > ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`;
     isOpen = false;
   } else if (currentMinutes > maxCloseMinutes) {
-    // In short post-close grace window: only keep scraping if data still reports lifts open
-    const hasOpenLifts = hasRecentOpenLifts(resortKey, timezone);
-    if (hasOpenLifts) {
-      isOpen = true;
-      reason = `Within ${POST_CLOSE_GRACE_MINUTES}m post-close buffer and lifts still showing as Open`;
-    } else {
-      isOpen = false;
-      reason = `Past close time and all lifts closed (${localTimeStr} > ${Math.floor(maxCloseMinutes/60)}:${String(maxCloseMinutes%60).padStart(2,'0')})`;
-    }
+    // In post-close grace window: always keep scraping to ensure we capture the Closed state
+    // This ensures we never miss the Open->Closed transition even if close times vary
+    isOpen = true;
+    reason = `Within ${POST_CLOSE_GRACE_MINUTES}m post-close buffer - capturing closing transitions`;
   } else {
     reason = `Before opening time (${localTimeStr} < ${Math.floor(minOpenMinutes/60)}:${String(minOpenMinutes%60).padStart(2,'0')})`;
     isOpen = false;

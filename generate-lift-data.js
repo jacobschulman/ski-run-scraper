@@ -107,7 +107,7 @@ function isWithinOperatingHours(openTime, closeTime, timezone) {
 
   const toMinutes = (timeStr) => {
     if (!timeStr) return null;
-    const match = timeStr.match(/(\\d+):(\\d+)\\s*(am|pm)?/i);
+    const match = timeStr.match(/(\d+):(\d+)\s*(am|pm)?/i);
     if (!match) return null;
     let hours = parseInt(match[1], 10);
     const minutes = parseInt(match[2], 10);
