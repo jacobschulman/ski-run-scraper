@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-20",
-  "generated": "2025-12-20T12:33:53.256Z",
+  "generated": "2025-12-20T13:27:12.989Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 45,
           "yesterday": 43,
-          "delta": -3
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 29,
+          "today": 34,
           "yesterday": 32,
-          "delta": -3
+          "delta": 2
         },
         "totalTrails": 129
       },
@@ -64,17 +64,17 @@
           "name": "Letendre",
           "difficulty": "Easy",
           "area": "North Side"
+        },
+        {
+          "name": "Parc Mitik",
+          "difficulty": "Terrain Park",
+          "area": "North Side"
         }
       ],
       "newlyClosed": [
         {
           "name": "Belvédère",
           "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
-          "name": "Charron",
-          "difficulty": "Difficult",
           "area": "South Side"
         },
         {
@@ -88,11 +88,6 @@
           "area": "South Side"
         },
         {
-          "name": "Taschereau",
-          "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
           "name": "Voyageur",
           "difficulty": "Easy",
           "area": "South Side"
@@ -101,22 +96,17 @@
           "name": "Boomerang",
           "difficulty": "Very Difficult",
           "area": "North Side"
-        },
-        {
-          "name": "Duncan Bas",
-          "difficulty": "Difficult",
-          "area": "North Side"
-        },
-        {
-          "name": "Duncan Haut",
-          "difficulty": "Very Difficult",
-          "area": "North Side"
         }
       ],
       "newlyGroomed": [
         {
           "name": "Letendre",
           "difficulty": "Easy",
+          "area": "North Side"
+        },
+        {
+          "name": "Parc Mitik",
+          "difficulty": "Terrain Park",
           "area": "North Side"
         }
       ],
@@ -158,9 +148,9 @@
         {
           "date": "2025-12-22",
           "high_f": 11,
-          "low_f": 10,
+          "low_f": 9,
           "high_c": -12,
-          "low_c": -12,
+          "low_c": -13,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -171,7 +161,7 @@
           "high_f": 19,
           "low_f": 15,
           "high_c": -7,
-          "low_c": -9,
+          "low_c": -10,
           "description": "Snow Showers",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
@@ -200,26 +190,28 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "6 new trails opened today",
-      "1 trails freshly groomed"
+      "7 new trails opened today",
+      "2 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "2 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": [
-      "Fresh corduroy on Letendre - all skill levels"
+      "Fresh corduroy on Letendre - all skill levels",
+      "Fresh corduroy on Parc Mitik - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "Recent Snow Still Skiing Well",
-    "body": "The 12\" from this week is still skiing great. No new snow needed (yet). Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+    "headline": "7 New Trails Today",
+    "body": "The 12\" from this week is still skiing great. No new snow needed (yet). 7 new runs just opened up. Time to explore some fresh terrain. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -229,19 +221,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "holding_strong",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Good Snow Persisting"
+        "previousHeadline": "Recent Snow Still Skiing Well"
       },
       "dayOfWeek": "Saturday"
     }
