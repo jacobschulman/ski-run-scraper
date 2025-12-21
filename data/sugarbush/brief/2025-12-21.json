@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-21",
-  "generated": "2025-12-21T18:22:32.794Z",
+  "generated": "2025-12-21T19:12:44.836Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 86,
+          "today": 87,
           "yesterday": 86,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 37,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower North Star",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -123,14 +129,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "2 trails freshly groomed"
     ],
     "trends": [
+      "1 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": [
@@ -139,14 +147,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "86/142 trails spinning, 37 freshly groomed. 26° and Windy. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "1 New Trails Today",
+    "body": "87/142 trails spinning, 37 freshly groomed. 26° and Windy. 1 more trails are in play today. The groomers are getting stretched thin (in a good way). The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -156,19 +164,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Sunday"
     }
