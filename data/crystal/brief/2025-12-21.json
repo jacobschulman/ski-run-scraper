@@ -2,13 +2,13 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-21",
-  "generated": "2025-12-21T15:15:13.239Z",
+  "generated": "2025-12-21T16:19:07.926Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 5,
-      "overnight_cm": 13,
-      "24hour_inches": 6,
-      "24hour_cm": 15,
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
       "48hour_inches": 12,
       "48hour_cm": 30,
       "7day_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 12,
+          "today": 17,
           "yesterday": 12,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,33 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Gandy's Run",
+          "difficulty": "Intermediate",
+          "area": "Frontside"
+        },
+        {
+          "name": "Little Portillo",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        },
+        {
+          "name": "Little Shot",
+          "difficulty": "Intermediate",
+          "area": "Frontside"
+        },
+        {
+          "name": "Lucky Shot",
+          "difficulty": "Intermediate",
+          "area": "Frontside"
+        },
+        {
+          "name": "Mel's Left",
+          "difficulty": "Intermediate",
+          "area": "Frontside"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -111,35 +137,42 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": true,
-      "hasNewTrails": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "5\" fresh snow overnight",
-      "6\" in last 24 hours - powder day!"
+      "2\" fresh snow overnight",
+      "5 new trails opened today"
     ],
     "trends": [
+      "5 more trails open than yesterday",
       "4\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Saturday Stash Day",
-    "body": "It's a 6\" day. You know what to do. First chair or regret it. A significant storm is brewing with 7\" expected over the next few days. Plan accordingly.",
+    "headline": "The Forecast Looks Loaded",
+    "body": "3\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Rope drop! 5 trails opened overnight, expanding your playground significantly. A significant storm is brewing with 7\" expected over the next few days. Plan accordingly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
-          "category": "snow",
-          "priority": 100,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_fresh_coat",
           "category": "snow",
-          "priority": 100,
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -149,13 +182,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 0,
-        "totalVariations": 12,
-        "usedWeekendVariation": true,
-        "previousHeadline": "Weekend Powder Jackpot"
+        "condition": "storm_major",
+        "variationIndex": 5,
+        "totalVariations": 8,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Saturday Stash Day"
       },
       "dayOfWeek": "Sunday"
     }
