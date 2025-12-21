@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-21",
-  "generated": "2025-12-21T14:15:04.035Z",
+  "generated": "2025-12-21T15:15:13.256Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 39,
           "yesterday": 39,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 31,
+          "today": 30,
           "yesterday": 30,
-          "delta": 1
+          "delta": 0
         },
         "totalTrails": 63
       },
@@ -41,7 +41,13 @@
           "area": "North"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Schuss",
+          "difficulty": "Intermediate",
+          "area": "North"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -126,20 +132,19 @@
       "1 new trail opened today"
     ],
     "trends": [
-      "Steady snowfall - 8\" in last 7 days",
-      "1 more trails open than yesterday"
+      "Steady snowfall - 8\" in last 7 days"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "More Mountain to Explore",
-    "body": "Steady snowfall with 8\" over the last week. Terrain is expanding with 1 new trails now open. More room to roam, less traffic to dodge.",
+    "headline": "Your Morning Mountain Brief",
+    "body": "Steady snowfall with 8\" over the last week. 1 trails opened today expanding access to fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -149,19 +154,19 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_new_trails_opened",
           "category": "terrain",
-          "priority": 85,
+          "priority": 65,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Terrain Unlocked"
+        "previousHeadline": "More Mountain to Explore"
       },
       "dayOfWeek": "Sunday"
     }
