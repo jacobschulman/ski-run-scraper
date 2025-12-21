@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-21",
-  "generated": "2025-12-21T10:21:38.611Z",
+  "generated": "2025-12-21T11:14:30.406Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 40,
           "yesterday": 39,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 22,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Alice's Winterland Glade",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -68,7 +74,7 @@
         {
           "date": "2025-12-22",
           "high_f": 5,
-          "low_f": 5,
+          "low_f": 6,
           "high_c": -15,
           "low_c": -15,
           "description": "Windy",
@@ -79,13 +85,13 @@
         {
           "date": "2025-12-23",
           "high_f": 15,
-          "low_f": 13,
+          "low_f": 14,
           "high_c": -10,
           "low_c": -10,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
@@ -105,24 +111,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "1\" snow expected Tuesday"
+      "1 more trails open than yesterday",
+      "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "39/176 trails spinning, 22 freshly groomed. null° and Windy. Light snow possible in the forecast.",
+    "headline": "Terrain is Expanding",
+    "body": "40/176 trails spinning, 22 freshly groomed. null° and Windy. New terrain alert: 1 trails added to the mix. The mountain just got bigger. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +141,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Sunday"
     }

@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-21",
-  "generated": "2025-12-21T10:21:38.534Z",
+  "generated": "2025-12-21T11:14:30.332Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 50,
+          "today": 51,
           "yesterday": 50,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 50,
+          "today": 51,
           "yesterday": 50,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Switchback ",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Lower Switchback ",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,25 +124,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Switchback  - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "50 trails open, 50 groomed. Windy, high of null°. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "The Map Just Got Bigger",
+    "body": "51 trails open, 51 groomed. Windy, high of null°. Rope drop! 1 trails opened overnight, expanding your playground significantly. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +158,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Snow on the Way"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Sunday"
     }
