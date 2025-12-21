@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-21",
-  "generated": "2025-12-21T09:16:41.395Z",
+  "generated": "2025-12-21T10:21:38.602Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,43 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 40,
           "yesterday": 39,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 30,
+          "today": 31,
           "yesterday": 30,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "L-Park",
+          "difficulty": "LargePark",
+          "area": "Village"
+        },
+        {
+          "name": "Senator / Larway",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Tranquility",
+          "difficulty": "Intermediate",
+          "area": "Village"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "L-Park",
+          "difficulty": "LargePark",
+          "area": "Village"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -63,14 +86,14 @@
       "outlook": [
         {
           "date": "2025-12-21",
-          "high_f": 22,
-          "low_f": 21,
+          "high_f": 23,
+          "low_f": 20,
           "high_c": -5,
           "low_c": -6,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-22",
@@ -87,9 +110,9 @@
           "date": "2025-12-23",
           "high_f": 35,
           "low_f": 28,
-          "high_c": 1,
+          "high_c": 2,
           "low_c": -2,
-          "description": "Cloudy",
+          "description": "Rain Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -97,14 +120,14 @@
       ],
       "tomorrow": {
         "date": "2025-12-21",
-        "high_f": 22,
-        "low_f": 21,
+        "high_f": 23,
+        "low_f": 20,
         "high_c": -5,
         "low_c": -6,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -112,25 +135,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 9\" in last 7 days"
+    "alerts": [
+      "2 new trails opened today",
+      "1 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 9\" in last 7 days",
+      "1 more trails open than yesterday",
+      "1\" snow expected Sunday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on L-Park - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "Steady snowfall with 9\" over the last week. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "More Mountain to Explore",
+    "body": "Steady snowfall with 9\" over the last week. Terrain is expanding with 2 new trails now open. More room to roam, less traffic to dodge. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +170,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
+          "id": "terrain_expansion",
+          "category": "terrain",
           "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Sunday"
     }
