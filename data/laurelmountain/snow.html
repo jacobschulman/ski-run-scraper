@@ -15,47 +15,56 @@
             margin: 0;
             padding: 0;
         }
-        .header {
-            background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
-            color: white;
-            padding: 20px 16px 16px;
+        .app-header {
+            background: #ffffff;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e5ea;
             position: sticky;
             top: 0;
             z-index: 100;
         }
-        .header-top {
+        .app-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #007aff;
+            letter-spacing: -0.5px;
+        }
+        .header-controls {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
+            gap: 12px;
         }
         .resort-picker {
             display: flex;
             align-items: center;
             gap: 6px;
-            background: rgba(255,255,255,0.2);
+            background: #f2f2f7;
             padding: 8px 12px;
-            border-radius: 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 500;
+            color: #1c1c1e;
+            border: none;
+            font-family: inherit;
         }
         .resort-picker svg {
             width: 12px;
             height: 12px;
         }
-        .header-title {
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .header-date {
-            font-size: 14px;
-            opacity: 0.9;
-            cursor: pointer;
+        .date-picker-btn {
             padding: 8px 12px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 20px;
+            background: #f2f2f7;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1c1c1e;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
         }
         .date-picker-hidden {
             position: absolute;
@@ -385,17 +394,21 @@
     </style>
 </head>
 <body class="has-bottom-nav">
-    <div class="header">
-        <div class="header-top">
-            <div class="resort-picker" onclick="openResortPicker()">
+    <header class="app-header">
+        <span class="app-title">Groomd</span>
+        <div class="header-controls">
+            <button class="resort-picker" onclick="openResortPicker()">
                 <span id="resortName">Loading...</span>
-                <svg viewBox="0 0 12 12" fill="currentColor"><path d="M6 9L1 4h10L6 9z"/></svg>
-            </div>
-            <div class="header-title">Groomd</div>
-            <div class="header-date" onclick="openDatePicker()" id="dateDisplay">Loading...</div>
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 5l3 3 3-3"/>
+                </svg>
+            </button>
+            <button class="date-picker-btn" onclick="openDatePicker()">
+                <span id="dateDisplay">Loading...</span>
+            </button>
         </div>
-        <input type="date" id="datePicker" class="date-picker-hidden" onchange="selectDate()">
-    </div>
+    </header>
+    <input type="date" id="datePicker" class="date-picker-hidden" onchange="selectDate()">
 
     <div class="container">
         <div class="unit-toggle">
@@ -584,9 +597,9 @@
                 const snowDisplay = snowAmt > 0 ? `${useMetric ? snowAmtMetric : snowAmt}${snowUnit}` : '';
                 const hasSnow = snowAmt > 0;
 
-                // Format date for display
-                const dateObj = new Date(day.date + 'T12:00:00');
-                const monthDay = dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                // Format date for display - handle both ISO timestamps and date strings
+                const dateObj = new Date(day.date);
+                const monthDay = !isNaN(dateObj) ? dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
 
                 html += `
                     <div class="forecast-day">
@@ -724,6 +737,10 @@
         <a href="snow.html" class="nav-tab active">
             <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
             <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="../pulse.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17h2v-7H3zm4 0h2V7H7zm4 0h2v-4h-2zm4 0h2v-9h-2zm4 0h2V4h-2z"/></svg></span>
+            <span class="nav-tab-label">Pulse</span>
         </a>
     </nav>
 </body>

@@ -32,6 +32,23 @@
             top: 0;
             z-index: 100;
         }
+        .app-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+        }
+        .date-picker-btn {
+            padding: 8px 12px;
+            background: var(--bg-color);
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
         .header-controls {
             display: flex;
             align-items: center;
@@ -250,6 +267,7 @@
 </head>
 <body class="has-bottom-nav">
     <header class="app-header">
+        <span class="app-title">Groomd</span>
         <div class="header-controls">
             <button class="resort-picker" onclick="openResortPicker()">
                 <span id="resortName">Loading...</span>
@@ -257,8 +275,12 @@
                     <path d="M3 5l3 3 3-3"/>
                 </svg>
             </button>
+            <button class="date-picker-btn" onclick="openDatePicker()">
+                <span id="dateDisplay">Today</span>
+            </button>
         </div>
     </header>
+    <input type="date" id="datePicker" onchange="selectDate()" style="position: absolute; opacity: 0; pointer-events: none;">
 
     <div class="container">
         <!-- Lift Overview -->
@@ -315,6 +337,24 @@
         let allLifts = [];
         let showingOpen = true;
         let openCount = 0;
+
+        // Date display (lifts are real-time, so just show current date)
+        function updateDateDisplay() {
+            const today = new Date();
+            const display = today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            document.getElementById('dateDisplay').textContent = display;
+        }
+        function openDatePicker() {
+            // For lifts, date picker just shows info - lifts are real-time
+            const picker = document.getElementById('datePicker');
+            picker.value = new Date().toISOString().split('T')[0];
+            picker.showPicker?.();
+        }
+        function selectDate() {
+            // Lifts show real-time data, so selecting a date just confirms today
+            updateDateDisplay();
+        }
+        updateDateDisplay();
 
         // Load resort info
         fetch('../index.json')
@@ -502,6 +542,10 @@
         <a href="snow.html" class="nav-tab">
             <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
             <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="../pulse.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 17h2v-7H3zm4 0h2V7H7zm4 0h2v-4h-2zm4 0h2v-9h-2zm4 0h2V4h-2z"/></svg></span>
+            <span class="nav-tab-label">Pulse</span>
         </a>
     </nav>
 </body>

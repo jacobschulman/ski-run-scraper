@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse - Network Leaderboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Pulse-specific overrides */
+        .pulse-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: var(--card-radius);
+            margin-bottom: var(--section-gap);
+            position: relative;
+            overflow: hidden;
+            min-height: 120px;
+        }
+
+        .pulse-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.4s, transform 0.4s;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 10px;
+        }
+
+        .hero-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 6px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .hero-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .hero-dot.active {
+            background: #ffffff;
+        }
+
+        /* Storm card */
+        .storm-card {
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .storm-card .widget-title,
+        .storm-card .widget-subtitle {
+            color: white;
+        }
+
+        .storm-card .stat-value {
+            color: white;
+        }
+
+        .countdown {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+        }
+
+        .countdown-unit {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .countdown-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .storm-targets {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .storm-target {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .storm-target-snow {
+            font-weight: 600;
+        }
+
+        /* Movers grid */
+        .movers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .mover-card {
+            background: var(--bg-card);
+            border-radius: var(--card-radius);
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .mover-card.rising {
+            border-color: var(--color-green);
+            background: linear-gradient(to bottom, rgba(52, 199, 89, 0.08), var(--bg-card));
+        }
+
+        .mover-card.falling {
+            border-color: var(--color-red);
+            background: linear-gradient(to bottom, rgba(255, 59, 48, 0.08), var(--bg-card));
+        }
+
+        .mover-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mover-region {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .mover-delta {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .mover-delta.positive { color: var(--color-green); }
+        .mover-delta.negative { color: var(--color-red); }
+
+        .mover-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tabs */
+        .tabs-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 2px;
+            margin: -2px;
+        }
+
+        .tabs-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            padding: 10px 16px;
+            background: var(--bg-card-inner);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--color-blue);
+            border-color: var(--color-blue);
+            color: #ffffff;
+        }
+
+        /* Rankings list */
+        .rankings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .ranking-row {
+            display: grid;
+            grid-template-columns: 36px 1fr auto auto;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+
+        .ranking-row.top-3 {
+            background: linear-gradient(to right, rgba(0, 122, 255, 0.08), var(--bg-card));
+            border-color: var(--color-blue);
+        }
+
+        .rank {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .ranking-row.top-3 .rank {
+            color: var(--color-blue);
+        }
+
+        .resort-info {
+            min-width: 0;
+        }
+
+        .resort-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .resort-region {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .ranking-value {
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .ranking-delta {
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            min-width: 44px;
+            text-align: center;
+        }
+
+        .ranking-delta.up {
+            background: rgba(52, 199, 89, 0.15);
+            color: var(--color-green);
+        }
+
+        .ranking-delta.down {
+            background: rgba(255, 59, 48, 0.15);
+            color: var(--color-red);
+        }
+
+        .ranking-delta.neutral {
+            background: var(--bg-card-inner);
+            color: var(--text-secondary);
+        }
+
+        /* Spotlight card */
+        .spotlight-card {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+
+        .spotlight-card .widget-title {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .spotlight-region {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .spotlight-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .spotlight-stat {
+            text-align: center;
+        }
+
+        .spotlight-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .spotlight-label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        /* Network stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: var(--section-gap);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--card-radius);
+            padding: 14px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-blue);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin-top: 4px;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        /* Widget card overrides for Pulse */
+        .widget-card {
+            margin-bottom: var(--section-gap);
+        }
+
+        /* Loading */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 32px;
+            height: 32px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--color-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .ranking-row {
+                grid-template-columns: 32px 1fr auto;
+                gap: 8px;
+                padding: 10px 12px;
+            }
+
+            .ranking-delta {
+                display: none;
+            }
+
+            .movers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .stat-value {
+                font-size: 1.2rem;
+            }
+
+            .spotlight-stats {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body class="has-bottom-nav">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-title">Pulse</div>
+            <div class="header-subtitle" id="lastUpdated">Loading...</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Loading State -->
+        <div id="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <div style="color: var(--text-secondary)">Loading conditions...</div>
+        </div>
+
+        <!-- Main Content -->
+        <main id="content" class="hidden">
+
+            <!-- Hero Section -->
+            <div id="hero" class="pulse-hero">
+                <div class="hero-dots" id="heroDots"></div>
+            </div>
+
+            <!-- Network Stats -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTrails">--</div>
+                    <div class="stat-label">Trails Open</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalLifts">--</div>
+                    <div class="stat-label">Lifts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSnow">--</div>
+                    <div class="stat-label">24h Snow</div>
+                </div>
+            </div>
+
+            <!-- Storm Countdown (conditional) -->
+            <div id="stormCard" class="widget-card storm-card hidden">
+                <div class="widget-header">
+                    <div>
+                        <div class="widget-title">Storm Watch</div>
+                        <div class="widget-subtitle">Incoming snow</div>
+                    </div>
+                </div>
+                <div class="widget-content">
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-unit">
+                            <div class="countdown-value" id="countDays">0</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-unit">
+                            <div class="countdown-value" id="countHours">0</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                    </div>
+                    <div class="storm-targets" id="stormTargets"></div>
+                </div>
+            </div>
+
+            <!-- Regional Spotlight (conditional) -->
+            <div id="spotlightCard" class="widget-card spotlight-card hidden">
+                <div class="widget-header">
+                    <div class="widget-title">Regional Spotlight</div>
+                </div>
+                <div class="widget-content">
+                    <div class="spotlight-region" id="spotlightRegion">--</div>
+                    <div class="spotlight-stats">
+                        <div class="spotlight-stat">
+                            <div class="spotlight-value" id="spotlightTrails">--</div>
+                            <div class="spotlight-label">Trails</div>
+                        </div>
+                        <div class="spotlight-stat">
+                            <div class="spotlight-value" id="spotlightSnow">--</div>
+                            <div class="spotlight-label">24h Snow</div>
+                        </div>
+                        <div class="spotlight-stat">
+                            <div class="spotlight-value" id="spotlightResorts">--</div>
+                            <div class="spotlight-label">Resorts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Biggest Movers (conditional) -->
+            <section id="moversSection" class="hidden">
+                <h2 class="section-title">Biggest Movers</h2>
+                <div class="movers-grid" id="moversGrid"></div>
+            </section>
+
+            <!-- Leaderboard -->
+            <section style="margin-top: 16px;">
+                <h2 class="section-title">Leaderboard</h2>
+                <div class="tabs-scroll" id="tabs">
+                    <button class="tab-btn active" data-tab="snow">Fresh Snow</button>
+                    <button class="tab-btn" data-tab="terrain">Most Open</button>
+                    <button class="tab-btn" data-tab="forecast">Storm Chasers</button>
+                    <button class="tab-btn" data-tab="base">Deep Base</button>
+                </div>
+                <div class="rankings-list" id="rankingsList"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="vail/grooming.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 2048 2048"><path fill="currentColor" d="m1472 640l574 1152H0L768 256l447 897zm0 287l-185 369l47 95l111-111h203zM898 803L768 543L638 803l130 130zm-691 861h1121L958 924l-190 191l-191-191zm1263 0h369l-127-256h-213l-104 104z"/></svg></span>
+            <span class="nav-tab-label">Overview</span>
+        </a>
+        <a href="vail/trails.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 400v64m0-256v64m0-224v32m160 128H102.63a16 16 0 0 1-11.32-4.69L32 144l59.31-59.31A16 16 0 0 1 102.63 80H416a16 16 0 0 1 16 16v96a16 16 0 0 1-16 16M96 400h313.37a16 16 0 0 0 11.32-4.69L480 336l-59.31-59.31a16 16 0 0 0-11.32-4.69H96a16 16 0 0 0-16 16v96a16 16 0 0 0 16 16"/></svg></span>
+            <span class="nav-tab-label">Trails</span>
+        </a>
+        <a href="vail/lifts.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 50 50"><path fill="currentColor" d="M42.599 37.17a3.457 3.457 0 0 0 2.224-4.381l-1.333.426a2.09 2.09 0 0 1-1.332 2.633L7.128 47.689L7.579 49zM10.343 16.708a3.61 3.61 0 0 0 2.461-4.479c-.562-1.911-2.582-3.004-4.51-2.447s-3.039 2.567-2.466 4.479c.562 1.912 2.577 3.005 4.515 2.447m-1.487 5.003c-1.917-3.626 3.584-6.564 5.61-3.047l3.95 7.451l7.521-2.121c1.244-.35 2.963.995 2.963 2.578l.042 10.619c.012 2.632-3.93 2.643-3.93-.021c-.012-2.47-.077-7.734-.077-7.734l-7.848 2.337c-1.718.492-3.139-.359-3.81-1.616zM21 23.394V1h-2v22.82zM5.244 26.551c-1.079-2.108 1.707-3.506 2.786-1.398l3.397 6.598a4.37 4.37 0 0 0 3.844 2.295c.517 0 1.001-.132 1.475-.23l4.28-1.244c2.269-.678 3.149 2.292.86 2.961l-4.502 1.298a7.3 7.3 0 0 1-2.147.316a7.45 7.45 0 0 1-6.634-4.008z"/></svg></span>
+            <span class="nav-tab-label">Lifts</span>
+        </a>
+        <a href="vail/snow.html" class="nav-tab">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.5" d="M12 2v16m0 4v-4m0 0l3 3m-3-3l-3 3m6-18l-3 3l-3-3M3.34 7l3.464 2m0 0l10.392 6M6.804 9L5.706 4.902M6.804 9l-4.098 1.098M17.196 15l3.464 2m-3.464-2l4.098-1.098M17.196 15l1.098 4.099M20.66 7l-3.464 2m0 0L6.804 15m10.392-6l1.098-4.098M17.196 9l4.098 1.098M6.804 15L3.34 17m3.464-2l-4.098-1.098M6.804 15l-1.098 4.1"/></svg></span>
+            <span class="nav-tab-label">Snow</span>
+        </a>
+        <a href="pulse.html" class="nav-tab active">
+            <span class="nav-tab-icon"><svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M3 13h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7zm-4 6h2v-2H3zm0 4h2v-2H3zm0-8h2V7H3zm4 4h14v-2H7zm0 4h14v-2H7zM7 7v2h14V7z"/></svg></span>
+            <span class="nav-tab-label">Pulse</span>
+        </a>
+    </nav>
+
+    <script>
+        const API_BASE = 'https://jacobschulman.github.io/ski-run-scraper/data/aggregates';
+
+        let todayData = null;
+        let yesterdayData = null;
+        let heroInterval = null;
+        let currentSlide = 0;
+
+        async function fetchData() {
+            try {
+                const todayRes = await fetch(`${API_BASE}/latest.json`);
+                todayData = await todayRes.json();
+
+                // Try to fetch yesterday's data for deltas
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const dateStr = yesterday.toISOString().split('T')[0];
+                try {
+                    const yRes = await fetch(`${API_BASE}/${dateStr}.json`);
+                    if (yRes.ok) {
+                        yesterdayData = await yRes.json();
+                    }
+                } catch (e) {
+                    console.log('No yesterday data available');
+                }
+
+                renderPage();
+            } catch (e) {
+                console.error('Failed to fetch data:', e);
+                document.getElementById('loading').innerHTML = `
+                    <div style="color: var(--color-red)">Failed to load data</div>
+                    <div style="color: var(--text-secondary); margin-top: 8px;">Please try again later</div>
+                `;
+            }
+        }
+
+        function renderPage() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('content').classList.remove('hidden');
+
+            renderHeader();
+            renderHero();
+            renderNetworkStats();
+            renderStormCard();
+            renderSpotlight();
+            renderMovers();
+            renderRankings('snow');
+            setupTabs();
+        }
+
+        function renderHeader() {
+            const date = new Date().toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric'
+            });
+            document.getElementById('lastUpdated').textContent = date;
+        }
+
+        function renderHero() {
+            const headlines = [];
+            const sup = todayData.superlatives;
+
+            if (sup.snow_overnight_max && sup.snow_overnight_max.value >= 2) {
+                headlines.push({
+                    tag: 'Fresh Powder',
+                    title: `${sup.snow_overnight_max.name} leads with ${sup.snow_overnight_max.value}" overnight`,
+                    subtitle: `${sup.snow_overnight_max.region} woke up to fresh snow`
+                });
+            }
+
+            if (yesterdayData) {
+                const movers = calculateMovers();
+                if (movers.length > 0 && movers[0].snowDelta >= 4) {
+                    headlines.push({
+                        tag: 'Biggest Gainer',
+                        title: `${movers[0].name} surged with +${movers[0].snowDelta}" in 24h`,
+                        subtitle: `Jumped ${Math.abs(movers[0].rankDelta)} spots in the rankings`
+                    });
+                }
+            }
+
+            const stormTargets = findStormTargets();
+            if (stormTargets.length >= 3) {
+                headlines.push({
+                    tag: 'Storm Watch',
+                    title: `${stormTargets.length} resorts in the path of incoming snow`,
+                    subtitle: `Up to ${stormTargets[0].snow}" expected at ${stormTargets[0].name}`
+                });
+            }
+
+            if (sup.trails_open_count_max) {
+                headlines.push({
+                    tag: 'Most Terrain',
+                    title: `${sup.trails_open_count_max.name} leads with ${sup.trails_open_count_max.value} trails`,
+                    subtitle: `${sup.trails_open_count_max.region} offering the most variety`
+                });
+            }
+
+            if (headlines.length === 0) {
+                headlines.push({
+                    tag: 'Conditions',
+                    title: 'Check today\'s conditions across 69 resorts',
+                    subtitle: 'Updated hourly throughout the day'
+                });
+            }
+
+            const hero = document.getElementById('hero');
+            const dotsContainer = document.getElementById('heroDots');
+
+            hero.querySelectorAll('.hero-slide').forEach(s => s.remove());
+            dotsContainer.innerHTML = '';
+
+            headlines.forEach((h, i) => {
+                const slide = document.createElement('div');
+                slide.className = `hero-slide ${i === 0 ? 'active' : ''}`;
+                slide.innerHTML = `
+                    <div class="hero-tag">${h.tag}</div>
+                    <div class="hero-title">${h.title}</div>
+                    <div class="hero-subtitle">${h.subtitle}</div>
+                `;
+                hero.insertBefore(slide, dotsContainer);
+
+                const dot = document.createElement('div');
+                dot.className = `hero-dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            });
+
+            if (headlines.length > 1) {
+                if (heroInterval) clearInterval(heroInterval);
+                heroInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % headlines.length;
+                    goToSlide(currentSlide);
+                }, 8000);
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            document.querySelectorAll('.hero-slide').forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+            document.querySelectorAll('.hero-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === index);
+            });
+        }
+
+        function findStormTargets() {
+            const targets = [];
+            for (const [key, resort] of Object.entries(todayData.resorts)) {
+                const forecast = resort.forecast;
+                if (!forecast || !forecast.total_snow_expected) continue;
+                if (forecast.total_snow_expected > 0) {
+                    targets.push({
+                        key,
+                        name: resort.name,
+                        snow: forecast.total_snow_expected,
+                        firstSnowDate: findFirstSnowDate(forecast.upcoming_days)
+                    });
+                }
+            }
+            return targets.sort((a, b) => b.snow - a.snow).slice(0, 5);
+        }
+
+        function findFirstSnowDate(days) {
+            if (!days) return null;
+            for (const day of days) {
+                if (day.snow_inches > 0) {
+                    return new Date(day.date);
+                }
+            }
+            return null;
+        }
+
+        function renderStormCard() {
+            const targets = findStormTargets();
+            const card = document.getElementById('stormCard');
+
+            const totalExpected = targets.reduce((sum, t) => sum + t.snow, 0);
+            if (totalExpected < 10 || targets.length < 2) {
+                card.classList.add('hidden');
+                return;
+            }
+
+            card.classList.remove('hidden');
+
+            const earliestDate = targets
+                .map(t => t.firstSnowDate)
+                .filter(d => d)
+                .sort((a, b) => a - b)[0];
+
+            if (earliestDate) {
+                const now = new Date();
+                const diff = earliestDate - now;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                document.getElementById('countDays').textContent = Math.max(0, days);
+                document.getElementById('countHours').textContent = Math.max(0, hours);
+            }
+
+            const targetsEl = document.getElementById('stormTargets');
+            targetsEl.innerHTML = targets.slice(0, 4).map(t => `
+                <div class="storm-target">
+                    <span>${t.name}</span>
+                    <span class="storm-target-snow">${t.snow}"</span>
+                </div>
+            `).join('');
+        }
+
+        function renderNetworkStats() {
+            const totals = todayData.totals;
+            document.getElementById('totalTrails').textContent = totals.trails_open.toLocaleString();
+            document.getElementById('totalLifts').textContent = totals.lifts_open;
+            document.getElementById('totalSnow').textContent = `${totals.snow_24h_sum}"`;
+        }
+
+        function renderSpotlight() {
+            const regions = Object.keys(todayData.regions);
+            if (regions.length === 0) {
+                document.getElementById('spotlightCard').classList.add('hidden');
+                return;
+            }
+
+            const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            const regionKey = regions[dayOfYear % regions.length];
+            const region = todayData.regions[regionKey];
+
+            if (!region) {
+                document.getElementById('spotlightCard').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('spotlightCard').classList.remove('hidden');
+            document.getElementById('spotlightRegion').textContent = regionKey;
+            document.getElementById('spotlightTrails').textContent = region.totals?.trails_open || '--';
+            document.getElementById('spotlightSnow').textContent = `${region.totals?.snow_24h || 0}"`;
+            document.getElementById('spotlightResorts').textContent = region.resort_count || '--';
+        }
+
+        function calculateMovers() {
+            if (!yesterdayData) return [];
+
+            const movers = [];
+            const todayRankings = {};
+            const yesterdayRankings = {};
+
+            todayData.rankings.snow_24h?.forEach((item, i) => {
+                todayRankings[item.resort] = i + 1;
+            });
+            yesterdayData.rankings?.snow_24h?.forEach((item, i) => {
+                yesterdayRankings[item.resort] = i + 1;
+            });
+
+            for (const [key, resort] of Object.entries(todayData.resorts)) {
+                const prev = yesterdayData.resorts?.[key];
+                if (!prev) continue;
+
+                const snowDelta = (resort.snow?.['24h'] || 0) - (prev.snow?.['24h'] || 0);
+                const trailsDelta = (resort.terrain?.trails_open || 0) - (prev.terrain?.trails_open || 0);
+                const rankDelta = (yesterdayRankings[key] || 50) - (todayRankings[key] || 50);
+
+                if (Math.abs(snowDelta) >= 2 || Math.abs(trailsDelta) >= 5) {
+                    movers.push({
+                        key,
+                        name: resort.name,
+                        region: resort.region,
+                        snowDelta,
+                        trailsDelta,
+                        rankDelta
+                    });
+                }
+            }
+
+            return movers.sort((a, b) => Math.abs(b.snowDelta) - Math.abs(a.snowDelta));
+        }
+
+        function renderMovers() {
+            const movers = calculateMovers();
+            const section = document.getElementById('moversSection');
+
+            if (movers.length < 2) {
+                section.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            const grid = document.getElementById('moversGrid');
+
+            grid.innerHTML = movers.slice(0, 6).map(m => {
+                const isRising = m.snowDelta > 0;
+                return `
+                    <div class="mover-card ${isRising ? 'rising' : 'falling'}">
+                        <div class="mover-name">${m.name}</div>
+                        <div class="mover-region">${m.region}</div>
+                        <div class="mover-delta ${isRising ? 'positive' : 'negative'}">
+                            ${isRising ? '+' : ''}${m.snowDelta}"
+                        </div>
+                        <div class="mover-label">24h change</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderRankings(tab) {
+            const list = document.getElementById('rankingsList');
+            let rankings = [];
+            let suffix = '';
+
+            switch (tab) {
+                case 'snow':
+                    rankings = todayData.rankings.snow_24h || [];
+                    suffix = '"';
+                    break;
+                case 'terrain':
+                    rankings = todayData.rankings.trails_open_count || [];
+                    suffix = ' trails';
+                    break;
+                case 'forecast':
+                    rankings = Object.entries(todayData.resorts)
+                        .filter(([_, r]) => r.forecast?.total_snow_expected > 0)
+                        .map(([key, r]) => ({
+                            resort: key,
+                            name: r.name,
+                            region: r.region,
+                            value: r.forecast.total_snow_expected
+                        }))
+                        .sort((a, b) => b.value - a.value);
+                    suffix = '" exp';
+                    break;
+                case 'base':
+                    rankings = todayData.rankings.base_depth || [];
+                    suffix = '"';
+                    break;
+            }
+
+            if (rankings.length === 0) {
+                list.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-secondary);">No data available</div>';
+                return;
+            }
+
+            const yesterdayRankMap = {};
+            if (yesterdayData?.rankings) {
+                const yRankings = tab === 'snow' ? yesterdayData.rankings.snow_24h :
+                                 tab === 'terrain' ? yesterdayData.rankings.trails_open_count :
+                                 tab === 'base' ? yesterdayData.rankings.base_depth : [];
+                yRankings?.forEach((item, i) => {
+                    yesterdayRankMap[item.resort] = i + 1;
+                });
+            }
+
+            list.innerHTML = rankings.slice(0, 15).map((item, i) => {
+                const rank = i + 1;
+                const isTop3 = rank <= 3;
+                const yesterdayRank = yesterdayRankMap[item.resort];
+                let deltaClass = 'neutral';
+                let deltaText = '--';
+
+                if (yesterdayRank) {
+                    const delta = yesterdayRank - rank;
+                    if (delta > 0) {
+                        deltaClass = 'up';
+                        deltaText = `+${delta}`;
+                    } else if (delta < 0) {
+                        deltaClass = 'down';
+                        deltaText = `${delta}`;
+                    } else {
+                        deltaText = '=';
+                    }
+                }
+
+                return `
+                    <div class="ranking-row ${isTop3 ? 'top-3' : ''}">
+                        <div class="rank">${rank}</div>
+                        <div class="resort-info">
+                            <div class="resort-name">${item.name}</div>
+                            <div class="resort-region">${item.region}</div>
+                        </div>
+                        <div class="ranking-value">${item.value}${suffix}</div>
+                        <div class="ranking-delta ${deltaClass}">${deltaText}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.onclick = () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderRankings(tab.dataset.tab);
+                };
+            });
+        }
+
+        fetchData();
+    </script>
+</body>
+</html>
