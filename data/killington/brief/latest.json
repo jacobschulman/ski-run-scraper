@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-21",
-  "generated": "2025-12-21T13:28:30.481Z",
+  "generated": "2025-12-21T14:15:04.066Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 84,
+          "today": 86,
           "yesterday": 84,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 50,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Wildfire - Lower",
+          "difficulty": "Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Chute - Upper",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,24 +116,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "The rundown: 84 trails open, 50 groomed. Windy with temps around 26°. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "The Map Just Got Bigger",
+    "body": "The rundown: 86 trails open, 50 groomed. Windy with temps around 26°. Terrain is expanding with 2 new trails now open. More room to roam, less traffic to dodge. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +146,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Snow on the Way"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Sunday"
     }

@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2025-12-21",
-  "generated": "2025-12-21T13:28:30.474Z",
+  "generated": "2025-12-21T14:15:04.058Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -44,27 +44,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-20",
-        "high_f": null,
-        "low_f": 25,
-        "high_c": null,
-        "low_c": -4,
+        "date": "2025-12-21",
+        "high_f": 34,
+        "low_f": 33,
+        "high_c": 1,
+        "low_c": 0,
         "description": "Windy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-21",
-          "high_f": 34,
-          "low_f": 33,
-          "high_c": 1,
-          "low_c": 0,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-22",
           "high_f": 34,
@@ -86,14 +75,25 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-24",
+          "high_f": 33,
+          "low_f": 30,
+          "high_c": 1,
+          "low_c": -1,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
-        "date": "2025-12-21",
+        "date": "2025-12-22",
         "high_f": 34,
         "low_f": 33,
         "high_c": 1,
-        "low_c": 0,
+        "low_c": 1,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -109,18 +109,20 @@
       "significantGroomingIncrease": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "3\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Conditions Report",
-    "body": "44 of 200 trails are open with 7 groomed. Windy with a high of null°F. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "The Forecast Looks Promising",
+    "body": "44 of 200 trails are open with 7 groomed. Windy with a high of 34°F. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -130,19 +132,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 5,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "Conditions Report"
       },
       "dayOfWeek": "Sunday"
     }
