@@ -8,11 +8,14 @@ Automated daily scraper for ski resort grooming, snow, and lift status/waits (Va
 
 **Quick Links:**
 - All resorts (latest combined groom/snow snapshot): https://jacobschulman.github.io/ski-run-scraper/data/latest.json
+- **Global Leaderboard/Aggregates:** https://jacobschulman.github.io/ski-run-scraper/data/aggregates/latest.json
 - File index (per-resort manifest): https://jacobschulman.github.io/ski-run-scraper/data/index.json
 - Lift wait index (per-resort): `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/lifts/index.json`
 - Terrain index (per-resort): `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/terrain/index.json`
 - Lift wait NDJSON: `https://jacobschulman.github.io/ski-run-scraper/data/{resort}/lifts/{YYYY-MM-DD}.ndjson`
 - Example groom/snow file: https://jacobschulman.github.io/ski-run-scraper/data/keystone/2025-11-06.json
+
+**Aggregates API (for leaderboards):** See [AGGREGATES.md](AGGREGATES.md) for full documentation on building global leaderboards with rankings, superlatives, regional data, and forecasts.
 
 ## Features
 
