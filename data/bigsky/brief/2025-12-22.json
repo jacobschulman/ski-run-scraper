@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-22",
-  "generated": "2025-12-22T14:18:01.639Z",
+  "generated": "2025-12-22T15:18:40.951Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 54,
+          "today": 69,
           "yesterday": 54,
-          "delta": 0
+          "delta": 15
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,83 @@
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Glacier Way",
+          "difficulty": "Green",
+          "area": "Derringer Area"
+        },
+        {
+          "name": "Fast Lane",
+          "difficulty": "Blue",
+          "area": "Iron Horse Area"
+        },
+        {
+          "name": "Powder River",
+          "difficulty": "Blue",
+          "area": "Iron Horse Area"
+        },
+        {
+          "name": "Cinnabar",
+          "difficulty": "Green",
+          "area": "Madison Area"
+        },
+        {
+          "name": "Wagon Train",
+          "difficulty": "Green",
+          "area": "Madison Area"
+        },
+        {
+          "name": "Deep South",
+          "difficulty": "Green",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Little Ewe",
+          "difficulty": "Green",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Sacajawea",
+          "difficulty": "Green",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Yellow Brick Road",
+          "difficulty": "Green",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "El Dorado",
+          "difficulty": "Blue",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Lizette",
+          "difficulty": "Blue",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Ponderosa",
+          "difficulty": "Blue",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "Freemont's Forest",
+          "difficulty": "advanced intermediate",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "The Nile",
+          "difficulty": "advanced intermediate",
+          "area": "Southern Comfort Area"
+        },
+        {
+          "name": "White Otter Access",
+          "difficulty": "Green",
+          "area": "White Otter Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,30 +181,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "15 new trails opened today"
+    ],
     "trends": [
+      "15 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "54 of 319 trails are open with 0 groomed. Snow Wind with a high of 30°F. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+    "headline": "15 New Trails Today",
+    "body": "69 of 319 trails are open with 0 groomed. Snow Wind with a high of 30°F. 15 new runs just opened up. Time to explore some fresh terrain. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -140,11 +225,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Monday"
     }
