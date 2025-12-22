@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-22",
-  "generated": "2025-12-22T15:18:40.963Z",
+  "generated": "2025-12-22T16:21:06.064Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 58,
+          "today": 59,
           "yesterday": 58,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 50,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Speakeasy",
+          "difficulty": "Blue",
+          "area": "Loon Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -45,19 +51,19 @@
     "forecast": {
       "today": {
         "date": "2025-12-22",
-        "high_f": 14,
+        "high_f": 15,
         "low_f": 14,
-        "high_c": -10,
+        "high_c": -9,
         "low_c": -10,
-        "description": "Mostly Sunny",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2025-12-23",
-          "high_f": 23,
-          "low_f": 22,
+          "high_f": 24,
+          "low_f": 23,
           "high_c": -5,
           "low_c": -5,
           "description": "Cloudy",
@@ -67,8 +73,8 @@
         },
         {
           "date": "2025-12-24",
-          "high_f": 24,
-          "low_f": 14,
+          "high_f": 25,
+          "low_f": 13,
           "high_c": -4,
           "low_c": -10,
           "description": "Snow",
@@ -78,7 +84,7 @@
         },
         {
           "date": "2025-12-25",
-          "high_f": 23,
+          "high_f": 22,
           "low_f": 1,
           "high_c": -5,
           "low_c": -17,
@@ -90,8 +96,8 @@
       ],
       "tomorrow": {
         "date": "2025-12-23",
-        "high_f": 23,
-        "low_f": 22,
+        "high_f": 24,
+        "low_f": 23,
         "high_c": -5,
         "low_c": -5,
         "description": "Cloudy",
@@ -105,30 +111,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not a Cloud in Sight",
-    "body": "58/85 trails spinning, 50 freshly groomed. 14° and Mostly Sunny. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Terrain is Expanding",
+    "body": "59/85 trails spinning, 50 freshly groomed. 15° and Partly Cloudy. 1 new run just opened up. Time to explore some fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird_day",
-          "category": "weather",
-          "priority": 70,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -140,11 +155,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Picture-Perfect Conditions"
+        "previousHeadline": "Not a Cloud in Sight"
       },
       "dayOfWeek": "Monday"
     }
