@@ -412,13 +412,32 @@ function saveResortData(resortKey, data) {
   // Use resort-local date for all filenames/DB rows to avoid UTC drift re-scrapes
   const today = getResortLocalDate(resortTimezone);
 
+  // Filter GroomingAreas if this resort shares a URL with another resort
+  // (e.g., Jack Frost / Big Boulder share jfbb.com, Boston Mills / Brandywine share bmbw.com)
+  let filteredData = data;
+  if (resort.groomingAreaFilter && data.GroomingAreas) {
+    const filterName = resort.groomingAreaFilter;
+    const filteredAreas = data.GroomingAreas.filter(area =>
+      area.Name && area.Name.toLowerCase().includes(filterName.toLowerCase())
+    );
+    if (filteredAreas.length > 0) {
+      filteredData = {
+        ...data,
+        GroomingAreas: filteredAreas
+      };
+      console.log(`✓ Filtered to ${filteredAreas.length} grooming area(s) matching "${filterName}"`);
+    } else {
+      console.log(`⚠ No grooming areas matched filter "${filterName}", keeping all areas`);
+    }
+  }
+
   // Ensure data directory structure exists
   const terrainDir = path.join('data', resortKey, 'terrain');
   ensureDirectoryExists(terrainDir);
 
   // Add provider metadata to terrain data
   const terrainDataWithProvider = {
-    ...data,
+    ...filteredData,
     provider: resort.provider || 'vail'
   };
 
@@ -433,7 +452,7 @@ function saveResortData(resortKey, data) {
     if (err) {
       console.error('  ⚠️  Database error (resort):', err.message);
     } else {
-      saveTerrainStatus(database, resortId, today, { FMR: data }, (err, count) => {
+      saveTerrainStatus(database, resortId, today, { FMR: filteredData }, (err, count) => {
         if (err) {
           console.error('  ⚠️  Database error (terrain):', err.message);
         } else if (count > 0) {
@@ -441,7 +460,7 @@ function saveResortData(resortKey, data) {
         }
 
         // Generate trail-specific JSON files after saving to database for all resorts
-        generateTrailData(resortKey, resortId, today, data);
+        generateTrailData(resortKey, resortId, today, filteredData);
       });
     }
   });
@@ -449,13 +468,13 @@ function saveResortData(resortKey, data) {
   // Print summary
   console.log('\n📊 Data Summary:');
   console.log(`   Resort: ${resortName}`);
-  console.log(`   Resort ID: ${data.ResortId}`);
-  console.log(`   Date: ${data.Date}`);
-  console.log(`   Grooming Areas: ${data.GroomingAreas ? data.GroomingAreas.length : 0}`);
-  console.log(`   Lifts: ${data.Lifts ? data.Lifts.length : 0}`);
+  console.log(`   Resort ID: ${filteredData.ResortId}`);
+  console.log(`   Date: ${filteredData.Date}`);
+  console.log(`   Grooming Areas: ${filteredData.GroomingAreas ? filteredData.GroomingAreas.length : 0}`);
+  console.log(`   Lifts: ${filteredData.Lifts ? filteredData.Lifts.length : 0}`);
 
   // Count total trails
-  if (data.GroomingAreas) {
+  if (filteredData.GroomingAreas) {
     let totalTrails = 0;
     let openTrails = 0;
     let closedTrails = 0;
@@ -464,7 +483,7 @@ function saveResortData(resortKey, data) {
     let openNotGroomed = 0;
     const groomedList = [];
 
-    data.GroomingAreas.forEach(area => {
+    filteredData.GroomingAreas.forEach(area => {
       area.Trails.forEach(trail => {
         totalTrails++;
         const isOpen = trail.IsOpen || trail.Status === 'Open';
@@ -499,7 +518,7 @@ function saveResortData(resortKey, data) {
     }
   }
 
-  return { resortKey, date: today, data };
+  return { resortKey, date: today, data: filteredData };
 }
 
 /**
