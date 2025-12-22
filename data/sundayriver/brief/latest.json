@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-22",
-  "generated": "2025-12-22T17:15:49.345Z",
+  "generated": "2025-12-22T18:25:15.524Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 64,
           "yesterday": 61,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 59,
           "yesterday": 57,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jim's Whim",
+          "difficulty": "Black",
+          "area": "LOCKE MOUNTAIN"
+        },
+        {
+          "name": "T2",
+          "difficulty": "Black",
+          "area": "LOCKE MOUNTAIN"
+        },
+        {
+          "name": "T72",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,24 +121,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "4\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "The rundown: 61 trails open, 57 groomed. Windy with temps around 11°. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 64 trails open, 59 groomed. Windy with temps around 11°. Rope drop! 3 trails opened overnight, expanding your playground significantly. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +151,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Monday"
     }
