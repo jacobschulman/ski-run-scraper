@@ -106,7 +106,7 @@ function generateLiftIndexFromTerrain(resortKey, resortName, normalizedData, pro
       name: lift.Name,
       slug: slug,
       mountain: lift._dorSector || lift._zanerayKey || 'Main',
-      type: lift.LiftType || 'Unknown',
+      type: dataNormalization.formatLiftType(lift.LiftType),
       capacity: lift.Capacity || null,
       status: lift.Status || (lift.IsOpen ? 'Open' : 'Closed'),
       waitMinutes: (lift.WaitTime && lift.WaitTime !== '--' && lift.WaitTime !== 'N/A') ? lift.WaitTime : null,

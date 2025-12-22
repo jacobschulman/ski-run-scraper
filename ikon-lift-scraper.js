@@ -28,6 +28,7 @@ const path = require('path');
 
 const configLoader = require('./lib/config-loader');
 const seasonUtils = require('./lib/season-utils');
+const { formatLiftType } = require('./lib/data-normalization');
 const fileStorage = require('./lib/file-storage');
 
 // Load configuration
@@ -332,7 +333,7 @@ function saveLiftData(resortKey, inspectorData, timestamp) {
               liftId: liftId,
               name: lift.Name,
               status: lift.Status,
-              type: lift.LiftType,
+              type: formatLiftType(lift.LiftType),
               waitMinutes: waitMinutes,
               openTime: hours.openTime,
             closeTime: hours.closeTime,

@@ -6,6 +6,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
+const { formatLiftType } = require('./lib/data-normalization');
 
 // Operating window buffers
 const PRE_OPEN_BUFFER_MINUTES = 30; // start a bit before posted open
@@ -539,7 +540,7 @@ async function processResort(resortKey, browser) {
       liftId: lift.SortOrder?.toString() || null,
       name: lift.Name,
       status: lift.Status,
-      type: lift.Type,
+      type: formatLiftType(lift.Type),
       waitMinutes: lift.WaitTimeInMinutes,
       capacity: lift.Capacity,
       mountain: lift.Mountain,
