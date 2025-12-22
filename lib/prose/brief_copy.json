@@ -63,18 +63,18 @@
       "headlines": [
         "Terrain is Expanding",
         "New Runs Now Open",
-        "{newTrailsCount} New Trails Today",
+        "{newTrailsCount} New {NewTrailWord} Today",
         "More Mountain to Explore",
         "Fresh Terrain Unlocked",
         "The Map Just Got Bigger"
       ],
       "body": [
-        "Terrain is expanding with {newTrailsCount} new trails now open. More room to roam, less traffic to dodge.",
-        "{newTrailsCount} new runs just opened up. Time to explore some fresh terrain.",
-        "The ski patrol has been busy—{newTrailsCount} additional trails are now yours to enjoy.",
-        "New terrain alert: {newTrailsCount} trails added to the mix. The mountain just got bigger.",
-        "Rope drop! {newTrailsCount} trails opened overnight, expanding your playground significantly.",
-        "{newTrailsCount} more trails are in play today. The groomers are getting stretched thin (in a good way)."
+        "Terrain is expanding with {newTrailsCount} new {newTrailWord} now open. More room to roam, less traffic to dodge.",
+        "{newTrailsCount} new {newRunWord} just opened up. Time to explore some fresh terrain.",
+        "The ski patrol has been busy—{newTrailsCount} additional {newTrailWord} {newTrailsAre} now yours to enjoy.",
+        "New terrain alert: {newTrailsCount} {newTrailWord} added to the mix. The mountain just got bigger.",
+        "Rope drop! {newTrailsCount} {newTrailWord} opened overnight, expanding your playground significantly.",
+        "{newTrailsCount} more {newTrailWord} {newTrailsAre} in play today. The groomers are getting stretched thin (in a good way)."
       ]
     },
 
@@ -86,7 +86,7 @@
         "Fresh Coat on the Mountain",
         "A Little Sugar on Top",
         "{snow24h}\" Freshened Things Up",
-        "Overnight Refresh: {snow24h}\" new inches",
+        "Overnight Refresh: {snow24h}\" Fresh",
         "The Mountain Got a Touch-Up",
         "Fresh Layer in Place"
       ],
@@ -107,19 +107,19 @@
       "headlines": [
         "Fresh Corduroy Awaits",
         "Groomers Were Busy",
-        "{groomedCount} Runs Groomed Overnight",
+        "{groomedCount} {GroomedRunWord} Groomed Overnight",
         "Smooth Sailing Today",
         "The Corduroy Is Calling",
         "Groomers Did Their Thing",
         "Snow Cats on Da Loose!"
       ],
       "body": [
-        "{groomedCount} runs were freshly groomed overnight. The corduroy is crisp and calling your name.",
-        "The grooming crew went hard last night—{groomedCount} trails of fresh corduroy in {zones}.",
-        "Smooth operators: {groomedCount} runs got the full treatment overnight. Carve it up.",
-        "The snow cats were busy. {groomedCount} trails in {zones} are looking absolutely mint.",
-        "{groomedCount} freshly groomed runs means plenty of velvet corduroy to lay down some turns.",
-        "Grooming report: {groomedCount} trails prepped and ready. First tracks on corduroy hit different."
+        "{groomedCount} {groomedRunWord} {groomedWere} freshly groomed overnight. The corduroy is crisp and calling your name.",
+        "The grooming crew went hard last night—{groomedCount} {groomedTrailWord} of fresh corduroy in {zones}.",
+        "Smooth operators: {groomedCount} {groomedRunWord} got the full treatment overnight. Carve it up.",
+        "The snow cats were busy. {groomedCount} {groomedTrailWord} in {zones} {groomedAre} looking absolutely mint.",
+        "{groomedCount} freshly groomed {groomedRunWord} mean plenty of velvet corduroy to lay down some turns.",
+        "Grooming report: {groomedCount} {groomedTrailWord} prepped and ready. First tracks on corduroy hit different."
       ]
     },
 
@@ -129,10 +129,10 @@
       "priority": 70,
       "headlines": null,
       "body": [
-        "{groomedCount} runs were freshly groomed overnight, with smooth corduroy in {zones}.",
-        "The groomers hit {groomedCount} trails last night. {zones} is where the good stuff is.",
-        "{groomedCount} trails got some love from the snow cats overnight. Solid options in {zones}.",
-        "Grooming update: {groomedCount} runs touched up, mostly in {zones}. Get 'em while they're fresh.",
+        "{groomedCount} {groomedRunWord} {groomedWere} freshly groomed overnight, with smooth corduroy in {zones}.",
+        "The groomers hit {groomedCount} {groomedTrailWord} last night. {zones} is where the good stuff is.",
+        "{groomedCount} {groomedTrailWord} got some love from the snow cats overnight. Solid options in {zones}.",
+        "Grooming update: {groomedCount} {groomedRunWord} touched up, mostly in {zones}. Get 'em while they're fresh.",
         "{groomedCount} freshly groomed options today. Check out {zones} for the best corduroy."
       ]
     },
@@ -352,10 +352,10 @@
         "Conditions Report"
       ],
       "body": [
-        "{openTrails} of {totalTrails} trails are open with {groomedTrails} groomed. {weatherToday} with a high of {tempHigh}°F.",
-        "{openTrails} trails open, {groomedTrails} groomed. {weatherToday}, high of {tempHigh}°.",
-        "{openTrails}/{totalTrails} trails spinning, {groomedTrails} freshly groomed. {tempHigh}° and {weatherToday}.",
-        "The rundown: {openTrails} trails open, {groomedTrails} groomed. {weatherToday} with temps around {tempHigh}°."
+        "{openTrails} of {totalTrails} {openTrailWord} {openTrailsAre} open with {groomedTrails} groomed. {weatherToday} with a high of {tempHigh}°F.",
+        "{openTrails} {openTrailWord} open, {groomedTrails} groomed. {weatherToday}, high of {tempHigh}°.",
+        "{openTrails}/{totalTrails} {openTrailWord} spinning, {groomedTrails} freshly groomed. {tempHigh}° and {weatherToday}.",
+        "The rundown: {openTrails} {openTrailWord} open, {groomedTrails} groomed. {weatherToday} with temps around {tempHigh}°."
       ]
     }
   },
@@ -377,7 +377,18 @@
       "{busiestLift}": "Name of busiest lift",
       "{maxWait}": "Max wait time in minutes",
       "{weatherToday}": "Today's weather description",
-      "{dayOfWeek}": "Day name (e.g., 'Saturday')"
+      "{dayOfWeek}": "Day name (e.g., 'Saturday')",
+      "{newTrailWord}": "Pluralized 'trail/trails' based on newTrailsCount",
+      "{newRunWord}": "Pluralized 'run/runs' based on newTrailsCount",
+      "{groomedTrailWord}": "Pluralized 'trail/trails' based on groomedCount",
+      "{groomedRunWord}": "Pluralized 'run/runs' based on groomedCount",
+      "{NewTrailWord}": "Capitalized 'Trail/Trails' for headlines",
+      "{GroomedRunWord}": "Capitalized 'Run/Runs' for headlines",
+      "{newTrailsAre}": "Verb 'is/are' based on newTrailsCount",
+      "{groomedAre}": "Verb 'is/are' based on groomedCount",
+      "{groomedWere}": "Verb 'was/were' based on groomedCount",
+      "{openTrailWord}": "Pluralized 'trail/trails' based on openTrails",
+      "{openTrailsAre}": "Verb 'is/are' based on openTrails"
     },
     "tips": [
       "Headlines: Keep short and punchy (2-6 words ideal)",
