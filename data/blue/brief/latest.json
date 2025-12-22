@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-22",
-  "generated": "2025-12-22T09:24:35.453Z",
+  "generated": "2025-12-22T10:25:17.403Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 38,
+          "today": 40,
           "yesterday": 38,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 29,
+          "today": 31,
           "yesterday": 29,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Memory Lane",
+          "difficulty": "Moderately Difficult",
+          "area": "Village"
+        },
+        {
+          "name": "Schuss",
+          "difficulty": "Intermediate",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,25 +123,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
-      "Steady snowfall - 8\" in last 7 days"
+      "Steady snowfall - 8\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "Steady snowfall with 8\" over the last week. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "2 New Trails Today",
+    "body": "Steady snowfall with 8\" over the last week. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +154,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Monday"
     }
