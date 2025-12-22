@@ -195,6 +195,29 @@ function hasBeenScrapedToday(resort, dataType = 'terrain') {
 }
 
 /**
+ * Check if existing terrain data shows 0 open trails
+ * Used to determine if we should re-scrape for resorts with real-time-only APIs
+ */
+function hasZeroOpenTrails(resort) {
+  const localDate = getResortLocalDate(resort.timezone);
+  const todayFile = path.join('data', resort.key, 'terrain', `${localDate}.json`);
+
+  if (!fs.existsSync(todayFile)) {
+    return false;
+  }
+
+  try {
+    const data = JSON.parse(fs.readFileSync(todayFile, 'utf8'));
+    const openTrails = (data.GroomingAreas || [])
+      .flatMap(area => area.Trails || [])
+      .filter(trail => trail.IsOpen === true).length;
+    return openTrails === 0;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
  * Check if current time is within the scraping window for a resort
  */
 function isInScrapingWindow(resort) {
@@ -229,6 +252,16 @@ function shouldScrapeResort(resort, dataType = 'terrain') {
   const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
   const inWindow = isInScrapingWindow(resort);
 
+  // For resorts with real-time-only APIs (retryIfZeroTrails), re-scrape if we got 0 open trails
+  // This handles resorts that only report trail status when lifts are running
+  if (dataType === 'terrain' && resort.retryIfZeroTrails && hasBeenScraped && hasZeroOpenTrails(resort)) {
+    const currentHour = getResortLocalHour(resort.timezone);
+    // Only retry between 9 AM and 6 PM local time (when resort should be open)
+    if (currentHour >= 9 && currentHour < 18) {
+      return true;
+    }
+  }
+
   return !hasBeenScraped && inWindow;
 }
 
@@ -244,6 +277,7 @@ function getResortStatus(resort) {
   const currentHour = getResortLocalHour(resort.timezone);
   const targetHour = resort.targetHour !== undefined ? resort.targetHour : config.schedule.targetHour;
   const windowHours = config.schedule.scrapingWindowHours;
+  const retryingZeroTrails = resort.retryIfZeroTrails && terrainScraped && hasZeroOpenTrails(resort);
 
   return {
     localTime,
@@ -254,6 +288,7 @@ function getResortStatus(resort) {
     currentHour,
     targetHour,
     windowHours,
+    retryingZeroTrails,
     shouldScrapeTerrain: shouldScrapeResort(resort, 'terrain'),
     shouldScrapeSnow: shouldScrapeResort(resort, 'snow')
   };
