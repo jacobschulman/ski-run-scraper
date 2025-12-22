@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2025-12-22",
-  "generated": "2025-12-22T20:18:44.556Z",
+  "generated": "2025-12-22T21:15:17.469Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 44,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 7,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Goblin Gully",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,18 +111,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Prepare for Pow!",
-    "body": "The rundown: 44 trails open, 7 groomed. Windy with temps around 35°. Storm cycle alert! 6\" on the way. The mountain is about to get a serious refresh.",
+    "headline": "Boom Boom Pow!",
+    "body": "The rundown: 45 trails open, 7 groomed. Windy with temps around 35°. Terrain is expanding with 1 new trail now open. More room to roam, less traffic to dodge. Storm cycle alert! 6\" on the way. The mountain is about to get a serious refresh.",
     "debug": {
       "firedRules": [
         {
@@ -132,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 6,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Boom Boom Pow!"
+        "previousHeadline": "Prepare for Pow!"
       },
       "dayOfWeek": "Monday"
     }
