@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-23",
-  "generated": "2025-12-23T14:18:04.212Z",
+  "generated": "2025-12-23T15:19:22.718Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 36,
+          "today": 35,
           "yesterday": 35,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
           "today": 34,
@@ -41,7 +41,13 @@
           "area": "Steamboat"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Wild Blue Way",
+          "difficulty": "Easy",
+          "area": "Steamboat"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Voo Doo",
@@ -133,7 +139,6 @@
       "1 trail freshly groomed"
     ],
     "trends": [
-      "1 more trail open than yesterday",
       "1\" snow expected Thursday"
     ],
     "recommendations": [
@@ -141,14 +146,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "1 New Trail Today",
-    "body": "36/193 trails spinning, 34 freshly groomed. 44° and Partly Cloudy. 1 more trail is in play today. The groomers are getting stretched thin (in a good way). Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+    "headline": "❄️ Snow ❄️ in the Forecast",
+    "body": "35/193 trails spinning, 34 freshly groomed. 44° and Partly Cloudy. 1 trail opened today expanding access to fresh terrain. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -158,9 +163,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_new_trails_opened",
           "category": "terrain",
-          "priority": 85,
+          "priority": 65,
           "usedFor": "body"
         },
         {
@@ -172,11 +177,11 @@
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "snow_coming",
+        "variationIndex": 0,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
       },
       "dayOfWeek": "Tuesday"
     }
