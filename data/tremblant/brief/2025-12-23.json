@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-23",
-  "generated": "2025-12-23T09:21:40.142Z",
+  "generated": "2025-12-23T10:23:18.825Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,75 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 68,
+          "today": 72,
           "yesterday": 68,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 48,
+          "today": 45,
           "yesterday": 48,
-          "delta": 0
+          "delta": -3
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Boomerang",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "C.B.C.",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "LTE",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Saute-Moutons",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Taïga",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Tiguidou",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Boomerang",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Devil's River",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "La Griffe",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Supérieur",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,26 +166,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "4 more trails open than yesterday",
       "4\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Boomerang - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 3\" Fresh",
-    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "New Runs Now Open",
+    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. Rope drop! 5 trails opened overnight, expanding your playground significantly. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +201,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Tuesday"
     }
