@@ -2,7 +2,7 @@
   "resort": "liberty",
   "resortName": "Liberty Mountain",
   "date": "2025-12-23",
-  "generated": "2025-12-23T18:25:30.371Z",
+  "generated": "2025-12-23T19:15:47.959Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,16 +23,16 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 10,
           "yesterday": 0,
-          "delta": 0
+          "delta": 10
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 1,
           "yesterday": 0,
-          "delta": 0
+          "delta": 1
         },
-        "totalTrails": 0
+        "totalTrails": 20
       },
       "newlyOpened": [],
       "newlyClosed": [],
@@ -118,35 +118,48 @@
     },
     "alerts": [],
     "trends": [
+      "10 more trails open than yesterday",
       "4\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements. It's 45° and Cloudy today.",
+    "headline": "Terrain is Expanding",
+    "body": "10 of 20 trails are open with 1 groomed. Cloudy with a high of 45°F. 0 more trails are in play today. The groomers are getting stretched thin (in a good way). Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Tuesday"
     }
