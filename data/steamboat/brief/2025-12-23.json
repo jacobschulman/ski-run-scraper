@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-23",
-  "generated": "2025-12-23T20:20:00.085Z",
+  "generated": "2025-12-23T21:16:19.613Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 35,
+          "today": 37,
           "yesterday": 35,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 34,
@@ -36,18 +36,17 @@
       },
       "newlyOpened": [
         {
+          "name": "Flintlock",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
           "name": "Voo Doo",
           "difficulty": "Advanced",
           "area": "Steamboat"
         }
       ],
-      "newlyClosed": [
-        {
-          "name": "Wild Blue Way",
-          "difficulty": "Easy",
-          "area": "Steamboat"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Voo Doo",
@@ -109,8 +108,8 @@
           "low_c": -3,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
@@ -135,25 +134,26 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today",
+      "2 new trails opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
-      "2\" snow expected Friday"
+      "2 more trails open than yesterday",
+      "3\" snow expected Friday"
     ],
     "recommendations": [
       "Fresh corduroy on Voo Doo - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Promising",
-    "body": "35/193 trails spinning, 34 freshly groomed. 43° and Partly Cloudy. 1 trail opened today expanding access to fresh terrain. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
+    "headline": "2 New Trails Today",
+    "body": "37/193 trails spinning, 34 freshly groomed. 43° and Partly Cloudy. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -163,9 +163,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_new_trails_opened",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 65,
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -177,11 +177,11 @@
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 4,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Tuesday"
     }
