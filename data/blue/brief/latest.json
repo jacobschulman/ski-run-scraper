@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-24",
-  "generated": "2025-12-24T09:21:04.322Z",
+  "generated": "2025-12-24T10:25:21.819Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,57 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 44,
           "yesterday": 39,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 30,
+          "today": 33,
           "yesterday": 30,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Badlands Terrain Park",
+          "difficulty": "LargePark",
+          "area": "Orchard"
+        },
+        {
+          "name": "Butternut",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Lower Orchard Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Orchard"
+        },
+        {
+          "name": "Upper Orchard Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Orchard"
+        },
+        {
+          "name": "Memory Lane",
+          "difficulty": "Moderately Difficult",
+          "area": "Village"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Badlands Terrain Park",
+          "difficulty": "LargePark",
+          "area": "Orchard"
+        },
+        {
+          "name": "Butternut",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,26 +149,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
+      "5 more trails open than yesterday",
       "2\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Badlands Terrain Park - all skill levels",
+      "Fresh corduroy on Butternut - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Promising",
-    "body": "Steady snowfall with 8\" over the last week. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "Terrain is Expanding",
+    "body": "Steady snowfall with 8\" over the last week. New terrain alert: 5 trails added to the mix. The mountain just got bigger. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +185,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 4,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Wednesday"
     }
