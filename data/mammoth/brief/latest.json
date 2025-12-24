@@ -2,19 +2,19 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2025-12-24",
-  "generated": "2025-12-24T14:18:24.680Z",
+  "generated": "2025-12-24T15:18:33.627Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 0,
-      "7day_cm": 0,
-      "season_total_inches": 40,
-      "season_total_cm": 102,
+      "24hour_inches": 18,
+      "24hour_cm": 46,
+      "48hour_inches": 18,
+      "48hour_cm": 46,
+      "7day_inches": 18,
+      "7day_cm": 46,
+      "season_total_inches": 53,
+      "season_total_cm": 135,
       "conditions": {
         "today": "Variable Conditions",
         "yesterday": "Variable Conditions"
@@ -51,51 +51,6 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-23",
-        "high_f": null,
-        "low_f": 29,
-        "high_c": null,
-        "low_c": -2,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 6,
-        "snowfall_night_inches": 4
-      },
-      "outlook": [
-        {
-          "date": "2025-12-24",
-          "high_f": 30,
-          "low_f": 22,
-          "high_c": -1,
-          "low_c": -5,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 18,
-          "snowfall_night_inches": 5,
-          "snowfall_expected": 23
-        },
-        {
-          "date": "2025-12-25",
-          "high_f": 23,
-          "low_f": 22,
-          "high_c": -5,
-          "low_c": -6,
-          "description": "Thundersnow",
-          "snowfall_day_inches": 10,
-          "snowfall_night_inches": 8,
-          "snowfall_expected": 18
-        },
-        {
-          "date": "2025-12-26",
-          "high_f": 22,
-          "low_f": 13,
-          "high_c": -5,
-          "low_c": -10,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 6,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 7
-        }
-      ],
-      "tomorrow": {
         "date": "2025-12-24",
         "high_f": 30,
         "low_f": 22,
@@ -103,40 +58,88 @@
         "low_c": -5,
         "description": "Snow Wind",
         "snowfall_day_inches": 18,
-        "snowfall_night_inches": 5,
-        "snowfall_expected": 23
+        "snowfall_night_inches": 4
+      },
+      "outlook": [
+        {
+          "date": "2025-12-25",
+          "high_f": 23,
+          "low_f": 22,
+          "high_c": -5,
+          "low_c": -6,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 11,
+          "snowfall_night_inches": 8,
+          "snowfall_expected": 19
+        },
+        {
+          "date": "2025-12-26",
+          "high_f": 22,
+          "low_f": 13,
+          "high_c": -5,
+          "low_c": -10,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 7,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 8
+        },
+        {
+          "date": "2025-12-27",
+          "high_f": 20,
+          "low_f": 14,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-25",
+        "high_f": 23,
+        "low_f": 22,
+        "high_c": -5,
+        "low_c": -6,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 11,
+        "snowfall_night_inches": 8,
+        "snowfall_expected": 19
       }
     }
   },
   "computedInsights": {
     "flags": {
       "hasFreshSnow": false,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "18\" in last 24 hours - powder day!"
+    ],
     "trends": [
-      "23\" snow expected Wednesday"
+      "Great week for snow - 18\" in last 7 days",
+      "19\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Loaded",
-    "body": "56 trails open, 15 groomed. Snow Wind, high of null°. Big things coming. 48\" in the forecast—might be time to book that midweek day off.",
+    "headline": "The Mountain Got Buried",
+    "body": "It's a 18\" day. You know what to do. First chair or regret it. Big things coming. 27\" in the forecast—might be time to book that midweek day off.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_major",
-          "category": "weather",
-          "priority": 88,
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_powder_alert",
           "category": "snow",
-          "priority": 10,
+          "priority": 100,
           "usedFor": "body"
         },
         {
@@ -148,11 +151,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 4,
-        "totalVariations": 8,
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Major System Approaching"
+        "previousHeadline": "The Forecast Looks Loaded"
       },
       "dayOfWeek": "Wednesday"
     }

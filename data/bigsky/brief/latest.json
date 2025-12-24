@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-24",
-  "generated": "2025-12-24T14:18:24.712Z",
+  "generated": "2025-12-24T15:18:33.659Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 118,
+          "today": 119,
           "yesterday": 118,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Spanish Peaks Learning Area",
+          "difficulty": "Green",
+          "area": "Spanish Peaks Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,24 +111,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "118/319 trails spinning, 0 freshly groomed. 35° and Windy. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "1 New Trail Today",
+    "body": "119/319 trails spinning, 0 freshly groomed. 35° and Windy. New terrain alert: 1 trail added to the mix. The mountain just got bigger. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
+        "previousHeadline": "Fresh Snow on the Way"
       },
       "dayOfWeek": "Wednesday"
     }
