@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2025-12-24",
-  "generated": "2025-12-24T13:32:12.935Z",
+  "generated": "2025-12-24T14:18:24.742Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,48 +23,70 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 63,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 33,
+          "today": 31,
           "yesterday": 33,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Easiest Way",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Sleeping Indian",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Jerry's Way",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Sundog",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Easiest Way",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Grand",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": false
     },
     "forecast": {
       "today": {
-        "date": "2025-12-23",
-        "high_f": null,
-        "low_f": 32,
-        "high_c": null,
-        "low_c": 0,
+        "date": "2025-12-24",
+        "high_f": 35,
+        "low_f": 33,
+        "high_c": 2,
+        "low_c": 1,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-24",
-          "high_f": 36,
-          "low_f": 33,
-          "high_c": 2,
-          "low_c": 1,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
-        },
         {
           "date": "2025-12-25",
           "high_f": 34,
@@ -86,18 +108,29 @@
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 1,
           "snowfall_expected": 3
+        },
+        {
+          "date": "2025-12-27",
+          "high_f": 19,
+          "low_f": 7,
+          "high_c": -7,
+          "low_c": -14,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2025-12-24",
-        "high_f": 36,
-        "low_f": 33,
-        "high_c": 2,
-        "low_c": 1,
-        "description": "Cloudy",
-        "snowfall_day_inches": 0,
+        "date": "2025-12-25",
+        "high_f": 34,
+        "low_f": 27,
+        "high_c": 1,
+        "low_c": -3,
+        "description": "Scattered T Storms",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 1,
-        "snowfall_expected": 1
+        "snowfall_expected": 2
       }
     }
   },
@@ -105,18 +138,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "1\" snow expected Wednesday"
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "1 more trail open than yesterday",
+      "2\" snow expected Thursday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Sleeping Indian - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Big Snow Incoming",
-    "body": "63/145 trails spinning, 33 freshly groomed. null° and Cloudy. Winter has more to say. 6\" forecasted means conditions are about to level up.",
+    "headline": "❄️ Storm on the Horizon ❄️",
+    "body": "64/145 trails spinning, 31 freshly groomed. 35° and Cloudy. New terrain alert: 1 trail added to the mix. The mountain just got bigger. Winter has more to say. 6\" forecasted means conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -132,19 +171,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 0,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "❄️ Storm on the Horizon ❄️"
+        "previousHeadline": "Big Snow Incoming"
       },
       "dayOfWeek": "Wednesday"
     }
