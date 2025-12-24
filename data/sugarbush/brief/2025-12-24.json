@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-24",
-  "generated": "2025-12-24T12:39:45.592Z",
+  "generated": "2025-12-24T13:32:12.885Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 84,
+          "today": 85,
           "yesterday": 84,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 38,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Cruiser",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -54,7 +60,7 @@
         "date": "2025-12-24",
         "high_f": 20,
         "low_f": 16,
-        "high_c": -7,
+        "high_c": -6,
         "low_c": -9,
         "description": "Windy",
         "snowfall_day_inches": 1,
@@ -86,13 +92,13 @@
         {
           "date": "2025-12-27",
           "high_f": 17,
-          "low_f": 17,
+          "low_f": 18,
           "high_c": -8,
           "low_c": -8,
           "description": "Mostly Cloudy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
@@ -112,21 +118,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "8\" in last 24 hours - powder day!"
+      "8\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Deep Day at Sugarbush",
-    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere you look. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "The Mountain Got Buried",
+    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere you look. The ski patrol has been busy—1 additional trail is now yours to enjoy. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -142,19 +150,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "powder_alert",
-        "variationIndex": 1,
+        "variationIndex": 2,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
+        "previousHeadline": "Deep Day at {resortName}"
       },
       "dayOfWeek": "Wednesday"
     }
