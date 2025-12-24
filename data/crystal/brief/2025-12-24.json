@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-24",
-  "generated": "2025-12-24T16:21:16.195Z",
+  "generated": "2025-12-24T17:15:44.821Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 30,
+          "today": 32,
           "yesterday": 30,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 2,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Quicksilver",
+          "difficulty": "Easy",
+          "area": "Lower Mountain"
+        },
+        {
+          "name": "Tinkerbell",
+          "difficulty": "Easy",
+          "area": "Lower Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -64,7 +75,7 @@
         {
           "date": "2025-12-25",
           "high_f": 31,
-          "low_f": 26,
+          "low_f": 25,
           "high_c": -1,
           "low_c": -4,
           "description": "Snow",
@@ -74,7 +85,7 @@
         },
         {
           "date": "2025-12-26",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 18,
           "high_c": -3,
           "low_c": -8,
@@ -85,7 +96,7 @@
         },
         {
           "date": "2025-12-27",
-          "high_f": 20,
+          "high_f": 21,
           "low_f": 20,
           "high_c": -6,
           "low_c": -7,
@@ -98,7 +109,7 @@
       "tomorrow": {
         "date": "2025-12-25",
         "high_f": 31,
-        "low_f": 26,
+        "low_f": 25,
         "high_c": -1,
         "low_c": -4,
         "description": "Snow",
@@ -112,27 +123,29 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "3\" fresh snow overnight",
+      "2 new trails opened today"
     ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 3\" Fresh",
-    "body": "The mountain got a nice 3\" touch-up. Expect improved conditions across the board. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "The mountain got a nice 3\" touch-up. Expect improved conditions across the board. 2 new runs just opened up. Time to explore some fresh terrain. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -142,19 +155,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 3,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Wednesday"
     }
