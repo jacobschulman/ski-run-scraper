@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2025-12-24",
-  "generated": "2025-12-24T15:18:33.685Z",
+  "generated": "2025-12-24T16:21:16.240Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 86,
+          "today": 87,
           "yesterday": 86,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 45,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Somewhere",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,24 +111,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "86 of 222 trails are open with 45 groomed. Windy with a high of 24°F. Light snow possible in the forecast.",
+    "headline": "1 New Trail Today",
+    "body": "87 of 222 trails are open with 45 groomed. Windy with a high of 24°F. New terrain alert: 1 trail added to the mix. The mountain just got bigger. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "Midweek Bliss"
       },
       "dayOfWeek": "Wednesday"
     }
