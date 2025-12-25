@@ -509,7 +509,93 @@ function saveZaneraySnowData(resortKey, zanerayData) {
 }
 
 /**
- * Scrape snow data from custom API providers (Zaneray, DOR, ReportPal)
+ * Save snow report data from ReportPal API
+ */
+function saveReportPalSnowData(resortKey, reportPalData) {
+  if (!reportPalData) {
+    console.log('✗ No data returned from ReportPal API');
+    return null;
+  }
+
+  const resort = RESORTS[resortKey];
+  const resortName = resort.name;
+  const timezone = resort.timezone || 'America/Denver';
+  const today = seasonUtils.getResortLocalDate(timezone);
+
+  // Normalize ReportPal snow data
+  const cleanData = dataNormalization.normalizeReportPalSnowReport(
+    reportPalData,
+    resortKey,
+    resortName,
+    today
+  );
+
+  // Add provider metadata
+  const snowDataWithProvider = {
+    ...cleanData,
+    provider: resort.provider || 'ikon',
+    apiProvider: 'reportpal'
+  };
+
+  // Ensure directory structure exists
+  const snowDir = path.join('data', resortKey, 'snow');
+  fileStorage.ensureDirectoryExists(snowDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(snowDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(snowDataWithProvider, null, 2));
+  console.log(`✓ Saved snow data to ${timestampedFile}`);
+
+  // Also save as latest.json in the snow directory
+  const latestFile = path.join(snowDir, 'latest.json');
+  fs.writeFileSync(latestFile, JSON.stringify(snowDataWithProvider, null, 2));
+  console.log(`✓ Updated ${latestFile}`);
+
+  // Append to NDJSON stream for intraday history
+  const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
+  fs.appendFileSync(ndjsonFile, JSON.stringify(snowDataWithProvider) + '\n', 'utf8');
+  console.log(`✓ Appended snow record to ${ndjsonFile}`);
+
+  // Save to database
+  const database = getDb();
+  getOrCreateResort(database, resortKey, resortName, timezone, (err, resortId) => {
+    if (err) {
+      console.error('  ⚠️  Database error (resort):', err.message);
+    } else {
+      const snowDataForDb = {
+        overnightSnowfall: { inches: cleanData.snowfall.overnight_inches },
+        baseDepth: { inches: cleanData.baseDepth.inches },
+        newSnow24Hours: { inches: cleanData.snowfall['24hour_inches'] },
+        newSnow48Hours: { inches: cleanData.snowfall['48hour_inches'] },
+        newSnow7Days: { inches: cleanData.snowfall['7day_inches'] },
+        seasonTotal: { inches: cleanData.snowfall.season_total_inches },
+        currentConditions: { weather: cleanData.conditions }
+      };
+
+      saveSnowConditions(database, resortId, today, snowDataForDb, (err, id) => {
+        if (err) {
+          console.error('  ⚠️  Database error (snow):', err.message);
+        } else if (id) {
+          console.log(`✓ Saved snow conditions to database`);
+        }
+      });
+    }
+  });
+
+  // Print summary
+  console.log('\n❄️  Snow Report Summary:');
+  console.log(`   Resort: ${resortName}`);
+  console.log(`   Conditions: ${cleanData.conditions || 'N/A'}`);
+  console.log(`   Base Depth: ${cleanData.baseDepth.inches}" (${cleanData.baseDepth.cm}cm)`);
+  console.log(`   24hr Snowfall: ${cleanData.snowfall['24hour_inches']}" (${cleanData.snowfall['24hour_cm']}cm)`);
+  console.log(`   7-day Snowfall: ${cleanData.snowfall['7day_inches']}" (${cleanData.snowfall['7day_cm']}cm)`);
+  console.log(`   Season Total: ${cleanData.snowfall.season_total_inches}" (${cleanData.snowfall.season_total_cm}cm)`);
+
+  return { resortKey, date: today, data: snowDataWithProvider };
+}
+
+/**
+ * Scrape snow data from custom API providers (Zaneray, ReportPal)
  */
 async function scrapeCustomProviderResorts(resortsToScrape) {
   const scrapedData = [];
@@ -536,10 +622,27 @@ async function scrapeCustomProviderResorts(resortsToScrape) {
     }
   }
 
-  // Note: DOR and ReportPal providers don't have snow report data in their APIs
-  // They only provide terrain/lift data. For snow data, these resorts fall back
-  // to the Inspector API (mtnpowder.com) which aggregates forecast data.
-  // If DOR/ReportPal add snow endpoints in the future, add handling here.
+  // Process ReportPal resorts (Big Sky, Sugarloaf, Sunday River, Loon Mountain, Cypress Mountain)
+  if (resortsByProvider.reportpal && resortsByProvider.reportpal.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.reportpal.length} ReportPal resort(s)...`);
+
+    for (const resort of resortsByProvider.reportpal) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (ReportPal)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        const result = saveReportPalSnowData(resort.key, rawData);
+        if (result) scrapedData.push(result);
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
+
+  // Note: DOR providers (Snowbird, Killington, Copper Mountain) don't have snow
+  // data in their API - only terrain/lift status. They continue to use Inspector API.
 
   return scrapedData;
 }
@@ -578,11 +681,13 @@ async function scrapeIkonResorts(resortsToScrape) {
 
   // Separate resorts by provider type
   // Resorts with apiProvider='zaneray' use direct API; others use Inspector API
+  // Custom providers with snow data: zaneray (Jackson Hole), reportpal (Big Sky, etc.)
+  // DOR providers (Snowbird, Killington, Copper) don't have snow data, use Inspector API
   const customProviderResorts = resortsToScrape.filter(r =>
-    r.apiProvider && r.apiProvider === 'zaneray'
+    r.apiProvider && (r.apiProvider === 'zaneray' || r.apiProvider === 'reportpal')
   );
   const inspectorResorts = resortsToScrape.filter(r =>
-    !r.apiProvider || r.apiProvider === 'inspector' || r.apiProvider === 'dor' || r.apiProvider === 'reportpal'
+    !r.apiProvider || r.apiProvider === 'inspector' || r.apiProvider === 'dor'
   );
 
   // Process custom provider resorts first (Zaneray has snow data)
