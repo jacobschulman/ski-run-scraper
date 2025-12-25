@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hetzner Scraper Monitor</title>
+  <style>
+    :root {
+      --bg: #0c1a2b;
+      --panel: #0f243a;
+      --card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #9bb3d1;
+      --accent: #7bd8ff;
+      --accent-2: #9b7bff;
+      --positive: #7bffc3;
+      --negative: #ff8f87;
+      --warning: #ffcc66;
+      --shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(123, 216, 255, 0.08), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(155, 123, 255, 0.12), transparent 32%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; }
+
+    h1 { margin: 0; font-size: 1.8rem; letter-spacing: -0.02em; }
+    h2 { margin: 0 0 12px; font-size: 1.2rem; color: var(--muted); }
+    h3 { margin: 0 0 8px; font-size: 1rem; }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    .status-pill.online { border-color: rgba(123, 255, 195, 0.4); }
+    .status-pill.offline { border-color: rgba(255, 143, 135, 0.4); }
+
+    .pulse {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .pulse.green { background: var(--positive); box-shadow: 0 0 8px var(--positive); }
+    .pulse.red { background: var(--negative); box-shadow: 0 0 8px var(--negative); }
+    .pulse.yellow { background: var(--warning); box-shadow: 0 0 8px var(--warning); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .grid { display: grid; gap: 16px; margin-bottom: 24px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .stat-value {
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .stat-card { text-align: center; }
+
+    .scraper-card .status-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .scraper-card .status-row:last-child { border-bottom: none; }
+
+    .scraper-card .label { color: var(--muted); font-size: 0.9rem; }
+    .scraper-card .value { font-weight: 600; }
+
+    .positive { color: var(--positive); }
+    .negative { color: var(--negative); }
+    .warning { color: var(--warning); }
+    .accent { color: var(--accent); }
+
+    .log-container {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 14px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .log-time { color: var(--muted); margin-right: 12px; }
+    .log-ikon { color: var(--accent); }
+    .log-vail { color: var(--accent-2); }
+
+    .resort-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .resort-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.15s ease;
+    }
+
+    .resort-chip:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .resort-chip .name { font-weight: 500; }
+    .resort-chip .count { color: var(--muted); font-size: 0.85rem; }
+
+    .refresh-info {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .data-path {
+      background: rgba(0,0,0,0.3);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    .endpoint-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .endpoint .method {
+      background: var(--positive);
+      color: var(--bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 0.75rem;
+    }
+
+    .endpoint a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .endpoint a:hover { text-decoration: underline; }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+    }
+
+    .error-banner {
+      background: rgba(255, 143, 135, 0.15);
+      border: 1px solid rgba(255, 143, 135, 0.3);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+      color: var(--negative);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div>
+        <h1>Hetzner Scraper Monitor</h1>
+        <p class="refresh-info">Auto-refreshes every 10 seconds</p>
+      </div>
+      <div id="server-status" class="status-pill">
+        <span class="pulse"></span>
+        <span>Connecting...</span>
+      </div>
+    </div>
+
+    <div id="error-banner" class="error-banner" style="display: none;"></div>
+
+    <!-- Quick Stats -->
+    <div class="grid grid-4" id="quick-stats">
+      <div class="card stat-card">
+        <div class="stat-value" id="uptime">--</div>
+        <div class="stat-label">Uptime</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value" id="total-runs">--</div>
+        <div class="stat-label">Total Runs</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value" id="total-resorts">--</div>
+        <div class="stat-label">Resorts</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value" id="total-lifts">--</div>
+        <div class="stat-label">Lift Records</div>
+      </div>
+    </div>
+
+    <!-- Scraper Status -->
+    <div class="grid grid-2">
+      <div class="card scraper-card">
+        <div class="card-header">
+          <h3>Ikon Scraper</h3>
+          <span id="ikon-status" class="pulse"></span>
+        </div>
+        <div class="status-row">
+          <span class="label">Last Run</span>
+          <span class="value" id="ikon-last-run">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Last Success</span>
+          <span class="value" id="ikon-last-success">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Total Runs</span>
+          <span class="value" id="ikon-total-runs">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Failures</span>
+          <span class="value" id="ikon-failures">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Interval</span>
+          <span class="value">60 seconds</span>
+        </div>
+      </div>
+
+      <div class="card scraper-card">
+        <div class="card-header">
+          <h3>Vail Scraper (Puppeteer)</h3>
+          <span id="vail-status" class="pulse"></span>
+        </div>
+        <div class="status-row">
+          <span class="label">Last Run</span>
+          <span class="value" id="vail-last-run">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Last Success</span>
+          <span class="value" id="vail-last-success">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Total Runs</span>
+          <span class="value" id="vail-total-runs">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Failures</span>
+          <span class="value" id="vail-failures">--</span>
+        </div>
+        <div class="status-row">
+          <span class="label">Interval</span>
+          <span class="value">150 seconds</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- API Endpoints -->
+    <div class="card" style="margin-bottom: 24px;">
+      <h3 style="margin-bottom: 14px;">API Endpoints</h3>
+      <div class="endpoint-list" id="endpoints">
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <a href="/health" target="_blank">/health</a>
+          <span style="color: var(--muted); margin-left: auto;">Server & scraper status</span>
+        </div>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <a href="/data/latest-lifts.json" target="_blank">/data/latest-lifts.json</a>
+          <span style="color: var(--muted); margin-left: auto;">All resorts, latest data</span>
+        </div>
+        <div class="endpoint">
+          <span class="method">GET</span>
+          <span style="color: var(--accent)">/data/{resort}/lifts/{date}.ndjson</span>
+          <span style="color: var(--muted); margin-left: auto;">Historical data</span>
+        </div>
+      </div>
+      <div style="margin-top: 14px;">
+        <div class="label" style="margin-bottom: 6px;">Data Directory</div>
+        <div class="data-path" id="data-path">/home/scraper/ski-run-scraper/data</div>
+      </div>
+    </div>
+
+    <!-- Resort Overview -->
+    <div class="card">
+      <div class="card-header">
+        <h3>Resort Data (Latest)</h3>
+        <span class="refresh-info" id="data-timestamp">--</span>
+      </div>
+      <div class="resort-grid" id="resort-grid">
+        <div class="loading">Loading resort data...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = window.location.origin;
+
+    function formatTime(isoString) {
+      if (!isoString) return '--';
+      const date = new Date(isoString);
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function formatTimeAgo(isoString) {
+      if (!isoString) return '--';
+      const seconds = Math.floor((Date.now() - new Date(isoString)) / 1000);
+      if (seconds < 60) return `${seconds}s ago`;
+      if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+      if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+      return `${Math.floor(seconds / 86400)}d ago`;
+    }
+
+    function formatUptime(seconds) {
+      if (!seconds) return '--';
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = Math.floor(seconds % 60);
+      if (h > 0) return `${h}h ${m}m`;
+      if (m > 0) return `${m}m ${s}s`;
+      return `${s}s`;
+    }
+
+    function getStatusClass(scraper) {
+      if (!scraper.lastSuccess) return 'yellow';
+      const secondsSinceSuccess = (Date.now() - new Date(scraper.lastSuccess)) / 1000;
+      if (scraper.consecutiveFailures > 0) return 'yellow';
+      if (secondsSinceSuccess > 300) return 'yellow';
+      return 'green';
+    }
+
+    async function fetchHealth() {
+      try {
+        const res = await fetch(`${API_BASE}/health`);
+        if (!res.ok) throw new Error('Health check failed');
+        const data = await res.json();
+
+        // Server status
+        const statusEl = document.getElementById('server-status');
+        statusEl.innerHTML = `<span class="pulse green"></span><span>Online</span>`;
+        statusEl.className = 'status-pill online';
+
+        // Hide error banner
+        document.getElementById('error-banner').style.display = 'none';
+
+        // Quick stats
+        document.getElementById('uptime').textContent = formatUptime(data.uptime);
+        document.getElementById('total-runs').textContent =
+          (data.scraper?.ikon?.totalRuns || 0) + (data.scraper?.vail?.totalRuns || 0);
+
+        // Ikon status
+        const ikon = data.scraper?.ikon || {};
+        document.getElementById('ikon-status').className = `pulse ${getStatusClass(ikon)}`;
+        document.getElementById('ikon-last-run').textContent = formatTimeAgo(ikon.lastRun);
+        document.getElementById('ikon-last-success').textContent = formatTimeAgo(ikon.lastSuccess);
+        document.getElementById('ikon-total-runs').textContent = ikon.totalRuns || 0;
+        document.getElementById('ikon-failures').innerHTML =
+          ikon.consecutiveFailures > 0
+            ? `<span class="negative">${ikon.consecutiveFailures}</span>`
+            : `<span class="positive">0</span>`;
+
+        // Vail status
+        const vail = data.scraper?.vail || {};
+        document.getElementById('vail-status').className = `pulse ${getStatusClass(vail)}`;
+        document.getElementById('vail-last-run').textContent = formatTimeAgo(vail.lastRun);
+        document.getElementById('vail-last-success').textContent = formatTimeAgo(vail.lastSuccess);
+        document.getElementById('vail-total-runs').textContent = vail.totalRuns || 0;
+        document.getElementById('vail-failures').innerHTML =
+          vail.consecutiveFailures > 0
+            ? `<span class="negative">${vail.consecutiveFailures}</span>`
+            : `<span class="positive">0</span>`;
+
+      } catch (err) {
+        console.error('Health fetch error:', err);
+        const statusEl = document.getElementById('server-status');
+        statusEl.innerHTML = `<span class="pulse red"></span><span>Offline</span>`;
+        statusEl.className = 'status-pill offline';
+
+        document.getElementById('error-banner').textContent =
+          `Failed to connect to server: ${err.message}`;
+        document.getElementById('error-banner').style.display = 'block';
+      }
+    }
+
+    async function fetchLatestLifts() {
+      try {
+        const res = await fetch(`${API_BASE}/data/latest-lifts.json`);
+        if (!res.ok) throw new Error('Failed to fetch lift data');
+        const data = await res.json();
+
+        const resorts = Object.entries(data.resorts || {});
+        let totalLifts = 0;
+
+        document.getElementById('total-resorts').textContent = resorts.length;
+
+        const grid = document.getElementById('resort-grid');
+        grid.innerHTML = resorts
+          .map(([key, resort]) => {
+            const lifts = resort.lifts || [];
+            totalLifts += lifts.length;
+            const openLifts = lifts.filter(l => l.status === 'Open').length;
+            return `
+              <a href="/lifts.html?resort=${encodeURIComponent(key)}" class="resort-chip">
+                <span class="name">${key}</span>
+                <span class="count">${openLifts}/${lifts.length} open</span>
+              </a>
+            `;
+          })
+          .join('');
+
+        document.getElementById('total-lifts').textContent = totalLifts;
+        document.getElementById('data-timestamp').textContent =
+          `Generated ${formatTimeAgo(data.generated)}`;
+
+      } catch (err) {
+        console.error('Lift data fetch error:', err);
+        document.getElementById('resort-grid').innerHTML =
+          `<div class="loading">Failed to load: ${err.message}</div>`;
+      }
+    }
+
+    // Initial fetch
+    fetchHealth();
+    fetchLatestLifts();
+
+    // Auto-refresh
+    setInterval(fetchHealth, 10000);
+    setInterval(fetchLatestLifts, 30000);
+  </script>
+</body>
+</html>
