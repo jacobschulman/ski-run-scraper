@@ -2,7 +2,7 @@
   "resort": "bigboulder",
   "resortName": "Big Boulder",
   "date": "2025-12-25",
-  "generated": "2025-12-25T10:23:17.086Z",
+  "generated": "2025-12-25T14:17:06.301Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,84 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 0,
-          "delta": 0
+          "delta": 13
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 0,
-          "delta": 0
+          "delta": 13
         },
         "totalTrails": 18
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Big Boulder",
+          "difficulty": "Black",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Carbon Way",
+          "difficulty": "Green",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Coal Chute",
+          "difficulty": "Green",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Der Schuss",
+          "difficulty": "Blue",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Edelweiss",
+          "difficulty": "Green",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Little Boulder",
+          "difficulty": "Green",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Merry Widow",
+          "difficulty": "Blue",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Midway",
+          "difficulty": "Black",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Mineshaft",
+          "difficulty": "Black",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Ski School Slopes",
+          "difficulty": "Green",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Tannenbaum",
+          "difficulty": "TerrainPark",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "The Elbow",
+          "difficulty": "Blue",
+          "area": "Big Boulder"
+        },
+        {
+          "name": "Upper Sitzmark",
+          "difficulty": "Black",
+          "area": "Big Boulder"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -68,13 +134,13 @@
           "high_c": -5,
           "low_c": -10,
           "description": "Snow & Wind",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 5,
+          "snowfall_expected": 6
         },
         {
           "date": "2025-12-27T05:00:00Z",
-          "high_f": 25,
+          "high_f": 26,
           "low_f": 20,
           "high_c": -4,
           "low_c": -7,
@@ -91,8 +157,8 @@
           "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -102,9 +168,9 @@
         "high_c": -5,
         "low_c": -10,
         "description": "Snow & Wind",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 5,
+        "snowfall_expected": 6
       }
     }
   },
@@ -112,39 +178,56 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "13 new trails opened today"
+    ],
+    "trends": [
+      "13 more trails open than yesterday",
+      "6\" snow expected Friday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "The mountain is still prepping for the season. Weather today: Windy, 38°F.",
+    "headline": "Big Snow Incoming",
+    "body": "13 trails open, 13 groomed. Windy, high of 38°. Terrain is expanding with 13 new trails now open. More room to roam, less traffic to dodge. Storm cycle alert! 7\" on the way. The mountain is about to get a serious refresh.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waiting for Opening Day"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Thursday"
     }
