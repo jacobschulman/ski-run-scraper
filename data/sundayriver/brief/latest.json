@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-25",
-  "generated": "2025-12-25T14:17:09.289Z",
+  "generated": "2025-12-25T15:19:13.199Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 84,
+          "today": 86,
           "yesterday": 85,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
           "today": 63,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Airglow",
+          "difficulty": "Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Blind Ambition",
+          "difficulty": "Black",
+          "area": "JORDAN BOWL"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Tempest (Upper)",
@@ -117,15 +128,17 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "1\" new snow overnight",
+      "2 new trails opened today",
       "3 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": [
@@ -135,14 +148,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "4\" Freshened Things Up",
-    "body": "A light refresh of 4\" overnight makes the groomers smoother and the off-piste a bit softer. Light snow possible in the forecast.",
+    "headline": "Terrain is Expanding",
+    "body": "A light refresh of 4\" overnight makes the groomers smoother and the off-piste a bit softer. 2 new runs just opened up. Time to explore some fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -152,19 +165,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Thursday"
     }
