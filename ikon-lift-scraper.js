@@ -267,11 +267,9 @@ function getTodayLiftHours(hoursObj, timezone) {
 
   const { formatInTimeZone } = require('date-fns-tz');
   const now = new Date();
-  const dayOfWeek = parseInt(formatInTimeZone(now, timezone, 'i')); // 1 = Monday, 7 = Sunday
-  const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-  // Map dayOfWeek (1-7) to dayNames array (0-6)
-  const dayName = dayNames[(dayOfWeek - 1) % 7];
+  // Use 'EEEE' to get full day name directly (e.g., "Monday", "Tuesday")
+  // Note: 'i' returns ISO week number (1-53), NOT day of week
+  const dayName = formatInTimeZone(now, timezone, 'EEEE');
 
   if (hoursObj[dayName]) {
     return {
