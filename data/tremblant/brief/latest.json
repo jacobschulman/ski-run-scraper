@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-25",
-  "generated": "2025-12-25T09:19:37.049Z",
+  "generated": "2025-12-25T10:23:20.020Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 97,
+          "today": 98,
           "yesterday": 97,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 56,
@@ -34,10 +34,64 @@
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Panache",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "TAM-TAM",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Toufou",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Laurentienne",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Nansen",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Nansen Haut",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "L'Algonquin",
+          "difficulty": "Easy",
+          "area": "Versant Soleil"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Tiguidou",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Flying Mile Haut",
+          "difficulty": "Extreme Terrain",
+          "area": "South Side"
+        },
+        {
+          "name": "La Griffe",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -64,7 +118,7 @@
         {
           "date": "2025-12-25",
           "high_f": 16,
-          "low_f": -6,
+          "low_f": -5,
           "high_c": -9,
           "low_c": -21,
           "description": "Windy",
@@ -74,10 +128,10 @@
         },
         {
           "date": "2025-12-26",
-          "high_f": 6,
+          "high_f": 7,
           "low_f": 6,
           "high_c": -14,
-          "low_c": -14,
+          "low_c": -15,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -98,7 +152,7 @@
       "tomorrow": {
         "date": "2025-12-25",
         "high_f": 16,
-        "low_f": -6,
+        "low_f": -5,
         "high_c": -9,
         "low_c": -21,
         "description": "Windy",
@@ -112,25 +166,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 13\" in last 7 days"
+    "alerts": [
+      "4 new trails opened today",
+      "1 trail freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Tiguidou - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "The Map Just Got Bigger",
+    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Terrain is expanding with 4 new trails now open. More room to roam, less traffic to dodge. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +200,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Thursday"
     }

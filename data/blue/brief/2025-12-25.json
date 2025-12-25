@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T09:19:37.055Z",
+  "generated": "2025-12-25T10:23:20.026Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,42 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 43,
+          "today": 45,
           "yesterday": 43,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 32,
+          "today": 34,
           "yesterday": 32,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Hog's Back",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Hog's Back",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -63,9 +85,9 @@
       "outlook": [
         {
           "date": "2025-12-25",
-          "high_f": 32,
-          "low_f": 10,
-          "high_c": 0,
+          "high_f": 33,
+          "low_f": 11,
+          "high_c": 1,
           "low_c": -12,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -74,19 +96,19 @@
         },
         {
           "date": "2025-12-26",
-          "high_f": 17,
+          "high_f": 16,
           "low_f": 15,
           "high_c": -9,
-          "low_c": -9,
+          "low_c": -10,
           "description": "Snow Wind",
-          "snowfall_day_inches": 2,
+          "snowfall_day_inches": 3,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 3
+          "snowfall_expected": 4
         },
         {
           "date": "2025-12-27",
           "high_f": 22,
-          "low_f": 20,
+          "low_f": 19,
           "high_c": -6,
           "low_c": -7,
           "description": "Partly Cloudy",
@@ -97,9 +119,9 @@
       ],
       "tomorrow": {
         "date": "2025-12-25",
-        "high_f": 32,
-        "low_f": 10,
-        "high_c": 0,
+        "high_f": 33,
+        "low_f": 11,
+        "high_c": 1,
         "low_c": -12,
         "description": "Windy",
         "snowfall_day_inches": 0,
@@ -112,25 +134,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "3\" snow expected Friday"
+    "alerts": [
+      "2 new trails opened today",
+      "2 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "2 more trails open than yesterday",
+      "4\" snow expected Friday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Apple Bowl - all skill levels",
+      "Fresh corduroy on Hog's Back - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "43 trails open, 32 groomed. Windy, high of null°. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "The Map Just Got Bigger",
+    "body": "45 trails open, 34 groomed. Windy, high of null°. The ski patrol has been busy—2 additional trails are now yours to enjoy. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +169,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Thursday"
     }
