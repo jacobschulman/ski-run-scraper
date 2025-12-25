@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-25",
-  "generated": "2025-12-25T11:17:28.101Z",
+  "generated": "2025-12-25T12:37:56.350Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,83 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 94,
+          "today": 105,
           "yesterday": 94,
-          "delta": 0
+          "delta": 11
         },
         "groomedTrails": {
-          "today": 38,
+          "today": 37,
           "yesterday": 38,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Bailout",
+          "difficulty": "Intermediate",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Castlerock Run",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Cotillion",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Hi & Lo Road",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Lift Line",
+          "difficulty": "Expert",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Lower Castlerock Run",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Lower Lift Line",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Middle Earth",
+          "difficulty": "Difficult",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Rumble",
+          "difficulty": "Expert",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Runout",
+          "difficulty": "Intermediate",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Troll Road",
+          "difficulty": "Intermediate",
+          "area": "Castlerock Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Murphy's Glades",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,27 +113,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-24",
-        "high_f": null,
-        "low_f": 16,
-        "high_c": null,
-        "low_c": -9,
+        "date": "2025-12-25",
+        "high_f": 21,
+        "low_f": -4,
+        "high_c": -6,
+        "low_c": -20,
         "description": "Windy",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-25",
-          "high_f": 21,
-          "low_f": -4,
-          "high_c": -6,
-          "low_c": -20,
-          "description": "Windy",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 1
-        },
         {
           "date": "2025-12-26",
           "high_f": 9,
@@ -93,18 +144,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-28",
+          "high_f": 31,
+          "low_f": 32,
+          "high_c": -1,
+          "low_c": 0,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-25",
-        "high_f": 21,
-        "low_f": -4,
-        "high_c": -6,
-        "low_c": -20,
+        "date": "2025-12-26",
+        "high_f": 9,
+        "low_f": 9,
+        "high_c": -13,
+        "low_c": -13,
         "description": "Windy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 1
+        "snowfall_expected": 0
       }
     }
   },
@@ -112,21 +174,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "8\" in last 24 hours - powder day!"
+      "8\" in last 24 hours - powder day!",
+      "11 new trails opened today"
     ],
     "trends": [
-      "1\" snow expected Thursday"
+      "11 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "8\" of Fresh Overnight",
-    "body": "Powder alert! 8\" of fresh overnight means soft conditions across the entire mountain. Light snow possible in the forecast.",
+    "headline": "Deep Day at Sugarbush",
+    "body": "Powder alert! 8\" of fresh overnight means soft conditions across the entire mountain. New terrain alert: 11 trails added to the mix. The mountain just got bigger. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -142,9 +205,15 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
           "category": "weather",
-          "priority": 30,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
@@ -154,7 +223,7 @@
         "variationIndex": 1,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Thursday"
     }
