@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T19:13:47.754Z",
+  "generated": "2025-12-25T20:19:19.460Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 35,
+          "today": 39,
           "yesterday": 35,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 2,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Memorial Forest",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        },
+        {
+          "name": "Middle Ferk's",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        },
+        {
+          "name": "Sunnyside",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        },
+        {
+          "name": "The Doors",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,22 +133,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "1\" new snow overnight",
-      "6\" in last 24 hours - powder day!"
+      "6\" in last 24 hours - powder day!",
+      "4 new trails opened today"
     ],
     "trends": [
+      "4 more trails open than yesterday",
       "6\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got Buried",
-    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. A significant storm is brewing with 6\" expected over the next few days. Plan accordingly.",
+    "headline": "6\" of Fresh Overnight",
+    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. The ski patrol has been busy—4 additional trails are now yours to enjoy. A significant storm is brewing with 6\" expected over the next few days. Plan accordingly.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +166,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+        "previousHeadline": "The Mountain Got Buried"
       },
       "dayOfWeek": "Thursday"
     }

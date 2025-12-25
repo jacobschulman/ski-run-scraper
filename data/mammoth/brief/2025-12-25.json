@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T19:13:47.742Z",
+  "generated": "2025-12-25T20:19:19.448Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 101,
+          "today": 111,
           "yesterday": 101,
-          "delta": 0
+          "delta": 10
         },
         "groomedTrails": {
           "today": 17,
@@ -34,7 +34,58 @@
         },
         "totalTrails": 191
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Back for More (Lower)",
+          "difficulty": "Easiest",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Bridges",
+          "difficulty": "Slightly Difficult",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Christmas Tree",
+          "difficulty": "Slightly Difficult",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Holiday",
+          "difficulty": "Easiest",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Juniper",
+          "difficulty": "Slightly Difficult",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Lupin",
+          "difficulty": "Easiest",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Manzanita",
+          "difficulty": "Slightly Difficult",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Pumpkin",
+          "difficulty": "Easiest",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Sleepy Hollow",
+          "difficulty": "Easiest",
+          "area": "Eagle Lodge"
+        },
+        {
+          "name": "Watertank",
+          "difficulty": "Slightly Difficult",
+          "area": "Eagle Lodge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -86,10 +137,10 @@
         {
           "date": "2025-12-28",
           "high_f": 28,
-          "low_f": 22,
+          "low_f": 21,
           "high_c": -2,
           "low_c": -6,
-          "description": "Mostly Sunny",
+          "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -112,22 +163,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "52\" in last 24 hours - powder day!"
+      "52\" in last 24 hours - powder day!",
+      "10 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 70\" in last 7 days",
+      "10 more trails open than yesterday",
       "7\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Dump Day at Mammoth Mountain",
-    "body": "Mother Nature delivered 52\" of the good stuff. Face shots are on the menu today. The weather models are locked in: 7\" of snow heading our way. Clear your schedule.",
+    "headline": "Time to Call in Sick",
+    "body": "Mother Nature delivered 52\" of the good stuff. Face shots are on the menu today. 10 more trails are in play today. The groomers are getting stretched thin (in a good way). The weather models are locked in: 7\" of snow heading our way. Clear your schedule.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +196,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 7,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Time to Call in Sick"
+        "previousHeadline": "Dump Day at {resortName}"
       },
       "dayOfWeek": "Thursday"
     }
