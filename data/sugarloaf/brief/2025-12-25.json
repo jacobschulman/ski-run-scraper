@@ -2,13 +2,13 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-25",
-  "generated": "2025-12-25T20:19:19.490Z",
+  "generated": "2025-12-25T21:15:34.125Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
       "overnight_cm": 3,
-      "24hour_inches": 12,
-      "24hour_cm": 30,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
       "48hour_inches": 12,
       "48hour_cm": 30,
       "7day_inches": 12,
@@ -197,13 +197,12 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true
     },
     "alerts": [
       "1\" new snow overnight",
-      "12\" in last 24 hours - powder day!",
       "8 new trails opened today",
       "10 trails freshly groomed"
     ],
@@ -220,20 +219,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Deep Day at Sugarloaf",
-    "body": "Mother Nature delivered 12\" of the good stuff. Face shots are on the menu today. 8 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
+    "headline": "8 New Trails Today",
+    "body": "3\" fell while you were sleeping. The bumps are softer and the groomers are primo. 8 more trails are in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
-          "category": "snow",
-          "priority": 100,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_fresh_coat",
           "category": "snow",
-          "priority": 100,
+          "priority": 80,
           "usedFor": "body"
         },
         {
@@ -251,11 +250,11 @@
       ],
       "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 1,
-        "totalVariations": 12,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+        "previousHeadline": "Deep Day at {resortName}"
       },
       "dayOfWeek": "Thursday"
     }
