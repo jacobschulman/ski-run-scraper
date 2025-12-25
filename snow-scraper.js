@@ -510,8 +510,11 @@ function saveZaneraySnowData(resortKey, zanerayData) {
 
 /**
  * Save snow report data from SnoCountry API
+ * @param {string} resortKey - Resort key
+ * @param {Object} snoCountryData - SnoCountry API response
+ * @param {Object} inspectorData - Optional Inspector API data for weather/forecast
  */
-function saveSnoCountrySnowData(resortKey, snoCountryData) {
+function saveSnoCountrySnowData(resortKey, snoCountryData, inspectorData) {
   if (!snoCountryData) {
     console.log('✗ No data returned from SnoCountry API');
     return null;
@@ -530,11 +533,24 @@ function saveSnoCountrySnowData(resortKey, snoCountryData) {
     today
   );
 
+  // Merge weather/forecast data from Inspector API if available
+  if (inspectorData) {
+    const weatherData = dataNormalization.extractInspectorWeatherData(inspectorData);
+    if (weatherData.currentConditions) {
+      cleanData.currentConditions = weatherData.currentConditions;
+    }
+    if (weatherData.forecast) {
+      cleanData.forecast = weatherData.forecast;
+    }
+    console.log(`  🌡️  Merged weather data from Inspector API`);
+  }
+
   // Add provider metadata
   const snowDataWithProvider = {
     ...cleanData,
     provider: resort.provider || 'ikon',
-    apiProvider: 'snocountry'
+    apiProvider: 'snocountry',
+    weatherProvider: inspectorData ? 'inspector' : null
   };
 
   // Ensure directory structure exists
@@ -598,8 +614,11 @@ function saveSnoCountrySnowData(resortKey, snoCountryData) {
 
 /**
  * Save snow report data from ReportPal API
+ * @param {string} resortKey - Resort key
+ * @param {Object} reportPalData - ReportPal API response
+ * @param {Object} inspectorData - Optional Inspector API data for weather/forecast
  */
-function saveReportPalSnowData(resortKey, reportPalData) {
+function saveReportPalSnowData(resortKey, reportPalData, inspectorData) {
   if (!reportPalData) {
     console.log('✗ No data returned from ReportPal API');
     return null;
@@ -618,11 +637,24 @@ function saveReportPalSnowData(resortKey, reportPalData) {
     today
   );
 
+  // Merge weather/forecast data from Inspector API if available
+  if (inspectorData) {
+    const weatherData = dataNormalization.extractInspectorWeatherData(inspectorData);
+    if (weatherData.currentConditions) {
+      cleanData.currentConditions = weatherData.currentConditions;
+    }
+    if (weatherData.forecast) {
+      cleanData.forecast = weatherData.forecast;
+    }
+    console.log(`  🌡️  Merged weather data from Inspector API`);
+  }
+
   // Add provider metadata
   const snowDataWithProvider = {
     ...cleanData,
     provider: resort.provider || 'ikon',
-    apiProvider: 'reportpal'
+    apiProvider: 'reportpal',
+    weatherProvider: inspectorData ? 'inspector' : null
   };
 
   // Ensure directory structure exists
@@ -683,10 +715,20 @@ function saveReportPalSnowData(resortKey, reportPalData) {
 }
 
 /**
- * Scrape snow data from custom API providers (Zaneray, ReportPal)
+ * Scrape snow data from custom API providers (Zaneray, ReportPal, SnoCountry)
+ * @param {Array} resortsToScrape - Resorts to scrape
+ * @param {Object} inspectorApiData - Inspector API response (for weather/forecast data)
  */
-async function scrapeCustomProviderResorts(resortsToScrape) {
+async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
   const scrapedData = [];
+
+  // Build a lookup map for Inspector API data (for weather/forecast merging)
+  const inspectorLookup = {};
+  if (inspectorApiData && inspectorApiData.Resorts) {
+    inspectorApiData.Resorts.forEach(r => {
+      inspectorLookup[r.Name] = r;
+    });
+  }
 
   // Group resorts by provider
   const resortsByProvider = providers.groupResortsByProvider(resortsToScrape);
@@ -721,7 +763,10 @@ async function scrapeCustomProviderResorts(resortsToScrape) {
         console.log('='.repeat(50));
 
         const rawData = await providers.fetchResortData(resort);
-        const result = saveReportPalSnowData(resort.key, rawData);
+        // Get weather data from Inspector API if available
+        const inspectorName = resort.inspectorName || resort.name;
+        const inspectorData = inspectorLookup[inspectorName];
+        const result = saveReportPalSnowData(resort.key, rawData, inspectorData);
         if (result) scrapedData.push(result);
       } catch (error) {
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
@@ -741,7 +786,10 @@ async function scrapeCustomProviderResorts(resortsToScrape) {
         console.log('='.repeat(50));
 
         const rawData = await providers.fetchResortData(resort);
-        const result = saveSnoCountrySnowData(resort.key, rawData);
+        // Get weather data from Inspector API if available
+        const inspectorName = resort.inspectorName || resort.name;
+        const inspectorData = inspectorLookup[inspectorName];
+        const result = saveSnoCountrySnowData(resort.key, rawData, inspectorData);
         if (result) scrapedData.push(result);
       } catch (error) {
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
@@ -797,55 +845,61 @@ async function scrapeIkonResorts(resortsToScrape) {
     !r.apiProvider || r.apiProvider === 'inspector'
   );
 
-  // Process custom provider resorts first (Zaneray has snow data)
+  // Fetch Inspector API data FIRST - we need it for weather data even for custom provider resorts
+  let inspectorApiData = null;
+  try {
+    console.log(`\n📦 Fetching Inspector API data for weather/forecasts...`);
+    inspectorApiData = await fetchAllInspectorData();
+    if (inspectorApiData && inspectorApiData.Resorts) {
+      console.log(`✓ Received data for ${inspectorApiData.Resorts.length} resorts from Inspector API`);
+    }
+  } catch (error) {
+    console.error(`⚠️  Could not fetch Inspector API data for weather: ${error.message}`);
+  }
+
+  // Process custom provider resorts (pass Inspector data for weather merging)
   if (customProviderResorts.length > 0) {
     console.log(`\n📡 Found ${customProviderResorts.length} resort(s) with custom snow APIs...`);
-    const customResults = await scrapeCustomProviderResorts(customProviderResorts);
+    const customResults = await scrapeCustomProviderResorts(customProviderResorts, inspectorApiData);
     scrapedData.push(...customResults);
   }
 
-  // Process Inspector API resorts (DOR/ReportPal still use Inspector for snow data)
+  // Process Inspector API resorts
   if (inspectorResorts.length > 0) {
-    console.log(`\n📦 Fetching ${inspectorResorts.length} resort(s) from Inspector API...`);
+    console.log(`\n📦 Processing ${inspectorResorts.length} Inspector API resort(s)...`);
 
-    try {
-      // Fetch all resort data in one API call
-      const apiResponse = await fetchAllInspectorData();
+    if (!inspectorApiData || !inspectorApiData.Resorts || inspectorApiData.Resorts.length === 0) {
+      console.error('❌ No Inspector API data available');
+      return scrapedData;
+    }
 
-      if (!apiResponse || !apiResponse.Resorts || apiResponse.Resorts.length === 0) {
-        console.error('❌ No resort data in API response');
-        return scrapedData;
+    // Use already-fetched data
+    const apiResponse = inspectorApiData;
+
+    console.log(`\n${'='.repeat(80)}`);
+    console.log(`Processing ${inspectorResorts.length} Inspector API resort(s)...`);
+    console.log('='.repeat(80));
+
+    // Process each configured Inspector API resort
+    inspectorResorts.forEach(resort => {
+      const inspectorName = resort.inspectorName || resort.name;
+
+      // Find matching resort in API data (exact name match)
+      const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
+
+      if (!ikonResortData) {
+        console.error(`\n⚠️  ${resort.name}: No matching data found (looking for "${inspectorName}")`);
+        return;
       }
 
-      console.log(`✓ Received data for ${apiResponse.Resorts.length} resorts from API`);
-      console.log(`\n${'='.repeat(80)}`);
-      console.log(`Processing ${inspectorResorts.length} Inspector API resort(s)...`);
-      console.log('='.repeat(80));
+      console.log(`\n${'='.repeat(50)}`);
+      console.log(`Processing ${resort.name}...`);
+      console.log('='.repeat(50));
 
-      // Process each configured Inspector API resort
-      inspectorResorts.forEach(resort => {
-        const inspectorName = resort.inspectorName || resort.name;
-
-        // Find matching resort in API data (exact name match)
-        const ikonResortData = apiResponse.Resorts.find(r => r.Name === inspectorName);
-
-        if (!ikonResortData) {
-          console.error(`\n⚠️  ${resort.name}: No matching data found (looking for "${inspectorName}")`);
-          return;
-        }
-
-        console.log(`\n${'='.repeat(50)}`);
-        console.log(`Processing ${resort.name}...`);
-        console.log('='.repeat(50));
-
-        // Save snow data
-        const result = saveIkonSnowData(resort.key, ikonResortData);
-        if (result) scrapedData.push(result);
-      });
-
-    } catch (error) {
-      console.error(`❌ Error fetching Ikon data from Inspector API:`, error.message);
-    }
+      // Save snow data
+      const result = saveIkonSnowData(resort.key, ikonResortData);
+      if (result) scrapedData.push(result);
+    });
   }
 
   return scrapedData;

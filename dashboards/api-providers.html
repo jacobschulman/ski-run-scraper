@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Providers</title>
+  <link rel="stylesheet" href="shared/theme.css">
+  <style>
+    :root {
+      --bg: #0b1a12;
+      --panel: rgba(255, 255, 255, 0.02);
+      --card: rgba(255, 255, 255, 0.04);
+      --text: #e8f5ec;
+      --muted: #9bb7a7;
+      --accent: #6fe3b2;
+      --accent-2: #74c7ff;
+      --negative: #ff9c8f;
+      --warning: #ffcc70;
+      --positive: #7bffc3;
+    }
+    body {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(111, 227, 178, 0.11), transparent 28%),
+        radial-gradient(circle at 82% 0%, rgba(116, 199, 255, 0.15), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(111, 227, 178, 0.08), transparent 35%),
+        var(--bg);
+    }
+    .page { max-width: 1600px; }
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .stat-pill {
+      display: inline-flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      font-size: 0.85rem;
+    }
+    .stat-pill .stat-label {
+      color: var(--muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .stat-pill .stat-value {
+      color: var(--accent);
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    /* Provider badges */
+    .provider-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .provider-vail { background: rgba(0, 122, 255, 0.2); color: #74c7ff; }
+    .provider-ikon { background: rgba(255, 165, 0, 0.2); color: #ffcc70; }
+    .provider-inspector { background: rgba(111, 227, 178, 0.15); color: var(--accent); }
+    .provider-zaneray { background: rgba(147, 112, 219, 0.2); color: #c9a0ff; }
+    .provider-reportpal { background: rgba(255, 105, 180, 0.2); color: #ff9ed2; }
+    .provider-snocountry { background: rgba(64, 224, 208, 0.2); color: #7dfff5; }
+    .provider-dor { background: rgba(255, 99, 71, 0.2); color: #ff9c8f; }
+    .provider-none { background: rgba(128, 128, 128, 0.15); color: var(--muted); opacity: 0.5; }
+
+    /* Filter controls */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      padding: 16px 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 8px;
+    }
+    .filter-btn {
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .filter-btn:hover {
+      border-color: var(--accent);
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: rgba(111, 227, 178, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .filter-count {
+      opacity: 0.6;
+      margin-left: 4px;
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+    }
+    .summary-card {
+      padding: 16px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+    }
+    .summary-card-title {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+    .summary-card-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .summary-item-count {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      background: rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+    }
+    th.center { text-align: center; }
+    td.center { text-align: center; }
+    tr:hover {
+      background: rgba(111, 227, 178, 0.03);
+    }
+    .resort-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+    .resort-key {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    /* Legend */
+    .legend {
+      padding: 16px 20px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .legend-title {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-right: 8px;
+    }
+    .legend-items {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+    }
+    .legend-item .provider-badge {
+      padding: 2px 8px;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <div>
+        <h1>API Providers</h1>
+        <div class="subtitle">Data source breakdown for each resort</div>
+      </div>
+      <div class="stats">
+        <div class="stat-pill">
+          <div class="stat-label">Total Resorts</div>
+          <div class="stat-value" id="total-resorts">-</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Custom Providers</div>
+          <div class="stat-value" id="custom-count">-</div>
+        </div>
+        <div class="stat-pill">
+          <div class="stat-label">Inspector API</div>
+          <div class="stat-value" id="inspector-count">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="legend">
+        <span class="legend-title">Providers:</span>
+        <div class="legend-items">
+          <div class="legend-item"><span class="provider-badge provider-vail">Vail</span> Epic/Vail Resorts</div>
+          <div class="legend-item"><span class="provider-badge provider-inspector">Inspector</span> mtnpowder.com</div>
+          <div class="legend-item"><span class="provider-badge provider-zaneray">Zaneray</span> Jackson Hole</div>
+          <div class="legend-item"><span class="provider-badge provider-reportpal">ReportPal</span> Big Sky, Sugarloaf, etc.</div>
+          <div class="legend-item"><span class="provider-badge provider-snocountry">SnoCountry</span> Snowbird, Killington, Copper</div>
+          <div class="legend-item"><span class="provider-badge provider-dor">DOR</span> Terrain only</div>
+        </div>
+      </div>
+
+      <div class="summary-grid" id="summary-grid">
+        <!-- Summary cards will be inserted here -->
+      </div>
+
+      <div class="filter-bar" id="filter-bar">
+        <span class="filter-label">Filter:</span>
+        <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
+        <button class="filter-btn" data-filter="vail">Vail Resorts<span class="filter-count" id="count-vail"></span></button>
+        <button class="filter-btn" data-filter="ikon">Ikon Pass<span class="filter-count" id="count-ikon"></span></button>
+        <span class="filter-label" style="margin-left: 16px">API:</span>
+        <button class="filter-btn" data-filter="inspector">Inspector<span class="filter-count" id="count-inspector"></span></button>
+        <button class="filter-btn" data-filter="zaneray">Zaneray<span class="filter-count" id="count-zaneray"></span></button>
+        <button class="filter-btn" data-filter="reportpal">ReportPal<span class="filter-count" id="count-reportpal"></span></button>
+        <button class="filter-btn" data-filter="snocountry">SnoCountry<span class="filter-count" id="count-snocountry"></span></button>
+      </div>
+
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Resort</th>
+              <th class="center">Pass</th>
+              <th class="center">Terrain API</th>
+              <th class="center">Snow API</th>
+              <th class="center">Weather API</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody id="resort-table">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">
+                Loading configuration...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="shared/nav.js"></script>
+  <script>
+    initNav('api-providers');
+
+    let allResorts = [];
+    let currentFilter = 'all';
+
+    async function loadConfig() {
+      try {
+        const response = await fetch('../config.json');
+        const config = await response.json();
+
+        allResorts = config.resorts.map(resort => {
+          // Determine the effective providers for each data type
+          const provider = resort.provider || 'vail';
+          const apiProvider = resort.apiProvider || (provider === 'vail' ? 'vail' : 'inspector');
+
+          let terrainApi, snowApi, weatherApi, notes = [];
+
+          if (provider === 'vail') {
+            terrainApi = 'vail';
+            snowApi = 'vail';
+            weatherApi = 'vail';
+          } else {
+            // Ikon resorts
+            switch (apiProvider) {
+              case 'zaneray':
+                terrainApi = 'zaneray';
+                snowApi = 'zaneray';
+                weatherApi = 'zaneray';
+                notes.push('Full Zaneray integration');
+                break;
+              case 'reportpal':
+                terrainApi = 'reportpal';
+                snowApi = 'reportpal';
+                weatherApi = 'inspector';
+                notes.push('Weather from Inspector API');
+                break;
+              case 'snocountry':
+                terrainApi = 'dor';
+                snowApi = 'snocountry';
+                weatherApi = 'inspector';
+                notes.push('Terrain from DOR, weather from Inspector');
+                break;
+              case 'dor':
+                terrainApi = 'dor';
+                snowApi = 'inspector';
+                weatherApi = 'inspector';
+                break;
+              default:
+                terrainApi = 'inspector';
+                snowApi = 'inspector';
+                weatherApi = 'inspector';
+            }
+          }
+
+          return {
+            key: resort.key,
+            name: resort.name,
+            provider,
+            apiProvider,
+            terrainApi,
+            snowApi,
+            weatherApi,
+            notes: notes.join(', '),
+            inspectorName: resort.inspectorName
+          };
+        });
+
+        // Calculate stats
+        const total = allResorts.length;
+        const vailCount = allResorts.filter(r => r.provider === 'vail').length;
+        const ikonCount = allResorts.filter(r => r.provider === 'ikon').length;
+        const inspectorCount = allResorts.filter(r => r.apiProvider === 'inspector' || !r.apiProvider).length;
+        const customCount = allResorts.filter(r => r.apiProvider && r.apiProvider !== 'inspector').length;
+
+        // Update header stats
+        document.getElementById('total-resorts').textContent = total;
+        document.getElementById('custom-count').textContent = customCount;
+        document.getElementById('inspector-count').textContent = inspectorCount;
+
+        // Update filter counts
+        document.getElementById('count-all').textContent = ` (${total})`;
+        document.getElementById('count-vail').textContent = ` (${vailCount})`;
+        document.getElementById('count-ikon').textContent = ` (${ikonCount})`;
+        document.getElementById('count-inspector').textContent = ` (${allResorts.filter(r => r.snowApi === 'inspector').length})`;
+        document.getElementById('count-zaneray').textContent = ` (${allResorts.filter(r => r.apiProvider === 'zaneray').length})`;
+        document.getElementById('count-reportpal').textContent = ` (${allResorts.filter(r => r.apiProvider === 'reportpal').length})`;
+        document.getElementById('count-snocountry').textContent = ` (${allResorts.filter(r => r.apiProvider === 'snocountry').length})`;
+
+        // Generate summary cards
+        generateSummary();
+
+        // Sort and render
+        allResorts.sort((a, b) => {
+          if (a.provider !== b.provider) return a.provider === 'vail' ? -1 : 1;
+          return a.name.localeCompare(b.name);
+        });
+
+        renderTable();
+        setupFilterListeners();
+
+      } catch (error) {
+        console.error('Error loading config:', error);
+        document.getElementById('resort-table').innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 40px; color: var(--negative);">
+              Error loading config: ${error.message}
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    function generateSummary() {
+      const grid = document.getElementById('summary-grid');
+
+      // Count by terrain API
+      const terrainCounts = {};
+      const snowCounts = {};
+      const weatherCounts = {};
+
+      allResorts.forEach(r => {
+        terrainCounts[r.terrainApi] = (terrainCounts[r.terrainApi] || 0) + 1;
+        snowCounts[r.snowApi] = (snowCounts[r.snowApi] || 0) + 1;
+        weatherCounts[r.weatherApi] = (weatherCounts[r.weatherApi] || 0) + 1;
+      });
+
+      const renderCard = (title, counts) => {
+        const items = Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .map(([api, count]) => `
+            <div class="summary-item">
+              <span class="provider-badge provider-${api}">${api}</span>
+              <span class="summary-item-count">${count}</span>
+            </div>
+          `).join('');
+
+        return `
+          <div class="summary-card">
+            <div class="summary-card-title">${title}</div>
+            <div class="summary-card-items">${items}</div>
+          </div>
+        `;
+      };
+
+      grid.innerHTML = `
+        ${renderCard('Terrain Data Sources', terrainCounts)}
+        ${renderCard('Snow Data Sources', snowCounts)}
+        ${renderCard('Weather Data Sources', weatherCounts)}
+      `;
+    }
+
+    function filterResorts() {
+      return allResorts.filter(resort => {
+        switch (currentFilter) {
+          case 'all': return true;
+          case 'vail': return resort.provider === 'vail';
+          case 'ikon': return resort.provider === 'ikon';
+          case 'inspector': return resort.snowApi === 'inspector';
+          case 'zaneray': return resort.apiProvider === 'zaneray';
+          case 'reportpal': return resort.apiProvider === 'reportpal';
+          case 'snocountry': return resort.apiProvider === 'snocountry';
+          default: return true;
+        }
+      });
+    }
+
+    function renderTable() {
+      const filtered = filterResorts();
+      const tbody = document.getElementById('resort-table');
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 40px; color: var(--muted);">No resorts match this filter</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(resort => `
+        <tr>
+          <td>
+            <div class="resort-name">${resort.name}</div>
+            <div class="resort-key">${resort.key}</div>
+          </td>
+          <td class="center">
+            <span class="provider-badge provider-${resort.provider}">${resort.provider}</span>
+          </td>
+          <td class="center">
+            <span class="provider-badge provider-${resort.terrainApi}">${resort.terrainApi}</span>
+          </td>
+          <td class="center">
+            <span class="provider-badge provider-${resort.snowApi}">${resort.snowApi}</span>
+          </td>
+          <td class="center">
+            <span class="provider-badge provider-${resort.weatherApi}">${resort.weatherApi}</span>
+          </td>
+          <td style="color: var(--muted); font-size: 0.85rem;">${resort.notes || '-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function setupFilterListeners() {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderTable();
+        });
+      });
+    }
+
+    loadConfig();
+  </script>
+</body>
+</html>

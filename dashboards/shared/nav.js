@@ -4,11 +4,11 @@
  */
 
 const NAV_PAGES = [
-  { id: 'home', label: 'Home', href: 'index.html' },
+  { id: 'overview', label: 'Home', href: 'resort-overview.html' },
   { id: 'terrain', label: 'Trails', href: 'terrain-dashboard.html' },
   { id: 'lifts', label: 'Lifts', href: 'live-lifts.html' },
   { id: 'briefs', label: 'Briefs', href: 'briefs-overview.html' },
-  { id: 'overview', label: 'Admin', href: 'resort-overview.html' }
+  { id: 'api-providers', label: 'APIs Status', href: 'api-providers.html' }
 ];
 
 function initNav(currentPage) {
