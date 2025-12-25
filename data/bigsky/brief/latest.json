@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-24",
-  "generated": "2025-12-25T04:35:01.004Z",
+  "generated": "2025-12-25T05:20:48.691Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -88,6 +88,54 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2025-12-24",
+        "high_f": null,
+        "low_f": 32,
+        "description": "Rain Snow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2025-12-25",
+          "high_f": 31,
+          "low_f": 24,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2025-12-26",
+          "high_f": 25,
+          "low_f": 16,
+          "description": "Windy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2025-12-27",
+          "high_f": 14,
+          "low_f": 0,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-25",
+        "high_f": 31,
+        "low_f": 24,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
@@ -101,19 +149,20 @@
       "4 new trails opened today"
     ],
     "trends": [
-      "Great week for snow - 14\" in last 7 days"
+      "Great week for snow - 14\" in last 7 days",
+      "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Still Soft Out There",
-    "body": "The 14\" from this week is still skiing great. No new snow needed (yet).",
+    "headline": "Major System Approaching",
+    "body": "The 14\" from this week is still skiing great. No new snow needed (yet). The jet stream is doing its thing. Expect 10\" of fresh snow rolling in soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
@@ -121,15 +170,21 @@
           "category": "snow",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "holding_strong",
+        "condition": "storm_major",
         "variationIndex": 4,
-        "totalVariations": 6,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Soft Snow Holding Strong"
+        "previousHeadline": "Still Soft Out There"
       },
       "dayOfWeek": "Wednesday"
     }
