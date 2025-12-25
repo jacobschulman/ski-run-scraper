@@ -2,8 +2,24 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T08:23:19.558Z",
+  "generated": "2025-12-25T09:19:37.036Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 16,
+      "overnight_cm": 41,
+      "24hour_inches": 32,
+      "24hour_cm": 81,
+      "48hour_inches": 32,
+      "48hour_cm": 81,
+      "7day_inches": 32,
+      "7day_cm": 81,
+      "season_total_inches": 49,
+      "season_total_cm": 124,
+      "conditions": {
+        "today": "Fresh Powder",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,118 @@
         "totalLiftsTracked": 7,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2025-12-24",
+        "high_f": null,
+        "low_f": 22,
+        "high_c": null,
+        "low_c": -6,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 8,
+        "snowfall_night_inches": 4
+      },
+      "outlook": [
+        {
+          "date": "2025-12-25",
+          "high_f": 23,
+          "low_f": 21,
+          "high_c": -5,
+          "low_c": -6,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 13,
+          "snowfall_night_inches": 8,
+          "snowfall_expected": 21
+        },
+        {
+          "date": "2025-12-26",
+          "high_f": 21,
+          "low_f": 13,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
+        },
+        {
+          "date": "2025-12-27",
+          "high_f": 21,
+          "low_f": 16,
+          "high_c": -6,
+          "low_c": -9,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-25",
+        "high_f": 23,
+        "low_f": 21,
+        "high_c": -5,
+        "low_c": -6,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 13,
+        "snowfall_night_inches": 8,
+        "snowfall_expected": 21
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "16\" fresh snow overnight",
+      "32\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 32\" in last 7 days",
+      "21\" snow expected Thursday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Waist-Deep Conditions",
+    "body": "Wake up, it's a powder day! 32\" overnight means hero snow everywhere you look. Big things coming. 25\" in the forecast—might be time to book that midweek day off.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 12,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Dump Day at {resortName}"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
