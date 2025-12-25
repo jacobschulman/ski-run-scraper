@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T15:19:13.203Z",
+  "generated": "2025-12-25T16:21:06.632Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,20 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 52,
+          "today": 55,
           "yesterday": 52,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 47,
           "yesterday": 44,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jobber",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Lower Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Upper Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Jobber",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Lower Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Upper Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -45,8 +77,8 @@
     "forecast": {
       "today": {
         "date": "2025-12-25",
-        "high_f": 23,
-        "low_f": -2,
+        "high_f": 24,
+        "low_f": -1,
         "description": "Windy",
         "snowfall_day_inches": 3,
         "snowfall_night_inches": 0
@@ -54,7 +86,7 @@
       "outlook": [
         {
           "date": "2025-12-26",
-          "high_f": 12,
+          "high_f": 11,
           "low_f": 8,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 1,
@@ -72,7 +104,7 @@
         },
         {
           "date": "2025-12-28",
-          "high_f": 30,
+          "high_f": 31,
           "low_f": 26,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 1,
@@ -82,7 +114,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-26",
-        "high_f": 12,
+        "high_f": 11,
         "low_f": 8,
         "description": "Partly Cloudy",
         "snowfall_day_inches": 1,
@@ -95,22 +127,29 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "2\" fresh snow overnight",
-      "10\" in last 24 hours - powder day!"
+      "10\" in last 24 hours - powder day!",
+      "3 new trails opened today",
+      "3 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 10\" in last 7 days",
+      "3 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Jobber - challenging for advanced skiers",
+      "Fresh corduroy on Lower Twitcher - challenging for advanced skiers",
+      "Fresh corduroy on Upper Twitcher - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Time to Call in Sick",
-    "body": "10\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "Waist-Deep Conditions",
+    "body": "10\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. Rope drop! 3 trails opened overnight, expanding your playground significantly. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
@@ -126,19 +165,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 8,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 6,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waist-Deep Conditions"
+        "previousHeadline": "Time to Call in Sick"
       },
       "dayOfWeek": "Thursday"
     }
