@@ -2,19 +2,19 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-25",
-  "generated": "2025-12-25T12:37:56.346Z",
+  "generated": "2025-12-25T13:31:04.866Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 3,
-      "overnight_cm": 8,
-      "24hour_inches": 3,
-      "24hour_cm": 8,
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
       "48hour_inches": 9,
       "48hour_cm": 23,
       "7day_inches": 0,
       "7day_cm": 0,
-      "season_total_inches": 92,
-      "season_total_cm": 234,
+      "season_total_inches": 98,
+      "season_total_cm": 249,
       "conditions": {
         "today": "Obstacles Exist",
         "yesterday": "Obstacles Exist"
@@ -111,13 +111,14 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "1\" new snow overnight",
+      "6\" in last 24 hours - powder day!"
     ],
     "trends": [
       "1\" snow expected Thursday"
@@ -125,20 +126,20 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. A significant storm is brewing with 7\" expected over the next few days. Plan accordingly.",
+    "headline": "Time to Call in Sick",
+    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. A significant storm is brewing with 7\" expected over the next few days. Plan accordingly.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_major",
-          "category": "weather",
-          "priority": 88,
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
           "usedFor": "headline"
         },
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_powder_alert",
           "category": "snow",
-          "priority": 80,
+          "priority": 100,
           "usedFor": "body"
         },
         {
@@ -150,11 +151,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 3,
-        "totalVariations": 8,
+        "condition": "powder_alert",
+        "variationIndex": 7,
+        "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Major System Approaching"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Thursday"
     }
