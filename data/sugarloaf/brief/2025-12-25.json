@@ -2,8 +2,24 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-25",
-  "generated": "2025-12-25T05:20:48.696Z",
+  "generated": "2025-12-25T06:27:15.715Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 18,
+      "24hour_inches": 9,
+      "24hour_cm": 23,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 9,
+      "7day_cm": 23,
+      "season_total_inches": 38,
+      "season_total_cm": 97,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -25,17 +41,107 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2025-12-24",
+        "high_f": null,
+        "low_f": 14,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2025-12-25",
+          "high_f": 16,
+          "low_f": -3,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2025-12-26",
+          "high_f": 5,
+          "low_f": 5,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-27",
+          "high_f": 18,
+          "low_f": 18,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-25",
+        "high_f": 16,
+        "low_f": -3,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "9\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Steady snowfall - 9\" in last 7 days",
+      "1\" snow expected Thursday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Deep Day at Sugarloaf",
+    "body": "Mother Nature delivered 9\" of the good stuff. Face shots are on the menu today. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 1,
+        "totalVariations": 12,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
