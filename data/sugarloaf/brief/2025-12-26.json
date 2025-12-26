@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-26",
-  "generated": "2025-12-26T11:16:08.771Z",
+  "generated": "2025-12-26T12:37:52.620Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -118,23 +118,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-25",
-        "high_f": null,
-        "low_f": -3,
+        "date": "2025-12-26",
+        "high_f": 7,
+        "low_f": 5,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-26",
-          "high_f": 7,
-          "low_f": 5,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-27",
           "high_f": 16,
@@ -152,12 +143,21 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-29",
+          "high_f": 30,
+          "low_f": 10,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 8,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 8
         }
       ],
       "tomorrow": {
-        "date": "2025-12-26",
-        "high_f": 7,
-        "low_f": 5,
+        "date": "2025-12-27",
+        "high_f": 16,
+        "low_f": 16,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -179,7 +179,8 @@
     ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
-      "3 more trails open than yesterday"
+      "3 more trails open than yesterday",
+      "8\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Hayburner - challenging for advanced skiers",
@@ -188,14 +189,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "More Mountain to Explore",
-    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. Rope drop! 4 trails opened overnight, expanding your playground significantly.",
+    "headline": "Boom Boom Pow!",
+    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. Rope drop! 4 trails opened overnight, expanding your playground significantly. Big things coming. 8\" in the forecast—might be time to book that midweek day off.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
@@ -209,15 +210,21 @@
           "category": "terrain",
           "priority": 85,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 7,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
+        "previousHeadline": "More Mountain to Explore"
       },
       "dayOfWeek": "Friday"
     }

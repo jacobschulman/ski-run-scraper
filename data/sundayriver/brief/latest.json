@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-26",
-  "generated": "2025-12-26T11:16:08.775Z",
+  "generated": "2025-12-26T12:37:52.624Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 87,
+          "today": 88,
           "yesterday": 87,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 63,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Peak Easy",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Peak Easy",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -44,23 +56,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-25",
-        "high_f": null,
-        "low_f": -1,
+        "date": "2025-12-26",
+        "high_f": 9,
+        "low_f": 5,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-26",
-          "high_f": 9,
-          "low_f": 5,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-27",
           "high_f": 17,
@@ -78,13 +81,22 @@
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
+        },
+        {
+          "date": "2025-12-29",
+          "high_f": 30,
+          "low_f": 14,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 8,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 8
         }
       ],
       "tomorrow": {
-        "date": "2025-12-26",
-        "high_f": 9,
-        "low_f": 5,
-        "description": "Windy",
+        "date": "2025-12-27",
+        "high_f": 17,
+        "low_f": 17,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -95,27 +107,32 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "1 new trail opened today",
+      "1 trail freshly groomed"
     ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Peak Easy - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "A fresh 1\" coating has things skiing better than yesterday. Small gifts matter. Light snow possible in the forecast.",
+    "headline": "Winter's Coming Back",
+    "body": "A fresh 1\" coating has things skiing better than yesterday. Small gifts matter. The ski patrol has been busy—1 additional trail is now yours to enjoy. A significant storm is brewing with 9\" expected over the next few days. Plan accordingly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
@@ -125,19 +142,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
           "category": "weather",
-          "priority": 30,
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 3,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Friday"
     }

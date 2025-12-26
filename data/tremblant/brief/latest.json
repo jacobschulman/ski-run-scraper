@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-26",
-  "generated": "2025-12-26T11:16:08.753Z",
+  "generated": "2025-12-26T12:37:52.605Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -14,7 +14,7 @@
       "7day_inches": 15,
       "7day_cm": 39,
       "season_total_inches": 87,
-      "season_total_cm": 220,
+      "season_total_cm": 222,
       "conditions": {
         "today": "Machine Groomed",
         "yesterday": "Machine Groomed"
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 110,
           "yesterday": 110,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 61,
+          "today": 60,
           "yesterday": 61,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 129
       },
@@ -38,11 +38,6 @@
         {
           "name": "Dernier Cri",
           "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
-          "name": "Le Plateau",
-          "difficulty": "Difficult",
           "area": "South Side"
         },
         {
@@ -64,11 +59,6 @@
         }
       ],
       "newlyGroomed": [
-        {
-          "name": "Le Plateau",
-          "difficulty": "Difficult",
-          "area": "South Side"
-        },
         {
           "name": "La Griffe",
           "difficulty": "Very Difficult",
@@ -100,27 +90,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-25",
-        "high_f": null,
-        "low_f": -4,
-        "high_c": null,
-        "low_c": -20,
-        "description": "Windy",
+        "date": "2025-12-26",
+        "high_f": 8,
+        "low_f": 7,
+        "high_c": -14,
+        "low_c": -14,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-26",
-          "high_f": 8,
-          "low_f": 7,
-          "high_c": -14,
-          "low_c": -14,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-27",
           "high_f": 16,
@@ -142,15 +121,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-29",
+          "high_f": 27,
+          "low_f": 12,
+          "high_c": -3,
+          "low_c": -11,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 6
         }
       ],
       "tomorrow": {
-        "date": "2025-12-26",
-        "high_f": 8,
-        "low_f": 7,
-        "high_c": -14,
-        "low_c": -14,
-        "description": "Mostly Cloudy",
+        "date": "2025-12-27",
+        "high_f": 16,
+        "low_f": 13,
+        "high_c": -9,
+        "low_c": -11,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -166,27 +156,26 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "3 new trails opened today",
-      "2 trails freshly groomed"
+      "2 new trails opened today",
+      "1 trail freshly groomed"
     ],
     "trends": [
       "Great week for snow - 15\" in last 7 days",
-      "1 more trail open than yesterday"
+      "6\" snow expected Monday"
     ],
     "recommendations": [
-      "Fresh corduroy on Le Plateau - all skill levels",
       "Fresh corduroy on La Griffe - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "New Runs Now Open",
-    "body": "A light refresh of 5\" overnight makes the groomers smoother and the off-piste a bit softer. 3 new runs just opened up. Time to explore some fresh terrain.",
+    "headline": "❄️ Storm on the Horizon ❄️",
+    "body": "A light refresh of 5\" overnight makes the groomers smoother and the off-piste a bit softer. 2 trails opened today expanding access to fresh terrain. Winter has more to say. 6\" forecasted means conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
@@ -196,19 +185,25 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_new_trails_opened",
           "category": "terrain",
-          "priority": 85,
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_major",
+          "category": "weather",
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "terrain_expansion",
+        "condition": "storm_major",
         "variationIndex": 0,
-        "totalVariations": 6,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Terrain is Expanding"
+        "previousHeadline": "New Runs Now Open"
       },
       "dayOfWeek": "Friday"
     }
