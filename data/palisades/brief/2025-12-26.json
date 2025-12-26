@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2025-12-26",
-  "generated": "2025-12-26T17:14:59.053Z",
+  "generated": "2025-12-26T18:24:36.499Z",
   "rawData": {
     "snow": {
       "overnight_inches": 15,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 2,
+          "today": 3,
           "yesterday": 2,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Julia's Gold",
+          "difficulty": "Intermediate",
+          "area": "KT Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -86,14 +92,14 @@
           "low_f": 26,
           "high_c": 0,
           "low_c": -4,
-          "description": "Mostly Sunny",
+          "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2025-12-29",
-          "high_f": 37,
+          "high_f": 38,
           "low_f": 32,
           "high_c": 3,
           "low_c": 0,
@@ -120,16 +126,18 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": true
     },
     "alerts": [
       "15\" fresh snow overnight",
-      "21\" in last 24 hours - powder day!"
+      "21\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
       "Great week for snow - 64\" in last 7 days",
+      "1 more trail open than yesterday",
       "High demand yesterday - average wait time 735.5 min"
     ],
     "recommendations": [
@@ -137,8 +145,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "Deep Day at Palisades Tahoe",
-    "body": "Powder alert! 21\" of fresh overnight means soft conditions across the entire mountain. Watch for crowds at Exhibition, which peaked around 1235 minutes yesterday. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "21\" of Fresh Overnight",
+    "body": "Powder alert! 21\" of fresh overnight means soft conditions across the entire mountain. 1 new run just opened up. Time to explore some fresh terrain. Watch for crowds at Exhibition, which peaked around 1235 minutes yesterday.",
     "debug": {
       "firedRules": [
         {
@@ -154,25 +162,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_watch_crowds",
           "category": "lifts",
           "priority": 80,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_snow_today_tomorrow",
-          "category": "weather",
-          "priority": 85,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 1,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+        "previousHeadline": "Deep Day at {resortName}"
       },
       "dayOfWeek": "Friday"
     }
