@@ -14,6 +14,7 @@
       --muted: #9bb3d1;
       --accent: #7bd8ff;
       --accent-2: #9b7bff;
+      --accent-3: #ff9b7b;
       --positive: #7bffc3;
       --negative: #ff8f87;
       --warning: #ffcc66;
@@ -33,7 +34,7 @@
       padding: 24px;
     }
 
-    .page { max-width: 1100px; margin: 0 auto; }
+    .page { max-width: 1200px; margin: 0 auto; }
 
     h1 { margin: 0; font-size: 1.8rem; letter-spacing: -0.02em; }
     h2 { margin: 0 0 12px; font-size: 1.2rem; color: var(--muted); }
@@ -61,6 +62,7 @@
 
     .status-pill.online { border-color: rgba(123, 255, 195, 0.4); }
     .status-pill.offline { border-color: rgba(255, 143, 135, 0.4); }
+    .status-pill.degraded { border-color: rgba(255, 204, 102, 0.4); }
 
     .pulse {
       width: 10px;
@@ -80,7 +82,9 @@
 
     .grid { display: grid; gap: 16px; margin-bottom: 24px; }
     .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
     .grid-4 { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+    .grid-5 { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
 
     .card {
       background: var(--card);
@@ -102,6 +106,8 @@
       font-weight: 700;
       line-height: 1;
     }
+
+    .stat-value.small { font-size: 1.6rem; }
 
     .stat-label {
       font-size: 0.85rem;
@@ -128,39 +134,64 @@
     .warning { color: var(--warning); }
     .accent { color: var(--accent); }
 
-    .log-container {
-      background: rgba(0, 0, 0, 0.3);
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 10px 20px;
       border-radius: 10px;
-      padding: 14px;
-      max-height: 300px;
-      overflow-y: auto;
-      font-family: "SF Mono", "Fira Code", monospace;
-      font-size: 0.85rem;
-      line-height: 1.6;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.15s ease;
     }
 
-    .log-entry {
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    .tab:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
     }
 
-    .log-time { color: var(--muted); margin-right: 12px; }
-    .log-ikon { color: var(--accent); }
-    .log-vail { color: var(--accent-2); }
+    .tab.active {
+      background: rgba(123, 216, 255, 0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tab.active.snow {
+      background: rgba(155, 123, 255, 0.15);
+      border-color: var(--accent-2);
+      color: var(--accent-2);
+    }
+
+    .tab.active.terrain {
+      background: rgba(255, 155, 123, 0.15);
+      border-color: var(--accent-3);
+      color: var(--accent-3);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
 
     .resort-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 10px;
-      max-height: 400px;
+      max-height: 500px;
       overflow-y: auto;
     }
 
     .resort-chip {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
+      flex-direction: column;
+      padding: 12px 14px;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 10px;
@@ -176,22 +207,21 @@
       transform: translateY(-1px);
     }
 
-    .resort-chip .name { font-weight: 500; }
-    .resort-chip .count { color: var(--muted); font-size: 0.85rem; }
+    .resort-chip .name { font-weight: 600; margin-bottom: 6px; }
+    .resort-chip .meta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .resort-chip .meta-item { display: flex; align-items: center; gap: 4px; }
+    .resort-chip .meta-item.stale { color: var(--warning); }
+    .resort-chip .meta-item.fresh { color: var(--positive); }
 
     .refresh-info {
       font-size: 0.85rem;
       color: var(--muted);
-    }
-
-    .data-path {
-      background: rgba(0,0,0,0.3);
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-family: monospace;
-      font-size: 0.9rem;
-      color: var(--accent);
-      word-break: break-all;
     }
 
     .endpoint-list {
@@ -241,6 +271,42 @@
       margin-bottom: 20px;
       color: var(--negative);
     }
+
+    .scraper-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .scraper-badge.lift { background: rgba(123, 216, 255, 0.2); color: var(--accent); }
+    .scraper-badge.snow { background: rgba(155, 123, 255, 0.2); color: var(--accent-2); }
+    .scraper-badge.terrain { background: rgba(255, 155, 123, 0.2); color: var(--accent-3); }
+
+    .mini-stat {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .mini-stat .label { color: var(--muted); }
+    .mini-stat .value { font-weight: 600; margin-left: auto; }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
   </style>
 </head>
 <body>
@@ -259,116 +325,279 @@
     <div id="error-banner" class="error-banner" style="display: none;"></div>
 
     <!-- Quick Stats -->
-    <div class="grid grid-4" id="quick-stats">
+    <div class="grid grid-5" id="quick-stats">
       <div class="card stat-card">
-        <div class="stat-value" id="uptime">--</div>
-        <div class="stat-label">Uptime</div>
+        <div class="stat-value small" id="uptime">--</div>
+        <div class="stat-label">Server Uptime</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-value" id="total-runs">--</div>
-        <div class="stat-label">Total Runs</div>
+        <div class="stat-value small" id="lift-runs">--</div>
+        <div class="stat-label">Lift Runs</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-value" id="total-resorts">--</div>
-        <div class="stat-label">Resorts</div>
+        <div class="stat-value small" id="snow-runs">--</div>
+        <div class="stat-label">Snow Runs</div>
       </div>
       <div class="card stat-card">
-        <div class="stat-value" id="total-lifts">--</div>
-        <div class="stat-label">Lift Records</div>
+        <div class="stat-value small" id="terrain-runs">--</div>
+        <div class="stat-label">Terrain Runs</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value small" id="total-resorts">--</div>
+        <div class="stat-label">Active Resorts</div>
       </div>
     </div>
 
-    <!-- Scraper Status -->
-    <div class="grid grid-2">
-      <div class="card scraper-card">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active lift" data-tab="lift">Lift Scraper</button>
+      <button class="tab snow" data-tab="snow">Snow Scraper</button>
+      <button class="tab terrain" data-tab="terrain">Terrain Scraper</button>
+      <button class="tab" data-tab="resorts">Resort Status</button>
+      <button class="tab" data-tab="api">API Endpoints</button>
+    </div>
+
+    <!-- Lift Tab -->
+    <div class="tab-content active" id="tab-lift">
+      <div class="grid grid-2">
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Ikon (HTTP API)</h3>
+            <span id="lift-ikon-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Run</span>
+            <span class="value" id="lift-ikon-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Success</span>
+            <span class="value" id="lift-ikon-last-success">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Runs</span>
+            <span class="value" id="lift-ikon-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Consecutive Failures</span>
+            <span class="value" id="lift-ikon-failures">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Interval</span>
+            <span class="value">2.5 minutes</span>
+          </div>
+        </div>
+
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Vail (Puppeteer)</h3>
+            <span id="lift-vail-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Run</span>
+            <span class="value" id="lift-vail-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Success</span>
+            <span class="value" id="lift-vail-last-success">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Runs</span>
+            <span class="value" id="lift-vail-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Consecutive Failures</span>
+            <span class="value" id="lift-vail-failures">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Interval</span>
+            <span class="value">3 minutes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 16px;">
         <div class="card-header">
-          <h3>Ikon Scraper</h3>
-          <span id="ikon-status" class="pulse"></span>
+          <h3>Latest Lift Data</h3>
+          <span class="refresh-info" id="lift-data-timestamp">--</span>
         </div>
-        <div class="status-row">
-          <span class="label">Last Run</span>
-          <span class="value" id="ikon-last-run">--</span>
+        <div class="resort-grid" id="lift-resort-grid">
+          <div class="loading">Loading lift data...</div>
         </div>
-        <div class="status-row">
-          <span class="label">Last Success</span>
-          <span class="value" id="ikon-last-success">--</span>
+      </div>
+    </div>
+
+    <!-- Snow Tab -->
+    <div class="tab-content" id="tab-snow">
+      <div class="grid grid-2">
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Ikon (HTTP API)</h3>
+            <span id="snow-ikon-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Run</span>
+            <span class="value" id="snow-ikon-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Success</span>
+            <span class="value" id="snow-ikon-last-success">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Runs</span>
+            <span class="value" id="snow-ikon-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Resorts Scraped</span>
+            <span class="value" id="snow-ikon-resorts">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Interval</span>
+            <span class="value">30 minutes</span>
+          </div>
         </div>
-        <div class="status-row">
-          <span class="label">Total Runs</span>
-          <span class="value" id="ikon-total-runs">--</span>
+
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Vail (Puppeteer)</h3>
+            <span id="snow-vail-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Run</span>
+            <span class="value" id="snow-vail-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Success</span>
+            <span class="value" id="snow-vail-last-success">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Runs</span>
+            <span class="value" id="snow-vail-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Resorts Scraped</span>
+            <span class="value" id="snow-vail-resorts">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Interval</span>
+            <span class="value">30 minutes</span>
+          </div>
         </div>
-        <div class="status-row">
-          <span class="label">Failures</span>
-          <span class="value" id="ikon-failures">--</span>
+      </div>
+    </div>
+
+    <!-- Terrain Tab -->
+    <div class="tab-content" id="tab-terrain">
+      <div class="card" style="margin-bottom: 16px;">
+        <p style="color: var(--muted); margin: 0;">
+          Terrain scraper runs once per day per resort during their local morning (7-10 AM) to capture overnight grooming data.
+        </p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Ikon (HTTP API)</h3>
+            <span id="terrain-ikon-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Check</span>
+            <span class="value" id="terrain-ikon-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Scrapes</span>
+            <span class="value" id="terrain-ikon-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Resorts Scraped Today</span>
+            <span class="value" id="terrain-ikon-resorts">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Check Interval</span>
+            <span class="value">15 minutes</span>
+          </div>
         </div>
-        <div class="status-row">
-          <span class="label">Interval</span>
-          <span class="value">60 seconds</span>
+
+        <div class="card scraper-card">
+          <div class="card-header">
+            <h3>Vail (Puppeteer)</h3>
+            <span id="terrain-vail-status" class="pulse"></span>
+          </div>
+          <div class="status-row">
+            <span class="label">Last Check</span>
+            <span class="value" id="terrain-vail-last-run">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Total Scrapes</span>
+            <span class="value" id="terrain-vail-total-runs">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Resorts Scraped Today</span>
+            <span class="value" id="terrain-vail-resorts">--</span>
+          </div>
+          <div class="status-row">
+            <span class="label">Check Interval</span>
+            <span class="value">15 minutes</span>
+          </div>
         </div>
       </div>
 
-      <div class="card scraper-card">
+      <div class="card" style="margin-top: 16px;">
+        <h3 style="margin-bottom: 14px;">Today's Terrain Scrapes</h3>
+        <div id="terrain-scraped-today" class="resort-grid">
+          <div class="loading">Loading terrain data...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resort Status Tab -->
+    <div class="tab-content" id="tab-resorts">
+      <div class="card">
         <div class="card-header">
-          <h3>Vail Scraper (Puppeteer)</h3>
-          <span id="vail-status" class="pulse"></span>
+          <h3>Per-Resort Scrape Status</h3>
+          <span class="refresh-info" id="resort-timestamp">--</span>
         </div>
-        <div class="status-row">
-          <span class="label">Last Run</span>
-          <span class="value" id="vail-last-run">--</span>
-        </div>
-        <div class="status-row">
-          <span class="label">Last Success</span>
-          <span class="value" id="vail-last-success">--</span>
-        </div>
-        <div class="status-row">
-          <span class="label">Total Runs</span>
-          <span class="value" id="vail-total-runs">--</span>
-        </div>
-        <div class="status-row">
-          <span class="label">Failures</span>
-          <span class="value" id="vail-failures">--</span>
-        </div>
-        <div class="status-row">
-          <span class="label">Interval</span>
-          <span class="value">150 seconds</span>
+        <div class="resort-grid" id="resort-status-grid">
+          <div class="loading">Loading resort status...</div>
         </div>
       </div>
     </div>
 
-    <!-- API Endpoints -->
-    <div class="card" style="margin-bottom: 24px;">
-      <h3 style="margin-bottom: 14px;">API Endpoints</h3>
-      <div class="endpoint-list" id="endpoints">
-        <div class="endpoint">
-          <span class="method">GET</span>
-          <a href="/health" target="_blank">/health</a>
-          <span style="color: var(--muted); margin-left: auto;">Server & scraper status</span>
+    <!-- API Tab -->
+    <div class="tab-content" id="tab-api">
+      <div class="card">
+        <h3 style="margin-bottom: 14px;">API Endpoints</h3>
+        <div class="endpoint-list">
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <a href="/health" target="_blank">/health</a>
+            <span style="color: var(--muted); margin-left: auto;">All scrapers status</span>
+          </div>
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <a href="/health/resorts" target="_blank">/health/resorts</a>
+            <span style="color: var(--muted); margin-left: auto;">Per-resort scrape status</span>
+          </div>
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <a href="/data/latest-lifts.json" target="_blank">/data/latest-lifts.json</a>
+            <span style="color: var(--muted); margin-left: auto;">All resorts, latest lift data</span>
+          </div>
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <span style="color: var(--accent)">/data/{resort}/lifts/{date}.ndjson</span>
+            <span style="color: var(--muted); margin-left: auto;">Historical lift data</span>
+          </div>
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <span style="color: var(--accent)">/data/{resort}/snow/latest.json</span>
+            <span style="color: var(--muted); margin-left: auto;">Latest snow report</span>
+          </div>
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <span style="color: var(--accent)">/data/{resort}/terrain/latest.json</span>
+            <span style="color: var(--muted); margin-left: auto;">Latest terrain status</span>
+          </div>
         </div>
-        <div class="endpoint">
-          <span class="method">GET</span>
-          <a href="/data/latest-lifts.json" target="_blank">/data/latest-lifts.json</a>
-          <span style="color: var(--muted); margin-left: auto;">All resorts, latest data</span>
-        </div>
-        <div class="endpoint">
-          <span class="method">GET</span>
-          <span style="color: var(--accent)">/data/{resort}/lifts/{date}.ndjson</span>
-          <span style="color: var(--muted); margin-left: auto;">Historical data</span>
-        </div>
-      </div>
-      <div style="margin-top: 14px;">
-        <div class="label" style="margin-bottom: 6px;">Data Directory</div>
-        <div class="data-path" id="data-path">/home/scraper/ski-run-scraper/data</div>
-      </div>
-    </div>
-
-    <!-- Resort Overview -->
-    <div class="card">
-      <div class="card-header">
-        <h3>Resort Data (Latest)</h3>
-        <span class="refresh-info" id="data-timestamp">--</span>
-      </div>
-      <div class="resort-grid" id="resort-grid">
-        <div class="loading">Loading resort data...</div>
       </div>
     </div>
   </div>
@@ -376,11 +605,15 @@
   <script>
     const API_BASE = window.location.origin;
 
-    function formatTime(isoString) {
-      if (!isoString) return '--';
-      const date = new Date(isoString);
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    }
+    // Tab handling
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(`tab-${tab.dataset.tab}`).classList.add('active');
+      });
+    });
 
     function formatTimeAgo(isoString) {
       if (!isoString) return '--';
@@ -393,20 +626,25 @@
 
     function formatUptime(seconds) {
       if (!seconds) return '--';
-      const h = Math.floor(seconds / 3600);
+      const d = Math.floor(seconds / 86400);
+      const h = Math.floor((seconds % 86400) / 3600);
       const m = Math.floor((seconds % 3600) / 60);
-      const s = Math.floor(seconds % 60);
+      if (d > 0) return `${d}d ${h}h`;
       if (h > 0) return `${h}h ${m}m`;
-      if (m > 0) return `${m}m ${s}s`;
-      return `${s}s`;
+      return `${m}m`;
     }
 
     function getStatusClass(scraper) {
-      if (!scraper.lastSuccess) return 'yellow';
+      if (!scraper || !scraper.lastSuccess) return 'yellow';
       const secondsSinceSuccess = (Date.now() - new Date(scraper.lastSuccess)) / 1000;
       if (scraper.consecutiveFailures > 0) return 'yellow';
-      if (secondsSinceSuccess > 300) return 'yellow';
+      if (secondsSinceSuccess > 600) return 'yellow';
       return 'green';
+    }
+
+    function renderFailures(count) {
+      if (count > 0) return `<span class="negative">${count}</span>`;
+      return `<span class="positive">0</span>`;
     }
 
     async function fetchHealth() {
@@ -417,38 +655,85 @@
 
         // Server status
         const statusEl = document.getElementById('server-status');
-        statusEl.innerHTML = `<span class="pulse green"></span><span>Online</span>`;
-        statusEl.className = 'status-pill online';
+        const statusClass = data.status === 'ok' ? 'online' : data.status === 'degraded' ? 'degraded' : 'offline';
+        const pulseClass = data.status === 'ok' ? 'green' : data.status === 'degraded' ? 'yellow' : 'red';
+        statusEl.innerHTML = `<span class="pulse ${pulseClass}"></span><span>${data.status === 'ok' ? 'Online' : data.status}</span>`;
+        statusEl.className = `status-pill ${statusClass}`;
 
-        // Hide error banner
         document.getElementById('error-banner').style.display = 'none';
 
         // Quick stats
         document.getElementById('uptime').textContent = formatUptime(data.uptime);
-        document.getElementById('total-runs').textContent =
-          (data.scraper?.ikon?.totalRuns || 0) + (data.scraper?.vail?.totalRuns || 0);
 
-        // Ikon status
-        const ikon = data.scraper?.ikon || {};
-        document.getElementById('ikon-status').className = `pulse ${getStatusClass(ikon)}`;
-        document.getElementById('ikon-last-run').textContent = formatTimeAgo(ikon.lastRun);
-        document.getElementById('ikon-last-success').textContent = formatTimeAgo(ikon.lastSuccess);
-        document.getElementById('ikon-total-runs').textContent = ikon.totalRuns || 0;
-        document.getElementById('ikon-failures').innerHTML =
-          ikon.consecutiveFailures > 0
-            ? `<span class="negative">${ikon.consecutiveFailures}</span>`
-            : `<span class="positive">0</span>`;
+        const scrapers = data.scrapers || {};
 
-        // Vail status
-        const vail = data.scraper?.vail || {};
-        document.getElementById('vail-status').className = `pulse ${getStatusClass(vail)}`;
-        document.getElementById('vail-last-run').textContent = formatTimeAgo(vail.lastRun);
-        document.getElementById('vail-last-success').textContent = formatTimeAgo(vail.lastSuccess);
-        document.getElementById('vail-total-runs').textContent = vail.totalRuns || 0;
-        document.getElementById('vail-failures').innerHTML =
-          vail.consecutiveFailures > 0
-            ? `<span class="negative">${vail.consecutiveFailures}</span>`
-            : `<span class="positive">0</span>`;
+        // Lift scraper stats
+        const lift = scrapers.lift || {};
+        const liftIkon = lift.ikon || {};
+        const liftVail = lift.vail || {};
+        document.getElementById('lift-runs').textContent = (liftIkon.totalRuns || 0) + (liftVail.totalRuns || 0);
+
+        document.getElementById('lift-ikon-status').className = `pulse ${getStatusClass(liftIkon)}`;
+        document.getElementById('lift-ikon-last-run').textContent = formatTimeAgo(liftIkon.lastRun);
+        document.getElementById('lift-ikon-last-success').textContent = formatTimeAgo(liftIkon.lastSuccess);
+        document.getElementById('lift-ikon-total-runs').textContent = liftIkon.totalRuns || 0;
+        document.getElementById('lift-ikon-failures').innerHTML = renderFailures(liftIkon.consecutiveFailures || 0);
+
+        document.getElementById('lift-vail-status').className = `pulse ${getStatusClass(liftVail)}`;
+        document.getElementById('lift-vail-last-run').textContent = formatTimeAgo(liftVail.lastRun);
+        document.getElementById('lift-vail-last-success').textContent = formatTimeAgo(liftVail.lastSuccess);
+        document.getElementById('lift-vail-total-runs').textContent = liftVail.totalRuns || 0;
+        document.getElementById('lift-vail-failures').innerHTML = renderFailures(liftVail.consecutiveFailures || 0);
+
+        // Snow scraper stats
+        const snow = scrapers.snow || {};
+        const snowIkon = snow.ikon || {};
+        const snowVail = snow.vail || {};
+        document.getElementById('snow-runs').textContent = (snowIkon.totalRuns || 0) + (snowVail.totalRuns || 0);
+
+        document.getElementById('snow-ikon-status').className = `pulse ${getStatusClass(snowIkon)}`;
+        document.getElementById('snow-ikon-last-run').textContent = formatTimeAgo(snowIkon.lastRun);
+        document.getElementById('snow-ikon-last-success').textContent = formatTimeAgo(snowIkon.lastSuccess);
+        document.getElementById('snow-ikon-total-runs').textContent = snowIkon.totalRuns || 0;
+        document.getElementById('snow-ikon-resorts').textContent = snowIkon.resortsScraped || 0;
+
+        document.getElementById('snow-vail-status').className = `pulse ${getStatusClass(snowVail)}`;
+        document.getElementById('snow-vail-last-run').textContent = formatTimeAgo(snowVail.lastRun);
+        document.getElementById('snow-vail-last-success').textContent = formatTimeAgo(snowVail.lastSuccess);
+        document.getElementById('snow-vail-total-runs').textContent = snowVail.totalRuns || 0;
+        document.getElementById('snow-vail-resorts').textContent = snowVail.resortsScraped || 0;
+
+        // Terrain scraper stats
+        const terrain = scrapers.terrain || {};
+        const terrainIkon = terrain.ikon || {};
+        const terrainVail = terrain.vail || {};
+        document.getElementById('terrain-runs').textContent = (terrainIkon.totalRuns || 0) + (terrainVail.totalRuns || 0);
+
+        document.getElementById('terrain-ikon-status').className = `pulse ${getStatusClass(terrainIkon)}`;
+        document.getElementById('terrain-ikon-last-run').textContent = formatTimeAgo(terrainIkon.lastRun);
+        document.getElementById('terrain-ikon-total-runs').textContent = terrainIkon.totalRuns || 0;
+        document.getElementById('terrain-ikon-resorts').textContent = terrainIkon.resortsScraped || 0;
+
+        document.getElementById('terrain-vail-status').className = `pulse ${getStatusClass(terrainVail)}`;
+        document.getElementById('terrain-vail-last-run').textContent = formatTimeAgo(terrainVail.lastRun);
+        document.getElementById('terrain-vail-total-runs').textContent = terrainVail.totalRuns || 0;
+        document.getElementById('terrain-vail-resorts').textContent = terrainVail.resortsScraped || 0;
+
+        // Terrain scraped today
+        const scrapedToday = terrain.scrapedToday || {};
+        const scrapedGrid = document.getElementById('terrain-scraped-today');
+        const scrapedEntries = Object.entries(scrapedToday);
+        if (scrapedEntries.length > 0) {
+          scrapedGrid.innerHTML = scrapedEntries.map(([key, timestamp]) => {
+            const [resort] = key.split(':');
+            return `<div class="resort-chip">
+              <span class="name">${resort}</span>
+              <span class="meta"><span class="meta-item fresh">Scraped ${formatTimeAgo(new Date(timestamp).toISOString())}</span></span>
+            </div>`;
+          }).join('');
+        } else {
+          scrapedGrid.innerHTML = '<div class="loading">No terrain scraped today yet</div>';
+        }
 
       } catch (err) {
         console.error('Health fetch error:', err);
@@ -456,8 +741,7 @@
         statusEl.innerHTML = `<span class="pulse red"></span><span>Offline</span>`;
         statusEl.className = 'status-pill offline';
 
-        document.getElementById('error-banner').textContent =
-          `Failed to connect to server: ${err.message}`;
+        document.getElementById('error-banner').textContent = `Failed to connect to server: ${err.message}`;
         document.getElementById('error-banner').style.display = 'block';
       }
     }
@@ -469,43 +753,87 @@
         const data = await res.json();
 
         const resorts = Object.entries(data.resorts || {});
-        let totalLifts = 0;
-
         document.getElementById('total-resorts').textContent = resorts.length;
 
-        const grid = document.getElementById('resort-grid');
+        const grid = document.getElementById('lift-resort-grid');
         grid.innerHTML = resorts
           .map(([key, resort]) => {
             const lifts = resort.lifts || [];
-            totalLifts += lifts.length;
             const openLifts = lifts.filter(l => l.status === 'Open').length;
+            const age = formatTimeAgo(resort.timestamp);
+            const isStale = (Date.now() - new Date(resort.timestamp)) > 600000; // 10 min
             return `
               <a href="/lifts.html?resort=${encodeURIComponent(key)}" class="resort-chip">
                 <span class="name">${key}</span>
-                <span class="count">${openLifts}/${lifts.length} open</span>
+                <span class="meta">
+                  <span class="meta-item">${openLifts}/${lifts.length} lifts open</span>
+                  <span class="meta-item ${isStale ? 'stale' : 'fresh'}">${age}</span>
+                </span>
               </a>
             `;
           })
           .join('');
 
-        document.getElementById('total-lifts').textContent = totalLifts;
-        document.getElementById('data-timestamp').textContent =
-          `Generated ${formatTimeAgo(data.generated)}`;
+        document.getElementById('lift-data-timestamp').textContent = `Generated ${formatTimeAgo(data.generated)}`;
 
       } catch (err) {
         console.error('Lift data fetch error:', err);
-        document.getElementById('resort-grid').innerHTML =
-          `<div class="loading">Failed to load: ${err.message}</div>`;
+        document.getElementById('lift-resort-grid').innerHTML = `<div class="loading">Failed to load: ${err.message}</div>`;
+      }
+    }
+
+    async function fetchResortStatus() {
+      try {
+        const res = await fetch(`${API_BASE}/health/resorts`);
+        if (!res.ok) throw new Error('Failed to fetch resort status');
+        const data = await res.json();
+
+        const grid = document.getElementById('resort-status-grid');
+        const resorts = Object.entries(data.resorts || {});
+
+        grid.innerHTML = resorts.map(([key, status]) => {
+          const items = [];
+
+          if (status.lifts) {
+            const isStale = (Date.now() - new Date(status.lifts.lastModified)) > 600000;
+            items.push(`<span class="meta-item ${isStale ? 'stale' : 'fresh'}">Lifts: ${formatTimeAgo(status.lifts.lastModified)}</span>`);
+          }
+
+          if (status.snow) {
+            const isStale = (Date.now() - new Date(status.snow.lastScraped)) > 7200000; // 2hr
+            items.push(`<span class="meta-item ${isStale ? 'stale' : 'fresh'}">Snow: ${formatTimeAgo(status.snow.lastScraped)}</span>`);
+          }
+
+          if (status.terrain) {
+            const isStale = (Date.now() - new Date(status.terrain.lastScraped)) > 86400000; // 24hr
+            items.push(`<span class="meta-item ${isStale ? 'stale' : 'fresh'}">Terrain: ${formatTimeAgo(status.terrain.lastScraped)}</span>`);
+          }
+
+          return `
+            <div class="resort-chip">
+              <span class="name">${key}</span>
+              <span class="meta">${items.join('')}</span>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('resort-timestamp').textContent = `Generated ${formatTimeAgo(data.generated)}`;
+
+      } catch (err) {
+        console.error('Resort status fetch error:', err);
+        document.getElementById('resort-status-grid').innerHTML = `<div class="loading">Failed to load: ${err.message}</div>`;
       }
     }
 
     // Initial fetch
     fetchHealth();
     fetchLatestLifts();
+    fetchResortStatus();
 
     // Auto-refresh
     setInterval(fetchHealth, 10000);
     setInterval(fetchLatestLifts, 30000);
+    setInterval(fetchResortStatus, 60000);
   </script>
 </body>
 </html>

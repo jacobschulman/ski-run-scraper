@@ -11,12 +11,12 @@ const { formatInTimeZone } = require('date-fns-tz');
 // Configuration
 const CONFIG = {
   ikon: {
-    intervalMs: 60 * 1000,      // 1 minute
-    jitterMs: 5000,             // 0-5 seconds random jitter
+    intervalMs: 150 * 1000,     // 2.5 minutes (reduced from 1min - no need to hit APIs so often)
+    jitterMs: 15000,            // 0-15 seconds random jitter
   },
   vail: {
-    intervalMs: 150 * 1000,     // 2.5 minutes
-    jitterMs: 15000,            // 0-15 seconds random jitter
+    intervalMs: 180 * 1000,     // 3 minutes (increased slightly for less aggressive scraping)
+    jitterMs: 20000,            // 0-20 seconds random jitter
     batchSize: 6,               // Reduced for 8GB RAM
     browserRestartEvery: 30,    // Restart browser every 30 runs
   },
