@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-26",
-  "generated": "2025-12-26T10:23:19.291Z",
+  "generated": "2025-12-26T11:16:08.771Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,21 +23,95 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 52,
+          "today": 55,
           "yesterday": 52,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 39,
+          "today": 46,
           "yesterday": 39,
-          "delta": 0
+          "delta": 7
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Lombard X-Cut",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Lower Whiffletree",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Upper Whiffletree",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Lower Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Alice's Winterland Glade",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Competition Hill",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lombard X-Cut",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Upper Whiffletree",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Lower Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -95,26 +169,33 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "4 new trails opened today",
+      "8 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 12\" in last 7 days"
+      "Great week for snow - 12\" in last 7 days",
+      "3 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Lower Competition Hill - perfect for intermediate skiers",
+      "Fresh corduroy on Upper Competition Hill - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 3\" Fresh",
-    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter.",
+    "headline": "More Mountain to Explore",
+    "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. Rope drop! 4 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -122,15 +203,21 @@
           "category": "snow",
           "priority": 80,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "terrain_expansion",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Friday"
     }
