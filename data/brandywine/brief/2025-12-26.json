@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2025-12-26",
-  "generated": "2025-12-26T20:18:24.213Z",
+  "generated": "2025-12-26T21:15:17.608Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 3,
           "yesterday": 0,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 11
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Frosty",
+          "difficulty": "Green",
+          "area": "Brandywine"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Blue",
+          "area": "Brandywine"
+        },
+        {
+          "name": "Regulator Johnston",
+          "difficulty": "Black",
+          "area": "Brandywine"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -53,8 +69,8 @@
       "today": {
         "date": "2025-12-26",
         "high_f": 44,
-        "low_f": 28,
-        "high_c": 7,
+        "low_f": 27,
+        "high_c": 6,
         "low_c": -3,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
@@ -88,8 +104,8 @@
           "high_f": 60,
           "low_f": 24,
           "high_c": 15,
-          "low_c": -4,
-          "description": "Scattered T-Storms",
+          "low_c": -5,
+          "description": "Rain/Snow",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
           "snowfall_expected": 2
@@ -112,41 +128,56 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "2\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "No trails open yet. Current forecast: Cloudy with a high of 44°F.",
+    "headline": "3 New Trails Today",
+    "body": "3/11 trails spinning, 0 freshly groomed. 44° and Cloudy. 3 more trails are in play today. The groomers are getting stretched thin (in a good way). Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Friday"
     }
