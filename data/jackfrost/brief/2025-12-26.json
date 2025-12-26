@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2025-12-26",
-  "generated": "2025-12-26T10:23:14.790Z",
+  "generated": "2025-12-26T14:17:36.412Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,65 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "totalTrails": 20
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Challenge",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Dematte's Demise",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -100,11 +54,11 @@
         "date": "2025-12-26",
         "high_f": 24,
         "low_f": 15,
-        "high_c": -4,
+        "high_c": -5,
         "low_c": -9,
         "description": "Snow & Wind",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 4
       },
       "outlook": [
         {
@@ -121,17 +75,17 @@
         {
           "date": "2025-12-28T05:00:00Z",
           "high_f": 32,
-          "low_f": 22,
+          "low_f": 23,
           "high_c": null,
-          "low_c": -6,
+          "low_c": -5,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-29T05:00:00Z",
-          "high_f": 44,
+          "high_f": 45,
           "low_f": 21,
           "high_c": 7,
           "low_c": -6,
@@ -163,34 +117,42 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "1\" snow expected Sunday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "No trails open yet. Current forecast: Snow & Wind with a high of 24°F.",
+    "headline": "Cheers to the Weekend!",
+    "body": "9/20 trails spinning, 9 freshly groomed. 24° and Snow & Wind. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 65,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 5,
-        "totalVariations": 6,
+        "condition": "weekend_kickoff",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Loaded"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Friday"
     }
