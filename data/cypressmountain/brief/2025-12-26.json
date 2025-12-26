@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2025-12-26",
-  "generated": "2025-12-26T15:17:44.448Z",
+  "generated": "2025-12-26T16:20:04.529Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 24,
+          "today": 25,
           "yesterday": 24,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 24,
+          "today": 25,
           "yesterday": 24,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "T-33",
+          "difficulty": "Blue",
+          "area": "Sky Quad"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -45,9 +51,9 @@
     "forecast": {
       "today": {
         "date": "2025-12-26",
-        "high_f": 30,
+        "high_f": 29,
         "low_f": 21,
-        "description": "Snow Wind",
+        "description": "Snow",
         "snowfall_day_inches": 7,
         "snowfall_night_inches": 0
       },
@@ -95,24 +101,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Is it the weekend yet?",
-    "body": "24 trails open, 24 groomed. Snow Wind, high of 30°. Light snow possible in the forecast.",
+    "headline": "More Mountain to Explore",
+    "body": "25 trails open, 25 groomed. Snow, high of 29°. Rope drop! 1 trail opened overnight, expanding your playground significantly. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -122,19 +131,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter's Coming Back"
+        "previousHeadline": "Is it the weekend yet?"
       },
       "dayOfWeek": "Friday"
     }
