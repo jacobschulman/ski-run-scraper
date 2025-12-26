@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-26",
-  "generated": "2025-12-26T14:17:39.818Z",
+  "generated": "2025-12-26T15:17:44.416Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 102,
+          "today": 103,
           "yesterday": 102,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 38,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Header",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -123,14 +129,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "2 trails freshly groomed"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Monday"
     ],
     "recommendations": [
@@ -139,14 +147,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Coat on the Mountain",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "The Map Just Got Bigger",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Rope drop! 1 trail opened overnight, expanding your playground significantly. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -156,19 +164,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 0,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Cheers to the Weekend!"
+        "previousHeadline": "Fresh Coat on the Mountain"
       },
       "dayOfWeek": "Friday"
     }
