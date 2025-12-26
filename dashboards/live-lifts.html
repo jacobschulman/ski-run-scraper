@@ -437,10 +437,22 @@
 
       if (dataPoints.length === 0) return null;
 
-      // Calculate scales
-      const minTime = Math.min(openMinutes, ...dataPoints.map(p => p.time));
-      const maxTime = Math.max(closeMinutes, ...dataPoints.map(p => p.time));
+      // Calculate scales - adapt to actual data range, not full operating hours
+      const dataMinTime = Math.min(...dataPoints.map(p => p.time));
+      const dataMaxTime = Math.max(...dataPoints.map(p => p.time));
+      // Use actual data range to fill the graph width effectively
+      const minTime = dataMinTime;
+      const maxTime = dataMaxTime;
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
+
+      // Helper to format minutes as time string for labels
+      const formatMinutes = (mins) => {
+        const h = Math.floor(mins / 60);
+        const m = mins % 60;
+        const hour12 = h % 12 || 12;
+        const ampm = h < 12 ? 'am' : 'pm';
+        return m === 0 ? `${hour12}${ampm}` : `${hour12}:${String(m).padStart(2, '0')}${ampm}`;
+      };
 
       const width = 300;
       const height = 120;
@@ -474,13 +486,13 @@
       yAxis.setAttribute('y2', padding.top + graphHeight);
       svg.appendChild(yAxis);
 
-      // Add time labels
+      // Add time labels - show actual data range
       const startLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       startLabel.setAttribute('class', 'graph-label');
       startLabel.setAttribute('x', padding.left);
       startLabel.setAttribute('y', height - 2);
       startLabel.setAttribute('text-anchor', 'start');
-      startLabel.textContent = openTime || '00:00';
+      startLabel.textContent = formatMinutes(minTime);
       svg.appendChild(startLabel);
 
       const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -488,7 +500,7 @@
       endLabel.setAttribute('x', width - padding.right);
       endLabel.setAttribute('y', height - 2);
       endLabel.setAttribute('text-anchor', 'end');
-      endLabel.textContent = closeTime || '23:59';
+      endLabel.textContent = formatMinutes(maxTime);
       svg.appendChild(endLabel);
 
       // Add max wait label

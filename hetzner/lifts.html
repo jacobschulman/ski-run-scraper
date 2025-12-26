@@ -209,11 +209,21 @@
         };
       }).sort((a, b) => a.time - b.time);
 
-      const openMins = parseTimeToMinutes(openTime) || 480;
-      const closeMins = parseTimeToMinutes(closeTime) || 960;
-      const minTime = Math.min(openMins, ...dataPoints.map(p => p.time));
-      const maxTime = Math.max(closeMins, ...dataPoints.map(p => p.time));
+      // Adapt to actual data range, not full operating hours
+      const dataMinTime = Math.min(...dataPoints.map(p => p.time));
+      const dataMaxTime = Math.max(...dataPoints.map(p => p.time));
+      const minTime = dataMinTime;
+      const maxTime = dataMaxTime;
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
+
+      // Helper to format minutes as time string for labels
+      const formatMinsLabel = (mins) => {
+        const h = Math.floor(mins / 60);
+        const m = mins % 60;
+        const hour12 = h % 12 || 12;
+        const ampm = h < 12 ? 'am' : 'pm';
+        return m === 0 ? `${hour12}${ampm}` : `${hour12}:${String(m).padStart(2, '0')}${ampm}`;
+      };
 
       const width = 300, height = 120;
       const pad = { top: 8, right: 8, bottom: 18, left: 28 };
@@ -239,8 +249,8 @@
         svg.appendChild(line);
       });
 
-      // Labels
-      [[pad.left, 'start', openTime || '8:00'], [width - pad.right, 'end', closeTime || '4:00']].forEach(([x, anchor, text]) => {
+      // Labels - show actual data range
+      [[pad.left, 'start', formatMinsLabel(minTime)], [width - pad.right, 'end', formatMinsLabel(maxTime)]].forEach(([x, anchor, text]) => {
         const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         label.setAttribute('class', 'graph-label');
         label.setAttribute('x', x); label.setAttribute('y', height - 2);
