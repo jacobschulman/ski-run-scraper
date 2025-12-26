@@ -111,13 +111,14 @@ function saveIkonTerrainData(resortKey, resortData) {
   const timezone = resort.timezone || 'America/Denver';
   const today = seasonUtils.getResortLocalDate(timezone);
 
-  // Normalize the terrain data
-  const normalizedData = dataNormalization.normalizeInspectorTerrain(resortData, resortKey, resort.name);
-
-  if (!normalizedData || !normalizedData.MountainAreas) {
+  // Skip if resort doesn't have terrain data (MountainAreas)
+  if (!resortData.MountainAreas || resortData.MountainAreas.length === 0) {
     console.log(`[IKON-TERRAIN] ⏭️  ${resortKey} - no terrain data`);
     return null;
   }
+
+  // Normalize the terrain data (same as ikon-scraper.js)
+  const normalizedData = dataNormalization.normalizeInspectorResort(resortData);
 
   // Add provider metadata
   const terrainData = {
@@ -274,11 +275,9 @@ async function scrapeVailTerrain(resortKey, url) {
 
     if (!rawData) return null;
 
-    // Normalize the data
-    const normalizedData = dataNormalization.normalizeVailTerrain(rawData, resortKey, resort.name);
-
+    // Use the data directly (FR.TerrainStatusFeed is already in the right format)
     const terrainData = {
-      ...normalizedData,
+      ...rawData,
       provider: 'vail',
       scrapedAt: new Date().toISOString(),
       date: today,
