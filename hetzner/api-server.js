@@ -9,19 +9,49 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_DIR = path.join(__dirname, '..', 'data');
-const HEALTH_FILE = path.join(__dirname, 'health.json');
 
-// Read health from shared file written by scraper
-function getScraperHealth() {
+// Health files for each scraper
+const HEALTH_FILES = {
+  lift: path.join(__dirname, 'health.json'),
+  snow: path.join(__dirname, 'snow-health.json'),
+  terrain: path.join(__dirname, 'terrain-health.json'),
+};
+
+// Read health from a single file
+function readHealthFile(filepath) {
   try {
-    if (fs.existsSync(HEALTH_FILE)) {
-      const data = JSON.parse(fs.readFileSync(HEALTH_FILE, 'utf8'));
-      return data;
+    if (fs.existsSync(filepath)) {
+      return JSON.parse(fs.readFileSync(filepath, 'utf8'));
     }
   } catch (e) {
-    console.error('Failed to read health file:', e.message);
+    console.error(`Failed to read health file ${filepath}:`, e.message);
   }
-  return { status: 'unknown', ikon: {}, vail: {} };
+  return null;
+}
+
+// Aggregate health from all scrapers
+function getAllScraperHealth() {
+  const lift = readHealthFile(HEALTH_FILES.lift);
+  const snow = readHealthFile(HEALTH_FILES.snow);
+  const terrain = readHealthFile(HEALTH_FILES.terrain);
+
+  // Calculate overall status
+  const scraperStatuses = [lift?.status, snow?.status, terrain?.status].filter(Boolean);
+  const overallStatus = scraperStatuses.every(s => s === 'ok') ? 'ok'
+    : scraperStatuses.some(s => s === 'degraded') ? 'degraded'
+    : 'unknown';
+
+  return {
+    status: overallStatus,
+    lift: lift || { status: 'unknown', ikon: {}, vail: {} },
+    snow: snow || { status: 'unknown', ikon: {}, vail: {} },
+    terrain: terrain || { status: 'unknown', ikon: {}, vail: {}, scrapedToday: {} },
+  };
+}
+
+// Legacy function for backwards compatibility
+function getScraperHealth() {
+  return readHealthFile(HEALTH_FILES.lift) || { status: 'unknown', ikon: {}, vail: {} };
 }
 
 // CORS configuration - allow all origins for now, can restrict later
@@ -41,16 +71,107 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health check endpoint
+// Health check endpoint - now includes all scrapers
 app.get('/health', (req, res) => {
-  const scraperHealth = getScraperHealth();
+  const allHealth = getAllScraperHealth();
+  const liftHealth = allHealth.lift;
+
   res.json({
-    status: scraperHealth.status || 'ok',
+    status: allHealth.status || 'ok',
     server: 'running',
     uptime: process.uptime(),
     timestamp: new Date().toISOString(),
-    scraper: scraperHealth,
+    // Legacy fields for backwards compatibility
+    scraper: {
+      status: liftHealth.status,
+      uptime: liftHealth.uptime,
+      ikon: liftHealth.ikon,
+      vail: liftHealth.vail,
+      updatedAt: liftHealth.updatedAt,
+    },
+    // New comprehensive health data
+    scrapers: {
+      lift: allHealth.lift,
+      snow: allHealth.snow,
+      terrain: allHealth.terrain,
+    },
   });
+});
+
+// Detailed per-resort scrape status
+app.get('/health/resorts', (req, res) => {
+  try {
+    const resortStatus = {};
+    const dataDir = DATA_DIR;
+
+    // Read all resort directories
+    const dirs = fs.readdirSync(dataDir).filter(d => {
+      const resortPath = path.join(dataDir, d);
+      return fs.existsSync(resortPath) && fs.statSync(resortPath).isDirectory();
+    });
+
+    for (const resortKey of dirs) {
+      const status = { resort: resortKey };
+
+      // Check lift data
+      const liftsDir = path.join(dataDir, resortKey, 'lifts');
+      if (fs.existsSync(liftsDir)) {
+        const liftFiles = fs.readdirSync(liftsDir).filter(f => f.endsWith('.ndjson')).sort().reverse();
+        if (liftFiles.length > 0) {
+          const latestFile = path.join(liftsDir, liftFiles[0]);
+          const stat = fs.statSync(latestFile);
+          status.lifts = {
+            lastFile: liftFiles[0],
+            lastModified: stat.mtime.toISOString(),
+            fileCount: liftFiles.length,
+          };
+        }
+      }
+
+      // Check snow data
+      const snowDir = path.join(dataDir, resortKey, 'snow');
+      if (fs.existsSync(snowDir)) {
+        const latestSnow = path.join(snowDir, 'latest.json');
+        if (fs.existsSync(latestSnow)) {
+          try {
+            const snowData = JSON.parse(fs.readFileSync(latestSnow, 'utf8'));
+            status.snow = {
+              lastScraped: snowData.timestamp || snowData.scrapedAt,
+              date: snowData.date,
+            };
+          } catch (e) {}
+        }
+      }
+
+      // Check terrain data
+      const terrainDir = path.join(dataDir, resortKey, 'terrain');
+      if (fs.existsSync(terrainDir)) {
+        const latestTerrain = path.join(terrainDir, 'latest.json');
+        if (fs.existsSync(latestTerrain)) {
+          try {
+            const terrainData = JSON.parse(fs.readFileSync(latestTerrain, 'utf8'));
+            status.terrain = {
+              lastScraped: terrainData.scrapedAt,
+              date: terrainData.date,
+            };
+          } catch (e) {}
+        }
+      }
+
+      if (status.lifts || status.snow || status.terrain) {
+        resortStatus[resortKey] = status;
+      }
+    }
+
+    res.json({
+      generated: new Date().toISOString(),
+      resortCount: Object.keys(resortStatus).length,
+      resorts: resortStatus,
+    });
+  } catch (error) {
+    console.error('Error generating resort health:', error);
+    res.status(500).json({ error: 'Failed to generate resort health' });
+  }
 });
 
 // Generate latest-lifts.json aggregation on demand
