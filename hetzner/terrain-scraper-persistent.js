@@ -42,8 +42,8 @@ const scrapedToday = new Map();
 // Health tracking
 const health = {
   startTime: Date.now(),
-  ikon: { totalRuns: 0, resortsScraped: 0, lastRun: null, consecutiveFailures: 0 },
-  vail: { totalRuns: 0, resortsScraped: 0, lastRun: null, consecutiveFailures: 0 },
+  ikon: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  vail: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
 };
 
 // Shared browser for Vail scraping
@@ -209,6 +209,7 @@ async function runIkonTerrainScraper() {
 
     health.ikon.resortsScraped += scraped;
     health.ikon.consecutiveFailures = 0;
+    health.ikon.lastSuccess = new Date().toISOString();
     console.log(`[IKON-TERRAIN] Completed: ${scraped} resorts`);
 
   } catch (error) {
@@ -368,6 +369,7 @@ async function runVailTerrainScraper() {
 
     health.vail.resortsScraped += scraped;
     health.vail.consecutiveFailures = 0;
+    health.vail.lastSuccess = new Date().toISOString();
     console.log(`[VAIL-TERRAIN] Completed: ${scraped} resorts`);
 
   } catch (error) {
