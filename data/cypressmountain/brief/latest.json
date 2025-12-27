@@ -2,19 +2,19 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2025-12-27",
-  "generated": "2025-12-27T17:14:16.286Z",
+  "generated": "2025-12-27T18:22:52.890Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 1,
       "24hour_inches": 0,
       "24hour_cm": 1,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 0,
-      "7day_cm": 0,
-      "season_total_inches": 47,
-      "season_total_cm": 119,
+      "48hour_inches": 11,
+      "48hour_cm": 28,
+      "7day_inches": 36,
+      "7day_cm": 91,
+      "season_total_inches": 73,
+      "season_total_cm": 185,
       "conditions": {
         "today": "Unknown",
         "yesterday": null
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 29,
+          "today": 30,
           "yesterday": 29,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 25,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Rainbow",
+          "difficulty": "Black",
+          "area": "Lions Express"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -69,14 +75,14 @@
         "high_f": 23,
         "low_f": 22,
         "description": "Partly Cloudy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2025-12-28",
           "high_f": 28,
-          "low_f": 29,
+          "low_f": 28,
           "description": "Cloudy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
@@ -93,7 +99,7 @@
         },
         {
           "date": "2025-12-30",
-          "high_f": 38,
+          "high_f": 39,
           "low_f": 37,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -104,7 +110,7 @@
       "tomorrow": {
         "date": "2025-12-28",
         "high_f": 28,
-        "low_f": 29,
+        "low_f": 28,
         "description": "Cloudy",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
@@ -116,30 +122,40 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "Great week for snow - 36\" in last 7 days",
+      "1 more trail open than yesterday",
       "2\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "29/96 trails spinning, 25 freshly groomed. 23° and Partly Cloudy. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "The 36\" from this week is still skiing great. No new snow needed (yet). New terrain alert: 1 trail added to the mix. The mountain just got bigger. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_holding_strong",
           "category": "snow",
-          "priority": 10,
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -149,13 +165,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 2,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Refresh Is Coming"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Saturday"
     }
