@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2025-12-27",
-  "generated": "2025-12-27T10:20:54.517Z",
+  "generated": "2025-12-27T14:16:41.241Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,65 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "totalTrails": 20
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Challenge",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Dematte's Demise",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -109,7 +63,7 @@
       "outlook": [
         {
           "date": "2025-12-28T05:00:00Z",
-          "high_f": 34,
+          "high_f": 33,
           "low_f": 22,
           "high_c": 1,
           "low_c": -6,
@@ -124,7 +78,7 @@
           "low_f": 20,
           "high_c": 6,
           "low_c": -7,
-          "description": "Rain/Snow",
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -143,7 +97,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-28T05:00:00Z",
-        "high_f": 34,
+        "high_f": 33,
         "low_f": 22,
         "high_c": 1,
         "low_c": -6,
@@ -167,30 +121,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "Not open for the season yet. Current conditions: Cloudy with temps around 24°.",
+    "headline": "Today's Conditions",
+    "body": "9 trails open, 9 groomed. Cloudy, high of 24°. 9 of 20 trails are open with 9 groomed. Cloudy with a high of 24°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Cheers to the Weekend!"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Saturday"
     }
