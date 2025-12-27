@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-27",
-  "generated": "2025-12-27T14:16:44.373Z",
+  "generated": "2025-12-27T15:15:32.607Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 93,
+          "today": 95,
           "yesterday": 95,
-          "delta": -2
+          "delta": 0
         },
         "groomedTrails": {
           "today": 66,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Exit Left",
+          "difficulty": "Blue",
+          "area": "SPRUCE PEAK"
+        },
+        {
+          "name": "Upper Airglow",
+          "difficulty": "Black",
+          "area": "AURORA PEAK"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Monday Mourning",
@@ -76,7 +87,7 @@
       "outlook": [
         {
           "date": "2025-12-28",
-          "high_f": 33,
+          "high_f": 32,
           "low_f": 26,
           "description": "Windy",
           "snowfall_day_inches": 1,
@@ -88,9 +99,9 @@
           "high_f": 33,
           "low_f": 15,
           "description": "Rain Snow",
-          "snowfall_day_inches": 8,
+          "snowfall_day_inches": 9,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 8
+          "snowfall_expected": 9
         },
         {
           "date": "2025-12-30",
@@ -104,7 +115,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-28",
-        "high_f": 33,
+        "high_f": 32,
         "low_f": 26,
         "description": "Windy",
         "snowfall_day_inches": 1,
@@ -117,10 +128,11 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "2 new trails opened today",
       "2 trails freshly groomed"
     ],
     "trends": [
@@ -133,8 +145,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "❄️ Storm on the Horizon ❄️",
-    "body": "No refresh overnight, but 13\" of recent snow means the base is doing its job. Winter has more to say. 10\" forecasted means conditions are about to level up.",
+    "headline": "Big Snow Incoming",
+    "body": "No refresh overnight, but 13\" of recent snow means the base is doing its job. 2 trails opened today expanding access to fresh terrain. Winter has more to say. 11\" forecasted means conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -150,19 +162,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 0,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Big Snow Incoming"
+        "previousHeadline": "❄️ Storm on the Horizon ❄️"
       },
       "dayOfWeek": "Saturday"
     }

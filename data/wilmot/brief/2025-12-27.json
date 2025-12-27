@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2025-12-27",
-  "generated": "2025-12-27T11:15:13.469Z",
+  "generated": "2025-12-27T15:15:28.978Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,27 +23,118 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 15,
           "yesterday": 1,
-          "delta": -1
+          "delta": 14
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 10,
           "yesterday": 1,
-          "delta": -1
+          "delta": 9
         },
         "totalTrails": 26
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Turtle",
+          "name": "Broadway",
           "difficulty": "Green",
-          "area": "Beginner Area"
+          "area": "Main Hill"
+        },
+        {
+          "name": "Exhibition",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Inspiration",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Lower Cat Trail",
+          "difficulty": "Green",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Meadows",
+          "difficulty": "Green",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Paradise",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Ridge Run",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Sundance",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Sunnyside",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Superior",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Upper Cat Trail",
+          "difficulty": "Green",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Walter's Folly",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "The Gully",
+          "difficulty": "TerrainPark",
+          "area": "Terrain Park"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Exhibition",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Sundance",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Superior",
+          "difficulty": "Black",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Walter's Folly",
+          "difficulty": "Blue",
+          "area": "Main Hill"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -69,14 +160,14 @@
       "outlook": [
         {
           "date": "2025-12-28T06:00:00Z",
-          "high_f": 50,
-          "low_f": 22,
+          "high_f": 51,
+          "low_f": 24,
           "high_c": 10,
-          "low_c": -6,
+          "low_c": -5,
           "description": "Rain/Snow",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-29T06:00:00Z",
@@ -103,14 +194,14 @@
       ],
       "tomorrow": {
         "date": "2025-12-28T06:00:00Z",
-        "high_f": 50,
-        "low_f": 22,
+        "high_f": 51,
+        "low_f": 24,
         "high_c": 10,
-        "low_c": -6,
+        "low_c": -5,
         "description": "Rain/Snow",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
       }
     }
   },
@@ -118,39 +209,57 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "14 new trails opened today"
+    ],
+    "trends": [
+      "Grooming increased 900% from yesterday",
+      "14 more trails open than yesterday",
+      "1\" snow expected Sunday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "Not open for the season yet. Current conditions: Cloudy with temps around 41°.",
+    "headline": "More Mountain to Explore",
+    "body": "The rundown: 15 trails open, 10 groomed. Cloudy with temps around 41°. Terrain is expanding with 14 new trails now open. More room to roam, less traffic to dodge. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Is it the weekend yet?"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Saturday"
     }
