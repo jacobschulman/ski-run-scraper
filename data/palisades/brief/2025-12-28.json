@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2025-12-28",
-  "generated": "2025-12-28T16:20:11.417Z",
+  "generated": "2025-12-28T17:14:40.810Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 68,
+          "today": 71,
           "yesterday": 68,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 12,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Schimmelpfennig Bowl",
+          "difficulty": "Very Difficult",
+          "area": "KT Peak"
+        },
+        {
+          "name": "Headwall Face",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Siberia Lift Line",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -148,13 +164,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": true
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
       "Great week for snow - 77\" in last 7 days",
+      "3 more trails open than yesterday",
       "High demand yesterday - average wait time 266.1 min"
     ],
     "recommendations": [
@@ -162,14 +181,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "It's cold... but sunny!",
-    "body": "No refresh overnight, but 77\" of recent snow means the base is doing its job. Watch for crowds at Siberia Express, which peaked around 3457 minutes yesterday. Bluebird conditions with a high around 29°. Bundle up for some crisp, beautiful turns.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "No refresh overnight, but 77\" of recent snow means the base is doing its job. 3 more trails are in play today. The groomers are getting stretched thin (in a good way). Watch for crowds at Siberia Express, which peaked around 3457 minutes yesterday.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird_day",
-          "category": "weather",
-          "priority": 70,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -179,25 +198,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_watch_crowds",
           "category": "lifts",
           "priority": 80,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_bluebird_day",
-          "category": "weather",
-          "priority": 70,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 5,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Picture-Perfect Conditions"
+        "previousHeadline": "It's cold... but sunny!"
       },
       "dayOfWeek": "Sunday"
     }

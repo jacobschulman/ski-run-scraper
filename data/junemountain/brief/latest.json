@@ -2,15 +2,15 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2025-12-28",
-  "generated": "2025-12-28T16:20:11.456Z",
+  "generated": "2025-12-28T17:14:40.849Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
       "overnight_cm": 5,
-      "24hour_inches": 8,
-      "24hour_cm": 20,
-      "48hour_inches": 40,
-      "48hour_cm": 102,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
       "7day_inches": 51,
       "7day_cm": 130,
       "season_total_inches": 72,
@@ -23,18 +23,74 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 3,
+          "today": 14,
           "yesterday": 3,
-          "delta": 0
+          "delta": 11
         },
         "groomedTrails": {
-          "today": 3,
+          "today": 5,
           "yesterday": 3,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 44
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Canyon Trail",
+          "difficulty": "Intermediate",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Carson",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Carson Cutoff",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Chalet",
+          "difficulty": "Intermediate",
+          "area": "June Mountain"
+        },
+        {
+          "name": "IQ",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Lower Carson",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "River Run",
+          "difficulty": "Easy",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Slalom",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Surprise",
+          "difficulty": "Intermediate",
+          "area": "June Mountain"
+        },
+        {
+          "name": "The Face",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "The Wall",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -111,36 +167,44 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": true,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
       "2\" fresh snow overnight",
-      "8\" in last 24 hours - powder day!"
+      "11 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 51\" in last 7 days",
+      "Grooming increased 67% from yesterday",
+      "11 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Tracks for Days",
-    "body": "The mountain is absolutely buried with 8\" of fresh. This is not a drill. Light snow possible in the forecast.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "Zero new inches, but who's complaining? 51\" this week means conditions are still prime. 11 new runs just opened up. Time to explore some fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
-          "category": "snow",
-          "priority": 100,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_holding_strong",
           "category": "snow",
-          "priority": 100,
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -150,13 +214,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 5,
-        "totalVariations": 12,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waist-Deep Conditions"
+        "previousHeadline": "Fresh Tracks for Days"
       },
       "dayOfWeek": "Sunday"
     }
