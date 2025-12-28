@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2025-12-28",
-  "generated": "2025-12-28T10:20:12.669Z",
+  "generated": "2025-12-28T14:16:13.833Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 7,
           "yesterday": 7,
-          "delta": -7
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,43 +35,7 @@
         "totalTrails": 11
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Champagne",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Outer Limits",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Regulator Johnston",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Shredder",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "The Park",
-          "difficulty": "TerrainPark",
-          "area": "Brandywine"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -89,9 +53,9 @@
       "today": {
         "date": "2025-12-28",
         "high_f": 60,
-        "low_f": 31,
+        "low_f": 32,
         "high_c": 15,
-        "low_c": -1,
+        "low_c": null,
         "description": "Rain/Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -116,19 +80,19 @@
           "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-31T05:00:00Z",
           "high_f": 27,
-          "low_f": 21,
+          "low_f": 20,
           "high_c": -3,
           "low_c": -7,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -153,34 +117,42 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements. It's 60° and Rain/Snow today.",
+    "headline": "Snow Showers Ahead ❄️",
+    "body": "7 of 11 trails are open with 0 groomed. Rain/Snow with a high of 60°F. Keep an eye on the sky—a refresh is coming. A few inches of snow on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "snow_coming",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Mountain to Explore"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Sunday"
     }

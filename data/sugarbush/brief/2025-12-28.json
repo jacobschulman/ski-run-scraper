@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-28",
-  "generated": "2025-12-28T13:30:18.519Z",
+  "generated": "2025-12-28T14:16:17.557Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 106,
+          "today": 107,
           "yesterday": 106,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 40,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Cat's Meow",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -123,8 +129,8 @@
           "low_c": -18,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -144,14 +150,18 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "4 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "1 more trail open than yesterday",
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": [
       "Fresh corduroy on Lower Snowball - all skill levels",
       "Fresh corduroy on Racer's Edge - all skill levels",
@@ -159,14 +169,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "The rundown: 106 trails open, 40 groomed. Mostly Cloudy with temps around 35°. 106 of 142 trails are open with 40 groomed. Mostly Cloudy with a high of 35°F.",
+    "headline": "More Mountain to Explore",
+    "body": "The rundown: 107 trails open, 40 groomed. Mostly Cloudy with temps around 35°. Terrain is expanding with 1 new trail now open. More room to roam, less traffic to dodge. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -176,19 +186,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 5,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
+        "previousHeadline": "Mountain Conditions Update"
       },
       "dayOfWeek": "Sunday"
     }

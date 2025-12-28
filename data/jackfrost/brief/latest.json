@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2025-12-28",
-  "generated": "2025-12-28T10:20:12.646Z",
+  "generated": "2025-12-28T14:16:13.818Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,65 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "totalTrails": 20
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Challenge",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Dematte's Demise",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -99,7 +53,7 @@
       "today": {
         "date": "2025-12-28",
         "high_f": 33,
-        "low_f": 21,
+        "low_f": 22,
         "high_c": null,
         "low_c": -6,
         "description": "Windy",
@@ -112,7 +66,7 @@
           "high_f": 43,
           "low_f": 19,
           "high_c": 6,
-          "low_c": -7,
+          "low_c": -8,
           "description": "Rain/Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -146,7 +100,7 @@
         "high_f": 43,
         "low_f": 19,
         "high_c": 6,
-        "low_c": -7,
+        "low_c": -8,
         "description": "Rain/Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -167,30 +121,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements. It's 33° and Windy today.",
+    "headline": "Today's Conditions",
+    "body": "9 of 20 trails are open with 9 groomed. Windy with a high of 33°F. 9 of 20 trails are open with 9 groomed. Windy with a high of 33°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 5,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Sunday"
     }

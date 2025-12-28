@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2025-12-28",
-  "generated": "2025-12-28T10:20:12.666Z",
+  "generated": "2025-12-28T14:16:13.830Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 4,
           "yesterday": 4,
-          "delta": -4
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,28 +35,7 @@
         "totalTrails": 8
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Buttermilk",
-          "difficulty": "Blue",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Croyle",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "North Bowl",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Summit",
-          "difficulty": "Green",
-          "area": "Boston Mills"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -74,9 +53,9 @@
       "today": {
         "date": "2025-12-28",
         "high_f": 60,
-        "low_f": 31,
+        "low_f": 32,
         "high_c": 15,
-        "low_c": -1,
+        "low_c": null,
         "description": "Rain/Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -101,19 +80,19 @@
           "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2025-12-31T05:00:00Z",
           "high_f": 27,
-          "low_f": 21,
+          "low_f": 20,
           "high_c": -3,
           "low_c": -7,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -138,34 +117,42 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "Not open for the season yet. Current conditions: Rain/Snow with temps around 60°.",
+    "headline": "Snow Showers Ahead ❄️",
+    "body": "4 trails open, 0 groomed. Rain/Snow, high of 60°. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "snow_coming",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Sunday"
     }
