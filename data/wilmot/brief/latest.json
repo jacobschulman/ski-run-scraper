@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2025-12-28",
-  "generated": "2025-12-28T11:14:47.874Z",
+  "generated": "2025-12-28T15:15:50.207Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,29 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 15,
-          "delta": -15
+          "delta": -9
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 10,
-          "delta": -10
+          "delta": -4
         },
         "totalTrails": 26
       },
       "newlyOpened": [],
       "newlyClosed": [
-        {
-          "name": "Turtle",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
         {
           "name": "Exhibition",
           "difficulty": "Black",
@@ -53,21 +43,6 @@
         },
         {
           "name": "Inspiration",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Lower Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Meadows",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Paradise",
           "difficulty": "Blue",
           "area": "Main Hill"
         },
@@ -83,11 +58,6 @@
         },
         {
           "name": "Sundance",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sunnyside",
           "difficulty": "Blue",
           "area": "Main Hill"
         },
@@ -129,19 +99,19 @@
       "today": {
         "date": "2025-12-28",
         "high_f": 46,
-        "low_f": 25,
-        "high_c": 7,
-        "low_c": -4,
-        "description": "Scattered T-Storms",
+        "low_f": 27,
+        "high_c": 8,
+        "low_c": -3,
+        "description": "Rain/Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2025-12-29T06:00:00Z",
-          "high_f": 22,
-          "low_f": 12,
-          "high_c": -6,
+          "high_f": 23,
+          "low_f": 13,
+          "high_c": -5,
           "low_c": -11,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -151,10 +121,10 @@
         {
           "date": "2025-12-30T06:00:00Z",
           "high_f": 25,
-          "low_f": 10,
+          "low_f": 8,
           "high_c": -4,
-          "low_c": -13,
-          "description": "Mostly Cloudy",
+          "low_c": -14,
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -173,9 +143,9 @@
       ],
       "tomorrow": {
         "date": "2025-12-29T06:00:00Z",
-        "high_f": 22,
-        "low_f": 12,
-        "high_c": -6,
+        "high_f": 23,
+        "low_f": 13,
+        "high_c": -5,
         "low_c": -11,
         "description": "Windy",
         "snowfall_day_inches": 0,
@@ -197,30 +167,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "No trails open yet. Current forecast: Scattered T-Storms with a high of 46°F.",
+    "headline": "Conditions Report",
+    "body": "6/26 trails spinning, 6 freshly groomed. 46° and Rain/Snow. 6 of 26 trails are open with 6 groomed. Rain/Snow with a high of 46°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Mountain to Explore"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Sunday"
     }
