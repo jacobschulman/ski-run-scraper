@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-28",
-  "generated": "2025-12-28T20:18:31.893Z",
+  "generated": "2025-12-28T21:15:21.527Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 22,
+          "today": 23,
           "yesterday": 22,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 8,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Roller Coaster",
+          "difficulty": "Difficult",
+          "area": "Solitude Canyon"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,22 +118,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "1\" new snow overnight",
-      "8\" in last 24 hours - powder day!"
+      "8\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
-      "Great week for snow - 13\" in last 7 days"
+      "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waist-Deep Conditions",
-    "body": "Powder alert! 8\" of fresh overnight means soft conditions across the entire mountain. Clear skies and 17° means stunning views and firm snow. Layer up and enjoy the show.",
+    "headline": "Fresh Tracks for Days",
+    "body": "Powder alert! 8\" of fresh overnight means soft conditions across the entire mountain. 1 new run just opened up. Time to explore some fresh terrain. Clear skies and 17° means stunning views and firm snow. Layer up and enjoy the show.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +151,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_bluebird_day",
           "category": "weather",
           "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 5,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Tracks for Days"
+        "previousHeadline": "Waist-Deep Conditions"
       },
       "dayOfWeek": "Sunday"
     }
