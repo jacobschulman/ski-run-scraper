@@ -7114,8 +7114,24 @@
       "resort": "stratton",
       "resortName": "Stratton",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.003Z",
+      "generated": "2025-12-28T06:25:55.064Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 6,
+          "overnight_cm": 15,
+          "24hour_inches": 6,
+          "24hour_cm": 15,
+          "48hour_inches": 6,
+          "48hour_cm": 15,
+          "7day_inches": 6,
+          "7day_cm": 15,
+          "season_total_inches": 57,
+          "season_total_cm": 145,
+          "conditions": {
+            "today": "Machine Groomed Packed Powder",
+            "yesterday": "Machine Groomed Packed Powder"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -7144,19 +7160,119 @@
             "totalLiftsTracked": 14,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 17,
+            "high_c": null,
+            "low_c": -8,
+            "description": "Clear",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 38,
+              "low_f": 32,
+              "high_c": 3,
+              "low_c": 0,
+              "description": "Mostly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 3,
+              "snowfall_expected": 3
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 42,
+              "low_f": 10,
+              "high_c": 6,
+              "low_c": -12,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 9,
+              "low_f": 7,
+              "high_c": -13,
+              "low_c": -14,
+              "description": "Windy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 38,
+            "low_f": 32,
+            "high_c": 3,
+            "low_c": 0,
+            "description": "Mostly Cloudy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 3,
+            "snowfall_expected": 3
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": true,
+          "isPowderDay": true,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
-        "trends": [],
+        "alerts": [
+          "6\" fresh snow overnight",
+          "6\" in last 24 hours - powder day!"
+        ],
+        "trends": [
+          "Steady snowfall - 6\" in last 7 days",
+          "3\" snow expected Sunday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Dump Day at Stratton",
+        "body": "The mountain is absolutely buried with 6\" of fresh. This is not a drill. The weather gods are being generous (ish). Some snow headed our way soon.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "snow_powder_alert",
+              "category": "snow",
+              "priority": 100,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_powder_alert",
+              "category": "snow",
+              "priority": 100,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_snow_coming",
+              "category": "weather",
+              "priority": 55,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 5,
+          "headlineSelection": {
+            "condition": "powder_alert",
+            "variationIndex": 7,
+            "totalVariations": 12,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Deep Day at {resortName}"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -7168,7 +7284,7 @@
       "resort": "palisades",
       "resortName": "Palisades Tahoe",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.007Z",
+      "generated": "2025-12-28T06:25:55.125Z",
       "rawData": {
         "snow": {
           "overnight_inches": 8,
@@ -7461,7 +7577,7 @@
         ]
       },
       "morningBrief": {
-        "headline": "Powder Day Alert! ❄️",
+        "headline": "Deep Day at Palisades Tahoe",
         "body": "15\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. Terrain is expanding with 31 new trails now open. More room to roam, less traffic to dodge. Watch for crowds at Exhibition, which peaked around 984 minutes yesterday.",
         "debug": {
           "firedRules": [
@@ -7496,7 +7612,7 @@
             "variationIndex": 0,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "Deep Day at {resortName}"
+            "previousHeadline": "Powder Day Alert! ❄️"
           },
           "dayOfWeek": "Saturday"
         }
@@ -7512,7 +7628,7 @@
       "resort": "jacksonhole",
       "resortName": "Jackson Hole",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.077Z",
+      "generated": "2025-12-28T06:25:55.476Z",
       "rawData": {
         "snow": {
           "overnight_inches": 4,
@@ -7615,7 +7731,7 @@
         ]
       },
       "morningBrief": {
-        "headline": "The Mountain Got Buried",
+        "headline": "8\" of Fresh Overnight",
         "body": "8\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. Terrain is expanding with 2 new trails now open. More room to roam, less traffic to dodge.",
         "debug": {
           "firedRules": [
@@ -7644,7 +7760,7 @@
             "variationIndex": 2,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "{snow24h}\" of Fresh Overnight"
+            "previousHeadline": "The Mountain Got Buried"
           },
           "dayOfWeek": "Saturday"
         }
@@ -7660,15 +7776,15 @@
       "resort": "bigsky",
       "resortName": "Big Sky",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.065Z",
+      "generated": "2025-12-28T06:25:55.429Z",
       "rawData": {
         "snow": {
-          "overnight_inches": 2,
-          "overnight_cm": 5,
-          "24hour_inches": 6,
-          "24hour_cm": 15,
-          "48hour_inches": 8,
-          "48hour_cm": 20,
+          "overnight_inches": 3,
+          "overnight_cm": 8,
+          "24hour_inches": 7,
+          "24hour_cm": 18,
+          "48hour_inches": 9,
+          "48hour_cm": 23,
           "7day_inches": 14,
           "7day_cm": 36,
           "season_total_inches": 0,
@@ -7904,8 +8020,8 @@
           "significantGroomingIncrease": false
         },
         "alerts": [
-          "2\" fresh snow overnight",
-          "6\" in last 24 hours - powder day!",
+          "3\" fresh snow overnight",
+          "7\" in last 24 hours - powder day!",
           "26 new trails opened today"
         ],
         "trends": [
@@ -7915,8 +8031,8 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "6\" of Fresh Overnight",
-        "body": "Wake up, it's a powder day! 6\" overnight means hero snow everywhere you look. Terrain is expanding with 26 new trails now open. More room to roam, less traffic to dodge. Snow expected today or tomorrow with conditions continuing to improve.",
+        "headline": "The Mountain Got Buried",
+        "body": "Wake up, it's a powder day! 7\" overnight means hero snow everywhere you look. Terrain is expanding with 26 new trails now open. More room to roam, less traffic to dodge. Snow expected today or tomorrow with conditions continuing to improve.",
         "debug": {
           "firedRules": [
             {
@@ -7950,7 +8066,7 @@
             "variationIndex": 2,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Tracks for Days"
+            "previousHeadline": "{snow24h}\" of Fresh Overnight"
           },
           "dayOfWeek": "Saturday"
         }
@@ -7966,7 +8082,7 @@
       "resort": "deervalley",
       "resortName": "Deer Valley",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.019Z",
+      "generated": "2025-12-28T06:25:55.183Z",
       "rawData": {
         "snow": {
           "overnight_inches": 5,
@@ -8155,7 +8271,7 @@
         ]
       },
       "morningBrief": {
-        "headline": "Weekend Powder Jackpot",
+        "headline": "Saturday Stash Day",
         "body": "10\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. The ski patrol has been busy—7 additional trails are now yours to enjoy. Snow expected today or tomorrow with conditions continuing to improve.",
         "debug": {
           "firedRules": [
@@ -8190,7 +8306,7 @@
             "variationIndex": 0,
             "totalVariations": 12,
             "usedWeekendVariation": true,
-            "previousHeadline": "More Mountain to Explore"
+            "previousHeadline": "Weekend Powder Jackpot"
           },
           "dayOfWeek": "Saturday"
         }
@@ -8465,7 +8581,7 @@
       "resort": "solitude",
       "resortName": "Solitude",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.027Z",
+      "generated": "2025-12-28T06:25:55.220Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -8564,7 +8680,7 @@
             {
               "date": "2025-12-29",
               "high_f": 28,
-              "low_f": 24,
+              "low_f": 25,
               "high_c": -2,
               "low_c": -4,
               "description": "Sunny",
@@ -8574,7 +8690,7 @@
             },
             {
               "date": "2025-12-30",
-              "high_f": 35,
+              "high_f": 36,
               "low_f": 30,
               "high_c": 2,
               "low_c": -1,
@@ -8615,7 +8731,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "The Map Just Got Bigger",
+        "headline": "Fresh Terrain Unlocked",
         "body": "Overnight dusting of 4\" means the hardpack got a makeover. Looking good out there. Terrain is expanding with 5 new trails now open. More room to roam, less traffic to dodge. Snow expected today or tomorrow with conditions continuing to improve.",
         "debug": {
           "firedRules": [
@@ -8650,7 +8766,7 @@
             "variationIndex": 4,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Terrain Unlocked"
+            "previousHeadline": "The Map Just Got Bigger"
           },
           "dayOfWeek": "Saturday"
         }
@@ -9046,7 +9162,7 @@
       "resort": "steamboat",
       "resortName": "Steamboat",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.032Z",
+      "generated": "2025-12-28T06:25:55.265Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9167,7 +9283,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Conditions Report",
+        "headline": "Your Daily Ski Report",
         "body": "36/193 trails spinning, 33 freshly groomed. null° and Snow Wind. Light snow possible in the forecast.",
         "debug": {
           "firedRules": [
@@ -9196,7 +9312,7 @@
             "variationIndex": 3,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Your Daily Ski Report"
+            "previousHeadline": "Conditions Report"
           },
           "dayOfWeek": "Saturday"
         }
@@ -9416,7 +9532,7 @@
       "resort": "mammoth",
       "resortName": "Mammoth Mountain",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.039Z",
+      "generated": "2025-12-28T06:25:55.275Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9539,7 +9655,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Dump Day at Mammoth Mountain",
+        "headline": "Time to Call in Sick",
         "body": "The mountain is absolutely buried with 9\" of fresh. This is not a drill.",
         "debug": {
           "firedRules": [
@@ -9562,7 +9678,7 @@
             "variationIndex": 7,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "Time to Call in Sick"
+            "previousHeadline": "Dump Day at {resortName}"
           },
           "dayOfWeek": "Saturday"
         }
@@ -9578,7 +9694,7 @@
       "resort": "crystal",
       "resortName": "Crystal Mountain",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.050Z",
+      "generated": "2025-12-28T06:25:55.318Z",
       "rawData": {
         "snow": {
           "overnight_inches": 8,
@@ -9706,11 +9822,11 @@
             },
             {
               "date": "2025-12-29",
-              "high_f": 37,
-              "low_f": 36,
+              "high_f": 38,
+              "low_f": 37,
               "high_c": 3,
-              "low_c": 2,
-              "description": "Mostly Cloudy",
+              "low_c": 3,
+              "description": "Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -9718,10 +9834,10 @@
             {
               "date": "2025-12-30",
               "high_f": 41,
-              "low_f": 40,
+              "low_f": 39,
               "high_c": 5,
               "low_c": 4,
-              "description": "Mostly Cloudy",
+              "description": "Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -9759,7 +9875,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Powder Day Alert! ❄️",
+        "headline": "Deep Day at Crystal Mountain",
         "body": "Wake up, it's a powder day! 13\" overnight means hero snow everywhere you look. Rope drop! 11 trails opened overnight, expanding your playground significantly.",
         "debug": {
           "firedRules": [
@@ -9788,7 +9904,7 @@
             "variationIndex": 0,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "Deep Day at {resortName}"
+            "previousHeadline": "Powder Day Alert! ❄️"
           },
           "dayOfWeek": "Saturday"
         }
@@ -9986,8 +10102,24 @@
       "resort": "sugarbush",
       "resortName": "Sugarbush",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.055Z",
+      "generated": "2025-12-28T06:25:55.360Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 3,
+          "24hour_cm": 8,
+          "48hour_inches": 5,
+          "48hour_cm": 13,
+          "7day_inches": 0,
+          "7day_cm": 0,
+          "season_total_inches": 84,
+          "season_total_cm": 213,
+          "conditions": {
+            "today": "Machine Groomed Packed Powder",
+            "yesterday": "Machine Groomed Packed Powder"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10016,19 +10148,115 @@
             "totalLiftsTracked": 16,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 16,
+            "high_c": null,
+            "low_c": -9,
+            "description": "Clear",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 35,
+              "low_f": 32,
+              "high_c": 2,
+              "low_c": 0,
+              "description": "Partly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 1,
+              "snowfall_expected": 1
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 39,
+              "low_f": 6,
+              "high_c": 4,
+              "low_c": -14,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 1,
+              "snowfall_expected": 1
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 5,
+              "low_f": 1,
+              "high_c": -15,
+              "low_c": -17,
+              "description": "Windy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 35,
+            "low_f": 32,
+            "high_c": 2,
+            "low_c": 0,
+            "description": "Partly Cloudy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 1,
+            "snowfall_expected": 1
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
         "alerts": [],
-        "trends": [],
+        "trends": [
+          "1\" snow expected Sunday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Overnight Refresh: 3\" Fresh",
+        "body": "A fresh 3\" coating has things skiing better than yesterday. Small gifts matter. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "snow_fresh_coat",
+              "category": "snow",
+              "priority": 80,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_fresh_coat",
+              "category": "snow",
+              "priority": 80,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_snow_coming",
+              "category": "weather",
+              "priority": 55,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "fresh_coat",
+            "variationIndex": 2,
+            "totalVariations": 6,
+            "usedWeekendVariation": false,
+            "previousHeadline": "{snow24h}\" Freshened Things Up"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10040,8 +10268,24 @@
       "resort": "sugarloaf",
       "resortName": "Sugarloaf",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.070Z",
+      "generated": "2025-12-28T06:25:55.434Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 0,
+          "48hour_cm": 0,
+          "7day_inches": 12,
+          "7day_cm": 30,
+          "season_total_inches": 41,
+          "season_total_cm": 104,
+          "conditions": {
+            "today": "Hard Pack",
+            "yesterday": "Hard Pack"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10063,18 +10307,105 @@
         },
         "lifts": {
           "available": false
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 16,
+            "description": "Windy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 33,
+              "low_f": 28,
+              "description": "Windy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 35,
+              "low_f": 6,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 7,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 7
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 3,
+              "low_f": -6,
+              "description": "Windy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 33,
+            "low_f": 28,
+            "description": "Windy",
+            "snowfall_day_inches": 1,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 1
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false
         },
         "alerts": [],
-        "trends": [],
+        "trends": [
+          "Great week for snow - 12\" in last 7 days",
+          "1\" snow expected Sunday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Major System Approaching",
+        "body": "Holding steady—that 12\" base from recent storms is doing the heavy lifting. Storm cycle alert! 9\" on the way. The mountain is about to get a serious refresh.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_holding_strong",
+              "category": "snow",
+              "priority": 60,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "storm_major",
+            "variationIndex": 3,
+            "totalVariations": 8,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Big Snow Incoming"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10086,8 +10417,24 @@
       "resort": "sundayriver",
       "resortName": "Sunday River",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.072Z",
+      "generated": "2025-12-28T06:25:55.438Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 1,
+          "48hour_cm": 3,
+          "7day_inches": 13,
+          "7day_cm": 33,
+          "season_total_inches": 37,
+          "season_total_cm": 94,
+          "conditions": {
+            "today": "Machine Groomed",
+            "yesterday": "Machine Groomed"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10109,18 +10456,105 @@
         },
         "lifts": {
           "available": false
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 17,
+            "description": "Windy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 33,
+              "low_f": 25,
+              "description": "Windy",
+              "snowfall_day_inches": 2,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 2
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 35,
+              "low_f": 10,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 3,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 3
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 9,
+              "low_f": 1,
+              "description": "Windy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 33,
+            "low_f": 25,
+            "description": "Windy",
+            "snowfall_day_inches": 2,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 2
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false
         },
         "alerts": [],
-        "trends": [],
+        "trends": [
+          "Great week for snow - 13\" in last 7 days",
+          "2\" snow expected Sunday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Prepare for Pow!",
+        "body": "The snow from earlier this week (13\") is aging gracefully. Still soft, still fun. A significant storm is brewing with 6\" expected over the next few days. Plan accordingly.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_holding_strong",
+              "category": "snow",
+              "priority": 60,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "storm_major",
+            "variationIndex": 5,
+            "totalVariations": 8,
+            "usedWeekendVariation": false,
+            "previousHeadline": "❄️ Storm on the Horizon ❄️"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10132,8 +10566,24 @@
       "resort": "loon",
       "resortName": "Loon Mountain",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.073Z",
+      "generated": "2025-12-28T06:25:55.470Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 2,
+          "overnight_cm": 5,
+          "24hour_inches": 2,
+          "24hour_cm": 5,
+          "48hour_inches": 0,
+          "48hour_cm": 0,
+          "7day_inches": 14,
+          "7day_cm": 36,
+          "season_total_inches": 40,
+          "season_total_cm": 102,
+          "conditions": {
+            "today": "Packed Powder",
+            "yesterday": "Packed Powder"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10155,18 +10605,107 @@
         },
         "lifts": {
           "available": false
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 13,
+            "description": "Clear",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 34,
+              "low_f": 30,
+              "description": "Partly Cloudy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 36,
+              "low_f": 12,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 3,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 3
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 10,
+              "low_f": 4,
+              "description": "Cloudy",
+              "snowfall_day_inches": 2,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 2
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 34,
+            "low_f": 30,
+            "description": "Partly Cloudy",
+            "snowfall_day_inches": 1,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 1
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": true,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false
         },
-        "alerts": [],
-        "trends": [],
+        "alerts": [
+          "2\" fresh snow overnight"
+        ],
+        "trends": [
+          "Great week for snow - 14\" in last 7 days",
+          "1\" snow expected Sunday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Major System Approaching",
+        "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. The weather models are locked in: 6\" of snow heading our way. Clear your schedule.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_fresh_coat",
+              "category": "snow",
+              "priority": 80,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_storm_major",
+              "category": "weather",
+              "priority": 88,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "storm_major",
+            "variationIndex": 4,
+            "totalVariations": 8,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Boom Boom Pow!"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10178,8 +10717,24 @@
       "resort": "tremblant",
       "resortName": "Tremblant",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.059Z",
+      "generated": "2025-12-28T06:25:55.367Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 1,
+          "48hour_cm": 2,
+          "7day_inches": 16,
+          "7day_cm": 40,
+          "season_total_inches": 87,
+          "season_total_cm": 222,
+          "conditions": {
+            "today": "Machine Groomed",
+            "yesterday": "Machine Groomed"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10208,19 +10763,116 @@
             "totalLiftsTracked": 14,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 13,
+            "high_c": null,
+            "low_c": -11,
+            "description": "Clear",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 25,
+              "low_f": 24,
+              "high_c": -4,
+              "low_c": -5,
+              "description": "Mostly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 31,
+              "low_f": 7,
+              "high_c": -1,
+              "low_c": -14,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 1,
+              "snowfall_expected": 2
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 6,
+              "low_f": -4,
+              "high_c": -14,
+              "low_c": -20,
+              "description": "Windy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 25,
+            "low_f": 24,
+            "high_c": -4,
+            "low_c": -5,
+            "description": "Mostly Cloudy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 0
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
         "alerts": [],
-        "trends": [],
+        "trends": [
+          "Great week for snow - 16\" in last 7 days",
+          "2\" snow expected Monday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Good Snow Persisting",
+        "body": "Zero new inches, but who's complaining? 16\" this week means conditions are still prime. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "snow_holding_strong",
+              "category": "snow",
+              "priority": 60,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_holding_strong",
+              "category": "snow",
+              "priority": 60,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_snow_coming",
+              "category": "weather",
+              "priority": 55,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 3,
+          "headlineSelection": {
+            "condition": "holding_strong",
+            "variationIndex": 2,
+            "totalVariations": 6,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Recent Snow Still Skiing Well"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10232,8 +10884,24 @@
       "resort": "blue",
       "resortName": "Blue Mountain",
       "date": "2025-12-28",
-      "generated": "2025-12-28T05:21:06.063Z",
+      "generated": "2025-12-28T06:25:55.423Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 1,
+          "overnight_cm": 3,
+          "24hour_inches": 1,
+          "24hour_cm": 3,
+          "48hour_inches": 1,
+          "48hour_cm": 3,
+          "7day_inches": 1,
+          "7day_cm": 3,
+          "season_total_inches": 33,
+          "season_total_cm": 84,
+          "conditions": {
+            "today": "Machine Groomed Variable Conditions",
+            "yesterday": "Machine Groomed Variable Conditions"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -10262,19 +10930,117 @@
             "totalLiftsTracked": 11,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2025-12-27",
+            "high_f": null,
+            "low_f": 19,
+            "high_c": null,
+            "low_c": -7,
+            "description": "Cloudy",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2025-12-28",
+              "high_f": 35,
+              "low_f": 35,
+              "high_c": 2,
+              "low_c": 2,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2025-12-29",
+              "high_f": 36,
+              "low_f": 13,
+              "high_c": 2,
+              "low_c": -11,
+              "description": "Rain Snow",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 1,
+              "snowfall_expected": 2
+            },
+            {
+              "date": "2025-12-30",
+              "high_f": 19,
+              "low_f": 19,
+              "high_c": -7,
+              "low_c": -7,
+              "description": "Windy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 1,
+              "snowfall_expected": 2
+            }
+          ],
+          "tomorrow": {
+            "date": "2025-12-28",
+            "high_f": 35,
+            "low_f": 35,
+            "high_c": 2,
+            "low_c": 2,
+            "description": "Rain Snow",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 0
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": true,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
-        "trends": [],
+        "alerts": [
+          "1\" new snow overnight"
+        ],
+        "trends": [
+          "2\" snow expected Monday"
+        ],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "1\" Freshened Things Up",
+        "body": "A light refresh of 1\" overnight makes the groomers smoother and the off-piste a bit softer. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "snow_fresh_coat",
+              "category": "snow",
+              "priority": 80,
+              "usedFor": "headline"
+            },
+            {
+              "id": "snow_fresh_coat",
+              "category": "snow",
+              "priority": 80,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_snow_coming",
+              "category": "weather",
+              "priority": 55,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 3,
+          "headlineSelection": {
+            "condition": "fresh_coat",
+            "variationIndex": 2,
+            "totalVariations": 6,
+            "usedWeekendVariation": false,
+            "previousHeadline": "The Mountain Got a Touch-Up"
+          },
+          "dayOfWeek": "Sunday"
+        }
+      },
       "errors": []
     }
   },
@@ -10389,7 +11155,7 @@
       "resort": "cypressmountain",
       "resortName": "Cypress Mountain",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.074Z",
+      "generated": "2025-12-28T06:25:55.473Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -10410,14 +11176,14 @@
         "terrain": {
           "stats": {
             "openTrails": {
+              "today": 31,
+              "yesterday": 29,
+              "delta": 2
+            },
+            "groomedTrails": {
               "today": 26,
               "yesterday": 29,
               "delta": -3
-            },
-            "groomedTrails": {
-              "today": 25,
-              "yesterday": 29,
-              "delta": -4
             },
             "totalTrails": 96
           },
@@ -10433,12 +11199,15 @@
               "area": "Lions Express"
             }
           ],
-          "newlyClosed": [
+          "newlyClosed": [],
+          "newlyGroomed": [
             {
-              "name": "T-33",
+              "name": "Lower Fork",
               "difficulty": "Blue",
-              "area": "Sky Quad"
-            },
+              "area": "Eagle Express"
+            }
+          ],
+          "ungroomed": [
             {
               "name": "Horsefly Canyon",
               "difficulty": "Blue",
@@ -10459,15 +11228,7 @@
               "difficulty": "Black",
               "area": "Sky Quad"
             }
-          ],
-          "newlyGroomed": [
-            {
-              "name": "Lower Fork",
-              "difficulty": "Blue",
-              "area": "Eagle Express"
-            }
-          ],
-          "ungroomed": []
+          ]
         },
         "lifts": {
           "available": false
@@ -10493,7 +11254,7 @@
             },
             {
               "date": "2025-12-29",
-              "high_f": 37,
+              "high_f": 36,
               "low_f": 35,
               "description": "Cloudy",
               "snowfall_day_inches": 0,
@@ -10534,6 +11295,7 @@
         ],
         "trends": [
           "Great week for snow - 36\" in last 7 days",
+          "2 more trails open than yesterday",
           "2\" snow expected Sunday"
         ],
         "recommendations": [
@@ -10541,14 +11303,14 @@
         ]
       },
       "morningBrief": {
-        "headline": "Soft Snow Holding Strong",
-        "body": "The 36\" from this week is still skiing great. No new snow needed (yet). 2 trails opened today expanding access to fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
+        "headline": "Fresh Terrain Unlocked",
+        "body": "The 36\" from this week is still skiing great. No new snow needed (yet). New terrain alert: 2 trails added to the mix. The mountain just got bigger. The weather gods are being generous (ish). Some snow headed our way soon.",
         "debug": {
           "firedRules": [
             {
-              "id": "snow_holding_strong",
-              "category": "snow",
-              "priority": 60,
+              "id": "terrain_expansion",
+              "category": "terrain",
+              "priority": 85,
               "usedFor": "headline"
             },
             {
@@ -10558,9 +11320,9 @@
               "usedFor": "body"
             },
             {
-              "id": "terrain_new_trails_opened",
+              "id": "terrain_expansion",
               "category": "terrain",
-              "priority": 65,
+              "priority": 85,
               "usedFor": "body"
             },
             {
@@ -10570,13 +11332,13 @@
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 5,
+          "totalRulesFired": 6,
           "headlineSelection": {
-            "condition": "holding_strong",
-            "variationIndex": 0,
+            "condition": "terrain_expansion",
+            "variationIndex": 4,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Terrain Unlocked"
+            "previousHeadline": "Soft Snow Holding Strong"
           },
           "dayOfWeek": "Saturday"
         }
@@ -10968,7 +11730,7 @@
       "resort": "junemountain",
       "resortName": "June Mountain",
       "date": "2025-12-27",
-      "generated": "2025-12-28T05:21:06.045Z",
+      "generated": "2025-12-28T06:25:55.313Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -11092,7 +11854,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Winter Delivered Big",
+        "headline": "Fresh Tracks for Days",
         "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere you look.",
         "debug": {
           "firedRules": [
@@ -11115,7 +11877,7 @@
             "variationIndex": 4,
             "totalVariations": 12,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Tracks for Days"
+            "previousHeadline": "Winter Delivered Big"
           },
           "dayOfWeek": "Saturday"
         }
