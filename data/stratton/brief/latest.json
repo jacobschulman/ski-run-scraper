@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-28",
-  "generated": "2025-12-28T10:20:16.196Z",
+  "generated": "2025-12-28T11:14:51.236Z",
   "rawData": {
     "snow": {
       "overnight_inches": 6,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 86,
+          "today": 91,
           "yesterday": 86,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 59,
@@ -34,10 +34,48 @@
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Downtowner",
+          "difficulty": "Easy",
+          "area": "Learning Areas"
+        },
+        {
+          "name": "Lower Down Easter",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Big D",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Dino's Drop",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Lower East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Down Easter",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Upper Grizzly Bear",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -63,11 +101,11 @@
       "outlook": [
         {
           "date": "2025-12-28",
-          "high_f": 38,
+          "high_f": 37,
           "low_f": 32,
           "high_c": 3,
           "low_c": 0,
-          "description": "Mostly Cloudy",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -75,9 +113,9 @@
         {
           "date": "2025-12-29",
           "high_f": 42,
-          "low_f": 8,
-          "high_c": 5,
-          "low_c": -13,
+          "low_f": 7,
+          "high_c": 6,
+          "low_c": -14,
           "description": "Rain Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -85,10 +123,10 @@
         },
         {
           "date": "2025-12-30",
-          "high_f": 8,
-          "low_f": 8,
+          "high_f": 7,
+          "low_f": 7,
           "high_c": -14,
-          "low_c": -13,
+          "low_c": -14,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -97,11 +135,11 @@
       ],
       "tomorrow": {
         "date": "2025-12-28",
-        "high_f": 38,
+        "high_f": 37,
         "low_f": 32,
         "high_c": 3,
         "low_c": 0,
-        "description": "Mostly Cloudy",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -112,22 +150,27 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "6\" fresh snow overnight",
-      "6\" in last 24 hours - powder day!"
+      "6\" in last 24 hours - powder day!",
+      "5 new trails opened today",
+      "1 trail freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days"
+      "Steady snowfall - 6\" in last 7 days",
+      "5 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Down Easter - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Dump Day at Stratton",
-    "body": "The mountain is absolutely buried with 6\" of fresh. This is not a drill.",
+    "headline": "Time to Call in Sick",
+    "body": "The mountain is absolutely buried with 6\" of fresh. This is not a drill. 5 more trails are in play today. The groomers are getting stretched thin (in a good way).",
     "debug": {
       "firedRules": [
         {
@@ -141,15 +184,21 @@
           "category": "snow",
           "priority": 100,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 7,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Time to Call in Sick"
+        "previousHeadline": "Dump Day at {resortName}"
       },
       "dayOfWeek": "Sunday"
     }
