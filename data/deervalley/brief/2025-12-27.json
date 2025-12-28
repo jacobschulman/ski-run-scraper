@@ -2,19 +2,19 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-27",
-  "generated": "2025-12-28T04:41:12.870Z",
+  "generated": "2025-12-28T05:21:06.019Z",
   "rawData": {
     "snow": {
       "overnight_inches": 5,
       "overnight_cm": 13,
-      "24hour_inches": 5,
-      "24hour_cm": 13,
-      "48hour_inches": 5,
-      "48hour_cm": 13,
-      "7day_inches": 5,
-      "7day_cm": 13,
-      "season_total_inches": 43,
-      "season_total_cm": 109,
+      "24hour_inches": 10,
+      "24hour_cm": 25,
+      "48hour_inches": 10,
+      "48hour_cm": 25,
+      "7day_inches": 10,
+      "7day_cm": 25,
+      "season_total_inches": 45,
+      "season_total_cm": 114,
       "conditions": {
         "today": "Machine Groomed Variable Conditions",
         "yesterday": "Machine Groomed Variable Conditions"
@@ -168,17 +168,19 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
       "5\" fresh snow overnight",
+      "10\" in last 24 hours - powder day!",
       "7 new trails opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
+      "Steady snowfall - 10\" in last 7 days",
       "Grooming increased 24% from yesterday",
       "7 more trails open than yesterday"
     ],
@@ -189,20 +191,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "More Mountain to Explore",
-    "body": "Overnight dusting of 5\" means the hardpack got a makeover. Looking good out there. The ski patrol has been busy—7 additional trails are now yours to enjoy. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Weekend Powder Jackpot",
+    "body": "10\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. The ski patrol has been busy—7 additional trails are now yours to enjoy. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
           "usedFor": "headline"
         },
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_powder_alert",
           "category": "snow",
-          "priority": 80,
+          "priority": 100,
           "usedFor": "body"
         },
         {
@@ -218,13 +220,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 2,
-        "totalVariations": 6,
-        "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+        "condition": "powder_alert",
+        "variationIndex": 0,
+        "totalVariations": 12,
+        "usedWeekendVariation": true,
+        "previousHeadline": "More Mountain to Explore"
       },
       "dayOfWeek": "Saturday"
     }
