@@ -2,13 +2,13 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2025-12-29",
-  "generated": "2025-12-29T20:19:53.416Z",
+  "generated": "2025-12-29T21:16:04.356Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
       "overnight_cm": 8,
-      "24hour_inches": 6,
-      "24hour_cm": 15,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
       "48hour_inches": 12,
       "48hour_cm": 30,
       "7day_inches": 17,
@@ -277,13 +277,12 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "3\" fresh snow overnight",
-      "6\" in last 24 hours - powder day!",
       "4 new trails opened today",
       "31 trails freshly groomed"
     ],
@@ -299,20 +298,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Powder Day Alert! ❄️",
-    "body": "Wake up, it's a powder day! 6\" overnight means hero snow everywhere you look. The ski patrol has been busy—4 additional trails are now yours to enjoy. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "The Map Just Got Bigger",
+    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. The ski patrol has been busy—4 additional trails are now yours to enjoy. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
-          "category": "snow",
-          "priority": 100,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_fresh_coat",
           "category": "snow",
-          "priority": 100,
+          "priority": 80,
           "usedFor": "body"
         },
         {
@@ -330,11 +329,11 @@
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 0,
-        "totalVariations": 12,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": "Powder Day Alert! ❄️"
       },
       "dayOfWeek": "Monday"
     }
