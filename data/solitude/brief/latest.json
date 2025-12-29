@@ -2,8 +2,24 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-29",
-  "generated": "2025-12-29T07:22:55.754Z",
+  "generated": "2025-12-29T08:26:34.708Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 8,
+      "24hour_cm": 20,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 13,
+      "7day_cm": 33,
+      "season_total_inches": 74,
+      "season_total_cm": 188,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,111 @@
         "totalLiftsTracked": 9,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2025-12-28",
+        "high_f": null,
+        "low_f": 14,
+        "high_c": null,
+        "low_c": -10,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2025-12-29",
+          "high_f": 30,
+          "low_f": 25,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-30",
+          "high_f": 37,
+          "low_f": 32,
+          "high_c": 3,
+          "low_c": 0,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-31",
+          "high_f": 42,
+          "low_f": 33,
+          "high_c": 5,
+          "low_c": 1,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-29",
+        "high_f": 30,
+        "low_f": 25,
+        "high_c": -1,
+        "low_c": -4,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight",
+      "8\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 13\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Time to Call in Sick",
+    "body": "8\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 12,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Tracks for Days"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
