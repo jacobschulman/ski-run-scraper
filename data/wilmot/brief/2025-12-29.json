@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2025-12-29",
-  "generated": "2025-12-29T11:17:00.940Z",
+  "generated": "2025-12-29T15:19:41.636Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,50 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "totalTrails": 26
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Turtle",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Lower Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Meadows",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Paradise",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sunnyside",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -85,8 +54,8 @@
         "date": "2025-12-29",
         "high_f": 21,
         "low_f": 12,
-        "high_c": -6,
-        "low_c": -12,
+        "high_c": -7,
+        "low_c": -11,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -94,10 +63,10 @@
       "outlook": [
         {
           "date": "2025-12-30T06:00:00Z",
-          "high_f": 23,
-          "low_f": 9,
+          "high_f": 24,
+          "low_f": 8,
           "high_c": -5,
-          "low_c": -13,
+          "low_c": -14,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -105,10 +74,10 @@
         },
         {
           "date": "2025-12-31T06:00:00Z",
-          "high_f": 26,
+          "high_f": 27,
           "low_f": 10,
-          "high_c": -4,
-          "low_c": -13,
+          "high_c": -3,
+          "low_c": -12,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -116,11 +85,11 @@
         },
         {
           "date": "2026-01-01T06:00:00Z",
-          "high_f": 14,
-          "low_f": 5,
+          "high_f": 15,
+          "low_f": 4,
           "high_c": -10,
-          "low_c": -15,
-          "description": "Mostly Cloudy",
+          "low_c": -16,
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -128,10 +97,10 @@
       ],
       "tomorrow": {
         "date": "2025-12-30T06:00:00Z",
-        "high_f": 23,
-        "low_f": 9,
+        "high_f": 24,
+        "low_f": 8,
         "high_c": -5,
-        "low_c": -13,
+        "low_c": -14,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -152,30 +121,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "The mountain is still prepping for the season. Weather today: Windy, 21°F.",
+    "headline": "Conditions Report",
+    "body": "6 trails open, 6 groomed. Windy, high of 21°. 6 of 26 trails are open with 6 groomed. Windy with a high of 21°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "fallback",
         "variationIndex": 4,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Monday"
     }
