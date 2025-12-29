@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2025-12-29",
-  "generated": "2025-12-29T16:21:15.375Z",
+  "generated": "2025-12-29T17:15:37.653Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 24,
+          "today": 25,
           "yesterday": 24,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 8,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "North Star",
+          "difficulty": "Intermediate",
+          "area": "Solitude Canyon"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -85,11 +91,11 @@
         },
         {
           "date": "2026-01-01",
-          "high_f": 32,
+          "high_f": 33,
           "low_f": 32,
           "high_c": 0,
           "low_c": 0,
-          "description": "Rain Snow",
+          "description": "Snow",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 2,
           "snowfall_expected": 4
@@ -112,26 +118,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "4\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Clear Skies, Cold Temps",
-    "body": "No fresh overnight, but 13\" in the past week is keeping things soft and fun. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "New Runs Now Open",
+    "body": "No fresh overnight, but 13\" in the past week is keeping things soft and fun. The ski patrol has been busy—1 additional trail is now yours to enjoy. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird_day",
-          "category": "weather",
-          "priority": 70,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +150,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Bluebird Day"
+        "previousHeadline": "Clear Skies, Cold Temps"
       },
       "dayOfWeek": "Monday"
     }
