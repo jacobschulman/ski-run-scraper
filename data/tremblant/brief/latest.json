@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-30",
-  "generated": "2025-12-30T12:40:01.970Z",
+  "generated": "2025-12-30T13:36:21.036Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 80,
+          "today": 94,
           "yesterday": 80,
-          "delta": 0
+          "delta": 14
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 53,
-          "delta": 10
+          "delta": 11
         },
         "totalTrails": 129
       },
@@ -46,6 +46,11 @@
           "area": "South Side"
         },
         {
+          "name": "Parc Adrénaline",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
           "name": "Parc Progression",
           "difficulty": "Terrain Park",
           "area": "South Side"
@@ -54,6 +59,21 @@
           "name": "Taschereau",
           "difficulty": "Very Difficult",
           "area": "South Side"
+        },
+        {
+          "name": "Archipel Bas",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Archipel Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "C.B.C.",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
         },
         {
           "name": "Lowell Thomas",
@@ -66,18 +86,43 @@
           "area": "North Side"
         },
         {
+          "name": "Taïga",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
           "name": "Vanier",
           "difficulty": "Difficult",
           "area": "North Side"
         },
         {
-          "name": "Tapecul",
-          "difficulty": "Difficult",
-          "area": "Versant Soleil"
+          "name": "Émotion",
+          "difficulty": "Extreme Terrain",
+          "area": "The Edge"
         },
         {
-          "name": "Tiguidou",
+          "name": "Extension",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Réaction",
           "difficulty": "Very Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Sensation Bas",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Sensation Haut",
+          "difficulty": "Extreme Terrain",
+          "area": "The Edge"
+        },
+        {
+          "name": "Tapecul",
+          "difficulty": "Difficult",
           "area": "Versant Soleil"
         },
         {
@@ -98,21 +143,6 @@
           "area": "North Side"
         },
         {
-          "name": "Fuddle Duddle Bas",
-          "difficulty": "Easy",
-          "area": "North Side"
-        },
-        {
-          "name": "Fuddle Duddle Haut",
-          "difficulty": "Difficult",
-          "area": "North Side"
-        },
-        {
-          "name": "Les Vallons",
-          "difficulty": "Difficult",
-          "area": "North Side"
-        },
-        {
           "name": "LTE",
           "difficulty": "Difficult",
           "area": "North Side"
@@ -126,16 +156,6 @@
           "name": "Tunnel",
           "difficulty": "Very Difficult",
           "area": "North Side"
-        },
-        {
-          "name": "Windigo",
-          "difficulty": "Difficult",
-          "area": "North Side"
-        },
-        {
-          "name": "Haute Tension",
-          "difficulty": "Extreme Terrain",
-          "area": "The Edge"
         }
       ],
       "newlyGroomed": [
@@ -143,11 +163,6 @@
           "name": "Voyageur",
           "difficulty": "Easy",
           "area": "South Side"
-        },
-        {
-          "name": "Tiguidou",
-          "difficulty": "Very Difficult",
-          "area": "Versant Soleil"
         }
       ],
       "ungroomed": []
@@ -226,30 +241,31 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
-      "significantGroomingIncrease": false,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "10 new trails opened today",
-      "2 trails freshly groomed"
+      "19 new trails opened today",
+      "1 trail freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 14\" in last 7 days"
+      "Great week for snow - 14\" in last 7 days",
+      "Grooming increased 21% from yesterday",
+      "14 more trails open than yesterday"
     ],
     "recommendations": [
-      "Fresh corduroy on Voyageur - all skill levels",
-      "Fresh corduroy on Tiguidou - all skill levels"
+      "Fresh corduroy on Voyageur - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Brace yourself: 1° today. The upside? The snow is going to be cold smoke.",
+    "headline": "More Mountain to Explore",
+    "body": "4\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. The ski patrol has been busy—19 additional trails are now yours to enjoy. Brace yourself: 1° today. The upside? The snow is going to be cold smoke.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -259,19 +275,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_cold_snap",
           "category": "weather",
           "priority": 52,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "terrain_expansion",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Tuesday"
     }

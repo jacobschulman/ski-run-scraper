@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2025-12-30",
-  "generated": "2025-12-30T12:40:01.928Z",
+  "generated": "2025-12-30T13:36:20.997Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 37,
+          "today": 39,
           "yesterday": 37,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 21,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 227
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Bandana",
+          "difficulty": "Easy",
+          "area": "Flagstaff Mountain"
+        },
+        {
+          "name": "Lucky Jack",
+          "difficulty": "Easy",
+          "area": "Flagstaff Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,26 +123,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 10\" in last 7 days",
+      "2 more trails open than yesterday",
       "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "Steady snowfall with 10\" over the last week. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "New Runs Now Open",
+    "body": "Steady snowfall with 10\" over the last week. The ski patrol has been busy—2 additional trails are now yours to enjoy. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +155,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Tuesday"
     }
