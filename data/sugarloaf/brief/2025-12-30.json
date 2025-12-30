@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-30",
-  "generated": "2025-12-30T11:17:46.823Z",
+  "generated": "2025-12-30T12:40:01.985Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,44 +23,83 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 52,
+          "today": 53,
           "yesterday": 52,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 38,
+          "today": 43,
           "yesterday": 38,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Spillway",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Spillway",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Ramdown",
+          "difficulty": "Blue",
+          "area": "King Pine"
+        }
+      ]
     },
     "lifts": {
       "available": false
     },
     "forecast": {
       "today": {
-        "date": "2025-12-29",
-        "high_f": null,
-        "low_f": 3,
-        "description": "Rain Snow",
-        "snowfall_day_inches": 2,
+        "date": "2025-12-30",
+        "high_f": 3,
+        "low_f": -9,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-30",
-          "high_f": 3,
-          "low_f": -9,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2025-12-31",
           "high_f": 6,
@@ -78,16 +117,25 @@
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-02",
+          "high_f": 0,
+          "low_f": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-30",
-        "high_f": 3,
-        "low_f": -9,
+        "date": "2025-12-31",
+        "high_f": 6,
+        "low_f": 7,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -95,27 +143,34 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "2\" fresh snow overnight",
+      "1 new trail opened today",
+      "6 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 14\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Lower Spillway - perfect for intermediate skiers",
+      "Fresh corduroy on Upper Spillway - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 2\" Fresh",
-    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "Terrain is Expanding",
+    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. New terrain alert: 1 trail added to the mix. The mountain just got bigger. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -125,19 +180,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 9,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Tuesday"
     }
