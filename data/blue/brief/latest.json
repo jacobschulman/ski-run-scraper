@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2025-12-30",
-  "generated": "2025-12-30T09:21:40.123Z",
+  "generated": "2025-12-30T10:28:28.141Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,39 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 38,
           "yesterday": 34,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 34,
+          "today": 37,
           "yesterday": 34,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Gord's Groove",
+          "difficulty": "Easy",
+          "area": "Orchard"
+        },
+        {
+          "name": "Juicer",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Willy's",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,31 +133,40 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "The rundown: 34 trails open, 34 groomed. Snow Wind with temps around null°. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "More Mountain to Explore",
+    "body": "The rundown: 38 trails open, 37 groomed. Snow Wind with temps around null°. Terrain is expanding with 4 new trails now open. More room to roam, less traffic to dodge. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -148,11 +178,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "terrain_expansion",
         "variationIndex": 3,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead ❄️"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Tuesday"
     }
