@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-30",
-  "generated": "2025-12-30T19:14:44.467Z",
+  "generated": "2025-12-30T20:19:15.380Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 44,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 34,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Inverness",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -69,19 +75,19 @@
           "low_c": -14,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         },
         {
           "date": "2026-01-01",
           "high_f": 6,
-          "low_f": -1,
+          "low_f": -2,
           "high_c": -14,
           "low_c": -19,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-02",
@@ -103,8 +109,8 @@
         "low_c": -14,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 1,
-        "snowfall_expected": 1
+        "snowfall_night_inches": 2,
+        "snowfall_expected": 2
       }
     }
   },
@@ -112,25 +118,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "1\" snow expected Wednesday"
+      "1 more trail open than yesterday",
+      "2\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "A light refresh of 1\" overnight makes the groomers smoother and the off-piste a bit softer. Light snow possible in the forecast.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "A light refresh of 1\" overnight makes the groomers smoother and the off-piste a bit softer. 1 more trail is in play today. The groomers are getting stretched thin (in a good way). Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +149,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Tuesday"
     }
