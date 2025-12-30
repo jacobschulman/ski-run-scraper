@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-29",
-  "generated": "2025-12-30T03:24:43.798Z",
+  "generated": "2025-12-30T04:36:35.023Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,36 +23,68 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 57,
+          "today": 63,
           "yesterday": 60,
-          "delta": -3
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 63,
           "yesterday": 60,
-          "delta": -3
+          "delta": 3
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Tyrolienne",
+          "name": "Home Run",
           "difficulty": "Easy",
-          "area": "Learning Areas"
+          "area": "Sun Bowl"
         },
         {
-          "name": "East Byrnes Side",
-          "difficulty": "Terrain Park",
-          "area": "Lower Mountain"
+          "name": "Tree Top Way",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
         },
+        {
+          "name": "Upper Grizzly Bear",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Middlebrook",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
+      "newlyClosed": [
         {
           "name": "Polar Bear",
           "difficulty": "Expert",
           "area": "Upper Mountain"
         }
       ],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Home Run",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Tree Top Way",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Upper Grizzly Bear",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Middlebrook",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -91,8 +123,8 @@
         {
           "date": "2025-12-31",
           "high_f": 15,
-          "low_f": 12,
-          "high_c": -9,
+          "low_f": 13,
+          "high_c": -10,
           "low_c": -11,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -101,9 +133,9 @@
         },
         {
           "date": "2026-01-01",
-          "high_f": 11,
+          "high_f": 12,
           "low_f": 4,
-          "high_c": -12,
+          "high_c": -11,
           "low_c": -15,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -128,26 +160,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today",
+      "4 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
+      "3 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Home Run - all skill levels",
+      "Fresh corduroy on Tree Top Way - all skill levels",
+      "Fresh corduroy on Upper Grizzly Bear - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "Steady snowfall with 6\" over the last week. Light snow possible in the forecast.",
+    "headline": "The Map Just Got Bigger",
+    "body": "Steady snowfall with 6\" over the last week. Terrain is expanding with 4 new trails now open. More room to roam, less traffic to dodge. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -157,19 +197,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Monday"
     }
