@@ -840,6 +840,31 @@ async function scrapeAlternateProviderResorts(resortsToScrape, scrapeOptions = {
     }
   }
 
+  // Process Aspen Snowmass resorts
+  if (resortsByProvider.aspensnowmass && resortsByProvider.aspensnowmass.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.aspensnowmass.length} Aspen Snowmass resort(s)...`);
+
+    for (const resort of resortsByProvider.aspensnowmass) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (Aspen Snowmass)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        const normalizedData = dataNormalization.normalizeAspenResort(rawData, resort.key);
+
+        if (scrapeTerrain) {
+          const result = saveAlternateProviderTerrainData(resort.key, normalizedData);
+          if (result) {
+            scrapedData.push({ resortKey: resort.key, terrain: result, snow: null });
+          }
+        }
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
+
   return scrapedData;
 }
 

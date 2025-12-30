@@ -2,8 +2,24 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-30",
-  "generated": "2025-12-30T05:21:06.940Z",
+  "generated": "2025-12-30T06:20:25.575Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 14,
+      "7day_cm": 36,
+      "season_total_inches": 43,
+      "season_total_cm": 109,
+      "conditions": {
+        "today": "Wet Snow",
+        "yesterday": "Wet Snow"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -25,17 +41,106 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2025-12-29",
+        "high_f": null,
+        "low_f": 3,
+        "description": "Rain Snow",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2025-12-30",
+          "high_f": 1,
+          "low_f": -9,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2025-12-31",
+          "high_f": 6,
+          "low_f": 7,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-01",
+          "high_f": 9,
+          "low_f": -3,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2025-12-30",
+        "high_f": 1,
+        "low_f": -9,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
+    "trends": [
+      "Great week for snow - 14\" in last 7 days",
+      "2\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Overnight Refresh: 2\" Fresh",
+    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_fresh_coat",
+          "category": "snow",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
