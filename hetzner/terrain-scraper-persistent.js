@@ -44,6 +44,7 @@ const health = {
   startTime: Date.now(),
   ikon: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
   vail: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  aspen: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
 };
 
 // Shared browser for Vail scraping
@@ -219,6 +220,192 @@ async function runIkonTerrainScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ASPEN SNOWMASS TERRAIN SCRAPER (HTTP API)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const ASPEN_BASE_URL = 'https://www.aspensnowmass.com/AspenSnowmass';
+
+function fetchAspenData(endpoint) {
+  return new Promise((resolve, reject) => {
+    https.get(`${ASPEN_BASE_URL}/${endpoint}`, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (e) {
+            reject(new Error(`Parse error: ${e.message}`));
+          }
+        } else {
+          reject(new Error(`HTTP ${res.statusCode}`));
+        }
+      });
+    }).on('error', reject);
+  });
+}
+
+function saveAspenTerrainData(resortKey, liftData, snowData, groomingData) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Denver';
+  const today = seasonUtils.getResortLocalDate(timezone);
+
+  // Build normalized terrain data
+  const lifts = (liftData?.liftStatuses || []).map(lift => ({
+    Name: lift.liftName,
+    Status: lift.status,
+    Type: lift.type,
+    Hours: lift.hoursOfOperation,
+    ElevationGain: lift.elevationGainFeet ? parseInt(lift.elevationGainFeet.replace(',', '')) : null,
+    RideTime: lift.time ? parseInt(lift.time) : null,
+    Area: lift.area,
+  }));
+
+  // Extract trails from grooming data
+  const trails = [];
+  if (groomingData?.areas) {
+    for (const area of groomingData.areas) {
+      for (const trail of (area.trails || [])) {
+        trails.push({
+          Name: trail.name,
+          IsOpen: trail.isOpen || trail.isDayOpen,
+          IsGroomed: trail.isGroomed,
+          Difficulty: trail.difficulty,
+          Area: area.name,
+        });
+      }
+    }
+  }
+
+  const terrainData = {
+    Lifts: lifts,
+    Trails: trails,
+    SnowReport: snowData ? {
+      LastUpdated: snowData.lastUpdated,
+      Status: snowData.status,
+      Snow24h: snowData.snow24Hours?.inches ? parseInt(snowData.snow24Hours.inches) : null,
+      Snow48h: snowData.snow48Hours?.inches ? parseInt(snowData.snow48Hours.inches) : null,
+      Snow7Day: snowData.snow7Days?.inches ? parseInt(snowData.snow7Days.inches) : null,
+      BaseDepth: snowData.snowBase?.inches ? parseInt(snowData.snowBase.inches) : null,
+      TrailsOpen: snowData.trails?.openCount,
+      TrailsTotal: snowData.trails?.totalCount,
+      LiftsOpen: snowData.lifts?.openCount,
+      LiftsTotal: snowData.lifts?.totalCount,
+      AcresOpen: snowData.acres?.openCount,
+      AcresTotal: snowData.acres?.totalCount,
+    } : null,
+    provider: 'aspensnowmass',
+    scrapedAt: new Date().toISOString(),
+    date: today,
+  };
+
+  // Ensure directory exists
+  const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
+  fileStorage.ensureDirectoryExists(terrainDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(terrainDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(terrainData, null, 2));
+
+  // Save as latest.json
+  const latestFile = path.join(terrainDir, 'latest.json');
+  fs.writeFileSync(latestFile, JSON.stringify(terrainData, null, 2));
+
+  // Update terrain index
+  const terrainFiles = fs.readdirSync(terrainDir)
+    .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort().reverse();
+
+  const terrainIndex = {
+    resort: resortKey,
+    resortName: resort.name,
+    provider: 'aspensnowmass',
+    files: terrainFiles,
+    latest: terrainFiles[0] || null,
+    count: terrainFiles.length,
+    lastUpdated: new Date().toISOString(),
+  };
+  fs.writeFileSync(path.join(terrainDir, 'index.json'), JSON.stringify(terrainIndex, null, 2));
+
+  return terrainData;
+}
+
+async function runAspenTerrainScraper() {
+  console.log(`\n[ASPEN-TERRAIN] Checking resorts...`);
+  health.aspen.lastRun = new Date().toISOString();
+
+  try {
+    // Get in-season Aspen resorts (those with apiProvider: 'aspensnowmass')
+    const aspenResorts = config.resorts.filter(r =>
+      r.apiProvider === 'aspensnowmass' &&
+      seasonUtils.isResortInSeason(r, config)
+    );
+
+    // Filter to resorts in their scraping window that haven't been scraped today
+    const resortsToScrape = aspenResorts.filter(r => {
+      if (hasScrapedToday(r.key, r.timezone)) return false;
+      if (!isInScrapingWindow(r)) return false;
+      return true;
+    });
+
+    if (resortsToScrape.length === 0) {
+      console.log('[ASPEN-TERRAIN] No resorts need scraping right now');
+      return;
+    }
+
+    console.log(`[ASPEN-TERRAIN] Scraping ${resortsToScrape.length} resorts`);
+    health.aspen.totalRuns++;
+
+    let scraped = 0;
+
+    for (const resort of resortsToScrape) {
+      try {
+        const mountainId = resort.apiConfig?.mountainId;
+        if (!mountainId) {
+          console.log(`[ASPEN-TERRAIN] ⏭️  ${resort.key} - no mountainId configured`);
+          continue;
+        }
+
+        // Fetch all three data sources
+        const [liftData, snowData, groomingData] = await Promise.all([
+          fetchAspenData(`LiftStatus/Feed?mountain=${mountainId}&areas=&isSummer=False`).catch(() => null),
+          fetchAspenData(`SnowReport/Feed?mountain=${mountainId}`).catch(() => null),
+          fetchAspenData(`GroomingReport/Feed?mountain=${mountainId}`).catch(() => null),
+        ]);
+
+        if (!liftData && !snowData && !groomingData) {
+          console.log(`[ASPEN-TERRAIN] ⏭️  ${resort.key} - no data available`);
+          continue;
+        }
+
+        const saved = saveAspenTerrainData(resort.key, liftData, snowData, groomingData);
+        if (saved) {
+          scraped++;
+          markScrapedToday(resort.key, resort.timezone);
+          const localTime = seasonUtils.getResortLocalTimeFormatted(resort.timezone);
+          const liftCount = saved.Lifts?.length || 0;
+          const trailCount = saved.Trails?.length || 0;
+          console.log(`[ASPEN-TERRAIN] ✓ ${resort.key} (${localTime}) - ${liftCount} lifts, ${trailCount} trails`);
+        }
+      } catch (e) {
+        console.error(`[ASPEN-TERRAIN] ✗ ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.aspen.resortsScraped += scraped;
+    health.aspen.consecutiveFailures = 0;
+    health.aspen.lastSuccess = new Date().toISOString();
+    console.log(`[ASPEN-TERRAIN] Completed: ${scraped} resorts`);
+
+  } catch (error) {
+    console.error(`[ASPEN-TERRAIN] Error: ${error.message}`);
+    health.aspen.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // VAIL TERRAIN SCRAPER (Puppeteer)
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -387,10 +574,11 @@ const HEALTH_FILE = path.join(__dirname, 'terrain-health.json');
 function writeHealthFile() {
   const healthData = {
     scraper: 'terrain',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
+    aspen: health.aspen,
     scrapedToday: Object.fromEntries(scrapedToday),
     updatedAt: new Date().toISOString(),
   };
@@ -426,8 +614,9 @@ async function main() {
 
   // Main loop - check periodically for resorts in their scraping window
   while (!isShuttingDown) {
-    // Run both scrapers (they filter internally based on timing)
+    // Run all scrapers (they filter internally based on timing)
     await runIkonTerrainScraper();
+    await runAspenTerrainScraper();
     await runVailTerrainScraper();
 
     // Wait before next check
