@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-30",
-  "generated": "2025-12-30T13:36:21.055Z",
+  "generated": "2025-12-30T14:18:11.818Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 77,
+          "today": 78,
           "yesterday": 77,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 68,
+          "today": 69,
           "yesterday": 67,
-          "delta": 1
+          "delta": 2
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "T72",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -60,7 +66,7 @@
       "outlook": [
         {
           "date": "2025-12-31",
-          "high_f": 14,
+          "high_f": 13,
           "low_f": 12,
           "description": "Windy",
           "snowfall_day_inches": 1,
@@ -88,7 +94,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-31",
-        "high_f": 14,
+        "high_f": 13,
         "low_f": 12,
         "description": "Windy",
         "snowfall_day_inches": 1,
@@ -101,14 +107,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "1 new trail opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -116,14 +124,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Good Snow Persisting",
-    "body": "Zero new inches, but who's complaining? 13\" this week means conditions are still prime. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "Zero new inches, but who's complaining? 13\" this week means conditions are still prime. 1 new run just opened up. Time to explore some fresh terrain. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -133,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Recent Snow Still Skiing Well"
+        "previousHeadline": "Good Snow Persisting"
       },
       "dayOfWeek": "Tuesday"
     }
