@@ -4,6 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Live Lift Wait Monitor</title>
+  <!-- Inline fallback styles for standalone deployment (Hetzner) -->
+  <style>
+    :root {
+      --bg: #0c1a2b;
+      --panel: #0f243a;
+      --card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #9bb3d1;
+      --accent: #7bd8ff;
+      --accent-2: #9b7bff;
+      --positive: #7bffc3;
+      --negative: #ff8f87;
+      --warning: #ffcc66;
+      --chip: rgba(255, 255, 255, 0.06);
+      --shadow: 0 10px 50px rgba(0, 0, 0, 0.4);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at 20% 20%, rgba(123, 216, 255, 0.08), transparent 30%),
+                  radial-gradient(circle at 80% 0%, rgba(155, 123, 255, 0.12), transparent 32%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .page { max-width: 1200px; margin: 0 auto; }
+    h1 { margin: 0; font-size: 1.8rem; letter-spacing: -0.02em; }
+    .subtitle { margin: 6px 0 0; color: var(--muted); font-size: 0.95rem; }
+    .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 16px; }
+    label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+    select, input[type="search"] {
+      width: 100%; background: var(--card); color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px; font-size: 1rem; box-shadow: var(--shadow); outline: none;
+    }
+    select:focus, input:focus { border-color: var(--accent); background: rgba(255, 255, 255, 0.05); }
+    .meta-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .meta-pill { background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: 8px 12px; font-size: 0.9rem; color: var(--muted); }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); color: var(--text); font-size: 0.95rem; }
+    table { width: 100%; border-collapse: collapse; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    thead { background: linear-gradient(135deg, rgba(123, 216, 255, 0.12), rgba(155, 123, 255, 0.12)); }
+    th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); font-weight: 700; }
+    tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; background: var(--card); border: 1px solid var(--border); font-size: 0.9rem; }
+    .status.open { color: var(--positive); border-color: rgba(123, 255, 195, 0.3); }
+    .status.closed { color: var(--negative); border-color: rgba(255, 143, 135, 0.3); }
+    .chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 10px; background: var(--chip); border: 1px solid var(--border); font-size: 0.9rem; }
+    .empty { padding: 18px; color: var(--muted); text-align: center; }
+    @media (max-width: 860px) {
+      .header { flex-direction: column; align-items: flex-start; }
+      table, thead, tbody, th, td, tr { display: block; }
+      thead { display: none; }
+      tbody tr { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+      td { border-bottom: 1px solid var(--border); padding: 12px 14px; }
+      td:last-child { border-bottom: none; }
+      td::before { content: attr(data-label); display: block; font-size: 0.8rem; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    }
+  </style>
+  <!-- External theme (will override fallback when available) -->
   <link rel="stylesheet" href="shared/theme.css">
   <style>
     .lift-name {
@@ -168,9 +231,12 @@
     </div>
   </div>
 
-  <script src="shared/nav.js"></script>
+  <script src="shared/nav.js" onerror="window.initNav=function(){}"></script>
   <script>
-    initNav('lifts');
+    // Only show nav in dashboards environment, skip on Hetzner
+    if (typeof initNav === 'function' && window.location.pathname.includes('/dashboards/')) {
+      initNav('lifts');
+    }
 
     const historyDepth = 6;
     let resorts = [];
@@ -178,7 +244,11 @@
     const historyCache = new Map();
     const cachedIndex = {};
     const availableDatesCache = {};
-    let dataFolder = '../data';
+
+    // Auto-detect environment: Hetzner serves from root, dashboards from /dashboards/
+    const isHetzner = !window.location.pathname.includes('/dashboards/');
+    const basePath = isHetzner ? '' : '..';
+    let dataFolder = `${basePath}/data`;
     let currentDateKey = '';
 
     const $ = (id) => document.getElementById(id);
@@ -440,9 +510,16 @@
       // Calculate scales - adapt to actual data range, not full operating hours
       const dataMinTime = Math.min(...dataPoints.map(p => p.time));
       const dataMaxTime = Math.max(...dataPoints.map(p => p.time));
-      // Use actual data range to fill the graph width effectively
-      const minTime = dataMinTime;
-      const maxTime = dataMaxTime;
+
+      // Add padding so data points aren't cramped at edges
+      // Minimum 30 min span, with 5% padding on each side
+      const dataSpan = dataMaxTime - dataMinTime;
+      const minSpan = 30; // minimum 30 minutes to display
+      const effectiveSpan = Math.max(dataSpan, minSpan);
+      const padding = Math.max(effectiveSpan * 0.05, 5); // at least 5 min padding
+
+      const minTime = dataMinTime - padding;
+      const maxTime = dataMinTime + effectiveSpan + padding;
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
 
       // Helper to format minutes as time string for labels
@@ -766,12 +843,12 @@
       // Restore local data mode preference from localStorage
       const savedLocalMode = localStorage.getItem('localDataMode');
       if (savedLocalMode === 'true') {
-        dataFolder = '../data-local';
+        dataFolder = `${basePath}/data-local`;
         $('local-data-mode').checked = true;
       }
 
       try {
-        const configRes = await fetch('../config.json');
+        const configRes = await fetch(`${basePath}/config.json`);
         const config = await configRes.json();
         resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
         resortMap = resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
@@ -840,7 +917,7 @@
     });
 
     $('local-data-mode').addEventListener('change', async (e) => {
-      dataFolder = e.target.checked ? '../data-local' : '../data';
+      dataFolder = e.target.checked ? `${basePath}/data-local` : `${basePath}/data`;
       localStorage.setItem('localDataMode', e.target.checked);
       // Clear caches
       historyCache.clear();

@@ -246,9 +246,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'monitor.html'));
 });
 
-// Lifts dashboard
+// Lifts dashboard - serve unified template from dashboards/
 app.get('/lifts.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'lifts.html'));
+  res.sendFile(path.join(__dirname, '..', 'dashboards', 'live-lifts.html'));
 });
 
 // API info endpoint
