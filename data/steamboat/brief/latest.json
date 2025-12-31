@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2025-12-31",
-  "generated": "2025-12-31T21:15:34.064Z",
+  "generated": "2025-12-31T22:17:32.556Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 59,
+          "today": 61,
           "yesterday": 59,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 37,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Daybreak",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Two O'Clock",
+          "difficulty": "Advanced Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -118,20 +129,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
       "Great week for snow - 15\" in last 7 days",
+      "2 more trails open than yesterday",
       "3\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Prepare for Pow!",
-    "body": "Holding steady—that 15\" base from recent storms is doing the heavy lifting. Big things coming. 9\" in the forecast—might be time to book that midweek day off.",
+    "headline": "Boom Boom Pow!",
+    "body": "Holding steady—that 15\" base from recent storms is doing the heavy lifting. Terrain is expanding with 2 new trails now open. More room to roam, less traffic to dodge. Big things coming. 9\" in the forecast—might be time to book that midweek day off.",
     "debug": {
       "firedRules": [
         {
@@ -147,19 +161,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 6,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Boom Boom Pow!"
+        "previousHeadline": "Prepare for Pow!"
       },
       "dayOfWeek": "Wednesday"
     }
