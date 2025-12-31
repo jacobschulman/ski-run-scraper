@@ -516,10 +516,10 @@
       const dataSpan = dataMaxTime - dataMinTime;
       const minSpan = 30; // minimum 30 minutes to display
       const effectiveSpan = Math.max(dataSpan, minSpan);
-      const padding = Math.max(effectiveSpan * 0.05, 5); // at least 5 min padding
+      const timePadding = Math.max(effectiveSpan * 0.05, 5); // at least 5 min padding
 
-      const minTime = dataMinTime - padding;
-      const maxTime = dataMinTime + effectiveSpan + padding;
+      const minTime = dataMinTime - timePadding;
+      const maxTime = dataMinTime + effectiveSpan + timePadding;
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
 
       // Helper to format minutes as time string for labels
