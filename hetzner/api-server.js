@@ -241,19 +241,31 @@ app.use('/data', express.static(DATA_DIR, {
   },
 }));
 
-// Monitor dashboard
+// Dashboards - serve entire dashboards folder (same structure as GitHub Pages)
+const DASHBOARDS_DIR = path.join(__dirname, '..', 'dashboards');
+app.use('/dashboards', express.static(DASHBOARDS_DIR, {
+  maxAge: '1m',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Content-Type', 'text/html');
+    }
+  },
+}));
+
+// Config file for dashboards (at root, same as GitHub Pages)
+app.get('/config.json', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'config.json'));
+});
+
+// Monitor dashboard (Hetzner-specific)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'monitor.html'));
 });
 
-// Lifts dashboard - serve unified template from dashboards/
+// Legacy redirect: /lifts.html -> /dashboards/live-lifts.html
 app.get('/lifts.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'dashboards', 'live-lifts.html'));
-});
-
-// Config file for dashboards
-app.get('/config.json', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'config.json'));
+  const query = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+  res.redirect(301, `/dashboards/live-lifts.html${query}`);
 });
 
 // API info endpoint

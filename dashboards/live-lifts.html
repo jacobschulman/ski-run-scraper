@@ -233,8 +233,8 @@
 
   <script src="shared/nav.js" onerror="window.initNav=function(){}"></script>
   <script>
-    // Only show nav in dashboards environment, skip on Hetzner
-    if (typeof initNav === 'function' && window.location.pathname.includes('/dashboards/')) {
+    // Initialize navigation (both GitHub Pages and Hetzner serve from /dashboards/)
+    if (typeof initNav === 'function') {
       initNav('lifts');
     }
 
@@ -245,9 +245,9 @@
     const cachedIndex = {};
     const availableDatesCache = {};
 
-    // Auto-detect environment: Hetzner serves from root, dashboards from /dashboards/
-    const isHetzner = !window.location.pathname.includes('/dashboards/');
-    const basePath = isHetzner ? '' : '..';
+    // Both GitHub Pages and Hetzner serve dashboards at /dashboards/
+    // Data is always at ../data/ relative to this file
+    const basePath = '..';
     let dataFolder = `${basePath}/data`;
     let currentDateKey = '';
 
