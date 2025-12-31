@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2025-12-31",
-  "generated": "2025-12-31T17:16:12.134Z",
+  "generated": "2025-12-31T18:25:44.357Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 64,
           "yesterday": 62,
-          "delta": -1
+          "delta": 2
         },
         "groomedTrails": {
           "today": 28,
@@ -34,14 +34,19 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Gold Hills",
+          "name": "Buck",
           "difficulty": "Intermediate",
-          "area": "Lower Mountain"
+          "area": "Frontside"
+        },
+        {
+          "name": "Sheppard",
+          "difficulty": "Intermediate",
+          "area": "Frontside"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Discover Meadow",
@@ -70,6 +75,11 @@
         }
       ],
       "ungroomed": [
+        {
+          "name": "Gold Hills",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
         {
           "name": "Lower Chappelle's",
           "difficulty": "Intermediate",
@@ -155,14 +165,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Saturday"
     ],
     "recommendations": [
@@ -172,14 +184,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "61 of 86 trails are open with 28 groomed. Mostly Sunny with a high of 43°F. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "2 New Trails Today",
+    "body": "64 of 86 trails are open with 28 groomed. Mostly Sunny with a high of 43°F. 2 more trails are in play today. The groomers are getting stretched thin (in a good way). Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -189,19 +201,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "❄️ Snow ❄️ in the Forecast"
+        "previousHeadline": "Fresh Snow on the Way"
       },
       "dayOfWeek": "Wednesday"
     }
