@@ -251,6 +251,11 @@ app.get('/lifts.html', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dashboards', 'live-lifts.html'));
 });
 
+// Config file for dashboards
+app.get('/config.json', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'config.json'));
+});
+
 // API info endpoint
 app.get('/api', (req, res) => {
   res.json({
