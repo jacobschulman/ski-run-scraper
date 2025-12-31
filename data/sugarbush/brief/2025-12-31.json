@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-31",
-  "generated": "2025-12-31T20:18:54.810Z",
+  "generated": "2025-12-31T21:15:34.086Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -110,12 +110,23 @@
       ],
       "newlyGroomed": [
         {
-          "name": "Murphy's Glades",
-          "difficulty": "Intermediate",
+          "name": "Organgrinder",
+          "difficulty": "Difficult",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Lower Organgrinder",
+          "difficulty": "Difficult",
           "area": "Gadd Peak"
         }
       ],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Rob Roy",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -141,14 +152,14 @@
       "outlook": [
         {
           "date": "2026-01-01",
-          "high_f": 9,
+          "high_f": 11,
           "low_f": -4,
-          "high_c": -13,
+          "high_c": -12,
           "low_c": -20,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-02",
@@ -175,14 +186,14 @@
       ],
       "tomorrow": {
         "date": "2026-01-01",
-        "high_f": 9,
+        "high_f": 11,
         "low_f": -4,
-        "high_c": -13,
+        "high_c": -12,
         "low_c": -20,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -196,18 +207,20 @@
     },
     "alerts": [
       "13 new trails opened today",
-      "1 trail freshly groomed"
+      "2 trails freshly groomed"
     ],
     "trends": [
-      "12 more trails open than yesterday"
+      "12 more trails open than yesterday",
+      "1\" snow expected Thursday"
     ],
     "recommendations": [
-      "Fresh corduroy on Murphy's Glades - all skill levels"
+      "Fresh corduroy on Organgrinder - all skill levels",
+      "Fresh corduroy on Lower Organgrinder - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "More Mountain to Explore",
-    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Looking good out there. Rope drop! 13 trails opened overnight, expanding your playground significantly.",
+    "headline": "13 New Trails Today",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Looking good out there. Rope drop! 13 trails opened overnight, expanding your playground significantly. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -227,15 +240,21 @@
           "category": "terrain",
           "priority": 85,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "terrain_expansion",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+        "previousHeadline": "More Mountain to Explore"
       },
       "dayOfWeek": "Wednesday"
     }
