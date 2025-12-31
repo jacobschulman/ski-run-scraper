@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2025-12-31",
-  "generated": "2025-12-31T09:21:24.674Z",
+  "generated": "2025-12-31T10:24:22.388Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,74 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 96,
+          "today": 92,
           "yesterday": 96,
-          "delta": 0
+          "delta": -4
         },
         "groomedTrails": {
-          "today": 65,
+          "today": 61,
           "yesterday": 65,
-          "delta": 0
+          "delta": -4
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Curé Deslauriers",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Archipel Bas",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Archipel Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "C.B.C.",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "Fuddle Duddle Bas",
+          "difficulty": "Easy",
+          "area": "North Side"
+        },
+        {
+          "name": "Fuddle Duddle Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Erik Guay",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Kandahar",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Taschereau",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Boomerang",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -63,7 +116,7 @@
       "outlook": [
         {
           "date": "2025-12-31",
-          "high_f": 3,
+          "high_f": 4,
           "low_f": -2,
           "high_c": -16,
           "low_c": -19,
@@ -75,9 +128,9 @@
         {
           "date": "2026-01-01",
           "high_f": -3,
-          "low_f": -6,
+          "low_f": -7,
           "high_c": -20,
-          "low_c": -21,
+          "low_c": -22,
           "description": "Cold",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -85,7 +138,7 @@
         },
         {
           "date": "2026-01-02",
-          "high_f": 2,
+          "high_f": 3,
           "low_f": -6,
           "high_c": -16,
           "low_c": -21,
@@ -97,7 +150,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-31",
-        "high_f": 3,
+        "high_f": 4,
         "low_f": -2,
         "high_c": -16,
         "low_c": -19,
@@ -112,19 +165,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 14\" in last 7 days"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "4\" Freshened Things Up",
-    "body": "A light refresh of 4\" overnight makes the groomers smoother and the off-piste a bit softer. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Overnight Refresh: 4\" Fresh",
+    "body": "A light refresh of 4\" overnight makes the groomers smoother and the off-piste a bit softer. 1 trail opened today expanding access to fresh terrain. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +195,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Wednesday"
     }
