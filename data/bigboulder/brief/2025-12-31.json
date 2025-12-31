@@ -2,7 +2,7 @@
   "resort": "bigboulder",
   "resortName": "Big Boulder",
   "date": "2025-12-31",
-  "generated": "2025-12-31T10:24:16.359Z",
+  "generated": "2025-12-31T14:17:36.218Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,87 +23,22 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 14,
-          "delta": -14
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 14,
-          "delta": -14
+          "delta": -1
         },
         "totalTrails": 18
       },
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Big Boulder",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Carbon Way",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
           "name": "Central Park",
           "difficulty": "TerrainPark",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Coal Chute",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Der Schuss",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Edelweiss",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Little Boulder",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Merry Widow",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Midway",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Mineshaft",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Ski School Slopes",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Tannenbaum",
-          "difficulty": "TerrainPark",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "The Elbow",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Upper Sitzmark",
-          "difficulty": "Black",
           "area": "Big Boulder"
         }
       ],
@@ -129,7 +64,7 @@
         "low_c": -10,
         "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
@@ -192,30 +127,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "No trails open yet. Current forecast: Windy with a high of 23°F.",
+    "headline": "Midweek Bliss",
+    "body": "13/18 trails spinning, 13 freshly groomed. 23° and Windy. 13 of 18 trails are open with 13 groomed. Windy with a high of 23°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 2,
+        "totalVariations": 4,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Mountain to Explore"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Wednesday"
     }
