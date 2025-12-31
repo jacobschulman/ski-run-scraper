@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-31",
-  "generated": "2025-12-31T11:16:32.621Z",
+  "generated": "2025-12-31T12:40:34.847Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,41 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 51,
+          "today": 49,
           "yesterday": 51,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 41,
           "yesterday": 42,
-          "delta": 2
+          "delta": -1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Skybound",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pick Pole",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Ramdown",
+          "difficulty": "Blue",
+          "area": "King Pine"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Lower Skidder",
@@ -56,6 +78,11 @@
           "name": "Sluice Headwall",
           "difficulty": "Black",
           "area": "Skyline"
+        },
+        {
+          "name": "Skybound",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
         }
       ],
       "ungroomed": [
@@ -68,6 +95,21 @@
           "name": "Upper Spillway",
           "difficulty": "Black",
           "area": "Skyline"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
         }
       ]
     },
@@ -76,23 +118,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2025-12-30",
-        "high_f": null,
-        "low_f": -10,
+        "date": "2025-12-31",
+        "high_f": 6,
+        "low_f": 6,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2025-12-31",
-          "high_f": 6,
-          "low_f": 6,
-          "description": "Windy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
         {
           "date": "2026-01-01",
           "high_f": 10,
@@ -110,12 +143,21 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-03",
+          "high_f": -2,
+          "low_f": -1,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2025-12-31",
-        "high_f": 6,
-        "low_f": 6,
+        "date": "2026-01-01",
+        "high_f": 10,
+        "low_f": -5,
         "description": "Windy",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
@@ -127,15 +169,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "4 trails freshly groomed"
+      "1 new trail opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 14\" in last 7 days",
-      "2\" snow expected Wednesday"
+      "2\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Lower Skidder - all skill levels",
@@ -144,8 +187,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "Base Conditions Solid",
-    "body": "The snow from earlier this week (14\") is aging gracefully. Still soft, still fun. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
+    "headline": "Soft Snow Holding Strong",
+    "body": "The snow from earlier this week (14\") is aging gracefully. Still soft, still fun. 1 trail opened today expanding access to fresh terrain. Snow showers in the forecast with a few inches expected. Conditions should improve soon.",
     "debug": {
       "firedRules": [
         {
@@ -161,19 +204,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Soft Snow Holding Strong"
+        "previousHeadline": "Base Conditions Solid"
       },
       "dayOfWeek": "Wednesday"
     }
