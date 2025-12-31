@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2025-12-31",
-  "generated": "2025-12-31T10:24:22.407Z",
+  "generated": "2025-12-31T11:16:32.626Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 78,
+          "today": 79,
           "yesterday": 78,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 69,
+          "today": 70,
           "yesterday": 69,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Bear Paw",
+          "difficulty": "novice",
+          "area": "WHITE CAP"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Bear Paw",
+          "difficulty": "novice",
+          "area": "WHITE CAP"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -72,8 +84,8 @@
         },
         {
           "date": "2026-01-02",
-          "high_f": 4,
-          "low_f": 3,
+          "high_f": 3,
+          "low_f": 2,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -95,25 +107,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Bear Paw - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Recent Snow Still Skiing Well",
-    "body": "Holding steady—that 13\" base from recent storms is doing the heavy lifting. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "New Runs Now Open",
+    "body": "Holding steady—that 13\" base from recent storms is doing the heavy lifting. Terrain is expanding with 1 new trail now open. More room to roam, less traffic to dodge. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -123,19 +141,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Good Snow Persisting"
+        "previousHeadline": "Recent Snow Still Skiing Well"
       },
       "dayOfWeek": "Wednesday"
     }
