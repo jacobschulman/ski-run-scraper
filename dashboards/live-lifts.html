@@ -524,8 +524,9 @@
 
       // Helper to format minutes as time string for labels
       const formatMinutes = (mins) => {
-        const h = Math.floor(mins / 60);
-        const m = mins % 60;
+        const rounded = Math.round(mins);
+        const h = Math.floor(rounded / 60);
+        const m = rounded % 60;
         const hour12 = h % 12 || 12;
         const ampm = h < 12 ? 'am' : 'pm';
         return m === 0 ? `${hour12}${ampm}` : `${hour12}:${String(m).padStart(2, '0')}${ampm}`;
