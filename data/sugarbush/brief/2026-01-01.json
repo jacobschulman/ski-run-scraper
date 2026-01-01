@@ -2,30 +2,30 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-01",
-  "generated": "2026-01-01T12:38:55.915Z",
+  "generated": "2026-01-01T13:33:01.220Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 1,
-      "24hour_cm": 3,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 7,
+      "48hour_cm": 18,
       "7day_inches": 0,
       "7day_cm": 0,
       "season_total_inches": 86,
       "season_total_cm": 218,
       "conditions": {
-        "today": "Machine Groomed Frozen Granular",
+        "today": "Machine Groomed Variable Conditions",
         "yesterday": "Machine Groomed Frozen Granular"
       }
     },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 58,
+          "today": 63,
           "yesterday": 58,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 37,
@@ -34,7 +34,33 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Birdland",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Lower Birdland",
+          "difficulty": "Difficult",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Hammerhead",
+          "difficulty": "Difficult",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "The Cliffs",
+          "difficulty": "Difficult",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Tumbler",
+          "difficulty": "Difficult",
+          "area": "Mt. Ellen"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -52,7 +78,7 @@
     "forecast": {
       "today": {
         "date": "2026-01-01",
-        "high_f": 10,
+        "high_f": 11,
         "low_f": -3,
         "high_c": -12,
         "low_c": -19,
@@ -63,8 +89,8 @@
       "outlook": [
         {
           "date": "2026-01-02",
-          "high_f": 4,
-          "low_f": 2,
+          "high_f": 5,
+          "low_f": 1,
           "high_c": -15,
           "low_c": -17,
           "description": "Windy",
@@ -97,8 +123,8 @@
       ],
       "tomorrow": {
         "date": "2026-01-02",
-        "high_f": 4,
-        "low_f": 2,
+        "high_f": 5,
+        "low_f": 1,
         "high_c": -15,
         "low_c": -17,
         "description": "Windy",
@@ -111,46 +137,51 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": false,
-      "isPowderDay": false,
-      "hasNewTrails": false,
+      "isPowderDay": true,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "6\" in last 24 hours - powder day!",
+      "5 new trails opened today"
+    ],
+    "trends": [
+      "5 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "1\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Arctic air has settled in. 10° means quick laps and hot cocoa breaks.",
+    "headline": "The Mountain Got Buried",
+    "body": "It's a 6\" day. You know what to do. First chair or regret it. Terrain is expanding with 5 new trails now open. More room to roam, less traffic to dodge.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_powder_alert",
           "category": "snow",
-          "priority": 80,
+          "priority": 100,
           "usedFor": "headline"
         },
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_powder_alert",
           "category": "snow",
-          "priority": 80,
+          "priority": 100,
           "usedFor": "body"
         },
         {
-          "id": "weather_cold_snap",
-          "category": "weather",
-          "priority": 52,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Coat on the Mountain"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Thursday"
     }
