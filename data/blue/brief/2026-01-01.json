@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-01",
-  "generated": "2026-01-01T09:21:28.212Z",
+  "generated": "2026-01-01T10:24:58.615Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,102 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 37,
+          "today": 49,
           "yesterday": 37,
-          "delta": 0
+          "delta": 12
         },
         "groomedTrails": {
-          "today": 35,
+          "today": 41,
           "yesterday": 35,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Badlands Terrain Park",
+          "difficulty": "LargePark",
+          "area": "Orchard"
+        },
+        {
+          "name": "Finally",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Founders",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "'K Bye",
+          "difficulty": "Snowshoe",
+          "area": "Orchard"
+        },
+        {
+          "name": "Lower Orchard Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Orchard"
+        },
+        {
+          "name": "Upper Orchard Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Orchard"
+        },
+        {
+          "name": "Little Ripper",
+          "difficulty": "Easy",
+          "area": "South"
+        },
+        {
+          "name": "Old South Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "South"
+        },
+        {
+          "name": "Showcase Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Village"
+        },
+        {
+          "name": "Village Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "Village"
+        },
+        {
+          "name": "Lone Rider",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "North Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Finally",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Founders",
+          "difficulty": "Intermediate",
+          "area": "Orchard"
+        },
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Lone Rider",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -63,7 +145,7 @@
       "outlook": [
         {
           "date": "2026-01-01",
-          "high_f": 14,
+          "high_f": 15,
           "low_f": 15,
           "high_c": -10,
           "low_c": -9,
@@ -79,9 +161,9 @@
           "high_c": -7,
           "low_c": -8,
           "description": "Snow Wind",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 2
         },
         {
           "date": "2026-01-03",
@@ -97,7 +179,7 @@
       ],
       "tomorrow": {
         "date": "2026-01-01",
-        "high_f": 14,
+        "high_f": 15,
         "low_f": 15,
         "high_c": -10,
         "low_c": -9,
@@ -112,26 +194,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "12 new trails opened today",
+      "4 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
-      "1\" snow expected Friday"
+      "12 more trails open than yesterday",
+      "2\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Finally - all skill levels",
+      "Fresh corduroy on Founders - all skill levels",
+      "Fresh corduroy on Calamity Lane - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 1\" Fresh",
-    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. Light snow possible in the forecast.",
+    "headline": "12 New Trails Today",
+    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. 12 more trails are in play today. The groomers are getting stretched thin (in a good way). The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +231,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Thursday"
     }
