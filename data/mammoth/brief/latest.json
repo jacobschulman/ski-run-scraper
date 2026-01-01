@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-01-01",
-  "generated": "2026-01-01T17:16:47.346Z",
+  "generated": "2026-01-01T18:25:07.159Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 117,
+          "today": 116,
           "yesterday": 117,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 59,
@@ -34,8 +34,25 @@
         },
         "totalTrails": 191
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Drop 18",
+          "difficulty": "Very Difficult",
+          "area": "Main Lodge"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Rogers' Ridge",
+          "difficulty": "Very Difficult",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "The Bear",
+          "difficulty": "Extremely Difficult",
+          "area": "Main Lodge"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -74,25 +91,25 @@
         },
         {
           "date": "2026-01-03",
-          "high_f": 28,
-          "low_f": 23,
-          "high_c": -2,
-          "low_c": -5,
+          "high_f": 27,
+          "low_f": 24,
+          "high_c": -3,
+          "low_c": -4,
           "description": "Thundersnow",
-          "snowfall_day_inches": 8,
-          "snowfall_night_inches": 4,
+          "snowfall_day_inches": 9,
+          "snowfall_night_inches": 3,
           "snowfall_expected": 12
         },
         {
           "date": "2026-01-04",
-          "high_f": 24,
+          "high_f": 25,
           "low_f": 18,
           "high_c": -4,
           "low_c": -8,
           "description": "Thundersnow",
-          "snowfall_day_inches": 8,
+          "snowfall_day_inches": 9,
           "snowfall_night_inches": 8,
-          "snowfall_expected": 16
+          "snowfall_expected": 17
         }
       ],
       "tomorrow": {
@@ -112,19 +129,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "12\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm Cycle Building",
-    "body": "The rundown: 117 trails open, 59 groomed. Snow Wind with temps around 31°. Big things coming. 28\" in the forecast—might be time to book that midweek day off.",
+    "headline": "Winter's Coming Back",
+    "body": "The rundown: 116 trails open, 59 groomed. Snow Wind with temps around 31°. 1 trail opened today expanding access to fresh terrain. Big things coming. 29\" in the forecast—might be time to book that midweek day off.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +159,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 2,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter's Coming Back"
+        "previousHeadline": "Storm Cycle Building"
       },
       "dayOfWeek": "Thursday"
     }
