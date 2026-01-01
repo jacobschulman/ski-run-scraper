@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-01",
-  "generated": "2026-01-01T14:17:16.200Z",
+  "generated": "2026-01-01T15:18:47.876Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,148 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 78,
           "yesterday": 61,
-          "delta": 0
+          "delta": 17
         },
         "groomedTrails": {
-          "today": 37,
+          "today": 43,
           "yesterday": 37,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Alarm Clock",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Bail Out",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Biscuits",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Black Powder",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Cheesy Grits",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Corridor",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Cowboy Coffee",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Frying Pan",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Gravy",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Hot Cakes",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Huevos",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Jump Start",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Morningside Liftline",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Over Easy",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Rooster",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Snooze Bar",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "South Peak Flats",
+          "difficulty": "Easy",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Wake Up Call",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Triangle 3",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Bail Out",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Corridor",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Cowboy Coffee",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Rainbow",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Rooster",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Snooze Bar",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -57,7 +185,7 @@
         "high_c": -1,
         "low_c": -2,
         "description": "Cloudy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 3
       },
       "outlook": [
@@ -112,26 +240,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "18 new trails opened today",
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 15\" in last 7 days",
+      "17 more trails open than yesterday",
       "5\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Bail Out - all skill levels",
+      "Fresh corduroy on Corridor - all skill levels",
+      "Fresh corduroy on Cowboy Coffee - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Still Soft Out There",
-    "body": "No fresh overnight, but 15\" in the past week is keeping things soft and fun. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "New Runs Now Open",
+    "body": "No fresh overnight, but 15\" in the past week is keeping things soft and fun. Rope drop! 18 trails opened overnight, expanding your playground significantly. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +277,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter's Coming Back"
+        "previousHeadline": "Still Soft Out There"
       },
       "dayOfWeek": "Thursday"
     }
