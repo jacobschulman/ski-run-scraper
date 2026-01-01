@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-01",
-  "generated": "2026-01-01T13:33:01.241Z",
+  "generated": "2026-01-01T14:17:16.243Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 49,
+          "today": 50,
           "yesterday": 50,
-          "delta": -1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 42,
+          "today": 43,
           "yesterday": 41,
-          "delta": 1
+          "delta": 2
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Upper Double Bitter",
@@ -128,10 +134,11 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "1 new trail opened today",
       "3 trails freshly groomed"
     ],
     "trends": [
@@ -145,8 +152,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "Good Snow Persisting",
-    "body": "No fresh overnight, but 14\" in the past week is keeping things soft and fun. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "The Base Is Holding Up",
+    "body": "No fresh overnight, but 14\" in the past week is keeping things soft and fun. 1 trail opened today expanding access to fresh terrain. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
@@ -162,19 +169,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Base Is Holding Up"
+        "previousHeadline": "Good Snow Persisting"
       },
       "dayOfWeek": "Thursday"
     }
