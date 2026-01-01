@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-01",
-  "generated": "2026-01-01T10:24:58.549Z",
+  "generated": "2026-01-01T11:15:41.395Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 63,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 63,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Tamarack",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Upper Tamarack",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,25 +124,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 7\" in last 7 days"
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 7\" in last 7 days",
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Upper Tamarack - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Midweek Mountain Report",
-    "body": "Steady snowfall with 7\" over the last week. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Terrain is Expanding",
+    "body": "Steady snowfall with 7\" over the last week. 1 more trail is in play today. The groomers are getting stretched thin (in a good way). Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +158,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
-        "totalVariations": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Midweek Mountain Report"
       },
       "dayOfWeek": "Thursday"
     }
