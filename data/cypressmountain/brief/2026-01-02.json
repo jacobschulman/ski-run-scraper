@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-02",
-  "generated": "2026-01-02T15:18:41.440Z",
+  "generated": "2026-01-02T16:21:05.768Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 14,
+          "today": 15,
           "yesterday": 14,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 13,
+          "today": 14,
           "yesterday": 13,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Brothers Canyon West",
+          "difficulty": "Blue",
+          "area": "Nordic Ridge Trails"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -56,7 +62,7 @@
           "date": "2026-01-03",
           "high_f": 38,
           "low_f": 34,
-          "description": "Scattered T Storms",
+          "description": "Rain",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
@@ -84,7 +90,7 @@
         "date": "2026-01-03",
         "high_f": 38,
         "low_f": 34,
-        "description": "Scattered T Storms",
+        "description": "Rain",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
         "snowfall_expected": 2
@@ -95,19 +101,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "1 more trail open than yesterday",
       "2\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "No refresh overnight, but 12\" of recent snow means the base is doing its job. Winter has more to say. 17\" forecasted means conditions are about to level up.",
+    "headline": "Major System Approaching",
+    "body": "No refresh overnight, but 12\" of recent snow means the base is doing its job. 1 new run just opened up. Time to explore some fresh terrain. Winter has more to say. 17\" forecasted means conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -123,19 +132,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 3,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Major System Approaching"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Friday"
     }

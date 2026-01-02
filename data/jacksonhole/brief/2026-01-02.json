@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-02",
-  "generated": "2026-01-02T15:18:41.443Z",
+  "generated": "2026-01-02T16:21:05.770Z",
   "rawData": {
     "snow": {
       "overnight_inches": 5,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 80,
+          "today": 82,
           "yesterday": 80,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 43,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -79,15 +90,17 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "5\" fresh snow overnight",
+      "2 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 19\" in last 7 days"
+      "Great week for snow - 19\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Tram Line - perfect for intermediate skiers",
@@ -96,14 +109,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Layer in Place",
-    "body": "Overnight dusting of 5\" means the hardpack got a makeover. Looking good out there.",
+    "headline": "More Mountain to Explore",
+    "body": "Overnight dusting of 5\" means the hardpack got a makeover. Looking good out there. Rope drop! 2 trails opened overnight, expanding your playground significantly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -111,15 +124,21 @@
           "category": "snow",
           "priority": 80,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Coat on the Mountain"
+        "previousHeadline": "Fresh Layer in Place"
       },
       "dayOfWeek": "Friday"
     }
