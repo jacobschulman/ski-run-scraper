@@ -2,8 +2,24 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-02",
-  "generated": "2026-01-02T05:22:36.891Z",
+  "generated": "2026-01-02T06:28:02.896Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 18,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 7,
+      "48hour_cm": 18,
+      "7day_inches": 8,
+      "7day_cm": 20,
+      "season_total_inches": 65,
+      "season_total_cm": 165,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,117 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-01",
+        "high_f": null,
+        "low_f": 1,
+        "high_c": null,
+        "low_c": -17,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-02",
+          "high_f": 10,
+          "low_f": 6,
+          "high_c": -12,
+          "low_c": -15,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-03",
+          "high_f": 11,
+          "low_f": 11,
+          "high_c": -12,
+          "low_c": -12,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-04",
+          "high_f": 14,
+          "low_f": -1,
+          "high_c": -10,
+          "low_c": -18,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-02",
+        "high_f": 10,
+        "low_f": 6,
+        "high_c": -12,
+        "low_c": -15,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Steady snowfall - 8\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "7\" of Fresh Overnight",
+    "body": "Wake up, it's a powder day! 7\" overnight means hero snow everywhere you look. Snow expected today or tomorrow with conditions continuing to improve.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder_alert",
+          "category": "snow",
+          "priority": 100,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_today_tomorrow",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 2,
+        "totalVariations": 12,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got Buried"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
