@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-01-02",
-  "generated": "2026-01-02T21:13:26.672Z",
+  "generated": "2026-01-02T22:17:03.977Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -34,8 +34,20 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Whit's End",
+          "difficulty": "Difficult",
+          "area": "North"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Glory Days",
+          "difficulty": "Difficult",
+          "area": "North"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": [
         {
@@ -96,7 +108,7 @@
         "high_f": 36,
         "low_f": 33,
         "high_c": 2,
-        "low_c": 1,
+        "low_c": 0,
         "description": "Rain Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -107,17 +119,17 @@
           "high_f": 33,
           "low_f": 29,
           "high_c": 0,
-          "low_c": -1,
+          "low_c": -2,
           "description": "Rain Snow",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 3,
-          "snowfall_expected": 4
+          "snowfall_night_inches": 4,
+          "snowfall_expected": 5
         },
         {
           "date": "2026-01-04",
-          "high_f": 30,
+          "high_f": 29,
           "low_f": 23,
-          "high_c": -1,
+          "high_c": -2,
           "low_c": -5,
           "description": "Snow",
           "snowfall_day_inches": 2,
@@ -141,11 +153,11 @@
         "high_f": 33,
         "low_f": 29,
         "high_c": 0,
-        "low_c": -1,
+        "low_c": -2,
         "description": "Rain Snow",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 3,
-        "snowfall_expected": 4
+        "snowfall_night_inches": 4,
+        "snowfall_expected": 5
       }
     }
   },
@@ -153,19 +165,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "4\" snow expected Saturday"
+      "5\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Prepare for Pow!",
-    "body": "The rundown: 64 trails open, 20 groomed. Rain Snow with temps around 36°. Storm cycle alert! 8\" on the way. The mountain is about to get a serious refresh.",
+    "headline": "The Forecast Looks Loaded",
+    "body": "The rundown: 64 trails open, 20 groomed. Rain Snow with temps around 36°. 1 trail opened today expanding access to fresh terrain. Storm cycle alert! 9\" on the way. The mountain is about to get a serious refresh.",
     "debug": {
       "firedRules": [
         {
@@ -181,19 +195,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_new_trails_opened",
+          "category": "terrain",
+          "priority": 65,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 5,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Loaded"
+        "previousHeadline": "Prepare for Pow!"
       },
       "dayOfWeek": "Friday"
     }
