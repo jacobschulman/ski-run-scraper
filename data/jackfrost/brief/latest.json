@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2026-01-02",
-  "generated": "2026-01-02T10:22:05.215Z",
+  "generated": "2026-01-02T14:17:50.440Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,65 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 9,
-          "delta": -9
+          "delta": 0
         },
         "totalTrails": 20
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Challenge",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Dematte's Demise",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -131,11 +85,11 @@
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 23,
-          "low_f": 13,
-          "high_c": -5,
-          "low_c": -11,
-          "description": "Windy",
+          "high_f": 22,
+          "low_f": 14,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -167,30 +121,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "The mountain is still prepping for the season. Weather today: Windy, 18°F.",
+    "headline": "Is it the weekend yet?",
+    "body": "The rundown: 9 trails open, 9 groomed. Windy with temps around 18°. 9 of 20 trails are open with 9 groomed. Windy with a high of 18°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 65,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "weekend_kickoff",
         "variationIndex": 0,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Friday"
     }

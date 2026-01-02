@@ -2,7 +2,7 @@
   "resort": "bigboulder",
   "resortName": "Big Boulder",
   "date": "2026-01-02",
-  "generated": "2026-01-02T10:22:05.218Z",
+  "generated": "2026-01-02T14:17:50.448Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,92 +23,22 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 14,
           "yesterday": 15,
-          "delta": -15
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 14,
           "yesterday": 15,
-          "delta": -15
+          "delta": -1
         },
         "totalTrails": 18
       },
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Big Boulder",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Carbon Way",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
           "name": "Central Park",
           "difficulty": "TerrainPark",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Coal Chute",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Der Schuss",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Edelweiss",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Little Boulder",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Lower Sitzmark",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Merry Widow",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Midway",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Mineshaft",
-          "difficulty": "Black",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Ski School Slopes",
-          "difficulty": "Green",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Tannenbaum",
-          "difficulty": "TerrainPark",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "The Elbow",
-          "difficulty": "Blue",
-          "area": "Big Boulder"
-        },
-        {
-          "name": "Upper Sitzmark",
-          "difficulty": "Black",
           "area": "Big Boulder"
         }
       ],
@@ -161,11 +91,11 @@
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 23,
-          "low_f": 13,
-          "high_c": -5,
-          "low_c": -11,
-          "description": "Windy",
+          "high_f": 22,
+          "low_f": 14,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -197,30 +127,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "The mountain is still prepping for the season. Weather today: Windy, 18°F.",
+    "headline": "Is it the weekend yet?",
+    "body": "The rundown: 14 trails open, 14 groomed. Windy with temps around 18°. 14 of 18 trails are open with 14 groomed. Windy with a high of 18°F.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 65,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "weekend_kickoff",
         "variationIndex": 0,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Terrain is Expanding"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Friday"
     }
