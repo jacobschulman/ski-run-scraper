@@ -15,11 +15,12 @@ const CONFIG = {
     jitterMs: 15000,            // 0-15 seconds random jitter
   },
   vail: {
-    intervalMs: 180 * 1000,     // 3 minutes
-    jitterMs: 20000,            // 0-20 seconds random jitter
-    concurrency: 2,             // Max concurrent page reloads (conservative to avoid Chrome crashes)
-    // Priority resorts - only scrape these to keep memory stable
-    priorityResorts: [
+    // Rotating queue approach - cycle through all resorts with a small page pool
+    pagePoolSize: 2,            // Only keep 2 pages open at a time
+    delayBetweenScrapes: 15000, // 15 seconds between each resort scrape
+    // High priority resorts appear 3x in queue (scraped ~every 5 min)
+    // Normal resorts appear 1x in queue (scraped ~every 15-20 min)
+    highPriorityResorts: [
       'vail',
       'beavercreek',
       'parkcity',
@@ -27,11 +28,6 @@ const CONFIG = {
       'keystone',
       'whistlerblackcomb',
       'stowe',
-      'heavenly',
-      'northstar',
-      'mountsnow',
-      'okemo',
-      'crestedbutte',
     ],
   },
   dataDir: path.join(__dirname, '..', 'data'),
@@ -271,17 +267,17 @@ async function runIkonScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// VAIL SCRAPER (Puppeteer) - Truly Persistent Pages
+// VAIL SCRAPER (Puppeteer) - Rotating Queue with Small Page Pool
 // ═══════════════════════════════════════════════════════════════════════════════
 
 let browser = null;
-const persistentPages = new Map(); // resortKey -> { page, url, lastSuccess }
+const pagePool = [];        // Small pool of reusable pages
+let resortQueue = [];       // Queue of resorts to scrape
+let vailRunning = false;    // Prevent overlapping runs
 
 async function initBrowser() {
   if (browser) {
-    try {
-      await browser.close();
-    } catch (e) {}
+    try { await browser.close(); } catch (e) {}
   }
 
   console.log('[VAIL] Launching browser...');
@@ -299,85 +295,79 @@ async function initBrowser() {
       '--disable-renderer-backgrounding',
     ],
   });
-  persistentPages.clear();
-  console.log('[VAIL] Browser ready');
+
+  // Initialize page pool
+  pagePool.length = 0;
+  for (let i = 0; i < CONFIG.vail.pagePoolSize; i++) {
+    const page = await browser.newPage();
+    await page.setUserAgent(getRandomUserAgent());
+    pagePool.push({ page, inUse: false, lastUrl: null });
+    console.log(`[VAIL] Created page ${i + 1}/${CONFIG.vail.pagePoolSize}`);
+  }
+
+  console.log('[VAIL] Browser ready with page pool');
 }
 
-// Track page creation to avoid overwhelming Chrome
-let pageCreationInProgress = false;
-const pageCreationQueue = [];
+function getAvailablePage() {
+  return pagePool.find(p => !p.inUse);
+}
 
-async function getOrCreatePage(resortKey, url) {
-  const existing = persistentPages.get(resortKey);
+function buildResortQueue() {
+  const vailResorts = config.resorts.filter(r =>
+    (!r.provider || r.provider === 'vail') &&
+    isResortInSeason(r) &&
+    (r.terrainUrl || r.url)
+  );
 
-  // Check if we have a valid page
-  if (existing?.page) {
-    try {
-      // Quick check if page is still alive
-      await existing.page.evaluate(() => true);
-      return existing.page;
-    } catch (e) {
-      // Page is dead, remove it
-      console.log(`[VAIL] Page for ${resortKey} died, will recreate`);
-      persistentPages.delete(resortKey);
+  // Filter to resorts not in dead hours
+  const activeResorts = vailResorts.filter(r => !isInDeadHours(r.timezone));
+
+  if (activeResorts.length === 0) return [];
+
+  const highPrioritySet = new Set(CONFIG.vail.highPriorityResorts || []);
+  const queue = [];
+
+  // Add high priority resorts 3x (will be scraped more frequently)
+  for (const resort of activeResorts) {
+    if (highPrioritySet.has(resort.key)) {
+      queue.push(resort);
+      queue.push(resort);
+      queue.push(resort);
+    } else {
+      queue.push(resort);
     }
   }
 
-  // Create new page (serialized to avoid overwhelming Chrome)
-  return new Promise((resolve, reject) => {
-    const createPage = async () => {
-      try {
-        console.log(`[VAIL] Creating persistent page for ${resortKey}`);
-        const page = await browser.newPage();
-        await page.setUserAgent(getRandomUserAgent());
+  // Shuffle the queue
+  for (let i = queue.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [queue[i], queue[j]] = [queue[j], queue[i]];
+  }
 
-        // Navigate to the URL initially
-        try {
-          await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
-        } catch (e) {
-          // Continue even if timeout
-        }
-
-        persistentPages.set(resortKey, { page, url, lastSuccess: null });
-        resolve(page);
-      } catch (e) {
-        reject(e);
-      } finally {
-        // Process next in queue
-        pageCreationInProgress = false;
-        if (pageCreationQueue.length > 0) {
-          const next = pageCreationQueue.shift();
-          pageCreationInProgress = true;
-          next();
-        }
-      }
-    };
-
-    if (pageCreationInProgress) {
-      // Queue the creation
-      pageCreationQueue.push(createPage);
-    } else {
-      pageCreationInProgress = true;
-      createPage();
-    }
-  });
+  return queue;
 }
 
-async function scrapeVailResort(resortKey, url) {
-  const page = await getOrCreatePage(resortKey, url);
+async function scrapeOneResort(poolEntry, resort) {
+  const { page } = poolEntry;
+  const url = resort.terrainUrl || resort.url;
+  const timestamp = new Date().toISOString();
 
   try {
-    // Just reload the page to get fresh data (much faster than full navigation)
-    try {
-      await page.reload({ waitUntil: 'networkidle2', timeout: 30000 });
-    } catch (e) {
-      // If reload fails, try full navigation
+    // Navigate or reload
+    if (poolEntry.lastUrl === url) {
+      // Same URL - just reload
+      try {
+        await page.reload({ waitUntil: 'networkidle2', timeout: 30000 });
+      } catch (e) {
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
+      }
+    } else {
+      // Different URL - full navigation
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
+      poolEntry.lastUrl = url;
     }
 
-    // Short settle time (page is already warmed up)
-    await sleep(500 + Math.random() * 1000);
-
+    // Wait for data
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
       { timeout: 30000 }
@@ -390,36 +380,59 @@ async function scrapeVailResort(resortKey, url) {
       return null;
     });
 
-    // Update last success
-    const pageInfo = persistentPages.get(resortKey);
-    if (pageInfo) pageInfo.lastSuccess = Date.now();
-
-    return data;
-  } catch (e) {
-    // If scrape fails, mark page as potentially bad for next run
-    const pageInfo = persistentPages.get(resortKey);
-    if (pageInfo && pageInfo.lastSuccess && Date.now() - pageInfo.lastSuccess > 600000) {
-      // Page hasn't succeeded in 10 minutes, recreate it next time
-      console.log(`[VAIL] ${resortKey} failing repeatedly, will recreate page`);
-      try { await pageInfo.page.close(); } catch (e) {}
-      persistentPages.delete(resortKey);
+    if (!data?.Lifts?.length) {
+      console.log(`[VAIL] ${resort.key}: No lift data`);
+      return { success: false, lifts: 0 };
     }
-    throw e;
+
+    // Save data
+    const localDate = getResortLocalDate(resort.timezone);
+    const localTime = getResortLocalTime(resort.timezone);
+    const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
+    ensureDirectoryExists(liftsDir);
+
+    const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+    const records = data.Lifts.map(lift => ({
+      timestamp,
+      localTime,
+      resort: resort.key,
+      liftId: lift.SortOrder?.toString() || null,
+      name: lift.Name,
+      status: lift.Status,
+      type: formatLiftType(lift.Type),
+      waitMinutes: lift.WaitTimeInMinutes || null,
+      capacity: lift.Capacity,
+      mountain: lift.Mountain,
+      openTime: lift.OpenTime,
+      closeTime: lift.CloseTime,
+    }));
+
+    fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
+
+    console.log(`[VAIL] ${resort.key}: ${records.length} lifts`);
+    return { success: true, lifts: records.length };
+
+  } catch (error) {
+    console.error(`[VAIL] ${resort.key}: ${error.message}`);
+    // Reset lastUrl so we do full navigation next time
+    poolEntry.lastUrl = null;
+    return { success: false, lifts: 0 };
   }
-  // NOTE: We do NOT close the page - it stays open for reuse
 }
 
 async function runVailScraper() {
-  const startTime = Date.now();
+  // Prevent overlapping runs
+  if (vailRunning) return;
+  vailRunning = true;
+
   health.vail.lastRun = new Date().toISOString();
   health.vail.totalRuns++;
 
-  // Only restart browser if it's dead
+  // Ensure browser is alive
   if (!browser) {
     await initBrowser();
   } else {
     try {
-      // Check if browser is still alive
       await browser.version();
     } catch (e) {
       console.log('[VAIL] Browser died, restarting...');
@@ -427,97 +440,58 @@ async function runVailScraper() {
     }
   }
 
-  // Apply jitter
-  const jitter = Math.random() * CONFIG.vail.jitterMs;
-  await sleep(jitter);
-
-  console.log(`\n[VAIL] Starting scrape (run #${health.vail.totalRuns}, ${persistentPages.size} pages cached)`);
-
-  try {
-    const vailResorts = config.resorts.filter(r =>
-      (!r.provider || r.provider === 'vail') &&
-      isResortInSeason(r) &&
-      (r.terrainUrl || r.url)
-    );
-
-    // Filter to priority resorts only (if configured)
-    const prioritySet = new Set(CONFIG.vail.priorityResorts || []);
-    const priorityResorts = prioritySet.size > 0
-      ? vailResorts.filter(r => prioritySet.has(r.key))
-      : vailResorts;
-
-    // Filter to resorts not in dead hours
-    const activeResorts = priorityResorts.filter(r => !isInDeadHours(r.timezone));
-
-    if (activeResorts.length === 0) {
+  // Rebuild queue if empty
+  if (resortQueue.length === 0) {
+    resortQueue = buildResortQueue();
+    if (resortQueue.length === 0) {
       console.log('[VAIL] No active resorts at this time');
+      vailRunning = false;
       return;
     }
+    console.log(`[VAIL] Built queue with ${resortQueue.length} entries`);
+  }
 
-    // Shuffle for randomization
-    const shuffled = activeResorts.sort(() => Math.random() - 0.5);
+  console.log(`[VAIL] Queue: ${resortQueue.length} remaining`);
 
-    let totalLifts = 0;
-    let resortsProcessed = 0;
-    const timestamp = new Date().toISOString();
+  let totalLifts = 0;
+  let resortsProcessed = 0;
 
-    // Process with limited concurrency using persistent pages
-    const concurrency = CONFIG.vail.concurrency;
-    for (let i = 0; i < shuffled.length; i += concurrency) {
-      const batch = shuffled.slice(i, i + concurrency);
-
-      const results = await Promise.all(batch.map(async (resort) => {
-        const url = resort.terrainUrl || resort.url;
-        try {
-          const data = await scrapeVailResort(resort.key, url);
-          return { resort, data };
-        } catch (error) {
-          console.error(`[VAIL] ${resort.name}: ${error.message}`);
-          return { resort, data: null };
-        }
-      }));
-
-      // Save results
-      for (const { resort, data } of results) {
-        if (!data?.Lifts?.length) continue;
-
-        const localDate = getResortLocalDate(resort.timezone);
-        const localTime = getResortLocalTime(resort.timezone);
-        const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
-        ensureDirectoryExists(liftsDir);
-
-        const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
-        const records = data.Lifts.map(lift => ({
-          timestamp,
-          localTime,
-          resort: resort.key,
-          liftId: lift.SortOrder?.toString() || null,
-          name: lift.Name,
-          status: lift.Status,
-          type: formatLiftType(lift.Type),
-          waitMinutes: lift.WaitTimeInMinutes || null,
-          capacity: lift.Capacity,
-          mountain: lift.Mountain,
-          openTime: lift.OpenTime,
-          closeTime: lift.CloseTime,
-        }));
-
-        fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
-        totalLifts += records.length;
-        resortsProcessed++;
-      }
+  // Process resorts one at a time using available pages
+  while (resortQueue.length > 0) {
+    const poolEntry = getAvailablePage();
+    if (!poolEntry) {
+      // All pages busy - wait a bit
+      await sleep(1000);
+      continue;
     }
 
-    const elapsed = Date.now() - startTime;
-    console.log(`[VAIL] Completed in ${elapsed}ms - ${resortsProcessed} resorts, ${totalLifts} lift records`);
+    const resort = resortQueue.shift();
 
-    health.vail.lastSuccess = new Date().toISOString();
-    health.vail.consecutiveFailures = 0;
+    // Skip if resort is now in dead hours
+    if (isInDeadHours(resort.timezone)) {
+      continue;
+    }
 
-  } catch (error) {
-    console.error(`[VAIL] Error: ${error.message}`);
-    health.vail.consecutiveFailures++;
+    poolEntry.inUse = true;
+
+    try {
+      const result = await scrapeOneResort(poolEntry, resort);
+      if (result.success) {
+        totalLifts += result.lifts;
+        resortsProcessed++;
+        health.vail.lastSuccess = new Date().toISOString();
+        health.vail.consecutiveFailures = 0;
+      }
+    } finally {
+      poolEntry.inUse = false;
+    }
+
+    // Delay between scrapes to be nice to servers
+    await sleep(CONFIG.vail.delayBetweenScrapes);
   }
+
+  console.log(`[VAIL] Cycle complete: ${resortsProcessed} resorts, ${totalLifts} lifts`);
+  vailRunning = false;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -566,11 +540,12 @@ process.on('SIGTERM', async () => {
 
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════════════╗');
-  console.log('║     Ski Lift Scraper - Hetzner Persistent Mode                     ║');
+  console.log('║     Ski Lift Scraper - Hetzner Rotating Queue Mode                 ║');
   console.log('╚════════════════════════════════════════════════════════════════════╝');
   console.log(`Started at: ${new Date().toISOString()}`);
   console.log(`Ikon interval: ${CONFIG.ikon.intervalMs / 1000}s`);
-  console.log(`Vail interval: ${CONFIG.vail.intervalMs / 1000}s`);
+  console.log(`Vail: ${CONFIG.vail.pagePoolSize} pages, ${CONFIG.vail.delayBetweenScrapes / 1000}s between scrapes`);
+  console.log(`High priority resorts: ${CONFIG.vail.highPriorityResorts.join(', ')}`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Initialize browser for Vail
@@ -578,23 +553,20 @@ async function main() {
 
   // Track last run times - set to 0 to trigger immediate first runs
   let lastIkonRun = 0;
-  let lastVailRun = 0;
 
   // Main loop - checks every 5 seconds if it's time to run scrapers
   while (!isShuttingDown) {
     const now = Date.now();
 
-    // Check if it's time for Ikon (every 60s)
+    // Check if it's time for Ikon (every 2.5 min)
     if (now - lastIkonRun >= CONFIG.ikon.intervalMs) {
       lastIkonRun = now;
       // Fire and forget - don't await so we don't block the loop
       runIkonScraper().catch(console.error);
     }
 
-    // Check if it's time for Vail (every 150s)
-    if (now - lastVailRun >= CONFIG.vail.intervalMs) {
-      lastVailRun = now;
-      // Fire and forget - don't await so we don't block the loop
+    // Vail runs continuously - just trigger it, it handles its own queue
+    if (!vailRunning) {
       runVailScraper().catch(console.error);
     }
 
