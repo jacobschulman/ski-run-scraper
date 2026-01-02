@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-02",
-  "generated": "2026-01-02T10:22:10.925Z",
+  "generated": "2026-01-02T11:17:09.577Z",
   "rawData": {
     "snow": {
       "overnight_inches": 7,
@@ -23,20 +23,47 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 66,
           "yesterday": 63,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 65,
           "yesterday": 63,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Downtowner",
+          "difficulty": "Easy",
+          "area": "Learning Areas"
+        },
+        {
+          "name": "Lower East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Tamarack",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Downtowner",
+          "difficulty": "Easy",
+          "area": "Learning Areas"
+        },
+        {
+          "name": "Upper Tamarack",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,22 +139,28 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "7\" fresh snow overnight",
-      "7\" in last 24 hours - powder day!"
+      "7\" in last 24 hours - powder day!",
+      "3 new trails opened today",
+      "2 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 8\" in last 7 days"
+      "Steady snowfall - 8\" in last 7 days",
+      "3 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Downtowner - all skill levels",
+      "Fresh corduroy on Upper Tamarack - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "7\" of Fresh Overnight",
-    "body": "Wake up, it's a powder day! 7\" overnight means hero snow everywhere you look. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "The Mountain Got Buried",
+    "body": "Wake up, it's a powder day! 7\" overnight means hero snow everywhere you look. Rope drop! 3 trails opened overnight, expanding your playground significantly. Snow expected today or tomorrow with conditions continuing to improve.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +176,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_today_tomorrow",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got Buried"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Friday"
     }

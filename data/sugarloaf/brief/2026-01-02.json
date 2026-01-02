@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-02",
-  "generated": "2026-01-02T10:22:10.999Z",
+  "generated": "2026-01-02T11:17:09.649Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 50,
+          "today": 51,
           "yesterday": 50,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 43,
+          "today": 44,
           "yesterday": 43,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Wedge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Wedge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -66,9 +78,9 @@
           "high_f": 0,
           "low_f": 1,
           "description": "Windy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 0
         },
         {
           "date": "2026-01-04",
@@ -95,25 +107,31 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
-      "1\" snow expected Saturday"
+      "1 more trail open than yesterday",
+      "1\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Wedge - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Terrain is Expanding",
+    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. 1 more trail is in play today. The groomers are getting stretched thin (in a good way). Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -123,19 +141,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Friday"
     }
