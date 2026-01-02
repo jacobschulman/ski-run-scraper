@@ -2,7 +2,7 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-01-02",
-  "generated": "2026-01-02T18:25:05.495Z",
+  "generated": "2026-01-02T19:12:01.559Z",
   "rawData": {
     "snow": {
       "overnight_inches": 9,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 38,
+          "today": 39,
           "yesterday": 38,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 10,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Rhapsody",
+          "difficulty": "Difficult",
+          "area": "Eagle Ridge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -90,9 +96,9 @@
           "high_c": -3,
           "low_c": -5,
           "description": "Thundersnow",
-          "snowfall_day_inches": 4,
+          "snowfall_day_inches": 3,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 4
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
@@ -112,23 +118,25 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "9\" fresh snow overnight",
-      "13\" in last 24 hours - powder day!"
+      "13\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
       "Great week for snow - 25\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "13\" of Fresh Overnight",
-    "body": "13\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. Storm cycle alert! 13\" on the way. The mountain is about to get a serious refresh.",
+    "headline": "The Mountain Got Buried",
+    "body": "13\" dumped overnight. The stashes are loaded and the groomers are buried. Go find 'em. The ski patrol has been busy—1 additional trail is now yours to enjoy. Storm cycle alert! 12\" on the way. The mountain is about to get a serious refresh.",
     "debug": {
       "firedRules": [
         {
@@ -144,19 +152,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_major",
           "category": "weather",
           "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
         "totalVariations": 12,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got Buried"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Friday"
     }
