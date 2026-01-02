@@ -71,6 +71,9 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
 const INSPECTOR_API_URL = config.inspector?.apiUrl || 'https://mtnpowder.com/feed/v3.json';
 const BEARER_TOKEN = config.inspector?.bearerToken;
 
+// Aspen Snowmass API
+const ASPEN_API_BASE = 'https://www.aspensnowmass.com/AspenSnowmass/LiftStatus/Feed';
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // UTILITY FUNCTIONS
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -183,6 +186,102 @@ function getTodayLiftHours(hoursObj, timezone) {
     return { openTime: hoursObj[dayName].Open, closeTime: hoursObj[dayName].Close };
   }
   return { openTime: null, closeTime: null };
+}
+
+function fetchAspenData(mountainId) {
+  return new Promise((resolve, reject) => {
+    const url = `${ASPEN_API_BASE}?mountain=${mountainId}&areas=&isSummer=False`;
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (e) {
+            reject(new Error(`Aspen JSON parse error: ${e.message}`));
+          }
+        } else {
+          reject(new Error(`Aspen HTTP ${res.statusCode}`));
+        }
+      });
+    }).on('error', reject);
+  });
+}
+
+function parseAspenHours(hoursStr) {
+  if (!hoursStr) return { openTime: null, closeTime: null };
+  const match = hoursStr.match(/(\d+:\d+\s*[AP]M)\s*-\s*(\d+:\d+\s*[AP]M)/i);
+  if (match) return { openTime: match[1], closeTime: match[2] };
+  return { openTime: null, closeTime: null };
+}
+
+function normalizeAspenLiftType(type) {
+  if (!type) return null;
+  if (type.includes('Gondola')) return 'Gondola';
+  if (type.includes('HS') || type.includes('Express') || type.includes('Quad') ||
+      type.includes('Triple') || type.includes('Double') || type.includes('Fixed')) return 'Chair';
+  if (type.includes('Surface') || type.includes('T-Bar')) return 'Surface';
+  if (type.includes('Carpet') || type.includes('Conveyor')) return 'Carpet';
+  return type;
+}
+
+async function runAspenScraper() {
+  const aspenResorts = config.resorts.filter(r =>
+    r.provider === 'ikon' &&
+    r.apiProvider === 'aspensnowmass' &&
+    isResortInSeason(r)
+  );
+
+  if (aspenResorts.length === 0) return;
+
+  const timestamp = new Date().toISOString();
+  let totalLifts = 0;
+
+  for (const resort of aspenResorts) {
+    if (isInDeadHours(resort.timezone)) continue;
+
+    const mountainId = resort.apiConfig?.mountainId;
+    if (!mountainId) continue;
+
+    try {
+      const aspenData = await fetchAspenData(mountainId);
+      if (!aspenData?.liftStatuses?.length) continue;
+
+      const localDate = getResortLocalDate(resort.timezone);
+      const localTime = getResortLocalTime(resort.timezone);
+      const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
+      ensureDirectoryExists(liftsDir);
+
+      const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+      const records = aspenData.liftStatuses.map(lift => {
+        const hours = parseAspenHours(lift.hoursOfOperation);
+        return {
+          timestamp,
+          localTime,
+          resort: resort.key,
+          liftId: `aspen:${lift.liftName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+          name: lift.liftName,
+          status: lift.status,
+          type: normalizeAspenLiftType(lift.type),
+          waitMinutes: null,
+          openTime: hours.openTime,
+          closeTime: hours.closeTime,
+          mountain: lift.area,
+        };
+      });
+
+      fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
+      totalLifts += records.length;
+      console.log(`[ASPEN] ${resort.key}: ${records.length} lifts`);
+    } catch (error) {
+      console.error(`[ASPEN] ${resort.key}: ${error.message}`);
+    }
+  }
+
+  if (totalLifts > 0) {
+    console.log(`[ASPEN] Total: ${totalLifts} lift records`);
+  }
 }
 
 async function runIkonScraper() {
@@ -444,6 +543,18 @@ async function runVailScraper() {
   if (resortQueue.length === 0) {
     resortQueue = buildResortQueue();
     if (resortQueue.length === 0) {
+      // Check if ALL resorts are in dead hours - if so, close browser to save memory
+      const anyActive = config.resorts.some(r =>
+        isResortInSeason(r) && !isInDeadHours(r.timezone)
+      );
+      if (!anyActive && browser) {
+        console.log('[VAIL] All resorts in dead hours - closing browser to save memory');
+        try {
+          await browser.close();
+        } catch (e) {}
+        browser = null;
+        pagePool.length = 0;
+      }
       console.log('[VAIL] No active resorts at this time');
       vailRunning = false;
       return;
@@ -558,11 +669,12 @@ async function main() {
   while (!isShuttingDown) {
     const now = Date.now();
 
-    // Check if it's time for Ikon (every 2.5 min)
+    // Check if it's time for Ikon + Aspen (every 2.5 min)
     if (now - lastIkonRun >= CONFIG.ikon.intervalMs) {
       lastIkonRun = now;
       // Fire and forget - don't await so we don't block the loop
       runIkonScraper().catch(console.error);
+      runAspenScraper().catch(console.error);
     }
 
     // Vail runs continuously - just trigger it, it handles its own queue
