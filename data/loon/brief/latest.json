@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-01-02",
-  "generated": "2026-01-02T11:17:09.655Z",
+  "generated": "2026-01-02T12:37:21.733Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,15 +28,46 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 56,
+          "today": 62,
           "yesterday": 56,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 85
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Serendipity",
+          "difficulty": "novice",
+          "area": "Nordic"
+        },
+        {
+          "name": "Black Mountain",
+          "difficulty": "novice",
+          "area": "Nordic"
+        },
+        {
+          "name": "Hancock",
+          "difficulty": "Blue",
+          "area": "Nordic"
+        },
+        {
+          "name": "Potash",
+          "difficulty": "Blue",
+          "area": "Nordic"
+        },
+        {
+          "name": "Ted's Bypass",
+          "difficulty": "Black",
+          "area": "Nordic"
+        },
+        {
+          "name": "VonRyan's Express",
+          "difficulty": "Black",
+          "area": "Nordic"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -44,23 +75,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-01",
-        "high_f": null,
-        "low_f": -1,
-        "description": "Mostly Clear",
+        "date": "2026-01-02",
+        "high_f": 10,
+        "low_f": 2,
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-02",
-          "high_f": 10,
-          "low_f": 2,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-03",
           "high_f": 7,
@@ -78,16 +100,25 @@
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-05",
+          "high_f": 7,
+          "low_f": 7,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2026-01-02",
-        "high_f": 10,
-        "low_f": 2,
-        "description": "Cloudy",
-        "snowfall_day_inches": 0,
+        "date": "2026-01-03",
+        "high_f": 7,
+        "low_f": 6,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -98,16 +129,22 @@
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Serendipity - all skill levels",
+      "Fresh corduroy on Black Mountain - all skill levels",
+      "Fresh corduroy on Hancock - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "Overnight dusting of 2\" means the hardpack got a makeover. Looking good out there. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
+    "headline": "Fresh Layer in Place",
+    "body": "Overnight dusting of 2\" means the hardpack got a makeover. Looking good out there. 6 runs were freshly groomed overnight, with smooth corduroy calling in Nordic. The forecast is flirting with us: light snow expected. Not a dump, but we'll take it.",
     "debug": {
       "firedRules": [
         {
@@ -123,19 +160,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_newly_groomed",
+          "category": "terrain",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 8,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Friday"
     }
