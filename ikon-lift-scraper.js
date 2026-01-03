@@ -39,6 +39,9 @@ const RESORTS = configLoader.getResortsMap(config);
 const INSPECTOR_API_URL = config.inspector?.apiUrl || 'https://mtnpowder.com/feed/v3.json';
 const BEARER_TOKEN = config.inspector?.bearerToken || 'hPtaTVkbuyZQnrxvru4ApfpXnS21PJO3eTKdibDoLZE';
 
+// Aspen Snowmass API
+const ASPEN_API_BASE = 'https://www.aspensnowmass.com/AspenSnowmass/LiftStatus/Feed';
+
 // Operating window buffers
 const PRE_OPEN_BUFFER_MINUTES = 30;
 const POST_CLOSE_GRACE_MINUTES = 60; // extended grace period to ensure we capture all lift closings
@@ -73,6 +76,125 @@ function fetchAllInspectorData() {
       reject(new Error(`Request failed: ${error.message}`));
     });
   });
+}
+
+/**
+ * Fetch lift data from Aspen Snowmass API
+ */
+function fetchAspenData(mountainId) {
+  return new Promise((resolve, reject) => {
+    const url = `${ASPEN_API_BASE}?mountain=${mountainId}&areas=&isSummer=False`;
+
+    https.get(url, (res) => {
+      let data = '';
+
+      res.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const json = JSON.parse(data);
+            resolve(json);
+          } catch (error) {
+            reject(new Error(`Failed to parse Aspen JSON: ${error.message}`));
+          }
+        } else {
+          reject(new Error(`Aspen HTTP ${res.statusCode}: ${res.statusMessage}`));
+        }
+      });
+    }).on('error', (error) => {
+      reject(new Error(`Aspen request failed: ${error.message}`));
+    });
+  });
+}
+
+/**
+ * Parse Aspen hours string like "9:00 AM - 3:30 PM" into openTime/closeTime
+ */
+function parseAspenHours(hoursStr) {
+  if (!hoursStr) return { openTime: null, closeTime: null };
+  const match = hoursStr.match(/(\d+:\d+\s*[AP]M)\s*-\s*(\d+:\d+\s*[AP]M)/i);
+  if (match) {
+    return { openTime: match[1], closeTime: match[2] };
+  }
+  return { openTime: null, closeTime: null };
+}
+
+/**
+ * Normalize Aspen lift type to standard format
+ */
+function normalizeAspenLiftType(type) {
+  if (!type) return null;
+  if (type.includes('Gondola')) return 'Gondola';
+  if (type.includes('HS') || type.includes('Express')) return 'Chair';
+  if (type.includes('Quad') || type.includes('Triple') || type.includes('Double')) return 'Chair';
+  if (type.includes('Fixed')) return 'Chair';
+  if (type.includes('Surface') || type.includes('T-Bar')) return 'Surface';
+  if (type.includes('Carpet') || type.includes('Conveyor')) return 'Carpet';
+  return type;
+}
+
+/**
+ * Save Aspen lift data for a resort
+ */
+function saveAspenLiftData(resortKey, aspenData, timestamp) {
+  const resort = RESORTS[resortKey];
+  const timezone = resort.timezone;
+  const localDate = seasonUtils.getResortLocalDate(timezone);
+  const localTime = seasonUtils.getResortLocalTime(timezone);
+
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  let liftRecords = [];
+  let hasOpenLifts = false;
+
+  if (aspenData.liftStatuses && aspenData.liftStatuses.length > 0) {
+    aspenData.liftStatuses.forEach((lift) => {
+      const hours = parseAspenHours(lift.hoursOfOperation);
+
+      const liftRecord = {
+        timestamp: timestamp,
+        localTime: localTime,
+        resort: resortKey,
+        liftId: `aspen:${lift.liftName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+        name: lift.liftName,
+        status: lift.status,
+        type: normalizeAspenLiftType(lift.type),
+        waitMinutes: null, // Aspen doesn't provide wait times
+        openTime: hours.openTime,
+        closeTime: hours.closeTime,
+        mountain: lift.area,
+        rideTimeMinutes: lift.time ? parseInt(lift.time) : null,
+        elevationGainFeet: lift.elevationGainFeet ? parseInt(lift.elevationGainFeet.replace(/,/g, '')) : null,
+      };
+
+      liftRecords.push(liftRecord);
+
+      if (lift.status === 'Open') {
+        hasOpenLifts = true;
+      }
+    });
+  }
+
+  if (liftRecords.length > 0) {
+    const ndjsonLines = liftRecords.map(record => JSON.stringify(record)).join('\n') + '\n';
+    fs.appendFileSync(outputFile, ndjsonLines);
+    console.log(`✓ Saved ${liftRecords.length} Aspen lift records to ${outputFile}`);
+
+    const openLifts = liftRecords.filter(r => r.status === 'Open');
+    console.log(`  Open lifts: ${openLifts.length}/${liftRecords.length}`);
+  }
+
+  if (hasOpenLifts) {
+    addToActiveResortCache(resortKey, timezone);
+  }
+
+  return { liftCount: liftRecords.length, hasOpenLifts };
 }
 
 /**
@@ -463,6 +585,16 @@ async function main() {
   const skippedResorts = [];
 
   inSeasonResorts.forEach(resort => {
+    // Always check Aspen resorts if not in dead hours (they use a different API)
+    if (resort.apiProvider === 'aspensnowmass') {
+      if (!isInDeadHours(resort.timezone)) {
+        resortsToCheck.push(resort);
+      } else {
+        skippedResorts.push({ resort, reason: 'dead_hours' });
+      }
+      return;
+    }
+
     const decision = shouldCheckResort(resort.key, resort, activeCache);
 
     if (decision.shouldCheck) {
@@ -488,8 +620,31 @@ async function main() {
 
   console.log(`\n✓ Will check ${resortsToCheck.length} resort(s)`);
 
-  // Scrape the resorts
-  const scrapedData = await scrapeLiftData(resortsToCheck);
+  // Separate Aspen resorts from Inspector resorts
+  const aspenResorts = resortsToCheck.filter(r => r.apiProvider === 'aspensnowmass');
+  const inspectorResorts = resortsToCheck.filter(r => r.apiProvider !== 'aspensnowmass');
+
+  // Scrape Inspector resorts
+  const scrapedData = await scrapeLiftData(inspectorResorts);
+
+  // Scrape Aspen resorts
+  const timestamp = new Date().toISOString();
+  for (const resort of aspenResorts) {
+    const mountainId = resort.apiConfig?.mountainId;
+    if (!mountainId) {
+      console.error(`\n⚠️  ${resort.name}: No mountainId configured for Aspen API`);
+      continue;
+    }
+
+    console.log(`\n[${resort.name}] (Aspen API)`);
+    try {
+      const aspenData = await fetchAspenData(mountainId);
+      const result = saveAspenLiftData(resort.key, aspenData, timestamp);
+      scrapedData.push({ resortKey: resort.key, ...result });
+    } catch (error) {
+      console.error(`❌ ${resort.name}: ${error.message}`);
+    }
+  }
 
   // Summary
   console.log('\n' + '='.repeat(80));
