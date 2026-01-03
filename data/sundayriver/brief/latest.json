@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-01-03",
-  "generated": "2026-01-03T06:25:51.433Z",
+  "generated": "2026-01-03T07:16:17.144Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -66,9 +66,9 @@
           "high_f": 6,
           "low_f": -5,
           "description": "Windy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 0
         },
         {
           "date": "2026-01-05",
@@ -100,19 +100,19 @@
     },
     "alerts": [],
     "trends": [
-      "1\" snow expected Sunday"
+      "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Cloudy with a chance of pow!",
-    "body": "The rundown: 86 trails open, 74 groomed. Windy with temps around null°. A little something coming our way. Light snow expected to dust things up nicely.",
+    "headline": "Today's Conditions",
+    "body": "The rundown: 86 trails open, 74 groomed. Windy with temps around null°. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -122,19 +122,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "weather_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 6,
-        "totalVariations": 7,
+        "condition": "fallback",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+        "previousHeadline": "Cloudy with a chance of pow!"
       },
       "dayOfWeek": "Saturday"
     }
