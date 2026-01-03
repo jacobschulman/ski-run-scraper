@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-03",
-  "generated": "2026-01-03T12:35:50.954Z",
+  "generated": "2026-01-03T13:28:15.728Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,25 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 71,
+          "today": 70,
           "yesterday": 71,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 68,
+          "today": 67,
           "yesterday": 68,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 123
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Lower Slalom Glade",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -80,8 +86,8 @@
           "low_c": -10,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-06",
@@ -119,19 +125,19 @@
     "alerts": [],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
-      "1\" snow expected Tuesday"
+      "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Your Daily Ski Report",
-    "body": "Steady snowfall with 8\" over the last week. Light snow possible in the forecast.",
+    "headline": "Cloudy with a chance of pow!",
+    "body": "Steady snowfall with 8\" over the last week. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "weather_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -141,19 +147,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 6,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Conditions Report"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Saturday"
     }
