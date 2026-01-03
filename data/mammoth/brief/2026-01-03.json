@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-01-03",
-  "generated": "2026-01-03T17:14:19.461Z",
+  "generated": "2026-01-03T18:23:10.660Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -52,7 +52,7 @@
     "forecast": {
       "today": {
         "date": "2026-01-03",
-        "high_f": 28,
+        "high_f": 29,
         "low_f": 22,
         "high_c": -2,
         "low_c": -5,
@@ -75,7 +75,7 @@
         {
           "date": "2026-01-05",
           "high_f": 23,
-          "low_f": 18,
+          "low_f": 17,
           "high_c": -5,
           "low_c": -8,
           "description": "Mostly Cloudy",
@@ -85,7 +85,7 @@
         },
         {
           "date": "2026-01-06",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 19,
           "high_c": -3,
           "low_c": -7,
@@ -126,36 +126,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Powder Day Alert! ❄️",
-    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere you look. A significant storm is brewing with 16\" expected over the next few days. Plan accordingly.",
+    "headline": "Major System Approaching",
+    "body": "The mountain is absolutely loaded with 8\" of fresh. This is not a drill. Winter has more to say. 16\" forecasted means conditions improving soon. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
-          "category": "snow",
-          "priority": 100,
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 100,
+          "priority": 90,
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_major",
+          "id": "forecast_major_storm",
           "category": "weather",
-          "priority": 88,
+          "priority": 92,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 0,
-        "totalVariations": 12,
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": null
       },
       "dayOfWeek": "Saturday"
     }
