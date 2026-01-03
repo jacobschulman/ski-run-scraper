@@ -299,11 +299,6 @@ async function runIkonScraper() {
       }
 
       if (records.length > 0) {
-        // Check if data changed
-        const currentHash = getWaitTimesHash(records);
-        if (lastWaitTimes[resort.key] === currentHash) continue; // No change
-        lastWaitTimes[resort.key] = currentHash;
-
         fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
         totalLifts += records.length;
         resortsProcessed++;
@@ -331,17 +326,6 @@ const pagePool = [];        // Small pool of reusable pages
 let resortQueue = [];       // Queue of resorts to scrape
 let vailRunning = false;    // Prevent overlapping runs
 
-// Track last data per resort to avoid duplicate writes
-const lastWaitTimes = {};   // resortKey -> "liftName:waitMinutes,..."
-
-function getWaitTimesHash(lifts) {
-  // Create a hash of lift wait times to detect changes
-  return lifts
-    .filter(l => l.waitMinutes !== null && l.waitMinutes !== undefined)
-    .map(l => `${l.name}:${l.waitMinutes}`)
-    .sort()
-    .join(',');
-}
 
 async function initBrowser() {
   if (browser) {
@@ -453,7 +437,7 @@ async function scrapeOneResort(poolEntry, resort) {
       return { success: false, lifts: 0 };
     }
 
-    // Filter to only lifts with wait times (skip binary open/closed lifts)
+    // Filter to only lifts with wait times (skip lifts that never report wait data)
     const liftsWithWaitTimes = data.Lifts.filter(lift =>
       lift.WaitTimeInMinutes !== null && lift.WaitTimeInMinutes !== undefined
     );
@@ -463,20 +447,7 @@ async function scrapeOneResort(poolEntry, resort) {
       return { success: true, lifts: 0, skipped: 'no wait times' };
     }
 
-    // Check if wait times changed since last scrape
-    const currentHash = getWaitTimesHash(liftsWithWaitTimes.map(l => ({
-      name: l.Name,
-      waitMinutes: l.WaitTimeInMinutes
-    })));
-
-    if (lastWaitTimes[resort.key] === currentHash) {
-      // No change - skip saving
-      return { success: true, lifts: liftsWithWaitTimes.length, skipped: 'unchanged' };
-    }
-
-    // Data changed - save it
-    lastWaitTimes[resort.key] = currentHash;
-
+    // Save data - always record for accurate time series
     const localDate = getResortLocalDate(resort.timezone);
     const localTime = getResortLocalTime(resort.timezone);
     const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
@@ -500,7 +471,7 @@ async function scrapeOneResort(poolEntry, resort) {
 
     fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
 
-    console.log(`[VAIL] ${resort.key}: ${records.length} lifts (changed)`);
+    console.log(`[VAIL] ${resort.key}: ${records.length} lifts`);
     return { success: true, lifts: records.length };
 
   } catch (error) {
