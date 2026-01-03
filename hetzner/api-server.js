@@ -229,6 +229,78 @@ app.get('/data/latest-lifts.json', (req, res) => {
   }
 });
 
+// Dynamic index.json for lift data (generates from latest NDJSON)
+// This endpoint must come BEFORE the static file middleware
+app.get('/data/:resort/lifts/index.json', (req, res) => {
+  const resortKey = req.params.resort;
+  const liftsDir = path.join(DATA_DIR, resortKey, 'lifts');
+
+  if (!fs.existsSync(liftsDir)) {
+    return res.status(404).json({ error: 'Resort not found' });
+  }
+
+  try {
+    // Find the latest NDJSON file
+    const files = fs.readdirSync(liftsDir).filter(f => f.endsWith('.ndjson')).sort().reverse();
+    if (files.length === 0) {
+      return res.status(404).json({ error: 'No lift data available' });
+    }
+
+    const latestFile = path.join(liftsDir, files[0]);
+    const content = fs.readFileSync(latestFile, 'utf8').trim();
+    if (!content) {
+      return res.status(404).json({ error: 'Empty lift data file' });
+    }
+
+    const lines = content.split('\n').filter(Boolean);
+    if (lines.length === 0) {
+      return res.status(404).json({ error: 'No lift records' });
+    }
+
+    // Get the most recent timestamp
+    const lastRecord = JSON.parse(lines[lines.length - 1]);
+    const lastTimestamp = lastRecord.timestamp;
+
+    // Get all records from the last scrape
+    const latestRecords = lines
+      .map(line => { try { return JSON.parse(line); } catch { return null; } })
+      .filter(r => r && r.timestamp === lastTimestamp);
+
+    // Build lift index with proper structure
+    const lifts = latestRecords.map(r => ({
+      liftId: r.liftId,
+      name: r.name,
+      slug: r.name ? r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') : null,
+      mountain: r.mountain,
+      type: r.type,
+      capacity: r.capacity || null,
+      status: r.status,
+      waitMinutes: r.waitMinutes,
+      openTime: r.openTime,
+      closeTime: r.closeTime,
+      avgWaitTime: null,
+      lastUpdated: r.timestamp,
+    }));
+
+    const index = {
+      resort: resortKey,
+      resortName: latestRecords[0]?.resort || resortKey,
+      provider: 'vail',
+      liftCount: lifts.length,
+      lifts,
+      generated: lastTimestamp, // Use the actual scrape time, not current time
+    };
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=30');
+    res.json(index);
+
+  } catch (error) {
+    console.error(`Error generating lift index for ${resortKey}:`, error);
+    res.status(500).json({ error: 'Failed to generate lift index' });
+  }
+});
+
 // Static file serving for data directory
 app.use('/data', express.static(DATA_DIR, {
   maxAge: '30s',

@@ -15,11 +15,13 @@ const CONFIG = {
     jitterMs: 15000,            // 0-15 seconds random jitter
   },
   vail: {
-    // Rotating queue approach - cycle through all resorts with a small page pool
-    pagePoolSize: 2,            // Only keep 2 pages open at a time
-    delayBetweenScrapes: 15000, // 15 seconds between each resort scrape
-    // High priority resorts appear 3x in queue (scraped ~every 5 min)
-    // Normal resorts appear 1x in queue (scraped ~every 15-20 min)
+    // Increased page pool for faster parallel scraping
+    pagePoolSize: 4,            // 4 pages for parallel scraping (up from 2)
+    delayBetweenScrapes: 8000,  // 8 seconds between each resort scrape (down from 15)
+    // Failure tracking - skip resorts that keep timing out
+    failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
+    maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown
+    // High priority resorts get scraped first (not shuffled)
     highPriorityResorts: [
       'vail',
       'beavercreek',
@@ -52,6 +54,36 @@ const health = {
   vail: { lastRun: null, lastSuccess: null, consecutiveFailures: 0, totalRuns: 0 },
   startTime: Date.now(),
 };
+
+// Per-resort failure tracking to skip problematic resorts temporarily
+const resortFailures = new Map(); // key -> { failures: number, cooldownUntil: timestamp }
+
+function isResortInCooldown(resortKey) {
+  const record = resortFailures.get(resortKey);
+  if (!record) return false;
+  if (record.cooldownUntil && Date.now() < record.cooldownUntil) {
+    return true;
+  }
+  // Cooldown expired, reset
+  if (record.cooldownUntil && Date.now() >= record.cooldownUntil) {
+    resortFailures.delete(resortKey);
+  }
+  return false;
+}
+
+function recordResortFailure(resortKey) {
+  const record = resortFailures.get(resortKey) || { failures: 0, cooldownUntil: null };
+  record.failures++;
+  if (record.failures >= CONFIG.vail.maxConsecutiveFailures) {
+    record.cooldownUntil = Date.now() + CONFIG.vail.failureCooldownMs;
+    console.log(`[VAIL] ${resortKey}: Too many failures, cooldown for ${CONFIG.vail.failureCooldownMs / 60000} minutes`);
+  }
+  resortFailures.set(resortKey, record);
+}
+
+function recordResortSuccess(resortKey) {
+  resortFailures.delete(resortKey);
+}
 
 // Load main config
 let config;
@@ -419,29 +451,34 @@ function buildResortQueue() {
     (r.terrainUrl || r.url)
   );
 
-  // Filter to resorts not in dead hours
-  const activeResorts = vailResorts.filter(r => !isInDeadHours(r.timezone));
+  // Filter to resorts not in dead hours and not in cooldown
+  const activeResorts = vailResorts.filter(r =>
+    !isInDeadHours(r.timezone) && !isResortInCooldown(r.key)
+  );
 
   if (activeResorts.length === 0) return [];
 
   const highPrioritySet = new Set(CONFIG.vail.highPriorityResorts || []);
-  const queue = [];
 
-  // Add high priority resorts 3x (will be scraped more frequently)
-  for (const resort of activeResorts) {
-    if (highPrioritySet.has(resort.key)) {
-      queue.push(resort);
-      queue.push(resort);
-      queue.push(resort);
-    } else {
-      queue.push(resort);
-    }
+  // Separate high priority and normal resorts
+  const highPriority = activeResorts.filter(r => highPrioritySet.has(r.key));
+  const normalPriority = activeResorts.filter(r => !highPrioritySet.has(r.key));
+
+  // Shuffle normal priority resorts only
+  for (let i = normalPriority.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [normalPriority[i], normalPriority[j]] = [normalPriority[j], normalPriority[i]];
   }
 
-  // Shuffle the queue
-  for (let i = queue.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [queue[i], queue[j]] = [queue[j], queue[i]];
+  // Build queue: high priority FIRST (not shuffled), then normal (shuffled)
+  // High priority resorts appear 2x for more frequent scraping
+  const queue = [];
+  for (const resort of highPriority) {
+    queue.push(resort);
+    queue.push(resort); // 2x for high priority
+  }
+  for (const resort of normalPriority) {
+    queue.push(resort);
   }
 
   return queue;
@@ -510,12 +547,14 @@ async function scrapeOneResort(poolEntry, resort) {
     fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
 
     console.log(`[VAIL] ${resort.key}: ${records.length} lifts`);
+    recordResortSuccess(resort.key);
     return { success: true, lifts: records.length };
 
   } catch (error) {
     console.error(`[VAIL] ${resort.key}: ${error.message}`);
     // Reset lastUrl so we do full navigation next time
     poolEntry.lastUrl = null;
+    recordResortFailure(resort.key);
     return { success: false, lifts: 0 };
   }
 }
@@ -652,12 +691,13 @@ process.on('SIGTERM', async () => {
 
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════════════╗');
-  console.log('║     Ski Lift Scraper - Hetzner Rotating Queue Mode                 ║');
+  console.log('║     Ski Lift Scraper - Hetzner Priority Queue Mode                 ║');
   console.log('╚════════════════════════════════════════════════════════════════════╝');
   console.log(`Started at: ${new Date().toISOString()}`);
   console.log(`Ikon interval: ${CONFIG.ikon.intervalMs / 1000}s`);
-  console.log(`Vail: ${CONFIG.vail.pagePoolSize} pages, ${CONFIG.vail.delayBetweenScrapes / 1000}s between scrapes`);
-  console.log(`High priority resorts: ${CONFIG.vail.highPriorityResorts.join(', ')}`);
+  console.log(`Vail: ${CONFIG.vail.pagePoolSize} parallel pages, ${CONFIG.vail.delayBetweenScrapes / 1000}s between scrapes`);
+  console.log(`Failure cooldown: ${CONFIG.vail.failureCooldownMs / 60000} min after ${CONFIG.vail.maxConsecutiveFailures} failures`);
+  console.log(`High priority resorts (scraped first): ${CONFIG.vail.highPriorityResorts.join(', ')}`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Initialize browser for Vail
