@@ -21,7 +21,7 @@ const reference = rules.map(rule => ({
   id: rule.id,
   category: rule.category,
   priority: rule.priority,
-  headlineTemplate: rule.headlineTemplate || null,
+  headlineCondition: rule.headlineCondition || null,
   bodyFragmentTemplate: rule.bodyFragmentTemplate || null,
   fragmentOrder: rule.fragmentOrder || 99,
   // Stringify the condition function for display purposes
