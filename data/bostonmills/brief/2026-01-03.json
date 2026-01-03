@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-01-03",
-  "generated": "2026-01-03T10:23:49.252Z",
+  "generated": "2026-01-03T14:16:04.516Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 4,
-          "delta": -4
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,29 +34,14 @@
         },
         "totalTrails": 7
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Buttermilk",
-          "difficulty": "Blue",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Croyle",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "North Bowl",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Summit",
-          "difficulty": "Green",
+          "name": "Peter's Pride",
+          "difficulty": "TerrainPark",
           "area": "Boston Mills"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -76,7 +61,7 @@
         "high_f": 23,
         "low_f": 12,
         "high_c": -5,
-        "low_c": -11,
+        "low_c": -12,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -84,10 +69,10 @@
       "outlook": [
         {
           "date": "2026-01-04T05:00:00Z",
-          "high_f": 25,
+          "high_f": 26,
           "low_f": 19,
           "high_c": -4,
-          "low_c": -7,
+          "low_c": -8,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -95,9 +80,9 @@
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 36,
-          "low_f": 19,
-          "high_c": 2,
+          "high_f": 37,
+          "low_f": 20,
+          "high_c": 3,
           "low_c": -7,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -106,10 +91,10 @@
         },
         {
           "date": "2026-01-06T05:00:00Z",
-          "high_f": 41,
+          "high_f": 42,
           "low_f": 28,
           "high_c": 5,
-          "low_c": -2,
+          "low_c": -3,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -118,10 +103,10 @@
       ],
       "tomorrow": {
         "date": "2026-01-04T05:00:00Z",
-        "high_f": 25,
+        "high_f": 26,
         "low_f": 19,
         "high_c": -4,
-        "low_c": -7,
+        "low_c": -8,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -133,41 +118,50 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days"
+      "Steady snowfall - 6\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "The mountain is still prepping for the season. Weather today: Cloudy, 23°F.",
+    "headline": "More Mountain to Explore",
+    "body": "Steady snowfall with 6\" over the last week. The ski patrol has been busy—1 additional trail is now yours to enjoy.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Saturday"
     }

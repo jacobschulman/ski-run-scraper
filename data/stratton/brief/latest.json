@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-03",
-  "generated": "2026-01-03T13:28:15.728Z",
+  "generated": "2026-01-03T14:16:10.501Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,40 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 70,
+          "today": 72,
           "yesterday": 71,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 67,
+          "today": 66,
           "yesterday": 68,
-          "delta": -1
+          "delta": -2
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "91",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "91 Extension",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Lower Middlebrook",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        }
+      ],
       "newlyClosed": [
+        {
+          "name": "Churchill Downs",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
         {
           "name": "Lower Slalom Glade",
           "difficulty": "Extreme Terrain",
@@ -118,26 +139,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Cloudy with a chance of pow!",
-    "body": "Steady snowfall with 8\" over the last week. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
+    "headline": "Terrain is Expanding",
+    "body": "Steady snowfall with 8\" over the last week. New terrain alert: 3 trails added to the mix. The mountain just got bigger. Snow is in the cards for the next few days. Nothing massive, but enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -147,19 +171,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 6,
-        "totalVariations": 7,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "Cloudy with a chance of pow!"
       },
       "dayOfWeek": "Saturday"
     }

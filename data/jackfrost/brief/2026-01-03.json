@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2026-01-03",
-  "generated": "2026-01-03T10:23:49.233Z",
+  "generated": "2026-01-03T14:16:04.506Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,65 +23,30 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 11,
           "yesterday": 9,
-          "delta": -9
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 11,
           "yesterday": 9,
-          "delta": -9
+          "delta": 2
         },
         "totalTrails": 20
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Challenge",
+          "name": "Lightning",
           "difficulty": "Black",
           "area": "Jack Frost"
         },
         {
-          "name": "Dematte's Demise",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
+          "name": "River Shot",
+          "difficulty": "Black",
           "area": "Jack Frost"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -102,7 +67,7 @@
         "low_f": 12,
         "high_c": -6,
         "low_c": -11,
-        "description": "Mostly Cloudy",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -113,14 +78,14 @@
           "low_f": 16,
           "high_c": -6,
           "low_c": -9,
-          "description": "Windy",
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 25,
+          "high_f": 26,
           "low_f": 16,
           "high_c": -4,
           "low_c": -9,
@@ -134,7 +99,7 @@
           "high_f": 35,
           "low_f": 26,
           "high_c": 1,
-          "low_c": -4,
+          "low_c": -3,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -147,7 +112,7 @@
         "low_f": 16,
         "high_c": -6,
         "low_c": -9,
-        "description": "Windy",
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -158,39 +123,50 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
+    "trends": [
+      "Grooming increased 22% from yesterday",
+      "2 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "No trails open yet. Current forecast: Mostly Cloudy with a high of 21°F.",
+    "headline": "2 New Trails Today",
+    "body": "11/20 trails spinning, 11 freshly groomed. 21° and Partly Cloudy. 2 new runs just opened up. Time to explore some fresh terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expansion",
           "category": "terrain",
-          "priority": 95,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Is it the weekend yet?"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Saturday"
     }
