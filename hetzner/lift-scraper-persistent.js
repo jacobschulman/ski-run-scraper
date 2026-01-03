@@ -227,61 +227,9 @@ function normalizeAspenLiftType(type) {
 }
 
 async function runAspenScraper() {
-  const aspenResorts = config.resorts.filter(r =>
-    r.provider === 'ikon' &&
-    r.apiProvider === 'aspensnowmass' &&
-    isResortInSeason(r)
-  );
-
-  if (aspenResorts.length === 0) return;
-
-  const timestamp = new Date().toISOString();
-  let totalLifts = 0;
-
-  for (const resort of aspenResorts) {
-    if (isInDeadHours(resort.timezone)) continue;
-
-    const mountainId = resort.apiConfig?.mountainId;
-    if (!mountainId) continue;
-
-    try {
-      const aspenData = await fetchAspenData(mountainId);
-      if (!aspenData?.liftStatuses?.length) continue;
-
-      const localDate = getResortLocalDate(resort.timezone);
-      const localTime = getResortLocalTime(resort.timezone);
-      const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
-      ensureDirectoryExists(liftsDir);
-
-      const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
-      const records = aspenData.liftStatuses.map(lift => {
-        const hours = parseAspenHours(lift.hoursOfOperation);
-        return {
-          timestamp,
-          localTime,
-          resort: resort.key,
-          liftId: `aspen:${lift.liftName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
-          name: lift.liftName,
-          status: lift.status,
-          type: normalizeAspenLiftType(lift.type),
-          waitMinutes: null,
-          openTime: hours.openTime,
-          closeTime: hours.closeTime,
-          mountain: lift.area,
-        };
-      });
-
-      fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
-      totalLifts += records.length;
-      console.log(`[ASPEN] ${resort.key}: ${records.length} lifts`);
-    } catch (error) {
-      console.error(`[ASPEN] ${resort.key}: ${error.message}`);
-    }
-  }
-
-  if (totalLifts > 0) {
-    console.log(`[ASPEN] Total: ${totalLifts} lift records`);
-  }
+  // Aspen resorts don't provide wait time data, so skip entirely
+  // Their API only has open/closed status which we don't need for wait time graphs
+  return;
 }
 
 async function runIkonScraper() {
@@ -328,6 +276,10 @@ async function runIkonScraper() {
         for (const area of ikonData.MountainAreas) {
           if (!area.Lifts) continue;
           for (const lift of area.Lifts) {
+            const waitMinutes = lift.WaitTime && lift.WaitTime !== '--' ? parseInt(lift.WaitTime) : null;
+            // Only include lifts with wait time data
+            if (waitMinutes === null) continue;
+
             const hours = getTodayLiftHours(lift.Hours, resort.timezone);
             records.push({
               timestamp,
@@ -337,7 +289,7 @@ async function runIkonScraper() {
               name: lift.Name,
               status: lift.Status,
               type: formatLiftType(lift.LiftType),
-              waitMinutes: lift.WaitTime && lift.WaitTime !== '--' ? parseInt(lift.WaitTime) || null : null,
+              waitMinutes,
               openTime: hours.openTime,
               closeTime: hours.closeTime,
               mountain: area.Name,
@@ -347,6 +299,11 @@ async function runIkonScraper() {
       }
 
       if (records.length > 0) {
+        // Check if data changed
+        const currentHash = getWaitTimesHash(records);
+        if (lastWaitTimes[resort.key] === currentHash) continue; // No change
+        lastWaitTimes[resort.key] = currentHash;
+
         fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
         totalLifts += records.length;
         resortsProcessed++;
@@ -373,6 +330,18 @@ let browser = null;
 const pagePool = [];        // Small pool of reusable pages
 let resortQueue = [];       // Queue of resorts to scrape
 let vailRunning = false;    // Prevent overlapping runs
+
+// Track last data per resort to avoid duplicate writes
+const lastWaitTimes = {};   // resortKey -> "liftName:waitMinutes,..."
+
+function getWaitTimesHash(lifts) {
+  // Create a hash of lift wait times to detect changes
+  return lifts
+    .filter(l => l.waitMinutes !== null && l.waitMinutes !== undefined)
+    .map(l => `${l.name}:${l.waitMinutes}`)
+    .sort()
+    .join(',');
+}
 
 async function initBrowser() {
   if (browser) {
@@ -484,14 +453,37 @@ async function scrapeOneResort(poolEntry, resort) {
       return { success: false, lifts: 0 };
     }
 
-    // Save data
+    // Filter to only lifts with wait times (skip binary open/closed lifts)
+    const liftsWithWaitTimes = data.Lifts.filter(lift =>
+      lift.WaitTimeInMinutes !== null && lift.WaitTimeInMinutes !== undefined
+    );
+
+    if (liftsWithWaitTimes.length === 0) {
+      // Resort has no wait time data, skip saving
+      return { success: true, lifts: 0, skipped: 'no wait times' };
+    }
+
+    // Check if wait times changed since last scrape
+    const currentHash = getWaitTimesHash(liftsWithWaitTimes.map(l => ({
+      name: l.Name,
+      waitMinutes: l.WaitTimeInMinutes
+    })));
+
+    if (lastWaitTimes[resort.key] === currentHash) {
+      // No change - skip saving
+      return { success: true, lifts: liftsWithWaitTimes.length, skipped: 'unchanged' };
+    }
+
+    // Data changed - save it
+    lastWaitTimes[resort.key] = currentHash;
+
     const localDate = getResortLocalDate(resort.timezone);
     const localTime = getResortLocalTime(resort.timezone);
     const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
     ensureDirectoryExists(liftsDir);
 
     const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
-    const records = data.Lifts.map(lift => ({
+    const records = liftsWithWaitTimes.map(lift => ({
       timestamp,
       localTime,
       resort: resort.key,
@@ -499,7 +491,7 @@ async function scrapeOneResort(poolEntry, resort) {
       name: lift.Name,
       status: lift.Status,
       type: formatLiftType(lift.Type),
-      waitMinutes: lift.WaitTimeInMinutes || null,
+      waitMinutes: lift.WaitTimeInMinutes,
       capacity: lift.Capacity,
       mountain: lift.Mountain,
       openTime: lift.OpenTime,
@@ -508,7 +500,7 @@ async function scrapeOneResort(poolEntry, resort) {
 
     fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
 
-    console.log(`[VAIL] ${resort.key}: ${records.length} lifts`);
+    console.log(`[VAIL] ${resort.key}: ${records.length} lifts (changed)`);
     return { success: true, lifts: records.length };
 
   } catch (error) {
