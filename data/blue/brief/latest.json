@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-03",
-  "generated": "2026-01-03T09:17:12.920Z",
+  "generated": "2026-01-03T10:23:53.868Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,97 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 48,
+          "today": 56,
           "yesterday": 48,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
-          "today": 40,
+          "today": 48,
           "yesterday": 40,
-          "delta": 0
+          "delta": 8
         },
         "totalTrails": 63
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Enchanted Forest",
+          "difficulty": "Easy",
+          "area": "South"
+        },
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        },
+        {
+          "name": "Avalanche",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Dieppe",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Kandahar",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Lone Rider",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Spectacular",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Enchanted Forest",
+          "difficulty": "Easy",
+          "area": "South"
+        },
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        },
+        {
+          "name": "Avalanche",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Dieppe",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Kandahar",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Spectacular",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -64,17 +141,17 @@
         {
           "date": "2026-01-03",
           "high_f": 20,
-          "low_f": 17,
-          "high_c": -7,
+          "low_f": 16,
+          "high_c": -6,
           "low_c": -9,
           "description": "Cloudy",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 3
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
         },
         {
           "date": "2026-01-04",
-          "high_f": 17,
+          "high_f": 18,
           "low_f": 14,
           "high_c": -8,
           "low_c": -10,
@@ -86,7 +163,7 @@
         {
           "date": "2026-01-05",
           "high_f": 25,
-          "low_f": 24,
+          "low_f": 23,
           "high_c": -4,
           "low_c": -5,
           "description": "Snow",
@@ -98,13 +175,13 @@
       "tomorrow": {
         "date": "2026-01-03",
         "high_f": 20,
-        "low_f": 17,
-        "high_c": -7,
+        "low_f": 16,
+        "high_c": -6,
         "low_c": -9,
         "description": "Cloudy",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 3
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
       }
     }
   },
@@ -112,26 +189,35 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "8 new trails opened today",
+      "7 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 14\" in last 7 days",
-      "3\" snow expected Saturday"
+      "Grooming increased 20% from yesterday",
+      "8 more trails open than yesterday",
+      "2\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Enchanted Forest - all skill levels",
+      "Fresh corduroy on Burner - all skill levels",
+      "Fresh corduroy on Avalanche - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "8 New Trails Today",
+    "body": "1\" fell while you were sleeping. The bumps are softer and the groomers are primo. New terrain alert: 8 trails added to the mix. The mountain just got bigger. The weather gods are being generous (ish). Some snow headed our way soon.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,19 +227,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Saturday"
     }
