@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-01-03",
-  "generated": "2026-01-03T18:23:10.681Z",
+  "generated": "2026-01-03T19:13:01.257Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 113,
+          "today": 117,
           "yesterday": 114,
-          "delta": -1
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 65,
+          "today": 68,
           "yesterday": 72,
-          "delta": -7
+          "delta": -4
         },
         "totalTrails": 129
       },
@@ -38,6 +38,16 @@
         {
           "name": "Dernier Cri",
           "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Le P'tit Parc",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Promenade",
+          "difficulty": "Difficult",
           "area": "South Side"
         },
         {
@@ -63,11 +73,6 @@
       ],
       "newlyClosed": [
         {
-          "name": "Dunzee",
-          "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
           "name": "Nansen",
           "difficulty": "Difficult",
           "area": "South Side"
@@ -76,11 +81,6 @@
           "name": "Roger McCarthy",
           "difficulty": "Difficult",
           "area": "South Side"
-        },
-        {
-          "name": "Buzz",
-          "difficulty": "Extreme Terrain",
-          "area": "North Side"
         },
         {
           "name": "Rigodon",
@@ -94,6 +94,21 @@
         }
       ],
       "newlyGroomed": [
+        {
+          "name": "Dunzee",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Le P'tit Parc",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Promenade",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
         {
           "name": "Cascades",
           "difficulty": "Very Difficult",
@@ -168,10 +183,10 @@
         },
         {
           "date": "2026-01-05",
-          "high_f": 5,
-          "low_f": 5,
-          "high_c": -15,
-          "low_c": -15,
+          "high_f": 6,
+          "low_f": 6,
+          "high_c": -14,
+          "low_c": -14,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -179,10 +194,10 @@
         },
         {
           "date": "2026-01-06",
-          "high_f": 17,
-          "low_f": 16,
+          "high_f": 18,
+          "low_f": 17,
           "high_c": -8,
-          "low_c": -9,
+          "low_c": -8,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -211,19 +226,22 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "5 new trails opened today",
-      "1 trail freshly groomed"
+      "7 new trails opened today",
+      "4 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days"
+      "Steady snowfall - 6\" in last 7 days",
+      "3 more trails open than yesterday"
     ],
     "recommendations": [
-      "Fresh corduroy on Cascades - all skill levels"
+      "Fresh corduroy on Dunzee - all skill levels",
+      "Fresh corduroy on Le P'tit Parc - all skill levels",
+      "Fresh corduroy on Promenade - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "Bundle Up x1000",
-    "body": "Steady snowfall with 6\" over the last week. Extreme cold warning: -1°. Consider shorter sessions and lots of hot cocoa. Holiday mode: the mountain will be popular. Early birds get the goods.",
+    "headline": "Dangerously Cold",
+    "body": "Steady snowfall with 6\" over the last week. 7 more trails opened today, expanding your options. Extreme cold warning: -1°. Consider shorter sessions and lots of hot cocoa.",
     "debug": {
       "firedRules": [
         {
@@ -239,25 +257,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_arctic",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
-        },
-        {
-          "id": "time_holiday",
-          "category": "time",
-          "priority": 70,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "cold_arctic",
-        "variationIndex": 4,
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+        "previousHeadline": "Bundle Up x1000"
       },
       "dayOfWeek": "Saturday"
     }
