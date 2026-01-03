@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-01-03",
-  "generated": "2026-01-03T11:14:28.316Z",
+  "generated": "2026-01-03T12:35:51.027Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 86,
+          "today": 87,
           "yesterday": 86,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 74,
+          "today": 75,
           "yesterday": 74,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "3D",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "3D",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -44,50 +56,50 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-02",
-        "high_f": null,
-        "low_f": 1,
+        "date": "2026-01-03",
+        "high_f": 8,
+        "low_f": 4,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-03",
-          "high_f": 8,
-          "low_f": 4,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-04",
-          "high_f": 6,
-          "low_f": -5,
+          "high_f": 5,
+          "low_f": -4,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-05",
-          "high_f": 6,
+          "high_f": 7,
           "low_f": 7,
           "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-06",
+          "high_f": 19,
+          "low_f": 18,
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2026-01-03",
-        "high_f": 8,
-        "low_f": 4,
+        "date": "2026-01-04",
+        "high_f": 5,
+        "low_f": -4,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -95,24 +107,30 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "1\" snow expected Monday"
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "1 more trail open than yesterday",
+      "1\" snow expected Sunday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on 3D - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "The rundown: 86 trails open, 74 groomed. Windy with temps around null°. Light snow possible in the forecast.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 87 trails open, 75 groomed. Windy with temps around 8°. Rope drop! 1 trail opened overnight, expanding your playground significantly. A little something coming our way. Light snow expected to dust things up nicely.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -122,19 +140,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "Mountain Conditions Update"
       },
       "dayOfWeek": "Saturday"
     }

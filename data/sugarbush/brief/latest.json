@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-03",
-  "generated": "2026-01-03T11:14:28.293Z",
+  "generated": "2026-01-03T12:35:51.004Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,43 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 94,
+          "today": 97,
           "yesterday": 94,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 38,
+          "today": 37,
           "yesterday": 38,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Ripcord",
+          "difficulty": "Difficult",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Riemergasse",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Sugar Run",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Stein's Run",
+          "difficulty": "Expert",
+          "area": "Gadd Peak"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,33 +73,22 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-02",
-        "high_f": null,
+        "date": "2026-01-03",
+        "high_f": 8,
         "low_f": 4,
-        "high_c": null,
-        "low_c": -16,
+        "high_c": -13,
+        "low_c": -15,
         "description": "Windy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-03",
-          "high_f": 8,
-          "low_f": 4,
-          "high_c": -13,
-          "low_c": -15,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-04",
-          "high_f": 5,
-          "low_f": -5,
+          "high_f": 4,
+          "low_f": -4,
           "high_c": -15,
-          "low_c": -21,
+          "low_c": -20,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -93,14 +104,25 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
           "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-06",
+          "high_f": 22,
+          "low_f": 22,
+          "high_c": -6,
+          "low_c": -5,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-03",
-        "high_f": 8,
-        "low_f": 4,
-        "high_c": -13,
-        "low_c": -15,
+        "date": "2026-01-04",
+        "high_f": 4,
+        "low_f": -4,
+        "high_c": -15,
+        "low_c": -20,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -112,25 +134,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Overnight Refresh: 1\" Fresh",
-    "body": "1\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. Light snow possible in the forecast.",
+    "headline": "More Mountain to Explore",
+    "body": "1\" of fresh snow settled in overnight. Not a powder day, but definitely an upgrade. The ski patrol has been busy—3 additional trails are now yours to enjoy. Brace yourself: 8° today. The upside? The snow is going to be cold smoke.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +165,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "terrain_expansion",
+          "category": "terrain",
+          "priority": 85,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_cold_snap",
           "category": "weather",
-          "priority": 30,
+          "priority": 52,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "terrain_expansion",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "Overnight Refresh: {snow24h}\" Fresh"
       },
       "dayOfWeek": "Saturday"
     }
