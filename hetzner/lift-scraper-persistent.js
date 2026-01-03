@@ -227,9 +227,61 @@ function normalizeAspenLiftType(type) {
 }
 
 async function runAspenScraper() {
-  // Aspen resorts don't provide wait time data, so skip entirely
-  // Their API only has open/closed status which we don't need for wait time graphs
-  return;
+  const aspenResorts = config.resorts.filter(r =>
+    r.provider === 'ikon' &&
+    r.apiProvider === 'aspensnowmass' &&
+    isResortInSeason(r)
+  );
+
+  if (aspenResorts.length === 0) return;
+
+  const timestamp = new Date().toISOString();
+  let totalLifts = 0;
+
+  for (const resort of aspenResorts) {
+    if (isInDeadHours(resort.timezone)) continue;
+
+    const mountainId = resort.apiConfig?.mountainId;
+    if (!mountainId) continue;
+
+    try {
+      const aspenData = await fetchAspenData(mountainId);
+      if (!aspenData?.liftStatuses?.length) continue;
+
+      const localDate = getResortLocalDate(resort.timezone);
+      const localTime = getResortLocalTime(resort.timezone);
+      const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
+      ensureDirectoryExists(liftsDir);
+
+      const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+      const records = aspenData.liftStatuses.map(lift => {
+        const hours = parseAspenHours(lift.hoursOfOperation);
+        return {
+          timestamp,
+          localTime,
+          resort: resort.key,
+          liftId: `aspen:${lift.liftName.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+          name: lift.liftName,
+          status: lift.status,
+          type: normalizeAspenLiftType(lift.type),
+          waitMinutes: null,
+          openTime: hours.openTime,
+          closeTime: hours.closeTime,
+          mountain: lift.area,
+        };
+      });
+
+      fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
+      totalLifts += records.length;
+      console.log(`[ASPEN] ${resort.key}: ${records.length} lifts`);
+    } catch (error) {
+      console.error(`[ASPEN] ${resort.key}: ${error.message}`);
+    }
+  }
+
+  if (totalLifts > 0) {
+    console.log(`[ASPEN] Total: ${totalLifts} lift records`);
+  }
 }
 
 async function runIkonScraper() {
@@ -276,10 +328,6 @@ async function runIkonScraper() {
         for (const area of ikonData.MountainAreas) {
           if (!area.Lifts) continue;
           for (const lift of area.Lifts) {
-            const waitMinutes = lift.WaitTime && lift.WaitTime !== '--' ? parseInt(lift.WaitTime) : null;
-            // Only include lifts with wait time data
-            if (waitMinutes === null) continue;
-
             const hours = getTodayLiftHours(lift.Hours, resort.timezone);
             records.push({
               timestamp,
@@ -289,7 +337,7 @@ async function runIkonScraper() {
               name: lift.Name,
               status: lift.Status,
               type: formatLiftType(lift.LiftType),
-              waitMinutes,
+              waitMinutes: lift.WaitTime && lift.WaitTime !== '--' ? parseInt(lift.WaitTime) || null : null,
               openTime: hours.openTime,
               closeTime: hours.closeTime,
               mountain: area.Name,
@@ -437,24 +485,14 @@ async function scrapeOneResort(poolEntry, resort) {
       return { success: false, lifts: 0 };
     }
 
-    // Filter to only lifts with wait times (skip lifts that never report wait data)
-    const liftsWithWaitTimes = data.Lifts.filter(lift =>
-      lift.WaitTimeInMinutes !== null && lift.WaitTimeInMinutes !== undefined
-    );
-
-    if (liftsWithWaitTimes.length === 0) {
-      // Resort has no wait time data, skip saving
-      return { success: true, lifts: 0, skipped: 'no wait times' };
-    }
-
-    // Save data - always record for accurate time series
+    // Save all lift data (status + wait times where available)
     const localDate = getResortLocalDate(resort.timezone);
     const localTime = getResortLocalTime(resort.timezone);
     const liftsDir = path.join(CONFIG.dataDir, resort.key, 'lifts');
     ensureDirectoryExists(liftsDir);
 
     const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
-    const records = liftsWithWaitTimes.map(lift => ({
+    const records = data.Lifts.map(lift => ({
       timestamp,
       localTime,
       resort: resort.key,
@@ -462,7 +500,7 @@ async function scrapeOneResort(poolEntry, resort) {
       name: lift.Name,
       status: lift.Status,
       type: formatLiftType(lift.Type),
-      waitMinutes: lift.WaitTimeInMinutes,
+      waitMinutes: lift.WaitTimeInMinutes || null,
       capacity: lift.Capacity,
       mountain: lift.Mountain,
       openTime: lift.OpenTime,
