@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-04",
-  "generated": "2026-01-04T19:13:05.798Z",
+  "generated": "2026-01-04T20:19:10.135Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -79,16 +79,16 @@
           "high_c": -3,
           "low_c": -7,
           "description": "Snow Wind",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 3
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 5
         },
         {
           "date": "2026-01-06",
           "high_f": 24,
           "low_f": 20,
           "high_c": -4,
-          "low_c": -6,
+          "low_c": -7,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -97,13 +97,13 @@
         {
           "date": "2026-01-07",
           "high_f": 24,
-          "low_f": 16,
+          "low_f": 18,
           "high_c": -4,
-          "low_c": -9,
+          "low_c": -8,
           "description": "Windy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
@@ -113,9 +113,9 @@
         "high_c": -3,
         "low_c": -7,
         "description": "Snow Wind",
-        "snowfall_day_inches": 1,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 3
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 3,
+        "snowfall_expected": 5
       }
     }
   },
@@ -132,7 +132,7 @@
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
-      "3\" snow expected Monday"
+      "5\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Fawn - all skill levels",
@@ -140,14 +140,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Busy Day Ahead",
-    "body": "Steady snowfall with 9\" over the last week. The forecast is flirting with us: light snow expected. Not a dump, but welcome. Holiday mode: the mountain will be popular. Early birds get the goods.",
+    "headline": "Big Snow Incoming",
+    "body": "Steady snowfall with 9\" over the last week. A significant storm is brewing with 8\" expected over the next few days. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_holiday",
-          "category": "time",
-          "priority": 70,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -157,9 +157,9 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -171,11 +171,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "holiday",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Peak Day at the Resort"
+        "previousHeadline": "Busy Day Ahead"
       },
       "dayOfWeek": "Sunday"
     }
