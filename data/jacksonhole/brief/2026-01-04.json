@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-04",
-  "generated": "2026-01-04T15:16:20.384Z",
+  "generated": "2026-01-04T16:20:07.300Z",
   "rawData": {
     "snow": {
       "overnight_inches": 5,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 81,
+          "today": 83,
           "yesterday": 81,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 42,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -74,15 +85,17 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "5\" fresh snow overnight",
+      "2 new trails opened today",
       "2 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 15\" in last 7 days"
+      "Great week for snow - 15\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Laramie - perfect for intermediate skiers",
@@ -90,8 +103,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "Nice Little Top-Up",
-    "body": "A proper refresh: 5\" of new snow making everything ski better. Peak season vibes today. Expect longer lift lines, especially late morning.",
+    "headline": "Solid Refresh: 5\"",
+    "body": "A proper refresh: 5\" of new snow making everything ski better. 2 new trails opened today. Peak season vibes today. Expect longer lift lines, especially late morning.",
     "debug": {
       "firedRules": [
         {
@@ -107,19 +120,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "time_holiday",
           "category": "time",
           "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Solid Refresh: {snow24h}\""
+        "previousHeadline": "Nice Little Top-Up"
       },
       "dayOfWeek": "Sunday"
     }
