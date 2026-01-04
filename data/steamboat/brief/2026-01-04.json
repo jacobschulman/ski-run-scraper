@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-04",
-  "generated": "2026-01-04T13:30:00.109Z",
+  "generated": "2026-01-04T14:15:56.120Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,15 +28,26 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 49,
+          "today": 51,
           "yesterday": 49,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 193
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Fawn",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Flintlock",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -51,27 +62,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-03",
-        "high_f": null,
-        "low_f": 28,
-        "high_c": null,
-        "low_c": -2,
-        "description": "Windy",
-        "snowfall_day_inches": 1,
+        "date": "2026-01-04",
+        "high_f": 33,
+        "low_f": 27,
+        "high_c": 0,
+        "low_c": -3,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-04",
-          "high_f": 33,
-          "low_f": 27,
-          "high_c": 0,
-          "low_c": -3,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-05",
           "high_f": 26,
@@ -93,18 +93,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-07",
+          "high_f": 24,
+          "low_f": 16,
+          "high_c": -4,
+          "low_c": -9,
+          "description": "Scattered T Storms",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-01-04",
-        "high_f": 33,
-        "low_f": 27,
-        "high_c": 0,
-        "low_c": -3,
-        "description": "Cloudy",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "date": "2026-01-05",
+        "high_f": 26,
+        "low_f": 20,
+        "high_c": -3,
+        "low_c": -6,
+        "description": "Thundersnow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 4,
+        "snowfall_expected": 5
       }
     }
   },
@@ -116,22 +127,27 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
       "5\" snow expected Monday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Fawn - all skill levels",
+      "Fresh corduroy on Flintlock - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Peak Season Mode",
-    "body": "Steady snowfall with 9\" over the last week. The forecast is flirting with us: light snow expected. Not a dump, but welcome. Holiday mode: the mountain will be popular. Early birds get the goods.",
+    "headline": "Big Snow Incoming",
+    "body": "Steady snowfall with 9\" over the last week. A significant storm is brewing with 7\" expected over the next few days. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_holiday",
-          "category": "time",
-          "priority": 70,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -141,9 +157,9 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -153,13 +169,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "holiday",
+        "condition": "storm_major",
         "variationIndex": 1,
-        "totalVariations": 5,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Proper Refresh"
+        "previousHeadline": "Peak Season Mode"
       },
       "dayOfWeek": "Sunday"
     }

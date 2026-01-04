@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2026-01-04",
-  "generated": "2026-01-04T10:20:40.456Z",
+  "generated": "2026-01-04T14:15:50.353Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,75 +23,25 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 11,
-          "delta": -11
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 11,
-          "delta": -11
+          "delta": 1
         },
         "totalTrails": 20
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Challenge",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Dematte's Demise",
+          "name": "Snow Chute",
           "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Janes Lane",
-          "difficulty": "Blue",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Lightning",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "ONE Park",
-          "difficulty": "TerrainPark",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Powder Puff",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "River Shot",
-          "difficulty": "Black",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Ski School",
-          "difficulty": "Green",
-          "area": "Jack Frost"
-        },
-        {
-          "name": "Snowflake",
-          "difficulty": "Green",
           "area": "Jack Frost"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -168,39 +118,55 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "Not open for the season yet. Current conditions: Cloudy.",
+    "headline": "Peak Day at the Resort",
+    "body": "The rundown: 12 trails open, 12 groomed. Cloudy with temps around 23°. 1 new trail opened today. It's a holiday - expect a full house. Plan for crowds at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "holiday",
         "variationIndex": 4,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": null
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Sunday"
     }
