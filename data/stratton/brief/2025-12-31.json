@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2025-12-31",
-  "generated": "2026-01-01T04:44:22.629Z",
+  "generated": "2026-01-04T06:02:56.333Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -92,7 +92,7 @@
         {
           "date": "2026-01-03",
           "high_f": 12,
-          "low_f": 10,
+          "low_f": 11,
           "high_c": -11,
           "low_c": -12,
           "description": "Windy",
@@ -129,14 +129,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "Steady snowfall with 7\" over the last week. Snow expected today or tomorrow with conditions continuing to improve.",
+    "headline": "Storm Mode: Snow + Wind",
+    "body": "Steady snowfall with 7\" over the last week keeps conditions solid. Active weather: snow and wind today. Visibility may be limited at times. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
@@ -146,19 +146,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
+          "id": "weather_storm_wind",
           "category": "weather",
-          "priority": 85,
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
-        "totalVariations": 4,
+        "condition": "storm_wind",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "Fresh Coat on the Mountain"
       },
       "dayOfWeek": "Wednesday"
     }

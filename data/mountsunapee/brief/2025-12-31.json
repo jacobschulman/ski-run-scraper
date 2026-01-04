@@ -1,8 +1,8 @@
 {
   "resort": "mountsunapee",
-  "resortName": "Mount Sunapee",
+  "resortName": "Mountsunapee",
   "date": "2025-12-31",
-  "generated": "2025-12-31T10:24:16.342Z",
+  "generated": "2026-01-04T06:02:55.629Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 2,
+      "7day_cm": 5,
       "season_total_inches": 10,
       "season_total_cm": 25,
       "conditions": {
@@ -118,11 +118,11 @@
     "forecast": {
       "today": {
         "date": "2025-12-31",
-        "high_f": 21,
-        "low_f": 12,
+        "high_f": 22,
+        "low_f": 14,
         "high_c": -6,
-        "low_c": -11,
-        "description": "Windy",
+        "low_c": -10,
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -130,7 +130,7 @@
         {
           "date": "2026-01-01T05:00:00Z",
           "high_f": 20,
-          "low_f": 3,
+          "low_f": 4,
           "high_c": -7,
           "low_c": -16,
           "description": "Mostly Cloudy",
@@ -141,17 +141,17 @@
         {
           "date": "2026-01-02T05:00:00Z",
           "high_f": 15,
-          "low_f": 3,
+          "low_f": 4,
           "high_c": -10,
           "low_c": -16,
-          "description": "Mostly Clear",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-01-03T05:00:00Z",
-          "high_f": 18,
+          "high_f": 19,
           "low_f": 11,
           "high_c": -8,
           "low_c": -12,
@@ -164,7 +164,7 @@
       "tomorrow": {
         "date": "2026-01-01T05:00:00Z",
         "high_f": 20,
-        "low_f": 3,
+        "low_f": 4,
         "high_c": -7,
         "low_c": -16,
         "description": "Mostly Cloudy",
@@ -186,7 +186,6 @@
       "13 new trails opened today"
     ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days",
       "Grooming increased 76% from yesterday",
       "13 more trails open than yesterday"
     ],
@@ -194,35 +193,41 @@
   },
   "morningBrief": {
     "headline": "New Runs Now Open",
-    "body": "Steady snowfall with 6\" over the last week. Rope drop! 13 trails opened overnight, expanding your playground significantly.",
+    "body": "31 trails open, 30 groomed. Partly Cloudy, 22°. Ski patrol has been busy - 13 additional trails are now open. Holiday crowds expected today. Plan for longer waits at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 85,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 85,
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 3,
       "headlineSelection": {
         "condition": "terrain_expansion",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Peak Season Mode"
       },
       "dayOfWeek": "Wednesday"
     }

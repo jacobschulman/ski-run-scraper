@@ -2,7 +2,7 @@
   "resort": "attitash",
   "resortName": "Attitash",
   "date": "2026-01-03",
-  "generated": "2026-01-03T10:23:49.208Z",
+  "generated": "2026-01-04T06:02:54.339Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -52,21 +52,21 @@
     "forecast": {
       "today": {
         "date": "2026-01-03",
-        "high_f": 19,
-        "low_f": 7,
+        "high_f": 20,
+        "low_f": 9,
         "high_c": -7,
-        "low_c": -14,
-        "description": "Partly Cloudy",
+        "low_c": -13,
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2026-01-04T05:00:00Z",
-          "high_f": 18,
-          "low_f": -1,
-          "high_c": -8,
-          "low_c": -18,
+          "high_f": 19,
+          "low_f": 2,
+          "high_c": -7,
+          "low_c": -17,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -74,21 +74,21 @@
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 14,
-          "low_f": -7,
+          "high_f": 15,
+          "low_f": -2,
           "high_c": -10,
-          "low_c": -22,
-          "description": "Partly Cloudy",
+          "low_c": -19,
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-01-06T05:00:00Z",
-          "high_f": 25,
-          "low_f": 5,
+          "high_f": 26,
+          "low_f": 7,
           "high_c": -4,
-          "low_c": -15,
+          "low_c": -14,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -97,10 +97,10 @@
       ],
       "tomorrow": {
         "date": "2026-01-04T05:00:00Z",
-        "high_f": 18,
-        "low_f": -1,
-        "high_c": -8,
-        "low_c": -18,
+        "high_f": 19,
+        "low_f": 2,
+        "high_c": -7,
+        "low_c": -17,
         "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "The rundown: 33 trails open, 32 groomed. Partly Cloudy with temps around 19°. 33 of 78 trails are open with 32 groomed. Partly Cloudy with a high of 19°F.",
+    "headline": "Picture-Perfect Conditions",
+    "body": "The rundown: 33 trails open, 32 groomed. Mostly Clear 20°. Sun's out, but so is the cold - expect a 20°. Gorgeous if you dress for it. Holiday crowds expected today. Plan for longer waits at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -138,19 +138,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "weather_bluebird",
           "category": "weather",
-          "priority": 5,
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
+        "condition": "bluebird_day",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+        "previousHeadline": "Not a Cloud in Sight"
       },
       "dayOfWeek": "Saturday"
     }

@@ -1,8 +1,8 @@
 {
   "resort": "alpinevalley",
-  "resortName": "Alpine Valley",
+  "resortName": "Alpinevalley",
   "date": "2025-12-29",
-  "generated": "2025-12-29T10:26:21.051Z",
+  "generated": "2026-01-04T06:02:54.249Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -52,21 +52,21 @@
     "forecast": {
       "today": {
         "date": "2025-12-29",
-        "high_f": 58,
-        "low_f": 21,
-        "high_c": 14,
-        "low_c": -6,
-        "description": "Rain/Snow",
+        "high_f": 31,
+        "low_f": 19,
+        "high_c": -1,
+        "low_c": -7,
+        "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2025-12-30T05:00:00Z",
-          "high_f": 21,
+          "high_f": 20,
           "low_f": 17,
-          "high_c": -6,
-          "low_c": -8,
+          "high_c": -7,
+          "low_c": -9,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -85,10 +85,10 @@
         },
         {
           "date": "2026-01-01T05:00:00Z",
-          "high_f": 17,
-          "low_f": 13,
-          "high_c": -9,
-          "low_c": -11,
+          "high_f": 19,
+          "low_f": 14,
+          "high_c": -8,
+          "low_c": -10,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -97,10 +97,10 @@
       ],
       "tomorrow": {
         "date": "2025-12-30T05:00:00Z",
-        "high_f": 21,
+        "high_f": 20,
         "low_f": 17,
-        "high_c": -6,
-        "low_c": -8,
+        "high_c": -7,
+        "low_c": -9,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "6 of 9 trails are open with 6 groomed. Rain/Snow with a high of 58°F. 6 of 9 trails are open with 6 groomed. Rain/Snow with a high of 58°F.",
+    "headline": "Peak Season Mode",
+    "body": "6/9 trails spinning, 6 freshly groomed. 31° and Windy. Windy conditions expected. Upper lifts may have holds or delays. It's a busy holiday week so expect crowds. Arrive early for shorter lines and fresh tracks.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -138,19 +138,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "weather_windy",
           "category": "weather",
-          "priority": 5,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
+        "condition": "holiday",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Morning Mountain Brief"
+        "previousHeadline": "Mixed Bag Today"
       },
       "dayOfWeek": "Monday"
     }

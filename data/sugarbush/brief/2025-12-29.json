@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2025-12-29",
-  "generated": "2025-12-30T04:36:35.078Z",
+  "generated": "2026-01-04T06:02:56.381Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -395,7 +395,7 @@
       "outlook": [
         {
           "date": "2025-12-30",
-          "high_f": 0,
+          "high_f": -1,
           "low_f": -2,
           "high_c": -18,
           "low_c": -19,
@@ -407,7 +407,7 @@
         {
           "date": "2025-12-31",
           "high_f": 12,
-          "low_f": 8,
+          "low_f": 9,
           "high_c": -11,
           "low_c": -13,
           "description": "Windy",
@@ -429,7 +429,7 @@
       ],
       "tomorrow": {
         "date": "2025-12-30",
-        "high_f": 0,
+        "high_f": -1,
         "low_f": -2,
         "high_c": -18,
         "low_c": -19,
@@ -455,14 +455,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "44/142 trails spinning, 34 freshly groomed. null° and Windy. Light snow possible in the forecast.",
+    "headline": "Peak Day at the Resort",
+    "body": "44/142 trails spinning, 34 freshly groomed. and Windy. Light snow possible in the forecast. It's a busy holiday week so expect crowds. Arrive early for shorter lines and fresh tracks.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -472,19 +472,25 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_flurries",
+          "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
+        "condition": "holiday",
+        "variationIndex": 4,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Mixed Precip Today"
       },
       "dayOfWeek": "Monday"
     }

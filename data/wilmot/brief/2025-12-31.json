@@ -1,12 +1,12 @@
 {
   "resort": "wilmot",
-  "resortName": "Wilmot Mountain",
+  "resortName": "Wilmot",
   "date": "2025-12-31",
-  "generated": "2025-12-31T15:17:46.699Z",
+  "generated": "2026-01-04T06:02:56.853Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 4,
-      "overnight_cm": 10,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
       "24hour_inches": 4,
       "24hour_cm": 10,
       "48hour_inches": 4,
@@ -100,9 +100,9 @@
       "today": {
         "date": "2025-12-31",
         "high_f": 33,
-        "low_f": 12,
+        "low_f": 14,
         "high_c": null,
-        "low_c": -11,
+        "low_c": -10,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -111,9 +111,9 @@
         {
           "date": "2026-01-01T06:00:00Z",
           "high_f": 15,
-          "low_f": 7,
-          "high_c": -9,
-          "low_c": -14,
+          "low_f": 9,
+          "high_c": -10,
+          "low_c": -13,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -121,10 +121,10 @@
         },
         {
           "date": "2026-01-02T06:00:00Z",
-          "high_f": 21,
-          "low_f": 13,
-          "high_c": -6,
-          "low_c": -11,
+          "high_f": 20,
+          "low_f": 11,
+          "high_c": -7,
+          "low_c": -12,
           "description": "Mostly Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -133,7 +133,7 @@
         {
           "date": "2026-01-03T06:00:00Z",
           "high_f": 22,
-          "low_f": 15,
+          "low_f": 14,
           "high_c": -6,
           "low_c": -10,
           "description": "Cloudy",
@@ -145,9 +145,9 @@
       "tomorrow": {
         "date": "2026-01-01T06:00:00Z",
         "high_f": 15,
-        "low_f": 7,
-        "high_c": -9,
-        "low_c": -14,
+        "low_f": 9,
+        "high_c": -10,
+        "low_c": -13,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -157,14 +157,13 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
+      "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "4\" fresh snow overnight",
       "4 new trails opened today",
       "5 trails freshly groomed"
     ],
@@ -179,36 +178,42 @@
     ]
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "4\" fell while you were sleeping. The bumps are softer and the groomers are primo. New terrain alert: 4 trails added to the mix. The mountain just got bigger.",
+    "headline": "The Mountain Got a Boost",
+    "body": "4\" of new snow. Not a powder day, but definitely an upgrade. The terrain list grew by 4 today. More variety to choose from. Holiday crowds expected today. Plan for longer waits at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 80,
+          "priority": 82,
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 85,
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 0,
+        "condition": "snow_solid",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Peak Season Mode"
       },
       "dayOfWeek": "Wednesday"
     }

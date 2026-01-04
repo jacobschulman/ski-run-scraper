@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-01",
-  "generated": "2026-01-02T04:37:34.524Z",
+  "generated": "2026-01-04T06:02:56.341Z",
   "rawData": {
     "snow": {
       "overnight_inches": 7,
@@ -127,25 +127,31 @@
   },
   "morningBrief": {
     "headline": "The Mountain Got Buried",
-    "body": "Powder alert! 7\" of fresh overnight means soft conditions across the entire mountain. Snow expected today or tomorrow with conditions continuing to improve.",
+    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. Windy conditions expected. Upper lifts may have holds or delays. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder_alert",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 100,
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder_alert",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 100,
+          "priority": 90,
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_today_tomorrow",
+          "id": "weather_windy",
           "category": "weather",
-          "priority": 85,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
@@ -153,9 +159,9 @@
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 3,
-        "totalVariations": 12,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter Delivered Big"
+        "previousHeadline": "Storm Mode: Snow + Wind"
       },
       "dayOfWeek": "Thursday"
     }

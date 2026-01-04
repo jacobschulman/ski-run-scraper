@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2025-12-29",
-  "generated": "2025-12-30T04:36:35.100Z",
+  "generated": "2026-01-04T06:02:56.451Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -195,36 +195,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "2\" fell while you were sleeping. The bumps are softer and the groomers are primo. The weather gods are being generous (ish). Some snow headed our way soon.",
+    "headline": "Rain at Base, Snow Up Top",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Transition weather: rain turning to snow as you climb. Variable conditions throughout. It's a busy holiday week so expect crowds. Arrive early for shorter lines and fresh tracks.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_fresh_coat",
-          "category": "snow",
-          "priority": 80,
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
           "usedFor": "headline"
         },
         {
-          "id": "snow_fresh_coat",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 80,
+          "priority": 70,
           "usedFor": "body"
         },
         {
-          "id": "weather_snow_coming",
+          "id": "weather_mixed",
           "category": "weather",
-          "priority": 55,
+          "priority": 195,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "weather_mixed",
         "variationIndex": 1,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Variable Conditions"
       },
       "dayOfWeek": "Monday"
     }

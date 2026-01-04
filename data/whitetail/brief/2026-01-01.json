@@ -2,7 +2,7 @@
   "resort": "whitetail",
   "resortName": "Whitetail",
   "date": "2026-01-01",
-  "generated": "2026-01-01T10:24:53.191Z",
+  "generated": "2026-01-04T06:02:56.782Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -52,20 +52,20 @@
     "forecast": {
       "today": {
         "date": "2026-01-01",
-        "high_f": 33,
+        "high_f": 22,
         "low_f": 19,
-        "high_c": null,
+        "high_c": -6,
         "low_c": -8,
-        "description": "Windy",
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2026-01-02T05:00:00Z",
-          "high_f": 31,
+          "high_f": 32,
           "low_f": 21,
-          "high_c": -1,
+          "high_c": null,
           "low_c": -6,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
@@ -74,8 +74,8 @@
         },
         {
           "date": "2026-01-03T05:00:00Z",
-          "high_f": 30,
-          "low_f": 22,
+          "high_f": 31,
+          "low_f": 21,
           "high_c": -1,
           "low_c": -6,
           "description": "Cloudy",
@@ -86,7 +86,7 @@
         {
           "date": "2026-01-04T05:00:00Z",
           "high_f": 31,
-          "low_f": 23,
+          "low_f": 24,
           "high_c": -1,
           "low_c": -5,
           "description": "Partly Cloudy",
@@ -97,9 +97,9 @@
       ],
       "tomorrow": {
         "date": "2026-01-02T05:00:00Z",
-        "high_f": 31,
+        "high_f": 32,
         "low_f": 21,
-        "high_c": -1,
+        "high_c": null,
         "low_c": -6,
         "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "15/22 trails spinning, 15 freshly groomed. 33° and Windy. 15 of 22 trails are open with 15 groomed. Windy with a high of 33°F.",
+    "headline": "Not a Cloud in Sight",
+    "body": "15/22 trails spinning, 15 freshly groomed. 22° and Mostly Clear. Clear skies and 22° means stunning views and firm snow. Layer up. It's a busy holiday week so expect crowds. Arrive early for shorter lines and fresh tracks.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -138,19 +138,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "weather_bluebird",
           "category": "weather",
-          "priority": 5,
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
-        "totalVariations": 4,
+        "condition": "bluebird_day",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Peak Day at the Resort"
       },
       "dayOfWeek": "Thursday"
     }

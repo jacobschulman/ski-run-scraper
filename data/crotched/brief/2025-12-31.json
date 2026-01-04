@@ -1,8 +1,8 @@
 {
   "resort": "crotched",
-  "resortName": "Crotched Mountain",
+  "resortName": "Crotched",
   "date": "2025-12-31",
-  "generated": "2025-12-31T10:24:16.345Z",
+  "generated": "2026-01-04T06:02:54.749Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 3,
+      "7day_cm": 7,
       "season_total_inches": 14,
       "season_total_cm": 35,
       "conditions": {
@@ -115,9 +115,9 @@
       "today": {
         "date": "2025-12-31",
         "high_f": 23,
-        "low_f": 15,
+        "low_f": 17,
         "high_c": -5,
-        "low_c": -10,
+        "low_c": -8,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -126,9 +126,9 @@
         {
           "date": "2026-01-01T05:00:00Z",
           "high_f": 22,
-          "low_f": 6,
+          "low_f": 7,
           "high_c": -6,
-          "low_c": -15,
+          "low_c": -14,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -138,7 +138,7 @@
           "date": "2026-01-02T05:00:00Z",
           "high_f": 17,
           "low_f": 6,
-          "high_c": -9,
+          "high_c": -8,
           "low_c": -15,
           "description": "Mostly Clear",
           "snowfall_day_inches": 0,
@@ -149,9 +149,9 @@
           "date": "2026-01-03T05:00:00Z",
           "high_f": 21,
           "low_f": 12,
-          "high_c": -7,
+          "high_c": -6,
           "low_c": -11,
-          "description": "Partly Cloudy",
+          "description": "Mostly Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -160,9 +160,9 @@
       "tomorrow": {
         "date": "2026-01-01T05:00:00Z",
         "high_f": 22,
-        "low_f": 6,
+        "low_f": 7,
         "high_c": -6,
-        "low_c": -15,
+        "low_c": -14,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -183,7 +183,6 @@
       "6 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days",
       "Grooming increased 120% from yesterday",
       "6 more trails open than yesterday"
     ],
@@ -194,36 +193,42 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Terrain Unlocked",
-    "body": "Steady snowfall with 6\" over the last week. 6 new runs just opened up. Time to explore some fresh terrain.",
+    "headline": "New Runs Now Open",
+    "body": "11 trails open, 11 groomed. Windy, 23°. Terrain expanding: 6 new trails opening up more options. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 85,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 85,
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "terrain_expansion",
-        "variationIndex": 4,
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Peak Day at the Resort"
       },
       "dayOfWeek": "Wednesday"
     }

@@ -1,8 +1,8 @@
 {
   "resort": "bigboulder",
-  "resortName": "Big Boulder",
+  "resortName": "Bigboulder",
   "date": "2026-01-01",
-  "generated": "2026-01-01T14:17:11.600Z",
+  "generated": "2026-01-04T06:02:54.430Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -63,9 +63,9 @@
     "forecast": {
       "today": {
         "date": "2026-01-01",
-        "high_f": 24,
+        "high_f": 14,
         "low_f": 10,
-        "high_c": -5,
+        "high_c": -10,
         "low_c": -12,
         "description": "Windy",
         "snowfall_day_inches": 0,
@@ -86,20 +86,20 @@
         {
           "date": "2026-01-03T05:00:00Z",
           "high_f": 20,
-          "low_f": 12,
+          "low_f": 11,
           "high_c": -7,
           "low_c": -12,
-          "description": "Windy",
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-01-04T05:00:00Z",
-          "high_f": 22,
-          "low_f": 15,
-          "high_c": -6,
-          "low_c": -10,
+          "high_f": 23,
+          "low_f": 16,
+          "high_c": -5,
+          "low_c": -9,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -136,14 +136,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Terrain is Expanding",
-    "body": "15/18 trails spinning, 15 freshly groomed. 24° and Windy. New terrain alert: 2 trails added to the mix. The mountain just got bigger.",
+    "headline": "Peak Season Mode",
+    "body": "15/18 trails spinning, 15 freshly groomed. 14° and Windy. 2 new trails opened today. Cold day ahead: 14° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expansion",
-          "category": "terrain",
-          "priority": 85,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -153,19 +153,25 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expansion",
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 85,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "holiday",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Peak Day at the Resort"
       },
       "dayOfWeek": "Thursday"
     }

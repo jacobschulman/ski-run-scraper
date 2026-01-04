@@ -1,8 +1,8 @@
 {
   "resort": "liberty",
-  "resortName": "Liberty Mountain",
+  "resortName": "Liberty",
   "date": "2026-01-02",
-  "generated": "2026-01-02T10:22:05.207Z",
+  "generated": "2026-01-04T06:02:55.438Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -52,21 +52,21 @@
     "forecast": {
       "today": {
         "date": "2026-01-02",
-        "high_f": 33,
-        "low_f": 21,
+        "high_f": 32,
+        "low_f": 22,
         "high_c": null,
-        "low_c": -7,
-        "description": "Partly Cloudy",
+        "low_c": -6,
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
           "date": "2026-01-03T05:00:00Z",
-          "high_f": 31,
-          "low_f": 19,
-          "high_c": -1,
-          "low_c": -8,
+          "high_f": 32,
+          "low_f": 20,
+          "high_c": null,
+          "low_c": -7,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -85,9 +85,9 @@
         },
         {
           "date": "2026-01-05T05:00:00Z",
-          "high_f": 32,
-          "low_f": 20,
-          "high_c": null,
+          "high_f": 34,
+          "low_f": 21,
+          "high_c": 1,
           "low_c": -7,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -97,10 +97,10 @@
       ],
       "tomorrow": {
         "date": "2026-01-03T05:00:00Z",
-        "high_f": 31,
-        "low_f": 19,
-        "high_c": -1,
-        "low_c": -8,
+        "high_f": 32,
+        "low_f": 20,
+        "high_c": null,
+        "low_c": -7,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Weekend Starts Now",
-    "body": "10/20 trails spinning, 10 freshly groomed. 33° and Partly Cloudy. 10 of 20 trails are open with 10 groomed. Partly Cloudy with a high of 33°F.",
+    "headline": "Not a Cloud in Sight",
+    "body": "The rundown: 10 trails open, 10 groomed. Mostly Clear 32°. Sun's out, but so is the cold - expect a 32°. Gorgeous if you dress for it. Holiday crowds expected today. Plan for longer waits at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 65,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -138,19 +138,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "weather_bluebird",
           "category": "weather",
-          "priority": 5,
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "bluebird_day",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Clear Skies, Cold Temps"
       },
       "dayOfWeek": "Friday"
     }

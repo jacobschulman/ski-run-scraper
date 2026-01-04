@@ -1,8 +1,8 @@
 {
   "resort": "sevensprings",
-  "resortName": "Seven Springs",
+  "resortName": "Sevensprings",
   "date": "2025-12-28",
-  "generated": "2025-12-28T10:20:12.657Z",
+  "generated": "2026-01-04T06:02:56.040Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -53,9 +53,9 @@
       "today": {
         "date": "2025-12-28",
         "high_f": 54,
-        "low_f": 34,
+        "low_f": 43,
         "high_c": 12,
-        "low_c": 1,
+        "low_c": 6,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -65,8 +65,8 @@
           "date": "2025-12-29T05:00:00Z",
           "high_f": 55,
           "low_f": 17,
-          "high_c": 12,
-          "low_c": -8,
+          "high_c": 13,
+          "low_c": -9,
           "description": "Rain/Snow",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -74,10 +74,10 @@
         },
         {
           "date": "2025-12-30T05:00:00Z",
-          "high_f": 17,
-          "low_f": 14,
+          "high_f": 16,
+          "low_f": 12,
           "high_c": -9,
-          "low_c": -10,
+          "low_c": -11,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -86,10 +86,10 @@
         {
           "date": "2025-12-31T05:00:00Z",
           "high_f": 22,
-          "low_f": 15,
+          "low_f": 14,
           "high_c": -6,
           "low_c": -10,
-          "description": "Windy",
+          "description": "Snow & Wind",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -99,8 +99,8 @@
         "date": "2025-12-29T05:00:00Z",
         "high_f": 55,
         "low_f": 17,
-        "high_c": 12,
-        "low_c": -8,
+        "high_c": 13,
+        "low_c": -9,
         "description": "Rain/Snow",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Conditions Report",
-    "body": "20 of 51 trails are open with 20 groomed. Windy with a high of 54°F. 20 of 51 trails are open with 20 groomed. Windy with a high of 54°F.",
+    "headline": "Busy Day Ahead",
+    "body": "20/51 trails spinning, 20 freshly groomed. 54° and Windy. Unseasonably warm: 54° today. Snow may soften by afternoon. It's a busy holiday week so expect crowds. Arrive early for shorter lines and fresh tracks.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -138,19 +138,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "temp_unseasonably_warm",
           "category": "weather",
-          "priority": 5,
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
+        "condition": "holiday",
         "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Today's Conditions"
+        "previousHeadline": "Peak Day at the Resort"
       },
       "dayOfWeek": "Sunday"
     }
