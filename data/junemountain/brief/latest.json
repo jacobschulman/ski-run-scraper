@@ -2,7 +2,7 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2026-01-04",
-  "generated": "2026-01-04T14:15:56.135Z",
+  "generated": "2026-01-04T15:16:20.338Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -51,27 +51,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-03",
-        "high_f": null,
-        "low_f": 23,
-        "high_c": null,
-        "low_c": -5,
+        "date": "2026-01-04",
+        "high_f": 24,
+        "low_f": 17,
+        "high_c": -4,
+        "low_c": -8,
         "description": "Snow Wind",
-        "snowfall_day_inches": 5,
-        "snowfall_night_inches": 3
+        "snowfall_day_inches": 10,
+        "snowfall_night_inches": 5
       },
       "outlook": [
-        {
-          "date": "2026-01-04",
-          "high_f": 24,
-          "low_f": 17,
-          "high_c": -4,
-          "low_c": -8,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 10,
-          "snowfall_night_inches": 5,
-          "snowfall_expected": 15
-        },
         {
           "date": "2026-01-05",
           "high_f": 22,
@@ -93,18 +82,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-07",
+          "high_f": 25,
+          "low_f": 16,
+          "high_c": -4,
+          "low_c": -9,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-04",
-        "high_f": 24,
-        "low_f": 17,
-        "high_c": -4,
+        "date": "2026-01-05",
+        "high_f": 22,
+        "low_f": 18,
+        "high_c": -5,
         "low_c": -8,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 10,
-        "snowfall_night_inches": 5,
-        "snowfall_expected": 15
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -120,20 +120,19 @@
       "6\" in last 24 hours - powder day!"
     ],
     "trends": [
-      "Steady snowfall - 10\" in last 7 days",
-      "15\" snow expected Sunday"
+      "Steady snowfall - 10\" in last 7 days"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm Cycle Building",
-    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Peak terrain status: almost everything is available today. The weather models are locked in: 15\" of snow heading our way.",
+    "headline": "Powder Day Alert",
+    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Peak terrain status: almost everything is available today. Storm mode engaged. Expect snow and wind, especially at higher elevations.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_major_storm",
-          "category": "weather",
-          "priority": 92,
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
           "usedFor": "headline"
         },
         {
@@ -149,19 +148,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_major_storm",
+          "id": "weather_storm_wind",
           "category": "weather",
-          "priority": 92,
+          "priority": 82,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "powder_alert",
+        "variationIndex": 0,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Big Snow Incoming"
+        "previousHeadline": "Storm Cycle Building"
       },
       "dayOfWeek": "Sunday"
     }

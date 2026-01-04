@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-04",
-  "generated": "2026-01-04T14:15:56.120Z",
+  "generated": "2026-01-04T15:16:20.323Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -80,8 +80,8 @@
           "low_c": -6,
           "description": "Thundersnow",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 4,
-          "snowfall_expected": 5
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 4
         },
         {
           "date": "2026-01-06",
@@ -100,10 +100,10 @@
           "low_f": 16,
           "high_c": -4,
           "low_c": -9,
-          "description": "Scattered T Storms",
-          "snowfall_day_inches": 1,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 2
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
@@ -114,8 +114,8 @@
         "low_c": -6,
         "description": "Thundersnow",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 4,
-        "snowfall_expected": 5
+        "snowfall_night_inches": 3,
+        "snowfall_expected": 4
       }
     }
   },
@@ -132,7 +132,7 @@
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
-      "5\" snow expected Monday"
+      "4\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Fawn - all skill levels",
@@ -140,14 +140,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Big Snow Incoming",
-    "body": "Steady snowfall with 9\" over the last week. A significant storm is brewing with 7\" expected over the next few days. Holiday mode: the mountain will be popular. Early birds get the goods.",
+    "headline": "Peak Season Mode",
+    "body": "Steady snowfall with 9\" over the last week. The forecast is flirting with us: light snow expected. Not a dump, but welcome. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -157,9 +157,9 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         },
         {
@@ -171,11 +171,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "storm_major",
+        "condition": "holiday",
         "variationIndex": 1,
-        "totalVariations": 7,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Peak Season Mode"
+        "previousHeadline": "Big Snow Incoming"
       },
       "dayOfWeek": "Sunday"
     }
