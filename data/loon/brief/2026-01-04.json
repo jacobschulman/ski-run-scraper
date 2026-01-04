@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-01-04",
-  "generated": "2026-01-04T11:15:43.995Z",
+  "generated": "2026-01-04T12:36:24.013Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,30 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 65,
+          "today": 63,
           "yesterday": 65,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 62,
+          "today": 60,
           "yesterday": 62,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 85
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Coolidge Street",
+          "difficulty": "Blue",
+          "area": "West Basin"
+        },
+        {
+          "name": "Upper Rumrunner",
+          "difficulty": "Black",
+          "area": "West Basin"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -44,23 +55,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-03",
-        "high_f": null,
-        "low_f": 6,
-        "description": "Cloudy",
+        "date": "2026-01-04",
+        "high_f": 13,
+        "low_f": 0,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-04",
-          "high_f": 13,
-          "low_f": 0,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-05",
           "high_f": 13,
@@ -78,16 +80,25 @@
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-07",
+          "high_f": 32,
+          "low_f": 26,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
-        "date": "2026-01-04",
+        "date": "2026-01-05",
         "high_f": 13,
-        "low_f": 0,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 0,
+        "low_f": 12,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 2
       }
     }
   },
@@ -105,14 +116,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Holiday Crowds Expected",
-    "body": "65 of 85 trails are open with 62 groomed. Cloudy with a temperatures TBD. A little something coming our way. Light snow expected to dust things up. Holiday period means the mountain will be busy. Start early to beat the crowds.",
+    "headline": "Storm Cycle Building",
+    "body": "63 of 85 trails are open with 60 groomed. Mostly Cloudy with a high of 13°F. A significant storm is brewing with 7\" expected over the next few days. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_holiday",
-          "category": "time",
-          "priority": 70,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -122,9 +133,9 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         },
         {
@@ -134,13 +145,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "holiday",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "storm_major",
+        "variationIndex": 2,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Peak Season Mode"
+        "previousHeadline": "Holiday Crowds Expected"
       },
       "dayOfWeek": "Sunday"
     }
