@@ -2,19 +2,19 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-01-05",
-  "generated": "2026-01-05T12:40:50.480Z",
+  "generated": "2026-01-05T13:40:05.517Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 2,
-      "overnight_cm": 5,
-      "24hour_inches": 2,
-      "24hour_cm": 5,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
-      "7day_inches": 15,
-      "7day_cm": 38,
-      "season_total_inches": 85,
-      "season_total_cm": 216,
+      "overnight_inches": 10,
+      "overnight_cm": 25,
+      "24hour_inches": 14,
+      "24hour_cm": 36,
+      "48hour_inches": 16,
+      "48hour_cm": 41,
+      "7day_inches": 29,
+      "7day_cm": 74,
+      "season_total_inches": 99,
+      "season_total_cm": 251,
       "conditions": {
         "today": "Variable Conditions",
         "yesterday": "Variable Conditions"
@@ -86,13 +86,13 @@
         {
           "date": "2026-01-07",
           "high_f": 26,
-          "low_f": 21,
+          "low_f": 20,
           "high_c": -3,
-          "low_c": -6,
-          "description": "Cloudy",
-          "snowfall_day_inches": 1,
+          "low_c": -7,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 2,
-          "snowfall_expected": 3
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
@@ -111,35 +111,36 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "10\" fresh snow overnight",
+      "14\" in last 24 hours - powder day!"
     ],
     "trends": [
-      "Great week for snow - 15\" in last 7 days",
+      "Great week for snow - 29\" in last 7 days",
       "4\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "Overnight dusting of 2\" means the hardpack got a makeover. The weather models are locked in: 7\" of snow heading our way. Holiday period means the mountain will be busy. Start early to beat the crowds.",
+    "headline": "Time to Call in Sick",
+    "body": "Deep day: 14\" overnight. Stashes are loaded, groomers are buried. Time to hunt. The weather models are locked in: 6\" of snow heading our way. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "snow_deep",
           "category": "snow",
-          "priority": 70,
+          "priority": 95,
           "usedFor": "body"
         },
         {
@@ -157,11 +158,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "snow_deep",
+        "variationIndex": 1,
+        "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "Storm Mode: Snow + Wind"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Monday"
     }
