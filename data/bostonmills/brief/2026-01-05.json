@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-01-05",
-  "generated": "2026-01-05T14:21:28.691Z",
+  "generated": "2026-01-05T15:21:16.736Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 4,
           "yesterday": 5,
-          "delta": -5
+          "delta": -1
         },
         "groomedTrails": {
           "today": 0,
@@ -37,28 +37,8 @@
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Buttermilk",
-          "difficulty": "Blue",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Croyle",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "North Bowl",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
           "name": "Peter's Pride",
           "difficulty": "TerrainPark",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Summit",
-          "difficulty": "Green",
           "area": "Boston Mills"
         }
       ],
@@ -89,9 +69,9 @@
       "outlook": [
         {
           "date": "2026-01-06T05:00:00Z",
-          "high_f": 43,
+          "high_f": 45,
           "low_f": 31,
-          "high_c": 6,
+          "high_c": 7,
           "low_c": -1,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -123,9 +103,9 @@
       ],
       "tomorrow": {
         "date": "2026-01-06T05:00:00Z",
-        "high_f": 43,
+        "high_f": 45,
         "low_f": 31,
-        "high_c": 6,
+        "high_c": 7,
         "low_c": -1,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
@@ -149,30 +129,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "The mountain is still prepping for the season. Weather today: Cloudy.",
+    "headline": "Peak Day at the Resort",
+    "body": "Steady snowfall with 6\" over the last week. It's a holiday - expect a full house. Plan for crowds at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "holiday",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Monday"
     }
