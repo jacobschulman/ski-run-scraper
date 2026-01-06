@@ -40,6 +40,10 @@ jobs:
         run: node snow-scraper.js ikon
         # Scrapes snow reports for all Ikon Pass resorts using Inspector API (single call)
 
+      - name: Run Canadian SkiBig3 scraper
+        run: node canadian-scraper.js
+        # Scrapes Lake Louise, Sunshine Village, Mt Norquay using Puppeteer hybrid approach
+
       - name: Generate aggregate data
         run: node generate-aggregates.js
         # Regenerate mega recap with latest snow data
@@ -65,14 +69,15 @@ jobs:
           # Get the current branch name
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
-          # Pull latest changes with rebase to avoid conflicts
-          git pull --rebase --autostash origin "$BRANCH_NAME"
-
-          # Add snow data files, latest-snow aggregation, and aggregates
+          # Stage all data changes first (including untracked files)
+          # This prevents "untracked working tree files would be overwritten" errors
           git add data/**/snow/ data/latest-snow.json data/aggregates/
 
+          # Now pull with rebase - staged files won't conflict
+          git pull --rebase --autostash origin "$BRANCH_NAME"
+
           # Create commit with timestamp
-          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "Nothing to commit"
 
           # Push changes to the current branch
           git push origin "$BRANCH_NAME"

@@ -1025,6 +1025,80 @@ function generateBriefs(scrapedData) {
     fs.writeFileSync(latestBriefsFile, JSON.stringify(mergedBriefs, null, 2));
     console.log(`✓ Updated latest-briefs.json with ${Object.keys(allBriefs).length} Ikon resort(s)`);
   }
+
+  // Also generate briefs for resorts with custom apiProviders (like canadian-big3)
+  // These are scraped on Hetzner but need briefs generated here
+  generateBriefsForCustomApiProviders(allBriefs);
+}
+
+/**
+ * Generate briefs for resorts with custom apiProviders (scraped externally on Hetzner)
+ * These resorts aren't in scrapedData but have data in the repo from Hetzner scrapers
+ */
+function generateBriefsForCustomApiProviders(allBriefs) {
+  const customApiResorts = config.resorts.filter(r =>
+    r.apiProvider && seasonUtils.isResortInSeason(r, config)
+  );
+
+  if (customApiResorts.length === 0) return;
+
+  console.log(`\n📋 Generating briefs for ${customApiResorts.length} custom API resort(s)...`);
+
+  let generated = 0;
+  customApiResorts.forEach(resort => {
+    const resortKey = resort.key;
+    const today = seasonUtils.getResortLocalDate(resort.timezone);
+
+    // Check if data exists for this resort (from Hetzner scrapers)
+    const terrainDir = path.join('data', resortKey, 'terrain');
+    const snowDir = path.join('data', resortKey, 'snow');
+    const hasData = fs.existsSync(path.join(terrainDir, 'latest.json')) ||
+                    fs.existsSync(path.join(snowDir, 'latest.json'));
+
+    if (!hasData) {
+      console.log(`⏭️  ${resort.name} - no data yet`);
+      return;
+    }
+
+    try {
+      const brief = briefGenerator.generateBrief(resortKey, today, config, RESORTS);
+
+      if (brief) {
+        const briefDir = path.join('data', resortKey, 'brief');
+        briefGenerator.ensureDirectoryExists(briefDir);
+        const briefFile = path.join(briefDir, `${today}.json`);
+        fs.writeFileSync(briefFile, JSON.stringify(brief, null, 2));
+        fs.writeFileSync(path.join(briefDir, 'latest.json'), JSON.stringify(brief, null, 2));
+        updateBriefIndex(resortKey, briefDir);
+
+        allBriefs[resortKey] = {
+          date: today,
+          resortName: resort.name,
+          provider: resort.provider || 'ikon',
+          apiProvider: resort.apiProvider,
+          data: brief
+        };
+
+        generated++;
+        console.log(`✓ Generated brief for ${resort.name}`);
+      }
+    } catch (error) {
+      console.error(`⚠️  Error generating brief for ${resort.name}:`, error.message);
+    }
+  });
+
+  if (generated > 0) {
+    // Update latest-briefs.json with custom API provider briefs
+    const latestBriefsFile = path.join('data', 'latest-briefs.json');
+    let existingBriefs = {};
+    if (fs.existsSync(latestBriefsFile)) {
+      try {
+        existingBriefs = JSON.parse(fs.readFileSync(latestBriefsFile, 'utf8'));
+      } catch (e) {}
+    }
+    fs.writeFileSync(latestBriefsFile, JSON.stringify({ ...existingBriefs, ...allBriefs }, null, 2));
+    console.log(`✓ Added ${generated} custom API provider brief(s) to latest-briefs.json`);
+  }
 }
 
 /**

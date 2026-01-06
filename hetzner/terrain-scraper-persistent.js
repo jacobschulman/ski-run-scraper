@@ -12,6 +12,7 @@ const configLoader = require('../lib/config-loader');
 const seasonUtils = require('../lib/season-utils');
 const fileStorage = require('../lib/file-storage');
 const dataNormalization = require('../lib/data-normalization');
+const canadianBig3 = require('../lib/providers/canadian-big3');
 // Note: Database saves are skipped in persistent scraper - file storage is primary
 // The import-to-database.js script handles DB imports via aggregates cron
 
@@ -45,6 +46,7 @@ const health = {
   ikon: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
   vail: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
   aspen: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  canadianBig3: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
 };
 
 // Shared browser for Vail scraping
@@ -343,10 +345,27 @@ async function runAspenTerrainScraper() {
       seasonUtils.isResortInSeason(r, config)
     );
 
+    // Debug: Log found Aspen resorts
+    if (aspenResorts.length === 0) {
+      console.log('[ASPEN-TERRAIN] No Aspen resorts found in config or none in season');
+    } else {
+      console.log(`[ASPEN-TERRAIN] Found ${aspenResorts.length} in-season Aspen resorts: ${aspenResorts.map(r => r.key).join(', ')}`);
+    }
+
     // Filter to resorts in their scraping window that haven't been scraped today
     const resortsToScrape = aspenResorts.filter(r => {
-      if (hasScrapedToday(r.key, r.timezone)) return false;
-      if (!isInScrapingWindow(r)) return false;
+      const alreadyScraped = hasScrapedToday(r.key, r.timezone);
+      const inWindow = isInScrapingWindow(r);
+      const localHour = seasonUtils.getResortLocalHour(r.timezone);
+
+      if (alreadyScraped) {
+        console.log(`[ASPEN-TERRAIN] ${r.key}: already scraped today`);
+        return false;
+      }
+      if (!inWindow) {
+        console.log(`[ASPEN-TERRAIN] ${r.key}: outside window (hour=${localHour}, need ${CONFIG.targetHour}-${CONFIG.targetHour + CONFIG.windowHours})`);
+        return false;
+      }
       return true;
     });
 
@@ -402,6 +421,115 @@ async function runAspenTerrainScraper() {
   } catch (error) {
     console.error(`[ASPEN-TERRAIN] Error: ${error.message}`);
     health.aspen.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANADIAN BIG3 TERRAIN SCRAPER (HTTP - Lake Louise, Sunshine Village, Mt Norquay)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function saveCanadianBig3TerrainData(resortKey, data) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Edmonton';
+  const today = seasonUtils.getResortLocalDate(timezone);
+
+  // Convert to terrain format
+  const terrainData = canadianBig3.toTerrainData(data, resortKey, resort.name, today);
+
+  // Ensure directory exists
+  const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
+  fileStorage.ensureDirectoryExists(terrainDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(terrainDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(terrainData, null, 2));
+
+  // Save as latest.json
+  const latestFile = path.join(terrainDir, 'latest.json');
+  fs.writeFileSync(latestFile, JSON.stringify(terrainData, null, 2));
+
+  // Update terrain index
+  const terrainFiles = fs.readdirSync(terrainDir)
+    .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort().reverse();
+
+  const terrainIndex = {
+    resort: resortKey,
+    resortName: resort.name,
+    provider: 'canadian-big3',
+    files: terrainFiles,
+    latest: terrainFiles[0] || null,
+    count: terrainFiles.length,
+    lastUpdated: new Date().toISOString(),
+  };
+  fs.writeFileSync(path.join(terrainDir, 'index.json'), JSON.stringify(terrainIndex, null, 2));
+
+  return terrainData;
+}
+
+async function runCanadianBig3TerrainScraper() {
+  console.log(`\n[CANADIAN-BIG3-TERRAIN] Checking resorts...`);
+  health.canadianBig3.lastRun = new Date().toISOString();
+
+  try {
+    // Get in-season Canadian Big3 resorts (those with apiProvider: 'canadian-big3')
+    const big3Resorts = config.resorts.filter(r =>
+      r.apiProvider === 'canadian-big3' &&
+      seasonUtils.isResortInSeason(r, config)
+    );
+
+    // Filter to resorts in their scraping window that haven't been scraped today
+    const resortsToScrape = big3Resorts.filter(r => {
+      if (hasScrapedToday(r.key, r.timezone)) return false;
+      if (!isInScrapingWindow(r)) return false;
+      return true;
+    });
+
+    if (resortsToScrape.length === 0) {
+      console.log('[CANADIAN-BIG3-TERRAIN] No resorts need scraping right now');
+      return;
+    }
+
+    console.log(`[CANADIAN-BIG3-TERRAIN] Scraping ${resortsToScrape.length} resorts`);
+    health.canadianBig3.totalRuns++;
+
+    // Use shared browser for Puppeteer-based scraping (Banff and Norquay benefit from this)
+    if (!browser) await initBrowser();
+
+    let scraped = 0;
+
+    for (const resort of resortsToScrape) {
+      try {
+        // Pass browser to enable Puppeteer scraping for Banff/Norquay
+        const data = await canadianBig3.scrapeResort(resort.key, browser);
+
+        if (data) {
+          const saved = await saveCanadianBig3TerrainData(resort.key, data);
+          if (saved) {
+            scraped++;
+            markScrapedToday(resort.key, resort.timezone);
+            const localTime = seasonUtils.getResortLocalTimeFormatted(resort.timezone);
+            const liftCount = data.Lifts?.length || 0;
+            const trailCount = data.Trails?.length || 0;
+            const snowInfo = data.snow?.snow24_cm ? ` - ${data.snow.snow24_cm}cm 24h` : '';
+            console.log(`[CANADIAN-BIG3-TERRAIN] ✓ ${resort.key} (${localTime}) - ${liftCount} lifts, ${trailCount} trails${snowInfo}`);
+          }
+        }
+      } catch (e) {
+        console.error(`[CANADIAN-BIG3-TERRAIN] ✗ ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.canadianBig3.resortsScraped += scraped;
+    health.canadianBig3.consecutiveFailures = 0;
+    health.canadianBig3.lastSuccess = new Date().toISOString();
+    console.log(`[CANADIAN-BIG3-TERRAIN] Completed: ${scraped} resorts`);
+
+  } catch (error) {
+    console.error(`[CANADIAN-BIG3-TERRAIN] Error: ${error.message}`);
+    health.canadianBig3.consecutiveFailures++;
   }
 }
 
@@ -574,11 +702,12 @@ const HEALTH_FILE = path.join(__dirname, 'terrain-health.json');
 function writeHealthFile() {
   const healthData = {
     scraper: 'terrain',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
     aspen: health.aspen,
+    canadianBig3: health.canadianBig3,
     scrapedToday: Object.fromEntries(scrapedToday),
     updatedAt: new Date().toISOString(),
   };
@@ -617,6 +746,7 @@ async function main() {
     // Run all scrapers (they filter internally based on timing)
     await runIkonTerrainScraper();
     await runAspenTerrainScraper();
+    await runCanadianBig3TerrainScraper();
     await runVailTerrainScraper();
 
     // Wait before next check

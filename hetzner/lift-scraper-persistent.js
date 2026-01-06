@@ -11,13 +11,13 @@ const { formatInTimeZone } = require('date-fns-tz');
 // Configuration
 const CONFIG = {
   ikon: {
-    intervalMs: 150 * 1000,     // 2.5 minutes
-    jitterMs: 15000,            // 0-15 seconds random jitter
+    intervalMs: 120 * 1000,     // 2 minutes (reduced from 2.5 min for more frequent updates)
+    jitterMs: 10000,            // 0-10 seconds random jitter
   },
   vail: {
-    // Increased page pool for faster parallel scraping
-    pagePoolSize: 4,            // 4 pages for parallel scraping (up from 2)
-    delayBetweenScrapes: 8000,  // 8 seconds between each resort scrape (down from 15)
+    // Optimized page pool for faster parallel scraping while staying polite
+    pagePoolSize: 6,            // 6 pages for parallel scraping (up from 4)
+    delayBetweenScrapes: 5000,  // 5 seconds between each resort scrape (down from 8)
     // Failure tracking - skip resorts that keep timing out
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
     maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown

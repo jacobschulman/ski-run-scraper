@@ -7,6 +7,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
+const canadianBig3 = require('../lib/providers/canadian-big3');
 
 // Configuration
 const CONFIG = {
@@ -18,6 +19,10 @@ const CONFIG = {
     intervalMs: 30 * 60 * 1000,    // 30 minutes
     jitterMs: 60000,               // 0-60 seconds random jitter
     delayBetweenResorts: 5000,     // 5 seconds between resorts
+  },
+  canadianBig3: {
+    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    jitterMs: 30000,               // 0-30 seconds random jitter
   },
   dataDir: path.join(__dirname, '..', 'data'),
   configPath: path.join(__dirname, '..', 'config.json'),
@@ -46,6 +51,7 @@ const health = {
   startTime: Date.now(),
   ikon: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   vail: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
+  canadianBig3: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
 };
 
 // Shared browser and page for Vail scraping
@@ -196,8 +202,9 @@ async function runIkonSnowScraper() {
   health.ikon.lastRun = new Date().toISOString();
 
   try {
+    // Filter Ikon resorts, excluding those with custom apiProviders (like canadian-big3)
     const ikonResorts = config.resorts.filter(r =>
-      r.provider === 'ikon' && isResortInSeason(r)
+      r.provider === 'ikon' && !r.apiProvider && isResortInSeason(r)
     );
 
     if (ikonResorts.length === 0) {
@@ -401,6 +408,102 @@ async function runVailSnowScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CANADIAN BIG3 SNOW SCRAPER (HTTP - Lake Louise, Sunshine Village, Mt Norquay)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function saveCanadianBig3SnowData(resortKey, data) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Edmonton';
+  const today = getResortLocalDate(timezone);
+
+  // Convert to snow report format
+  const snowReport = canadianBig3.toSnowReport(data, resortKey, resort.name, today);
+
+  // Ensure directory exists
+  const snowDir = path.join(CONFIG.dataDir, resortKey, 'snow');
+  ensureDirectoryExists(snowDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(snowDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(snowReport, null, 2));
+
+  // Save as latest.json
+  const latestFile = path.join(snowDir, 'latest.json');
+  fs.writeFileSync(latestFile, JSON.stringify(snowReport, null, 2));
+
+  // Update NDJSON file for the day
+  const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
+  const ndjsonEntry = JSON.stringify({
+    ...snowReport,
+    timestamp: new Date().toISOString(),
+  });
+  fs.appendFileSync(ndjsonFile, ndjsonEntry + '\n');
+
+  return snowReport;
+}
+
+async function runCanadianBig3SnowScraper() {
+  console.log(`\n[CANADIAN-BIG3-SNOW] Starting scrape...`);
+  health.canadianBig3.lastRun = new Date().toISOString();
+  health.canadianBig3.totalRuns++;
+
+  try {
+    // Add jitter
+    const jitter = Math.random() * CONFIG.canadianBig3.jitterMs;
+    await sleep(jitter);
+
+    // Get in-season Canadian Big3 resorts
+    const big3Resorts = config.resorts.filter(r =>
+      r.apiProvider === 'canadian-big3' &&
+      isResortInSeason(r)
+    );
+
+    if (big3Resorts.length === 0) {
+      console.log('[CANADIAN-BIG3-SNOW] No Canadian Big3 resorts in season');
+      return;
+    }
+
+    console.log(`[CANADIAN-BIG3-SNOW] Found ${big3Resorts.length} in-season resorts`);
+
+    // Use shared browser for Puppeteer-based scraping (Banff/Norquay need it for snow data)
+    if (!browser) await initBrowser();
+
+    let scraped = 0;
+
+    for (const resort of big3Resorts) {
+      try {
+        // Pass browser to enable Puppeteer scraping for Banff/Norquay snow data
+        const data = await canadianBig3.scrapeResort(resort.key, browser);
+
+        if (data) {
+          const saved = await saveCanadianBig3SnowData(resort.key, data);
+          if (saved) {
+            scraped++;
+            const snow24 = data.snow?.snow24_cm || 0;
+            const base = data.snow?.base_upper_cm || data.snow?.base_lower_cm || 0;
+            console.log(`[CANADIAN-BIG3-SNOW] ${resort.key}: ${snow24}cm 24hr, ${base}cm base`);
+          }
+        }
+      } catch (e) {
+        console.error(`[CANADIAN-BIG3-SNOW] ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.canadianBig3.resortsScraped = scraped;
+    health.canadianBig3.successfulRuns++;
+    health.canadianBig3.consecutiveFailures = 0;
+    health.canadianBig3.lastSuccess = new Date().toISOString();
+    console.log(`[CANADIAN-BIG3-SNOW] Completed: ${scraped}/${big3Resorts.length} resorts`);
+
+  } catch (error) {
+    console.error(`[CANADIAN-BIG3-SNOW] Error: ${error.message}`);
+    health.canadianBig3.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HEALTH FILE
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -409,10 +512,11 @@ const HEALTH_FILE = path.join(__dirname, 'snow-health.json');
 function writeHealthFile() {
   const healthData = {
     scraper: 'snow',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
+    canadianBig3: health.canadianBig3,
     updatedAt: new Date().toISOString(),
   };
   try {
@@ -451,11 +555,13 @@ async function main() {
   console.log(`Started at: ${new Date().toISOString()}`);
   console.log(`Ikon interval: ${CONFIG.ikon.intervalMs / 1000 / 60} min`);
   console.log(`Vail interval: ${CONFIG.vail.intervalMs / 1000 / 60} min`);
+  console.log(`Canadian Big3 interval: ${CONFIG.canadianBig3.intervalMs / 1000 / 60} min`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Track last run times - set to 0 to trigger immediate first runs
   let lastIkonRun = 0;
   let lastVailRun = 0;
+  let lastCanadianBig3Run = 0;
 
   // Main loop
   while (!isShuttingDown) {
@@ -472,6 +578,13 @@ async function main() {
       lastVailRun = now;
       // Slight delay so they don't run simultaneously
       setTimeout(() => runVailSnowScraper().catch(console.error), 60000);
+    }
+
+    // Check if it's time for Canadian Big3 (offset from Vail)
+    if (now - lastCanadianBig3Run >= CONFIG.canadianBig3.intervalMs) {
+      lastCanadianBig3Run = now;
+      // Slight delay so they don't run simultaneously
+      setTimeout(() => runCanadianBig3SnowScraper().catch(console.error), 90000);
     }
 
     await sleep(10000);
