@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-06",
-  "generated": "2026-01-06T11:16:47.570Z",
+  "generated": "2026-01-06T12:40:53.204Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,30 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 108,
+          "today": 106,
           "yesterday": 108,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 41,
+          "today": 40,
           "yesterday": 41,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 142
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Crackerjack",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Inverness",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -51,27 +62,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-05",
-        "high_f": null,
-        "low_f": 14,
-        "high_c": null,
-        "low_c": -10,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 2,
-        "snowfall_night_inches": 1
+        "date": "2026-01-06",
+        "high_f": 28,
+        "low_f": 25,
+        "high_c": -2,
+        "low_c": -4,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 2
       },
       "outlook": [
-        {
-          "date": "2026-01-06",
-          "high_f": 28,
-          "low_f": 25,
-          "high_c": -2,
-          "low_c": -4,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
-        },
         {
           "date": "2026-01-07",
           "high_f": 29,
@@ -93,18 +93,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-09",
+          "high_f": 40,
+          "low_f": 32,
+          "high_c": 4,
+          "low_c": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-06",
-        "high_f": 28,
-        "low_f": 25,
+        "date": "2026-01-07",
+        "high_f": 29,
+        "low_f": 24,
         "high_c": -2,
-        "low_c": -4,
-        "description": "Cloudy",
+        "low_c": -5,
+        "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 2
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -117,20 +128,18 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [
-      "2\" snow expected Tuesday"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stormy Conditions",
-    "body": "108/142 trails spinning, 41 freshly groomed. Snow Wind. Winter flexing today: snow and wind in the forecast. Dress for it.",
+    "headline": "Midweek Mountain Report",
+    "body": "106/142 trails spinning, 40 freshly groomed. 28° and Cloudy. 106/142 trails open, 40 groomed. 28° and Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_wind",
-          "category": "weather",
-          "priority": 82,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
@@ -140,19 +149,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_wind",
+          "id": "fallback_body",
           "category": "weather",
-          "priority": 82,
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "storm_wind",
-        "variationIndex": 3,
+        "condition": "midweek_mellow",
+        "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Blustery and Snowy"
+        "previousHeadline": "Stormy Conditions"
       },
       "dayOfWeek": "Tuesday"
     }
