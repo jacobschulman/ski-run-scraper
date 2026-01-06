@@ -2,19 +2,19 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-06",
-  "generated": "2026-01-06T12:40:53.204Z",
+  "generated": "2026-01-06T13:37:37.789Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
       "7day_inches": 0,
       "7day_cm": 0,
-      "season_total_inches": 91,
-      "season_total_cm": 231,
+      "season_total_inches": 93,
+      "season_total_cm": 236,
       "conditions": {
         "today": "Machine Groomed Variable Conditions",
         "yesterday": "Machine Groomed Variable Conditions"
@@ -34,12 +34,23 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Northridge Expressway",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Crackerjack",
           "difficulty": "Easy",
           "area": "Mt. Ellen"
+        },
+        {
+          "name": "Brambles",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
         },
         {
           "name": "Inverness",
@@ -69,23 +80,23 @@
         "low_c": -4,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 2
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
           "date": "2026-01-07",
-          "high_f": 29,
+          "high_f": 28,
           "low_f": 24,
           "high_c": -2,
           "low_c": -5,
           "description": "Windy",
-          "snowfall_day_inches": 0,
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-08",
-          "high_f": 31,
+          "high_f": 30,
           "low_f": 32,
           "high_c": -1,
           "low_c": 0,
@@ -98,7 +109,7 @@
           "date": "2026-01-09",
           "high_f": 40,
           "low_f": 32,
-          "high_c": 4,
+          "high_c": 5,
           "low_c": 0,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -108,14 +119,14 @@
       ],
       "tomorrow": {
         "date": "2026-01-07",
-        "high_f": 29,
+        "high_f": 28,
         "low_f": 24,
         "high_c": -2,
         "low_c": -5,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -123,45 +134,49 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Mountain Report",
-    "body": "106/142 trails spinning, 40 freshly groomed. 28° and Cloudy. 106/142 trails open, 40 groomed. 28° and Cloudy.",
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 10,
+          "priority": 82,
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "forecast_flurries",
           "category": "weather",
-          "priority": 5,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stormy Conditions"
+        "previousHeadline": "Midweek Mountain Report"
       },
       "dayOfWeek": "Tuesday"
     }
