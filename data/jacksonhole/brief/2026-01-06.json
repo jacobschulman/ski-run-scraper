@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-06",
-  "generated": "2026-01-06T07:23:30.704Z",
+  "generated": "2026-01-06T08:25:38.921Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 22,
+      "7day_cm": 56,
+      "season_total_inches": 190,
+      "season_total_cm": 483,
+      "conditions": {
+        "today": "6AM - Accumulation continues up high with 7\" of new snow in the last 24 hours! 4 of those inches have fallen since lifts closed yesterday and the white stuff continues to fall above 7000 feet this morning. This round of snow will continue to produce during the morning hours before lightening up in the early afternoon as the band of moisture makes its exit. Expect winds to increase as precipitation decreases throughout the day - 40mph gusts out of the west are possible. Base temps will stick in the mid-30s while upper elevations just clear 20. More snow looks to be on the way after closing time today. Enjoy! -OH",
+        "yesterday": "6AM - Accumulation continues up high with 7\" of new snow in the last 24 hours! 4 of those inches have fallen since lifts closed yesterday and the white stuff continues to fall above 7000 feet this morning. This round of snow will continue to produce during the morning hours before lightening up in the early afternoon as the band of moisture makes its exit. Expect winds to increase as precipitation decreases throughout the day - 40mph gusts out of the west are possible. Base temps will stick in the mid-30s while upper elevations just clear 20. More snow looks to be on the way after closing time today. Enjoy! -OH"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -29,13 +45,48 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 22\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Powder Day Alert",
+    "body": "It's a 7\" day. You know what to do. First chair or regret it.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 0,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got Buried"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
