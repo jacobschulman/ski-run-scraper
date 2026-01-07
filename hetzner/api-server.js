@@ -243,6 +243,13 @@ app.get('/data/:resort/lifts/index.json', (req, res) => {
     // Find the latest NDJSON file
     const files = fs.readdirSync(liftsDir).filter(f => f.endsWith('.ndjson')).sort().reverse();
     if (files.length === 0) {
+      // Fall back to static index.json (used by Canadian resorts without wait time data)
+      const staticIndex = path.join(liftsDir, 'index.json');
+      if (fs.existsSync(staticIndex)) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Cache-Control', 'public, max-age=30');
+        return res.sendFile(staticIndex);
+      }
       return res.status(404).json({ error: 'No lift data available' });
     }
 
