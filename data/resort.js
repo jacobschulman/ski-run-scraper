@@ -257,7 +257,7 @@ function renderSnowConditionsWidget(groomedCount) {
     const conditions = weatherData?.conditions || 'Unknown';
     const snowfall24h = weatherData?.snowfall?.['24hour_inches'] ?? 0;
 
-    // Get temperature
+    // Get temperature - try forecast first, then currentConditions (Canadian resorts)
     let currentTemp = '--';
     let loTemp = '--';
     let hiTemp = '--';
@@ -267,6 +267,11 @@ function renderSnowConditionsWidget(groomedCount) {
         hiTemp = today.high_f ?? '--';
         loTemp = today.low_f ?? '--';
         currentTemp = hiTemp; // Use high as current for now
+    } else if (weatherData?.currentConditions?.temperature_f) {
+        // Fallback for Canadian resorts that only have currentConditions
+        currentTemp = Math.round(weatherData.currentConditions.temperature_f);
+        hiTemp = currentTemp;
+        loTemp = '--';
     }
 
     // Get lift count
