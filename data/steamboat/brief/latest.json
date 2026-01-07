@@ -2,8 +2,24 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-07",
-  "generated": "2026-01-07T09:24:58.099Z",
+  "generated": "2026-01-07T11:23:03.595Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 14,
+      "7day_cm": 36,
+      "season_total_inches": 66,
+      "season_total_cm": 166,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,118 @@
         "totalLiftsTracked": 24,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-06",
+        "high_f": null,
+        "low_f": 19,
+        "high_c": null,
+        "low_c": -7,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-07",
+          "high_f": 27,
+          "low_f": 19,
+          "high_c": -3,
+          "low_c": -7,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-08",
+          "high_f": 19,
+          "low_f": 5,
+          "high_c": -7,
+          "low_c": -15,
+          "description": "Snow",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-01-09",
+          "high_f": 6,
+          "low_f": 3,
+          "high_c": -15,
+          "low_c": -16,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-07",
+        "high_f": 27,
+        "low_f": 19,
+        "high_c": -3,
+        "low_c": -7,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 14\" in last 7 days",
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter Delivered Big",
+    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. Winter has more to say. 7\" forecasted means conditions improving soon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Deep Day at {resortName}"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
