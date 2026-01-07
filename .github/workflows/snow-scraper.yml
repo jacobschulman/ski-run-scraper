@@ -51,16 +51,17 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          # Check if any snow data files changed
-          if git diff --quiet data/**/snow/ data/latest-snow.json data/aggregates/; then
+          # Check if any data files changed (snow, terrain, brief from Canadian scraper, aggregates)
+          git add -N data/  # Add intent-to-add for untracked files so diff can see them
+          if git diff --quiet data/; then
             echo "changes=false" >> $GITHUB_OUTPUT
-            echo "No snow data changes detected"
+            echo "No data changes detected"
           else
             echo "changes=true" >> $GITHUB_OUTPUT
-            echo "Snow data changes detected"
+            echo "Data changes detected"
           fi
 
-      - name: Commit and push snow data
+      - name: Commit and push data
         if: steps.git-check.outputs.changes == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -69,9 +70,9 @@ jobs:
           # Get the current branch name
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
-          # Stage all data changes first (including untracked files)
+          # Stage ALL data changes (snow, terrain, brief from Canadian scraper, aggregates)
           # This prevents "untracked working tree files would be overwritten" errors
-          git add data/**/snow/ data/latest-snow.json data/aggregates/
+          git add data/
 
           # Now pull with rebase - staged files won't conflict
           git pull --rebase --autostash origin "$BRANCH_NAME"
