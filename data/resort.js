@@ -333,9 +333,77 @@ function renderSnowConditionsWidget(groomedCount) {
 }
 
 /**
+ * Check if resort is currently within operating hours
+ * Returns { isOpen: boolean, message: string }
+ */
+function checkOperatingHours() {
+    // Only apply operating hours check if lift data has the info
+    if (!liftData?.operatingHours || !liftData?.timezone) {
+        return { isOpen: true, message: null };
+    }
+
+    try {
+        // Get current time in resort's timezone
+        const now = new Date();
+        const resortTime = new Date(now.toLocaleString('en-US', { timeZone: liftData.timezone }));
+        const currentHour = resortTime.getHours();
+        const currentMinute = resortTime.getMinutes();
+        const currentTime = currentHour * 60 + currentMinute;
+
+        // Parse operating hours (format: "HH:MM")
+        const [openHour, openMin] = liftData.operatingHours.open.split(':').map(Number);
+        const [closeHour, closeMin] = liftData.operatingHours.close.split(':').map(Number);
+        const openTime = openHour * 60 + openMin;
+        const closeTime = closeHour * 60 + closeMin;
+
+        if (currentTime < openTime || currentTime >= closeTime) {
+            // Format times for display
+            const formatTime = (h, m) => {
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                const hour12 = h % 12 || 12;
+                return m > 0 ? `${hour12}:${m.toString().padStart(2, '0')} ${ampm}` : `${hour12} ${ampm}`;
+            };
+            const openStr = formatTime(openHour, openMin);
+            const closeStr = formatTime(closeHour, closeMin);
+
+            return {
+                isOpen: false,
+                message: `Resort closed · Opens ${openStr} - ${closeStr}`
+            };
+        }
+    } catch (e) {
+        console.error('Error checking operating hours:', e);
+    }
+
+    return { isOpen: true, message: null };
+}
+
+/**
  * Render Lift Status Widget
  */
 function renderLiftStatusWidget() {
+    // Check if resort is within operating hours
+    const hoursCheck = checkOperatingHours();
+
+    // If resort is closed, show closed message instead of lift statuses
+    if (!hoursCheck.isOpen) {
+        return `
+            <div class="widget-card">
+                <a href="lifts.html" class="widget-header widget-header-link">
+                    <div class="widget-title-group">
+                        <span class="widget-title">Lift Status</span>
+                        <span class="widget-subtitle">${hoursCheck.message}</span>
+                    </div>
+                    <span class="widget-see-all">See all →</span>
+                </a>
+                <div class="resort-closed-notice">
+                    <span class="closed-icon">🌙</span>
+                    <span class="closed-text">Lift status will update when the resort opens</span>
+                </div>
+            </div>
+        `;
+    }
+
     const openLifts = liftData.lifts.filter(l => l.status === 'Open');
 
     // Sort by wait time (longest first), then take top 3

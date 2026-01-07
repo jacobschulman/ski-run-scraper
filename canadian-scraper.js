@@ -87,6 +87,9 @@ function saveLiftData(resortKey, data) {
     apiProvider: data.apiProvider,
     liftCount: lifts.length,
     lifts: lifts,
+    // Include operating hours and timezone so frontend can check if resort is open
+    timezone: resort.timezone,
+    operatingHours: resort.operatingHours || null,
     lastUpdated: new Date().toISOString()
   };
 
