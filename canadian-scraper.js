@@ -59,6 +59,42 @@ function saveTerrainData(resortKey, data) {
   return terrainData;
 }
 
+// Save lift status data (for grooming page compatibility)
+function saveLiftData(resortKey, data) {
+  const resort = RESORTS[resortKey];
+  if (!resort || !data.Lifts || data.Lifts.length === 0) return null;
+
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  // Convert terrain lift data to lift index format
+  const lifts = data.Lifts.map(lift => ({
+    liftId: lift.Name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+    name: lift.Name,
+    slug: lift.Name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+    type: lift.Type || 'Chairlift',
+    status: lift.IsOpen ? 'Open' : 'Closed',
+    waitMinutes: null,  // No wait time data for Canadian resorts
+    openTime: null,
+    closeTime: null,
+    lastUpdated: data.scrapedAt
+  }));
+
+  const liftIndex = {
+    resort: resortKey,
+    resortName: resort.name,
+    provider: 'canadian-big3',
+    apiProvider: data.apiProvider,
+    liftCount: lifts.length,
+    lifts: lifts,
+    lastUpdated: new Date().toISOString()
+  };
+
+  fs.writeFileSync(path.join(liftsDir, 'index.json'), JSON.stringify(liftIndex, null, 2));
+
+  return liftIndex;
+}
+
 // Save snow data
 function saveSnowData(resortKey, data) {
   const resort = RESORTS[resortKey];
@@ -173,6 +209,12 @@ async function main() {
           const liftCount = data.Lifts?.length || 0;
           const trailCount = data.Trails?.length || 0;
           console.log(`  ✓ Terrain: ${data.stats?.liftsOpen || 0}/${liftCount} lifts, ${data.stats?.trailsOpen || 0}/${trailCount} trails`);
+
+          // Save lift data (for grooming page compatibility)
+          if (data.Lifts && data.Lifts.length > 0) {
+            saveLiftData(resort.key, data);
+            console.log(`  ✓ Lifts: ${data.Lifts.filter(l => l.IsOpen).length}/${data.Lifts.length} open`);
+          }
 
           // Save snow data
           if (data.snow) {

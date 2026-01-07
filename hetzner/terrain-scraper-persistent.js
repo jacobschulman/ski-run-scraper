@@ -466,6 +466,36 @@ async function saveCanadianBig3TerrainData(resortKey, data) {
   };
   fs.writeFileSync(path.join(terrainDir, 'index.json'), JSON.stringify(terrainIndex, null, 2));
 
+  // Also save lift data for grooming page compatibility
+  if (data.Lifts && data.Lifts.length > 0) {
+    const liftsDir = path.join(CONFIG.dataDir, resortKey, 'lifts');
+    fileStorage.ensureDirectoryExists(liftsDir);
+
+    const lifts = data.Lifts.map(lift => ({
+      liftId: lift.Name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+      name: lift.Name,
+      slug: lift.Name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-'),
+      type: lift.Type || 'Chairlift',
+      status: lift.IsOpen ? 'Open' : 'Closed',
+      waitMinutes: null,
+      openTime: null,
+      closeTime: null,
+      lastUpdated: data.scrapedAt
+    }));
+
+    const liftIndex = {
+      resort: resortKey,
+      resortName: resort.name,
+      provider: 'canadian-big3',
+      apiProvider: data.apiProvider,
+      liftCount: lifts.length,
+      lifts: lifts,
+      lastUpdated: new Date().toISOString()
+    };
+
+    fs.writeFileSync(path.join(liftsDir, 'index.json'), JSON.stringify(liftIndex, null, 2));
+  }
+
   return terrainData;
 }
 
