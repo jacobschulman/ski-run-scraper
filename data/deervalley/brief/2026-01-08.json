@@ -2,8 +2,24 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-01-08",
-  "generated": "2026-01-08T10:38:06.466Z",
+  "generated": "2026-01-08T14:29:03.236Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 22,
+      "7day_cm": 56,
+      "season_total_inches": 82,
+      "season_total_cm": 208,
+      "conditions": {
+        "today": "New Natural Snow",
+        "yesterday": "New Natural Snow"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,117 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-08",
+        "high_f": 17,
+        "low_f": 6,
+        "high_c": -8,
+        "low_c": -15,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-09",
+          "high_f": 14,
+          "low_f": 11,
+          "high_c": -10,
+          "low_c": -12,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-10",
+          "high_f": 24,
+          "low_f": 23,
+          "high_c": -4,
+          "low_c": -5,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-11",
+          "high_f": 34,
+          "low_f": 29,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-09",
+        "high_f": 14,
+        "low_f": 11,
+        "high_c": -10,
+        "low_c": -12,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 22\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Time to Call in Sick",
+    "body": "It's a 6\" day. You know what to do. First chair or regret it. Cold day ahead: 17° high. Dress warmly.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Still Soft Out There"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
