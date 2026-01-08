@@ -42,6 +42,9 @@ const BEARER_TOKEN = config.inspector?.bearerToken || 'hPtaTVkbuyZQnrxvru4ApfpXn
 // Aspen Snowmass API
 const ASPEN_API_BASE = 'https://www.aspensnowmass.com/AspenSnowmass/LiftStatus/Feed';
 
+// Zaneray API (Jackson Hole)
+// Returns lift data in a "lifts" object with status in openingStatus field
+
 // Operating window buffers
 const PRE_OPEN_BUFFER_MINUTES = 30;
 const POST_CLOSE_GRACE_MINUTES = 60; // extended grace period to ensure we capture all lift closings
@@ -187,6 +190,406 @@ function saveAspenLiftData(resortKey, aspenData, timestamp) {
     console.log(`✓ Saved ${liftRecords.length} Aspen lift records to ${outputFile}`);
 
     const openLifts = liftRecords.filter(r => r.status === 'Open');
+    console.log(`  Open lifts: ${openLifts.length}/${liftRecords.length}`);
+  }
+
+  if (hasOpenLifts) {
+    addToActiveResortCache(resortKey, timezone);
+  }
+
+  return { liftCount: liftRecords.length, hasOpenLifts };
+}
+
+/**
+ * Fetch lift data from ReportPal API
+ */
+async function fetchReportPalData(resort) {
+  const { baseUrl, resortCode } = resort.apiConfig;
+  const url = `${baseUrl}/api/reportpal?resortName=${resortCode}&useReportPal=true`;
+
+  console.log(`  📡 Fetching ReportPal data from: ${url}`);
+
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+    const urlObj = new URL(url);
+
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'SkiRunScraper/1.0'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(new Error(`Failed to parse ReportPal JSON: ${error.message}`));
+          }
+        } else {
+          reject(new Error(`ReportPal HTTP ${res.statusCode}: ${res.statusMessage}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(new Error(`ReportPal request failed: ${error.message}`));
+    });
+
+    req.end();
+  });
+}
+
+/**
+ * Save ReportPal lift data for a resort
+ */
+function saveReportPalLiftData(resortKey, reportpalData, timestamp) {
+  const resort = RESORTS[resortKey];
+  const timezone = resort.timezone;
+  const localDate = seasonUtils.getResortLocalDate(timezone);
+  const localTime = seasonUtils.getResortLocalTime(timezone);
+
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  let liftRecords = [];
+  let hasOpenLifts = false;
+
+  // Extract lifts from all areas
+  if (reportpalData.facilities?.areas?.area) {
+    const areas = reportpalData.facilities.areas.area;
+    for (const area of areas) {
+      if (area.lifts?.lift) {
+        for (const lift of area.lifts.lift) {
+          // Normalize status: treat "Scheduled" as potentially open during operating hours
+          let status = lift.status;
+          if (status === 'On Hold') status = 'Hold';
+
+          const liftRecord = {
+            timestamp: timestamp,
+            localTime: localTime,
+            resort: resortKey,
+            liftId: `reportpal:${lift.id}`,
+            name: lift.name,
+            status: status,
+            type: formatLiftType(lift.type),
+            waitMinutes: lift.skierWaitTime ? parseInt(lift.skierWaitTime) : null,
+            openTime: lift.openTime || null,
+            closeTime: lift.closeTime || null,
+            mountain: area.name,
+            capacity: lift.capacity || null,
+          };
+
+          liftRecords.push(liftRecord);
+
+          if (status === 'Open' || status === 'Scheduled') {
+            hasOpenLifts = true;
+          }
+        }
+      }
+    }
+  }
+
+  if (liftRecords.length > 0) {
+    const ndjsonLines = liftRecords.map(record => JSON.stringify(record)).join('\n') + '\n';
+    fs.appendFileSync(outputFile, ndjsonLines);
+    console.log(`✓ Saved ${liftRecords.length} ReportPal lift records to ${outputFile}`);
+
+    const openLifts = liftRecords.filter(r => r.status === 'Open' || r.status === 'Scheduled');
+    console.log(`  Open lifts: ${openLifts.length}/${liftRecords.length}`);
+  }
+
+  if (hasOpenLifts) {
+    addToActiveResortCache(resortKey, timezone);
+  }
+
+  return { liftCount: liftRecords.length, hasOpenLifts };
+}
+
+/**
+ * Fetch lift data from DOR API (Snowbird, Copper, Killington)
+ */
+async function fetchDorData(resort) {
+  const { baseUrl, endpoint } = resort.apiConfig;
+  const url = `${baseUrl}${endpoint}`;
+
+  console.log(`  📡 Fetching DOR data from: ${url}`);
+
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+    const urlObj = new URL(url);
+
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'SkiRunScraper/1.0'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(new Error(`Failed to parse DOR JSON: ${error.message}`));
+          }
+        } else {
+          reject(new Error(`DOR HTTP ${res.statusCode}: ${res.statusMessage}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(new Error(`DOR request failed: ${error.message}`));
+    });
+
+    req.end();
+  });
+}
+
+/**
+ * Normalize DOR lift type to standard format
+ */
+function normalizeDorLiftType(type) {
+  if (!type) return null;
+  const lowerType = type.toLowerCase();
+  if (lowerType.includes('gondola')) return 'Gondola';
+  if (lowerType.includes('tram')) return 'Tram';
+  if (lowerType.includes('telemix')) return 'Telemix';
+  if (lowerType.includes('six') || lowerType.includes('quad') || lowerType.includes('triple') || lowerType.includes('double')) return 'Chair';
+  if (lowerType.includes('surface') || lowerType.includes('t-bar') || lowerType.includes('platter')) return 'Surface';
+  if (lowerType.includes('carpet')) return 'Carpet';
+  return 'Chair';
+}
+
+/**
+ * Normalize DOR status to standard format
+ */
+function normalizeDorStatus(status) {
+  if (!status) return 'Closed';
+  const lowerStatus = status.toLowerCase();
+  if (lowerStatus === 'open') return 'Open';
+  if (lowerStatus === 'closed') return 'Closed';
+  if (lowerStatus === 'hold' || lowerStatus === 'on hold') return 'Hold';
+  if (lowerStatus === 'scheduled') return 'Scheduled';
+  if (lowerStatus.includes('wind')) return 'Windhold';
+  return status;
+}
+
+/**
+ * Save DOR lift data for a resort
+ */
+function saveDorLiftData(resortKey, dorData, timestamp) {
+  const resort = RESORTS[resortKey];
+  const timezone = resort.timezone;
+  const localDate = seasonUtils.getResortLocalDate(timezone);
+  const localTime = seasonUtils.getResortLocalTime(timezone);
+
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  let liftRecords = [];
+  let hasOpenLifts = false;
+
+  // DOR stores lifts in a "lift" array
+  if (dorData.lift && Array.isArray(dorData.lift)) {
+    for (const lift of dorData.lift) {
+      const status = normalizeDorStatus(lift.status);
+
+      const liftRecord = {
+        timestamp: timestamp,
+        localTime: localTime,
+        resort: resortKey,
+        liftId: `dor:${lift.id}`,
+        name: lift.name,
+        status: status,
+        type: normalizeDorLiftType(lift.type),
+        waitMinutes: lift.wait_time ? parseInt(lift.wait_time) : null,
+        openTime: null,
+        closeTime: null,
+        mountain: lift.sector?.name || null,
+        vertical: lift.vertical || null,
+        hours: lift.hours || null,
+      };
+
+      // Parse hours string like "9 am - 3:45 pm" or "9A-4P"
+      if (lift.hours) {
+        const match = lift.hours.match(/(\d+(?::\d+)?\s*(?:AM|PM|A|P)?)\s*-\s*(\d+(?::\d+)?\s*(?:AM|PM|A|P)?)/i);
+        if (match) {
+          liftRecord.openTime = match[1].trim();
+          liftRecord.closeTime = match[2].trim();
+        }
+      }
+
+      liftRecords.push(liftRecord);
+
+      if (status === 'Open' || status === 'Scheduled') {
+        hasOpenLifts = true;
+      }
+    }
+  }
+
+  if (liftRecords.length > 0) {
+    const ndjsonLines = liftRecords.map(record => JSON.stringify(record)).join('\n') + '\n';
+    fs.appendFileSync(outputFile, ndjsonLines);
+    console.log(`✓ Saved ${liftRecords.length} DOR lift records to ${outputFile}`);
+
+    const openLifts = liftRecords.filter(r => r.status === 'Open' || r.status === 'Scheduled');
+    console.log(`  Open lifts: ${openLifts.length}/${liftRecords.length}`);
+  }
+
+  if (hasOpenLifts) {
+    addToActiveResortCache(resortKey, timezone);
+  }
+
+  return { liftCount: liftRecords.length, hasOpenLifts };
+}
+
+/**
+ * Fetch lift data from Zaneray API (Jackson Hole)
+ */
+async function fetchZanerayData(resort) {
+  const { apiUrl } = resort.apiConfig;
+
+  console.log(`  📡 Fetching Zaneray data from: ${apiUrl}`);
+
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+    const urlObj = new URL(apiUrl);
+
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'SkiRunScraper/1.0'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', (chunk) => { data += chunk; });
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            resolve(JSON.parse(data));
+          } catch (error) {
+            reject(new Error(`Failed to parse Zaneray JSON: ${error.message}`));
+          }
+        } else {
+          reject(new Error(`Zaneray HTTP ${res.statusCode}: ${res.statusMessage}`));
+        }
+      });
+    });
+
+    req.on('error', (error) => {
+      reject(new Error(`Zaneray request failed: ${error.message}`));
+    });
+
+    req.end();
+  });
+}
+
+/**
+ * Normalize Zaneray lift type to standard format
+ */
+function normalizeZanerayLiftType(type) {
+  if (!type) return null;
+  const upperType = type.toUpperCase();
+  if (upperType.includes('GONDOLA')) return 'Gondola';
+  if (upperType.includes('TRAM')) return 'Tram';
+  if (upperType.includes('CHAIRLIFT') || upperType.includes('QUAD') || upperType.includes('TRIPLE') || upperType.includes('DOUBLE')) return 'Chair';
+  if (upperType.includes('SURFACE') || upperType.includes('T-BAR') || upperType.includes('PLATTER')) return 'Surface';
+  if (upperType.includes('CARPET') || upperType.includes('CONVEYOR')) return 'Carpet';
+  return 'Chair'; // Default to Chair for unknown types
+}
+
+/**
+ * Normalize Zaneray status to standard format
+ */
+function normalizeZanerayStatus(status) {
+  if (!status) return 'Closed';
+  const upperStatus = status.toUpperCase();
+  if (upperStatus === 'OPEN') return 'Open';
+  if (upperStatus === 'CLOSED') return 'Closed';
+  if (upperStatus === 'HOLD' || upperStatus === 'ON_HOLD') return 'Hold';
+  if (upperStatus === 'SCHEDULED') return 'Scheduled';
+  if (upperStatus.includes('WIND')) return 'Windhold';
+  return status; // Return original if unknown
+}
+
+/**
+ * Save Zaneray lift data for a resort
+ */
+function saveZanerayLiftData(resortKey, zanerayData, timestamp) {
+  const resort = RESORTS[resortKey];
+  const timezone = resort.timezone;
+  const localDate = seasonUtils.getResortLocalDate(timezone);
+  const localTime = seasonUtils.getResortLocalTime(timezone);
+
+  const liftsDir = path.join('data', resortKey, 'lifts');
+  fileStorage.ensureDirectoryExists(liftsDir);
+
+  const outputFile = path.join(liftsDir, `${localDate}.ndjson`);
+
+  let liftRecords = [];
+  let hasOpenLifts = false;
+
+  // Zaneray stores lifts as an object with camelCase keys
+  if (zanerayData.lifts && typeof zanerayData.lifts === 'object') {
+    for (const [liftKey, lift] of Object.entries(zanerayData.lifts)) {
+      const status = normalizeZanerayStatus(lift.openingStatus);
+
+      const liftRecord = {
+        timestamp: timestamp,
+        localTime: localTime,
+        resort: resortKey,
+        liftId: `zaneray:${lift.id || liftKey}`,
+        name: lift.name,
+        status: status,
+        type: normalizeZanerayLiftType(lift.liftType),
+        waitMinutes: null, // Zaneray doesn't provide wait times
+        openTime: null,
+        closeTime: null,
+        mountain: null,
+        departureAltitude: lift.departureAltitude?.value || null,
+        arrivalAltitude: lift.arrivalAltitude?.value || null,
+        speed: lift.speed?.value || null,
+        message: lift.message || null,
+      };
+
+      liftRecords.push(liftRecord);
+
+      if (status === 'Open' || status === 'Scheduled') {
+        hasOpenLifts = true;
+      }
+    }
+  }
+
+  if (liftRecords.length > 0) {
+    const ndjsonLines = liftRecords.map(record => JSON.stringify(record)).join('\n') + '\n';
+    fs.appendFileSync(outputFile, ndjsonLines);
+    console.log(`✓ Saved ${liftRecords.length} Zaneray lift records to ${outputFile}`);
+
+    const openLifts = liftRecords.filter(r => r.status === 'Open' || r.status === 'Scheduled');
     console.log(`  Open lifts: ${openLifts.length}/${liftRecords.length}`);
   }
 
@@ -562,8 +965,8 @@ async function main() {
   console.log(`API URL: ${INSPECTOR_API_URL}`);
   console.log('='.repeat(80));
 
-  // Get Ikon resorts
-  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon');
+  // Get Ikon resorts (including custom API providers like ReportPal)
+  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon', false);
 
   if (ikonResorts.length === 0) {
     console.log('\n⚠️  No Ikon resorts found in config.json\n');
@@ -585,8 +988,8 @@ async function main() {
   const skippedResorts = [];
 
   inSeasonResorts.forEach(resort => {
-    // Always check Aspen resorts if not in dead hours (they use a different API)
-    if (resort.apiProvider === 'aspensnowmass') {
+    // Always check resorts with custom APIs if not in dead hours
+    if (resort.apiProvider === 'aspensnowmass' || resort.apiProvider === 'reportpal' || resort.apiProvider === 'zaneray' || resort.apiProvider === 'dor') {
       if (!isInDeadHours(resort.timezone)) {
         resortsToCheck.push(resort);
       } else {
@@ -620,9 +1023,12 @@ async function main() {
 
   console.log(`\n✓ Will check ${resortsToCheck.length} resort(s)`);
 
-  // Separate Aspen resorts from Inspector resorts
+  // Separate resorts by API provider
   const aspenResorts = resortsToCheck.filter(r => r.apiProvider === 'aspensnowmass');
-  const inspectorResorts = resortsToCheck.filter(r => r.apiProvider !== 'aspensnowmass');
+  const reportpalResorts = resortsToCheck.filter(r => r.apiProvider === 'reportpal');
+  const zanerayResorts = resortsToCheck.filter(r => r.apiProvider === 'zaneray');
+  const dorResorts = resortsToCheck.filter(r => r.apiProvider === 'dor');
+  const inspectorResorts = resortsToCheck.filter(r => !r.apiProvider || r.apiProvider === 'inspector');
 
   // Scrape Inspector resorts
   const scrapedData = await scrapeLiftData(inspectorResorts);
@@ -640,6 +1046,57 @@ async function main() {
     try {
       const aspenData = await fetchAspenData(mountainId);
       const result = saveAspenLiftData(resort.key, aspenData, timestamp);
+      scrapedData.push({ resortKey: resort.key, ...result });
+    } catch (error) {
+      console.error(`❌ ${resort.name}: ${error.message}`);
+    }
+  }
+
+  // Scrape ReportPal resorts (Big Sky, Sugarloaf, Sunday River, Loon, Cypress)
+  for (const resort of reportpalResorts) {
+    if (!resort.apiConfig?.baseUrl || !resort.apiConfig?.resortCode) {
+      console.error(`\n⚠️  ${resort.name}: No apiConfig (baseUrl/resortCode) for ReportPal API`);
+      continue;
+    }
+
+    console.log(`\n[${resort.name}] (ReportPal API)`);
+    try {
+      const reportpalData = await fetchReportPalData(resort);
+      const result = saveReportPalLiftData(resort.key, reportpalData, timestamp);
+      scrapedData.push({ resortKey: resort.key, ...result });
+    } catch (error) {
+      console.error(`❌ ${resort.name}: ${error.message}`);
+    }
+  }
+
+  // Scrape Zaneray resorts (Jackson Hole)
+  for (const resort of zanerayResorts) {
+    if (!resort.apiConfig?.apiUrl) {
+      console.error(`\n⚠️  ${resort.name}: No apiConfig.apiUrl for Zaneray API`);
+      continue;
+    }
+
+    console.log(`\n[${resort.name}] (Zaneray API)`);
+    try {
+      const zanerayData = await fetchZanerayData(resort);
+      const result = saveZanerayLiftData(resort.key, zanerayData, timestamp);
+      scrapedData.push({ resortKey: resort.key, ...result });
+    } catch (error) {
+      console.error(`❌ ${resort.name}: ${error.message}`);
+    }
+  }
+
+  // Scrape DOR resorts (Snowbird, Copper, Killington)
+  for (const resort of dorResorts) {
+    if (!resort.apiConfig?.baseUrl || !resort.apiConfig?.endpoint) {
+      console.error(`\n⚠️  ${resort.name}: No apiConfig (baseUrl/endpoint) for DOR API`);
+      continue;
+    }
+
+    console.log(`\n[${resort.name}] (DOR API)`);
+    try {
+      const dorData = await fetchDorData(resort);
+      const result = saveDorLiftData(resort.key, dorData, timestamp);
       scrapedData.push({ resortKey: resort.key, ...result });
     } catch (error) {
       console.error(`❌ ${resort.name}: ${error.message}`);

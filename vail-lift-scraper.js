@@ -389,8 +389,11 @@ function hasRecentOpenLifts(resortKey, timezone) {
       .map(line => JSON.parse(line))
       .filter(record => record.timestamp === lastTimestamp);
 
-    // If any lift in the last scrape was "Open", continue scraping
-    const hasOpenLifts = lastScrapeRecords.some(record => record.status === 'Open');
+    // If any lift in the last scrape was "Open" or "Scheduled", continue scraping
+    // (Vail API changed in Jan 2026 to use "Scheduled" for running lifts)
+    const hasOpenLifts = lastScrapeRecords.some(record =>
+      record.status === 'Open' || record.status === 'Scheduled'
+    );
 
     return hasOpenLifts;
   } catch (error) {
@@ -639,7 +642,7 @@ async function processResort(resortKey, browser) {
       liftsWithWaitTimes++;
     }
 
-    if (lift.Status === 'Open') {
+    if (lift.Status === 'Open' || lift.Status === 'Scheduled') {
       openLifts++;
     } else if (lift.Status === 'Closed') {
       closedLifts++;

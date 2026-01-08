@@ -1,0 +1,60 @@
+name: Lift Data Health Check
+
+on:
+  schedule:
+    # Run once daily at 8 AM UTC (early morning US time)
+    - cron: '0 8 * * *'
+
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lift health check
+        id: health
+        run: |
+          # Run health check and capture output
+          set +e  # Don't fail on non-zero exit
+          OUTPUT=$(node scripts/lift-health-check.js 2>&1)
+          EXIT_CODE=$?
+          set -e
+
+          # Print output
+          echo "$OUTPUT"
+
+          # Save output to file for summary
+          echo "$OUTPUT" > health-check-output.txt
+
+          # Set outputs
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+
+      - name: Create job summary
+        run: |
+          echo "## Lift Data Health Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat health-check-output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Health status
+        run: |
+          if [ "${{ steps.health.outputs.exit_code }}" = "0" ]; then
+            echo "All lift data healthy!"
+          else
+            echo "Health check found issues - see summary above"
+            echo "Note: This is informational only, not a blocking failure"
+          fi

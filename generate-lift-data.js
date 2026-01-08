@@ -14,6 +14,15 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
 }, {});
 
 /**
+ * Check if a lift status indicates it's running/operational
+ * Vail Resorts changed their API in Jan 2026 to use "Scheduled" instead of "Open"
+ * for lifts that are actually running during operating hours
+ */
+function isOperationalStatus(status) {
+  return status === 'Open' || status === 'Scheduled';
+}
+
+/**
  * Ensure directory exists, create if not
  */
 function ensureDirectoryExists(dirPath) {
@@ -152,8 +161,12 @@ function getLatestLiftStatus(records, resortTimezone) {
     const withinHours = isWithinOperatingHours(latest.openTime, latest.closeTime, resortTimezone);
 
     // If we're outside operating hours, override status to Closed
-    if (withinHours === false && latest.status === 'Open') {
+    if (withinHours === false && isOperationalStatus(latest.status)) {
       latest.status = 'Closed';
+    }
+    // If within operating hours and status is Scheduled, treat as Open
+    if (withinHours === true && latest.status === 'Scheduled') {
+      latest.status = 'Open';
     }
   }
 
@@ -199,7 +212,7 @@ function getWaitTimeHistory(records) {
         .filter(r => r.waitMinutes !== null && r.waitMinutes !== undefined)
         .map(r => r.waitMinutes);
 
-      const openRecords = dateRecords.filter(r => r.status === 'Open');
+      const openRecords = dateRecords.filter(r => isOperationalStatus(r.status));
 
       return {
         date,
