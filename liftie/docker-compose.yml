@@ -1,0 +1,40 @@
+# Liftie Docker Compose
+# For running on Unraid or any Docker host
+
+version: '3.8'
+
+services:
+  liftie:
+    build:
+      context: ..
+      dockerfile: liftie/Dockerfile
+    container_name: liftie
+    restart: unless-stopped
+
+    environment:
+      # Discord webhook for notifications
+      - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
+
+      # Hetzner server details
+      - HETZNER_HOST=${HETZNER_HOST:-46.62.169.104}
+      - HETZNER_USER=${HETZNER_USER:-scraper}
+
+      # SSH key (base64 encoded) - used for both GitHub and Hetzner
+      - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
+
+    volumes:
+      # Persist Claude Code authentication
+      - claude-config:/root/.claude
+
+      # Optional: Mount SSH key file instead of env var
+      # - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
+
+      # Optional: Access logs from host
+      - ./logs:/var/log
+
+    # For initial Claude Code login, run:
+    # docker-compose run --rm liftie claude login
+
+volumes:
+  claude-config:
+    name: liftie-claude-config
