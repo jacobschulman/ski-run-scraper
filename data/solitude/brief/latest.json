@@ -2,26 +2,65 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-01-09",
-  "generated": "2026-01-09T11:16:49.575Z",
+  "generated": "2026-01-09T21:18:43.067Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 16,
+      "48hour_cm": 41,
+      "7day_inches": 47,
+      "7day_cm": 119,
+      "season_total_inches": 130,
+      "season_total_cm": 330,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 73,
+          "today": 74,
           "yesterday": 73,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 31,
+          "today": 30,
           "yesterday": 31,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "New Sensation",
+          "difficulty": "Intermediate",
+          "area": "Nordic"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "New Sensation",
+          "difficulty": "Intermediate",
+          "area": "Nordic"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Post Card",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        },
+        {
+          "name": "Rumble Lower",
+          "difficulty": "Intermediate",
+          "area": "Eagle Ridge"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -32,18 +71,128 @@
         "totalLiftsTracked": 9,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-09",
+        "high_f": 15,
+        "low_f": 8,
+        "high_c": -9,
+        "low_c": -13,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-10",
+          "high_f": 26,
+          "low_f": 22,
+          "high_c": -4,
+          "low_c": -6,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-11",
+          "high_f": 35,
+          "low_f": 27,
+          "high_c": 1,
+          "low_c": -3,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-12",
+          "high_f": 36,
+          "low_f": 30,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-10",
+        "high_f": 26,
+        "low_f": 22,
+        "high_c": -4,
+        "low_c": -6,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1\" new snow overnight",
+      "6\" in last 24 hours - powder day!",
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
+    "trends": [
+      "Great week for snow - 47\" in last 7 days",
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on New Sensation - all skill levels"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Dump Day at Solitude",
+    "body": "Powder alert: 6\" of fresh overnight means soft conditions across the mountain. 1 new trail opened today. Clear skies and 15° means stunning views and firm snow. Layer up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

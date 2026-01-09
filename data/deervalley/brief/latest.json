@@ -2,34 +2,81 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-01-09",
-  "generated": "2026-01-09T11:16:49.569Z",
+  "generated": "2026-01-09T21:18:43.057Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 30,
+      "7day_cm": 76,
+      "season_total_inches": 85,
+      "season_total_cm": 216,
+      "conditions": {
+        "today": "New Natural Snow",
+        "yesterday": "New Natural Snow"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 71,
+          "today": 72,
           "yesterday": 72,
-          "delta": -1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 31,
+          "today": 33,
           "yesterday": 31,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 227
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Bluebell",
+          "difficulty": "Intermediate",
+          "area": "Flagstaff Mountain"
+        },
+        {
+          "name": "Big Stick (Lower)",
+          "difficulty": "Advanced Intermediate",
+          "area": "Bald Eagle Mountain"
+        },
+        {
+          "name": "Last Chance",
+          "difficulty": "Intermediate",
+          "area": "Bald Eagle Mountain"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Birdseye",
           "difficulty": "Intermediate",
           "area": "Bald Mountain"
+        },
+        {
+          "name": "Gemini",
+          "difficulty": "Intermediate",
+          "area": "Flagstaff Mountain"
+        },
+        {
+          "name": "Kimberly",
+          "difficulty": "Intermediate",
+          "area": "Bald Eagle Mountain"
         }
       ],
       "newlyGroomed": [
         {
           "name": "Northern Light (Lower)",
           "difficulty": "Easy",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Sunset",
+          "difficulty": "Intermediate",
           "area": "Bald Mountain"
         }
       ],
@@ -44,22 +91,121 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-09",
+        "high_f": 15,
+        "low_f": 10,
+        "high_c": -10,
+        "low_c": -12,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-10",
+          "high_f": 24,
+          "low_f": 23,
+          "high_c": -4,
+          "low_c": -5,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-11",
+          "high_f": 33,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-12",
+          "high_f": 35,
+          "low_f": 30,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-10",
+        "high_f": 24,
+        "low_f": 23,
+        "high_c": -4,
+        "low_c": -5,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1 trail freshly groomed"
+      "1\" new snow overnight",
+      "3 new trails opened today",
+      "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 30\" in last 7 days"
+    ],
     "recommendations": [
-      "Fresh corduroy on Northern Light (Lower) - all skill levels"
+      "Fresh corduroy on Northern Light (Lower) - all skill levels",
+      "Fresh corduroy on Sunset - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. It's a postcard kind of day. 15° and sunny - the mountain is photogenic.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Dump Day at {resortName}"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
