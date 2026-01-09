@@ -14,12 +14,7 @@ module.exports = {
     user: process.env.HETZNER_USER || 'scraper',
     port: parseInt(process.env.HETZNER_PORT || '22', 10),
     apiPort: parseInt(process.env.HETZNER_API_PORT || '3000', 10),
-    healthEndpoints: {
-      api: '/health',
-      lift: '/api/health/lift',
-      snow: '/api/health/snow',
-      terrain: '/api/health/terrain'
-    }
+    healthEndpoint: '/health'  // Single endpoint returns all scraper data in scrapers.{lift,snow,terrain}
   },
 
   thresholds: {

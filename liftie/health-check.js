@@ -25,20 +25,22 @@ async function fetchJson(url, timeoutMs = 10000) {
 }
 
 /**
- * Check Hetzner health endpoints
+ * Check Hetzner health via single /health endpoint
  */
 async function checkHetznerHealth() {
   const issues = [];
   const baseUrl = `http://${config.hetzner.host}:${config.hetzner.apiPort}`;
 
-  // Check main API health
+  let healthData;
+
+  // Fetch the main health endpoint which contains all scraper data
   try {
-    const health = await fetchJson(`${baseUrl}${config.hetzner.healthEndpoints.api}`);
-    if (health.status !== 'ok') {
+    healthData = await fetchJson(`${baseUrl}/health`);
+    if (healthData.status !== 'ok') {
       issues.push({
         type: 'api_unhealthy',
         dataType: 'api',
-        details: `API health status: ${health.status}`,
+        details: `API health status: ${healthData.status}`,
         severity: 'critical'
       });
     }
@@ -49,38 +51,55 @@ async function checkHetznerHealth() {
       details: `Cannot reach API: ${error.message}`,
       severity: 'critical'
     });
+    return issues; // Can't check scrapers if API is unreachable
   }
 
-  // Check each scraper's health
+  // Check each scraper's health from the nested scrapers object
   const scraperTypes = ['lift', 'snow', 'terrain'];
 
   for (const scraperType of scraperTypes) {
-    try {
-      const endpoint = config.hetzner.healthEndpoints[scraperType];
-      const health = await fetchJson(`${baseUrl}${endpoint}`);
+    const scraperHealth = healthData.scrapers?.[scraperType];
+
+    if (!scraperHealth) {
+      issues.push({
+        type: 'scraper_missing',
+        dataType: scraperType,
+        details: `No health data for ${scraperType} scraper`,
+        severity: 'warning'
+      });
+      continue;
+    }
+
+    // Check each provider within the scraper (ikon, vail, canadianBig3, aspen, etc.)
+    const providers = ['ikon', 'vail', 'canadianBig3', 'aspen'].filter(p => scraperHealth[p]);
+
+    for (const provider of providers) {
+      const providerHealth = scraperHealth[provider];
 
       // Check for consecutive failures
-      if (health.consecutiveFailures >= config.thresholds.consecutiveFailuresCritical) {
+      if (providerHealth.consecutiveFailures >= config.thresholds.consecutiveFailuresCritical) {
         issues.push({
           type: 'consecutive_failures',
           dataType: scraperType,
-          details: `${health.consecutiveFailures} consecutive failures`,
-          consecutiveFailures: health.consecutiveFailures,
+          provider,
+          details: `${scraperType}/${provider}: ${providerHealth.consecutiveFailures} consecutive failures`,
+          consecutiveFailures: providerHealth.consecutiveFailures,
           severity: 'critical'
         });
-      } else if (health.consecutiveFailures >= config.thresholds.consecutiveFailuresWarning) {
+      } else if (providerHealth.consecutiveFailures >= config.thresholds.consecutiveFailuresWarning) {
         issues.push({
           type: 'consecutive_failures',
           dataType: scraperType,
-          details: `${health.consecutiveFailures} consecutive failures`,
-          consecutiveFailures: health.consecutiveFailures,
+          provider,
+          details: `${scraperType}/${provider}: ${providerHealth.consecutiveFailures} consecutive failures`,
+          consecutiveFailures: providerHealth.consecutiveFailures,
           severity: 'warning'
         });
       }
 
       // Check for stale data
-      if (health.lastSuccess) {
-        const lastSuccess = new Date(health.lastSuccess);
+      if (providerHealth.lastSuccess) {
+        const lastSuccess = new Date(providerHealth.lastSuccess);
         const now = new Date();
         const minutesStale = Math.floor((now - lastSuccess) / (1000 * 60));
 
@@ -89,36 +108,14 @@ async function checkHetznerHealth() {
           issues.push({
             type: 'stale_data',
             dataType: scraperType,
-            lastSuccess: health.lastSuccess,
+            provider,
+            lastSuccess: providerHealth.lastSuccess,
             minutesStale,
-            details: `Data is ${minutesStale} minutes stale (threshold: ${threshold} min)`,
+            details: `${scraperType}/${provider}: Data is ${minutesStale} min stale (threshold: ${threshold} min)`,
             severity: minutesStale > threshold * 2 ? 'critical' : 'warning'
           });
         }
       }
-
-      // Check per-resort health if available
-      if (health.resorts) {
-        for (const [resortId, resortHealth] of Object.entries(health.resorts)) {
-          if (resortHealth.consecutiveFailures >= config.thresholds.consecutiveFailuresCritical) {
-            issues.push({
-              type: 'resort_failing',
-              dataType: scraperType,
-              resort: resortId,
-              details: `${resortHealth.consecutiveFailures} consecutive failures`,
-              consecutiveFailures: resortHealth.consecutiveFailures,
-              severity: 'critical'
-            });
-          }
-        }
-      }
-    } catch (error) {
-      issues.push({
-        type: 'health_check_failed',
-        dataType: scraperType,
-        details: `Cannot check ${scraperType} health: ${error.message}`,
-        severity: 'warning'
-      });
     }
   }
 
