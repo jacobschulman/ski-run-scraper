@@ -1,7 +1,8 @@
 /**
  * Health Check Module
  *
- * Checks all data sources and returns any issues found.
+ * Checks all data sources at the RESORT level and returns any issues found.
+ * This is the key to catching real problems - issues happen per-resort, not per-provider.
  */
 
 const config = require('./config');
@@ -25,22 +26,28 @@ async function fetchJson(url, timeoutMs = 10000) {
 }
 
 /**
- * Check Hetzner health via single /health endpoint
+ * Check if a resort should have lift data (some resorts only have snow/terrain)
+ */
+function resortHasLiftData(resortData) {
+  return resortData.lifts !== undefined;
+}
+
+/**
+ * Check Hetzner health - both API-level and per-resort
  */
 async function checkHetznerHealth() {
   const issues = [];
   const baseUrl = `http://${config.hetzner.host}:${config.hetzner.apiPort}`;
 
-  let healthData;
-
-  // Fetch the main health endpoint which contains all scraper data
+  // First check if API is reachable
+  let mainHealth;
   try {
-    healthData = await fetchJson(`${baseUrl}/health`);
-    if (healthData.status !== 'ok') {
+    mainHealth = await fetchJson(`${baseUrl}/health`);
+    if (mainHealth.status !== 'ok') {
       issues.push({
         type: 'api_unhealthy',
         dataType: 'api',
-        details: `API health status: ${healthData.status}`,
+        details: `API health status: ${mainHealth.status}`,
         severity: 'critical'
       });
     }
@@ -51,70 +58,99 @@ async function checkHetznerHealth() {
       details: `Cannot reach API: ${error.message}`,
       severity: 'critical'
     });
-    return issues; // Can't check scrapers if API is unreachable
+    return issues; // Can't check anything else if API is down
   }
 
-  // Check each scraper's health from the nested scrapers object
+  // Check provider-level consecutive failures (scraper-wide issues)
   const scraperTypes = ['lift', 'snow', 'terrain'];
-
   for (const scraperType of scraperTypes) {
-    const scraperHealth = healthData.scrapers?.[scraperType];
+    const scraperHealth = mainHealth.scrapers?.[scraperType];
+    if (!scraperHealth) continue;
 
-    if (!scraperHealth) {
-      issues.push({
-        type: 'scraper_missing',
-        dataType: scraperType,
-        details: `No health data for ${scraperType} scraper`,
-        severity: 'warning'
-      });
-      continue;
-    }
-
-    // Check each provider within the scraper (ikon, vail, canadianBig3, aspen, etc.)
     const providers = ['ikon', 'vail', 'canadianBig3', 'aspen'].filter(p => scraperHealth[p]);
-
     for (const provider of providers) {
       const providerHealth = scraperHealth[provider];
-
-      // Check for consecutive failures
       if (providerHealth.consecutiveFailures >= config.thresholds.consecutiveFailuresCritical) {
         issues.push({
-          type: 'consecutive_failures',
+          type: 'provider_failing',
           dataType: scraperType,
           provider,
           details: `${scraperType}/${provider}: ${providerHealth.consecutiveFailures} consecutive failures`,
           consecutiveFailures: providerHealth.consecutiveFailures,
           severity: 'critical'
         });
-      } else if (providerHealth.consecutiveFailures >= config.thresholds.consecutiveFailuresWarning) {
+      }
+    }
+  }
+
+  // Now check per-resort data freshness - THIS IS THE KEY CHECK
+  let resortHealth;
+  try {
+    resortHealth = await fetchJson(`${baseUrl}/health/resorts`);
+  } catch (error) {
+    issues.push({
+      type: 'resort_health_unavailable',
+      dataType: 'api',
+      details: `Cannot fetch resort health: ${error.message}`,
+      severity: 'warning'
+    });
+    return issues;
+  }
+
+  const now = new Date();
+
+  for (const [resortId, resortData] of Object.entries(resortHealth.resorts || {})) {
+    // Check lift data freshness (only for resorts that have lift data)
+    if (resortHasLiftData(resortData)) {
+      const lastModified = new Date(resortData.lifts.lastModified);
+      const minutesStale = Math.floor((now - lastModified) / (1000 * 60));
+
+      if (minutesStale > config.thresholds.liftStaleMinutes) {
         issues.push({
-          type: 'consecutive_failures',
-          dataType: scraperType,
-          provider,
-          details: `${scraperType}/${provider}: ${providerHealth.consecutiveFailures} consecutive failures`,
-          consecutiveFailures: providerHealth.consecutiveFailures,
-          severity: 'warning'
+          type: 'resort_stale_lifts',
+          dataType: 'lifts',
+          resort: resortId,
+          lastModified: resortData.lifts.lastModified,
+          minutesStale,
+          details: `${resortId}: Lift data ${minutesStale} min stale (threshold: ${config.thresholds.liftStaleMinutes} min)`,
+          severity: minutesStale > config.thresholds.liftStaleMinutes * 2 ? 'critical' : 'warning'
         });
       }
+    }
 
-      // Check for stale data
-      if (providerHealth.lastSuccess) {
-        const lastSuccess = new Date(providerHealth.lastSuccess);
-        const now = new Date();
-        const minutesStale = Math.floor((now - lastSuccess) / (1000 * 60));
+    // Check snow data freshness
+    if (resortData.snow?.lastScraped) {
+      const lastScraped = new Date(resortData.snow.lastScraped);
+      const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
 
-        const threshold = config.thresholds[`${scraperType}StaleMinutes`];
-        if (threshold && minutesStale > threshold) {
-          issues.push({
-            type: 'stale_data',
-            dataType: scraperType,
-            provider,
-            lastSuccess: providerHealth.lastSuccess,
-            minutesStale,
-            details: `${scraperType}/${provider}: Data is ${minutesStale} min stale (threshold: ${threshold} min)`,
-            severity: minutesStale > threshold * 2 ? 'critical' : 'warning'
-          });
-        }
+      if (minutesStale > config.thresholds.snowStaleMinutes) {
+        issues.push({
+          type: 'resort_stale_snow',
+          dataType: 'snow',
+          resort: resortId,
+          lastScraped: resortData.snow.lastScraped,
+          minutesStale,
+          details: `${resortId}: Snow data ${minutesStale} min stale (threshold: ${config.thresholds.snowStaleMinutes} min)`,
+          severity: minutesStale > config.thresholds.snowStaleMinutes * 2 ? 'critical' : 'warning'
+        });
+      }
+    }
+
+    // Check terrain data freshness
+    if (resortData.terrain?.lastScraped) {
+      const lastScraped = new Date(resortData.terrain.lastScraped);
+      const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
+
+      if (minutesStale > config.thresholds.terrainStaleMinutes) {
+        issues.push({
+          type: 'resort_stale_terrain',
+          dataType: 'terrain',
+          resort: resortId,
+          lastScraped: resortData.terrain.lastScraped,
+          minutesStale,
+          details: `${resortId}: Terrain data ${minutesStale} min stale (threshold: ${config.thresholds.terrainStaleMinutes} min)`,
+          severity: minutesStale > config.thresholds.terrainStaleMinutes * 2 ? 'critical' : 'warning'
+        });
       }
     }
   }
@@ -192,7 +228,7 @@ async function runHealthChecks() {
 
   const allIssues = [];
 
-  // Check Hetzner health
+  // Check Hetzner health (API + per-resort)
   const hetznerIssues = await checkHetznerHealth();
   allIssues.push(...hetznerIssues);
 
@@ -200,19 +236,28 @@ async function runHealthChecks() {
   const githubIssues = await checkGitHubActions();
   allIssues.push(...githubIssues);
 
-  // Sort by severity (critical first)
+  // Sort by severity (critical first), then by resort name
   allIssues.sort((a, b) => {
     const severityOrder = { critical: 0, warning: 1, info: 2 };
-    return (severityOrder[a.severity] || 2) - (severityOrder[b.severity] || 2);
+    const severityDiff = (severityOrder[a.severity] || 2) - (severityOrder[b.severity] || 2);
+    if (severityDiff !== 0) return severityDiff;
+    return (a.resort || '').localeCompare(b.resort || '');
   });
 
-  const healthy = allIssues.filter(i => i.severity === 'critical').length === 0;
+  const criticalCount = allIssues.filter(i => i.severity === 'critical').length;
+  const warningCount = allIssues.filter(i => i.severity === 'warning').length;
+  const healthy = criticalCount === 0;
 
-  console.log(`[Health] Found ${allIssues.length} issues (healthy: ${healthy})`);
+  console.log(`[Health] Found ${allIssues.length} issues (${criticalCount} critical, ${warningCount} warnings)`);
 
   return {
     healthy,
     timestamp: new Date().toISOString(),
+    summary: {
+      critical: criticalCount,
+      warning: warningCount,
+      total: allIssues.length
+    },
     issues: allIssues
   };
 }
