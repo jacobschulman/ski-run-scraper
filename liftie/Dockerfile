@@ -20,7 +20,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies (skip Puppeteer browser download - Liftie doesn't need it)
+ENV PUPPETEER_SKIP_DOWNLOAD=true
 RUN npm ci --omit=dev
 
 # Copy application code
