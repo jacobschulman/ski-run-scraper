@@ -23,6 +23,9 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const LOCK_FILE = path.join(REPO_ROOT, 'liftie', '.liftie.lock');
 const STATE_FILE = path.join(REPO_ROOT, 'liftie', '.liftie-state.json');
 
+// Limit how many issues to process per run (prevents very long runs)
+const MAX_ISSUES_PER_RUN = 3;
+
 /**
  * Check if another Liftie instance is running
  */
@@ -248,7 +251,12 @@ async function deployToHetzner(affectedDataTypes = []) {
  * Main entry point
  */
 async function main() {
+  const checkOnly = process.argv.includes('--check-only');
+
   console.log('🎿 Liftie starting up...\n');
+  if (checkOnly) {
+    console.log('Running in CHECK-ONLY mode (no fixes will be attempted)\n');
+  }
 
   // Acquire lock to prevent concurrent runs
   if (!acquireLock()) {
@@ -272,12 +280,28 @@ async function main() {
 
     console.log(`\n⚠️ Found ${healthResult.issues.length} issues to investigate.\n`);
 
-    // Step 2: Process critical issues
-    const criticalIssues = healthResult.issues.filter(i => i.severity === 'critical');
+    // Step 2: Process critical issues (limited per run)
+    const allCriticalIssues = healthResult.issues.filter(i => i.severity === 'critical');
 
-    if (criticalIssues.length === 0) {
+    if (allCriticalIssues.length === 0) {
       console.log('No critical issues found. Skipping fixer agent.\n');
       await notifyStatus(`Health check complete. ${healthResult.issues.length} warnings found.`, 'warning');
+      return;
+    }
+
+    // Limit to MAX_ISSUES_PER_RUN to prevent very long runs
+    const criticalIssues = allCriticalIssues.slice(0, MAX_ISSUES_PER_RUN);
+    if (allCriticalIssues.length > MAX_ISSUES_PER_RUN) {
+      console.log(`Processing ${criticalIssues.length} of ${allCriticalIssues.length} critical issues (limit: ${MAX_ISSUES_PER_RUN} per run)\n`);
+    }
+
+    // In check-only mode, just print the issues and exit
+    if (checkOnly) {
+      console.log('Critical issues that would be processed:\n');
+      for (const issue of criticalIssues) {
+        console.log(`  - ${issue.type} (${issue.dataType}): ${issue.details}`);
+      }
+      console.log('\nRun without --check-only to attempt fixes.\n');
       return;
     }
 

@@ -730,8 +730,8 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
     });
   }
 
-  // Group resorts by provider
-  const resortsByProvider = providers.groupResortsByProvider(resortsToScrape);
+  // Group resorts by snow provider (uses snowApiProvider if set, otherwise apiProvider)
+  const resortsByProvider = providers.groupResortsByProvider(resortsToScrape, 'snowApiProvider');
 
   // Process Zaneray resorts (Jackson Hole)
   if (resortsByProvider.zaneray && resortsByProvider.zaneray.length > 0) {
@@ -775,7 +775,7 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
   }
 
   // Process SnoCountry resorts (Snowbird, Killington, Copper Mountain)
-  // These resorts use DOR for terrain but SnoCountry for snow data
+  // These resorts may use DOR for terrain but SnoCountry for snow data
   if (resortsByProvider.snocountry && resortsByProvider.snocountry.length > 0) {
     console.log(`\n📡 Processing ${resortsByProvider.snocountry.length} SnoCountry resort(s)...`);
 
@@ -785,7 +785,14 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
         console.log(`Processing ${resort.name} (SnoCountry)...`);
         console.log('='.repeat(50));
 
-        const rawData = await providers.fetchResortData(resort);
+        // For DOR resorts with snowApiProvider/snowApiConfig, use those for the fetch
+        const snowResort = resort.snowApiProvider ? {
+          ...resort,
+          apiProvider: resort.snowApiProvider,
+          apiConfig: resort.snowApiConfig || resort.apiConfig
+        } : resort;
+
+        const rawData = await providers.fetchResortData(snowResort);
         // Get weather data from Inspector API if available
         const inspectorName = resort.inspectorName || resort.name;
         const inspectorData = inspectorLookup[inspectorName];
@@ -834,16 +841,20 @@ async function scrapeVailResorts(resortsToScrape) {
 async function scrapeIkonResorts(resortsToScrape) {
   const scrapedData = [];
 
-  // Separate resorts by provider type
-  // Resorts with apiProvider='zaneray' use direct API; others use Inspector API
-  // Custom providers with snow data: zaneray (Jackson Hole), reportpal (Big Sky, etc.), snocountry (Snowbird, etc.)
-  // DOR providers continue to use Inspector API for terrain, but snocountry handles their snow data now
-  const customProviderResorts = resortsToScrape.filter(r =>
-    r.apiProvider && (r.apiProvider === 'zaneray' || r.apiProvider === 'reportpal' || r.apiProvider === 'snocountry')
-  );
-  const inspectorResorts = resortsToScrape.filter(r =>
-    !r.apiProvider || r.apiProvider === 'inspector'
-  );
+  // Separate resorts by provider type for SNOW data
+  // - zaneray/reportpal/snocountry use their own APIs for snow
+  // - DOR resorts (apiProvider='dor') use snowApiProvider='snocountry' for snow data
+  // - Others use Inspector API
+  const customProviderResorts = resortsToScrape.filter(r => {
+    // Check snowApiProvider first (for DOR resorts with separate snow source)
+    const snowProvider = r.snowApiProvider || r.apiProvider;
+    return snowProvider && (snowProvider === 'zaneray' || snowProvider === 'reportpal' || snowProvider === 'snocountry');
+  });
+  const inspectorResorts = resortsToScrape.filter(r => {
+    const snowProvider = r.snowApiProvider || r.apiProvider;
+    return !snowProvider || snowProvider === 'inspector' || snowProvider === 'dor';
+    // Note: 'dor' resorts without snowApiProvider fall through to Inspector API (which may return empty)
+  });
 
   // Fetch Inspector API data FIRST - we need it for weather data even for custom provider resorts
   let inspectorApiData = null;
@@ -950,9 +961,10 @@ async function main() {
   console.log(`\nProvider: ${provider}`);
 
   // Get resorts for this provider
+  // For Ikon, include custom API providers (zaneray, reportpal, etc.) - they're handled in scrapeIkonResorts
   const allResorts = provider === 'vail'
     ? configLoader.getResortsByProvider(config, 'vail')
-    : configLoader.getResortsByProvider(config, 'ikon');
+    : configLoader.getResortsByProvider(config, 'ikon', false);
 
   // Filter to in-season resorts
   const inSeasonResorts = allResorts.filter(resort =>
