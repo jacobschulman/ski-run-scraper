@@ -23,6 +23,8 @@ function runClaudeCode(prompt, options = {}) {
     ];
 
     console.log('[Agent] Spawning Claude Code...');
+    console.log(`[Agent] Working directory: ${REPO_ROOT}`);
+    console.log(`[Agent] Command: claude ${args.slice(0, 2).join(' ')} "<prompt>"`);
 
     const claude = spawn('claude', args, {
       cwd: REPO_ROOT,
@@ -34,22 +36,34 @@ function runClaudeCode(prompt, options = {}) {
       stdio: ['pipe', 'pipe', 'pipe']
     });
 
+    console.log(`[Agent] Process spawned with PID: ${claude.pid}`);
+
     let stdout = '';
     let stderr = '';
+    let lastOutputTime = Date.now();
 
     claude.stdout.on('data', (data) => {
       const text = data.toString();
       stdout += text;
-      process.stdout.write(text);  // Stream output in real-time
+      lastOutputTime = Date.now();
+      // Stream output with prefix for clarity
+      text.split('\n').forEach(line => {
+        if (line.trim()) console.log(`[Claude] ${line}`);
+      });
     });
 
     claude.stderr.on('data', (data) => {
       const text = data.toString();
       stderr += text;
-      process.stderr.write(text);
+      lastOutputTime = Date.now();
+      // Stream errors with prefix
+      text.split('\n').forEach(line => {
+        if (line.trim()) console.log(`[Claude:err] ${line}`);
+      });
     });
 
     claude.on('close', (code) => {
+      console.log(`[Agent] Claude Code exited with code: ${code}`);
       if (code === 0) {
         resolve({ success: true, output: stdout });
       } else {
@@ -58,15 +72,30 @@ function runClaudeCode(prompt, options = {}) {
     });
 
     claude.on('error', (err) => {
+      console.log(`[Agent] Failed to spawn Claude Code: ${err.message}`);
       reject(err);
     });
 
     // Timeout after 5 minutes
     const timeout = options.timeout || 5 * 60 * 1000;
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
+      console.log(`[Agent] Timeout reached (${timeout / 1000}s), killing process...`);
       claude.kill('SIGTERM');
       reject(new Error(`Claude Code timed out after ${timeout / 1000}s`));
     }, timeout);
+
+    // Also log progress every 30 seconds if no output
+    const progressInterval = setInterval(() => {
+      const silentSeconds = Math.floor((Date.now() - lastOutputTime) / 1000);
+      if (silentSeconds > 10) {
+        console.log(`[Agent] Waiting for Claude Code... (${silentSeconds}s since last output)`);
+      }
+    }, 30000);
+
+    claude.on('close', () => {
+      clearTimeout(timeoutId);
+      clearInterval(progressInterval);
+    });
   });
 }
 

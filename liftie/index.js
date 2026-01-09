@@ -23,8 +23,10 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 const LOCK_FILE = path.join(REPO_ROOT, 'liftie', '.liftie.lock');
 const STATE_FILE = path.join(REPO_ROOT, 'liftie', '.liftie-state.json');
 
-// Limit how many issues to process per run (prevents very long runs)
-const MAX_ISSUES_PER_RUN = 3;
+// Limit how many issues to process per run
+const MAX_ISSUES_PER_RUN = 10;
+// How many agents to run in parallel
+const PARALLEL_AGENTS = 3;
 
 /**
  * Check if another Liftie instance is running
@@ -252,14 +254,21 @@ async function deployToHetzner(affectedDataTypes = []) {
  */
 async function main() {
   const checkOnly = process.argv.includes('--check-only');
+  const forceClearLock = process.argv.includes('--force-clear-lock');
 
   console.log('🎿 Liftie starting up...\n');
   if (checkOnly) {
     console.log('Running in CHECK-ONLY mode (no fixes will be attempted)\n');
   }
 
-  // Acquire lock to prevent concurrent runs
-  if (!acquireLock()) {
+  // Force clear stale lock if requested
+  if (forceClearLock) {
+    console.log('[Lock] Force clearing lock file...\n');
+    releaseLock();
+  }
+
+  // Acquire lock to prevent concurrent runs (skip for check-only mode)
+  if (!checkOnly && !acquireLock()) {
     return;
   }
 
@@ -305,18 +314,25 @@ async function main() {
       return;
     }
 
-    // Process each critical issue
+    // Filter out issues blocked by circuit breaker
+    const issuesToProcess = criticalIssues.filter(issue => {
+      if (!shouldAttemptFix(issue, state)) {
+        console.log(`[Circuit Breaker] Skipping: ${issue.details}`);
+        notifyNeedsHelp(issue, ['Circuit breaker tripped - too many recent fix attempts']);
+        return false;
+      }
+      return true;
+    });
+
+    console.log(`\n🔧 Processing ${issuesToProcess.length} issues (${PARALLEL_AGENTS} in parallel)...\n`);
+
+    // Process issues in parallel batches
     const results = [];
 
-    for (const issue of criticalIssues) {
-      // Circuit breaker check
-      if (!shouldAttemptFix(issue, state)) {
-        await notifyNeedsHelp(issue, ['Circuit breaker tripped - too many recent fix attempts']);
-        continue;
-      }
-
-      console.log(`\n🔍 Investigating: ${issue.type} (${issue.dataType})`);
-      console.log(`   Details: ${issue.details}\n`);
+    async function processIssue(issue, index) {
+      const prefix = `[Issue ${index + 1}/${issuesToProcess.length}]`;
+      console.log(`${prefix} 🔍 Starting: ${issue.type} (${issue.dataType})`);
+      console.log(`${prefix}    Details: ${issue.details}\n`);
 
       // Notify Discord that we're investigating
       await notifyIssueDetected(issue);
@@ -327,27 +343,38 @@ async function main() {
           healthStatus: healthResult
         });
 
-        results.push({ issue, result });
-
         // Record the attempt for circuit breaker
         recordFixAttempt(issue, result.fixed, state);
 
         if (result.fixed) {
-          console.log(`✅ Fixed: ${result.action}\n`);
+          console.log(`${prefix} ✅ Fixed: ${result.action}\n`);
           await notifyIssueFixed(issue, result);
         } else {
-          console.log(`❌ Could not fix: ${result.action}\n`);
+          console.log(`${prefix} ❌ Could not fix: ${result.action}\n`);
           await notifyNeedsHelp(issue, [result.action]);
         }
+
+        return { issue, result };
       } catch (error) {
-        console.error(`❌ Error processing issue: ${error.message}\n`);
+        console.error(`${prefix} ❌ Error: ${error.message}\n`);
         recordFixAttempt(issue, false, state);
         await notifyNeedsHelp(issue, [`Error: ${error.message}`]);
-        results.push({
+        return {
           issue,
           result: { fixed: false, action: 'Error', details: error.message }
-        });
+        };
       }
+    }
+
+    // Process in chunks of PARALLEL_AGENTS
+    for (let i = 0; i < issuesToProcess.length; i += PARALLEL_AGENTS) {
+      const chunk = issuesToProcess.slice(i, i + PARALLEL_AGENTS);
+      console.log(`\n--- Batch ${Math.floor(i / PARALLEL_AGENTS) + 1}: Processing ${chunk.length} issues in parallel ---\n`);
+
+      const chunkResults = await Promise.all(
+        chunk.map((issue, idx) => processIssue(issue, i + idx))
+      );
+      results.push(...chunkResults);
     }
 
     // Summary
