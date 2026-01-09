@@ -15,9 +15,11 @@ const CONFIG = {
     jitterMs: 10000,            // 0-10 seconds random jitter
   },
   vail: {
-    // Optimized page pool for faster parallel scraping while staying polite
-    pagePoolSize: 6,            // 6 pages for parallel scraping (up from 4)
-    delayBetweenScrapes: 5000,  // 5 seconds between each resort scrape (down from 8)
+    // Optimized page pool - 5 pages balances parallelism vs memory on 8GB server
+    pagePoolSize: 5,
+    delayBetweenScrapes: 300,   // 300ms stagger between launching new scrapes
+    navigationTimeout: 20000,   // 20s navigation timeout (fail fast)
+    dataWaitTimeout: 15000,     // 15s to wait for FR.TerrainStatusFeed
     // Failure tracking - skip resorts that keep timing out
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
     maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown
@@ -490,24 +492,27 @@ async function scrapeOneResort(poolEntry, resort) {
   const timestamp = new Date().toISOString();
 
   try {
+    const navTimeout = CONFIG.vail.navigationTimeout;
+    const dataTimeout = CONFIG.vail.dataWaitTimeout;
+
     // Navigate or reload
     if (poolEntry.lastUrl === url) {
       // Same URL - just reload
       try {
-        await page.reload({ waitUntil: 'networkidle2', timeout: 30000 });
+        await page.reload({ waitUntil: 'networkidle2', timeout: navTimeout });
       } catch (e) {
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
+        await page.goto(url, { waitUntil: 'networkidle2', timeout: navTimeout });
       }
     } else {
       // Different URL - full navigation
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 45000 });
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: navTimeout });
       poolEntry.lastUrl = url;
     }
 
     // Wait for data
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
-      { timeout: 30000 }
+      { timeout: dataTimeout }
     );
 
     const data = await page.evaluate(() => {
@@ -607,38 +612,53 @@ async function runVailScraper() {
   let totalLifts = 0;
   let resortsProcessed = 0;
 
-  // Process resorts one at a time using available pages
-  while (resortQueue.length > 0) {
-    const poolEntry = getAvailablePage();
-    if (!poolEntry) {
-      // All pages busy - wait a bit
-      await sleep(1000);
-      continue;
-    }
+  // Process resorts in PARALLEL using all available pages
+  const activePromises = new Map(); // poolEntry -> Promise
 
-    const resort = resortQueue.shift();
+  while (resortQueue.length > 0 || activePromises.size > 0) {
+    // Fill all available pages with work
+    while (resortQueue.length > 0) {
+      const poolEntry = getAvailablePage();
+      if (!poolEntry) break; // No available pages
 
-    // Skip if resort is now in dead hours
-    if (isInDeadHours(resort.timezone)) {
-      continue;
-    }
+      const resort = resortQueue.shift();
 
-    poolEntry.inUse = true;
-
-    try {
-      const result = await scrapeOneResort(poolEntry, resort);
-      if (result.success) {
-        totalLifts += result.lifts;
-        resortsProcessed++;
-        health.vail.lastSuccess = new Date().toISOString();
-        health.vail.consecutiveFailures = 0;
+      // Skip if resort is now in dead hours
+      if (isInDeadHours(resort.timezone)) {
+        continue;
       }
-    } finally {
-      poolEntry.inUse = false;
+
+      poolEntry.inUse = true;
+
+      // Start scrape without awaiting - true parallelism
+      const scrapePromise = scrapeOneResort(poolEntry, resort)
+        .then(result => {
+          if (result.success) {
+            totalLifts += result.lifts;
+            resortsProcessed++;
+            health.vail.lastSuccess = new Date().toISOString();
+            health.vail.consecutiveFailures = 0;
+          }
+          return { poolEntry, result };
+        })
+        .catch(err => {
+          console.error(`[VAIL] Unexpected error: ${err.message}`);
+          return { poolEntry, result: { success: false, lifts: 0 } };
+        })
+        .finally(() => {
+          poolEntry.inUse = false;
+          activePromises.delete(poolEntry);
+        });
+
+      activePromises.set(poolEntry, scrapePromise);
     }
 
-    // Delay between scrapes to be nice to servers
-    await sleep(CONFIG.vail.delayBetweenScrapes);
+    // Wait for at least one scrape to complete before continuing
+    if (activePromises.size > 0) {
+      await Promise.race(activePromises.values());
+      // Small stagger delay between launching new scrapes
+      await sleep(CONFIG.vail.delayBetweenScrapes);
+    }
   }
 
   console.log(`[VAIL] Cycle complete: ${resortsProcessed} resorts, ${totalLifts} lifts`);
