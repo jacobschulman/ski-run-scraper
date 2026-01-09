@@ -74,7 +74,62 @@ function runClaudeCode(prompt, options = {}) {
  * Build a prompt for Claude Code based on the issue
  */
 function buildPrompt(issue, context = {}) {
-  const basePrompt = `You are Liftie, fixing an issue with the ski-run-scraper system.
+  // Different prompts for different issue types
+  if (issue.type.startsWith('resort_stale_')) {
+    return buildResortStalePrompt(issue, context);
+  }
+
+  return buildGenericPrompt(issue, context);
+}
+
+/**
+ * Prompt for resort-specific stale data issues
+ */
+function buildResortStalePrompt(issue, context = {}) {
+  const dataType = issue.dataType; // lifts, snow, or terrain
+  const scraperName = dataType === 'lifts' ? 'lift-scraper' : `${dataType}-scraper`;
+
+  return `You are Liftie, investigating why ${issue.resort} stopped returning ${dataType} data.
+
+## Issue
+- Resort: ${issue.resort}
+- Data Type: ${dataType}
+- Last Updated: ${issue.lastModified || issue.lastScraped}
+- Minutes Stale: ${issue.minutesStale}
+
+## System Info
+- Hetzner server: ${config.hetzner.host}
+- SSH user: ${config.hetzner.user}
+- PM2 process: ${scraperName}
+
+## Investigation Steps
+1. SSH to Hetzner and check PM2 logs for errors:
+   ssh ${config.hetzner.user}@${config.hetzner.host} "pm2 logs ${scraperName} --lines 100 --nostream"
+
+2. Look for errors mentioning "${issue.resort}" in the logs
+
+3. Check if the scraper is actually running:
+   ssh ${config.hetzner.user}@${config.hetzner.host} "pm2 status"
+
+4. Common causes:
+   - Resort API returned error/changed format → check scraper code
+   - Network timeout → might resolve on its own, but restart if persistent
+   - Resort closed for the day → check if resort is in night hours
+   - Scraper crashed → restart PM2 process
+
+## To Fix
+- If you find a code issue (wrong URL, bad selector, etc.) → fix the code and commit
+- If the scraper just needs a restart → ssh ${config.hetzner.user}@${config.hetzner.host} "pm2 restart ${scraperName}"
+- If the resort is legitimately closed → note this and skip (not a real issue)
+
+After investigating, summarize what you found and what action you took (or why no action was needed).`;
+}
+
+/**
+ * Generic prompt for non-resort issues
+ */
+function buildGenericPrompt(issue, context = {}) {
+  return `You are Liftie, fixing an issue with the ski-run-scraper system.
 
 ## Issue Details
 - Type: ${issue.type}
@@ -102,8 +157,6 @@ ${issue.consecutiveFailures ? `- Consecutive Failures: ${issue.consecutiveFailur
 
 Be careful with code changes. Only modify what's necessary.
 After fixing, briefly summarize what you did.`;
-
-  return basePrompt;
 }
 
 /**

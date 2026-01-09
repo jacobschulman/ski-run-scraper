@@ -84,7 +84,10 @@ function saveState(state) {
 }
 
 function shouldAttemptFix(issue, state) {
-  const key = `${issue.dataType}:${issue.type}`;
+  // Include resort in key for resort-level issues to avoid blocking all resorts
+  const key = issue.resort
+    ? `${issue.dataType}:${issue.type}:${issue.resort}`
+    : `${issue.dataType}:${issue.type}`;
   const recentFix = state.recentFixes.find(f => f.key === key);
 
   if (recentFix) {
@@ -107,7 +110,10 @@ function shouldAttemptFix(issue, state) {
 }
 
 function recordFixAttempt(issue, success, state) {
-  const key = `${issue.dataType}:${issue.type}`;
+  // Include resort in key for resort-level issues
+  const key = issue.resort
+    ? `${issue.dataType}:${issue.type}:${issue.resort}`
+    : `${issue.dataType}:${issue.type}`;
 
   // Remove old entries (older than 24 hours)
   state.recentFixes = state.recentFixes.filter(
