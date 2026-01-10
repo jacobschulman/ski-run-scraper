@@ -657,6 +657,230 @@ async function checkScraperConfigHealth() {
 }
 
 /**
+ * Check data quality - validates actual content, not just freshness
+ * Catches issues like:
+ * - Empty arrays when data should exist
+ * - Stats vs parsed data mismatches
+ * - Wrong data types (terrain file containing snow data)
+ * - Missing key fields for each data type
+ */
+async function checkDataQuality() {
+  const issues = [];
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TERRAIN DATA QUALITY
+  // ═══════════════════════════════════════════════════════════════════════════
+  try {
+    const terrainData = await fetchJson(`${GITHUB_PAGES_BASE}/latest.json`);
+    console.log(`[Health] Checking terrain quality for ${Object.keys(terrainData).length} resorts`);
+
+    for (const [resortId, resortData] of Object.entries(terrainData)) {
+      if (!isResortInSeason(resortId)) continue;
+
+      const data = resortData.data;
+      if (!data) {
+        issues.push({
+          type: 'data_quality_missing_data',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortId,
+          details: `${resortId}: Terrain entry exists but data is null/empty`,
+          severity: 'critical'
+        });
+        continue;
+      }
+
+      const trails = data.Trails || [];
+      const lifts = data.Lifts || [];
+      const stats = data.stats || {};
+
+      // Check 1: Empty Trails array but stats show trails exist
+      if (trails.length === 0 && (stats.trailsOpen > 0 || stats.trailsTotal > 0)) {
+        issues.push({
+          type: 'data_quality_empty_trails',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortId,
+          details: `${resortId}: Trails[] empty but stats show ${stats.trailsOpen || 0}/${stats.trailsTotal || 0} trails - parser broken`,
+          severity: 'critical'
+        });
+      }
+
+      // Check 2: Empty Lifts array but stats show lifts exist
+      if (lifts.length === 0 && (stats.liftsOpen > 0 || stats.liftsTotal > 0)) {
+        issues.push({
+          type: 'data_quality_empty_lifts',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortId,
+          details: `${resortId}: Lifts[] empty but stats show ${stats.liftsOpen || 0}/${stats.liftsTotal || 0} lifts - parser broken`,
+          severity: 'critical'
+        });
+      }
+
+      // Check 3: Stats vs parsed array mismatch
+      if (trails.length > 0 && stats.trailsTotal > 0) {
+        const parsedOpen = trails.filter(t => t.IsOpen || t.Status === 'Open').length;
+        const diff = Math.abs(parsedOpen - (stats.trailsOpen || 0));
+        const percentDiff = stats.trailsOpen > 0 ? diff / stats.trailsOpen : 0;
+        if (diff > 5 && percentDiff > 0.2) {
+          issues.push({
+            type: 'data_quality_stats_mismatch',
+            dataType: 'terrain',
+            source: 'github-pages',
+            resort: resortId,
+            details: `${resortId}: Stats=${stats.trailsOpen} open, parsed=${parsedOpen} - mismatch`,
+            severity: 'warning'
+          });
+        }
+      }
+
+      // Check 4: Terrain data containing snow fields (wrong data echoed)
+      const snowFields = ['snowfall24', 'snowfall48', 'baseDepth', 'snowCondition', 'freshSnow'];
+      const hasSnowFields = snowFields.some(f => data[f] !== undefined);
+      const missingTerrainFields = !data.Trails && !data.Lifts && !data.stats;
+      if (hasSnowFields && missingTerrainFields) {
+        issues.push({
+          type: 'data_quality_wrong_data_type',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortId,
+          details: `${resortId}: Terrain file contains snow data fields - wrong data written`,
+          severity: 'critical'
+        });
+      }
+
+      // Check 5: Completely empty during operating hours
+      // A resort that's open should have SOME data
+      if (trails.length === 0 && lifts.length === 0 && !stats.trailsTotal && !stats.liftsTotal) {
+        if (isResortInOperatingHours(resortId)) {
+          issues.push({
+            type: 'data_quality_no_terrain_data',
+            dataType: 'terrain',
+            source: 'github-pages',
+            resort: resortId,
+            details: `${resortId}: No trails, lifts, or stats during operating hours - scraper broken`,
+            severity: 'critical'
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.log(`[Health] Terrain quality check failed: ${error.message}`);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SNOW DATA QUALITY
+  // ═══════════════════════════════════════════════════════════════════════════
+  try {
+    const snowData = await fetchJson(`${GITHUB_PAGES_BASE}/latest-snow.json`);
+    console.log(`[Health] Checking snow quality for ${Object.keys(snowData).length} resorts`);
+
+    // Key fields that snow data should have (at least some of these)
+    const expectedSnowFields = ['baseDepth', 'snowfall24', 'snowfall48', 'seasonTotal', 'surfaceCondition'];
+
+    for (const [resortId, resortData] of Object.entries(snowData)) {
+      if (!isResortInSeason(resortId)) continue;
+
+      const data = resortData.data;
+      if (!data) {
+        issues.push({
+          type: 'data_quality_missing_data',
+          dataType: 'snow',
+          source: 'github-pages',
+          resort: resortId,
+          details: `${resortId}: Snow entry exists but data is null/empty`,
+          severity: 'critical'
+        });
+        continue;
+      }
+
+      // Check: Snow data should have at least one meaningful snow field
+      const hasSnowFields = expectedSnowFields.some(f => data[f] !== undefined && data[f] !== null);
+
+      if (!hasSnowFields) {
+        // Check if it looks like terrain data was written instead
+        if (data.Trails || data.Lifts || data.stats) {
+          issues.push({
+            type: 'data_quality_wrong_data_type',
+            dataType: 'snow',
+            source: 'github-pages',
+            resort: resortId,
+            details: `${resortId}: Snow file contains terrain data fields - wrong data written`,
+            severity: 'critical'
+          });
+        } else {
+          issues.push({
+            type: 'data_quality_no_snow_data',
+            dataType: 'snow',
+            source: 'github-pages',
+            resort: resortId,
+            details: `${resortId}: Snow data missing key fields (baseDepth, snowfall, etc.)`,
+            severity: 'warning'
+          });
+        }
+      }
+
+      // Check for suspiciously empty snow data
+      // If baseDepth is 0 at an operating resort mid-season, likely a scrape failure
+      if (data.baseDepth === 0 && isResortInOperatingHours(resortId)) {
+        // Only flag if we're in prime season (Dec-Mar)
+        const now = new Date();
+        const month = now.getMonth() + 1;
+        if (month >= 12 || month <= 3) {
+          issues.push({
+            type: 'data_quality_suspicious_zero',
+            dataType: 'snow',
+            source: 'github-pages',
+            resort: resortId,
+            details: `${resortId}: baseDepth=0 during peak season - likely scrape failure`,
+            severity: 'warning'
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.log(`[Health] Snow quality check failed: ${error.message}`);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LIFT DATA QUALITY (from Hetzner)
+  // ═══════════════════════════════════════════════════════════════════════════
+  try {
+    const baseUrl = `http://${config.hetzner.host}:${config.hetzner.apiPort}`;
+    const resortHealth = await fetchJson(`${baseUrl}/health/resorts`);
+
+    for (const [resortId, resortData] of Object.entries(resortHealth.resorts || {})) {
+      if (!isResortInSeason(resortId)) continue;
+      if (!resortData.lifts) continue; // Skip resorts without lift data
+
+      // Check for suspicious lift data patterns
+      const liftInfo = resortData.lifts;
+
+      // If we have a file but very few entries, might be broken
+      if (liftInfo.fileCount && liftInfo.fileCount < 5 && isResortInOperatingHours(resortId)) {
+        // Resort should have many scrapes by mid-day
+        const localHour = getResortLocalHour(resortId);
+        if (localHour >= 12) { // After noon
+          issues.push({
+            type: 'data_quality_sparse_lift_data',
+            dataType: 'lifts',
+            source: 'hetzner',
+            resort: resortId,
+            details: `${resortId}: Only ${liftInfo.fileCount} lift entries after noon - scraper may be struggling`,
+            severity: 'warning'
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.log(`[Health] Lift quality check failed: ${error.message}`);
+  }
+
+  return issues;
+}
+
+/**
  * Run all health checks and return consolidated results
  */
 async function runHealthChecks() {
@@ -687,6 +911,10 @@ async function runHealthChecks() {
   // Check for missing resorts (expected in config but not in data)
   const missingIssues = await checkMissingResorts();
   allIssues.push(...missingIssues);
+
+  // Check data quality (empty arrays, stats mismatches, wrong data types)
+  const qualityIssues = await checkDataQuality();
+  allIssues.push(...qualityIssues);
 
   // Sort by severity (critical first), then by resort name
   allIssues.sort((a, b) => {
@@ -721,5 +949,6 @@ module.exports = {
   checkGitHubActions,
   checkScraperConfigHealth,
   checkLiftScrapeGaps,
-  checkMissingResorts
+  checkMissingResorts,
+  checkDataQuality
 };
