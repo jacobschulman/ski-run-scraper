@@ -4,11 +4,14 @@
 
 const puppeteer = require('puppeteer');
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 const canadianBig3 = require('../lib/providers/canadian-big3');
 const aspensnowmass = require('../lib/providers/aspensnowmass');
+const zaneray = require('../lib/providers/zaneray');
+const dataNormalization = require('../lib/data-normalization');
 
 // Configuration
 const CONFIG = {
@@ -28,6 +31,16 @@ const CONFIG = {
   aspen: {
     intervalMs: 30 * 60 * 1000,    // 30 minutes
     jitterMs: 30000,               // 0-30 seconds random jitter
+  },
+  zaneray: {
+    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    jitterMs: 30000,               // 0-30 seconds random jitter
+  },
+  snocountry: {
+    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    jitterMs: 30000,               // 0-30 seconds random jitter
+    apiBase: 'http://feeds.snocountry.net',
+    apiKey: process.env.SNOCOUNTRY_API_KEY || 'SnoCountry.example',
   },
   dataDir: path.join(__dirname, '..', 'data'),
   configPath: path.join(__dirname, '..', 'config.json'),
@@ -69,6 +82,8 @@ const health = {
   vail: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   canadianBig3: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   aspen: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
+  zaneray: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
+  snocountry: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
 };
 
 // Shared browser and page for Vail scraping
@@ -665,6 +680,172 @@ async function runAspenSnowScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// SNOCOUNTRY SNOW SCRAPER (HTTP - Killington, Snowbird, Copper Mountain)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function fetchSnoCountryData(resortId) {
+  return new Promise((resolve, reject) => {
+    const url = `${CONFIG.snocountry.apiBase}/getSnowReport.php?apiKey=${CONFIG.snocountry.apiKey}&ids=${resortId}`;
+
+    const urlObj = new URL(url);
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'SkiRunScraper/1.0'
+      }
+    };
+
+    const req = http.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode === 200) {
+          try {
+            const json = JSON.parse(data);
+            const items = json.items || [];
+            if (items.length === 0) {
+              reject(new Error(`No data returned for resort ID ${resortId}`));
+              return;
+            }
+            resolve(items[0]);
+          } catch (e) {
+            reject(new Error(`Failed to parse JSON: ${e.message}`));
+          }
+        } else {
+          reject(new Error(`HTTP ${res.statusCode}`));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.end();
+  });
+}
+
+async function saveSnoCountrySnowData(resortKey, snoCountryData, inspectorData) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Denver';
+  const today = getResortLocalDate(timezone);
+
+  // Use the data normalization function from lib
+  const cleanData = dataNormalization.normalizeSnoCountrySnowReport(
+    snoCountryData,
+    resortKey,
+    resort.name,
+    today
+  );
+
+  if (!cleanData) return null;
+
+  // Merge weather/forecast data from Inspector API if available
+  if (inspectorData) {
+    const weatherData = dataNormalization.extractInspectorWeatherData(inspectorData);
+    if (weatherData.currentConditions) {
+      cleanData.currentConditions = weatherData.currentConditions;
+    }
+    if (weatherData.forecast) {
+      cleanData.forecast = weatherData.forecast;
+    }
+  }
+
+  // Add provider metadata
+  const snowData = {
+    ...cleanData,
+    provider: resort.provider || 'ikon',
+    apiProvider: 'snocountry',
+    weatherProvider: inspectorData ? 'inspector' : null
+  };
+
+  // Ensure directory exists
+  const snowDir = path.join(CONFIG.dataDir, resortKey, 'snow');
+  ensureDirectoryExists(snowDir);
+
+  // Save files
+  fs.writeFileSync(path.join(snowDir, `${today}.json`), JSON.stringify(snowData, null, 2));
+  fs.writeFileSync(path.join(snowDir, 'latest.json'), JSON.stringify(snowData, null, 2));
+  fs.appendFileSync(path.join(snowDir, `${today}.ndjson`), JSON.stringify(snowData) + '\n');
+
+  return snowData;
+}
+
+async function runSnoCountrySnowScraper() {
+  console.log(`\n[SNOCOUNTRY-SNOW] Starting scrape...`);
+  health.snocountry.lastRun = new Date().toISOString();
+  health.snocountry.totalRuns++;
+
+  try {
+    // Add jitter
+    const jitter = Math.random() * CONFIG.snocountry.jitterMs;
+    await sleep(jitter);
+
+    // Get in-season resorts with snowApiProvider = snocountry
+    const snocountryResorts = config.resorts.filter(r =>
+      r.snowApiProvider === 'snocountry' &&
+      r.snowApiConfig?.resortId &&
+      isResortInSeason(r)
+    );
+
+    if (snocountryResorts.length === 0) {
+      console.log('[SNOCOUNTRY-SNOW] No SnoCountry resorts in season');
+      return;
+    }
+
+    console.log(`[SNOCOUNTRY-SNOW] Found ${snocountryResorts.length} in-season resorts`);
+
+    // Fetch Inspector data for weather/forecast info
+    let inspectorLookup = {};
+    try {
+      const inspectorData = await fetchInspectorData();
+      if (inspectorData.Resorts) {
+        for (const r of inspectorData.Resorts) {
+          inspectorLookup[r.Name] = r;
+        }
+      }
+    } catch (e) {
+      console.log(`[SNOCOUNTRY-SNOW] Inspector fetch failed: ${e.message} - continuing without weather data`);
+    }
+
+    let scraped = 0;
+
+    for (const resort of snocountryResorts) {
+      try {
+        const resortId = resort.snowApiConfig.resortId;
+        const rawData = await fetchSnoCountryData(resortId);
+
+        // Get weather from Inspector if available
+        const inspectorName = resort.inspectorName || resort.name;
+        const inspectorData = inspectorLookup[inspectorName];
+
+        const saved = await saveSnoCountrySnowData(resort.key, rawData, inspectorData);
+        if (saved) {
+          scraped++;
+          const snow24 = saved.snowfall['24hour_inches'] || 0;
+          const base = saved.baseDepth.inches || 0;
+          console.log(`[SNOCOUNTRY-SNOW] ${resort.key}: ${snow24}" 24hr, ${base}" base`);
+        }
+      } catch (e) {
+        console.error(`[SNOCOUNTRY-SNOW] ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.snocountry.resortsScraped = scraped;
+    health.snocountry.successfulRuns++;
+    health.snocountry.consecutiveFailures = 0;
+    health.snocountry.lastSuccess = new Date().toISOString();
+    console.log(`[SNOCOUNTRY-SNOW] Completed: ${scraped}/${snocountryResorts.length} resorts`);
+
+  } catch (error) {
+    console.error(`[SNOCOUNTRY-SNOW] Error: ${error.message}`);
+    health.snocountry.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HEALTH FILE
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -673,12 +854,13 @@ const HEALTH_FILE = path.join(__dirname, 'snow-health.json');
 function writeHealthFile() {
   const healthData = {
     scraper: 'snow',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 && health.snocountry.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
     canadianBig3: health.canadianBig3,
     aspen: health.aspen,
+    snocountry: health.snocountry,
     updatedAt: new Date().toISOString(),
   };
   try {
@@ -719,6 +901,7 @@ async function main() {
   console.log(`Vail interval: ${CONFIG.vail.intervalMs / 1000 / 60} min`);
   console.log(`Canadian Big3 interval: ${CONFIG.canadianBig3.intervalMs / 1000 / 60} min`);
   console.log(`Aspen interval: ${CONFIG.aspen.intervalMs / 1000 / 60} min`);
+  console.log(`SnoCountry interval: ${CONFIG.snocountry.intervalMs / 1000 / 60} min`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Track last run times - set to 0 to trigger immediate first runs
@@ -726,6 +909,7 @@ async function main() {
   let lastVailRun = 0;
   let lastCanadianBig3Run = 0;
   let lastAspenRun = 0;
+  let lastSnoCountryRun = 0;
 
   // Main loop
   while (!isShuttingDown) {
@@ -756,6 +940,13 @@ async function main() {
       lastAspenRun = now;
       // Slight delay so they don't run simultaneously
       setTimeout(() => runAspenSnowScraper().catch(console.error), 120000);
+    }
+
+    // Check if it's time for SnoCountry (offset from others)
+    if (now - lastSnoCountryRun >= CONFIG.snocountry.intervalMs) {
+      lastSnoCountryRun = now;
+      // Slight delay so they don't run simultaneously
+      setTimeout(() => runSnoCountrySnowScraper().catch(console.error), 150000);
     }
 
     await sleep(10000);
