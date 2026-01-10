@@ -513,10 +513,27 @@ async function runCanadianBig3TerrainScraper() {
       seasonUtils.isResortInSeason(r, config)
     );
 
+    // Debug: Log found Big3 resorts
+    if (big3Resorts.length === 0) {
+      console.log('[CANADIAN-BIG3-TERRAIN] No Big3 resorts found in config or none in season');
+    } else {
+      console.log(`[CANADIAN-BIG3-TERRAIN] Found ${big3Resorts.length} in-season Big3 resorts: ${big3Resorts.map(r => r.key).join(', ')}`);
+    }
+
     // Filter to resorts in their scraping window that haven't been scraped today
     const resortsToScrape = big3Resorts.filter(r => {
-      if (hasScrapedToday(r.key, r.timezone)) return false;
-      if (!isInScrapingWindow(r)) return false;
+      const alreadyScraped = hasScrapedToday(r.key, r.timezone);
+      const inWindow = isInScrapingWindow(r);
+      const localHour = seasonUtils.getResortLocalHour(r.timezone);
+
+      if (alreadyScraped) {
+        console.log(`[CANADIAN-BIG3-TERRAIN] ${r.key}: already scraped today`);
+        return false;
+      }
+      if (!inWindow) {
+        console.log(`[CANADIAN-BIG3-TERRAIN] ${r.key}: outside window (hour=${localHour}, need 7-10)`);
+        return false;
+      }
       return true;
     });
 
