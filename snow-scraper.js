@@ -715,7 +715,110 @@ function saveReportPalSnowData(resortKey, reportPalData, inspectorData) {
 }
 
 /**
- * Scrape snow data from custom API providers (Zaneray, ReportPal, SnoCountry)
+ * Save snow report data from Aspen Snowmass API
+ * @param {string} resortKey - Resort key
+ * @param {Object} aspenData - Aspen Snowmass API response (snowReport field)
+ * @param {Object} inspectorData - Optional Inspector API data for weather/forecast
+ */
+function saveAspenSnowmassSnowData(resortKey, aspenData, inspectorData) {
+  if (!aspenData || !aspenData.snowReport) {
+    console.log('✗ No snow data returned from Aspen Snowmass API');
+    return null;
+  }
+
+  const resort = RESORTS[resortKey];
+  const resortName = resort.name;
+  const timezone = resort.timezone || 'America/Denver';
+  const today = seasonUtils.getResortLocalDate(timezone);
+
+  // Normalize Aspen snow data
+  const cleanData = dataNormalization.normalizeAspenSnowReport(
+    aspenData.snowReport,
+    resortKey,
+    resortName,
+    today
+  );
+
+  // Merge weather/forecast data from Inspector API if available
+  if (inspectorData) {
+    const weatherData = dataNormalization.extractInspectorWeatherData(inspectorData);
+    if (weatherData.currentConditions) {
+      cleanData.currentConditions = weatherData.currentConditions;
+    }
+    if (weatherData.forecast) {
+      cleanData.forecast = weatherData.forecast;
+    }
+    console.log(`  🌡️  Merged weather data from Inspector API`);
+  }
+
+  // Add provider metadata
+  const snowDataWithProvider = {
+    ...cleanData,
+    provider: resort.provider || 'ikon',
+    apiProvider: 'aspensnowmass',
+    weatherProvider: inspectorData ? 'inspector' : null
+  };
+
+  // Ensure directory structure exists
+  const snowDir = path.join('data', resortKey, 'snow');
+  fileStorage.ensureDirectoryExists(snowDir);
+
+  // Save timestamped file
+  const timestampedFile = path.join(snowDir, `${today}.json`);
+  fs.writeFileSync(timestampedFile, JSON.stringify(snowDataWithProvider, null, 2));
+  console.log(`✓ Saved snow data to ${timestampedFile}`);
+
+  // Also save as latest.json in the snow directory
+  const latestFile = path.join(snowDir, 'latest.json');
+  fs.writeFileSync(latestFile, JSON.stringify(snowDataWithProvider, null, 2));
+  console.log(`✓ Updated ${latestFile}`);
+
+  // Append to NDJSON stream for intraday history
+  const ndjsonFile = path.join(snowDir, `${today}.ndjson`);
+  fs.appendFileSync(ndjsonFile, JSON.stringify(snowDataWithProvider) + '\n', 'utf8');
+  console.log(`✓ Appended snow record to ${ndjsonFile}`);
+
+  // Save to database
+  const database = getDb();
+  getOrCreateResort(database, resortKey, resortName, timezone, (err, resortId) => {
+    if (err) {
+      console.error('  ⚠️  Database error (resort):', err.message);
+    } else {
+      const snowDataForDb = {
+        overnightSnowfall: { inches: cleanData.snowfall.overnight_inches },
+        baseDepth: { inches: cleanData.baseDepth.inches },
+        newSnow24Hours: { inches: cleanData.snowfall['24hour_inches'] },
+        newSnow48Hours: { inches: cleanData.snowfall['48hour_inches'] },
+        newSnow7Days: { inches: cleanData.snowfall['7day_inches'] },
+        seasonTotal: { inches: cleanData.snowfall.season_total_inches },
+        currentConditions: { weather: cleanData.conditions }
+      };
+
+      saveSnowConditions(database, resortId, today, snowDataForDb, (err, id) => {
+        if (err) {
+          console.error('  ⚠️  Database error (snow):', err.message);
+        } else if (id) {
+          console.log(`✓ Saved snow conditions to database`);
+        }
+      });
+    }
+  });
+
+  // Print summary
+  console.log('\n❄️  Snow Report Summary:');
+  console.log(`   Resort: ${resortName}`);
+  console.log(`   Status: ${aspenData.snowReport.status || 'N/A'}`);
+  console.log(`   Base Depth: ${cleanData.baseDepth.inches}" (${cleanData.baseDepth.cm}cm)`);
+  console.log(`   24hr Snowfall: ${cleanData.snowfall['24hour_inches']}" (${cleanData.snowfall['24hour_cm']}cm)`);
+  console.log(`   7-day Snowfall: ${cleanData.snowfall['7day_inches']}" (${cleanData.snowfall['7day_cm']}cm)`);
+  console.log(`   Open Trails: ${cleanData.terrain.openTrails}/${cleanData.terrain.totalTrails}`);
+  console.log(`   Open Lifts: ${cleanData.terrain.openLifts}/${cleanData.terrain.totalLifts}`);
+
+  return { resortKey, date: today, data: snowDataWithProvider };
+}
+
+/**
+ * Scrape snow data from custom API providers
  * @param {Array} resortsToScrape - Resorts to scrape
  * @param {Object} inspectorApiData - Inspector API response (for weather/forecast data)
  */
@@ -804,7 +907,27 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
     }
   }
 
-  // Note: DOR providers are now configured with snocountry for snow data
+  // Process Aspen Snowmass resorts (Aspen Mountain, Aspen Highlands, Buttermilk)
+  if (resortsByProvider.aspensnowmass && resortsByProvider.aspensnowmass.length > 0) {
+    console.log(`\n📡 Processing ${resortsByProvider.aspensnowmass.length} Aspen Snowmass resort(s)...`);
+
+    for (const resort of resortsByProvider.aspensnowmass) {
+      try {
+        console.log(`\n${'='.repeat(50)}`);
+        console.log(`Processing ${resort.name} (Aspen Snowmass)...`);
+        console.log('='.repeat(50));
+
+        const rawData = await providers.fetchResortData(resort);
+        // Get weather data from Inspector API if available
+        const inspectorName = resort.inspectorName || resort.name;
+        const inspectorData = inspectorLookup[inspectorName];
+        const result = saveAspenSnowmassSnowData(resort.key, rawData, inspectorData);
+        if (result) scrapedData.push(result);
+      } catch (error) {
+        console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
+      }
+    }
+  }
 
   return scrapedData;
 }
@@ -842,18 +965,19 @@ async function scrapeIkonResorts(resortsToScrape) {
   const scrapedData = [];
 
   // Separate resorts by provider type for SNOW data
-  // - zaneray/reportpal/snocountry use their own APIs for snow
-  // - DOR resorts (apiProvider='dor') use snowApiProvider='snocountry' for snow data
-  // - Others use Inspector API
+  // Custom providers: any provider registered in lib/providers (except 'inspector' and 'dor')
+  // Inspector/DOR resorts fall through to Inspector API for snow data
+  const registeredProviders = Object.keys(providers.providers || {});
   const customProviderResorts = resortsToScrape.filter(r => {
-    // Check snowApiProvider first (for DOR resorts with separate snow source)
     const snowProvider = r.snowApiProvider || r.apiProvider;
-    return snowProvider && (snowProvider === 'zaneray' || snowProvider === 'reportpal' || snowProvider === 'snocountry');
+    // Custom provider if: has a snow provider, it's in our registered providers, and it's not 'dor'
+    // (DOR resorts without snowApiProvider use Inspector API for snow)
+    return snowProvider && registeredProviders.includes(snowProvider) && snowProvider !== 'dor';
   });
   const inspectorResorts = resortsToScrape.filter(r => {
     const snowProvider = r.snowApiProvider || r.apiProvider;
-    return !snowProvider || snowProvider === 'inspector' || snowProvider === 'dor';
-    // Note: 'dor' resorts without snowApiProvider fall through to Inspector API (which may return empty)
+    // Inspector API for: no provider, 'inspector', 'dor' without snowApiProvider
+    return !snowProvider || snowProvider === 'inspector' || (snowProvider === 'dor' && !r.snowApiProvider);
   });
 
   // Fetch Inspector API data FIRST - we need it for weather data even for custom provider resorts
