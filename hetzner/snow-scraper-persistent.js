@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 const canadianBig3 = require('../lib/providers/canadian-big3');
+const aspensnowmass = require('../lib/providers/aspensnowmass');
 
 // Configuration
 const CONFIG = {
@@ -24,17 +25,32 @@ const CONFIG = {
     intervalMs: 30 * 60 * 1000,    // 30 minutes
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
+  aspen: {
+    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    jitterMs: 30000,               // 0-30 seconds random jitter
+  },
   dataDir: path.join(__dirname, '..', 'data'),
   configPath: path.join(__dirname, '..', 'config.json'),
 };
 
 // Load resort configuration
+console.log(`[CONFIG] Loading config from: ${CONFIG.configPath}`);
 let config;
 try {
   config = JSON.parse(fs.readFileSync(CONFIG.configPath, 'utf8'));
 } catch (error) {
   console.error('Failed to load config.json:', error.message);
   process.exit(1);
+}
+console.log(`[CONFIG] Loaded ${config.resorts.length} resorts`);
+
+// Validate expected providers exist (catch config loading issues early)
+const expectedProviders = ['aspensnowmass', 'canadian-big3'];
+for (const provider of expectedProviders) {
+  const count = config.resorts.filter(r => r.apiProvider === provider).length;
+  if (count === 0) {
+    console.warn(`[CONFIG] WARNING: No resorts found with apiProvider '${provider}' - check config path!`);
+  }
 }
 
 const RESORTS = config.resorts.reduce((acc, resort) => {
@@ -52,6 +68,7 @@ const health = {
   ikon: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   vail: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   canadianBig3: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
+  aspen: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
 };
 
 // Shared browser and page for Vail scraping
@@ -504,6 +521,150 @@ async function runCanadianBig3SnowScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ASPEN SNOWMASS SNOW SCRAPER (HTTP - Aspen Mountain, Aspen Highlands, Buttermilk)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function normalizeAspenSnowReport(snowReport, resortKey, resortName, localDate) {
+  if (!snowReport) return null;
+
+  const toNumber = (value) => {
+    if (value === '' || value === '--' || value === null || value === undefined) return null;
+    const num = parseFloat(String(value).replace(/[^\d.-]/g, ''));
+    return Number.isFinite(num) ? num : null;
+  };
+
+  const pickNumber = (...values) => {
+    for (const value of values) {
+      const num = toNumber(value);
+      if (num !== null) return num;
+    }
+    return 0;
+  };
+
+  const snow24_in = pickNumber(snowReport.snow24Hours?.inches);
+  const snow24_cm = toNumber(snowReport.snow24Hours?.centimeters);
+  const snow48_in = pickNumber(snowReport.snow48Hours?.inches);
+  const snow48_cm = toNumber(snowReport.snow48Hours?.centimeters);
+  const snow7d_in = pickNumber(snowReport.snow7Days?.inches);
+  const snow7d_cm = toNumber(snowReport.snow7Days?.centimeters);
+  const base_in = pickNumber(snowReport.snowBase?.inches);
+  const base_cm = toNumber(snowReport.snowBase?.centimeters);
+
+  return {
+    resort: resortKey,
+    resortName: resortName,
+    date: localDate,
+    timestamp: new Date().toISOString(),
+    lastUpdated: snowReport.lastUpdated || null,
+    conditions: snowReport.status || null,
+    operatingStatus: snowReport.status || null,
+    provider: 'ikon',
+    apiProvider: 'aspensnowmass',
+    snowfall: {
+      overnight_inches: 0,
+      overnight_cm: 0,
+      '24hour_inches': snow24_in,
+      '24hour_cm': snow24_cm !== null ? snow24_cm : Math.round(snow24_in * 2.54),
+      '48hour_inches': snow48_in,
+      '48hour_cm': snow48_cm !== null ? snow48_cm : Math.round(snow48_in * 2.54),
+      '7day_inches': snow7d_in,
+      '7day_cm': snow7d_cm !== null ? snow7d_cm : Math.round(snow7d_in * 2.54),
+      season_total_inches: 0,
+      season_total_cm: 0
+    },
+    baseDepth: {
+      inches: base_in,
+      cm: base_cm !== null ? base_cm : Math.round(base_in * 2.54),
+    },
+    terrain: {
+      totalTrails: snowReport.trails?.totalCount || 0,
+      openTrails: snowReport.trails?.openCount || 0,
+      totalLifts: snowReport.lifts?.totalCount || 0,
+      openLifts: snowReport.lifts?.openCount || 0,
+    },
+  };
+}
+
+async function saveAspenSnowData(resortKey, data) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Denver';
+  const today = getResortLocalDate(timezone);
+
+  // Normalize the snow report
+  const snowReport = normalizeAspenSnowReport(data.snowReport, resortKey, resort.name, today);
+  if (!snowReport) return null;
+
+  // Ensure directory exists
+  const snowDir = path.join(CONFIG.dataDir, resortKey, 'snow');
+  ensureDirectoryExists(snowDir);
+
+  // Save timestamped file
+  fs.writeFileSync(path.join(snowDir, `${today}.json`), JSON.stringify(snowReport, null, 2));
+  fs.writeFileSync(path.join(snowDir, 'latest.json'), JSON.stringify(snowReport, null, 2));
+  fs.appendFileSync(path.join(snowDir, `${today}.ndjson`), JSON.stringify(snowReport) + '\n');
+
+  return snowReport;
+}
+
+async function runAspenSnowScraper() {
+  console.log(`\n[ASPEN-SNOW] Starting scrape...`);
+  health.aspen.lastRun = new Date().toISOString();
+  health.aspen.totalRuns++;
+
+  try {
+    // Add jitter
+    const jitter = Math.random() * CONFIG.aspen.jitterMs;
+    await sleep(jitter);
+
+    // Get in-season Aspen resorts
+    const aspenResorts = config.resorts.filter(r =>
+      r.apiProvider === 'aspensnowmass' &&
+      isResortInSeason(r)
+    );
+
+    if (aspenResorts.length === 0) {
+      console.log('[ASPEN-SNOW] No Aspen resorts in season');
+      return;
+    }
+
+    console.log(`[ASPEN-SNOW] Found ${aspenResorts.length} in-season resorts`);
+
+    let scraped = 0;
+
+    for (const resort of aspenResorts) {
+      try {
+        // Use the Aspen provider to fetch data
+        const data = await aspensnowmass.fetch(resort);
+
+        if (data && data.snowReport) {
+          const saved = await saveAspenSnowData(resort.key, data);
+          if (saved) {
+            scraped++;
+            const snow24 = saved.snowfall['24hour_inches'] || 0;
+            const base = saved.baseDepth.inches || 0;
+            console.log(`[ASPEN-SNOW] ${resort.key}: ${snow24}" 24hr, ${base}" base`);
+          }
+        }
+      } catch (e) {
+        console.error(`[ASPEN-SNOW] ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.aspen.resortsScraped = scraped;
+    health.aspen.successfulRuns++;
+    health.aspen.consecutiveFailures = 0;
+    health.aspen.lastSuccess = new Date().toISOString();
+    console.log(`[ASPEN-SNOW] Completed: ${scraped}/${aspenResorts.length} resorts`);
+
+  } catch (error) {
+    console.error(`[ASPEN-SNOW] Error: ${error.message}`);
+    health.aspen.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HEALTH FILE
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -512,11 +673,12 @@ const HEALTH_FILE = path.join(__dirname, 'snow-health.json');
 function writeHealthFile() {
   const healthData = {
     scraper: 'snow',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
     canadianBig3: health.canadianBig3,
+    aspen: health.aspen,
     updatedAt: new Date().toISOString(),
   };
   try {
@@ -556,12 +718,14 @@ async function main() {
   console.log(`Ikon interval: ${CONFIG.ikon.intervalMs / 1000 / 60} min`);
   console.log(`Vail interval: ${CONFIG.vail.intervalMs / 1000 / 60} min`);
   console.log(`Canadian Big3 interval: ${CONFIG.canadianBig3.intervalMs / 1000 / 60} min`);
+  console.log(`Aspen interval: ${CONFIG.aspen.intervalMs / 1000 / 60} min`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Track last run times - set to 0 to trigger immediate first runs
   let lastIkonRun = 0;
   let lastVailRun = 0;
   let lastCanadianBig3Run = 0;
+  let lastAspenRun = 0;
 
   // Main loop
   while (!isShuttingDown) {
@@ -585,6 +749,13 @@ async function main() {
       lastCanadianBig3Run = now;
       // Slight delay so they don't run simultaneously
       setTimeout(() => runCanadianBig3SnowScraper().catch(console.error), 90000);
+    }
+
+    // Check if it's time for Aspen (offset from others)
+    if (now - lastAspenRun >= CONFIG.aspen.intervalMs) {
+      lastAspenRun = now;
+      // Slight delay so they don't run simultaneously
+      setTimeout(() => runAspenSnowScraper().catch(console.error), 120000);
     }
 
     await sleep(10000);

@@ -30,8 +30,19 @@ const CONFIG = {
 };
 
 // Load resort configuration
+console.log(`[CONFIG] Loading config from: ${CONFIG.configPath}`);
 const config = configLoader.loadConfig(CONFIG.configPath);
 const RESORTS = configLoader.getResortsMap(config);
+console.log(`[CONFIG] Loaded ${config.resorts.length} resorts`);
+
+// Validate expected providers exist (catch config loading issues early)
+const expectedProviders = ['aspensnowmass', 'canadian-big3'];
+for (const provider of expectedProviders) {
+  const count = config.resorts.filter(r => r.apiProvider === provider).length;
+  if (count === 0) {
+    console.warn(`[CONFIG] WARNING: No resorts found with apiProvider '${provider}' - check config path!`);
+  }
+}
 
 // Inspector API configuration
 const INSPECTOR_API_URL = config.inspector?.apiUrl || 'https://mtnpowder.com/feed/v3.json';
