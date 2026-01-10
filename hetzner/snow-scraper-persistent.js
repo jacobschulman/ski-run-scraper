@@ -11,6 +11,7 @@ const canadianBig3 = require('../lib/providers/canadian-big3');
 const aspensnowmass = require('../lib/providers/aspensnowmass');
 const reportpal = require('../lib/providers/reportpal');
 const snocountry = require('../lib/providers/snocountry');
+const zaneray = require('../lib/providers/zaneray');
 const dataNormalization = require('../lib/data-normalization');
 
 // Configuration
@@ -38,6 +39,11 @@ const CONFIG = {
     delayBetweenResorts: 2000,     // 2 seconds between resorts
   },
   snocountry: {
+    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    jitterMs: 30000,               // 0-30 seconds random jitter
+    delayBetweenResorts: 2000,     // 2 seconds between resorts
+  },
+  zaneray: {
     intervalMs: 30 * 60 * 1000,    // 30 minutes
     jitterMs: 30000,               // 0-30 seconds random jitter
     delayBetweenResorts: 2000,     // 2 seconds between resorts
@@ -84,6 +90,7 @@ const health = {
   aspen: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   reportpal: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
   snocountry: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
+  zaneray: { totalRuns: 0, successfulRuns: 0, consecutiveFailures: 0, lastRun: null, lastSuccess: null, resortsScraped: 0 },
 };
 
 // Shared browser and page for Vail scraping
@@ -892,7 +899,8 @@ function writeHealthFile() {
                      health.vail.consecutiveFailures < 3 &&
                      health.canadianBig3.consecutiveFailures < 3 &&
                      health.aspen.consecutiveFailures < 3 &&
-                     health.reportpal.consecutiveFailures < 3;
+                     health.reportpal.consecutiveFailures < 3 &&
+                     health.snocountry.consecutiveFailures < 3;
   const healthData = {
     scraper: 'snow',
     status: allHealthy ? 'ok' : 'degraded',
@@ -902,6 +910,7 @@ function writeHealthFile() {
     canadianBig3: health.canadianBig3,
     aspen: health.aspen,
     reportpal: health.reportpal,
+    snocountry: health.snocountry,
     updatedAt: new Date().toISOString(),
   };
   try {
@@ -943,6 +952,7 @@ async function main() {
   console.log(`Canadian Big3 interval: ${CONFIG.canadianBig3.intervalMs / 1000 / 60} min`);
   console.log(`Aspen interval: ${CONFIG.aspen.intervalMs / 1000 / 60} min`);
   console.log(`ReportPal interval: ${CONFIG.reportpal.intervalMs / 1000 / 60} min`);
+  console.log(`SnoCountry interval: ${CONFIG.snocountry.intervalMs / 1000 / 60} min`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Track last run times - set to 0 to trigger immediate first runs
@@ -951,6 +961,7 @@ async function main() {
   let lastCanadianBig3Run = 0;
   let lastAspenRun = 0;
   let lastReportPalRun = 0;
+  let lastSnoCountryRun = 0;
 
   // Main loop
   while (!isShuttingDown) {
@@ -988,6 +999,13 @@ async function main() {
       lastReportPalRun = now;
       // Slight delay so they don't run simultaneously
       setTimeout(() => runReportPalSnowScraper().catch(console.error), 150000);
+    }
+
+    // Check if it's time for SnoCountry (offset from others)
+    if (now - lastSnoCountryRun >= CONFIG.snocountry.intervalMs) {
+      lastSnoCountryRun = now;
+      // Slight delay so they don't run simultaneously
+      setTimeout(() => runSnoCountrySnowScraper().catch(console.error), 180000);
     }
 
     await sleep(10000);
