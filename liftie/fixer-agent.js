@@ -59,16 +59,27 @@ function checkClaudeCodeReady() {
  * Run Claude Code with a prompt to fix an issue
  */
 function runClaudeCode(prompt, options = {}) {
+  // Clean up any previous result file
+  const resultPath = path.join(__dirname, '.last-result.json');
+  try {
+    if (fs.existsSync(resultPath)) {
+      fs.unlinkSync(resultPath);
+    }
+  } catch (e) {
+    // Ignore cleanup errors
+  }
+
   return new Promise((resolve, reject) => {
+    // Use -p flag to read prompt from stdin (avoids command line length limits)
     const args = [
       '--print',  // Non-interactive mode, just print the result
       '--dangerously-skip-permissions',  // Auto-approve tool use
-      prompt
+      '-p'  // Read prompt from stdin
     ];
 
     console.log('[Agent] Spawning Claude Code...');
     console.log(`[Agent] Working directory: ${REPO_ROOT}`);
-    console.log(`[Agent] Command: claude ${args.slice(0, 2).join(' ')} "<prompt>"`);
+    console.log(`[Agent] Command: claude ${args.join(' ')} (prompt via stdin, ${prompt.length} chars)`);
 
     const claude = spawn('claude', args, {
       cwd: REPO_ROOT,
@@ -81,6 +92,10 @@ function runClaudeCode(prompt, options = {}) {
     });
 
     console.log(`[Agent] Process spawned with PID: ${claude.pid}`);
+
+    // Write prompt to stdin and close it
+    claude.stdin.write(prompt);
+    claude.stdin.end();
 
     let stdout = '';
     let stderr = '';
