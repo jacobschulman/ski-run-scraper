@@ -70,11 +70,11 @@ function runClaudeCode(prompt, options = {}) {
   }
 
   return new Promise((resolve, reject) => {
-    // Use -p flag to read prompt from stdin (avoids command line length limits)
+    // Claude Code reads from stdin when piped (no -p flag needed)
     const args = [
       '--print',  // Non-interactive mode, just print the result
-      '--dangerously-skip-permissions',  // Auto-approve tool use
-      '-p'  // Read prompt from stdin
+      '--dangerously-skip-permissions'  // Auto-approve tool use
+      // Prompt comes from stdin, not -p argument
     ];
 
     console.log('[Agent] Spawning Claude Code...');
