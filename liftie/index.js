@@ -15,7 +15,8 @@ const {
   notifyIssueDetected,
   notifyIssueFixed,
   notifyNeedsHelp,
-  notifyStatus
+  notifyStatus,
+  notifyLearning
 } = require('./discord');
 const config = require('./config');
 
@@ -368,6 +369,11 @@ async function main() {
         } else {
           console.log(`${prefix} ❌ Could not fix: ${result.action}\n`);
           await notifyNeedsHelp(issue, [result.action]);
+        }
+
+        // Check if Claude learned something new
+        if (result.learned) {
+          await notifyLearning(issue, result);
         }
 
         return { issue, result };

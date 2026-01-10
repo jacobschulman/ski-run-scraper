@@ -155,6 +155,59 @@ async function notifyDailySummary({ healthy, issuesFixed, issuesPending, uptime 
 }
 
 /**
+ * Notify when agent learns something new - include full context in notification
+ */
+async function notifyLearning(issue, result) {
+  if (!result.learned) return;
+
+  const fields = [
+    {
+      name: 'Issue',
+      value: issue.resort
+        ? `${issue.resort} - ${issue.dataType}`
+        : issue.type || 'System',
+      inline: true
+    },
+    {
+      name: 'Status',
+      value: result.status || 'unknown',
+      inline: true
+    }
+  ];
+
+  // Add root cause if known
+  if (result.rootCause && result.rootCause !== 'Unknown') {
+    fields.push({
+      name: 'Root Cause',
+      value: result.rootCause,
+      inline: false
+    });
+  }
+
+  // Add actions taken
+  if (result.actionsTaken && result.actionsTaken.length > 0) {
+    fields.push({
+      name: 'Actions Taken',
+      value: result.actionsTaken.map(a => `• ${a}`).join('\n'),
+      inline: false
+    });
+  }
+
+  await sendDiscordMessage({
+    embeds: [{
+      title: '🧠 Liftie Learned Something New',
+      description: result.learned,
+      color: 0x9b59b6, // Purple
+      fields,
+      footer: {
+        text: result.summary || 'Investigation complete'
+      },
+      timestamp: new Date().toISOString()
+    }]
+  });
+}
+
+/**
  * Send a simple status update
  */
 async function notifyStatus(message, level = 'info') {
@@ -180,5 +233,6 @@ module.exports = {
   notifyIssueFixed,
   notifyNeedsHelp,
   notifyDailySummary,
-  notifyStatus
+  notifyStatus,
+  notifyLearning
 };

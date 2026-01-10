@@ -15,6 +15,9 @@ const config = require('./config');
 const fs = require('fs');
 const path = require('path');
 
+// GitHub Pages base URL for checking snow/terrain freshness
+const GITHUB_PAGES_BASE = 'https://jacobschulman.github.io/ski-run-scraper/data';
+
 // Load resort configuration for timezone info
 let resortConfig = { resorts: [] };
 try {
@@ -137,6 +140,7 @@ async function checkHetznerHealth() {
       issues.push({
         type: 'api_unhealthy',
         dataType: 'api',
+        source: 'hetzner',
         details: `API health status: ${mainHealth.status}`,
         severity: 'critical'
       });
@@ -145,6 +149,7 @@ async function checkHetznerHealth() {
     issues.push({
       type: 'api_unreachable',
       dataType: 'api',
+      source: 'hetzner',
       details: `Cannot reach API: ${error.message}`,
       severity: 'critical'
     });
@@ -164,6 +169,7 @@ async function checkHetznerHealth() {
         issues.push({
           type: 'provider_failing',
           dataType: scraperType,
+          source: 'hetzner',
           provider,
           details: `${scraperType}/${provider}: ${providerHealth.consecutiveFailures} consecutive failures`,
           consecutiveFailures: providerHealth.consecutiveFailures,
@@ -181,6 +187,7 @@ async function checkHetznerHealth() {
     issues.push({
       type: 'resort_health_unavailable',
       dataType: 'api',
+      source: 'hetzner',
       details: `Cannot fetch resort health: ${error.message}`,
       severity: 'warning'
     });
@@ -210,6 +217,7 @@ async function checkHetznerHealth() {
           issues.push({
             type: 'resort_stale_lifts',
             dataType: 'lifts',
+            source: 'hetzner',
             resort: resortId,
             lastModified: resortData.lifts.lastModified,
             minutesStale,
@@ -231,10 +239,11 @@ async function checkHetznerHealth() {
         issues.push({
           type: 'resort_stale_snow',
           dataType: 'snow',
+          source: 'hetzner',
           resort: resortId,
           lastScraped: resortData.snow.lastScraped,
           minutesStale,
-          details: `${resortId}: Snow data ${minutesStale} min stale (threshold: ${config.thresholds.snowStaleMinutes} min)`,
+          details: `${resortId}: Snow data ${minutesStale} min stale on Hetzner`,
           severity: minutesStale > config.thresholds.snowStaleMinutes * 2 ? 'critical' : 'warning'
         });
       }
@@ -255,16 +264,274 @@ async function checkHetznerHealth() {
         issues.push({
           type: 'resort_stale_terrain',
           dataType: 'terrain',
+          source: 'hetzner',
           resort: resortId,
           lastScraped: resortData.terrain.lastScraped,
           minutesStale,
           hoursStale: Math.round(hoursStale),
-          details: `${resortId}: Terrain data ${Math.round(hoursStale)} hours stale (threshold: ${terrainThresholdHours}h)`,
+          details: `${resortId}: Terrain data ${Math.round(hoursStale)}h stale on Hetzner`,
           // Critical if more than 48 hours old
           severity: hoursStale > 48 ? 'critical' : 'warning'
         });
       }
     }
+  }
+
+  return issues;
+}
+
+/**
+ * Check for gaps in lift data scraping
+ * Looks at the actual NDJSON files to find periods where scrapes didn't happen
+ */
+async function checkLiftScrapeGaps() {
+  const issues = [];
+  const now = new Date();
+  const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
+
+  // Get list of resorts that should have lift data
+  const liftsDir = path.join(__dirname, '..', 'data');
+
+  try {
+    const resortDirs = fs.readdirSync(liftsDir).filter(d => {
+      const stat = fs.statSync(path.join(liftsDir, d));
+      return stat.isDirectory() && !d.startsWith('.');
+    });
+
+    for (const resortId of resortDirs) {
+      // Skip if resort is not in operating hours
+      if (!isResortInOperatingHours(resortId)) continue;
+      if (!isResortInSeason(resortId)) continue;
+
+      const liftsPath = path.join(liftsDir, resortId, 'lifts', `${today}.ndjson`);
+      if (!fs.existsSync(liftsPath)) continue;
+
+      try {
+        const content = fs.readFileSync(liftsPath, 'utf-8');
+        const lines = content.trim().split('\n').filter(l => l.trim());
+
+        if (lines.length < 2) continue;
+
+        // Parse timestamps from each line
+        const timestamps = [];
+        for (const line of lines) {
+          try {
+            const data = JSON.parse(line);
+            if (data.timestamp) {
+              timestamps.push(new Date(data.timestamp));
+            }
+          } catch (e) {
+            // Skip malformed lines
+          }
+        }
+
+        if (timestamps.length < 2) continue;
+
+        // Sort timestamps and find gaps
+        timestamps.sort((a, b) => a - b);
+
+        const gapThresholdMinutes = 30; // Alert if gap > 30 min during operating hours
+        const gaps = [];
+
+        for (let i = 1; i < timestamps.length; i++) {
+          const gapMinutes = (timestamps[i] - timestamps[i - 1]) / (1000 * 60);
+          if (gapMinutes > gapThresholdMinutes) {
+            gaps.push({
+              start: timestamps[i - 1],
+              end: timestamps[i],
+              minutes: Math.round(gapMinutes)
+            });
+          }
+        }
+
+        // Also check gap from last timestamp to now (if resort is open)
+        const lastTimestamp = timestamps[timestamps.length - 1];
+        const minutesSinceLast = (now - lastTimestamp) / (1000 * 60);
+        if (minutesSinceLast > gapThresholdMinutes) {
+          gaps.push({
+            start: lastTimestamp,
+            end: now,
+            minutes: Math.round(minutesSinceLast),
+            ongoing: true
+          });
+        }
+
+        if (gaps.length > 0) {
+          const worstGap = gaps.reduce((max, g) => g.minutes > max.minutes ? g : max, gaps[0]);
+          issues.push({
+            type: 'lift_scrape_gaps',
+            dataType: 'lifts',
+            source: 'local-data',
+            resort: resortId,
+            gapCount: gaps.length,
+            worstGapMinutes: worstGap.minutes,
+            details: `${resortId}: ${gaps.length} scrape gap(s) today, worst: ${worstGap.minutes}m${worstGap.ongoing ? ' (ongoing)' : ''}`,
+            severity: worstGap.minutes > 60 ? 'critical' : 'warning'
+          });
+        }
+      } catch (e) {
+        // Skip resorts we can't read
+      }
+    }
+  } catch (e) {
+    console.log(`[Health] Could not check lift scrape gaps: ${e.message}`);
+  }
+
+  return issues;
+}
+
+/**
+ * Check for missing resorts - resorts in config that have no recent data
+ */
+async function checkMissingResorts() {
+  const issues = [];
+
+  // Get expected resorts from config
+  const expectedResorts = resortConfig.resorts
+    .filter(r => isResortInSeason(r.key))
+    .map(r => r.key);
+
+  if (expectedResorts.length === 0) {
+    console.log('[Health] No resorts in config to check');
+    return issues;
+  }
+
+  // Check what resorts actually have data in latest-snow.json (GitHub Pages)
+  try {
+    const snowData = await fetchJson(`${GITHUB_PAGES_BASE}/latest-snow.json`);
+    const resortsWithSnow = new Set(Object.keys(snowData));
+
+    for (const resortKey of expectedResorts) {
+      const resort = RESORTS_BY_KEY[resortKey];
+      // Only check resorts that should have snow data
+      if (resort?.dataCapabilities?.snow !== false && !resortsWithSnow.has(resortKey)) {
+        issues.push({
+          type: 'resort_missing_from_source',
+          dataType: 'snow',
+          source: 'github-pages',
+          resort: resortKey,
+          details: `${resortKey}: Expected in config but missing from GitHub Pages snow data`,
+          severity: 'warning'
+        });
+      }
+    }
+  } catch (e) {
+    // Already handled in checkGitHubPagesHealth
+  }
+
+  // Check what resorts actually have data in latest.json (terrain)
+  try {
+    const terrainData = await fetchJson(`${GITHUB_PAGES_BASE}/latest.json`);
+    const resortsWithTerrain = new Set(Object.keys(terrainData));
+
+    for (const resortKey of expectedResorts) {
+      const resort = RESORTS_BY_KEY[resortKey];
+      // Only check resorts that should have terrain data
+      if (resort?.dataCapabilities?.terrain !== false && !resortsWithTerrain.has(resortKey)) {
+        issues.push({
+          type: 'resort_missing_from_source',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortKey,
+          details: `${resortKey}: Expected in config but missing from GitHub Pages terrain data`,
+          severity: 'warning'
+        });
+      }
+    }
+  } catch (e) {
+    // Already handled in checkGitHubPagesHealth
+  }
+
+  return issues;
+}
+
+/**
+ * Check GitHub Pages for snow/terrain data freshness
+ * This monitors the GitHub Actions pipeline output (parallel to Hetzner)
+ */
+async function checkGitHubPagesHealth() {
+  const issues = [];
+  const now = new Date();
+
+  // Check snow data freshness from latest-snow.json
+  try {
+    const snowData = await fetchJson(`${GITHUB_PAGES_BASE}/latest-snow.json`);
+    console.log(`[Health] GitHub Pages: Loaded snow data for ${Object.keys(snowData).length} resorts`);
+
+    for (const [resortId, resortData] of Object.entries(snowData)) {
+      // Skip if not in season
+      if (!isResortInSeason(resortId)) continue;
+
+      // Get timestamp from snow data
+      const timestamp = resortData.data?.timestamp;
+      if (!timestamp) continue;
+
+      const lastScraped = new Date(timestamp);
+      const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
+
+      if (minutesStale > config.thresholds.snowStaleMinutes) {
+        issues.push({
+          type: 'resort_stale_snow',
+          dataType: 'snow',
+          source: 'github-pages',
+          resort: resortId,
+          lastScraped: timestamp,
+          minutesStale,
+          details: `${resortId}: Snow ${minutesStale}m stale on GitHub Pages`,
+          severity: minutesStale > config.thresholds.snowStaleMinutes * 2 ? 'critical' : 'warning'
+        });
+      }
+    }
+  } catch (error) {
+    issues.push({
+      type: 'github_pages_unreachable',
+      dataType: 'snow',
+      source: 'github-pages',
+      details: `Cannot fetch snow from GitHub Pages: ${error.message}`,
+      severity: 'warning'  // Warning not critical - Hetzner might still be OK
+    });
+  }
+
+  // Check terrain data freshness from latest.json
+  try {
+    const terrainData = await fetchJson(`${GITHUB_PAGES_BASE}/latest.json`);
+    console.log(`[Health] GitHub Pages: Loaded terrain data for ${Object.keys(terrainData).length} resorts`);
+
+    for (const [resortId, resortData] of Object.entries(terrainData)) {
+      if (!isResortInSeason(resortId)) continue;
+
+      // Get Date from terrain data (ISO 8601 with timezone)
+      const dateStr = resortData.data?.Date;
+      if (!dateStr) continue;
+
+      const lastScraped = new Date(dateStr);
+      const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
+      const hoursStale = minutesStale / 60;
+
+      // Terrain is scraped once daily - only alert if > 24 hours stale
+      const terrainThresholdHours = 24;
+      if (hoursStale > terrainThresholdHours) {
+        issues.push({
+          type: 'resort_stale_terrain',
+          dataType: 'terrain',
+          source: 'github-pages',
+          resort: resortId,
+          lastScraped: dateStr,
+          minutesStale,
+          hoursStale: Math.round(hoursStale),
+          details: `${resortId}: Terrain ${Math.round(hoursStale)}h stale on GitHub Pages`,
+          severity: hoursStale > 48 ? 'critical' : 'warning'
+        });
+      }
+    }
+  } catch (error) {
+    issues.push({
+      type: 'github_pages_unreachable',
+      dataType: 'terrain',
+      source: 'github-pages',
+      details: `Cannot fetch terrain from GitHub Pages: ${error.message}`,
+      severity: 'warning'
+    });
   }
 
   return issues;
@@ -363,6 +630,7 @@ async function checkScraperConfigHealth() {
           issues.push({
             type: 'config_missing_provider',
             dataType: scraperType,
+            source: 'hetzner',
             provider,
             details: `${scraperType} scraper missing provider '${provider}' - likely wrong config loaded`,
             severity: 'critical'
@@ -372,6 +640,7 @@ async function checkScraperConfigHealth() {
           issues.push({
             type: 'config_no_resorts_scraped',
             dataType: scraperType,
+            source: 'hetzner',
             provider,
             details: `${scraperType}/${provider}: ${providerHealth.totalRuns} runs but 0 resorts scraped - check config`,
             severity: 'critical'
@@ -395,17 +664,29 @@ async function runHealthChecks() {
 
   const allIssues = [];
 
-  // Check Hetzner health (API + per-resort)
+  // Check Hetzner for ALL data (lifts, snow, terrain)
   const hetznerIssues = await checkHetznerHealth();
   allIssues.push(...hetznerIssues);
+
+  // ALSO check GitHub Pages for snow + terrain (parallel pipeline)
+  const githubPagesIssues = await checkGitHubPagesHealth();
+  allIssues.push(...githubPagesIssues);
 
   // Check scraper config validation (catches wrong config loading)
   const configIssues = await checkScraperConfigHealth();
   allIssues.push(...configIssues);
 
-  // Check GitHub Actions
+  // Check GitHub Actions workflows
   const githubIssues = await checkGitHubActions();
   allIssues.push(...githubIssues);
+
+  // Check for scrape gaps in lift data (local NDJSON files)
+  const gapIssues = await checkLiftScrapeGaps();
+  allIssues.push(...gapIssues);
+
+  // Check for missing resorts (expected in config but not in data)
+  const missingIssues = await checkMissingResorts();
+  allIssues.push(...missingIssues);
 
   // Sort by severity (critical first), then by resort name
   allIssues.sort((a, b) => {
@@ -436,6 +717,9 @@ async function runHealthChecks() {
 module.exports = {
   runHealthChecks,
   checkHetznerHealth,
+  checkGitHubPagesHealth,
   checkGitHubActions,
-  checkScraperConfigHealth
+  checkScraperConfigHealth,
+  checkLiftScrapeGaps,
+  checkMissingResorts
 };
