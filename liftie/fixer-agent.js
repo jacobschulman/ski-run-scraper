@@ -43,15 +43,27 @@ function checkClaudeCodeReady() {
     };
   }
 
-  // Check if ~/.claude directory exists (indicates some usage/setup)
-  const claudeDir = path.join(process.env.HOME || '/root', '.claude');
+  // Check if ~/.claude directory exists with credentials
+  const claudeDir = process.env.CLAUDE_CONFIG_DIR || path.join(process.env.HOME || '/home/liftie', '.claude');
   if (!fs.existsSync(claudeDir)) {
     return {
       ready: false,
-      error: 'Claude Code not initialized. Run: claude login (or claude --help)'
+      error: `Claude config dir not found at ${claudeDir}. Run: docker-compose run --rm -it liftie login`
     };
   }
 
+  // Check for credentials file (OAuth tokens)
+  const credentialsFile = path.join(claudeDir, '.credentials.json');
+  const configFile = path.join(claudeDir, 'config.json');
+
+  if (!fs.existsSync(credentialsFile) && !fs.existsSync(configFile)) {
+    return {
+      ready: false,
+      error: `Claude not authenticated (no credentials at ${claudeDir}). Run: docker-compose run --rm -it liftie login`
+    };
+  }
+
+  console.log(`[Agent] Claude config dir: ${claudeDir}`);
   return { ready: true };
 }
 

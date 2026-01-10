@@ -29,6 +29,9 @@ services:
       # Flag to skip local data checks (only Hetzner has local scraper data)
       - LIFTIE_DOCKER=true
 
+      # Ensure Claude Code uses the mounted config directory
+      - CLAUDE_CONFIG_DIR=/home/liftie/.claude
+
     volumes:
       # Persist Claude Code authentication (for liftie user, not root)
       - claude-config:/home/liftie/.claude

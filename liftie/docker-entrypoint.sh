@@ -10,10 +10,15 @@ LIFTIE_HOME=/home/liftie
 
 echo "🎿 Liftie starting up..."
 
-# Fix ownership of Claude config dir (may have been created as root in earlier versions)
-if [ -d "$LIFTIE_HOME/.claude" ]; then
-    chown -R liftie:liftie $LIFTIE_HOME/.claude 2>/dev/null || true
-fi
+# Ensure Claude config dir exists with correct ownership
+# This is critical for auth persistence - the volume mount may create it as root
+mkdir -p $LIFTIE_HOME/.claude
+chown -R liftie:liftie $LIFTIE_HOME/.claude
+chmod 755 $LIFTIE_HOME/.claude
+
+# Show what's in the config dir for debugging
+echo "Claude config dir contents:"
+ls -la $LIFTIE_HOME/.claude/ 2>/dev/null || echo "  (empty)"
 
 # Setup SSH key if provided (used for both GitHub and Hetzner)
 if [ -n "$SSH_PRIVATE_KEY" ]; then
@@ -53,12 +58,14 @@ check_claude_status() {
         return 1
     fi
 
-    # Check authentication
-    if [ -f $LIFTIE_HOME/.claude/config.json ]; then
+    # Check authentication - look for credentials file (OAuth tokens)
+    if [ -f $LIFTIE_HOME/.claude/.credentials.json ]; then
+        echo "✓ Claude credentials found at $LIFTIE_HOME/.claude/.credentials.json"
+    elif [ -f $LIFTIE_HOME/.claude/config.json ]; then
         echo "✓ Claude config found at $LIFTIE_HOME/.claude/config.json"
     else
         echo "✗ Claude not authenticated!"
-        echo "  Run: docker-compose run --rm liftie login"
+        echo "  Run: docker-compose run --rm -it liftie login"
         return 1
     fi
 
