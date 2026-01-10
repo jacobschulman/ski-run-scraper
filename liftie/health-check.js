@@ -136,6 +136,7 @@ async function checkHetznerHealth() {
   let mainHealth;
   try {
     mainHealth = await fetchJson(`${baseUrl}/health`);
+    console.log(`[Health] Hetzner: API reachable, status=${mainHealth.status}`);
     if (mainHealth.status !== 'ok') {
       issues.push({
         type: 'api_unhealthy',
@@ -183,6 +184,8 @@ async function checkHetznerHealth() {
   let resortHealth;
   try {
     resortHealth = await fetchJson(`${baseUrl}/health/resorts`);
+    const resortCount = Object.keys(resortHealth.resorts || {}).length;
+    console.log(`[Health] Hetzner: Loaded health data for ${resortCount} resorts`);
   } catch (error) {
     issues.push({
       type: 'resort_health_unavailable',

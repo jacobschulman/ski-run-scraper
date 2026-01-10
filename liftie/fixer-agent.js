@@ -92,10 +92,18 @@ function runClaudeCode(prompt, options = {}) {
     });
 
     console.log(`[Agent] Process spawned with PID: ${claude.pid}`);
+    console.log(`[Agent] HOME=${process.env.HOME}`);
+
+    // Handle spawn errors (e.g., command not found)
+    claude.on('error', (err) => {
+      console.error(`[Agent] Spawn error: ${err.message}`);
+      reject(err);
+    });
 
     // Write prompt to stdin and close it
     claude.stdin.write(prompt);
     claude.stdin.end();
+    console.log('[Agent] Prompt sent to stdin, waiting for response...');
 
     let stdout = '';
     let stderr = '';
