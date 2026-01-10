@@ -221,6 +221,61 @@ async function checkGitHubActions() {
 }
 
 /**
+ * Check scraper config validation - ensures scrapers are loading correct config
+ * This catches issues like loading a stale config.json from wrong directory
+ */
+async function checkScraperConfigHealth() {
+  const issues = [];
+  const baseUrl = `http://${config.hetzner.host}:${config.hetzner.apiPort}`;
+
+  try {
+    const mainHealth = await fetchJson(`${baseUrl}/health`);
+
+    // Check each scraper type
+    for (const scraperType of ['lift', 'snow', 'terrain']) {
+      const scraperHealth = mainHealth.scrapers?.[scraperType];
+      if (!scraperHealth) continue;
+
+      // Expected providers that should have resorts
+      const expectedProviders = {
+        snow: ['ikon', 'vail', 'canadianBig3', 'aspen'],
+        terrain: ['ikon', 'vail', 'aspen', 'canadianBig3'],
+        lift: ['ikon', 'vail']
+      };
+
+      const providers = expectedProviders[scraperType] || [];
+      for (const provider of providers) {
+        const providerHealth = scraperHealth[provider];
+        if (!providerHealth) {
+          // Provider completely missing from health - config issue
+          issues.push({
+            type: 'config_missing_provider',
+            dataType: scraperType,
+            provider,
+            details: `${scraperType} scraper missing provider '${provider}' - likely wrong config loaded`,
+            severity: 'critical'
+          });
+        } else if (providerHealth.totalRuns > 5 && providerHealth.resortsScraped === 0) {
+          // Provider exists but never scraped any resorts - config issue
+          issues.push({
+            type: 'config_no_resorts_scraped',
+            dataType: scraperType,
+            provider,
+            details: `${scraperType}/${provider}: ${providerHealth.totalRuns} runs but 0 resorts scraped - check config`,
+            severity: 'critical'
+          });
+        }
+      }
+    }
+  } catch (error) {
+    // Don't fail on config check errors, main health check handles API issues
+    console.log(`[Health] Config validation check failed: ${error.message}`);
+  }
+
+  return issues;
+}
+
+/**
  * Run all health checks and return consolidated results
  */
 async function runHealthChecks() {
@@ -231,6 +286,10 @@ async function runHealthChecks() {
   // Check Hetzner health (API + per-resort)
   const hetznerIssues = await checkHetznerHealth();
   allIssues.push(...hetznerIssues);
+
+  // Check scraper config validation (catches wrong config loading)
+  const configIssues = await checkScraperConfigHealth();
+  allIssues.push(...configIssues);
 
   // Check GitHub Actions
   const githubIssues = await checkGitHubActions();
@@ -265,5 +324,6 @@ async function runHealthChecks() {
 module.exports = {
   runHealthChecks,
   checkHetznerHealth,
-  checkGitHubActions
+  checkGitHubActions,
+  checkScraperConfigHealth
 };
