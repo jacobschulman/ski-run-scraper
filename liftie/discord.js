@@ -6,6 +6,10 @@
 
 const config = require('./config');
 
+// Rate limiting - minimum 2 seconds between messages
+let lastMessageTime = 0;
+const MIN_MESSAGE_INTERVAL = 2000;
+
 /**
  * Send a message to Discord via webhook
  * @param {Object} options
@@ -19,6 +23,15 @@ async function sendDiscordMessage({ content, embeds }) {
     console.log('[Discord] No webhook URL configured, skipping notification');
     return;
   }
+
+  // Rate limiting - wait if we sent a message recently
+  const now = Date.now();
+  const timeSinceLastMessage = now - lastMessageTime;
+  if (timeSinceLastMessage < MIN_MESSAGE_INTERVAL) {
+    const waitTime = MIN_MESSAGE_INTERVAL - timeSinceLastMessage;
+    await new Promise(resolve => setTimeout(resolve, waitTime));
+  }
+  lastMessageTime = Date.now();
 
   const payload = {
     username: 'Liftie',
@@ -35,7 +48,14 @@ async function sendDiscordMessage({ content, embeds }) {
       body: JSON.stringify(payload)
     });
 
-    if (!response.ok) {
+    if (response.status === 429) {
+      // Rate limited - wait and retry once
+      const retryAfter = parseInt(response.headers.get('retry-after') || '5', 10) * 1000;
+      console.log(`[Discord] Rate limited, waiting ${retryAfter}ms...`);
+      await new Promise(resolve => setTimeout(resolve, retryAfter));
+      // Don't retry to avoid infinite loops - just log
+      console.log('[Discord] Skipping message after rate limit');
+    } else if (!response.ok) {
       console.error(`[Discord] Webhook failed: ${response.status} ${response.statusText}`);
     }
   } catch (error) {
@@ -47,15 +67,17 @@ async function sendDiscordMessage({ content, embeds }) {
  * Notify that an issue was detected and is being investigated
  */
 async function notifyIssueDetected(issue) {
+  const resortName = issue.resort || 'Unknown';
+  const dataType = issue.dataType || 'data';
+
   await sendDiscordMessage({
     embeds: [{
-      title: '🔍 Liftie Investigating Issue',
+      title: `🔍 ${resortName}: Investigating ${dataType} issue`,
       color: 0xFFA500, // Orange
+      description: issue.details || 'No additional details',
       fields: [
-        { name: 'Resort', value: issue.resort || 'N/A', inline: true },
-        { name: 'Data Type', value: issue.dataType || 'N/A', inline: true },
         { name: 'Issue Type', value: issue.type, inline: true },
-        { name: 'Details', value: issue.details || 'No additional details' }
+        { name: 'Severity', value: issue.severity || 'unknown', inline: true }
       ],
       timestamp: new Date().toISOString()
     }]
@@ -66,16 +88,16 @@ async function notifyIssueDetected(issue) {
  * Notify that an issue was successfully fixed
  */
 async function notifyIssueFixed(issue, fix) {
+  const resortName = issue.resort || 'Unknown';
+  const dataType = issue.dataType || 'data';
+
   await sendDiscordMessage({
     embeds: [{
-      title: '🎿 Liftie Fixed an Issue',
+      title: `✅ ${resortName}: Fixed ${dataType} issue`,
       color: 0x00FF00, // Green
+      description: fix.action || 'Issue resolved',
       fields: [
-        { name: 'Resort', value: issue.resort || 'N/A', inline: true },
-        { name: 'Data Type', value: issue.dataType || 'N/A', inline: true },
-        { name: 'Problem', value: issue.type, inline: false },
-        { name: 'Root Cause', value: fix.rootCause || 'Unknown', inline: false },
-        { name: 'Fix Applied', value: fix.action, inline: false },
+        { name: 'Problem', value: issue.type, inline: true },
         ...(fix.commit ? [{ name: 'Commit', value: `\`${fix.commit}\``, inline: true }] : [])
       ],
       timestamp: new Date().toISOString()
@@ -87,16 +109,17 @@ async function notifyIssueFixed(issue, fix) {
  * Notify that an issue could not be fixed and needs human attention
  */
 async function notifyNeedsHelp(issue, attempts) {
+  const resortName = issue.resort || 'Unknown';
+  const dataType = issue.dataType || 'data';
+
   await sendDiscordMessage({
     embeds: [{
-      title: '🚨 Liftie Needs Help',
+      title: `🚨 ${resortName}: ${dataType} needs help`,
       color: 0xFF0000, // Red
+      description: issue.details || 'No additional details',
       fields: [
-        { name: 'Resort', value: issue.resort || 'N/A', inline: true },
-        { name: 'Data Type', value: issue.dataType || 'N/A', inline: true },
-        { name: 'Problem', value: issue.type, inline: false },
-        { name: 'Details', value: issue.details || 'No additional details', inline: false },
-        { name: 'Attempts Made', value: attempts.join('\n') || 'None', inline: false }
+        { name: 'Problem', value: issue.type, inline: true },
+        { name: 'What was tried', value: attempts.join('\n') || 'None', inline: false }
       ],
       timestamp: new Date().toISOString()
     }]
