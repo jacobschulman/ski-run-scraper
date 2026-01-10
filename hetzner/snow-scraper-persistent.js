@@ -889,6 +889,104 @@ async function runSnoCountrySnowScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ZANERAY SNOW SCRAPER (HTTP - Jackson Hole)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function saveZaneraySnowData(resortKey, zanerayData) {
+  const resort = RESORTS[resortKey];
+  if (!resort) return null;
+
+  const timezone = resort.timezone || 'America/Denver';
+  const today = getResortLocalDate(timezone);
+
+  // Normalize the snow report using shared data-normalization
+  const snowReport = dataNormalization.normalizeZaneraySnowReport(
+    zanerayData,
+    resortKey,
+    resort.name,
+    today
+  );
+  if (!snowReport) return null;
+
+  // Add provider metadata
+  const snowData = {
+    ...snowReport,
+    provider: resort.provider || 'ikon',
+    apiProvider: 'zaneray',
+  };
+
+  // Ensure directory exists
+  const snowDir = path.join(CONFIG.dataDir, resortKey, 'snow');
+  ensureDirectoryExists(snowDir);
+
+  // Save files
+  fs.writeFileSync(path.join(snowDir, `${today}.json`), JSON.stringify(snowData, null, 2));
+  fs.writeFileSync(path.join(snowDir, 'latest.json'), JSON.stringify(snowData, null, 2));
+  fs.appendFileSync(path.join(snowDir, `${today}.ndjson`), JSON.stringify(snowData) + '\n');
+
+  return snowData;
+}
+
+async function runZaneraySnowScraper() {
+  console.log(`\n[ZANERAY-SNOW] Starting scrape...`);
+  health.zaneray.lastRun = new Date().toISOString();
+  health.zaneray.totalRuns++;
+
+  try {
+    // Add jitter
+    const jitter = Math.random() * CONFIG.zaneray.jitterMs;
+    await sleep(jitter);
+
+    // Get in-season Zaneray resorts (those with apiProvider: 'zaneray')
+    const zanerayResorts = config.resorts.filter(r =>
+      r.apiProvider === 'zaneray' &&
+      isResortInSeason(r)
+    );
+
+    if (zanerayResorts.length === 0) {
+      console.log('[ZANERAY-SNOW] No Zaneray resorts in season');
+      return;
+    }
+
+    console.log(`[ZANERAY-SNOW] Found ${zanerayResorts.length} in-season resorts`);
+
+    let scraped = 0;
+
+    for (const resort of zanerayResorts) {
+      try {
+        // Use the Zaneray provider to fetch data
+        const data = await zaneray.fetch(resort);
+
+        if (data) {
+          const saved = await saveZaneraySnowData(resort.key, data);
+          if (saved) {
+            scraped++;
+            const snow24 = saved.snowfall?.['24hour_inches'] || 0;
+            const base = saved.baseDepth?.inches || 0;
+            console.log(`[ZANERAY-SNOW] ${resort.key}: ${snow24}" 24hr, ${base}" base`);
+          }
+        }
+      } catch (e) {
+        console.error(`[ZANERAY-SNOW] ${resort.key}: ${e.message}`);
+      }
+
+      // Small delay between resorts
+      await sleep(CONFIG.zaneray.delayBetweenResorts);
+    }
+
+    health.zaneray.resortsScraped = scraped;
+    health.zaneray.successfulRuns++;
+    health.zaneray.consecutiveFailures = 0;
+    health.zaneray.lastSuccess = new Date().toISOString();
+    console.log(`[ZANERAY-SNOW] Completed: ${scraped}/${zanerayResorts.length} resorts`);
+
+  } catch (error) {
+    console.error(`[ZANERAY-SNOW] Error: ${error.message}`);
+    health.zaneray.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HEALTH FILE
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -900,7 +998,8 @@ function writeHealthFile() {
                      health.canadianBig3.consecutiveFailures < 3 &&
                      health.aspen.consecutiveFailures < 3 &&
                      health.reportpal.consecutiveFailures < 3 &&
-                     health.snocountry.consecutiveFailures < 3;
+                     health.snocountry.consecutiveFailures < 3 &&
+                     health.zaneray.consecutiveFailures < 3;
   const healthData = {
     scraper: 'snow',
     status: allHealthy ? 'ok' : 'degraded',
@@ -911,6 +1010,7 @@ function writeHealthFile() {
     aspen: health.aspen,
     reportpal: health.reportpal,
     snocountry: health.snocountry,
+    zaneray: health.zaneray,
     updatedAt: new Date().toISOString(),
   };
   try {
@@ -953,6 +1053,7 @@ async function main() {
   console.log(`Aspen interval: ${CONFIG.aspen.intervalMs / 1000 / 60} min`);
   console.log(`ReportPal interval: ${CONFIG.reportpal.intervalMs / 1000 / 60} min`);
   console.log(`SnoCountry interval: ${CONFIG.snocountry.intervalMs / 1000 / 60} min`);
+  console.log(`Zaneray interval: ${CONFIG.zaneray.intervalMs / 1000 / 60} min`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
 
   // Track last run times - set to 0 to trigger immediate first runs
@@ -962,6 +1063,7 @@ async function main() {
   let lastAspenRun = 0;
   let lastReportPalRun = 0;
   let lastSnoCountryRun = 0;
+  let lastZanerayRun = 0;
 
   // Main loop
   while (!isShuttingDown) {
@@ -1006,6 +1108,13 @@ async function main() {
       lastSnoCountryRun = now;
       // Slight delay so they don't run simultaneously
       setTimeout(() => runSnoCountrySnowScraper().catch(console.error), 180000);
+    }
+
+    // Check if it's time for Zaneray (offset from others)
+    if (now - lastZanerayRun >= CONFIG.zaneray.intervalMs) {
+      lastZanerayRun = now;
+      // Slight delay so they don't run simultaneously
+      setTimeout(() => runZaneraySnowScraper().catch(console.error), 210000);
     }
 
     await sleep(10000);
