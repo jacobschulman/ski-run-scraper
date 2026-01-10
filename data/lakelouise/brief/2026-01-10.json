@@ -2,21 +2,21 @@
   "resort": "lakelouise",
   "resortName": "Lake Louise",
   "date": "2026-01-10",
-  "generated": "2026-01-10T11:15:56.536Z",
+  "generated": "2026-01-10T12:41:59.156Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 1.2,
-      "overnight_cm": 3,
-      "24hour_inches": 1.6,
-      "24hour_cm": 4,
-      "48hour_inches": 1.6,
-      "48hour_cm": 4,
-      "7day_inches": 16.9,
-      "7day_cm": 43,
-      "season_total_inches": 215.4,
-      "season_total_cm": 547,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0.4,
+      "24hour_cm": 1,
+      "48hour_inches": 2.4,
+      "48hour_cm": 6,
+      "7day_inches": 18.1,
+      "7day_cm": 46,
+      "season_total_inches": 216.1,
+      "season_total_cm": 549,
       "conditions": {
-        "today": "Snowing",
+        "today": "Changeable",
         "yesterday": "Snowing"
       }
     },
@@ -28,16 +28,63 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 33,
+          "today": 34,
           "yesterday": 33,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 169
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Buffaloberry",
+          "difficulty": "intermediate",
+          "area": "Front Side"
+        },
+        {
+          "name": "Charlie's Choice",
+          "difficulty": "intermediate",
+          "area": "Front Side"
+        },
+        {
+          "name": "Jerry's Jungle",
+          "difficulty": "beginner",
+          "area": "Front Side"
+        },
+        {
+          "name": "Wolverine",
+          "difficulty": "intermediate",
+          "area": "Larch"
+        },
+        {
+          "name": "Larch Poma",
+          "difficulty": "intermediate",
+          "area": "Larch"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Men's Downhill",
+          "difficulty": "advanced",
+          "area": "Front Side"
+        },
+        {
+          "name": "Grizzly Gully",
+          "difficulty": "intermediate",
+          "area": "Front Side"
+        },
+        {
+          "name": "Meadowlark",
+          "difficulty": "advanced",
+          "area": "Front Side"
+        },
+        {
+          "name": "30 Goats",
+          "difficulty": "intermediate",
+          "area": "Larch"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -45,50 +92,54 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
+      "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "1.2\" new snow overnight"
+      "5 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 16.9\" in last 7 days"
+      "Great week for snow - 18.1\" in last 7 days"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Buffaloberry - all skill levels",
+      "Fresh corduroy on Charlie's Choice - all skill levels",
+      "Fresh corduroy on Jerry's Jungle - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "1.6\" Freshened Things Up",
-    "body": "1.6\" fell while you were sleeping. The bumps are softer, groomers are primo. The whole mountain is basically open. Go explore.",
+    "headline": "The Whole Mountain Awaits",
+    "body": "166 trails open, 34 groomed. Variable conditions, temperatures TBD. 5 runs freshly groomed, mostly in Front Side and Larch.",
     "debug": {
       "firedRules": [
-        {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
-          "usedFor": "headline"
-        },
-        {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
-          "usedFor": "body"
-        },
         {
           "id": "percent_full",
           "category": "terrain",
           "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "percent_full",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Saturday"
     }
