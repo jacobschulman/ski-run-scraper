@@ -23,6 +23,9 @@ services:
       # SSH key (base64 encoded) - used for both GitHub and Hetzner
       - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
 
+      # Flag to skip local data checks (only Hetzner has local scraper data)
+      - LIFTIE_DOCKER=true
+
     volumes:
       # Persist Claude Code authentication (for liftie user, not root)
       - claude-config:/home/liftie/.claude

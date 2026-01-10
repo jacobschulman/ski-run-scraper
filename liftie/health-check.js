@@ -283,9 +283,16 @@ async function checkHetznerHealth() {
 /**
  * Check for gaps in lift data scraping
  * Looks at the actual NDJSON files to find periods where scrapes didn't happen
+ * NOTE: Only runs on Hetzner where scrapers write local files. Skipped in Docker.
  */
 async function checkLiftScrapeGaps() {
   const issues = [];
+
+  // Skip this check if running in Docker (no local scraper data)
+  if (process.env.LIFTIE_DOCKER === 'true') {
+    return issues;
+  }
+
   const now = new Date();
   const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
 
