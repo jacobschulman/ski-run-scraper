@@ -262,6 +262,25 @@ async function main() {
     console.log('Running in CHECK-ONLY mode (no fixes will be attempted)\n');
   }
 
+  // EARLY CHECK: Verify Claude Code is ready before doing anything else
+  // This prevents running health checks that find issues we can't fix
+  const claudeStatus = checkClaudeCodeReady();
+  const claudeReady = claudeStatus.ready;
+
+  if (!claudeReady && !checkOnly) {
+    console.log(`⚠️  Claude Code not ready: ${claudeStatus.error}\n`);
+    console.log('Sending Discord notification about authentication...\n');
+
+    // Immediately notify Discord about the authentication issue
+    await notifyStatus(
+      `🔐 **Claude Code not authenticated!**\n\n` +
+      `Error: ${claudeStatus.error}\n\n` +
+      `To fix: \`docker-compose run --rm -it liftie login\`\n\n` +
+      `Health checks will still run, but auto-fixes are disabled.`,
+      'critical'
+    );
+  }
+
   // Force clear stale lock if requested
   if (forceClearLock) {
     console.log('[Lock] Force clearing lock file...\n');
