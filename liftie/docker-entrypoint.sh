@@ -10,6 +10,11 @@ LIFTIE_HOME=/home/liftie
 
 echo "🎿 Liftie starting up..."
 
+# Fix ownership of Claude config dir (may have been created as root in earlier versions)
+if [ -d "$LIFTIE_HOME/.claude" ]; then
+    chown -R liftie:liftie $LIFTIE_HOME/.claude 2>/dev/null || true
+fi
+
 # Setup SSH key if provided (used for both GitHub and Hetzner)
 if [ -n "$SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH key..."
