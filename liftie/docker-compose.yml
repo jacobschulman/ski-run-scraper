@@ -24,17 +24,14 @@ services:
       - SSH_PRIVATE_KEY=${SSH_PRIVATE_KEY}
 
     volumes:
-      # Persist Claude Code authentication
-      - claude-config:/root/.claude
-
-      # Optional: Mount SSH key file instead of env var
-      # - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
+      # Persist Claude Code authentication (for liftie user, not root)
+      - claude-config:/home/liftie/.claude
 
       # Optional: Access logs from host
       - ./logs:/var/log
 
     # For initial Claude Code login, run:
-    # docker-compose run --rm liftie claude login
+    # docker-compose run --rm liftie login
 
 volumes:
   claude-config:

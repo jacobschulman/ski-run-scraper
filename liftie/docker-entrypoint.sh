@@ -2,33 +2,37 @@
 
 # Liftie Docker Entrypoint
 # Sets up SSH key and starts cron
+# Runs as root initially to set up, then drops to liftie user for Claude Code
 
 set -e
+
+LIFTIE_HOME=/home/liftie
 
 echo "🎿 Liftie starting up..."
 
 # Setup SSH key if provided (used for both GitHub and Hetzner)
 if [ -n "$SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH key..."
-    mkdir -p /root/.ssh
-    echo "$SSH_PRIVATE_KEY" | base64 -d > /root/.ssh/id_ed25519
-    chmod 600 /root/.ssh/id_ed25519
+    mkdir -p $LIFTIE_HOME/.ssh
+    echo "$SSH_PRIVATE_KEY" | base64 -d > $LIFTIE_HOME/.ssh/id_ed25519
+    chmod 600 $LIFTIE_HOME/.ssh/id_ed25519
+    chown -R liftie:liftie $LIFTIE_HOME/.ssh
 
     # Add GitHub to known hosts
-    ssh-keyscan -H github.com >> /root/.ssh/known_hosts 2>/dev/null || true
+    ssh-keyscan -H github.com >> $LIFTIE_HOME/.ssh/known_hosts 2>/dev/null || true
 
     # Add Hetzner to known hosts
     if [ -n "$HETZNER_HOST" ]; then
-        ssh-keyscan -H "$HETZNER_HOST" >> /root/.ssh/known_hosts 2>/dev/null || true
+        ssh-keyscan -H "$HETZNER_HOST" >> $LIFTIE_HOME/.ssh/known_hosts 2>/dev/null || true
     fi
 
-    # Configure git to use SSH
-    git config --global url."git@github.com:".insteadOf "https://github.com/"
+    chown liftie:liftie $LIFTIE_HOME/.ssh/known_hosts
 fi
 
-# Configure git user for commits
-git config --global user.name "Liftie Bot"
-git config --global user.email "liftie@ski-scraper.bot"
+# Configure git user for commits (as liftie user)
+gosu liftie git config --global url."git@github.com:".insteadOf "https://github.com/"
+gosu liftie git config --global user.name "Liftie Bot"
+gosu liftie git config --global user.email "liftie@ski-scraper.bot"
 
 # Function to check Claude Code status
 check_claude_status() {
@@ -37,7 +41,7 @@ check_claude_status() {
     # Check if claude CLI exists
     if command -v claude &> /dev/null; then
         echo "✓ Claude CLI found at: $(which claude)"
-        claude --version 2>&1 || echo "✗ Could not get version"
+        gosu liftie claude --version 2>&1 || echo "✗ Could not get version"
     else
         echo "✗ Claude CLI not found!"
         echo "  Install with: npm install -g @anthropic-ai/claude-code"
@@ -45,16 +49,16 @@ check_claude_status() {
     fi
 
     # Check authentication
-    if [ -f /root/.claude/config.json ]; then
-        echo "✓ Claude config found at /root/.claude/config.json"
+    if [ -f $LIFTIE_HOME/.claude/config.json ]; then
+        echo "✓ Claude config found at $LIFTIE_HOME/.claude/config.json"
     else
         echo "✗ Claude not authenticated!"
-        echo "  Run: docker run -it -v liftie-claude-config:/root/.claude liftie claude login"
+        echo "  Run: docker-compose run --rm liftie login"
         return 1
     fi
 
     # Check SSH key
-    if [ -f /root/.ssh/id_ed25519 ]; then
+    if [ -f $LIFTIE_HOME/.ssh/id_ed25519 ]; then
         echo "✓ SSH key found"
     else
         echo "✗ No SSH key found (needed for Hetzner access)"
@@ -63,7 +67,7 @@ check_claude_status() {
 
     # Check Hetzner connectivity
     if [ -n "$HETZNER_HOST" ]; then
-        if ssh -o ConnectTimeout=5 -o BatchMode=yes scraper@$HETZNER_HOST "echo ok" 2>/dev/null; then
+        if gosu liftie ssh -o ConnectTimeout=5 -o BatchMode=yes scraper@$HETZNER_HOST "echo ok" 2>/dev/null; then
             echo "✓ Can SSH to Hetzner ($HETZNER_HOST)"
         else
             echo "✗ Cannot SSH to Hetzner ($HETZNER_HOST)"
@@ -84,14 +88,14 @@ fi
 # If running with 'run-once' argument, just run liftie once and exit
 if [ "$1" = "run-once" ]; then
     echo "Running Liftie once..."
-    node /app/liftie/index.js
+    gosu liftie node /app/liftie/index.js
     exit $?
 fi
 
-# If running with 'login' argument, run claude login
+# If running with 'login' argument, run claude login as liftie user
 if [ "$1" = "login" ] || [ "$1" = "claude" ]; then
     shift
-    exec claude "$@"
+    exec gosu liftie claude "$@"
 fi
 
 # Check Claude Code status on startup
@@ -104,9 +108,9 @@ echo "Starting cron scheduler (runs every 10 minutes)..."
 echo "Logs: tail -f /var/log/liftie.log"
 echo ""
 
-# Run once immediately on startup
+# Run once immediately on startup (as liftie user)
 echo "Running initial health check..."
-node /app/liftie/index.js || true
+gosu liftie node /app/liftie/index.js || true
 
-# Then start cron
+# Then start cron (cron runs the job as liftie user via crontab -u)
 cron -f
