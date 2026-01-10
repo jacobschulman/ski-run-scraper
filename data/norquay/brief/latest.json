@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-01-10",
-  "generated": "2026-01-10T18:24:48.498Z",
+  "generated": "2026-01-10T20:18:25.931Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,16 +23,16 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 53,
           "yesterday": 0,
-          "delta": 0
+          "delta": 53
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 18,
           "yesterday": 0,
-          "delta": 0
+          "delta": 18
         },
-        "totalTrails": 0
+        "totalTrails": 64
       },
       "newlyOpened": [],
       "newlyClosed": [],
@@ -51,31 +51,39 @@
       "significantGroomingIncrease": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "53 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "The Map Exploded",
+    "body": "53 of 64 trails are open with 18 groomed. Variable conditions with a temperatures TBD. 0 trails just opened. The mountain just got a whole lot bigger.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_massive",
           "category": "terrain",
           "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
           "category": "terrain",
           "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
+        "condition": "terrain_massive",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
         "previousHeadline": "Stay Tuned for Opening"
