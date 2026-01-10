@@ -2,19 +2,19 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-10",
-  "generated": "2026-01-10T11:15:44.330Z",
+  "generated": "2026-01-10T14:24:13.789Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 8,
-      "overnight_cm": 20,
-      "24hour_inches": 18,
-      "24hour_cm": 46,
-      "48hour_inches": 22,
-      "48hour_cm": 56,
-      "7day_inches": 32,
-      "7day_cm": 81,
-      "season_total_inches": 80,
-      "season_total_cm": 202,
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 24,
+      "48hour_cm": 61,
+      "7day_inches": 33,
+      "7day_cm": 84,
+      "season_total_inches": 85,
+      "season_total_cm": 215,
       "conditions": {
         "today": "Powder",
         "yesterday": "Powder"
@@ -23,18 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 96,
+          "today": 98,
           "yesterday": 96,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 53,
+          "today": 54,
           "yesterday": 53,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Buddy's Run",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Meadow Lane",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -51,34 +62,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-09",
-        "high_f": null,
-        "low_f": 3,
-        "high_c": null,
-        "low_c": -16,
-        "description": "Cloudy",
-        "snowfall_day_inches": 1,
+        "date": "2026-01-10",
+        "high_f": 14,
+        "low_f": 13,
+        "high_c": -10,
+        "low_c": -11,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-10",
-          "high_f": 14,
-          "low_f": 13,
-          "high_c": -10,
-          "low_c": -11,
-          "description": "Partly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-11",
-          "high_f": 28,
+          "high_f": 29,
           "low_f": 22,
           "high_c": -2,
           "low_c": -6,
-          "description": "Partly Cloudy",
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -87,21 +87,32 @@
           "date": "2026-01-12",
           "high_f": 29,
           "low_f": 23,
-          "high_c": -1,
+          "high_c": -2,
           "low_c": -5,
           "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-13",
+          "high_f": 28,
+          "low_f": 23,
+          "high_c": -2,
+          "low_c": -5,
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-10",
-        "high_f": 14,
-        "low_f": 13,
-        "high_c": -10,
-        "low_c": -11,
-        "description": "Partly Cloudy",
+        "date": "2026-01-11",
+        "high_f": 29,
+        "low_f": 22,
+        "high_c": -2,
+        "low_c": -6,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -112,44 +123,58 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "8\" fresh snow overnight",
-      "18\" in last 24 hours - powder day!"
+      "1\" new snow overnight",
+      "6\" in last 24 hours - powder day!",
+      "2 new trails opened today"
     ],
     "trends": [
-      "Great week for snow - 32\" in last 7 days"
+      "Great week for snow - 33\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "This Is What You Came For",
-    "body": "The storm went big: 18\" of the good stuff. Stashes everywhere, groomers buried.",
+    "headline": "Time to Call in Sick",
+    "body": "6\" dumped overnight. The stashes are loaded and the groomers are buried. 2 new trails opened today. Cold day ahead: 14° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_epic",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 98,
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "snow_epic",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 98,
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_epic",
-        "variationIndex": 1,
-        "totalVariations": 9,
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Career Day Potential"
+        "previousHeadline": "This Is What You Came For"
       },
       "dayOfWeek": "Saturday"
     }
