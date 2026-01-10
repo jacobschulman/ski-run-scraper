@@ -10,7 +10,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const { runHealthChecks } = require('./health-check');
-const { runFixerAgent } = require('./fixer-agent');
+const { runFixerAgent, checkClaudeCodeReady } = require('./fixer-agent');
 const {
   notifyIssueDetected,
   notifyIssueFixed,
@@ -323,6 +323,22 @@ async function main() {
       }
       return true;
     });
+
+    // Check if Claude Code is ready before attempting fixes
+    const claudeStatus = checkClaudeCodeReady();
+    if (!claudeStatus.ready) {
+      console.log(`\n❌ Cannot run fixer agent: ${claudeStatus.error}`);
+      console.log('Notifying Discord about all critical issues that need manual intervention...\n');
+
+      // Notify Discord about all issues since we can't auto-fix
+      for (const issue of issuesToProcess) {
+        await notifyNeedsHelp(issue, [
+          'Auto-fix unavailable: ' + claudeStatus.error,
+          'Manual intervention required'
+        ]);
+      }
+      return;
+    }
 
     console.log(`\n🔧 Processing ${issuesToProcess.length} issues (${PARALLEL_AGENTS} in parallel)...\n`);
 

@@ -3,13 +3,57 @@
  *
  * Spawns Claude Code to investigate and fix issues.
  * Uses your existing Claude Max subscription - no API key needed.
+ *
+ * DOCKER REQUIREMENTS:
+ * 1. Claude Code must be installed: npm install -g @anthropic-ai/claude-code
+ * 2. Must be authenticated: docker run -it -v liftie-claude-config:/root/.claude liftie claude login
+ * 3. SSH key must be configured for Hetzner access
  */
 
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 const config = require('./config');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
+
+/**
+ * Check if Claude Code is available and can run
+ * Returns { ready: boolean, error?: string }
+ */
+function checkClaudeCodeReady() {
+  // Check if claude CLI is available
+  try {
+    execSync('which claude', { stdio: 'pipe' });
+  } catch (e) {
+    return {
+      ready: false,
+      error: 'Claude Code CLI not found. Install with: npm install -g @anthropic-ai/claude-code'
+    };
+  }
+
+  // Quick version check to ensure CLI works
+  try {
+    const version = execSync('claude --version', { stdio: 'pipe', timeout: 5000 }).toString().trim();
+    console.log(`[Agent] Claude Code version: ${version}`);
+  } catch (e) {
+    return {
+      ready: false,
+      error: `Claude Code version check failed: ${e.message}`
+    };
+  }
+
+  // Check if ~/.claude directory exists (indicates some usage/setup)
+  const claudeDir = path.join(process.env.HOME || '/root', '.claude');
+  if (!fs.existsSync(claudeDir)) {
+    return {
+      ready: false,
+      error: 'Claude Code not initialized. Run: claude login (or claude --help)'
+    };
+  }
+
+  return { ready: true };
+}
 
 /**
  * Run Claude Code with a prompt to fix an issue
@@ -222,6 +266,17 @@ async function runFixerAgent(issue, context = {}) {
   console.log(`[Agent] Starting fixer agent for issue: ${issue.type}`);
   console.log(`[Agent] Details: ${issue.details}`);
 
+  // Pre-flight check: ensure Claude Code is ready
+  const readyCheck = checkClaudeCodeReady();
+  if (!readyCheck.ready) {
+    console.error(`[Agent] Claude Code not ready: ${readyCheck.error}`);
+    return {
+      fixed: false,
+      action: 'Claude Code not ready',
+      details: readyCheck.error
+    };
+  }
+
   const prompt = buildPrompt(issue, context);
 
   try {
@@ -250,5 +305,6 @@ async function runFixerAgent(issue, context = {}) {
 }
 
 module.exports = {
-  runFixerAgent
+  runFixerAgent,
+  checkClaudeCodeReady
 };

@@ -3,9 +3,99 @@
  *
  * Checks all data sources at the RESORT level and returns any issues found.
  * This is the key to catching real problems - issues happen per-resort, not per-provider.
+ *
+ * INTELLIGENT ALERTING:
+ * - Lift data: Only alert during operating hours (8:30 AM - 4:00 PM local time)
+ * - Terrain data: Only alert if stale 24+ hours (runs once per day)
+ * - Snow data: Alert if stale 4+ hours (runs every 30 min)
+ * - Distinguishes "was working but stopped" (critical) from expected behavior (info)
  */
 
 const config = require('./config');
+const fs = require('fs');
+const path = require('path');
+
+// Load resort configuration for timezone info
+let resortConfig = { resorts: [] };
+try {
+  const configPath = path.join(__dirname, '..', 'config.json');
+  resortConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (e) {
+  console.log('[Health] Could not load config.json for timezone info');
+}
+
+// Build resort lookup by key
+const RESORTS_BY_KEY = resortConfig.resorts.reduce((acc, r) => {
+  acc[r.key] = r;
+  return acc;
+}, {});
+
+/**
+ * Get current hour in resort's local timezone (0-23)
+ */
+function getResortLocalHour(resortKey) {
+  const resort = RESORTS_BY_KEY[resortKey];
+  const timezone = resort?.timezone || 'America/Denver';
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      hour: 'numeric',
+      hour12: false
+    });
+    return parseInt(formatter.format(new Date()), 10);
+  } catch (e) {
+    return new Date().getUTCHours(); // Fallback
+  }
+}
+
+/**
+ * Check if resort is in operating hours
+ * Default: 8:30 AM - 4:00 PM (we use 8-17 to be generous)
+ */
+function isResortInOperatingHours(resortKey) {
+  const resort = RESORTS_BY_KEY[resortKey];
+  const operatingHours = resort?.operatingHours || { open: 8, close: 17 };
+  const currentHour = getResortLocalHour(resortKey);
+  return currentHour >= operatingHours.open && currentHour < operatingHours.close;
+}
+
+/**
+ * Check if resort is in season
+ */
+function isResortInSeason(resortKey) {
+  const resort = RESORTS_BY_KEY[resortKey];
+  if (!resort) return true; // Assume in season if unknown
+
+  const timezone = resort.timezone || 'America/Denver';
+  const now = new Date();
+
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: timezone,
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const localDate = formatter.format(now);
+    const [month, day] = localDate.split('/').map(Number);
+
+    const seasonStart = resort.seasonStart || resortConfig.schedule?.defaultSeasonStart || '11-01';
+    const seasonEnd = resort.seasonEnd || resortConfig.schedule?.defaultSeasonEnd || '05-01';
+
+    const [startMonth, startDay] = seasonStart.split('-').map(Number);
+    const [endMonth, endDay] = seasonEnd.split('-').map(Number);
+
+    // Season crosses year boundary (e.g., Nov-Apr)
+    if (startMonth > endMonth) {
+      return (month > startMonth || (month === startMonth && day >= startDay)) ||
+             (month < endMonth || (month === endMonth && day < endDay));
+    } else {
+      return (month > startMonth || (month === startMonth && day >= startDay)) &&
+             (month < endMonth || (month === endMonth && day < endDay));
+    }
+  } catch (e) {
+    return true;
+  }
+}
 
 /**
  * Fetch JSON from a URL with timeout
@@ -100,25 +190,39 @@ async function checkHetznerHealth() {
   const now = new Date();
 
   for (const [resortId, resortData] of Object.entries(resortHealth.resorts || {})) {
+    // Skip resorts that are out of season
+    if (!isResortInSeason(resortId)) {
+      continue;
+    }
+
+    const inOperatingHours = isResortInOperatingHours(resortId);
+
     // Check lift data freshness (only for resorts that have lift data)
+    // INTELLIGENT: Only alert during operating hours - lifts don't update when closed
     if (resortHasLiftData(resortData)) {
       const lastModified = new Date(resortData.lifts.lastModified);
       const minutesStale = Math.floor((now - lastModified) / (1000 * 60));
 
       if (minutesStale > config.thresholds.liftStaleMinutes) {
-        issues.push({
-          type: 'resort_stale_lifts',
-          dataType: 'lifts',
-          resort: resortId,
-          lastModified: resortData.lifts.lastModified,
-          minutesStale,
-          details: `${resortId}: Lift data ${minutesStale} min stale (threshold: ${config.thresholds.liftStaleMinutes} min)`,
-          severity: minutesStale > config.thresholds.liftStaleMinutes * 2 ? 'critical' : 'warning'
-        });
+        // Only report as issue if resort is in operating hours
+        // Outside operating hours, stale lift data is expected (resort is closed)
+        if (inOperatingHours) {
+          issues.push({
+            type: 'resort_stale_lifts',
+            dataType: 'lifts',
+            resort: resortId,
+            lastModified: resortData.lifts.lastModified,
+            minutesStale,
+            details: `${resortId}: Lift data ${minutesStale} min stale (during operating hours)`,
+            severity: minutesStale > config.thresholds.liftStaleMinutes * 2 ? 'critical' : 'warning'
+          });
+        }
+        // If outside operating hours, we silently skip - this is expected
       }
     }
 
     // Check snow data freshness
+    // Snow data should update every 30 min regardless of operating hours
     if (resortData.snow?.lastScraped) {
       const lastScraped = new Date(resortData.snow.lastScraped);
       const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
@@ -137,19 +241,27 @@ async function checkHetznerHealth() {
     }
 
     // Check terrain data freshness
+    // INTELLIGENT: Terrain runs once per day (7-10 AM local), so threshold should be 24+ hours
+    // Only alert if terrain data is more than 24 hours old
     if (resortData.terrain?.lastScraped) {
       const lastScraped = new Date(resortData.terrain.lastScraped);
       const minutesStale = Math.floor((now - lastScraped) / (1000 * 60));
+      const hoursStale = minutesStale / 60;
 
-      if (minutesStale > config.thresholds.terrainStaleMinutes) {
+      // Terrain is scraped once daily - only alert if > 24 hours stale
+      // This prevents false alerts when terrain was scraped this morning
+      const terrainThresholdHours = 24;
+      if (hoursStale > terrainThresholdHours) {
         issues.push({
           type: 'resort_stale_terrain',
           dataType: 'terrain',
           resort: resortId,
           lastScraped: resortData.terrain.lastScraped,
           minutesStale,
-          details: `${resortId}: Terrain data ${minutesStale} min stale (threshold: ${config.thresholds.terrainStaleMinutes} min)`,
-          severity: minutesStale > config.thresholds.terrainStaleMinutes * 2 ? 'critical' : 'warning'
+          hoursStale: Math.round(hoursStale),
+          details: `${resortId}: Terrain data ${Math.round(hoursStale)} hours stale (threshold: ${terrainThresholdHours}h)`,
+          // Critical if more than 48 hours old
+          severity: hoursStale > 48 ? 'critical' : 'warning'
         });
       }
     }

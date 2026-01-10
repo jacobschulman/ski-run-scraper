@@ -30,16 +30,55 @@ fi
 git config --global user.name "Liftie Bot"
 git config --global user.email "liftie@ski-scraper.bot"
 
-# Check if Claude Code is authenticated
-if [ ! -f /root/.claude/config.json ]; then
-    echo ""
-    echo "⚠️  Claude Code is not authenticated!"
-    echo ""
-    echo "To authenticate, run this container interactively first:"
-    echo "  docker run -it -v liftie-claude-config:/root/.claude liftie claude login"
-    echo ""
-    echo "Then restart the container normally."
-    echo ""
+# Function to check Claude Code status
+check_claude_status() {
+    echo "=== Claude Code Status ==="
+
+    # Check if claude CLI exists
+    if command -v claude &> /dev/null; then
+        echo "✓ Claude CLI found at: $(which claude)"
+        claude --version 2>&1 || echo "✗ Could not get version"
+    else
+        echo "✗ Claude CLI not found!"
+        echo "  Install with: npm install -g @anthropic-ai/claude-code"
+        return 1
+    fi
+
+    # Check authentication
+    if [ -f /root/.claude/config.json ]; then
+        echo "✓ Claude config found at /root/.claude/config.json"
+    else
+        echo "✗ Claude not authenticated!"
+        echo "  Run: docker run -it -v liftie-claude-config:/root/.claude liftie claude login"
+        return 1
+    fi
+
+    # Check SSH key
+    if [ -f /root/.ssh/id_ed25519 ]; then
+        echo "✓ SSH key found"
+    else
+        echo "✗ No SSH key found (needed for Hetzner access)"
+        return 1
+    fi
+
+    # Check Hetzner connectivity
+    if [ -n "$HETZNER_HOST" ]; then
+        if ssh -o ConnectTimeout=5 -o BatchMode=yes scraper@$HETZNER_HOST "echo ok" 2>/dev/null; then
+            echo "✓ Can SSH to Hetzner ($HETZNER_HOST)"
+        else
+            echo "✗ Cannot SSH to Hetzner ($HETZNER_HOST)"
+            return 1
+        fi
+    fi
+
+    echo "=== All checks passed ==="
+    return 0
+}
+
+# If running with 'status' argument, show diagnostic info
+if [ "$1" = "status" ]; then
+    check_claude_status
+    exit $?
 fi
 
 # If running with 'run-once' argument, just run liftie once and exit
@@ -54,6 +93,11 @@ if [ "$1" = "login" ] || [ "$1" = "claude" ]; then
     shift
     exec claude "$@"
 fi
+
+# Check Claude Code status on startup
+echo ""
+check_claude_status || echo "⚠️ Some checks failed - agents may not work properly"
+echo ""
 
 # Start cron in foreground
 echo "Starting cron scheduler (runs every 10 minutes)..."

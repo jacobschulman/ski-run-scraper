@@ -19,8 +19,12 @@ module.exports = {
 
   thresholds: {
     // How long before data is considered stale (in minutes)
+    // NOTE: Lift staleness only alerts during operating hours (8 AM - 5 PM local)
     liftStaleMinutes: 30,
+    // Snow data should update every 30 min regardless of time of day
     snowStaleMinutes: 120,
+    // DEPRECATED: terrainStaleMinutes - now uses 24-hour threshold in health-check.js
+    // Terrain is scraped once daily (7-10 AM local), alerts if >24h stale
     terrainStaleMinutes: 360,
 
     // How many consecutive failures before alerting
