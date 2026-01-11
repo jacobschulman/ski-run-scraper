@@ -79,6 +79,9 @@ jobs:
           # Now pull with rebase - staged files won't conflict
           git pull --rebase --autostash origin main
 
+          # Re-stage after rebase - autostash restores changes as unstaged
+          git add data/
+
           # Commit and push
           git commit -m "Update ski data - $(date +'%Y-%m-%d')" || echo "Nothing to commit"
           git push
