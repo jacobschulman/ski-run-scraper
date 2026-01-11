@@ -629,14 +629,16 @@ async function scrapeVailTerrain(resortKey, url) {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
     try {
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      // Use domcontentloaded instead of networkidle2 - flagship sites (vail.com, beavercreek.com)
+      // have heavy analytics that prevent networkidle2 from ever completing
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     } catch (e) {
       console.log(`[VAIL-TERRAIN] ${resortKey} load issue:`, e.message);
     }
 
-    await sleep(3000);
+    await sleep(3000); // Give extra time for JS to execute
 
-    // Wait for FR object
+    // Wait for FR object with increased timeout
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
       { timeout: 45000 }
