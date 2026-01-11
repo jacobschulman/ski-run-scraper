@@ -1211,8 +1211,10 @@ async function main() {
 
   console.log(`Data type: ${dataTypeArg || 'terrain (default)'}`);
 
-  // Get Ikon resorts
-  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon');
+  // Get Ikon resorts (including those with custom apiProviders like aspensnowmass)
+  // Previously excluded apiProvider resorts assuming Hetzner would scrape them,
+  // but GitHub Actions needs to handle them too for reliability
+  const ikonResorts = configLoader.getResortsByProvider(config, 'ikon', false);
 
   if (ikonResorts.length === 0) {
     console.log('\n⚠️  No Ikon resorts found in config.json');
