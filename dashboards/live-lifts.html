@@ -411,7 +411,8 @@
           let usedTail = true;
           try {
             text = await tryFetch(120000);
-          } catch (_) {
+          } catch (tailErr) {
+            console.warn('[fetchHistory] Range request failed, trying full fetch:', tailErr.message);
             usedTail = false;
             text = await tryFetch();
           }
@@ -422,8 +423,10 @@
             text = await tryFetch();
             history = parseNdjson(text);
           }
+          console.log('[fetchHistory] Loaded', Object.keys(history).length, 'lifts for', resortKey, dateKey);
           return history;
-        } catch (_) {
+        } catch (err) {
+          console.error('[fetchHistory] Failed to load history for', resortKey, dateKey, err);
           return {};
         }
       })();
@@ -636,6 +639,8 @@
     }
 
     function renderRows(resortData, history, fullHistory, tz, dateKey) {
+      console.log('[renderRows] history keys:', Object.keys(history).slice(0, 5));
+      console.log('[renderRows] fullHistory keys:', Object.keys(fullHistory).slice(0, 5));
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
       const openOnly = $('open-only-filter').checked;
@@ -696,6 +701,9 @@
         if (filter && !text.includes(filter)) continue;
 
         const tr = document.createElement('tr');
+        if (shown === 0) {
+          console.log('[renderRows] First lift liftId:', lift.liftId, 'name:', lift.name);
+        }
         const fullHist = fullHistory[lift.liftId] || [];
         const latestEntry = fullHist[0];
         const displayLift = { ...lift };
