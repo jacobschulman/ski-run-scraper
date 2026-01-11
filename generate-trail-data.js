@@ -74,7 +74,19 @@ function getSeasonStartDate(resort) {
 }
 
 /**
+ * Check if two date strings (YYYY-MM-DD) are consecutive calendar days
+ */
+function areConsecutiveDays(date1, date2) {
+  const d1 = new Date(date1 + 'T00:00:00');
+  const d2 = new Date(date2 + 'T00:00:00');
+  const diffMs = Math.abs(d1.getTime() - d2.getTime());
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  return diffDays === 1;
+}
+
+/**
  * Calculate grooming streak for a trail
+ * Streaks only count consecutive calendar days - gaps in data break the streak
  */
 function calculateGroomingStreaks(records) {
   if (!records || records.length === 0) {
@@ -98,16 +110,34 @@ function calculateGroomingStreaks(records) {
   }
 
   // Calculate current streak (from most recent date backwards)
-  for (const record of sorted) {
+  // Must be consecutive calendar days AND groomed
+  for (let i = 0; i < sorted.length; i++) {
+    const record = sorted[i];
+
+    // Check for date gap (break streak if dates aren't consecutive)
+    if (i > 0 && !areConsecutiveDays(sorted[i - 1].date, record.date)) {
+      break; // Gap in data breaks the streak
+    }
+
     if (record.grooming_status) {
       currentStreak++;
     } else {
-      break; // Streak broken
+      break; // Not groomed breaks the streak
     }
   }
 
-  // Calculate longest streak
-  for (const record of sorted.reverse()) { // Go chronologically forward
+  // Calculate longest streak (chronologically forward)
+  // Sort ascending for this calculation
+  const chronological = records.slice().sort((a, b) => a.date.localeCompare(b.date));
+
+  for (let i = 0; i < chronological.length; i++) {
+    const record = chronological[i];
+
+    // Check for date gap
+    if (i > 0 && !areConsecutiveDays(chronological[i - 1].date, record.date)) {
+      tempStreak = 0; // Gap resets the streak
+    }
+
     if (record.grooming_status) {
       tempStreak++;
       longestStreak = Math.max(longestStreak, tempStreak);

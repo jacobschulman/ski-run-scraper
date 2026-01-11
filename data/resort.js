@@ -90,17 +90,22 @@ async function loadDate(date) {
 
         terrainData = await response.json();
 
-        // Load yesterday's data for comparison
-        const dateIdx = availableDates.indexOf(date);
-        if (dateIdx < availableDates.length - 1) {
-            const yesterdayDate = availableDates[dateIdx + 1];
+        // Load yesterday's data for comparison (actual calendar yesterday, not just previous file)
+        const currentDateObj = new Date(date + 'T00:00:00');
+        const yesterdayDateObj = new Date(currentDateObj);
+        yesterdayDateObj.setDate(yesterdayDateObj.getDate() - 1);
+        const actualYesterday = yesterdayDateObj.toISOString().split('T')[0];
+
+        // Only use yesterday's data if we have the actual calendar yesterday
+        if (availableDates.includes(actualYesterday)) {
             try {
-                const yResponse = await fetch(`../${RESORT_KEY}/terrain/${yesterdayDate}.json`);
+                const yResponse = await fetch(`../${RESORT_KEY}/terrain/${actualYesterday}.json`);
                 yesterdayData = await yResponse.json();
             } catch {
                 yesterdayData = null;
             }
         } else {
+            // No data for actual yesterday - don't show "new" badges
             yesterdayData = null;
         }
 
