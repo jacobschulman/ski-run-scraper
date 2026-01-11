@@ -392,8 +392,25 @@
       };
 
         const tryFetch = async (rangeBytes) => {
-          const headers = rangeBytes ? { 'Range': `bytes=-${rangeBytes}` } : {};
-          const res = await fetch(`${dataFolder}/${resortKey}/lifts/${dateKey}.ndjson`, { headers });
+          const url = `${dataFolder}/${resortKey}/lifts/${dateKey}.ndjson`;
+          // If range requested, first check file size to avoid 500 errors on oversized ranges
+          if (rangeBytes) {
+            try {
+              const headRes = await fetch(url, { method: 'HEAD' });
+              if (headRes.ok) {
+                const contentLength = parseInt(headRes.headers.get('Content-Length') || '0', 10);
+                // Only use range if file is larger than requested range
+                if (contentLength > rangeBytes) {
+                  const res = await fetch(url, { headers: { 'Range': `bytes=-${rangeBytes}` } });
+                  if (res.ok || res.status === 206) return res.text();
+                }
+              }
+              // Fall through to full fetch if range not viable
+            } catch (e) {
+              console.warn('[fetchHistory] HEAD request failed, trying full fetch:', e.message);
+            }
+          }
+          const res = await fetch(url);
           if (!res.ok) throw new Error(`NDJSON ${res.status}`);
           return res.text();
         };
