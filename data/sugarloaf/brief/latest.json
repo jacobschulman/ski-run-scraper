@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.624Z",
+  "generated": "2026-01-11T23:16:27.827Z",
   "rawData": {
     "snow": {
       "overnight_inches": 7,
@@ -20,6 +20,25 @@
         "yesterday": "Wet Granular"
       }
     },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 70,
+          "yesterday": 0,
+          "delta": 70
+        },
+        "groomedTrails": {
+          "today": 56,
+          "yesterday": 0,
+          "delta": 56
+        },
+        "totalTrails": 176
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
+    },
     "lifts": {
       "available": true,
       "yesterday": {
@@ -34,7 +53,7 @@
       "today": {
         "date": "2026-01-11",
         "high_f": 24,
-        "low_f": 9,
+        "low_f": 8,
         "description": "Snow Wind",
         "snowfall_day_inches": 4,
         "snowfall_night_inches": 0
@@ -51,7 +70,7 @@
         },
         {
           "date": "2026-01-13",
-          "high_f": 24,
+          "high_f": 25,
           "low_f": 25,
           "description": "Windy",
           "snowfall_day_inches": 1,
@@ -60,7 +79,7 @@
         },
         {
           "date": "2026-01-14",
-          "high_f": 29,
+          "high_f": 30,
           "low_f": 27,
           "description": "Windy",
           "snowfall_day_inches": 2,
@@ -83,6 +102,8 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
@@ -91,10 +112,51 @@
     ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "70 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major Terrain Drop",
+    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. 0 trails just opened. The mountain just got a whole lot bigger. A little something coming our way. Light snow expected to dust things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Map Exploded"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

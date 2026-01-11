@@ -2,7 +2,7 @@
   "resort": "buttermilk",
   "resortName": "Buttermilk",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.618Z",
+  "generated": "2026-01-11T23:16:27.814Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Open",
         "yesterday": "Open"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 42,
+          "yesterday": 0,
+          "delta": 42
+        },
+        "groomedTrails": {
+          "today": 18,
+          "yesterday": 0,
+          "delta": 18
+        },
+        "totalTrails": 52
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -60,7 +79,7 @@
         },
         {
           "date": "2026-01-14",
-          "high_f": 37,
+          "high_f": 38,
           "low_f": 19,
           "description": "Sunny",
           "snowfall_day_inches": 0,
@@ -83,14 +102,51 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
     "trends": [
-      "Great week for snow - 15\" in last 7 days"
+      "Great week for snow - 15\" in last 7 days",
+      "42 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major Terrain Drop",
+    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Major terrain release: 0 new options. Time to explore.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "MASSIVE Expansion: {newTrailsCount} New Runs"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

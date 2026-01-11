@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.630Z",
+  "generated": "2026-01-11T23:16:27.840Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -20,6 +20,25 @@
         "yesterday": "Powder"
       }
     },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 53,
+          "yesterday": 0,
+          "delta": 53
+        },
+        "groomedTrails": {
+          "today": 38,
+          "yesterday": 0,
+          "delta": 38
+        },
+        "totalTrails": 96
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
+    },
     "lifts": {
       "available": true,
       "yesterday": {
@@ -34,7 +53,7 @@
       "today": {
         "date": "2026-01-11",
         "high_f": 37,
-        "low_f": 37,
+        "low_f": 38,
         "description": "Rain Snow",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
@@ -42,7 +61,7 @@
       "outlook": [
         {
           "date": "2026-01-12",
-          "high_f": 41,
+          "high_f": 42,
           "low_f": 42,
           "description": "Rain",
           "snowfall_day_inches": 0,
@@ -51,7 +70,7 @@
         },
         {
           "date": "2026-01-13",
-          "high_f": 46,
+          "high_f": 45,
           "low_f": 42,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -70,7 +89,7 @@
       ],
       "tomorrow": {
         "date": "2026-01-12",
-        "high_f": 41,
+        "high_f": 42,
         "low_f": 42,
         "description": "Rain",
         "snowfall_day_inches": 0,
@@ -83,6 +102,8 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
@@ -90,10 +111,51 @@
       "7\" in last 24 hours - powder day!"
     ],
     "trends": [
-      "Great week for snow - 12\" in last 7 days"
+      "Great week for snow - 12\" in last 7 days",
+      "53 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Transition Day",
+    "body": "Mother Nature delivered 7\" of the good stuff. Face shots are on the menu. 0 trails just opened. The mountain just got a whole lot bigger. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "weather_mixed",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Rain at Base, Snow Up Top"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

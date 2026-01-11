@@ -2,7 +2,7 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.615Z",
+  "generated": "2026-01-11T23:16:27.809Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Open",
         "yesterday": "Open"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 61,
+          "yesterday": 0,
+          "delta": 61
+        },
+        "groomedTrails": {
+          "today": 21,
+          "yesterday": 0,
+          "delta": 21
+        },
+        "totalTrails": 126
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -83,14 +102,51 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
     "trends": [
-      "Great week for snow - 19\" in last 7 days"
+      "Great week for snow - 19\" in last 7 days",
+      "61 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Map Exploded",
+    "body": "Holding steady - that 19\" base from recent storms is doing the heavy lifting. Major terrain release: 0 new options. Time to explore.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Half the Mountain Just Dropped"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

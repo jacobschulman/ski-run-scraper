@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.628Z",
+  "generated": "2026-01-11T23:16:27.834Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Machine Groomed",
         "yesterday": "Variable Conditions"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 76,
+          "yesterday": 0,
+          "delta": 76
+        },
+        "groomedTrails": {
+          "today": 69,
+          "yesterday": 0,
+          "delta": 69
+        },
+        "totalTrails": 85
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -83,15 +102,58 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
+      "76 more trails open than yesterday",
       "2\" snow expected Monday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Half the Mountain Just Dropped",
+    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. 0 trails just opened. The mountain just got a whole lot bigger. A little something coming our way. Light snow expected to dust things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Floodgates Opened"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

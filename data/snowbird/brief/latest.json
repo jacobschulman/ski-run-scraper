@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.614Z",
+  "generated": "2026-01-11T23:16:27.806Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Packed Powder",
         "yesterday": "Packed Powder"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 149,
+          "yesterday": 0,
+          "delta": 149
+        },
+        "groomedTrails": {
+          "today": 47,
+          "yesterday": 0,
+          "delta": 47
+        },
+        "totalTrails": 200
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -42,7 +61,7 @@
       "outlook": [
         {
           "date": "2026-01-12",
-          "high_f": 33,
+          "high_f": 34,
           "low_f": 29,
           "description": "Sunny",
           "snowfall_day_inches": 0,
@@ -70,7 +89,7 @@
       ],
       "tomorrow": {
         "date": "2026-01-12",
-        "high_f": 33,
+        "high_f": 34,
         "low_f": 29,
         "description": "Sunny",
         "snowfall_day_inches": 0,
@@ -83,12 +102,50 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "149 more trails open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Half the Mountain Just Dropped",
+    "body": "149/200 trails spinning, 47 freshly groomed. 32° and Mostly Cloudy. MASSIVE expansion: 0 new trails opened. The floodgates are open.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Patrol Went Big Today"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

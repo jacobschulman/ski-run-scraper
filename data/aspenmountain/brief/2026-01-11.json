@@ -2,7 +2,7 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.617Z",
+  "generated": "2026-01-11T23:16:27.812Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Open",
         "yesterday": "Open"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 107,
+          "yesterday": 0,
+          "delta": 107
+        },
+        "groomedTrails": {
+          "today": 26,
+          "yesterday": 0,
+          "delta": 26
+        },
+        "totalTrails": 140
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -83,14 +102,51 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
     "trends": [
-      "Great week for snow - 16\" in last 7 days"
+      "Great week for snow - 16\" in last 7 days",
+      "107 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Floodgates Opened",
+    "body": "Holding steady - that 16\" base from recent storms is doing the heavy lifting. MASSIVE expansion: 0 new trails opened. The floodgates are open.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Map Exploded"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

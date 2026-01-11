@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.608Z",
+  "generated": "2026-01-11T23:16:27.797Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -20,6 +20,25 @@
         "yesterday": "6 AM- The weekend is finally here, so come treat yourself right. We squeezed out a sneaky three-inch touch-up overnight, guaranteeing you a Saturday shred of pure powder delight. Lingering flurries will fizzle this morning, leaving behind partly cloudy skies by midday. Seasonable temperatures will reach just into the teens atop Rendezvous Mountain while the Village climbs its way into the upper 20s. An added chill will come from light to moderate northwest winds breezing in the 5-25 mph range. Weekends were made to destroy the mundane. So, get out here! Because whether your game is found deep in the fluffy domain or you just want to rip a fresh corduroy lane, we've got the sensations that'll send you happily insane. -Lege"
       }
     },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 118,
+          "yesterday": 0,
+          "delta": 118
+        },
+        "groomedTrails": {
+          "today": 45,
+          "yesterday": 0,
+          "delta": 45
+        },
+        "totalTrails": 145
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
+    },
     "lifts": {
       "available": true,
       "yesterday": {
@@ -35,14 +54,51 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
     "trends": [
-      "Great week for snow - 35\" in last 7 days"
+      "Great week for snow - 35\" in last 7 days",
+      "118 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "MASSIVE Expansion: 0 New Runs",
+    "body": "The 35\" from this week is still skiing great. No new snow needed (yet). Major terrain release: 0 new options. Time to explore.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Half the Mountain Just Dropped"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

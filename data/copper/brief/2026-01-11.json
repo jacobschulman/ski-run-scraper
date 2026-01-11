@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-11",
-  "generated": "2026-01-11T22:16:51.619Z",
+  "generated": "2026-01-11T23:16:27.818Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -19,6 +19,25 @@
         "today": "Packed Powder",
         "yesterday": "Machine Groomed"
       }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 87,
+          "yesterday": 0,
+          "delta": 87
+        },
+        "groomedTrails": {
+          "today": 45,
+          "yesterday": 0,
+          "delta": 45
+        },
+        "totalTrails": 202
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -83,12 +102,50 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "87 more trails open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "MASSIVE Expansion: 0 New Runs",
+    "body": "The rundown: 87 trails open, 45 groomed. Partly Cloudy with temps around 28°. Major terrain release: 0 new options. Time to explore.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_massive",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "terrain_massive",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major Terrain Drop"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
