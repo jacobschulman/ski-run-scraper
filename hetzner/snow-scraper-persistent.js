@@ -323,12 +323,14 @@ async function scrapeVailSnowReport(resortKey, url) {
   const today = getResortLocalDate(timezone);
 
   try {
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
-    await sleep(2000);
+    // Use domcontentloaded instead of networkidle2 - flagship sites (vail.com, beavercreek.com)
+    // have heavy analytics that prevent networkidle2 from ever completing
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await sleep(3000); // Give extra time for JS to execute
 
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.snowReportData,
-      { timeout: 30000 }
+      { timeout: 45000 } // Increased timeout for data loading
     ).catch(() => {});
 
     const data = await page.evaluate(() => {
