@@ -33,7 +33,8 @@ if [ -n "$SSH_PRIVATE_KEY" ]; then
 
     # Add Hetzner to known hosts
     if [ -n "$HETZNER_HOST" ]; then
-        ssh-keyscan -H "$HETZNER_HOST" >> $LIFTIE_HOME/.ssh/known_hosts 2>/dev/null || true
+        HETZNER_PORT=${HETZNER_PORT:-22}
+        ssh-keyscan -p "$HETZNER_PORT" -H "$HETZNER_HOST" >> $LIFTIE_HOME/.ssh/known_hosts 2>/dev/null || true
     fi
 
     chown liftie:liftie $LIFTIE_HOME/.ssh/known_hosts
@@ -79,10 +80,12 @@ check_claude_status() {
 
     # Check Hetzner connectivity
     if [ -n "$HETZNER_HOST" ]; then
-        if gosu liftie ssh -o ConnectTimeout=5 -o BatchMode=yes scraper@$HETZNER_HOST "echo ok" 2>/dev/null; then
-            echo "✓ Can SSH to Hetzner ($HETZNER_HOST)"
+        HETZNER_USER=${HETZNER_USER:-scraper}
+        HETZNER_PORT=${HETZNER_PORT:-22}
+        if gosu liftie ssh -p "$HETZNER_PORT" -o ConnectTimeout=5 -o BatchMode=yes "$HETZNER_USER@$HETZNER_HOST" "echo ok" 2>/dev/null; then
+            echo "✓ Can SSH to Hetzner ($HETZNER_HOST:$HETZNER_PORT)"
         else
-            echo "✗ Cannot SSH to Hetzner ($HETZNER_HOST)"
+            echo "✗ Cannot SSH to Hetzner ($HETZNER_HOST:$HETZNER_PORT)"
             return 1
         fi
     fi

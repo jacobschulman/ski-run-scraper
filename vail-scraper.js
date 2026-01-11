@@ -712,9 +712,25 @@ async function scrapeResort(resortKey, options = {}) {
 
 /**
  * Generate latest.json with most recent terrain data from all resorts
+ * IMPORTANT: Merges with existing data to support multiple provider runs
  */
 function generateLatestFile(scrapedData) {
-  const latest = {};
+  ensureDirectoryExists('data');
+  const latestPath = 'data/latest.json';
+
+  // Load existing data to merge with (supports multiple provider runs)
+  let existing = {};
+  try {
+    if (fs.existsSync(latestPath)) {
+      existing = JSON.parse(fs.readFileSync(latestPath, 'utf8'));
+      console.log(`\n📂 Loaded existing latest.json (${Object.keys(existing).length} resorts)`);
+    }
+  } catch (e) {
+    console.log(`\n⚠️  Could not load existing latest.json: ${e.message}`);
+  }
+
+  // Merge new data (new data overwrites existing for same resort)
+  const latest = { ...existing };
 
   scrapedData.forEach(result => {
     if (result && result.terrain && result.terrain.data) {
@@ -727,16 +743,32 @@ function generateLatestFile(scrapedData) {
     }
   });
 
-  ensureDirectoryExists('data');
-  fs.writeFileSync('data/latest.json', JSON.stringify(latest, null, 2));
-  console.log('\n✓ Generated data/latest.json (aggregated terrain data)');
+  fs.writeFileSync(latestPath, JSON.stringify(latest, null, 2));
+  const newCount = scrapedData.filter(r => r && r.terrain && r.terrain.data).length;
+  console.log(`✓ Updated data/latest.json (${Object.keys(latest).length} total resorts, ${newCount} updated this run)`);
 }
 
 /**
  * Generate latest-snow.json with most recent snow data from all resorts
+ * IMPORTANT: Merges with existing data to support multiple provider runs
  */
 function generateLatestSnowFile(scrapedData) {
-  const latest = {};
+  ensureDirectoryExists('data');
+  const latestPath = 'data/latest-snow.json';
+
+  // Load existing data to merge with (supports multiple provider runs)
+  let existing = {};
+  try {
+    if (fs.existsSync(latestPath)) {
+      existing = JSON.parse(fs.readFileSync(latestPath, 'utf8'));
+      console.log(`\n📂 Loaded existing latest-snow.json (${Object.keys(existing).length} resorts)`);
+    }
+  } catch (e) {
+    console.log(`\n⚠️  Could not load existing latest-snow.json: ${e.message}`);
+  }
+
+  // Merge new data (new data overwrites existing for same resort)
+  const latest = { ...existing };
 
   scrapedData.forEach(result => {
     if (result && result.snow && result.snow.data) {
@@ -750,9 +782,9 @@ function generateLatestSnowFile(scrapedData) {
   });
 
   if (Object.keys(latest).length > 0) {
-    ensureDirectoryExists('data');
-    fs.writeFileSync('data/latest-snow.json', JSON.stringify(latest, null, 2));
-    console.log('✓ Generated data/latest-snow.json (aggregated snow data)');
+    fs.writeFileSync(latestPath, JSON.stringify(latest, null, 2));
+    const newCount = scrapedData.filter(r => r && r.snow && r.snow.data).length;
+    console.log(`✓ Updated data/latest-snow.json (${Object.keys(latest).length} total resorts, ${newCount} updated this run)`);
   }
 }
 

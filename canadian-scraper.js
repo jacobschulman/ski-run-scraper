@@ -139,6 +139,48 @@ function saveSnowData(resortKey, data) {
   return snowReport;
 }
 
+// Update latest-snow.json with Canadian resorts (merge with existing data)
+function updateLatestSnowJson(resorts) {
+  const latestSnowPath = path.join('data', 'latest-snow.json');
+
+  // Load existing data to merge with
+  let existing = {};
+  try {
+    if (fs.existsSync(latestSnowPath)) {
+      existing = JSON.parse(fs.readFileSync(latestSnowPath, 'utf8'));
+      console.log(`\n📂 Loaded existing latest-snow.json (${Object.keys(existing).length} resorts)`);
+    }
+  } catch (e) {
+    console.log(`\n⚠️  Could not load existing latest-snow.json: ${e.message}`);
+  }
+
+  // Merge Canadian resorts snow data
+  let added = 0;
+  for (const resort of resorts) {
+    const snowLatestPath = path.join('data', resort.key, 'snow', 'latest.json');
+    if (fs.existsSync(snowLatestPath)) {
+      try {
+        const snowData = JSON.parse(fs.readFileSync(snowLatestPath, 'utf8'));
+        existing[resort.key] = {
+          date: snowData.date,
+          name: resort.name,
+          provider: 'canadian-big3',
+          data: snowData
+        };
+        added++;
+      } catch (e) {
+        console.log(`  ⚠️  Could not load snow data for ${resort.key}: ${e.message}`);
+      }
+    }
+  }
+
+  if (added > 0) {
+    fileStorage.ensureDirectoryExists('data');
+    fs.writeFileSync(latestSnowPath, JSON.stringify(existing, null, 2));
+    console.log(`✓ Updated data/latest-snow.json (${Object.keys(existing).length} total resorts, ${added} Canadian)`);
+  }
+}
+
 // Generate brief for resort
 function generateBrief(resortKey) {
   const resort = RESORTS[resortKey];
@@ -237,6 +279,9 @@ async function main() {
         console.error(`  ✗ Error: ${error.message}`);
       }
     }
+
+    // Update latest-snow.json with Canadian resorts data
+    updateLatestSnowJson(resorts);
 
     console.log('\n' + '='.repeat(60));
     console.log('✅ Canadian SkiBig3 scraping complete!');

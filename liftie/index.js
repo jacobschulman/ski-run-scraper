@@ -166,8 +166,12 @@ function syncWithGitHub() {
 function pushCodeChanges() {
   console.log('[Sync] Checking for code changes to push...');
   try {
-    // Only stage code files, not data
-    execSync('git add "*.js" "*.json" "*.yml" "*.md" "*.sh"', {
+    // Stage all changes, then unstage data/cache directories to avoid pushing scraped data.
+    execSync('git add -A', {
+      cwd: REPO_ROOT,
+      stdio: 'pipe'
+    });
+    execSync('git reset -- data data-local cache cache-local || true', {
       cwd: REPO_ROOT,
       stdio: 'pipe'
     });
@@ -210,10 +214,12 @@ async function deployToHetzner(affectedDataTypes = []) {
   try {
     const host = config.hetzner.host;
     const user = config.hetzner.user;
+    const port = config.hetzner.port;
+    const sshBase = `ssh -p ${port} ${user}@${host}`;
 
     // Pull latest on Hetzner
     execSync(
-      `ssh ${user}@${host} "cd /home/scraper/ski-run-scraper && git pull origin main"`,
+      `${sshBase} "cd /home/scraper/ski-run-scraper && git pull origin main"`,
       { stdio: 'pipe', timeout: 30000 }
     );
 
@@ -233,7 +239,7 @@ async function deployToHetzner(affectedDataTypes = []) {
         console.log(`[Deploy] Restarting ${processName}...`);
         try {
           execSync(
-            `ssh ${user}@${host} "pm2 restart ${processName}"`,
+            `${sshBase} "pm2 restart ${processName}"`,
             { stdio: 'pipe', timeout: 30000 }
           );
         } catch (e) {
@@ -256,6 +262,7 @@ async function deployToHetzner(affectedDataTypes = []) {
 async function main() {
   const checkOnly = process.argv.includes('--check-only');
   const forceClearLock = process.argv.includes('--force-clear-lock');
+  let lockAcquired = false;
 
   console.log('🎿 Liftie starting up...\n');
   if (checkOnly) {
@@ -290,6 +297,9 @@ async function main() {
   // Acquire lock to prevent concurrent runs (skip for check-only mode)
   if (!checkOnly && !acquireLock()) {
     return;
+  }
+  if (!checkOnly) {
+    lockAcquired = true;
   }
 
   // Load state for circuit breaker
@@ -456,7 +466,9 @@ async function main() {
     }
   } finally {
     // Always release the lock
-    releaseLock();
+    if (lockAcquired) {
+      releaseLock();
+    }
   }
 }
 
