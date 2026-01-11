@@ -18,32 +18,32 @@ const dataNormalization = require('../lib/data-normalization');
 // Configuration
 const CONFIG = {
   ikon: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   vail: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 60000,               // 0-60 seconds random jitter
     delayBetweenResorts: 5000,     // 5 seconds between resorts
   },
   canadianBig3: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   aspen: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   reportpal: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   zaneray: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   snocountry: {
-    intervalMs: 30 * 60 * 1000,    // 30 minutes
+    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   dataDir: path.join(__dirname, '..', 'data'),
