@@ -496,18 +496,23 @@ async function scrapeOneResort(poolEntry, resort) {
     const dataTimeout = CONFIG.vail.dataWaitTimeout;
 
     // Navigate or reload
+    // Use domcontentloaded instead of networkidle2 - flagship sites (vail.com, beavercreek.com)
+    // have heavy analytics that prevent networkidle2 from ever completing
     if (poolEntry.lastUrl === url) {
       // Same URL - just reload
       try {
-        await page.reload({ waitUntil: 'networkidle2', timeout: navTimeout });
+        await page.reload({ waitUntil: 'domcontentloaded', timeout: navTimeout });
       } catch (e) {
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: navTimeout });
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: navTimeout });
       }
     } else {
       // Different URL - full navigation
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: navTimeout });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: navTimeout });
       poolEntry.lastUrl = url;
     }
+
+    // Give extra time for JS to execute after domcontentloaded
+    await sleep(2000);
 
     // Wait for data
     await page.waitForFunction(
