@@ -77,6 +77,9 @@ jobs:
           # Now pull with rebase - staged files won't conflict
           git pull --rebase --autostash origin "$BRANCH_NAME"
 
+          # Re-stage after rebase - autostash restores changes as unstaged
+          git add data/
+
           # Create commit with timestamp
           git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "Nothing to commit"
 
