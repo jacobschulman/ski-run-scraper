@@ -19,8 +19,8 @@ const canadianBig3 = require('../lib/providers/canadian-big3');
 // Configuration
 const CONFIG = {
   checkIntervalMs: 15 * 60 * 1000,  // Check every 15 minutes
-  targetHour: 7,                     // Target hour in resort's local time (7 AM)
-  windowHours: 3,                    // Scraping window (7 AM - 10 AM)
+  targetHour: 5,                     // Target hour in resort's local time (5 AM)
+  windowHours: 5,                    // Scraping window (5 AM - 10 AM)
   vail: {
     batchSize: 4,
     batchDelayMs: 5000,
