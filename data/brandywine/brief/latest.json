@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2026-01-12",
-  "generated": "2026-01-12T20:20:56.282Z",
+  "generated": "2026-01-12T21:20:53.428Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 11,
           "yesterday": 10,
-          "delta": -10
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,59 +34,14 @@
         },
         "totalTrails": 11
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Champagne",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Down Draft",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Grizzly",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "J's Way",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Outer Limits",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Regulator Johnston",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Shredder",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "The Park",
+          "name": "Progression Park",
           "difficulty": "TerrainPark",
           "area": "Brandywine"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -106,8 +61,8 @@
         "high_f": 35,
         "low_f": 26,
         "high_c": 2,
-        "low_c": -3,
-        "description": "Partly Cloudy",
+        "low_c": -4,
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -115,7 +70,7 @@
         {
           "date": "2026-01-13T05:00:00Z",
           "high_f": 43,
-          "low_f": 28,
+          "low_f": 29,
           "high_c": 6,
           "low_c": -2,
           "description": "Mostly Cloudy",
@@ -149,7 +104,7 @@
       "tomorrow": {
         "date": "2026-01-13T05:00:00Z",
         "high_f": 43,
-        "low_f": 28,
+        "low_f": 29,
         "high_c": 6,
         "low_c": -2,
         "description": "Mostly Cloudy",
@@ -163,41 +118,56 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "Nearly Everything Open",
+    "body": "11 of 11 trails are open with 0 groomed. Mostly Clear with a high of 35°F. 1 new trail opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "percent_full",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "percent_full",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Monday"
     }
