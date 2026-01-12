@@ -40,7 +40,7 @@ Create `.env` in the liftie directory:
 ```bash
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxx/yyy
 HETZNER_HOST=46.62.169.104
-SSH_PRIVATE_KEY=<base64-encoded-ssh-key>
+SSH_PRIVATE_KEY=<base64-encoded-ssh-key>  # or HETZNER_SSH_KEY
 ```
 
 To encode your SSH key:
@@ -97,7 +97,7 @@ docker logs -f liftie
 3. Add environment variables:
    - `DISCORD_WEBHOOK_URL`
    - `HETZNER_HOST`
-   - `HETZNER_SSH_KEY`
+   - `SSH_PRIVATE_KEY` (or `HETZNER_SSH_KEY`)
 4. Add volume mapping:
    - `/root/.claude` → `/mnt/user/appdata/liftie/claude-config`
 5. Apply

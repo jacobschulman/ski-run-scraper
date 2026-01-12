@@ -3,7 +3,7 @@
  *
  * Environment variables required:
  * - HETZNER_HOST: IP address of the Hetzner server
- * - HETZNER_SSH_KEY: Base64-encoded SSH private key
+ * - SSH_PRIVATE_KEY or HETZNER_SSH_KEY: Base64-encoded SSH private key
  * - DISCORD_WEBHOOK_URL: Discord webhook URL for notifications
  * - ANTHROPIC_API_KEY: Anthropic API key for Claude Agent SDK
  */
