@@ -12,6 +12,7 @@ module.exports = {
       cwd: __dirname,
       instances: 1,
       autorestart: true,
+      min_uptime: '10s',
       watch: false,
       max_memory_restart: '1500M',
       env: {
@@ -32,6 +33,7 @@ module.exports = {
       cwd: __dirname,
       instances: 1,
       autorestart: true,
+      min_uptime: '10s',
       watch: false,
       max_memory_restart: '1500M',
       env: {
@@ -52,6 +54,7 @@ module.exports = {
       cwd: __dirname,
       instances: 1,
       autorestart: true,
+      min_uptime: '10s',
       watch: false,
       max_memory_restart: '1500M',
       env: {
@@ -72,6 +75,7 @@ module.exports = {
       cwd: __dirname,
       instances: 1,
       autorestart: true,
+      min_uptime: '10s',
       watch: false,
       max_memory_restart: '500M',
       env: {
