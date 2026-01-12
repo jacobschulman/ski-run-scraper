@@ -1,36 +1,36 @@
 {
   "resort": "loon",
   "resortName": "Loon Mountain",
-  "date": "2026-01-11",
-  "generated": "2026-01-12T02:22:11.226Z",
+  "date": "2026-01-12",
+  "generated": "2026-01-12T19:19:13.182Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
+      "overnight_inches": 1,
+      "overnight_cm": 3,
       "24hour_inches": 1,
       "24hour_cm": 3,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 7,
-      "7day_cm": 18,
-      "season_total_inches": 50,
-      "season_total_cm": 127,
+      "7day_inches": 8,
+      "7day_cm": 20,
+      "season_total_inches": 51,
+      "season_total_cm": 130,
       "conditions": {
         "today": "Machine Groomed",
-        "yesterday": "Variable Conditions"
+        "yesterday": "Machine Groomed"
       }
     },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 76,
-          "yesterday": 0,
-          "delta": 76
+          "yesterday": 76,
+          "delta": 0
         },
         "groomedTrails": {
           "today": 69,
-          "yesterday": 0,
-          "delta": 69
+          "yesterday": 69,
+          "delta": 0
         },
         "totalTrails": 85
       },
@@ -42,7 +42,7 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-01-10",
+        "date": "2026-01-11",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 14,
@@ -51,27 +51,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-11",
-        "high_f": null,
-        "low_f": 12,
+        "date": "2026-01-12",
+        "high_f": 24,
+        "low_f": 23,
         "description": "Windy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-12",
-          "high_f": 23,
-          "low_f": 23,
-          "description": "Windy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
-        {
           "date": "2026-01-13",
-          "high_f": 31,
-          "low_f": 27,
+          "high_f": 30,
+          "low_f": 28,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
@@ -79,50 +70,60 @@
         },
         {
           "date": "2026-01-14",
-          "high_f": 35,
-          "low_f": 31,
+          "high_f": 37,
+          "low_f": 32,
           "description": "Cloudy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-15",
+          "high_f": 32,
+          "low_f": 5,
+          "description": "Snow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
         }
       ],
       "tomorrow": {
-        "date": "2026-01-12",
-        "high_f": 23,
-        "low_f": 23,
-        "description": "Windy",
-        "snowfall_day_inches": 2,
+        "date": "2026-01-13",
+        "high_f": 30,
+        "low_f": 28,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 2
+        "snowfall_expected": 1
       }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
+      "hasFreshSnow": true,
       "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
     "trends": [
-      "Steady snowfall - 7\" in last 7 days",
-      "76 more trails open than yesterday",
-      "2\" snow expected Sunday"
+      "Steady snowfall - 8\" in last 7 days",
+      "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Half the Mountain Just Dropped",
-    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. 0 trails just opened. The mountain just got a whole lot bigger. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "Big Snow Incoming",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_massive",
-          "category": "terrain",
-          "priority": 95,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -132,27 +133,21 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_massive",
-          "category": "terrain",
-          "priority": 95,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_massive",
+        "condition": "storm_major",
         "variationIndex": 1,
-        "totalVariations": 6,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Floodgates Opened"
+        "previousHeadline": "Major System Approaching"
       },
-      "dayOfWeek": "Sunday"
+      "dayOfWeek": "Monday"
     }
   },
   "errors": []
