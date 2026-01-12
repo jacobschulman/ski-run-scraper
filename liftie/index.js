@@ -215,7 +215,7 @@ async function deployToHetzner(affectedDataTypes = []) {
     const host = config.hetzner.host;
     const user = config.hetzner.user;
     const port = config.hetzner.port;
-    const sshBase = `ssh -i /home/liftie/.ssh/id_ed25519 -p ${port} ${user}@${host}`;
+    const sshBase = `ssh -i /home/liftie/.ssh/id_ed25519 -o IdentitiesOnly=yes -p ${port} ${user}@${host}`;
 
     // Pull latest on Hetzner
     execSync(
