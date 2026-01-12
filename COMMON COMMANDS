@@ -1,0 +1,27 @@
+# DOCKER
+
+docker-compose down && docker-compose up -d --build
+
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+docker logs liftie | grep "SSH key\|Cannot SSH"
+
+
+## UPDATE HETZNER SERVER
+
+# 1. SSH into your Hetzner server
+ssh root@your-hetzner-ip
+
+# 2. Navigate to your repo
+cd /home/scraper/ski-run-scraper
+
+# 3. Pull the latest changes (including the new multi-queue architecture)
+git pull origin main
+
+# 4. Reload the lift-scraper process with PM2
+pm2 restart lift-scraper
+
+# 5. Check status
+pm2 status
+pm2 logs lift-scraper  # Watch logs in real-time
