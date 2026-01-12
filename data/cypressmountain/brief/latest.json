@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-12",
-  "generated": "2026-01-12T14:22:21.458Z",
+  "generated": "2026-01-12T15:22:34.282Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -51,26 +51,17 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-11",
-        "high_f": null,
-        "low_f": 37,
+        "date": "2026-01-12",
+        "high_f": 42,
+        "low_f": 42,
         "description": "Rain",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-12",
-          "high_f": 42,
-          "low_f": 42,
-          "description": "Rain",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-13",
-          "high_f": 45,
+          "high_f": 47,
           "low_f": 43,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -85,13 +76,22 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-15",
+          "high_f": 44,
+          "low_f": 44,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-12",
-        "high_f": 42,
-        "low_f": 42,
-        "description": "Rain",
+        "date": "2026-01-13",
+        "high_f": 47,
+        "low_f": 43,
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -116,14 +116,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got Buried",
-    "body": "It's a 7\" day. You know what to do. First chair or regret it.",
+    "headline": "Bring Your Rain Gear",
+    "body": "It's a 7\" day. You know what to do. First chair or regret it. Rain expected today. Wet conditions likely at lower elevations. Snow may be slushy.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder",
-          "category": "snow",
-          "priority": 90,
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
           "usedFor": "headline"
         },
         {
@@ -131,15 +131,21 @@
           "category": "snow",
           "priority": 90,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 3,
-        "totalVariations": 11,
+        "condition": "weather_rain",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Time to Call in Sick"
+        "previousHeadline": "Weather Advisory: Rain"
       },
       "dayOfWeek": "Monday"
     }
