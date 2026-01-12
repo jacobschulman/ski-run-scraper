@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-12",
-  "generated": "2026-01-12T10:25:55.363Z",
+  "generated": "2026-01-12T11:18:03.296Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 67,
+          "today": 70,
           "yesterday": 67,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 67,
+          "today": 70,
           "yesterday": 67,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Down Easter",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Upper Middlebrook",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "World Cup",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Lower Down Easter",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Upper Middlebrook",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "World Cup",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,25 +144,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 8\" in last 7 days"
+    "alerts": [
+      "3 new trails opened today",
+      "3 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 8\" in last 7 days",
+      "3 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Lower Down Easter - all skill levels",
+      "Fresh corduroy on Upper Middlebrook - all skill levels",
+      "Fresh corduroy on World Cup - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "The Rundown",
-    "body": "Steady snowfall with 8\" over the last week. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "3 New Runs Open",
+    "body": "Steady snowfall with 8\" over the last week. 3 new trails are now available. Nice little expansion. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -140,17 +180,23 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_windy",
           "category": "weather",
           "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 6,
-        "totalVariations": 7,
+        "condition": "terrain_few",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
         "previousHeadline": null
       },
