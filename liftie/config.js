@@ -46,6 +46,6 @@ module.exports = {
     // Maximum number of auto-fix attempts per issue
     maxAutoFixAttempts: 3,
     // Enable/disable automatic code fixes
-    codeFixEnabled: true
+    codeFixEnabled: false
   }
 };
