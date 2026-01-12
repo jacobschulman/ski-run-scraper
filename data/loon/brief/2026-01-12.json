@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-01-12",
-  "generated": "2026-01-12T11:18:03.455Z",
+  "generated": "2026-01-12T12:40:48.997Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -51,23 +51,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-11",
-        "high_f": null,
-        "low_f": 12,
+        "date": "2026-01-12",
+        "high_f": 24,
+        "low_f": 23,
         "description": "Windy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-12",
-          "high_f": 24,
-          "low_f": 23,
-          "description": "Windy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
         {
           "date": "2026-01-13",
           "high_f": 30,
@@ -85,16 +76,25 @@
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-15",
+          "high_f": 32,
+          "low_f": 6,
+          "description": "Snow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
         }
       ],
       "tomorrow": {
-        "date": "2026-01-12",
-        "high_f": 24,
-        "low_f": 23,
-        "description": "Windy",
-        "snowfall_day_inches": 2,
+        "date": "2026-01-13",
+        "high_f": 30,
+        "low_f": 28,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 2
+        "snowfall_expected": 1
       }
     }
   },
@@ -109,19 +109,19 @@
     "alerts": [],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
-      "2\" snow expected Monday"
+      "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Layer in Place",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "Big Snow Incoming",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. A significant storm is brewing with 6\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -131,19 +131,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Coat on the Mountain"
+        "previousHeadline": "Major System Approaching"
       },
       "dayOfWeek": "Monday"
     }
