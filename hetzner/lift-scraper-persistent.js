@@ -34,8 +34,8 @@ const CONFIG = {
       delayBetweenScrapes: 300,      // 300ms stagger between launching
     },
     // Shared settings for both queues
-    navigationTimeout: 20000,   // 20s navigation timeout (fail fast)
-    dataWaitTimeout: 15000,     // 15s to wait for FR.TerrainStatusFeed
+    navigationTimeout: 25000,   // 25s navigation timeout (fail fast)
+    dataWaitTimeout: 20000,     // 20s to wait for FR.TerrainStatusFeed
     // Failure tracking - skip resorts that keep timing out
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
     maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown
