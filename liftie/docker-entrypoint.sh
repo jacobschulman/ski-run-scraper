@@ -21,10 +21,11 @@ echo "Claude config dir contents:"
 ls -la $LIFTIE_HOME/.claude/ 2>/dev/null || echo "  (empty)"
 
 # Setup SSH key if provided (used for both GitHub and Hetzner)
-if [ -n "$SSH_PRIVATE_KEY" ]; then
+SSH_KEY_B64="${SSH_PRIVATE_KEY:-$HETZNER_SSH_KEY}"
+if [ -n "$SSH_KEY_B64" ]; then
     echo "Setting up SSH key..."
     mkdir -p $LIFTIE_HOME/.ssh
-    echo "$SSH_PRIVATE_KEY" | base64 -d > $LIFTIE_HOME/.ssh/id_ed25519
+    echo "$SSH_KEY_B64" | base64 -d > $LIFTIE_HOME/.ssh/id_ed25519
     chmod 600 $LIFTIE_HOME/.ssh/id_ed25519
     chown -R liftie:liftie $LIFTIE_HOME/.ssh
 
