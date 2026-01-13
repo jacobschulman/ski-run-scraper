@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-01-13",
-  "generated": "2026-01-13T16:27:58.508Z",
+  "generated": "2026-01-13T17:24:10.434Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 149,
+          "today": 157,
           "yesterday": 149,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
           "today": 50,
@@ -34,7 +34,48 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Mid-Baldy Traverse",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Center of Gravity",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Fields of Glory",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "West Baldy",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "High Baldy Traverse",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Venus Line",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Thanks for the Memories",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Gun Towers",
+          "difficulty": "Double Black",
+          "area": "Peruvian Gulch"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -129,14 +170,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "8 new trails opened today",
       "4 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "8 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Bluebell - perfect for intermediate skiers",
       "Fresh corduroy on Road to Provo - challenging for advanced skiers",
@@ -144,20 +188,26 @@
     ]
   },
   "morningBrief": {
-    "headline": "Midweek Mountain Report",
-    "body": "149 of 200 trails are open with 50 groomed. Windy with a high of 34°F. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "More Mountain to Explore",
+    "body": "157 of 200 trails are open with 50 groomed. Windy with a high of 34°F. 8 new runs just opened up. Time to explore fresh terrain. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "body"
         },
         {
@@ -169,11 +219,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Fresh Terrain Unlocked"
       },
       "dayOfWeek": "Tuesday"
     }
