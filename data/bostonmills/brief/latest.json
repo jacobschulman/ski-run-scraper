@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-01-13",
-  "generated": "2026-01-13T14:24:03.745Z",
+  "generated": "2026-01-13T15:21:12.867Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,38 +35,7 @@
         "totalTrails": 7
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Buttermilk",
-          "difficulty": "Blue",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Croyle",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "North Bowl",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Peter's Pride",
-          "difficulty": "TerrainPark",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Summit",
-          "difficulty": "Green",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Tiger",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -83,7 +52,7 @@
     "forecast": {
       "today": {
         "date": "2026-01-13",
-        "high_f": 44,
+        "high_f": 45,
         "low_f": 29,
         "high_c": 7,
         "low_c": -2,
@@ -94,8 +63,8 @@
       "outlook": [
         {
           "date": "2026-01-14T05:00:00Z",
-          "high_f": 42,
-          "low_f": 18,
+          "high_f": 41,
+          "low_f": 17,
           "high_c": 5,
           "low_c": -8,
           "description": "Cloudy",
@@ -106,9 +75,9 @@
         {
           "date": "2026-01-15T05:00:00Z",
           "high_f": 20,
-          "low_f": 14,
+          "low_f": 13,
           "high_c": -7,
-          "low_c": -10,
+          "low_c": -11,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -128,8 +97,8 @@
       ],
       "tomorrow": {
         "date": "2026-01-14T05:00:00Z",
-        "high_f": 42,
-        "low_f": 18,
+        "high_f": 41,
+        "low_f": 17,
         "high_c": 5,
         "low_c": -8,
         "description": "Cloudy",
@@ -152,30 +121,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "No trails open yet. Current forecast: Partly Cloudy.",
+    "headline": "Warm for Winter",
+    "body": "6/7 trails spinning, 0 freshly groomed. 45° and Partly Cloudy. Unseasonably warm: 45° today. Snow may soften by afternoon.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "temp_unseasonably_warm",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_unseasonably_warm",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "unseasonably_warm",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Tuesday"
     }
