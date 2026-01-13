@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-12",
-  "generated": "2026-01-12T23:14:36.124Z",
+  "generated": "2026-01-13T01:17:50.147Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -115,9 +115,9 @@
     "forecast": {
       "today": {
         "date": "2026-01-12",
-        "high_f": 30,
+        "high_f": null,
         "low_f": 17,
-        "description": "Sunny",
+        "description": "Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -125,7 +125,7 @@
         {
           "date": "2026-01-13",
           "high_f": 31,
-          "low_f": 17,
+          "low_f": 18,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -153,7 +153,7 @@
       "tomorrow": {
         "date": "2026-01-13",
         "high_f": 31,
-        "low_f": 17,
+        "low_f": 18,
         "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -176,14 +176,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Bluebird Day",
-    "body": "86/202 trails spinning, 34 freshly groomed. 30° and Sunny. It's a postcard kind of day. 30° and sunny - the mountain is photogenic.",
+    "headline": "Mountain Conditions Update",
+    "body": "86/202 trails spinning, 34 freshly groomed. Clear. 86/202 trails open, 34 groomed. Clear.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird",
-          "category": "weather",
-          "priority": 70,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -193,19 +193,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_bluebird",
+          "id": "fallback_body",
           "category": "weather",
-          "priority": 70,
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Clear Skies, Cold Temps"
+        "previousHeadline": "Your Morning Mountain Brief"
       },
       "dayOfWeek": "Monday"
     }
