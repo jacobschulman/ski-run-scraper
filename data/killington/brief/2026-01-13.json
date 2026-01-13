@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-13",
-  "generated": "2026-01-13T15:21:19.341Z",
+  "generated": "2026-01-13T16:27:58.525Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 107,
+          "today": 109,
           "yesterday": 107,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 76,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -53,7 +64,7 @@
       "today": {
         "date": "2026-01-13",
         "high_f": 29,
-        "low_f": 30,
+        "low_f": 29,
         "description": "Windy",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
@@ -62,20 +73,20 @@
         {
           "date": "2026-01-14",
           "high_f": 33,
-          "low_f": 27,
+          "low_f": 19,
           "description": "Windy",
-          "snowfall_day_inches": 3,
+          "snowfall_day_inches": 4,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 3
+          "snowfall_expected": 4
         },
         {
           "date": "2026-01-15",
-          "high_f": 27,
+          "high_f": 23,
           "low_f": -3,
           "description": "Snow Wind",
-          "snowfall_day_inches": 3,
+          "snowfall_day_inches": 4,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 3
+          "snowfall_expected": 4
         },
         {
           "date": "2026-01-16",
@@ -90,11 +101,11 @@
       "tomorrow": {
         "date": "2026-01-14",
         "high_f": 33,
-        "low_f": 27,
+        "low_f": 19,
         "description": "Windy",
-        "snowfall_day_inches": 3,
+        "snowfall_day_inches": 4,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 3
+        "snowfall_expected": 4
       }
     }
   },
@@ -102,21 +113,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "2 new trails opened today"
     ],
     "trends": [
-      "3\" snow expected Wednesday"
+      "2 more trails open than yesterday",
+      "4\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Winter's Coming Back",
-    "body": "A light refresh of 1\" overnight makes the groomers smoother. Winter has more to say. 6\" forecasted means conditions improving soon.",
+    "body": "A light refresh of 1\" overnight makes the groomers smoother. 2 new trails opened today. Winter has more to say. 8\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -132,13 +145,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 3,
