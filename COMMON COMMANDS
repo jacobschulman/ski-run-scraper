@@ -25,3 +25,59 @@ pm2 restart lift-scraper
 # 5. Check status
 pm2 status
 pm2 logs lift-scraper  # Watch logs in real-time
+
+
+# Watch logs (shows the new [VAIL-HIGH] and [VAIL-REGULAR] labels)
+pm2 logs lift-scraper
+
+# You should see something like:
+# [VAIL-HIGH] Starting cycle - 4 resorts
+# [VAIL-HIGH] vail: 20 lifts
+# [VAIL-HIGH] beavercreek: 23 lifts
+# [VAIL-HIGH] Processed 4 resorts, 87 lifts
+# [VAIL-REGULAR] Starting cycle - 35 resorts
+# [VAIL-REGULAR] breckenridge: 31 lifts
+# ...
+
+
+File Tree on Hetzner
+
+/home/scraper/data/
+├── {resort}/                      # e.g., vail/, park-city/, etc.
+│   ├── lifts/
+│   │   ├── 2026-01-09.ndjson     # One file per day
+│   │   ├── 2026-01-10.ndjson     # Appended throughout day
+│   │   └── index.json            # Dynamic latest lift data
+│   │
+│   ├── terrain/
+│   │   ├── 2026-01-10.json       # Daily grooming snapshots
+│   │   └── latest.json
+│   │
+│   ├── snow/
+│   │   ├── 2026-01-10.ndjson     # Hourly snow records
+│   │   └── latest.json
+│   │
+│   └── brief/
+│       └── 2026-01-10.json       # Daily summaries
+│
+├── aggregates/
+│   ├── 2026-01-10.json           # Global daily stats
+│   └── latest.json
+│
+├── index.json                    # Master manifest (all resorts)
+├── latest.json                   # Latest terrain/snow all resorts
+├── latest-snow.json              # Latest snow all resorts
+└── latest-lifts.json             # Latest lifts all resorts (dynamic)
+Live Lift NDJSON Format
+Each line in lifts/{YYYY-MM-DD}.ndjson:
+
+
+{"timestamp":"2026-01-10T15:33:32.814Z","localTime":"08:33","resort":"vail","liftId":"15","name":"Avanti Express #2","status":"Open","waitMinutes":1,"type":"Six Pack"}
+Key API Endpoints
+Endpoint	Description
+/data/{resort}/lifts/index.json	Latest lifts for resort
+/data/{resort}/lifts/{date}.ndjson	Historical lift data
+/data/latest-lifts.json	All resorts latest lifts
+/data/{resort}/snow/latest.json	Latest snow report
+/data/{resort}/terrain/latest.json	Latest grooming
+Update frequency: Lift data every 1-2.5 min, snow every 30 min, terrain once daily.
