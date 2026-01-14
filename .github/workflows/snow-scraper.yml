@@ -2,9 +2,9 @@ name: Snow Report Scraper
 
 on:
   schedule:
-    # Run every hour to keep snow reports fresh throughout the day
-    # Snow conditions are updated hourly (unlike terrain which updates once daily)
-    - cron: '0 */1 * * *'
+    # Run every 4 hours to keep snow reports fresh
+    # Snow conditions update overnight, not hourly; this reduces commits while keeping data fresh
+    - cron: '0 */4 * * *'
 
   workflow_dispatch: # Allow manual triggering
 
@@ -48,21 +48,21 @@ jobs:
         run: node generate-aggregates.js
         # Regenerate mega recap with latest snow data
 
-      - name: Check for changes
-        id: git-check
+      - name: Stage data changes
         run: |
-          # Check if any data files changed (snow, terrain, brief from Canadian scraper, aggregates)
-          git add -N data/  # Add intent-to-add for untracked files so diff can see them
-          if git diff --quiet data/; then
-            echo "changes=false" >> $GITHUB_OUTPUT
-            echo "No data changes detected"
-          else
-            echo "changes=true" >> $GITHUB_OUTPUT
-            echo "Data changes detected"
-          fi
+          # Stage ALL data changes (snow, terrain, brief from Canadian scraper, aggregates)
+          git add data/
+
+      - name: Check for meaningful changes (not just timestamp/forecast updates)
+        id: data-check
+        run: |
+          node smart-commit-check.js > /tmp/check-output.txt 2>&1
+          source /tmp/check-output.txt
+          echo "new_data=$new_data" >> $GITHUB_OUTPUT
+          cat /tmp/check-output.txt
 
       - name: Commit and push data
-        if: steps.git-check.outputs.changes == 'true'
+        if: steps.data-check.outputs.new_data == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -70,22 +70,18 @@ jobs:
           # Get the current branch name
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
-          # Stage ALL data changes (snow, terrain, brief from Canadian scraper, aggregates)
-          # This prevents "untracked working tree files would be overwritten" errors
-          git add data/
-
-          # Now pull with rebase - staged files won't conflict
+          # Pull with rebase to avoid conflicts
           git pull --rebase --autostash origin "$BRANCH_NAME"
 
-          # Re-stage after rebase - autostash restores changes as unstaged
+          # Re-stage after rebase
           git add data/
 
           # Create commit with timestamp
-          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "Nothing to commit"
+          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
 
           # Push changes to the current branch
           git push origin "$BRANCH_NAME"
 
-      - name: No changes detected
-        if: steps.git-check.outputs.changes != 'true'
-        run: echo "✓ No snow data changes - reports unchanged since last run"
+      - name: No meaningful changes detected
+        if: steps.data-check.outputs.new_data != 'true'
+        run: echo "✓ Scrape completed but no new snow data to commit (conditions unchanged since last run)"

@@ -49,20 +49,21 @@ jobs:
       - name: Generate latest lifts aggregation
         run: npm run generate:latest-lifts
 
-      - name: Check for changes
-        id: git-check
+      - name: Stage lift data files
         run: |
-          # Check if any lift data files changed
-          if git diff --quiet data/**/lifts/ data/latest-lifts.json; then
-            echo "changes=false" >> $GITHUB_OUTPUT
-            echo "No lift data changes detected"
-          else
-            echo "changes=true" >> $GITHUB_OUTPUT
-            echo "Lift data changes detected"
-          fi
+          # Add lift data files and aggregations
+          git add data/**/lifts/ data/latest-lifts.json cache/
+
+      - name: Check for new data (not just timestamp updates)
+        id: data-check
+        run: |
+          node smart-commit-check.js > /tmp/check-output.txt 2>&1
+          source /tmp/check-output.txt
+          echo "new_data=$new_data" >> $GITHUB_OUTPUT
+          cat /tmp/check-output.txt
 
       - name: Commit and push lift data
-        if: steps.git-check.outputs.changes == 'true'
+        if: steps.data-check.outputs.new_data == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
@@ -71,11 +72,7 @@ jobs:
           BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
 
           # Pull latest changes with rebase to avoid conflicts
-          # Pull from the current branch, not main
           git pull --rebase --autostash origin "$BRANCH_NAME"
-
-          # Add lift data files, latest-lifts aggregation, and active resort cache
-          git add data/**/lifts/ data/latest-lifts.json cache/
 
           # Create commit with timestamp
           git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
@@ -83,6 +80,6 @@ jobs:
           # Push changes to the current branch
           git push origin "$BRANCH_NAME"
 
-      - name: No changes detected
-        if: steps.git-check.outputs.changes != 'true'
-        run: echo "✓ No lift data changes - resorts likely outside operating hours"
+      - name: No new data detected
+        if: steps.data-check.outputs.new_data != 'true'
+        run: echo "✓ Scrape completed but no new data to commit (resorts likely closed or no wait time changes)"
