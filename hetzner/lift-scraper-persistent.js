@@ -828,7 +828,6 @@ async function initBrowser(state, poolSize, label) {
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
-      '--single-process',
       '--disable-background-timer-throttling',
       '--disable-backgrounding-occluded-windows',
       '--disable-renderer-backgrounding',
@@ -959,7 +958,25 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
     return { success: true, lifts: records.length };
 
   } catch (error) {
-    console.error(`[${label}] ${resort.key}: ${error.message}`);
+    // Enhanced error diagnostics
+    let errorType = 'Unknown';
+    if (error.message.includes('timeout')) errorType = 'Timeout';
+    if (error.message.includes('waitForFunction')) errorType = 'DataWaitTimeout';
+    if (error.message.includes('navigation')) errorType = 'NavigationError';
+    if (error.message.includes('browser')) errorType = 'BrowserError';
+
+    console.error(`[${label}] ${resort.key} [${errorType}]: ${error.message}`);
+
+    // Close page on critical errors to prevent bad state
+    if (errorType === 'BrowserError' || errorType === 'NavigationError') {
+      try {
+        await poolEntry.page.close();
+        console.log(`[${label}] Closed bad page for recovery`);
+      } catch (closeErr) {
+        console.error(`[${label}] Error closing page: ${closeErr.message}`);
+      }
+    }
+
     // Reset lastUrl so we do full navigation next time
     poolEntry.lastUrl = null;
     recordResortFailure(resort.key);
@@ -998,11 +1015,15 @@ async function processScrapeQueue(state, label, delayScrapes) {
             resortsProcessed++;
             health.vail.lastSuccess = new Date().toISOString();
             health.vail.consecutiveFailures = 0;
+          } else {
+            // Track consecutive failures for Vail scraper
+            health.vail.consecutiveFailures++;
           }
           return { poolEntry, result };
         })
         .catch(err => {
           console.error(`[${label}] Unexpected error: ${err.message}`);
+          health.vail.consecutiveFailures++;
           return { poolEntry, result: { success: false, lifts: 0 } };
         })
         .finally(() => {
