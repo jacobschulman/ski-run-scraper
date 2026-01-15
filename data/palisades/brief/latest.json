@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-01-15",
-  "generated": "2026-01-15T14:22:06.283Z",
+  "generated": "2026-01-15T15:22:01.795Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 0,
+      "7day_cm": 0,
       "season_total_inches": 152,
       "season_total_cm": 386,
       "conditions": {
@@ -51,27 +51,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-14",
-        "high_f": null,
-        "low_f": 37,
-        "high_c": null,
-        "low_c": 3,
-        "description": "Clear",
+        "date": "2026-01-15",
+        "high_f": 46,
+        "low_f": 31,
+        "high_c": 8,
+        "low_c": 0,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-15",
-          "high_f": 46,
-          "low_f": 31,
-          "high_c": 8,
-          "low_c": 0,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-16",
           "high_f": 44,
@@ -93,13 +82,24 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-18",
+          "high_f": 48,
+          "low_f": 35,
+          "high_c": 9,
+          "low_c": 2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-15",
-        "high_f": 46,
-        "low_f": 31,
-        "high_c": 8,
+        "date": "2026-01-16",
+        "high_f": 44,
+        "low_f": 33,
+        "high_c": 6,
         "low_c": 0,
         "description": "Sunny",
         "snowfall_day_inches": 0,
@@ -117,36 +117,40 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [
-      "Steady snowfall - 6\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Mountain Report",
-    "body": "Steady snowfall with 6\" over the last week.",
+    "headline": "Mild Day Ahead",
+    "body": "236 of 301 trails are open with 75 groomed. Sunny with a high of 46°F. Above average temps (46°) will soften things up. Hit it early.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "temp_unseasonably_warm",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_unseasonably_warm",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
+        "condition": "unseasonably_warm",
+        "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Midweek Mountain Report"
       },
       "dayOfWeek": "Thursday"
     }

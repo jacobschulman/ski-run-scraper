@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-15",
-  "generated": "2026-01-15T14:22:06.421Z",
+  "generated": "2026-01-15T15:22:01.938Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 109,
+          "today": 112,
           "yesterday": 109,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 76,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Flume",
+          "difficulty": "Double Black",
+          "area": "Killington Peak"
+        },
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,21 +118,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "3\" fresh snow overnight",
+      "3 new trails opened today"
     ],
     "trends": [
+      "3 more trails open than yesterday",
       "2\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Prepare for Pow",
-    "body": "A proper refresh: 3\" of new snow making everything ski better. Winter has more to say. 6\" forecasted means conditions improving soon.",
+    "body": "A proper refresh: 3\" of new snow making everything ski better. Ski patrol opened 3 additional trails. A few more choices today. Winter has more to say. 6\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -132,13 +150,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 5,
