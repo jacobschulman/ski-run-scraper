@@ -962,6 +962,7 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
     let errorType = 'Unknown';
     if (error.message.includes('timeout')) errorType = 'Timeout';
     if (error.message.includes('waitForFunction')) errorType = 'DataWaitTimeout';
+    if (error.message.includes('Waiting failed')) errorType = 'DataWaitTimeout';
     if (error.message.includes('navigation')) errorType = 'NavigationError';
     if (error.message.includes('browser')) errorType = 'BrowserError';
 
