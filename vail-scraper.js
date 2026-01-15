@@ -322,6 +322,94 @@ async function scrapeGroomingData(resortKey, url) {
     // Give the page extra time to settle
     await new Promise(resolve => setTimeout(resolve, 3000));
 
+    // Check if this is Telluride (uses custom CSS classes, not FR.TerrainStatusFeed)
+    if (resortKey === 'telluride') {
+      console.log('Using Telluride custom scraping logic...');
+      const data = await page.evaluate(() => {
+        // Extract lifts from table rows
+        const lifts = Array.from(document.querySelectorAll('#tsr-report-app-lift-table tbody tr')).map(row => {
+          const cells = row.querySelectorAll('td');
+          if (cells.length < 2) return null;
+
+          // Status is in cells[0] (as icon span), Name is in cells[1], Area is in cells[2]
+          const statusIcon = cells[0]?.querySelector('.tsr-report-app-icon-open, .tsr-report-app-icon-closed, .tsr-report-app-icon-hold');
+          const isOpen = statusIcon?.classList.contains('tsr-report-app-icon-open');
+          const liftName = cells[1]?.textContent?.trim() || '';
+
+          if (!liftName) return null;
+
+          return {
+            Name: liftName,
+            Status: isOpen ? 'Open' : 'Closed',
+            IsOpen: isOpen,
+            LiftType: 'Chairlift'
+          };
+        }).filter(lift => lift && lift.Name);
+
+        // Extract trails organized by lift/area
+        const areas = [];
+        const areaMap = {};
+
+        // Group trails by their parent lift/area
+        document.querySelectorAll('.tsr-report-app-trail-list-lift').forEach((liftSection, index) => {
+          const liftName = liftSection.querySelector('h4')?.textContent?.trim() || `Area ${index + 1}`;
+          const trails = [];
+
+          liftSection.querySelectorAll('.tsr-report-app-trail-list-trail').forEach(trailEl => {
+            const trailSpans = trailEl.querySelectorAll('span');
+            if (trailSpans.length < 2) return;
+
+            // Get difficulty from data attribute or class
+            const difficultyClass = trailEl.getAttribute('data-level') || '';
+            let difficulty = '';
+            if (difficultyClass.includes('novice') || difficultyClass.includes('green')) {
+              difficulty = 'Green';
+            } else if (difficultyClass.includes('intermediate') || difficultyClass.includes('blue')) {
+              difficulty = 'Blue';
+            } else if (difficultyClass.includes('advanced') || difficultyClass.includes('black')) {
+              difficulty = difficultyClass.includes('double') ? 'Double Black' : 'Black';
+            }
+
+            // Trail name is typically in span[1]
+            const name = trailSpans[1]?.textContent?.trim() || '';
+            if (!name) return;
+
+            // Check open/closed and groomed status from icons
+            const iconSpan = trailEl.querySelector('span:last-child');
+            const isOpen = iconSpan?.querySelector('.tsr-report-app-icon-open') !== null;
+            const isGroomed = iconSpan?.querySelector('.tsr-report-app-icon-groomed') !== null;
+            const isClosed = trailEl.getAttribute('data-closed') === '1';
+
+            trails.push({
+              Name: name,
+              Status: isClosed || !isOpen ? 'Closed' : 'Open',
+              IsOpen: !isClosed && isOpen,
+              Difficulty: difficulty,
+              IsGroomed: isGroomed,
+              GroomingStatus: isGroomed ? 'Groomed' : null
+            });
+          });
+
+          if (trails.length > 0) {
+            areas.push({
+              Name: liftName,
+              Trails: trails,
+              Lifts: []
+            });
+          }
+        });
+
+        return {
+          GroomingAreas: areas,
+          Lifts: lifts,
+          ResortId: 'telluride',
+          Date: new Date().toISOString()
+        };
+      });
+
+      return data;
+    }
+
     // Wait for the script tag or FR object to be available
     console.log('Waiting for data to load...');
     await page.waitForFunction(
@@ -371,6 +459,71 @@ async function scrapeSnowReport(resortKey, url) {
 
     // Give the page extra time to settle
     await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Check if this is Telluride (uses custom CSS classes, not FR.snowReportData)
+    if (resortKey === 'telluride') {
+      console.log('Using Telluride custom snow scraping logic...');
+      const data = await page.evaluate(() => {
+        // Helper function to extract snow value from p elements
+        const parseSnowValue = (label) => {
+          const paragraphs = document.querySelectorAll('.tsr-report-app-snow-totals-total p');
+          for (const p of paragraphs) {
+            const spans = p.querySelectorAll('span');
+            if (spans.length >= 2 && spans[0].textContent.toLowerCase().includes(label.toLowerCase())) {
+              const valueText = spans[1].querySelector('strong')?.textContent || spans[1].textContent || '0';
+              const matches = valueText.match(/[\d.]+/);
+              return matches ? parseFloat(matches[0]) : 0;
+            }
+          }
+          return 0;
+        };
+
+        // Parse snow depth and season total from .tsr-report-snow-depth divs
+        const snowDepthElements = document.querySelectorAll('.tsr-report-snow-depth');
+        let baseDepth = 0;
+        let seasonTotal = 0;
+
+        snowDepthElements.forEach(el => {
+          const label = el.querySelector('p span:first-child')?.textContent || '';
+          const value = el.querySelector('p strong')?.textContent || '0';
+          const matches = value.match(/[\d.]+/);
+          const numValue = matches ? parseFloat(matches[0]) : 0;
+
+          if (label.toLowerCase().includes('depth')) {
+            baseDepth = numValue;
+          } else if (label.toLowerCase().includes('season')) {
+            seasonTotal = numValue;
+          }
+        });
+
+        return {
+          snowReport: {
+            OverallSnowConditions: document.querySelector('.tsr-report-snow-condition')?.textContent?.trim() || 'Unknown',
+            OvernightSnowfall: {
+              Inches: parseSnowValue('overnight')
+            },
+            TwentyFourHourSnowfall: {
+              Inches: parseSnowValue('24 hours')
+            },
+            FortyEightHourSnowfall: {
+              Inches: parseSnowValue('48 hours')
+            },
+            SevenDaySnowfall: {
+              Inches: parseSnowValue('7 days')
+            },
+            CurrentSeason: {
+              Inches: seasonTotal
+            },
+            BaseDepth: {
+              Inches: baseDepth
+            }
+          },
+          forecasts: []  // Telluride uses OpenSnow integration, not FR forecast format
+        };
+      });
+
+      return data;
+    }
 
     // Wait for the FR object to be available
     console.log('Waiting for snow data to load...');
