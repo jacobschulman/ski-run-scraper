@@ -8,41 +8,67 @@ const fs = require('fs');
 const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 
-// Configuration
-// MINIMAL STABLE CONFIG - Only 3 Vail resorts + Aspen (Ikon)
-// Goal: Prove stability before scaling up
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATION - Edit these arrays to scale up/down
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// TO ADD MORE RESORTS: Just add resort keys to the arrays below
+// TO ADD MORE PROVIDERS: Add provider name to enabledProviders array
+//
+// Available Ikon providers: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'
+// Available Vail resorts: see config.json for full list
+//
 const CONFIG = {
   ikon: {
     intervalMs: 120 * 1000,     // 2 minutes
     jitterMs: 10000,            // 0-10 seconds random jitter
-    // Only enable specific providers for stability testing
-    enabledProviders: ['aspensnowmass'],  // Just Aspen for now (4 mountains, 1 API call)
+
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │ IKON PROVIDERS TO SCRAPE - Add more as stability improves              │
+    // │ Options: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'   │
+    // └─────────────────────────────────────────────────────────────────────────┘
+    enabledProviders: [
+      'aspensnowmass',   // Aspen (4 mountains: Aspen, Highlands, Buttermilk, Snowmass)
+      // 'inspector',    // Ikon Inspector API (Steamboat, Winter Park, etc)
+      // 'reportpal',    // Big Sky, Sugarloaf, Sunday River, Loon, Cypress
+      // 'zaneray',      // Jackson Hole
+      // 'dor',          // Snowbird, Copper, Killington
+    ],
   },
+
   vail: {
-    // High-priority queue: just 3 flagship resorts
-    highPriority: {
-      resorts: [
-        'vail',
-        'beavercreek',
-        'breckenridge',
-      ],
-      pagePoolSize: 2,              // Reduced from 4 to save memory
-      cycleIntervalMs: 180 * 1000,  // 3 minutes between cycles (was 2.5)
-      delayBetweenScrapes: 500,     // 500ms stagger (was 100ms) - be gentler
-    },
-    // Regular queue: DISABLED for stability testing
-    regular: {
-      pagePoolSize: 0,              // No pages = disabled
-      cycleIntervalMs: 9999999999,  // Effectively never runs
-      delayBetweenScrapes: 500,
-    },
-    // Shared settings for both queues - more forgiving timeouts
-    navigationTimeout: 45000,   // 45s navigation timeout (was 20s)
-    dataWaitTimeout: 30000,     // 30s to wait for FR.TerrainStatusFeed (was 15s)
-    // Failure tracking - more tolerant before cooldown
+    // ┌─────────────────────────────────────────────────────────────────────────┐
+    // │ VAIL RESORTS TO SCRAPE - Add more as stability improves                │
+    // │ These use Puppeteer (browser) so they're more resource-intensive       │
+    // └─────────────────────────────────────────────────────────────────────────┘
+    enabledResorts: [
+      'vail',
+      'beavercreek',
+      'breckenridge',
+      // Add more here as needed:
+      // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
+      // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
+    ],
+
+    // Page pool size - each page uses ~50-100MB RAM
+    // Recommended: 1 page per 2 resorts
+    pagePoolSize: 2,
+
+    // How often to scrape (in ms)
+    cycleIntervalMs: 180 * 1000,  // 3 minutes
+
+    // Delay between launching each scrape (gentler on servers)
+    delayBetweenScrapes: 500,     // 500ms
+
+    // Timeouts (increase if getting timeout errors)
+    navigationTimeout: 45000,    // 45s to load page
+    dataWaitTimeout: 30000,      // 30s to wait for FR.TerrainStatusFeed
+
+    // Failure handling
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
-    maxConsecutiveFailures: 4,          // After 4 failures, apply cooldown (was 2)
+    maxConsecutiveFailures: 4,          // After 4 failures, apply cooldown
   },
+
   dataDir: path.join(__dirname, '..', 'data'),
   configPath: path.join(__dirname, '..', 'config.json'),
 };
@@ -795,20 +821,12 @@ async function runIkonScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// VAIL SCRAPER (Puppeteer) - Multi-Queue System with Separate Page Pools
+// VAIL SCRAPER (Puppeteer) - Single queue, only scrapes enabledResorts
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// High-priority queue state (4 critical resorts, 3 pages)
-const highPriorityState = {
-  browser: null,
-  pagePool: [],
-  queue: [],
-  running: false,
-  lastCycleStart: 0,
-};
-
-// Regular priority queue state (other Vail resorts, 3 pages)
-const regularState = {
+// Single Vail scraper state (simplified from dual-queue)
+// TO REVERT: See git history for the dual highPriorityState/regularState version
+const vailState = {
   browser: null,
   pagePool: [],
   queue: [],
@@ -849,39 +867,18 @@ async function initBrowser(state, poolSize, label) {
   console.log(`[VAIL-${label}] Browser ready with ${poolSize} pages`);
 }
 
-function buildHighPriorityQueue() {
-  const highPriorityKeys = new Set(CONFIG.vail.highPriority.resorts);
+function buildVailQueue() {
+  // Only scrape resorts that are in the enabledResorts list
+  const enabledKeys = new Set(CONFIG.vail.enabledResorts || []);
 
   const resorts = config.resorts.filter(r =>
     (!r.provider || r.provider === 'vail') &&
-    highPriorityKeys.has(r.key) &&
+    enabledKeys.has(r.key) &&
     isResortInSeason(r) &&
     !isInDeadHours(r.timezone) &&
     !isResortInCooldown(r.key) &&
     (r.terrainUrl || r.url)
   );
-
-  // Don't shuffle high priority - keep consistent order
-  return resorts;
-}
-
-function buildRegularQueue() {
-  const highPriorityKeys = new Set(CONFIG.vail.highPriority.resorts);
-
-  const resorts = config.resorts.filter(r =>
-    (!r.provider || r.provider === 'vail') &&
-    !highPriorityKeys.has(r.key) &&
-    isResortInSeason(r) &&
-    !isInDeadHours(r.timezone) &&
-    !isResortInCooldown(r.key) &&
-    (r.terrainUrl || r.url)
-  );
-
-  // Shuffle regular resorts for fairness
-  for (let i = resorts.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [resorts[i], resorts[j]] = [resorts[j], resorts[i]];
-  }
 
   return resorts;
 }
@@ -1047,96 +1044,56 @@ async function processScrapeQueue(state, label, delayScrapes) {
   console.log(`[${label}] Processed ${resortsProcessed} resorts, ${totalLifts} lifts`);
 }
 
-// High-priority queue scraper: runs every 2.5 minutes with 3 dedicated pages
-async function runVailHighPriorityScraper() {
-  if (highPriorityState.running) return;
+// ═══════════════════════════════════════════════════════════════════════════════
+// VAIL SCRAPER - Simplified single-queue version
+// ═══════════════════════════════════════════════════════════════════════════════
+//
+// TO ADD MORE RESORTS: Edit CONFIG.vail.enabledResorts array at the top of this file
+// TO REVERT TO DUAL-QUEUE: See git history for commit before this change
+//
+async function runVailScraper() {
+  if (vailState.running) return;
 
   // Check if enough time has passed since last cycle
   const now = Date.now();
-  const timeSinceLastCycle = now - highPriorityState.lastCycleStart;
-  if (timeSinceLastCycle < CONFIG.vail.highPriority.cycleIntervalMs) {
+  const timeSinceLastCycle = now - vailState.lastCycleStart;
+  if (timeSinceLastCycle < CONFIG.vail.cycleIntervalMs) {
     return; // Too soon, skip this run
   }
 
-  highPriorityState.running = true;
-  highPriorityState.lastCycleStart = now;
+  vailState.running = true;
+  vailState.lastCycleStart = now;
 
   health.vail.lastRun = new Date().toISOString();
   health.vail.totalRuns++;
 
   // Ensure browser is alive
-  if (!highPriorityState.browser) {
-    await initBrowser(highPriorityState, CONFIG.vail.highPriority.pagePoolSize, 'HIGH');
+  if (!vailState.browser) {
+    await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
   } else {
     try {
-      await highPriorityState.browser.version();
+      await vailState.browser.version();
     } catch (e) {
-      console.log('[VAIL-HIGH] Browser died, restarting...');
-      await initBrowser(highPriorityState, CONFIG.vail.highPriority.pagePoolSize, 'HIGH');
+      console.log('[VAIL] Browser died, restarting...');
+      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
     }
   }
 
-  // Build fresh queue for this cycle
-  highPriorityState.queue = buildHighPriorityQueue();
+  // Build fresh queue for this cycle (only resorts in enabledResorts)
+  vailState.queue = buildVailQueue();
 
-  if (highPriorityState.queue.length === 0) {
-    console.log('[VAIL-HIGH] No active high-priority resorts');
-    highPriorityState.running = false;
+  if (vailState.queue.length === 0) {
+    console.log('[VAIL] No active resorts to scrape');
+    vailState.running = false;
     return;
   }
 
-  console.log(`[VAIL-HIGH] Starting cycle - ${highPriorityState.queue.length} resorts`);
+  console.log(`[VAIL] Starting cycle - ${vailState.queue.length} resorts: ${vailState.queue.map(r => r.key).join(', ')}`);
 
-  await processScrapeQueue(highPriorityState, 'VAIL-HIGH', CONFIG.vail.highPriority.delayBetweenScrapes);
+  await processScrapeQueue(vailState, 'VAIL', CONFIG.vail.delayBetweenScrapes);
 
-  console.log('[VAIL-HIGH] Cycle complete');
-  highPriorityState.running = false;
-}
-
-// Regular priority queue scraper: runs every 6 minutes with 3 dedicated pages
-async function runVailRegularScraper() {
-  if (regularState.running) return;
-
-  // Check if enough time has passed since last cycle
-  const now = Date.now();
-  const timeSinceLastCycle = now - regularState.lastCycleStart;
-  if (timeSinceLastCycle < CONFIG.vail.regular.cycleIntervalMs) {
-    return; // Too soon, skip this run
-  }
-
-  regularState.running = true;
-  regularState.lastCycleStart = now;
-
-  health.vail.lastRun = new Date().toISOString();
-  health.vail.totalRuns++;
-
-  // Ensure browser is alive
-  if (!regularState.browser) {
-    await initBrowser(regularState, CONFIG.vail.regular.pagePoolSize, 'REGULAR');
-  } else {
-    try {
-      await regularState.browser.version();
-    } catch (e) {
-      console.log('[VAIL-REGULAR] Browser died, restarting...');
-      await initBrowser(regularState, CONFIG.vail.regular.pagePoolSize, 'REGULAR');
-    }
-  }
-
-  // Build fresh queue for this cycle
-  regularState.queue = buildRegularQueue();
-
-  if (regularState.queue.length === 0) {
-    console.log('[VAIL-REGULAR] No active regular resorts');
-    regularState.running = false;
-    return;
-  }
-
-  console.log(`[VAIL-REGULAR] Starting cycle - ${regularState.queue.length} resorts`);
-
-  await processScrapeQueue(regularState, 'VAIL-REGULAR', CONFIG.vail.regular.delayBetweenScrapes);
-
-  console.log('[VAIL-REGULAR] Cycle complete');
-  regularState.running = false;
+  console.log('[VAIL] Cycle complete');
+  vailState.running = false;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -1172,35 +1129,40 @@ let isShuttingDown = false;
 process.on('SIGINT', async () => {
   console.log('\nShutdown signal received...');
   isShuttingDown = true;
-  if (highPriorityState.browser) await highPriorityState.browser.close();
-  if (regularState.browser) await regularState.browser.close();
+  if (vailState.browser) await vailState.browser.close();
   process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
   console.log('\nTermination signal received...');
   isShuttingDown = true;
-  if (highPriorityState.browser) await highPriorityState.browser.close();
-  if (regularState.browser) await regularState.browser.close();
+  if (vailState.browser) await vailState.browser.close();
   process.exit(0);
 });
 
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════════════╗');
-  console.log('║     Ski Lift Scraper - Multi-Queue Provider-Based Mode             ║');
+  console.log('║     Ski Lift Scraper - Simplified Single-Queue Mode                ║');
   console.log('╚════════════════════════════════════════════════════════════════════╝');
   console.log(`Started at: ${new Date().toISOString()}`);
-  console.log(`Ikon interval: ${CONFIG.ikon.intervalMs / 1000}s`);
-  console.log(`Vail High-Priority: ${CONFIG.vail.highPriority.resorts.join(', ')}`);
-  console.log(`  - ${CONFIG.vail.highPriority.pagePoolSize} pages, cycle every ${CONFIG.vail.highPriority.cycleIntervalMs / 1000}s`);
-  console.log(`Vail Regular: All other Vail resorts`);
-  console.log(`  - ${CONFIG.vail.regular.pagePoolSize} pages, cycle every ${CONFIG.vail.regular.cycleIntervalMs / 1000}s`);
+  console.log('');
+  console.log('┌─ IKON PROVIDERS ─────────────────────────────────────────────────────');
+  console.log(`│ Enabled: ${(CONFIG.ikon.enabledProviders || []).join(', ') || 'ALL'}`);
+  console.log(`│ Interval: ${CONFIG.ikon.intervalMs / 1000}s`);
+  console.log('└───────────────────────────────────────────────────────────────────────');
+  console.log('');
+  console.log('┌─ VAIL RESORTS ───────────────────────────────────────────────────────');
+  console.log(`│ Enabled: ${(CONFIG.vail.enabledResorts || []).join(', ')}`);
+  console.log(`│ Pages: ${CONFIG.vail.pagePoolSize}, Cycle: ${CONFIG.vail.cycleIntervalMs / 1000}s`);
+  console.log(`│ Timeouts: nav=${CONFIG.vail.navigationTimeout / 1000}s, data=${CONFIG.vail.dataWaitTimeout / 1000}s`);
+  console.log('└───────────────────────────────────────────────────────────────────────');
+  console.log('');
   console.log(`Failure cooldown: ${CONFIG.vail.failureCooldownMs / 60000} min after ${CONFIG.vail.maxConsecutiveFailures} failures`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
+  console.log('');
 
-  // Initialize both browsers
-  await initBrowser(highPriorityState, CONFIG.vail.highPriority.pagePoolSize, 'HIGH');
-  await initBrowser(regularState, CONFIG.vail.regular.pagePoolSize, 'REGULAR');
+  // Initialize single Vail browser
+  await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
 
   // Track last run time for Ikon APIs
   let lastIkonRun = 0;
@@ -1215,6 +1177,7 @@ async function main() {
       const enabled = CONFIG.ikon.enabledProviders || [];
 
       // Only run scrapers for enabled providers
+      // TO ENABLE MORE: Add provider name to CONFIG.ikon.enabledProviders array
       if (enabled.length === 0 || enabled.includes('inspector')) {
         runIkonScraper().catch(console.error);
       }
@@ -1222,24 +1185,19 @@ async function main() {
         runAspenScraper().catch(console.error);
       }
       if (enabled.length === 0 || enabled.includes('reportpal')) {
-        // runReportPalScraper().catch(console.error);  // DISABLED for stability
+        runReportPalScraper().catch(console.error);
       }
       if (enabled.length === 0 || enabled.includes('zaneray')) {
-        // runZanerayScraper().catch(console.error);    // DISABLED for stability
+        runZanerayScraper().catch(console.error);
       }
       if (enabled.length === 0 || enabled.includes('dor')) {
-        // runDorScraper().catch(console.error);        // DISABLED for stability
+        runDorScraper().catch(console.error);
       }
     }
 
-    // Vail high-priority - checks its own timing
-    if (!highPriorityState.running) {
-      runVailHighPriorityScraper().catch(console.error);
-    }
-
-    // Vail regular - checks its own timing
-    if (!regularState.running) {
-      runVailRegularScraper().catch(console.error);
+    // Vail scraper - checks its own timing
+    if (!vailState.running) {
+      runVailScraper().catch(console.error);
     }
 
     // Sleep for a bit before checking again
