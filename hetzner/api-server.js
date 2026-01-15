@@ -134,9 +134,10 @@ app.get('/health/resorts', (req, res) => {
         const latestSnow = path.join(snowDir, 'latest.json');
         if (fs.existsSync(latestSnow)) {
           try {
+            const stat = fs.statSync(latestSnow);
             const snowData = JSON.parse(fs.readFileSync(latestSnow, 'utf8'));
             status.snow = {
-              lastScraped: snowData.timestamp || snowData.scrapedAt,
+              lastScraped: stat.mtime.toISOString(),
               date: snowData.date,
             };
           } catch (e) {}
@@ -149,10 +150,11 @@ app.get('/health/resorts', (req, res) => {
         const latestTerrain = path.join(terrainDir, 'latest.json');
         if (fs.existsSync(latestTerrain)) {
           try {
+            const stat = fs.statSync(latestTerrain);
             const terrainData = JSON.parse(fs.readFileSync(latestTerrain, 'utf8'));
             status.terrain = {
-              lastScraped: terrainData.scrapedAt,
-              date: terrainData.date,
+              lastScraped: stat.mtime.toISOString(),
+              date: terrainData.date || terrainData.Date,
             };
           } catch (e) {}
         }

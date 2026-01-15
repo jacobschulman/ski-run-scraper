@@ -800,7 +800,7 @@
           }
 
           if (status.snow) {
-            const isStale = (Date.now() - new Date(status.snow.lastScraped)) > 7200000; // 2hr
+            const isStale = (Date.now() - new Date(status.snow.lastScraped)) > 21600000; // 6hr
             items.push(`<span class="meta-item ${isStale ? 'stale' : 'fresh'}">Snow: ${formatTimeAgo(status.snow.lastScraped)}</span>`);
           }
 
