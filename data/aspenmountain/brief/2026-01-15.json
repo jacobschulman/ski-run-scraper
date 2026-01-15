@@ -2,7 +2,7 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-01-15",
-  "generated": "2026-01-15T13:39:15.224Z",
+  "generated": "2026-01-15T14:22:06.411Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,22 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 25,
+          "today": 24,
           "yesterday": 25,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 140
       },
       "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Roch Run (Upper)",
+          "difficulty": "Blue",
+          "area": "Ruthie's"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,23 +57,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-14",
-        "high_f": null,
-        "low_f": 22,
-        "description": "Clear",
+        "date": "2026-01-15",
+        "high_f": 29,
+        "low_f": 11,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-15",
-          "high_f": 29,
-          "low_f": 11,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-16",
           "high_f": 16,
@@ -85,16 +82,25 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-18",
+          "high_f": 28,
+          "low_f": 11,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-15",
-        "high_f": 29,
-        "low_f": 11,
-        "description": "Sunny",
-        "snowfall_day_inches": 0,
+        "date": "2026-01-16",
+        "high_f": 16,
+        "low_f": 7,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -114,14 +120,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "Steady snowfall with 9\" over the last week. Light snow possible in the forecast.",
+    "headline": "Picture-Perfect Conditions",
+    "body": "Steady snowfall with 9\" over the last week. Bluebird conditions with a high around 29°. Bundle up for crisp, beautiful turns.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -131,19 +137,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
+          "id": "weather_bluebird",
           "category": "weather",
-          "priority": 30,
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "bluebird_day",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Postcard Day"
       },
       "dayOfWeek": "Thursday"
     }
