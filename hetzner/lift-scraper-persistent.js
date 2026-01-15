@@ -23,19 +23,19 @@ const CONFIG = {
         'hunter',
         'mountsnow',
       ],
-      pagePoolSize: 3,
+      pagePoolSize: 4,
       cycleIntervalMs: 150 * 1000,  // 2.5 minutes between cycles
-      delayBetweenScrapes: 300,      // 300ms stagger between launching
+      delayBetweenScrapes: 100,      // 100ms stagger (faster launch, less wasted time)
     },
     // Regular queue: all other Vail resorts, scraped every 6 minutes
     regular: {
-      pagePoolSize: 3,
+      pagePoolSize: 4,
       cycleIntervalMs: 360 * 1000,  // 6 minutes between cycles
-      delayBetweenScrapes: 300,      // 300ms stagger between launching
+      delayBetweenScrapes: 100,      // 100ms stagger
     },
     // Shared settings for both queues
-    navigationTimeout: 25000,   // 25s navigation timeout (fail fast)
-    dataWaitTimeout: 20000,     // 20s to wait for FR.TerrainStatusFeed
+    navigationTimeout: 20000,   // 20s navigation timeout (fail faster on bad pages)
+    dataWaitTimeout: 15000,     // 15s to wait for FR.TerrainStatusFeed (retry quicker on timeout)
     // Failure tracking - skip resorts that keep timing out
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
     maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown
