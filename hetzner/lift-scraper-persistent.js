@@ -9,36 +9,39 @@ const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 
 // Configuration
+// MINIMAL STABLE CONFIG - Only 3 Vail resorts + Aspen (Ikon)
+// Goal: Prove stability before scaling up
 const CONFIG = {
   ikon: {
     intervalMs: 120 * 1000,     // 2 minutes
     jitterMs: 10000,            // 0-10 seconds random jitter
+    // Only enable specific providers for stability testing
+    enabledProviders: ['aspensnowmass'],  // Just Aspen for now (4 mountains, 1 API call)
   },
   vail: {
-    // High-priority queue: frequently-viewed resorts, scraped every 2.5 minutes
+    // High-priority queue: just 3 flagship resorts
     highPriority: {
       resorts: [
         'vail',
         'beavercreek',
-        'hunter',
-        'mountsnow',
+        'breckenridge',
       ],
-      pagePoolSize: 4,
-      cycleIntervalMs: 150 * 1000,  // 2.5 minutes between cycles
-      delayBetweenScrapes: 100,      // 100ms stagger (faster launch, less wasted time)
+      pagePoolSize: 2,              // Reduced from 4 to save memory
+      cycleIntervalMs: 180 * 1000,  // 3 minutes between cycles (was 2.5)
+      delayBetweenScrapes: 500,     // 500ms stagger (was 100ms) - be gentler
     },
-    // Regular queue: all other Vail resorts, scraped every 6 minutes
+    // Regular queue: DISABLED for stability testing
     regular: {
-      pagePoolSize: 4,
-      cycleIntervalMs: 360 * 1000,  // 6 minutes between cycles
-      delayBetweenScrapes: 100,      // 100ms stagger
+      pagePoolSize: 0,              // No pages = disabled
+      cycleIntervalMs: 9999999999,  // Effectively never runs
+      delayBetweenScrapes: 500,
     },
-    // Shared settings for both queues
-    navigationTimeout: 20000,   // 20s navigation timeout (fail faster on bad pages)
-    dataWaitTimeout: 15000,     // 15s to wait for FR.TerrainStatusFeed (retry quicker on timeout)
-    // Failure tracking - skip resorts that keep timing out
+    // Shared settings for both queues - more forgiving timeouts
+    navigationTimeout: 45000,   // 45s navigation timeout (was 20s)
+    dataWaitTimeout: 30000,     // 30s to wait for FR.TerrainStatusFeed (was 15s)
+    // Failure tracking - more tolerant before cooldown
     failureCooldownMs: 10 * 60 * 1000,  // Skip failing resorts for 10 minutes
-    maxConsecutiveFailures: 2,          // After 2 failures, apply cooldown
+    maxConsecutiveFailures: 4,          // After 4 failures, apply cooldown (was 2)
   },
   dataDir: path.join(__dirname, '..', 'data'),
   configPath: path.join(__dirname, '..', 'config.json'),
@@ -1206,14 +1209,27 @@ async function main() {
   while (!isShuttingDown) {
     const now = Date.now();
 
-    // Ikon APIs - every 2 minutes
+    // Ikon APIs - every 2 minutes (only enabled providers)
     if (now - lastIkonRun >= CONFIG.ikon.intervalMs) {
       lastIkonRun = now;
-      runIkonScraper().catch(console.error);
-      runAspenScraper().catch(console.error);
-      runReportPalScraper().catch(console.error);
-      runZanerayScraper().catch(console.error);
-      runDorScraper().catch(console.error);
+      const enabled = CONFIG.ikon.enabledProviders || [];
+
+      // Only run scrapers for enabled providers
+      if (enabled.length === 0 || enabled.includes('inspector')) {
+        runIkonScraper().catch(console.error);
+      }
+      if (enabled.length === 0 || enabled.includes('aspensnowmass')) {
+        runAspenScraper().catch(console.error);
+      }
+      if (enabled.length === 0 || enabled.includes('reportpal')) {
+        // runReportPalScraper().catch(console.error);  // DISABLED for stability
+      }
+      if (enabled.length === 0 || enabled.includes('zaneray')) {
+        // runZanerayScraper().catch(console.error);    // DISABLED for stability
+      }
+      if (enabled.length === 0 || enabled.includes('dor')) {
+        // runDorScraper().catch(console.error);        // DISABLED for stability
+      }
     }
 
     // Vail high-priority - checks its own timing
