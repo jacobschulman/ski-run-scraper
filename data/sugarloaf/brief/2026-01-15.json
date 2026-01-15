@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-15",
-  "generated": "2026-01-15T12:41:29.393Z",
+  "generated": "2026-01-15T13:39:15.240Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 84,
+          "today": 85,
           "yesterday": 84,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 40,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Ripsaw",
+          "difficulty": "Double Black",
+          "area": "King Pine"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -155,9 +161,9 @@
           "high_f": 19,
           "low_f": 19,
           "description": "Windy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 2
         },
         {
           "date": "2026-01-18",
@@ -184,16 +190,18 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "2\" fresh snow overnight",
+      "1 new trail opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": [
@@ -203,14 +211,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Blustery and Snowy",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "The Forecast Looks Loaded",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 1 new trail opened today. Big things coming. 6\" in the forecast. Might be time to plan ahead.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_wind",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 82,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -220,19 +228,25 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "storm_wind",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stormy Conditions"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Thursday"
     }
