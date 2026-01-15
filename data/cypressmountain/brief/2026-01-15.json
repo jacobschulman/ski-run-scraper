@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-15",
-  "generated": "2026-01-15T19:22:06.299Z",
+  "generated": "2026-01-15T20:21:22.863Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 47,
+          "today": 49,
           "yesterday": 47,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 34,
@@ -36,18 +36,17 @@
       },
       "newlyOpened": [
         {
-          "name": "Unrun",
-          "difficulty": "Blue",
-          "area": "Eagle Express"
-        }
-      ],
-      "newlyClosed": [
+          "name": "Gibson Glades",
+          "difficulty": "Double Black",
+          "area": "Lions Express"
+        },
         {
-          "name": "3 Bears",
+          "name": "Rideout",
           "difficulty": "Blue",
           "area": "Raven Ridge"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Lower Bowen",
@@ -70,6 +69,11 @@
           "name": "Lower Fork",
           "difficulty": "Blue",
           "area": "Eagle Express"
+        },
+        {
+          "name": "3 Bears",
+          "difficulty": "Blue",
+          "area": "Raven Ridge"
         }
       ]
     },
@@ -143,11 +147,12 @@
     "alerts": [
       "2\" fresh snow overnight",
       "7\" in last 24 hours - powder day!",
-      "1 new trail opened today",
+      "2 new trails opened today",
       "3 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 12\" in last 7 days"
+      "Great week for snow - 12\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Lower Bowen - perfect for intermediate skiers",
@@ -157,7 +162,7 @@
   },
   "morningBrief": {
     "headline": "7\" of Fresh Overnight",
-    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. Above average temps (46°) will soften things up. Hit it early.",
+    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. 2 new trails opened today. Above average temps (46°) will soften things up. Hit it early.",
     "debug": {
       "firedRules": [
         {
@@ -173,13 +178,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_unseasonably_warm",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
