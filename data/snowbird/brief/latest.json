@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-01-15",
-  "generated": "2026-01-15T16:30:46.289Z",
+  "generated": "2026-01-15T17:29:24.343Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 180,
+          "today": 183,
           "yesterday": 180,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 50,
@@ -38,6 +38,21 @@
         {
           "name": "Mini Miners' Camp",
           "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Defiance Ledge",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Temptation Chutes",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Boundary Bowl",
+          "difficulty": "Double Black",
           "area": "Gad Valley"
         }
       ],
@@ -125,26 +140,34 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today"
+      "4 new trails opened today"
     ],
-    "trends": [],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "180/200 trails spinning, 50 freshly groomed. 31° and Windy. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "More Variety Today",
+    "body": "183/200 trails spinning, 50 freshly groomed. 31° and Windy. 4 more trails opened today, expanding your options. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -156,11 +179,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
+        "condition": "terrain_few",
+        "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "{newTrailsCount} New Runs Open"
       },
       "dayOfWeek": "Thursday"
     }
