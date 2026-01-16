@@ -57,7 +57,8 @@ jobs:
       - name: Check for new data (not just timestamp updates)
         id: data-check
         run: |
-          node smart-commit-check.js > /tmp/check-output.txt 2>&1
+          # stdout goes to file (new_data=xxx), stderr goes to console for logging
+          node smart-commit-check.js > /tmp/check-output.txt
           source /tmp/check-output.txt
           echo "new_data=$new_data" >> $GITHUB_OUTPUT
           cat /tmp/check-output.txt
