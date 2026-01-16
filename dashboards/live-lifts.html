@@ -181,7 +181,7 @@
     <div class="header">
       <div>
         <h1>Live Lift Wait Monitor</h1>
-        <p class="subtitle">Debug view for all resorts with live lift scraping. Pick a resort to see most recent waits plus the last few runs.</p>
+        <p class="subtitle">Live lift wait times. All times shown in resort local time.</p>
       </div>
       <div class="pill" id="resort-count">Loading...</div>
     </div>
@@ -501,7 +501,7 @@
     function createWaitGraph(history, openTime, closeTime, tz) {
       if (!history || history.length === 0) return null;
 
-      // Parse open/close times to get time range
+      // Parse open/close times to get time range (these are already in resort local time)
       const parseTime = (timeStr) => {
         if (!timeStr) return null;
         const match = timeStr.match(/(\d+):(\d+)\s*(am|pm)?/i);
@@ -516,15 +516,29 @@
         return hours * 60 + minutes; // minutes since midnight
       };
 
-      const openMinutes = parseTime(openTime) || 0;
+      // Convert UTC timestamp to resort local time and get minutes since midnight
+      const getResortMinutes = (timestamp) => {
+        const t = new Date(timestamp);
+        if (Number.isNaN(t.getTime())) return null;
+        // Format in resort timezone to get local hours/minutes
+        const timeStr = new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: false,
+          timeZone: tz || 'UTC'
+        }).format(t);
+        const [h, m] = timeStr.split(':').map(Number);
+        return h * 60 + m;
+      };
+
+      const openMinutes = parseTime(openTime) || 480; // Default 8 AM if not specified
       const closeMinutes = parseTime(closeTime) || 1440;
 
-      // Prepare data points
+      // Prepare data points - convert all times to resort local time
       const dataPoints = history
         .map(entry => {
-          const t = new Date(entry.timestamp);
-          if (Number.isNaN(t.getTime())) return null;
-          const minutes = t.getHours() * 60 + t.getMinutes();
+          const minutes = getResortMinutes(entry.timestamp);
+          if (minutes === null) return null;
           return {
             time: minutes,
             wait: entry.waitMinutes != null ? entry.waitMinutes : 0,
@@ -537,22 +551,18 @@
 
       if (dataPoints.length === 0) return null;
 
-      // Calculate scales - adapt to actual data range, not full operating hours
-      const dataMinTime = Math.min(...dataPoints.map(p => p.time));
+      // Calculate scales - START at lift opening time, extend to latest data point
       const dataMaxTime = Math.max(...dataPoints.map(p => p.time));
 
-      // Add padding so data points aren't cramped at edges
-      // Minimum 30 min span, with 5% padding on each side
-      const dataSpan = dataMaxTime - dataMinTime;
-      const minSpan = 30; // minimum 30 minutes to display
-      const effectiveSpan = Math.max(dataSpan, minSpan);
-      const timePadding = Math.max(effectiveSpan * 0.05, 5); // at least 5 min padding
+      // Always start at opening time (or slightly before first data if earlier than open)
+      const firstDataTime = Math.min(...dataPoints.map(p => p.time));
+      const graphStartTime = Math.min(openMinutes, firstDataTime) - 5; // 5 min padding before start
 
-      const minTime = dataMinTime - timePadding;
-      const maxTime = dataMinTime + effectiveSpan + timePadding;
+      // End at latest data point + small padding
+      const graphEndTime = dataMaxTime + 10;
       const maxWait = Math.max(...dataPoints.map(p => p.wait), 1);
 
-      // Helper to format minutes as time string for labels
+      // Helper to format minutes as time string for labels (in resort local time)
       const formatMinutes = (mins) => {
         const rounded = Math.round(mins);
         const h = Math.floor(rounded / 60);
@@ -568,7 +578,7 @@
       const graphWidth = width - padding.left - padding.right;
       const graphHeight = height - padding.top - padding.bottom;
 
-      const xScale = (minutes) => padding.left + ((minutes - minTime) / (maxTime - minTime)) * graphWidth;
+      const xScale = (minutes) => padding.left + ((minutes - graphStartTime) / (graphEndTime - graphStartTime)) * graphWidth;
       const yScale = (wait) => padding.top + graphHeight - ((wait / maxWait) * graphHeight);
 
       // Create SVG
@@ -594,13 +604,13 @@
       yAxis.setAttribute('y2', padding.top + graphHeight);
       svg.appendChild(yAxis);
 
-      // Add time labels - show actual data range
+      // Add time labels - show graph time range (in resort local time)
       const startLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
       startLabel.setAttribute('class', 'graph-label');
       startLabel.setAttribute('x', padding.left);
       startLabel.setAttribute('y', height - 2);
       startLabel.setAttribute('text-anchor', 'start');
-      startLabel.textContent = formatMinutes(minTime);
+      startLabel.textContent = formatMinutes(graphStartTime);
       svg.appendChild(startLabel);
 
       const endLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -608,7 +618,7 @@
       endLabel.setAttribute('x', width - padding.right);
       endLabel.setAttribute('y', height - 2);
       endLabel.setAttribute('text-anchor', 'end');
-      endLabel.textContent = formatMinutes(maxTime);
+      endLabel.textContent = formatMinutes(graphEndTime);
       svg.appendChild(endLabel);
 
       // Add max wait label
@@ -620,11 +630,14 @@
       maxLabel.textContent = maxWait + 'm';
       svg.appendChild(maxLabel);
 
-      // Draw area fill
+      // Draw area fill (starts from first data point, not left edge)
       if (dataPoints.length > 0) {
-        const areaData = 'M' + padding.left + ',' + (padding.top + graphHeight) + ' ' +
+        const firstX = xScale(dataPoints[0].time);
+        const lastX = xScale(dataPoints[dataPoints.length - 1].time);
+        const baseY = padding.top + graphHeight;
+        const areaData = 'M' + firstX + ',' + baseY + ' ' +
           dataPoints.map(p => 'L' + xScale(p.time) + ',' + yScale(p.wait)).join(' ') + ' ' +
-          'L' + xScale(dataPoints[dataPoints.length - 1].time) + ',' + (padding.top + graphHeight) + ' Z';
+          'L' + lastX + ',' + baseY + ' Z';
 
         const area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         area.setAttribute('class', 'graph-area');

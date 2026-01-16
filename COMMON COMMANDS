@@ -1,3 +1,15 @@
+# UPDATE HETZNER WITHOUT DATA
+
+git fetch origin && git checkout origin/main -- . ':!data/' ':!data-local/' ':!cache/' && pm2 restart lift-scraper
+
+
+# FORCE UPDATE HETZNER SERVER
+
+git fetch origin
+git reset --hard origin/main
+pm2 restart lift-scraper
+
+
 # DOCKER
 
 docker-compose down && docker-compose up -d --build
