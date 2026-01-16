@@ -175,7 +175,8 @@ function getResortLocalHour(timezone) {
 
 function isInDeadHours(timezone) {
   const hour = getResortLocalHour(timezone);
-  return hour >= 22 || hour < 7;
+  // Dead hours: 5 PM (17:00) to 8 AM - no lifts open during these times
+  return hour >= 17 || hour < 8;
 }
 
 function isResortInSeason(resort) {

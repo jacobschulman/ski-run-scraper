@@ -205,6 +205,14 @@
           <label for="open-only-filter" style="margin: 0; cursor: pointer;">Open lifts only</label>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="hide-no-wait-filter" style="width: auto; margin: 0;">
+          <label for="hide-no-wait-filter" style="margin: 0; cursor: pointer;">Hide lifts without wait times</label>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="auto-refresh" style="width: auto; margin: 0;" checked>
+          <label for="auto-refresh" style="margin: 0; cursor: pointer;">Auto-refresh (30s)</label>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
           <input type="checkbox" id="local-data-mode" style="width: auto; margin: 0;">
           <label for="local-data-mode" style="margin: 0; cursor: pointer; color: var(--muted); font-size: 0.9rem;" title="Use data from ../data-local folder for testing">Use local test data</label>
         </div>
@@ -244,6 +252,8 @@
     const historyCache = new Map();
     const cachedIndex = {};
     const availableDatesCache = {};
+    let autoRefreshInterval = null;
+    const AUTO_REFRESH_MS = 30000; // 30 seconds
 
     // Both GitHub Pages and Hetzner serve dashboards at /dashboards/
     // Data is always at ../data/ relative to this file
@@ -661,6 +671,7 @@
       const tbody = $('lift-rows');
       const filter = $('lift-filter').value.trim().toLowerCase();
       const openOnly = $('open-only-filter').checked;
+      const hideNoWait = $('hide-no-wait-filter').checked;
       const liftMap = new Map();
 
       const addOrMergeLift = (lift) => {
@@ -703,11 +714,21 @@
         return;
       }
 
+      // Helper to check if lift has any wait data in history
+      const liftHasWaitData = (liftId) => {
+        const hist = fullHistory[liftId] || [];
+        return hist.some(entry => entry.waitMinutes !== null && entry.waitMinutes !== undefined);
+      };
+
       const lifts = liftsSource.sort((a, b) => {
         // Sort open lifts first
         const aOpen = a.status && a.status.toLowerCase() === 'open' ? 1 : 0;
         const bOpen = b.status && b.status.toLowerCase() === 'open' ? 1 : 0;
         if (aOpen !== bOpen) return bOpen - aOpen;
+        // Then sort lifts with wait data above those without
+        const aHasWait = liftHasWaitData(canonicalLiftId(a)) ? 1 : 0;
+        const bHasWait = liftHasWaitData(canonicalLiftId(b)) ? 1 : 0;
+        if (aHasWait !== bHasWait) return bHasWait - aHasWait;
         return a.name.localeCompare(b.name);
       });
       let shown = 0;
@@ -716,6 +737,8 @@
       for (const lift of lifts) {
         const text = (lift.name + ' ' + (lift.mountain || '')).toLowerCase();
         if (filter && !text.includes(filter)) continue;
+        // Filter out lifts without wait data if checkbox is checked
+        if (hideNoWait && !liftHasWaitData(canonicalLiftId(lift))) continue;
 
         const tr = document.createElement('tr');
         if (shown === 0) {
@@ -888,6 +911,7 @@
         if (initial) {
           $('resort-select').value = initial;
           await loadResort(initial);
+          startAutoRefresh(); // Start auto-refresh when resort is loaded from URL
         } else {
           $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Pick a resort to load live lift waits.</td></tr>';
           $('notice').textContent = 'Select a resort to load data.';
@@ -954,6 +978,61 @@
       if (key) {
         await loadResort(key);
       }
+    });
+
+    $('hide-no-wait-filter').addEventListener('change', async () => {
+      const key = $('resort-select').value;
+      const resortInfo = resortMap[key];
+      const cacheKey = `${dataFolder}-${key}`;
+      if (!resortInfo || !cachedIndex[cacheKey]) return;
+      const resortData = cachedIndex[cacheKey];
+      const dateKey = currentDateKey || deriveDateKey(resortData);
+      const tz = resortInfo.timezone || 'UTC';
+      const [history, fullHistory] = await Promise.all([
+        fetchHistory(key, dateKey, false),
+        fetchHistory(key, dateKey, true)
+      ]);
+      renderRows(resortData, history, fullHistory, tz, dateKey);
+    });
+
+    // Auto-refresh functionality
+    function startAutoRefresh() {
+      stopAutoRefresh();
+      if (!$('auto-refresh').checked) return;
+      autoRefreshInterval = setInterval(async () => {
+        const key = $('resort-select').value;
+        if (!key) return;
+        // Clear cache so we get fresh data
+        const cacheKey = `${dataFolder}-${key}`;
+        delete cachedIndex[cacheKey];
+        const dateKey = currentDateKey || new Date().toISOString().slice(0, 10);
+        historyCache.delete(`${dataFolder}-${key}-${dateKey}`);
+        historyCache.delete(`${dataFolder}-${key}-${dateKey}-full`);
+        console.log('[Auto-refresh] Reloading data...');
+        await loadResort(key, currentDateKey);
+      }, AUTO_REFRESH_MS);
+      console.log('[Auto-refresh] Started (every ' + (AUTO_REFRESH_MS / 1000) + 's)');
+    }
+
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+        console.log('[Auto-refresh] Stopped');
+      }
+    }
+
+    $('auto-refresh').addEventListener('change', () => {
+      if ($('auto-refresh').checked) {
+        startAutoRefresh();
+      } else {
+        stopAutoRefresh();
+      }
+    });
+
+    // Start auto-refresh when resort is selected
+    $('resort-select').addEventListener('change', () => {
+      startAutoRefresh();
     });
 
     init();
