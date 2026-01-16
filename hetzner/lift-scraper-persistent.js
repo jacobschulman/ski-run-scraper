@@ -28,11 +28,11 @@ const CONFIG = {
     // │ Options: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'   │
     // └─────────────────────────────────────────────────────────────────────────┘
     enabledProviders: [
-      'aspensnowmass',   // Aspen (4 mountains: Aspen, Highlands, Buttermilk, Snowmass)
-      // 'inspector',    // Ikon Inspector API (Steamboat, Winter Park, etc)
-      // 'reportpal',    // Big Sky, Sugarloaf, Sunday River, Loon, Cypress
-      // 'zaneray',      // Jackson Hole
-      // 'dor',          // Snowbird, Copper, Killington
+      'aspensnowmass',   // Aspen (3 mountains) - status only, no wait times
+      'inspector',       // Ikon Inspector API (15 resorts) - HAS WAIT TIMES!
+      'reportpal',       // Big Sky, Sugarloaf, Sunday River, Loon, Cypress - HAS WAIT TIMES!
+      'dor',             // Snowbird, Copper, Killington - HAS WAIT TIMES!
+      // 'zaneray',      // Jackson Hole - status only, no wait times
     ],
   },
 
