@@ -8,7 +8,8 @@ const NAV_PAGES = [
   { id: 'terrain', label: 'Trails', href: 'terrain-dashboard.html' },
   { id: 'lifts', label: 'Lifts', href: 'live-lifts.html' },
   { id: 'briefs', label: 'Briefs', href: 'briefs-overview.html' },
-  { id: 'api-providers', label: 'APIs Status', href: 'api-providers.html' }
+  { id: 'api-providers', label: 'APIs Status', href: 'api-providers.html' },
+  { id: 'monitor', label: 'Health', href: '../hetzner/monitor.html' }
 ];
 
 function initNav(currentPage) {

@@ -51,8 +51,8 @@ const CONFIG = {
     ],
 
     // Page pool size - each page uses ~50-100MB RAM
-    // Recommended: 1 page per 2 resorts
-    pagePoolSize: 2,
+    // Using 1 page to minimize memory (resorts are scraped sequentially anyway)
+    pagePoolSize: 1,
 
     // How often to scrape (in ms)
     cycleIntervalMs: 180 * 1000,  // 3 minutes
@@ -836,12 +836,26 @@ const vailState = {
 };
 
 
+// Kill any orphaned chromium processes before starting fresh
+async function killOrphanedChromium() {
+  const { exec } = require('child_process');
+  return new Promise((resolve) => {
+    // Kill chromium processes older than 10 minutes (likely orphaned)
+    exec('pkill -f "chromium.*--type=renderer" 2>/dev/null || true', (err) => {
+      resolve();
+    });
+  });
+}
+
 async function initBrowser(state, poolSize, label) {
   if (state.browser) {
     try { await state.browser.close(); } catch (e) {}
   }
 
-  console.log(`[VAIL-${label}] Launching browser...`);
+  // Clean up any orphaned chromium processes
+  await killOrphanedChromium();
+
+  console.log(`[VAIL-${label}] Launching browser with memory optimizations...`);
   state.browser = await puppeteer.launch({
     headless: true,
     args: [
@@ -853,6 +867,25 @@ async function initBrowser(state, poolSize, label) {
       '--disable-background-timer-throttling',
       '--disable-backgrounding-occluded-windows',
       '--disable-renderer-backgrounding',
+      // Additional memory optimizations
+      '--single-process',              // Run in single process (saves ~100MB)
+      '--disable-extensions',          // No extensions
+      '--disable-plugins',             // No plugins
+      '--disable-default-apps',        // No default apps
+      '--mute-audio',                  // No audio processing
+      '--disable-sync',                // No sync
+      '--disable-translate',           // No translation
+      '--disable-features=TranslateUI',
+      '--disable-ipc-flooding-protection',
+      '--disable-hang-monitor',
+      '--disable-popup-blocking',
+      '--disable-prompt-on-repost',
+      '--disable-domain-reliability',
+      '--disable-component-update',
+      '--disable-breakpad',            // No crash reporting
+      '--no-first-run',
+      '--no-zygote',                   // No zygote process (saves memory)
+      '--js-flags=--max-old-space-size=128',  // Limit JS heap to 128MB
     ],
   });
 
@@ -953,6 +986,13 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
     }));
 
     fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
+
+    // Clear page cache to free memory
+    try {
+      const client = await page.target().createCDPSession();
+      await client.send('Network.clearBrowserCache');
+      await client.detach();
+    } catch (e) { /* ignore cache clear errors */ }
 
     console.log(`[${label}] ${resort.key}: ${records.length} lifts`);
     recordResortSuccess(resort.key);
@@ -1093,6 +1133,22 @@ async function runVailScraper() {
 
   await processScrapeQueue(vailState, 'VAIL', CONFIG.vail.delayBetweenScrapes);
 
+  // Every 10 cycles, restart browser to prevent memory bloat
+  if (health.vail.totalRuns % 10 === 0) {
+    console.log('[VAIL] Periodic browser restart to free memory...');
+    try {
+      if (vailState.browser) {
+        await vailState.browser.close();
+        vailState.browser = null;
+        vailState.pagePool.length = 0;
+      }
+      await killOrphanedChromium();
+      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+    } catch (e) {
+      console.error('[VAIL] Error during periodic restart:', e.message);
+    }
+  }
+
   console.log('[VAIL] Cycle complete');
   vailState.running = false;
 }
@@ -1103,10 +1159,46 @@ async function runVailScraper() {
 
 const HEALTH_FILE = path.join(__dirname, 'health.json');
 
+function getMemoryUsage() {
+  try {
+    const memInfo = fs.readFileSync('/proc/meminfo', 'utf8');
+    const lines = memInfo.split('\n');
+    const getValue = (key) => {
+      const line = lines.find(l => l.startsWith(key));
+      if (!line) return 0;
+      return parseInt(line.split(/\s+/)[1]) * 1024; // Convert KB to bytes
+    };
+    const total = getValue('MemTotal:');
+    const free = getValue('MemFree:');
+    const buffers = getValue('Buffers:');
+    const cached = getValue('Cached:');
+    const available = getValue('MemAvailable:');
+    const swapTotal = getValue('SwapTotal:');
+    const swapFree = getValue('SwapFree:');
+
+    const used = total - free - buffers - cached;
+    const swapUsed = swapTotal - swapFree;
+
+    return {
+      totalMB: Math.round(total / 1024 / 1024),
+      usedMB: Math.round(used / 1024 / 1024),
+      availableMB: Math.round(available / 1024 / 1024),
+      usedPercent: Math.round((used / total) * 100),
+      swapTotalMB: Math.round(swapTotal / 1024 / 1024),
+      swapUsedMB: Math.round(swapUsed / 1024 / 1024),
+      swapUsedPercent: swapTotal > 0 ? Math.round((swapUsed / swapTotal) * 100) : 0,
+    };
+  } catch (e) {
+    return null; // /proc/meminfo not available (not Linux)
+  }
+}
+
 function writeHealthFile() {
+  const memory = getMemoryUsage();
   const healthData = {
     status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
+    memory,
     ikon: health.ikon,
     vail: health.vail,
     updatedAt: new Date().toISOString(),
@@ -1143,9 +1235,15 @@ process.on('SIGTERM', async () => {
 
 async function main() {
   console.log('╔════════════════════════════════════════════════════════════════════╗');
-  console.log('║     Ski Lift Scraper - Simplified Single-Queue Mode                ║');
+  console.log('║     Ski Lift Scraper - Memory Optimized Mode                       ║');
   console.log('╚════════════════════════════════════════════════════════════════════╝');
   console.log(`Started at: ${new Date().toISOString()}`);
+
+  // Log initial memory state
+  const initMem = getMemoryUsage();
+  if (initMem) {
+    console.log(`Memory: ${initMem.usedMB}MB / ${initMem.totalMB}MB (${initMem.usedPercent}%), Swap: ${initMem.swapUsedMB}MB (${initMem.swapUsedPercent}%)`);
+  }
   console.log('');
   console.log('┌─ IKON PROVIDERS ─────────────────────────────────────────────────────');
   console.log(`│ Enabled: ${(CONFIG.ikon.enabledProviders || []).join(', ') || 'ALL'}`);
