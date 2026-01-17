@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-01-17",
-  "generated": "2026-01-17T14:16:02.836Z",
+  "generated": "2026-01-17T15:16:53.968Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 119,
+          "today": 125,
           "yesterday": 124,
-          "delta": -5
+          "delta": 1
         },
         "groomedTrails": {
           "today": 81,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Upper Cut",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Southpaw",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Ruby Palace",
+          "difficulty": "Double Black",
+          "area": "OZ"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Starwood",
@@ -45,21 +61,6 @@
           "name": "Lower Chutzpah",
           "difficulty": "Double Black",
           "area": "WHITE CAP"
-        },
-        {
-          "name": "Lower Hard Ball",
-          "difficulty": "Double Black",
-          "area": "WHITE CAP"
-        },
-        {
-          "name": "Shock Wave",
-          "difficulty": "Double Black",
-          "area": "WHITE CAP"
-        },
-        {
-          "name": "Top Gun",
-          "difficulty": "Double Black",
-          "area": "BARKER MOUNTAIN"
         }
       ],
       "newlyGroomed": [],
@@ -128,20 +129,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Still Soft Out There",
-    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. 3 new trails opened today. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
@@ -157,13 +161,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 4,
