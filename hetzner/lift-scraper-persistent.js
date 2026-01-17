@@ -92,34 +92,42 @@ const health = {
   startTime: Date.now(),
 };
 
-// Per-resort failure tracking to skip problematic resorts temporarily
-const resortFailures = new Map(); // key -> { failures: number, cooldownUntil: timestamp }
+// Per-resort failure tracking - triggers browser restart instead of cooldown
+const resortFailures = new Map(); // key -> { failures: number }
+let browserNeedsRestart = false; // Flag to trigger immediate browser restart
 
 function isResortInCooldown(resortKey) {
-  const record = resortFailures.get(resortKey);
-  if (!record) return false;
-  if (record.cooldownUntil && Date.now() < record.cooldownUntil) {
-    return true;
-  }
-  // Cooldown expired, reset
-  if (record.cooldownUntil && Date.now() >= record.cooldownUntil) {
-    resortFailures.delete(resortKey);
-  }
+  // No more cooldowns - we restart browser instead
   return false;
 }
 
 function recordResortFailure(resortKey) {
-  const record = resortFailures.get(resortKey) || { failures: 0, cooldownUntil: null };
+  const record = resortFailures.get(resortKey) || { failures: 0 };
   record.failures++;
-  if (record.failures >= CONFIG.vail.maxConsecutiveFailures) {
-    record.cooldownUntil = Date.now() + CONFIG.vail.failureCooldownMs;
-    console.log(`[VAIL] ${resortKey}: Too many failures, cooldown for ${CONFIG.vail.failureCooldownMs / 60000} minutes`);
-  }
   resortFailures.set(resortKey, record);
+
+  // Count total failures across all resorts
+  let totalFailures = 0;
+  for (const [, r] of resortFailures) {
+    totalFailures += r.failures;
+  }
+
+  // If we hit 3+ total failures, trigger browser restart
+  if (totalFailures >= 3) {
+    console.log(`[VAIL] ${resortKey}: ${record.failures} failures (${totalFailures} total) - will restart browser`);
+    browserNeedsRestart = true;
+  } else {
+    console.log(`[VAIL] ${resortKey}: ${record.failures} consecutive failures`);
+  }
 }
 
 function recordResortSuccess(resortKey) {
   resortFailures.delete(resortKey);
+}
+
+function clearAllFailures() {
+  resortFailures.clear();
+  browserNeedsRestart = false;
 }
 
 // Load main config
@@ -1133,8 +1141,25 @@ async function runVailScraper() {
 
   await processScrapeQueue(vailState, 'VAIL', CONFIG.vail.delayBetweenScrapes);
 
-  // Every 10 cycles, restart browser to prevent memory bloat
-  if (health.vail.totalRuns % 10 === 0) {
+  // Check if we need to restart browser due to failures
+  if (browserNeedsRestart) {
+    console.log('[VAIL] Restarting browser due to failures...');
+    try {
+      if (vailState.browser) {
+        await vailState.browser.close();
+        vailState.browser = null;
+        vailState.pagePool.length = 0;
+      }
+      await killOrphanedChromium();
+      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+      clearAllFailures(); // Reset failure counters after restart
+      console.log('[VAIL] Browser restarted successfully, failure counters reset');
+    } catch (e) {
+      console.error('[VAIL] Error during failure recovery restart:', e.message);
+    }
+  }
+  // Also do periodic restart every 10 cycles as a safety measure
+  else if (health.vail.totalRuns % 10 === 0) {
     console.log('[VAIL] Periodic browser restart to free memory...');
     try {
       if (vailState.browser) {
