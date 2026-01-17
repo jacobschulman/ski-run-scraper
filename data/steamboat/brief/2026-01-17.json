@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-01-17",
-  "generated": "2026-01-17T17:14:55.763Z",
+  "generated": "2026-01-17T18:23:18.693Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 139,
+          "today": 141,
           "yesterday": 139,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 60,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lights Out",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Shadows",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -139,15 +150,18 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "1\" new snow overnight",
+      "2 new trails opened today",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "2 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Flintlock - all skill levels",
       "Fresh corduroy on Headwall - all skill levels",
@@ -155,8 +169,8 @@
     ]
   },
   "morningBrief": {
-    "headline": "1\" Freshened Things Up",
-    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Cold day ahead: 15° high. Dress warmly.",
+    "headline": "A Little Sugar on Top",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. 2 new trails opened today. Cold day ahead: 15° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
@@ -172,19 +186,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_cold",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Saturday"
     }
