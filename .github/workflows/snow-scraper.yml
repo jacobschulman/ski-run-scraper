@@ -56,7 +56,10 @@ jobs:
       - name: Check for meaningful changes (not just timestamp/forecast updates)
         id: data-check
         run: |
-          node smart-commit-check.js > /tmp/check-output.txt 2>&1
+          # Run smart-commit-check.js: stdout goes to file (for sourcing), stderr goes to console
+          # The script outputs 'new_data=true' or 'new_data=false' to stdout
+          # and logs diagnostic messages to stderr
+          node smart-commit-check.js > /tmp/check-output.txt
           source /tmp/check-output.txt
           echo "new_data=$new_data" >> $GITHUB_OUTPUT
           cat /tmp/check-output.txt
