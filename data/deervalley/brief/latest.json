@@ -2,8 +2,24 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-01-17",
-  "generated": "2026-01-17T11:14:54.163Z",
+  "generated": "2026-01-17T12:34:31.589Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 85,
+      "season_total_cm": 216,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -115,10 +131,70 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-16",
+        "high_f": null,
+        "low_f": 20,
+        "high_c": null,
+        "low_c": -7,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-17",
+          "high_f": 29,
+          "low_f": 26,
+          "high_c": -2,
+          "low_c": -3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-18",
+          "high_f": 34,
+          "low_f": 22,
+          "high_c": 1,
+          "low_c": -6,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-19",
+          "high_f": 29,
+          "low_f": 22,
+          "high_c": -2,
+          "low_c": -5,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-17",
+        "high_f": 29,
+        "low_f": 26,
+        "high_c": -2,
+        "low_c": -3,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
@@ -137,6 +213,40 @@
       "Fresh corduroy on Lake Shore - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "More Mountain to Explore",
+    "body": "120 trails open, 54 groomed. Mostly Clear, temperatures TBD. Terrain expanding: 7 new trails opening up more options.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Beat the Weekend Rush"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
