@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-18",
-  "generated": "2026-01-18T10:22:15.777Z",
+  "generated": "2026-01-18T11:14:44.479Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,21 +23,98 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 130,
+          "today": 134,
           "yesterday": 130,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 66,
+          "today": 55,
           "yesterday": 66,
-          "delta": 0
+          "delta": -11
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Barber Chair Glade",
+          "difficulty": "Blue",
+          "area": "Timberline"
+        },
+        {
+          "name": "Greenhorn Glade",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Raker Tooth Glade",
+          "difficulty": "Black",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Ram Pasture Glade",
+          "difficulty": "Black",
+          "area": "West Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Picaroon",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Lower Double Bitter",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Spurline",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Midstation X-Cut",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lower Whiffletree",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Bucksaw X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower Glancer",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper Scoot",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,22 +179,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "4 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 16\" in last 7 days",
+      "4 more trails open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Solid Refresh: 4\"",
-    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. The terrain list grew by 4 today. More variety to choose from. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
@@ -133,13 +212,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
