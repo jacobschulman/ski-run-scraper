@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-18",
-  "generated": "2026-01-18T12:35:39.486Z",
+  "generated": "2026-01-18T13:28:07.955Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -16,7 +16,7 @@
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
-        "today": "Machine Groomed",
+        "today": "Packed Powder",
         "yesterday": "Machine Groomed"
       }
     },
@@ -28,15 +28,46 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 36,
+          "today": 42,
           "yesterday": 36,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 202
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Hallelujah Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Spaulding Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Roundabout (U)",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Woodwinds Traverse",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Easy Road",
+          "difficulty": "easiest",
+          "area": "Center"
+        },
+        {
+          "name": "High Point Bypass",
+          "difficulty": "easiest",
+          "area": "Center"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -62,7 +93,7 @@
         {
           "date": "2026-01-18",
           "high_f": 25,
-          "low_f": 9,
+          "low_f": 10,
           "description": "Windy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
@@ -80,7 +111,7 @@
         {
           "date": "2026-01-20",
           "high_f": 23,
-          "low_f": 3,
+          "low_f": 4,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -90,7 +121,7 @@
       "tomorrow": {
         "date": "2026-01-18",
         "high_f": 25,
-        "low_f": 9,
+        "low_f": 10,
         "description": "Windy",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
@@ -106,15 +137,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hallelujah Ridge - challenging for advanced skiers",
+      "Fresh corduroy on Spaulding Ridge - challenging for advanced skiers",
+      "Fresh corduroy on Roundabout (U) - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Weekend Finale",
-    "body": "105 of 202 trails are open with 36 groomed. Clear with a temperatures TBD. Light snow possible in the forecast.",
+    "body": "105 of 202 trails are open with 42 groomed. Clear with a temperatures TBD. 6 runs freshly groomed, mostly in Spaulding & Resolution, West, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +164,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
