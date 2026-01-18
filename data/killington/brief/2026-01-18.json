@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-18",
-  "generated": "2026-01-18T14:16:02.242Z",
+  "generated": "2026-01-18T15:16:41.932Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 160,
+          "today": 162,
           "yesterday": 160,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 78,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Big Dipper",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Ovation - Lower",
+          "difficulty": "Double Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,21 +113,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "2 new trails opened today"
     ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Storm Cycle Building",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Big things coming. 6\" in the forecast. Might be time to plan ahead.",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 2 new trails opened today. Big things coming. 6\" in the forecast. Might be time to plan ahead.",
     "debug": {
       "firedRules": [
         {
@@ -132,13 +145,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 2,
