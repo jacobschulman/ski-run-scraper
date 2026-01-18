@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-01-18",
-  "generated": "2026-01-18T16:20:30.760Z",
+  "generated": "2026-01-18T17:14:36.536Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 235,
+          "today": 242,
           "yesterday": 235,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
           "today": 84,
@@ -34,8 +34,55 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Beaver Bowl",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Bernie's Bowl",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Estelle Bowl",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Idiot's Delight",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Poma Rocks",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Pond Slope",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "South Beaver",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "The Buttress",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Ray's Rut",
+          "difficulty": "Intermediate",
+          "area": "Sherwood Bowl"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Siberia Bowl",
@@ -73,33 +120,22 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-17",
-        "high_f": null,
-        "low_f": 38,
-        "high_c": null,
-        "low_c": 3,
+        "date": "2026-01-18",
+        "high_f": 46,
+        "low_f": 31,
+        "high_c": 8,
+        "low_c": -1,
         "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-18",
-          "high_f": 47,
-          "low_f": 31,
-          "high_c": 8,
-          "low_c": -1,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-19",
           "high_f": 41,
-          "low_f": 31,
+          "low_f": 29,
           "high_c": 5,
-          "low_c": -1,
+          "low_c": -2,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -111,6 +147,17 @@
           "low_f": 36,
           "high_c": 8,
           "low_c": 2,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-21",
+          "high_f": 46,
+          "low_f": 36,
+          "high_c": 8,
+          "low_c": 2,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -118,12 +165,12 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-18",
-        "high_f": 47,
-        "low_f": 31,
-        "high_c": 8,
-        "low_c": -1,
-        "description": "Mostly Cloudy",
+        "date": "2026-01-19",
+        "high_f": 41,
+        "low_f": 29,
+        "high_c": 5,
+        "low_c": -2,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -134,14 +181,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "8 new trails opened today",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "7 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Siberia Bowl - all skill levels",
       "Fresh corduroy on Siberia Ridge - all skill levels",
@@ -149,14 +199,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Weekend Finale",
-    "body": "235 trails open, 84 groomed. Mostly Cloudy, temperatures TBD. 235/301 trails open, 84 groomed. Mostly Cloudy.",
+    "headline": "New Runs Now Open",
+    "body": "242 trails open, 84 groomed. Mostly Cloudy, high of 46°. Terrain expanding: 8 new trails opening up more options. Mild for this time of year at 46°. Expect variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_sunday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -166,19 +216,25 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_unseasonably_warm",
           "category": "weather",
-          "priority": 5,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "sunday",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Sunday Skiing"
+        "previousHeadline": "Weekend Finale"
       },
       "dayOfWeek": "Sunday"
     }
