@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-01-18",
-  "generated": "2026-01-18T13:28:07.976Z",
+  "generated": "2026-01-18T14:16:02.256Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 76,
+          "today": 77,
           "yesterday": 76,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 69,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Walking Boss Woods",
+          "difficulty": "Black",
+          "area": "North Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,22 +108,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "2\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Prepare for Pow",
-    "body": "A proper refresh: 3\" of new snow making everything ski better. Storm cycle alert! 6\" on the way. Conditions are about to level up.",
+    "body": "A proper refresh: 3\" of new snow making everything ski better. 1 new trail opened today. Storm cycle alert! 6\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -133,13 +141,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 5,

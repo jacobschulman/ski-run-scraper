@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2026-01-18",
-  "generated": "2026-01-18T10:22:08.114Z",
+  "generated": "2026-01-18T14:15:55.998Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 9,
           "yesterday": 8,
-          "delta": -8
+          "delta": 1
         },
         "groomedTrails": {
           "today": 0,
@@ -34,49 +34,14 @@
         },
         "totalTrails": 11
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Champagne",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "J's Way",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Outer Limits",
+          "name": "Down Draft",
           "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Regulator Johnston",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Shredder",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "The Park",
-          "difficulty": "TerrainPark",
           "area": "Brandywine"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -97,7 +62,7 @@
         "low_f": 11,
         "high_c": -7,
         "low_c": -12,
-        "description": "Partly Cloudy",
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -119,7 +84,7 @@
           "low_f": 2,
           "high_c": -11,
           "low_c": -17,
-          "description": "Partly Cloudy",
+          "description": "Mostly Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -127,9 +92,9 @@
         {
           "date": "2026-01-21T05:00:00Z",
           "high_f": 33,
-          "low_f": 10,
+          "low_f": 9,
           "high_c": null,
-          "low_c": -12,
+          "low_c": -13,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -153,41 +118,56 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Steady snowfall - 9\" in last 7 days"
+      "Steady snowfall - 9\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "No trails open yet. Current forecast: Partly Cloudy.",
+    "headline": "Clear Skies, Cold Temps",
+    "body": "Steady snowfall with 9\" over the last week. 1 new trail opened today. Sun's out, but so is the cold - expect a high of 20°. Gorgeous if you dress for it.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "bluebird_day",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Weekend Warrior Day"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Sunday"
     }
