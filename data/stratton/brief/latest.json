@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-19",
-  "generated": "2026-01-19T10:28:22.364Z",
+  "generated": "2026-01-19T11:20:29.765Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 108,
+          "today": 109,
           "yesterday": 108,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 76,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Test Pilot",
+          "difficulty": "Extreme Terrain",
+          "area": "Glades"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,22 +118,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "2\" fresh snow overnight",
-      "8\" in last 24 hours - powder day!"
+      "8\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
-      "Great week for snow - 12\" in last 7 days"
+      "Great week for snow - 12\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Tracks for Days",
-    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere. Peak season vibes today. Expect longer lift lines, especially late morning.",
+    "headline": "Time to Call in Sick",
+    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere. 1 new trail opened today. Peak season vibes today. Expect longer lift lines, especially late morning.",
     "debug": {
       "firedRules": [
         {
@@ -143,19 +151,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "time_holiday",
           "category": "time",
           "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 5,
         "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Time to Call in Sick"
+        "previousHeadline": "Fresh Tracks for Days"
       },
       "dayOfWeek": "Monday"
     }
