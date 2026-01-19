@@ -2,21 +2,21 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-19",
-  "generated": "2026-01-19T12:42:08.230Z",
+  "generated": "2026-01-19T13:44:22.651Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 0,
-      "7day_cm": 0,
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 2,
+      "7day_cm": 5,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
-        "today": "Packed Powder",
+        "today": "Powder",
         "yesterday": "Packed Powder"
       }
     },
@@ -28,9 +28,9 @@
           "delta": 4
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 37,
           "yesterday": 43,
-          "delta": 1
+          "delta": -6
         },
         "totalTrails": 202
       },
@@ -58,7 +58,43 @@
       ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Hallelujah Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Spaulding Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Roundabout (U)",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Collage (L)",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "Collage (U)",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "Easy Road",
+          "difficulty": "easiest",
+          "area": "Center"
+        },
+        {
+          "name": "High Point Bypass",
+          "difficulty": "easiest",
+          "area": "Center"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -72,27 +108,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-18",
-        "high_f": null,
-        "low_f": 10,
-        "description": "Mostly Cloudy",
+        "date": "2026-01-19",
+        "high_f": 19,
+        "low_f": 4,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-19",
-          "high_f": 18,
-          "low_f": 4,
-          "description": "Mostly Sunny",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 1
-        },
-        {
           "date": "2026-01-20",
           "high_f": 22,
-          "low_f": 3,
+          "low_f": 4,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -106,51 +133,61 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-22",
+          "high_f": 26,
+          "low_f": 10,
+          "description": "Sunny",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2026-01-19",
-        "high_f": 18,
+        "date": "2026-01-20",
+        "high_f": 22,
         "low_f": 4,
-        "description": "Mostly Sunny",
-        "snowfall_day_inches": 1,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 1
+        "snowfall_expected": 0
       }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
+      "hasFreshSnow": true,
       "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2\" fresh snow overnight",
       "4 new trails opened today"
     ],
     "trends": [
       "4 more trails open than yesterday",
-      "1\" snow expected Monday"
+      "1\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Holiday Skiing",
-    "body": "The rundown: 106 trails open, 44 groomed. Mostly Cloudy with temps around temps TBD. The terrain list grew by 4 today. More variety to choose from. Light snow possible in the forecast.",
+    "headline": "Fresh Coat on the Mountain",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother. The terrain list grew by 4 today. More variety to choose from. Sun's out, but so is the cold - expect a high of 19°. Gorgeous if you dress for it.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_holiday",
-          "category": "time",
+          "id": "snow_dusting",
+          "category": "snow",
           "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 10,
+          "priority": 70,
           "usedFor": "body"
         },
         {
@@ -160,19 +197,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
+          "id": "weather_bluebird",
           "category": "weather",
-          "priority": 30,
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "holiday",
+        "condition": "fresh_coat",
         "variationIndex": 0,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Peak Season Mode"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Monday"
     }

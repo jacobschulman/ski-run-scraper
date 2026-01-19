@@ -2,35 +2,35 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-19",
-  "generated": "2026-01-19T12:42:08.130Z",
+  "generated": "2026-01-19T13:44:22.549Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 3,
-      "24hour_cm": 8,
-      "48hour_inches": 6,
-      "48hour_cm": 15,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
       "7day_inches": 0,
       "7day_cm": 0,
       "season_total_inches": 122,
       "season_total_cm": 310,
       "conditions": {
-        "today": "Machine Groomed Packed Powder",
+        "today": "Machine Groomed Frozen Granular",
         "yesterday": "Machine Groomed Packed Powder"
       }
     },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 113,
+          "today": 112,
           "yesterday": 112,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 48,
+          "today": 47,
           "yesterday": 49,
-          "delta": -1
+          "delta": -2
         },
         "totalTrails": 142
       },
@@ -41,11 +41,22 @@
           "area": "Gadd Peak"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Brambles",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": [
         {
           "name": "Cat's Meow",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Murphy's Glades",
           "difficulty": "Intermediate",
           "area": "Gadd Peak"
         },
@@ -68,27 +79,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-18",
-        "high_f": null,
-        "low_f": 12,
-        "high_c": null,
-        "low_c": -11,
-        "description": "Cloudy",
-        "snowfall_day_inches": 1,
+        "date": "2026-01-19",
+        "high_f": 12,
+        "low_f": 2,
+        "high_c": -11,
+        "low_c": -17,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-19",
-          "high_f": 12,
-          "low_f": 2,
-          "high_c": -11,
-          "low_c": -17,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-20",
           "high_f": 1,
@@ -102,7 +102,7 @@
         },
         {
           "date": "2026-01-21",
-          "high_f": 10,
+          "high_f": 11,
           "low_f": 11,
           "high_c": -12,
           "low_c": -12,
@@ -110,14 +110,25 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-22",
+          "high_f": 19,
+          "low_f": 7,
+          "high_c": -7,
+          "low_c": -14,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-19",
-        "high_f": 12,
-        "low_f": 2,
-        "high_c": -11,
-        "low_c": -17,
+        "date": "2026-01-20",
+        "high_f": 1,
+        "low_f": -1,
+        "high_c": -17,
+        "low_c": -18,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -136,32 +147,30 @@
     "alerts": [
       "1 new trail opened today"
     ],
-    "trends": [
-      "1 more trail open than yesterday"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Boost",
-    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. 1 new trail opened today. Holiday period means the mountain will be busy. Start early to beat the crowds.",
+    "headline": "Busy Day Ahead",
+    "body": "112 of 142 trails are open with 47 groomed. Windy with a high of 12°F. Cold day ahead: 12° high. Dress warmly. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_solid",
-          "category": "snow",
-          "priority": 82,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "snow_solid",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 82,
+          "priority": 10,
           "usedFor": "body"
         },
         {
-          "id": "terrain_micro",
-          "category": "terrain",
-          "priority": 45,
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         },
         {
@@ -171,13 +180,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_solid",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "holiday",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "The Mountain Got a Boost"
       },
       "dayOfWeek": "Monday"
     }
