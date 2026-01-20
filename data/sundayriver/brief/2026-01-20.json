@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-01-20",
-  "generated": "2026-01-20T15:28:38.615Z",
+  "generated": "2026-01-20T16:34:07.270Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 125,
+          "today": 126,
           "yesterday": 125,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 82,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Shock Wave",
+          "difficulty": "Double Black",
+          "area": "WHITE CAP"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,22 +108,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "2\" fresh snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
       "Great week for snow - 19\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "The Mountain Got a Boost",
-    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. 1 new trail opened today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -133,13 +141,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 3,

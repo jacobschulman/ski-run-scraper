@@ -2,7 +2,7 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-01-20",
-  "generated": "2026-01-20T15:28:49.104Z",
+  "generated": "2026-01-20T16:34:19.879Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,47 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 112,
+          "today": 115,
           "yesterday": 112,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 35,
+          "today": 37,
           "yesterday": 35,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 120
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "TP. Bushwhackers",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "TP. Horto's Revenge",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "TP. The Shoulder",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "GE. Cayuse Creek",
+          "difficulty": "Green",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Red 90",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -55,7 +82,7 @@
       },
       "outlook": [
         {
-          "date": "2026-01-21T15:28:49.103Z",
+          "date": "2026-01-21T16:34:19.878Z",
           "high_f": 21.2,
           "low_f": -0.4,
           "high_c": -6,
@@ -66,7 +93,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-01-22T15:28:49.103Z",
+          "date": "2026-01-22T16:34:19.878Z",
           "high_f": 12.2,
           "low_f": -4,
           "high_c": -11,
@@ -78,7 +105,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-21T15:28:49.103Z",
+        "date": "2026-01-21T16:34:19.878Z",
         "high_f": 21.2,
         "low_f": -0.4,
         "high_c": -6,
@@ -94,22 +121,30 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "3 new trails opened today",
+      "2 trails freshly groomed"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on GE. Cayuse Creek - great for beginners",
+      "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "112 trails open, 35 groomed. Unknown, high of 24.8°. 112/120 trails open, 35 groomed. 24.8° and Unknown.",
+    "headline": "Terrain Update",
+    "body": "115 trails open, 37 groomed. Unknown, high of 24.8°. Ski patrol opened 3 additional trails. A few more choices today.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -119,15 +154,15 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_few",
         "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
