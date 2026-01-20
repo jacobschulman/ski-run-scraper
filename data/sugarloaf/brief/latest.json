@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-20",
-  "generated": "2026-01-20T18:31:56.726Z",
+  "generated": "2026-01-20T20:10:41.139Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,49 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 139,
+          "today": 145,
           "yesterday": 139,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 56,
-          "delta": -12
+          "delta": -11
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Lower Binder",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Stump Shot",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Birch Hook",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Boomscooter",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower Glancer",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -174,15 +205,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "6 new trails opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 11\" in last 7 days",
+      "6 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -190,14 +223,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "It's Gonna Be a Cold One",
-    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "The Map Got Bigger",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. 6 new runs just opened up. Time to explore fresh terrain. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_frigid",
-          "category": "weather",
-          "priority": 73,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -207,19 +240,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "cold_snap",
-        "variationIndex": 0,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Bundle Up Out There"
+        "previousHeadline": "Terrain Expanding"
       },
       "dayOfWeek": "Tuesday"
     }
