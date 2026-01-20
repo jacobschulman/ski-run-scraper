@@ -2,7 +2,7 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-01-20",
-  "generated": "2026-01-20T21:00:46.814Z",
+  "generated": "2026-01-20T21:18:38.382Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 116,
+          "today": 111,
           "yesterday": 112,
-          "delta": 4
+          "delta": -1
         },
         "groomedTrails": {
           "today": 37,
@@ -56,7 +56,33 @@
           "area": "All Terrain"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "SS. Wildside",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Farside",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Renegade",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Stampede",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Think Again",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "GE. Cayuse Creek",
@@ -87,7 +113,7 @@
       },
       "outlook": [
         {
-          "date": "2026-01-21T21:00:46.813Z",
+          "date": "2026-01-21T21:18:38.381Z",
           "high_f": 21.2,
           "low_f": -0.4,
           "high_c": -6,
@@ -98,7 +124,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-01-22T21:00:46.813Z",
+          "date": "2026-01-22T21:18:38.381Z",
           "high_f": 12.2,
           "low_f": -7.6,
           "high_c": -11,
@@ -110,7 +136,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-21T21:00:46.813Z",
+        "date": "2026-01-21T21:18:38.381Z",
         "high_f": 21.2,
         "low_f": -0.4,
         "high_c": -6,
@@ -133,23 +159,21 @@
       "4 new trails opened today",
       "2 trails freshly groomed"
     ],
-    "trends": [
-      "4 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": [
       "Fresh corduroy on GE. Cayuse Creek - great for beginners",
       "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Terrain Update",
-    "body": "116 trails open, 37 groomed. Unknown, high of 24.8°. Ski patrol opened 4 additional trails. A few more choices today.",
+    "headline": "Quiet Days on the Hill",
+    "body": "111 trails open, 37 groomed. Unknown, high of 24.8°. 111/120 trails open, 37 groomed. 24.8° and Unknown.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
@@ -159,16 +183,16 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 2,
+        "condition": "midweek_mellow",
+        "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
         "previousHeadline": "Patrol Opened {newTrailsCount} More"
