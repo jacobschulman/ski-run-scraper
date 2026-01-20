@@ -2,7 +2,7 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-01-20",
-  "generated": "2026-01-20T10:28:39.738Z",
+  "generated": "2026-01-20T11:21:31.843Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 9.1,
-      "7day_cm": 23,
+      "7day_inches": 0,
+      "7day_cm": 0,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
@@ -55,22 +55,22 @@
       },
       "outlook": [
         {
-          "date": "2026-01-21T10:28:39.737Z",
+          "date": "2026-01-21T11:21:31.841Z",
           "high_f": 21.2,
-          "low_f": -2.2,
+          "low_f": -0.4,
           "high_c": -6,
-          "low_c": -19,
+          "low_c": -18,
           "description": "Unknown",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
-          "date": "2026-01-22T10:28:39.737Z",
-          "high_f": 3.2,
-          "low_f": -5.8,
-          "high_c": -16,
-          "low_c": -21,
+          "date": "2026-01-22T11:21:31.841Z",
+          "high_f": 12.2,
+          "low_f": -4,
+          "high_c": -11,
+          "low_c": -20,
           "description": "Unknown",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -78,11 +78,11 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-21T10:28:39.737Z",
+        "date": "2026-01-21T11:21:31.841Z",
         "high_f": 21.2,
-        "low_f": -2.2,
+        "low_f": -0.4,
         "high_c": -6,
-        "low_c": -19,
+        "low_c": -18,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -98,14 +98,12 @@
       "significantGroomingIncrease": false
     },
     "alerts": [],
-    "trends": [
-      "Steady snowfall - 9.1\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Beat the Weekend Rush",
-    "body": "Steady snowfall with 9.1\" over the last week.",
+    "body": "112 trails open, 35 groomed. Unknown, high of 24.8°. 112/120 trails open, 35 groomed. 24.8° and Unknown.",
     "debug": {
       "firedRules": [
         {
@@ -115,9 +113,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
