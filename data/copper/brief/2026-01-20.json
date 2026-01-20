@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-20",
-  "generated": "2026-01-20T12:43:10.450Z",
+  "generated": "2026-01-20T13:45:06.815Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -16,7 +16,7 @@
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
-        "today": "Powder",
+        "today": "Packed Powder",
         "yesterday": "Powder"
       }
     },
@@ -28,9 +28,9 @@
           "delta": -8
         },
         "groomedTrails": {
-          "today": 37,
+          "today": 39,
           "yesterday": 37,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 202
       },
@@ -77,7 +77,18 @@
           "area": "Center"
         }
       ],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Hallelujah Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Collage (U)",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -92,27 +103,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-19",
-        "high_f": null,
-        "low_f": 6,
-        "description": "Clear",
+        "date": "2026-01-20",
+        "high_f": 24,
+        "low_f": 5,
+        "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-20",
-          "high_f": 24,
-          "low_f": 5,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-21",
           "high_f": 23,
-          "low_f": 7,
+          "low_f": 8,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -121,17 +123,26 @@
         {
           "date": "2026-01-22",
           "high_f": 24,
-          "low_f": 10,
+          "low_f": 11,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-23",
+          "high_f": 22,
+          "low_f": 12,
+          "description": "Cloudy",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
         }
       ],
       "tomorrow": {
-        "date": "2026-01-20",
-        "high_f": 24,
-        "low_f": 5,
+        "date": "2026-01-21",
+        "high_f": 23,
+        "low_f": 8,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -147,19 +158,26 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2 trails freshly groomed"
+    ],
+    "trends": [
+      "5\" snow expected Friday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Hallelujah Ridge - challenging for advanced skiers",
+      "Fresh corduroy on Collage (U) - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Quiet Days on the Hill",
-    "body": "The rundown: 103 trails open, 37 groomed. Clear with temps around temps TBD. 103/202 trails open, 37 groomed. Clear.",
+    "headline": "Snow in the Forecast",
+    "body": "The rundown: 103 trails open, 39 groomed. Windy with temps around 24°. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -169,19 +187,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 5,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Tuesday"
     }
