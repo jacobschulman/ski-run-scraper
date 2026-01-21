@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-21",
-  "generated": "2026-01-21T19:24:04.674Z",
+  "generated": "2026-01-21T20:27:20.623Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 111,
           "yesterday": 110,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 39,
@@ -35,6 +35,11 @@
         "totalTrails": 202
       },
       "newlyOpened": [
+        {
+          "name": "Atlantic Cornice",
+          "difficulty": "Double Black",
+          "area": "Spaulding & Resolution"
+        },
         {
           "name": "Guthrie’s Chute",
           "difficulty": "Black",
@@ -129,16 +134,17 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today"
+      "3 new trails opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "7\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "The Forecast Looks Loaded",
-    "body": "110 of 202 trails are open with 39 groomed. Windy with a high of 23°F. The weather models are locked in: 11\" of snow heading our way.",
+    "body": "111 of 202 trails are open with 39 groomed. Windy with a high of 23°F. 3 new trails opened today. The weather models are locked in: 11\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
@@ -151,6 +157,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
