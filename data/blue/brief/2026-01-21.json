@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-21",
-  "generated": "2026-01-21T09:29:23.511Z",
+  "generated": "2026-01-21T10:31:00.215Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 57,
+          "today": 58,
           "yesterday": 57,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 45,
@@ -34,8 +34,25 @@
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Grove Terrain Park",
+          "difficulty": "LargePark",
+          "area": "Orchard"
+        },
+        {
+          "name": "Waterfall",
+          "difficulty": "Intermediate",
+          "area": "South"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -112,20 +129,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 11\" in last 7 days",
+      "1 more trail open than yesterday",
       "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Overnight Refresh",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "2\" Freshened Things Up",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 2 new trails opened today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +161,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Overnight Refresh"
       },
       "dayOfWeek": "Wednesday"
     }
