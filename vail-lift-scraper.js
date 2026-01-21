@@ -505,21 +505,43 @@ async function scrapeLiftData(resortKey, url, browser) {
     // Set a realistic user agent
     await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    // Try loading with a more lenient wait strategy
+    // Block unnecessary resources to speed up loading and reduce timeout risk
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      const resourceType = req.resourceType();
+      const url = req.url();
+
+      // Block analytics, ads, and non-essential resources
+      if (resourceType === 'image' ||
+          resourceType === 'stylesheet' ||
+          resourceType === 'font' ||
+          url.includes('google-analytics') ||
+          url.includes('googletagmanager') ||
+          url.includes('doubleclick') ||
+          url.includes('facebook.net') ||
+          url.includes('analytics') ||
+          url.includes('tracking')) {
+        req.abort();
+      } else {
+        req.continue();
+      }
+    });
+
+    // Use domcontentloaded instead of networkidle2 - flagship sites (vail.com, beavercreek.com)
+    // have heavy analytics that prevent networkidle2 from ever completing
     try {
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
     } catch (e) {
       console.log(`  ⚠️  Initial load issue: ${e.message}`);
     }
 
-    // Give the page extra time to settle (reduced to 1-2 seconds for better performance)
-    const settleTime = 1000 + Math.floor(Math.random() * 2000);
-    await new Promise(resolve => setTimeout(resolve, settleTime));
+    // Give extra time for JS to execute after domcontentloaded
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Wait for the FR object to be available
     await page.waitForFunction(
       () => typeof FR !== 'undefined' && FR.TerrainStatusFeed,
-      { timeout: 45000 }
+      { timeout: 30000 }
     ).catch(() => {
       throw new Error('FR.TerrainStatusFeed not found');
     });
@@ -695,7 +717,23 @@ async function main() {
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage',
       '--disable-accelerated-2d-canvas',
-      '--disable-gpu'
+      '--disable-gpu',
+      '--disable-background-timer-throttling',
+      '--disable-backgrounding-occluded-windows',
+      '--disable-renderer-backgrounding',
+      '--disable-extensions',
+      '--disable-plugins',
+      '--disable-default-apps',
+      '--mute-audio',
+      '--disable-sync',
+      '--disable-translate',
+      '--disable-features=TranslateUI',
+      '--disable-hang-monitor',
+      '--disable-popup-blocking',
+      '--disable-prompt-on-repost',
+      '--disable-domain-reliability',
+      '--disable-component-update',
+      '--no-first-run'
     ]
   });
 
