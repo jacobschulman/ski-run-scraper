@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-22",
-  "generated": "2026-01-22T09:29:57.440Z",
+  "generated": "2026-01-22T10:28:38.230Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,64 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 50,
+          "today": 59,
           "yesterday": 50,
-          "delta": 0
+          "delta": 9
         },
         "groomedTrails": {
-          "today": 38,
+          "today": 47,
           "yesterday": 38,
-          "delta": 0
+          "delta": 9
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        },
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Due North",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Legacy",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Willy's",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Senator / Larway",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,26 +158,30 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 new trails opened today"
+    ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "Grooming increased 24% from yesterday",
+      "9 more trails open than yesterday",
       "1\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. Light snow possible in the forecast.",
+    "headline": "Terrain Expanding",
+    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. New terrain alert: 9 trails added to the mix. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -141,19 +191,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 3,
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Thursday"
     }
