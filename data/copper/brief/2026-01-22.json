@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-22",
-  "generated": "2026-01-22T17:25:51.289Z",
+  "generated": "2026-01-22T18:27:31.135Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 112,
           "yesterday": 111,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 40,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Endeavor",
+          "difficulty": "Black",
+          "area": "Union Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -108,14 +114,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "7\" snow expected Friday"
     ],
     "recommendations": [
@@ -124,7 +132,7 @@
   },
   "morningBrief": {
     "headline": "Major System Approaching",
-    "body": "111 trails open, 40 groomed. Sunny, high of 25°. Winter has more to say. 14\" forecasted means conditions improving soon.",
+    "body": "112 trails open, 40 groomed. Sunny, high of 25°. 1 new trail opened today. Winter has more to say. 14\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -137,6 +145,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
