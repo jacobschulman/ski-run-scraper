@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-23",
-  "generated": "2026-01-23T10:24:12.231Z",
+  "generated": "2026-01-23T11:18:18.036Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,21 +23,154 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 145,
+          "today": 142,
           "yesterday": 145,
-          "delta": 0
+          "delta": -3
         },
         "groomedTrails": {
-          "today": 46,
+          "today": 62,
           "yesterday": 46,
-          "delta": 0
+          "delta": 16
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Middle Narrow Gauge",
+          "difficulty": "Blue",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "King's Landing",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Double Bitter",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Sluice Chute",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Rollway",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Lower Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
+        },
+        {
+          "name": "Tote Road Ext",
+          "difficulty": "Blue",
+          "area": "Timberline"
+        },
+        {
+          "name": "Upper Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
+        },
+        {
+          "name": "Bucksaw X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Middle Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper Scoot",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -103,27 +236,33 @@
       "hasFreshSnow": true,
       "isPowderDay": false,
       "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "21 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
+      "Grooming increased 35% from yesterday",
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Candy Side - perfect for intermediate skiers",
+      "Fresh corduroy on Haywire - perfect for intermediate skiers",
+      "Fresh corduroy on King's Landing - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "The Corduroy Is Calling",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. The grooming crew went hard: 21 trails of fresh corduroy in SuperQuad, Skyline, and more. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
           "usedFor": "headline"
         },
         {
@@ -133,19 +272,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "grooming_highlight",
         "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "Groomers Did Their Thing"
       },
       "dayOfWeek": "Friday"
     }
