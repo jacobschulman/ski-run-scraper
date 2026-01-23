@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-23",
-  "generated": "2026-01-23T11:18:17.941Z",
+  "generated": "2026-01-23T12:40:47.064Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,85 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 111,
           "yesterday": 110,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 38,
+          "today": 44,
           "yesterday": 38,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Racer's Edge",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Second Thoughts",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Lower Birdland",
+          "difficulty": "Difficult",
+          "area": "Gadd Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Spring Road",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Hot Shot",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Lower Hot Shot",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Overshot",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Second Thoughts",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Waterfall",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Cruiser",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Murphy's Glades",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Which Way",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,19 +176,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today",
+      "7 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "4\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Spring Road - all skill levels",
+      "Fresh corduroy on Hot Shot - all skill levels",
+      "Fresh corduroy on Lower Hot Shot - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Nice Little Top-Up",
-    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "3\" Freshened Things Up",
+    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved. 7 runs freshly groomed, mostly in Gadd Peak, North Lynx Peak, and more. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +212,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Nice Little Top-Up"
       },
       "dayOfWeek": "Friday"
     }
