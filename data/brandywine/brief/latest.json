@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2026-01-24",
-  "generated": "2026-01-24T10:22:00.504Z",
+  "generated": "2026-01-24T14:16:34.960Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 8,
           "yesterday": 11,
-          "delta": -11
+          "delta": -3
         },
         "groomedTrails": {
           "today": 0,
@@ -37,23 +37,8 @@
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Champagne",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
           "name": "Down Draft",
           "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
           "area": "Brandywine"
         },
         {
@@ -62,32 +47,7 @@
           "area": "Brandywine"
         },
         {
-          "name": "J's Way",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Outer Limits",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
           "name": "Progression Park",
-          "difficulty": "TerrainPark",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Regulator Johnston",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Shredder",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "The Park",
           "difficulty": "TerrainPark",
           "area": "Brandywine"
         }
@@ -108,7 +68,7 @@
     "forecast": {
       "today": {
         "date": "2026-01-24",
-        "high_f": 10,
+        "high_f": 11,
         "low_f": -3,
         "high_c": -12,
         "low_c": -20,
@@ -124,9 +84,9 @@
           "high_c": -7,
           "low_c": -13,
           "description": "Snow",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 7
         },
         {
           "date": "2026-01-26T05:00:00Z",
@@ -158,9 +118,9 @@
         "high_c": -7,
         "low_c": -13,
         "description": "Snow",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_day_inches": 4,
+        "snowfall_night_inches": 3,
+        "snowfall_expected": 7
       }
     }
   },
@@ -173,34 +133,42 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "7\" snow expected Sunday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "The mountain is still prepping for the season. Weather today: Cloudy.",
+    "headline": "Major System Approaching",
+    "body": "8 trails open, 0 groomed. Cloudy, high of 11°. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Storm Cycle Building"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Saturday"
     }
