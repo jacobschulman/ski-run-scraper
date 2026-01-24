@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-01-24",
-  "generated": "2026-01-24T12:37:11.114Z",
+  "generated": "2026-01-24T13:31:09.472Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 135,
+          "today": 136,
           "yesterday": 135,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 81,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Tightwire",
+          "difficulty": "Black",
+          "area": "LOCKE MOUNTAIN"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -51,50 +57,50 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-23",
-        "high_f": null,
-        "low_f": -16,
+        "date": "2026-01-24",
+        "high_f": -8,
+        "low_f": -10,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-24",
-          "high_f": -8,
-          "low_f": -10,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-25",
           "high_f": 3,
           "low_f": 1,
           "description": "Cold",
-          "snowfall_day_inches": 9,
+          "snowfall_day_inches": 10,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 9
+          "snowfall_expected": 10
         },
         {
           "date": "2026-01-26",
           "high_f": 8,
-          "low_f": -1,
+          "low_f": 0,
           "description": "Snow Wind",
           "snowfall_day_inches": 7,
           "snowfall_night_inches": 0,
           "snowfall_expected": 7
+        },
+        {
+          "date": "2026-01-27",
+          "high_f": 3,
+          "low_f": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-24",
-        "high_f": -8,
-        "low_f": -10,
-        "description": "Windy",
-        "snowfall_day_inches": 0,
+        "date": "2026-01-25",
+        "high_f": 3,
+        "low_f": 1,
+        "description": "Cold",
+        "snowfall_day_inches": 10,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 10
       }
     }
   },
@@ -102,20 +108,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
-      "9\" snow expected Sunday"
+      "1 more trail open than yesterday",
+      "10\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Major System Approaching",
-    "body": "Holding steady - that 13\" base from recent storms is doing the heavy lifting. A significant storm is brewing with 16\" expected over the next few days.",
+    "body": "Holding steady - that 13\" base from recent storms is doing the heavy lifting. 1 new trail opened today. A significant storm is brewing with 17\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -131,13 +140,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 4,
