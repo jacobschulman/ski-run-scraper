@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-24",
-  "generated": "2026-01-24T09:17:32.519Z",
+  "generated": "2026-01-24T10:22:08.450Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 60,
+          "today": 61,
           "yesterday": 60,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 48,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "North Glades",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,20 +118,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Steady snowfall - 11\" in last 7 days",
+      "1 more trail open than yesterday",
       "3\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Boost",
-    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. 1 new trail opened today. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +150,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 8,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Proper Refresh"
+        "previousHeadline": "The Mountain Got a Boost"
       },
       "dayOfWeek": "Saturday"
     }
