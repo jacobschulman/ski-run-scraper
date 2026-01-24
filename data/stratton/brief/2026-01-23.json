@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-23",
-  "generated": "2026-01-24T01:19:18.922Z",
+  "generated": "2026-01-24T03:24:29.051Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,36 +23,88 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 106,
+          "today": 111,
           "yesterday": 109,
-          "delta": -3
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 71,
+          "today": 80,
           "yesterday": 71,
-          "delta": 0
+          "delta": 9
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sunriser Supertrail",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Lower Slalom Glade",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Lower Wanderer",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "West Pilot",
           "difficulty": "Intermediate",
           "area": "Glades"
-        },
+        }
+      ],
+      "newlyGroomed": [
         {
           "name": "Cabot's Run",
           "difficulty": "Easy",
           "area": "Lower Mountain"
         },
         {
+          "name": "Duck Soup",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
+        {
           "name": "Ethan's Alley",
           "difficulty": "Easy",
           "area": "Lower Mountain"
+        },
+        {
+          "name": "Solstice Way",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Sunriser Supertrail",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Lower East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Lower Slalom Glade",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Lower Wanderer",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
         }
       ],
-      "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
@@ -68,12 +120,12 @@
     "forecast": {
       "today": {
         "date": "2026-01-23",
-        "high_f": 11,
+        "high_f": null,
         "low_f": -13,
-        "high_c": -12,
+        "high_c": null,
         "low_c": -25,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
@@ -101,7 +153,7 @@
         },
         {
           "date": "2026-01-26",
-          "high_f": 10,
+          "high_f": 11,
           "low_f": -2,
           "high_c": -12,
           "low_c": -19,
@@ -128,20 +180,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "9 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
+      "2 more trails open than yesterday",
       "8\" snow expected Sunday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Cabot's Run - all skill levels",
+      "Fresh corduroy on Duck Soup - all skill levels",
+      "Fresh corduroy on Ethan's Alley - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "Steady snowfall with 6\" over the last week. Big things coming. 11\" in the forecast. Might be time to plan ahead.",
+    "headline": "Storm Cycle Building",
+    "body": "Steady snowfall with 6\" over the last week. 9 runs freshly groomed, mostly in Lower Mountain, Sun Bowl, and more. Big things coming. 11\" in the forecast. Might be time to plan ahead.",
     "debug": {
       "firedRules": [
         {
@@ -157,19 +217,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 2,
         "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Storm Cycle Building"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Friday"
     }
