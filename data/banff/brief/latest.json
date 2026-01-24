@@ -2,7 +2,7 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-01-24",
-  "generated": "2026-01-24T16:46:40.929Z",
+  "generated": "2026-01-24T17:17:00.420Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 43,
+          "today": 47,
           "yesterday": 43,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 120
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "GE. Cayuse Creek",
+          "difficulty": "Green",
+          "area": "All Terrain"
+        },
+        {
+          "name": "JW. Jackrabbit",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Red 90",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Yellowhead North",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SB. Strawberry Face",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Wa. The Waterfall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Wa. Tilton Trail",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Wa. Wawa Bowl",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "UM. Bye Bye Bowl",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Grizzly",
+          "difficulty": "Green",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Piste Noir",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Wa. Old T-Bar",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -55,7 +117,7 @@
       },
       "outlook": [
         {
-          "date": "2026-01-25T16:46:40.928Z",
+          "date": "2026-01-25T17:17:00.419Z",
           "high_f": 15.8,
           "low_f": -0.4,
           "high_c": -9,
@@ -66,7 +128,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-01-26T16:46:40.928Z",
+          "date": "2026-01-26T17:17:00.419Z",
           "high_f": 23,
           "low_f": 1.4,
           "high_c": -5,
@@ -78,7 +140,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-25T16:46:40.928Z",
+        "date": "2026-01-25T17:17:00.419Z",
         "high_f": 15.8,
         "low_f": -0.4,
         "high_c": -9,
@@ -97,13 +159,19 @@
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "8 trails freshly groomed"
+    ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on GE. Cayuse Creek - great for beginners",
+      "Fresh corduroy on JW. Jackrabbit - challenging for advanced skiers",
+      "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Weekend Warrior Day",
-    "body": "113 trails open, 43 groomed. Unknown, high of 17.6°. Cold day ahead: 17.6° high. Dress warmly.",
+    "body": "113 trails open, 47 groomed. Unknown, high of 17.6°. 8 runs freshly groomed, mostly in All Terrain. Cold day ahead: 17.6° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
@@ -116,6 +184,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {

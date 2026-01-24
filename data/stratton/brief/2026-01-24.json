@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-01-24",
-  "generated": "2026-01-24T16:22:13.271Z",
+  "generated": "2026-01-24T17:16:48.230Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 113,
           "yesterday": 111,
-          "delta": -1
+          "delta": 2
         },
         "groomedTrails": {
           "today": 80,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 123
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Cabin Fever",
+          "difficulty": "Expert",
+          "area": "Glades"
+        },
+        {
+          "name": "Dancing Bear",
+          "difficulty": "Expert",
+          "area": "Glades"
+        },
+        {
+          "name": "Moonbeam",
+          "difficulty": "Intermediate",
+          "area": "Glades"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Big Ben",
@@ -70,13 +86,13 @@
         {
           "date": "2026-01-25",
           "high_f": 3,
-          "low_f": 3,
+          "low_f": 4,
           "high_c": -16,
           "low_c": -16,
           "description": "Snow Wind",
           "snowfall_day_inches": 2,
-          "snowfall_night_inches": 7,
-          "snowfall_expected": 9
+          "snowfall_night_inches": 8,
+          "snowfall_expected": 10
         },
         {
           "date": "2026-01-26",
@@ -86,13 +102,13 @@
           "low_c": -18,
           "description": "Snow Wind",
           "snowfall_day_inches": 3,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 4
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
         },
         {
           "date": "2026-01-27",
           "high_f": 4,
-          "low_f": -1,
+          "low_f": 0,
           "high_c": -16,
           "low_c": -18,
           "description": "Windy",
@@ -104,13 +120,13 @@
       "tomorrow": {
         "date": "2026-01-25",
         "high_f": 3,
-        "low_f": 3,
+        "low_f": 4,
         "high_c": -16,
         "low_c": -16,
         "description": "Snow Wind",
         "snowfall_day_inches": 2,
-        "snowfall_night_inches": 7,
-        "snowfall_expected": 9
+        "snowfall_night_inches": 8,
+        "snowfall_expected": 10
       }
     }
   },
@@ -118,22 +134,24 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "3 new trails opened today"
     ],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
-      "9\" snow expected Sunday"
+      "2 more trails open than yesterday",
+      "10\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "Overnight dusting of 1\" means the hardpack got a makeover. The weather models are locked in: 13\" of snow heading our way.",
+    "headline": "Major System Approaching",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. 3 new trails opened today. The weather models are locked in: 13\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
@@ -149,19 +167,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 8,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 3,
         "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Major System Approaching"
+        "previousHeadline": "Winter's Coming Back"
       },
       "dayOfWeek": "Saturday"
     }
