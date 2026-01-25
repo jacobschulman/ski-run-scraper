@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-25",
-  "generated": "2026-01-25T09:18:38.006Z",
+  "generated": "2026-01-25T10:36:59.398Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 60,
+          "today": 61,
           "yesterday": 60,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 48,
           "yesterday": 47,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,20 +118,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Steady snowfall - 11\" in last 7 days",
+      "1 more trail open than yesterday",
       "3\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "1\" Freshened Things Up",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "headline": "A Little Sugar on Top",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 1 new trail opened today. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +150,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Sunday"
     }
