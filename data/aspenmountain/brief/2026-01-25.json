@@ -2,7 +2,7 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-01-25",
-  "generated": "2026-01-25T15:18:15.255Z",
+  "generated": "2026-01-25T16:21:20.606Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 114,
+          "today": 115,
           "yesterday": 114,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 26,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 140
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Norway",
+          "difficulty": "DoubleBlack",
+          "area": "Shadow Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -139,15 +145,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 10\" in last 7 days"
+      "Steady snowfall - 10\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Pussyfoot Flats - perfect for intermediate skiers",
@@ -157,7 +165,7 @@
   },
   "morningBrief": {
     "headline": "Nice Little Top-Up",
-    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Brace yourself: 3° today. Dress like you mean it.",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. 1 new trail opened today. Brace yourself: 3° today. Dress like you mean it.",
     "debug": {
       "firedRules": [
         {
@@ -173,13 +181,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_frigid",
           "category": "weather",
           "priority": 73,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 1,
