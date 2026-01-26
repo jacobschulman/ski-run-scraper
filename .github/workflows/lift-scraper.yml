@@ -23,64 +23,109 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code repository (public)
         uses: actions/checkout@v4
+        with:
+          path: public-repo
+
+      - name: Checkout data repository (new)
+        uses: actions/checkout@v4
+        with:
+          repository: jacobschulman/ski-run-scraper-data
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: data-repo
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: public-repo/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd public-repo
+          npm install
 
       - name: Run Vail lift scraper
-        run: node vail-lift-scraper.js
+        run: |
+          cd public-repo
+          node vail-lift-scraper.js
         # Scrapes lift data for all Vail Resorts using Puppeteer
 
       - name: Run Ikon lift scraper
-        run: node ikon-lift-scraper.js
+        run: |
+          cd public-repo
+          node ikon-lift-scraper.js
         # Scrapes lift data for all Ikon Pass resorts using Inspector API
 
       - name: Generate lift JSON files
-        run: npm run generate:lifts all
+        run: |
+          cd public-repo
+          npm run generate:lifts all
 
       - name: Generate latest lifts aggregation
-        run: npm run generate:latest-lifts
-
-      - name: Stage lift data files
         run: |
-          # Add lift data files and aggregations
+          cd public-repo
+          npm run generate:latest-lifts
+
+      - name: Copy data to data repository
+        run: |
+          # Sync data from public repo to data repo
+          rsync -av --delete public-repo/data/ data-repo/data/
+
+      - name: Commit to PUBLIC repo (existing behavior)
+        run: |
+          cd public-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage files
           git add data/**/lifts/ data/latest-lifts.json cache/
 
-      - name: Check for new data (not just timestamp updates)
-        id: data-check
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in public repo"
+            echo "has_public_changes=false" >> $GITHUB_ENV
+          else
+            # Get the current branch name
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+            # Pull latest changes with rebase to avoid conflicts
+            git pull --rebase --autostash origin "$BRANCH_NAME"
+
+            # Create commit with timestamp
+            git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+            # Push changes to the current branch
+            git push origin "$BRANCH_NAME"
+            echo "has_public_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit to DATA repo (parallel)
         run: |
-          # stdout goes to file (new_data=xxx), stderr goes to console for logging
-          node smart-commit-check.js > /tmp/check-output.txt
-          source /tmp/check-output.txt
-          echo "new_data=$new_data" >> $GITHUB_OUTPUT
-          cat /tmp/check-output.txt
+          cd data-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and push lift data
-        if: steps.data-check.outputs.new_data == 'true'
+          # Stage all data files
+          git add data/
+
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in data repo"
+          else
+            # Create commit with timestamp
+            git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+            # Push changes
+            git push
+          fi
+
+      - name: Summary
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-          # Get the current branch name
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-
-          # Pull latest changes with rebase to avoid conflicts
-          git pull --rebase --autostash origin "$BRANCH_NAME"
-
-          # Create commit with timestamp
-          git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
-
-          # Push changes to the current branch
-          git push origin "$BRANCH_NAME"
-
-      - name: No new data detected
-        if: steps.data-check.outputs.new_data != 'true'
-        run: echo "✓ Scrape completed but no new data to commit (resorts likely closed or no wait time changes)"
+          if [ "${{ env.has_public_changes }}" = "true" ]; then
+            echo "✓ Dual-commit successful: Updates pushed to both repos"
+          else
+            echo "✓ Scrape completed but no new data to commit (resorts likely closed or no wait time changes)"
+          fi

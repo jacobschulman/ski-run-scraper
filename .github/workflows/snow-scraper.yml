@@ -20,71 +20,112 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code repository (public)
         uses: actions/checkout@v4
+        with:
+          path: public-repo
+
+      - name: Checkout data repository (new)
+        uses: actions/checkout@v4
+        with:
+          repository: jacobschulman/ski-run-scraper-data
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: data-repo
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: public-repo/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd public-repo
+          npm install
 
       - name: Run Vail snow scraper
-        run: node snow-scraper.js vail
+        run: |
+          cd public-repo
+          node snow-scraper.js vail
         # Scrapes snow reports for all Vail Resorts using Puppeteer (batched)
 
       - name: Run Ikon snow scraper
-        run: node snow-scraper.js ikon
+        run: |
+          cd public-repo
+          node snow-scraper.js ikon
         # Scrapes snow reports for all Ikon Pass resorts using Inspector API (single call)
 
       - name: Run Canadian SkiBig3 scraper
-        run: node canadian-scraper.js
+        run: |
+          cd public-repo
+          node canadian-scraper.js
         # Scrapes Lake Louise, Sunshine Village, Mt Norquay using Puppeteer hybrid approach
 
       - name: Generate aggregate data
-        run: node generate-aggregates.js
+        run: |
+          cd public-repo
+          node generate-aggregates.js
         # Regenerate mega recap with latest snow data
 
-      - name: Stage data changes
+      - name: Copy data to data repository
         run: |
-          # Stage ALL data changes (snow, terrain, brief from Canadian scraper, aggregates)
+          # Sync data from public repo to data repo
+          rsync -av --delete public-repo/data/ data-repo/data/
+
+      - name: Commit to PUBLIC repo (existing behavior)
+        run: |
+          cd public-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage all data changes
           git add data/
 
-      - name: Check for meaningful changes (not just timestamp/forecast updates)
-        id: data-check
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in public repo"
+            echo "has_public_changes=false" >> $GITHUB_ENV
+          else
+            # Get the current branch name
+            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+            # Pull with rebase
+            git pull --rebase --autostash origin "$BRANCH_NAME"
+
+            # Re-stage after rebase
+            git add data/
+
+            # Commit and push
+            git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push origin "$BRANCH_NAME"
+            echo "has_public_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit to DATA repo (parallel)
         run: |
-          # Run smart-commit-check.js: stdout goes to file (for sourcing), stderr goes to console
-          # The script outputs 'new_data=true' or 'new_data=false' to stdout
-          # and logs diagnostic messages to stderr
-          node smart-commit-check.js > /tmp/check-output.txt
-          source /tmp/check-output.txt
-          echo "new_data=$new_data" >> $GITHUB_OUTPUT
-          cat /tmp/check-output.txt
+          cd data-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and push data
-        if: steps.data-check.outputs.new_data == 'true'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-
-          # Get the current branch name
-          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-
-          # Pull with rebase to avoid conflicts
-          git pull --rebase --autostash origin "$BRANCH_NAME"
-
-          # Re-stage after rebase
+          # Stage all data files
           git add data/
 
-          # Create commit with timestamp
-          git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in data repo"
+          else
+            # Create commit with timestamp
+            git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
 
-          # Push changes to the current branch
-          git push origin "$BRANCH_NAME"
+            # Push changes
+            git push
+          fi
 
-      - name: No meaningful changes detected
-        if: steps.data-check.outputs.new_data != 'true'
-        run: echo "✓ Scrape completed but no new snow data to commit (conditions unchanged since last run)"
+      - name: Summary
+        run: |
+          if [ "${{ env.has_public_changes }}" = "true" ]; then
+            echo "✓ Dual-commit successful: Updates pushed to both repos"
+          else
+            echo "✓ Scrape completed but no new data to commit (conditions unchanged since last run)"
+          fi

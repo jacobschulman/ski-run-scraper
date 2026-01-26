@@ -22,70 +22,126 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code repository (public)
         uses: actions/checkout@v4
+        with:
+          path: public-repo
+
+      - name: Checkout data repository (new)
+        uses: actions/checkout@v4
+        with:
+          repository: jacobschulman/ski-run-scraper-data
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: data-repo
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
+          cache-dependency-path: public-repo/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd public-repo
+          npm install
 
       - name: Run Vail terrain scraper
-        run: node vail-scraper.js all terrain
+        run: |
+          cd public-repo
+          node vail-scraper.js all terrain
         # Scrapes terrain/grooming data for all Vail Resorts using Puppeteer (once daily in AM)
 
       - name: Run Ikon terrain scraper
-        run: node ikon-scraper.js terrain
+        run: |
+          cd public-repo
+          node ikon-scraper.js terrain
         # Scrapes terrain/grooming data for all Ikon Pass resorts using Inspector API (once daily in AM)
 
       - name: Run Canadian SkiBig3 scraper
-        run: node canadian-scraper.js
+        run: |
+          cd public-repo
+          node canadian-scraper.js
         # Scrapes Lake Louise, Sunshine Village, Mt Norquay using Puppeteer hybrid approach
 
       - name: Import terrain data to database
-        run: npm run db:import
+        run: |
+          cd public-repo
+          npm run db:import
         # Import scraped terrain JSON files into SQLite database for streak calculations
 
       - name: Generate trail data
-        run: npm run generate:trails:only all
+        run: |
+          cd public-repo
+          npm run generate:trails:only all
         # Uses generate:trails:only since db:import already ran above
 
       - name: Generate terrain indexes
-        run: npm run generate:terrain-indexes
+        run: |
+          cd public-repo
+          npm run generate:terrain-indexes
 
       - name: Generate aggregate data
-        run: node generate-aggregates.js
+        run: |
+          cd public-repo
+          node generate-aggregates.js
         # Generates daily mega recap with superlatives, rankings, and regional aggregates
 
-      - name: Check for changes
-        id: git-check
+      - name: Copy data to data repository
         run: |
-          git diff --exit-code data/ || echo "changes=true" >> $GITHUB_OUTPUT
+          # Sync data from public repo to data repo
+          rsync -av --delete public-repo/data/ data-repo/data/
 
-      - name: Commit and push data
-        if: steps.git-check.outputs.changes == 'true'
+      - name: Commit to PUBLIC repo (existing behavior)
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          cd public-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage all data changes first (including untracked files)
-          # This prevents "untracked working tree files would be overwritten" errors
+          # Stage all data changes
           git add data/
 
-          # Now pull with rebase - staged files won't conflict
-          git pull --rebase --autostash origin main
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in public repo"
+            echo "has_public_changes=false" >> $GITHUB_ENV
+          else
+            # Pull with rebase
+            git pull --rebase --autostash origin main
 
-          # Re-stage after rebase - autostash restores changes as unstaged
+            # Re-stage after rebase
+            git add data/
+
+            # Commit and push
+            git commit -m "Update ski data - $(date +'%Y-%m-%d')"
+            git push
+            echo "has_public_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit to DATA repo (parallel)
+        run: |
+          cd data-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage all data files
           git add data/
 
-          # Commit and push
-          git commit -m "Update ski data - $(date +'%Y-%m-%d')" || echo "Nothing to commit"
-          git push
+          # Check if there are changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit in data repo"
+          else
+            # Create commit with timestamp
+            git commit -m "Update ski data - $(date +'%Y-%m-%d')"
 
-      - name: No changes detected
-        if: steps.git-check.outputs.changes != 'true'
-        run: echo "No new data to commit"
+            # Push changes
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          if [ "${{ env.has_public_changes }}" = "true" ]; then
+            echo "✓ Dual-commit successful: Updates pushed to both repos"
+          else
+            echo "✓ Scrape completed but no new data to commit"
+          fi
