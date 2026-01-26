@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-26",
-  "generated": "2026-01-26T08:27:56.488Z",
+  "generated": "2026-01-26T09:31:11.521Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 1,
+      "7day_cm": 3,
+      "season_total_inches": 218,
+      "season_total_cm": 554,
+      "conditions": {
+        "today": "1\" of new snow since our lifts closed yesterday will provide a nice, light touch-up across all elevations. Look for morning snow flurries to transition into clear and sunny skies by late morning. Cold mountain temperatures will continue with ranges from the low single digits across the high elevations to the mid-teens down on the valley floor. Light winds will be trending out of the WNW at 10-13 MPH with little to no gusting. The 1\" refresh will provide the vapor trail foundation for your early Sunday needs. The sunshine will arrive to close out the weekend. A delightful day is in store for the Rendezvous Mountain Strong! Stay safe out there. -MB  ",
+        "yesterday": "1\" of new snow since our lifts closed yesterday will provide a nice, light touch-up across all elevations. Look for morning snow flurries to transition into clear and sunny skies by late morning. Cold mountain temperatures will continue with ranges from the low single digits across the high elevations to the mid-teens down on the valley floor. Light winds will be trending out of the WNW at 10-13 MPH with little to no gusting. The 1\" refresh will provide the vapor trail foundation for your early Sunday needs. The sunshine will arrive to close out the weekend. A delightful day is in store for the Rendezvous Mountain Strong! Stay safe out there. -MB  "
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -36,14 +52,46 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Overnight Refresh",
+    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
