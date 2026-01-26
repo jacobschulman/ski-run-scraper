@@ -292,12 +292,26 @@ async function runIkonSnowScraper() {
 // VAIL SNOW SCRAPER (Puppeteer) - Single persistent page
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Kill any orphaned chromium processes before starting fresh
+async function killOrphanedChromium() {
+  const { exec } = require('child_process');
+  return new Promise((resolve) => {
+    // Kill ALL chromium processes (not just renderers) to ensure full cleanup
+    exec('pkill -f chromium 2>/dev/null || true', (err) => {
+      resolve();
+    });
+  });
+}
+
 async function initBrowser() {
   if (browser) {
     try { await browser.close(); } catch (e) {}
     browser = null;
     page = null;
   }
+
+  // Clean up any orphaned chromium processes
+  await killOrphanedChromium();
 
   console.log('[VAIL-SNOW] Launching browser...');
   browser = await puppeteer.launch({
@@ -989,6 +1003,31 @@ function writeHealthFile() {
 }
 
 setInterval(writeHealthFile, 10000);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEMP DIRECTORY CLEANUP
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Clean up old Puppeteer temp profiles to prevent disk space issues
+function cleanupOldTempProfiles() {
+  const { exec } = require('child_process');
+  // Remove profile directories older than 2 hours (120 minutes)
+  exec('find /tmp -name "puppeteer_dev_chrome_profile-*" -type d -mmin +120 -exec rm -rf {} + 2>/dev/null',
+    (err) => {
+      if (err && err.code !== 1) {
+        // Exit code 1 just means no files found, which is fine
+        console.error('[CLEANUP] Error cleaning temp profiles:', err.message);
+      } else {
+        console.log('[CLEANUP] Cleaned up old Puppeteer temp profiles');
+      }
+    }
+  );
+}
+
+// Run cleanup every hour
+setInterval(cleanupOldTempProfiles, 60 * 60 * 1000);
+// Also run once on startup
+cleanupOldTempProfiles();
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN LOOP

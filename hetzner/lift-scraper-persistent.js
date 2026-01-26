@@ -848,8 +848,8 @@ const vailState = {
 async function killOrphanedChromium() {
   const { exec } = require('child_process');
   return new Promise((resolve) => {
-    // Kill chromium processes older than 10 minutes (likely orphaned)
-    exec('pkill -f "chromium.*--type=renderer" 2>/dev/null || true', (err) => {
+    // Kill ALL chromium processes (not just renderers) to ensure full cleanup
+    exec('pkill -f chromium 2>/dev/null || true', (err) => {
       resolve();
     });
   });
@@ -1237,6 +1237,31 @@ function writeHealthFile() {
 
 // Write health file every 5 seconds
 setInterval(writeHealthFile, 5000);
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEMP DIRECTORY CLEANUP
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Clean up old Puppeteer temp profiles to prevent disk space issues
+function cleanupOldTempProfiles() {
+  const { exec } = require('child_process');
+  // Remove profile directories older than 2 hours (120 minutes)
+  exec('find /tmp -name "puppeteer_dev_chrome_profile-*" -type d -mmin +120 -exec rm -rf {} + 2>/dev/null',
+    (err) => {
+      if (err && err.code !== 1) {
+        // Exit code 1 just means no files found, which is fine
+        console.error('[CLEANUP] Error cleaning temp profiles:', err.message);
+      } else {
+        console.log('[CLEANUP] Cleaned up old Puppeteer temp profiles');
+      }
+    }
+  );
+}
+
+// Run cleanup every hour
+setInterval(cleanupOldTempProfiles, 60 * 60 * 1000);
+// Also run once on startup
+cleanupOldTempProfiles();
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN LOOP
