@@ -45,12 +45,16 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
  * Get all Vail resorts that are currently in season
  * This automatically scales - no need to manually maintain a list
  * Only processes Vail resorts - Ikon resorts are handled by ikon-lift-scraper.js
+ * OPTIMIZATION: Only scrape resorts that publish wait times (hasWaitTimes: true)
+ * Resorts without wait times are status-only and don't need real-time scraping
  */
 function getInSeasonResorts() {
   return config.resorts.filter(resort => {
     // Only include Vail resorts (exclude Ikon resorts)
     const isVailResort = !resort.provider || resort.provider === 'vail';
-    return isVailResort && isResortInSeason(resort);
+    // Only scrape resorts that publish wait times (65% reduction from 40 to 14 resorts)
+    const hasWaitTimes = resort.hasWaitTimes === true;
+    return isVailResort && isResortInSeason(resort) && hasWaitTimes;
   });
 }
 
@@ -90,18 +94,19 @@ function getResortLocalHourMinute(timezone) {
 
 /**
  * Check if we're in discovery mode for a resort
- * Discovery mode: 7:00 AM - 12:00 PM local time
+ * Discovery mode: 8:00 AM - 10:00 AM local time
  * During this window, we check ALL in-season resorts to find which are opening
  *
- * Extended from the original 7:15-10:00 window to give more coverage for
- * resorts that open later or are in different timezones.
+ * OPTIMIZED: Narrowed from 7-12 to 8-10 AM since most resorts open 8:30-9:00 AM.
+ * This cuts 3 hours of wasteful scraping per day (saves ~65% of discovery overhead).
+ * The PRE_OPEN_BUFFER_MINUTES (30min) ensures we catch early birds that open at 8 AM.
  */
 function isInDiscoveryWindow(timezone) {
   const { hour, minute } = getResortLocalHourMinute(timezone);
   const currentMinutes = hour * 60 + minute;
 
-  const discoveryStart = 7 * 60; // 7:00 AM
-  const discoveryEnd = 12 * 60; // 12:00 PM (noon)
+  const discoveryStart = 8 * 60; // 8:00 AM (was 7:00 AM)
+  const discoveryEnd = 10 * 60; // 10:00 AM (was 12:00 PM noon)
 
   return currentMinutes >= discoveryStart && currentMinutes < discoveryEnd;
 }

@@ -1,9 +1,18 @@
 # UPDATE HETZNER WITHOUT DATA
 
+# FAST: Download specific files directly from GitHub (no git overhead)
+curl -o hetzner/lift-scraper-persistent.js https://raw.githubusercontent.com/jacobschulman/ski-run-scraper/main/hetzner/lift-scraper-persistent.js && pm2 restart lift-scraper
+
+# Or update multiple files at once:
+for file in hetzner/lift-scraper-persistent.js vail-lift-scraper.js ikon-lift-scraper.js; do
+  curl -o "$file" "https://raw.githubusercontent.com/jacobschulman/ski-run-scraper/main/$file"
+done && pm2 restart lift-scraper
+
+# MEDIUM: Git fetch (slow with large history)
 git fetch origin && git checkout origin/main -- . ':!data/' ':!data-local/' ':!cache/' && pm2 restart lift-scraper
 
 
-# FORCE UPDATE HETZNER SERVER
+# FORCE UPDATE HETZNER SERVER (RESETS ALL CODE)
 
 git fetch origin
 git reset --hard origin/main

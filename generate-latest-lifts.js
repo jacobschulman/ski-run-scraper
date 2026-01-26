@@ -16,6 +16,14 @@ function generateLatestLifts() {
   let resortCount = 0;
   let totalLifts = 0;
 
+  // Load config to get hasWaitTimes flags
+  const configPath = path.join(__dirname, 'config.json');
+  const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+  const resortConfig = config.resorts.reduce((acc, resort) => {
+    acc[resort.key] = resort;
+    return acc;
+  }, {});
+
   // Find all resorts with lift data
   const resorts = fs.readdirSync(dataDir, { withFileTypes: true })
     .filter(dirent => dirent.isDirectory())
@@ -37,11 +45,12 @@ function generateLatestLifts() {
         ? new Date(indexData.generated).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];
 
-      // Add to output
+      // Add to output with liftWaitTimesAvailable flag for native apps
       output[resort] = {
         date: generatedDate,
         name: indexData.resortName || resort,
         provider: indexData.provider || 'vail',
+        liftWaitTimesAvailable: resortConfig[resort]?.liftWaitTimesAvailable === true,
         liftCount: indexData.liftCount || 0,
         lifts: indexData.lifts || [],
         generated: indexData.generated
