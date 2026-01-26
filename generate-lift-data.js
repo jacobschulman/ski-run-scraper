@@ -268,6 +268,7 @@ async function generateLiftIndex(resortKey, resortName, liftsByLiftId, resortTim
     resort: resortKey,
     resortName,
     provider: RESORTS[resortKey]?.provider || 'vail',
+    liftWaitTimesAvailable: RESORTS[resortKey]?.liftWaitTimesAvailable === true,
     liftCount: lifts.length,
     lifts,
     generated: new Date().toISOString()

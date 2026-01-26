@@ -45,12 +45,12 @@ function generateLatestLifts() {
         ? new Date(indexData.generated).toISOString().split('T')[0]
         : new Date().toISOString().split('T')[0];
 
-      // Add to output with hasWaitTimes flag for native apps
+      // Add to output with liftWaitTimesAvailable flag for native apps
       output[resort] = {
         date: generatedDate,
         name: indexData.resortName || resort,
         provider: indexData.provider || 'vail',
-        hasWaitTimes: resortConfig[resort]?.hasWaitTimes === true,
+        liftWaitTimesAvailable: resortConfig[resort]?.liftWaitTimesAvailable === true,
         liftCount: indexData.liftCount || 0,
         lifts: indexData.lifts || [],
         generated: indexData.generated
