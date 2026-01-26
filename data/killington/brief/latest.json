@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-26",
-  "generated": "2026-01-26T16:30:33.540Z",
+  "generated": "2026-01-26T17:27:19.848Z",
   "rawData": {
     "snow": {
       "overnight_inches": 10,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 165,
+          "today": 169,
           "yesterday": 165,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 83,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Solitude",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Sassafras",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,23 +113,25 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "10\" fresh snow overnight",
-      "10\" in last 24 hours - powder day!"
+      "10\" in last 24 hours - powder day!",
+      "2 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "4 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "10\" of Fresh Overnight",
-    "body": "It's a 10\" day. You know what to do. First chair or regret it. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "body": "It's a 10\" day. You know what to do. First chair or regret it. The terrain list grew by 2 today. More variety to choose from. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -134,13 +147,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 1,

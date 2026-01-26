@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-01-26",
-  "generated": "2026-01-26T16:30:33.432Z",
+  "generated": "2026-01-26T17:27:19.738Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -57,27 +57,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-25",
-        "high_f": null,
+        "date": "2026-01-26",
+        "high_f": 33,
         "low_f": 29,
-        "high_c": null,
+        "high_c": 0,
         "low_c": -2,
-        "description": "Cloudy",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-26",
-          "high_f": 33,
-          "low_f": 29,
-          "high_c": 1,
-          "low_c": -2,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-01-27",
           "high_f": 35,
@@ -86,8 +75,8 @@
           "low_c": -2,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2026-01-28",
@@ -99,18 +88,29 @@
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 1,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-29",
+          "high_f": 35,
+          "low_f": 35,
+          "high_c": 1,
+          "low_c": 1,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2026-01-26",
-        "high_f": 33,
-        "low_f": 29,
-        "high_c": 1,
+        "date": "2026-01-27",
+        "high_f": 35,
+        "low_f": 28,
+        "high_c": 2,
         "low_c": -2,
-        "description": "Mostly Cloudy",
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
       }
     }
   },
@@ -124,19 +124,19 @@
     },
     "alerts": [],
     "trends": [
-      "2\" snow expected Wednesday"
+      "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Today at Crystal Mountain",
-    "body": "31 of 86 trails are open with 22 groomed. Cloudy with a temperatures TBD. Light snow possible in the forecast.",
+    "headline": "More Snow Coming",
+    "body": "31 of 86 trails are open with 22 groomed. Partly Cloudy with a high of 33°F. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -146,19 +146,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 30,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 5,
-        "totalVariations": 7,
+        "condition": "snow_coming",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Rundown"
+        "previousHeadline": "Today at {resortName}"
       },
       "dayOfWeek": "Monday"
     }
