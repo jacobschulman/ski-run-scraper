@@ -2,21 +2,21 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-26",
-  "generated": "2026-01-26T12:42:37.364Z",
+  "generated": "2026-01-26T13:43:26.172Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
-      "7day_inches": 2,
-      "7day_cm": 5,
+      "overnight_inches": 10,
+      "overnight_cm": 25,
+      "24hour_inches": 10,
+      "24hour_cm": 25,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 12,
+      "7day_cm": 30,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
-        "today": "Packed Powder",
+        "today": "Powder",
         "yesterday": "Packed Powder"
       }
     },
@@ -51,26 +51,17 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-25",
-        "high_f": null,
-        "low_f": 1,
+        "date": "2026-01-26",
+        "high_f": 10,
+        "low_f": -3,
         "description": "Snow Wind",
-        "snowfall_day_inches": 9,
+        "snowfall_day_inches": 6,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-26",
-          "high_f": 11,
-          "low_f": -4,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 6,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 6
-        },
-        {
           "date": "2026-01-27",
-          "high_f": 1,
+          "high_f": 2,
           "low_f": -1,
           "description": "Windy",
           "snowfall_day_inches": 2,
@@ -80,7 +71,16 @@
         {
           "date": "2026-01-28",
           "high_f": 3,
-          "low_f": -1,
+          "low_f": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-01-29",
+          "high_f": 0,
+          "low_f": -7,
           "description": "Windy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
@@ -88,61 +88,65 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-26",
-        "high_f": 11,
-        "low_f": -4,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 6,
+        "date": "2026-01-27",
+        "high_f": 2,
+        "low_f": -1,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 6
+        "snowfall_expected": 2
       }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
-      "isPowderDay": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "10\" fresh snow overnight",
+      "10\" in last 24 hours - powder day!"
+    ],
     "trends": [
-      "6\" snow expected Monday"
+      "Great week for snow - 12\" in last 7 days",
+      "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Prepare for Pow",
-    "body": "The rundown: 165 trails open, 83 groomed. Snow Wind with temps around temps TBD. Big things coming. 9\" in the forecast. Might be time to plan ahead.",
+    "headline": "10\" of Fresh Overnight",
+    "body": "It's a 10\" day. You know what to do. First chair or regret it. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 10,
+          "priority": 90,
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 5,
-        "totalVariations": 7,
+        "condition": "powder_alert",
+        "variationIndex": 1,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Loaded"
+        "previousHeadline": "Powder Day Alert"
       },
       "dayOfWeek": "Monday"
     }

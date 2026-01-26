@@ -2,21 +2,21 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-26",
-  "generated": "2026-01-26T12:42:37.370Z",
+  "generated": "2026-01-26T13:43:26.177Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 5,
-      "7day_cm": 13,
-      "season_total_inches": 71,
-      "season_total_cm": 180,
+      "overnight_inches": 8,
+      "overnight_cm": 20,
+      "24hour_inches": 8,
+      "24hour_cm": 20,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 10,
+      "7day_cm": 25,
+      "season_total_inches": 79,
+      "season_total_cm": 201,
       "conditions": {
-        "today": "Packed Powder",
+        "today": "Powder",
         "yesterday": "Packed Powder"
       }
     },
@@ -209,23 +209,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-25",
-        "high_f": null,
+        "date": "2026-01-26",
+        "high_f": 4,
         "low_f": -1,
         "description": "Snow Wind",
-        "snowfall_day_inches": 7,
+        "snowfall_day_inches": 5,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-01-26",
-          "high_f": 4,
-          "low_f": -1,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 5,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 5
-        },
         {
           "date": "2026-01-27",
           "high_f": 0,
@@ -237,8 +228,17 @@
         },
         {
           "date": "2026-01-28",
-          "high_f": -2,
+          "high_f": -1,
           "low_f": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-29",
+          "high_f": -2,
+          "low_f": -4,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -246,31 +246,33 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-26",
-        "high_f": 4,
-        "low_f": -1,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 5,
+        "date": "2026-01-27",
+        "high_f": 0,
+        "low_f": -4,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 5
+        "snowfall_expected": 0
       }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
-      "isPowderDay": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "8\" fresh snow overnight",
+      "8\" in last 24 hours - powder day!",
       "1 new trail opened today",
       "13 trails freshly groomed"
     ],
     "trends": [
-      "1 more trail open than yesterday",
-      "5\" snow expected Monday"
+      "Steady snowfall - 10\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Lower Binder - perfect for intermediate skiers",
@@ -279,20 +281,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Blustery and Snowy",
-    "body": "122 of 176 trails are open with 54 groomed. Snow Wind with a temperatures TBD. Smooth operators: 13 runs got the full treatment overnight. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "Fresh Tracks for Days",
+    "body": "Mother Nature delivered 8\" of the good stuff. Face shots are on the menu. Smooth operators: 13 runs got the full treatment overnight. It's cold cold cold - 4° for a high. Hand warmers are mandatory.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_wind",
-          "category": "weather",
-          "priority": 82,
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 10,
+          "priority": 90,
           "usedFor": "body"
         },
         {
@@ -302,19 +304,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "temp_frigid",
           "category": "weather",
-          "priority": 55,
+          "priority": 73,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "storm_wind",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "powder_alert",
+        "variationIndex": 4,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stormy Conditions"
+        "previousHeadline": "Deep Day at {resortName}"
       },
       "dayOfWeek": "Monday"
     }
