@@ -50,6 +50,11 @@ const CONFIG = {
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
     ],
 
+    // Operating hours - when to scrape (local resort time)
+    // Lifts typically open 8:30-9:00 AM, so start 30 min before earliest opening
+    scrapingStartHour: 8,   // Start scraping at 8:00 AM local time
+    scrapingEndHour: 17,     // Stop scraping at 5:00 PM local time
+
     // Page pool size - each page uses ~50-100MB RAM
     // Using 1 page to minimize memory (resorts are scraped sequentially anyway)
     pagePoolSize: 1,
@@ -183,8 +188,12 @@ function getResortLocalHour(timezone) {
 
 function isInDeadHours(timezone) {
   const hour = getResortLocalHour(timezone);
-  // Dead hours: 5 PM (17:00) to 8 AM - no lifts open during these times
-  return hour >= 17 || hour < 8;
+  // Dead hours: outside of configured scraping window
+  // Default: 5 PM (17:00) to 8 AM - no lifts open during these times
+  // Lifts typically open 8:30-9:00 AM, so we start 30min before earliest opening
+  const startHour = CONFIG.vail.scrapingStartHour || 8;
+  const endHour = CONFIG.vail.scrapingEndHour || 17;
+  return hour >= endHour || hour < startHour;
 }
 
 function isResortInSeason(resort) {
@@ -451,7 +460,7 @@ async function runReportPalScraper() {
                 name: lift.name,
                 status: status,
                 type: formatLiftType(lift.type),
-                waitMinutes: lift.skierWaitTime ? parseInt(lift.skierWaitTime) : null,
+                waitMinutes: lift.skierWaitTime != null ? parseInt(lift.skierWaitTime) : null,
                 openTime: lift.openTime || null,
                 closeTime: lift.closeTime || null,
                 mountain: area.name,
@@ -714,7 +723,7 @@ async function runDorScraper() {
             name: lift.name,
             status: status,
             type: normalizeDorLiftType(lift.type),
-            waitMinutes: lift.wait_time ? parseInt(lift.wait_time) : null,
+            waitMinutes: (lift.wait_time != null && lift.wait_time !== '') ? parseInt(lift.wait_time) : null,
             openTime: null,
             closeTime: null,
             mountain: lift.sector?.name || null,
@@ -801,7 +810,7 @@ async function runIkonScraper() {
               name: lift.Name,
               status: lift.Status,
               type: formatLiftType(lift.LiftType),
-              waitMinutes: lift.WaitTime && lift.WaitTime !== '--' ? parseInt(lift.WaitTime) || null : null,
+              waitMinutes: (lift.WaitTime != null && lift.WaitTime !== '--') ? parseInt(lift.WaitTime) : null,
               openTime: hours.openTime,
               closeTime: hours.closeTime,
               mountain: area.Name,
@@ -913,10 +922,21 @@ function buildVailQueue() {
   // Only scrape resorts that are in the enabledResorts list
   const enabledKeys = new Set(CONFIG.vail.enabledResorts || []);
 
-  const resorts = config.resorts.filter(r =>
+  // Check if any resorts are in dead hours (for logging)
+  const allVailResorts = config.resorts.filter(r =>
     (!r.provider || r.provider === 'vail') &&
     enabledKeys.has(r.key) &&
-    isResortInSeason(r) &&
+    isResortInSeason(r)
+  );
+
+  const deadHourResorts = allVailResorts.filter(r => isInDeadHours(r.timezone));
+  if (deadHourResorts.length > 0 && deadHourResorts.length === allVailResorts.length) {
+    const sampleTz = deadHourResorts[0].timezone;
+    const localTime = getResortLocalTime(sampleTz);
+    console.log(`[VAIL] All resorts in dead hours (current time: ${localTime}) - scraping window: ${CONFIG.vail.scrapingStartHour}:00-${CONFIG.vail.scrapingEndHour}:00`);
+  }
+
+  const resorts = allVailResorts.filter(r =>
     !isInDeadHours(r.timezone) &&
     !isResortInCooldown(r.key) &&
     (r.terrainUrl || r.url)
@@ -986,7 +1006,7 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
       name: lift.Name,
       status: lift.Status,
       type: formatLiftType(lift.Type),
-      waitMinutes: lift.WaitTimeInMinutes || null,
+      waitMinutes: lift.WaitTimeInMinutes != null ? lift.WaitTimeInMinutes : null,
       capacity: lift.Capacity,
       mountain: lift.Mountain,
       openTime: lift.OpenTime,
@@ -1302,6 +1322,7 @@ async function main() {
   console.log('');
   console.log('┌─ VAIL RESORTS ───────────────────────────────────────────────────────');
   console.log(`│ Enabled: ${(CONFIG.vail.enabledResorts || []).join(', ')}`);
+  console.log(`│ Scraping window: ${CONFIG.vail.scrapingStartHour}:00 - ${CONFIG.vail.scrapingEndHour}:00 (local time)`);
   console.log(`│ Pages: ${CONFIG.vail.pagePoolSize}, Cycle: ${CONFIG.vail.cycleIntervalMs / 1000}s`);
   console.log(`│ Timeouts: nav=${CONFIG.vail.navigationTimeout / 1000}s, data=${CONFIG.vail.dataWaitTimeout / 1000}s`);
   console.log('└───────────────────────────────────────────────────────────────────────');
