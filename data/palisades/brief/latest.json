@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-01-27",
-  "generated": "2026-01-27T16:26:57.390Z",
+  "generated": "2026-01-27T17:25:45.340Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 182,
+          "today": 191,
           "yesterday": 182,
-          "delta": 0
+          "delta": 9
         },
         "groomedTrails": {
           "today": 79,
@@ -34,7 +34,53 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sun Bowl",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "High Traverse",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Big Bend Bowl",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Big Bend Keyhole",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "CB Chute",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "CK Bench",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Grouse Saddle",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Sherwood Creek",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "S.P. Bowl",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -51,33 +97,22 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-26",
-        "high_f": null,
-        "low_f": 27,
-        "high_c": null,
-        "low_c": -3,
-        "description": "Partly Cloudy",
+        "date": "2026-01-27",
+        "high_f": 36,
+        "low_f": 25,
+        "high_c": 2,
+        "low_c": -4,
+        "description": "Windy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
-          "date": "2026-01-27",
-          "high_f": 36,
-          "low_f": 26,
-          "high_c": 2,
-          "low_c": -3,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 1
-        },
-        {
           "date": "2026-01-28",
-          "high_f": 38,
-          "low_f": 30,
+          "high_f": 37,
+          "low_f": 29,
           "high_c": 3,
-          "low_c": -1,
+          "low_c": -2,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -93,18 +128,29 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-30",
+          "high_f": 48,
+          "low_f": 38,
+          "high_c": 9,
+          "low_c": 3,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-01-27",
-        "high_f": 36,
-        "low_f": 26,
-        "high_c": 2,
-        "low_c": -3,
-        "description": "Windy",
+        "date": "2026-01-28",
+        "high_f": 37,
+        "low_f": 29,
+        "high_c": 3,
+        "low_c": -2,
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 1,
-        "snowfall_expected": 1
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -112,25 +158,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 new trails opened today"
+    ],
     "trends": [
-      "1\" snow expected Tuesday"
+      "9 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Beat the Weekend Rush",
-    "body": "182 trails open, 79 groomed. Partly Cloudy, temperatures TBD. Light snow possible in the forecast.",
+    "headline": "New Runs Now Open",
+    "body": "191 trails open, 79 groomed. Windy, high of 36°. Ski patrol has been busy - 9 additional trails are now open. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -140,19 +188,25 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
           "category": "weather",
-          "priority": 30,
+          "priority": 45,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "Beat the Weekend Rush"
       },
       "dayOfWeek": "Tuesday"
     }
