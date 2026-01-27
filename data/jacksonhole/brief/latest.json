@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-27",
-  "generated": "2026-01-27T20:19:49.962Z",
+  "generated": "2026-01-27T21:16:15.544Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 113,
+          "today": 111,
           "yesterday": 111,
-          "delta": 2
+          "delta": 0
         },
         "groomedTrails": {
           "today": 47,
@@ -34,18 +34,7 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [
-        {
-          "name": "Headwall",
-          "difficulty": "Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Coombs",
-          "difficulty": "Black",
-          "area": "All Terrain"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -112,17 +101,14 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": true,
+      "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today",
       "5 trails freshly groomed"
     ],
-    "trends": [
-      "2 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": [
       "Fresh corduroy on Bivouac - challenging for advanced skiers",
       "Fresh corduroy on Sleeping Indian - perfect for intermediate skiers",
@@ -131,7 +117,7 @@
   },
   "morningBrief": {
     "headline": "Midweek Mountain Report",
-    "body": "113 of 145 trails are open with 47 groomed. Variable conditions with a temperatures TBD. 5 runs freshly groomed, mostly in All Terrain.",
+    "body": "111 of 145 trails are open with 47 groomed. Variable conditions with a temperatures TBD. 5 runs freshly groomed, mostly in All Terrain. 111/145 trails open, 47 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
@@ -150,6 +136,12 @@
           "id": "grooming_moderate",
           "category": "terrain",
           "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
