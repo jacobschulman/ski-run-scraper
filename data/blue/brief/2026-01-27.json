@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-01-27",
-  "generated": "2026-01-27T10:28:10.507Z",
+  "generated": "2026-01-27T11:22:11.838Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,59 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 54,
+          "today": 62,
           "yesterday": 54,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
-          "today": 41,
+          "today": 49,
           "yesterday": 41,
-          "delta": 0
+          "delta": 8
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Enchanted Forest",
+          "difficulty": "Easy",
+          "area": "South"
+        },
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        },
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Due North",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Willy's",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Elevator Shaft",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,20 +153,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "8 new trails opened today"
+    ],
     "trends": [
       "Great week for snow - 15\" in last 7 days",
+      "Grooming increased 20% from yesterday",
+      "8 more trails open than yesterday",
       "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Nice Little Top-Up",
-    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Light snow possible in the forecast.",
+    "headline": "4\" Freshened Things Up",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Ski patrol has been busy - 8 additional trails are now open. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +186,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "Nice Little Top-Up"
       },
       "dayOfWeek": "Tuesday"
     }
