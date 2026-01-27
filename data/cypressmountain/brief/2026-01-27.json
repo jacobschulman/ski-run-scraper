@@ -2,8 +2,24 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-27",
-  "generated": "2026-01-27T08:28:41.499Z",
+  "generated": "2026-01-27T09:30:02.592Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 7,
+      "24hour_cm": 17,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 74,
+      "season_total_cm": 187,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,108 @@
         "totalLiftsTracked": 6,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-26",
+        "high_f": null,
+        "low_f": 33,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-27",
+          "high_f": 42,
+          "low_f": 33,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-01-28",
+          "high_f": 35,
+          "low_f": 35,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 12,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 12
+        },
+        {
+          "date": "2026-01-29",
+          "high_f": 38,
+          "low_f": 38,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-27",
+        "high_f": 42,
+        "low_f": 33,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days",
+      "2\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Big Snow Incoming",
+    "body": "7\" dumped overnight. The stashes are loaded and the groomers are buried. Storm cycle alert! 16\" on the way. Conditions are about to level up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter's Coming Back"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
