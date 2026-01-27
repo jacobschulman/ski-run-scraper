@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-01-26",
-  "generated": "2026-01-27T01:26:45.254Z",
+  "generated": "2026-01-27T03:45:13.405Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -64,9 +64,9 @@
     "forecast": {
       "today": {
         "date": "2026-01-26",
-        "high_f": 20,
+        "high_f": null,
         "low_f": 17,
-        "description": "Sunny",
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -83,7 +83,7 @@
         {
           "date": "2026-01-28",
           "high_f": 23,
-          "low_f": 16,
+          "low_f": 15,
           "description": "Windy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
@@ -92,7 +92,7 @@
         {
           "date": "2026-01-29",
           "high_f": 20,
-          "low_f": 20,
+          "low_f": 19,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -128,14 +128,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Bluebird Day",
-    "body": "184/200 trails spinning, 49 freshly groomed. 20° and Sunny. 1 new trail opened today. Bluebird conditions with a high around 20°. Bundle up for crisp, beautiful turns.",
+    "headline": "Today's Conditions",
+    "body": "184/200 trails spinning, 49 freshly groomed. Cloudy. 1 new trail opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird",
-          "category": "weather",
-          "priority": 70,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -151,19 +151,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_bluebird",
+          "id": "forecast_flurries",
           "category": "weather",
-          "priority": 70,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Clear Skies, Cold Temps"
+        "previousHeadline": "Today at {resortName}"
       },
       "dayOfWeek": "Monday"
     }
