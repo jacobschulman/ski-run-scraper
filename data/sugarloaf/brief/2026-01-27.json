@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-01-27",
-  "generated": "2026-01-27T11:22:11.925Z",
+  "generated": "2026-01-27T12:44:09.846Z",
   "rawData": {
     "snow": {
       "overnight_inches": 10,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 54,
+          "today": 56,
           "yesterday": 54,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Sluice Chute",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Knot Bumper",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower Binder",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Boomauger",
+          "difficulty": "Blue",
+          "area": "King Pine"
+        },
+        {
+          "name": "Binder Ext",
+          "difficulty": "Black",
+          "area": "Timberline"
+        },
+        {
+          "name": "Lower Glancer",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -108,17 +170,22 @@
     },
     "alerts": [
       "10\" fresh snow overnight",
-      "14\" in last 24 hours - powder day!"
+      "14\" in last 24 hours - powder day!",
+      "7 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 17\" in last 7 days",
       "1\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Sluice Chute - challenging for advanced skiers",
+      "Fresh corduroy on Sluice Headwall - challenging for advanced skiers",
+      "Fresh corduroy on Flume - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Time to Call in Sick",
-    "body": "Seriously deep: 14\" of new snow. Bring your powder skis and your A-game. Light snow possible in the forecast.",
+    "body": "Seriously deep: 14\" of new snow. Bring your powder skis and your A-game. 7 runs freshly groomed, mostly in Skyline, King Pine, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -134,13 +201,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "snow_deep",
         "variationIndex": 0,
