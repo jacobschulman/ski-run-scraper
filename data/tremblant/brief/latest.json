@@ -2,19 +2,19 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-01-27",
-  "generated": "2026-01-27T12:44:09.751Z",
+  "generated": "2026-01-27T13:46:19.500Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
       "24hour_inches": 2,
-      "24hour_cm": 5,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
-      "7day_inches": 17,
-      "7day_cm": 43,
-      "season_total_inches": 140,
-      "season_total_cm": 356,
+      "24hour_cm": 6,
+      "48hour_inches": 4,
+      "48hour_cm": 11,
+      "7day_inches": 16,
+      "7day_cm": 40,
+      "season_total_inches": 143,
+      "season_total_cm": 362,
       "conditions": {
         "today": "Machine Groomed",
         "yesterday": "Machine Groomed"
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 128,
+          "today": 129,
           "yesterday": 128,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 74,
@@ -41,15 +41,14 @@
           "area": "South Side"
         }
       ],
-      "newlyClosed": [
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": [
         {
           "name": "Dunzee",
           "difficulty": "Very Difficult",
           "area": "South Side"
-        }
-      ],
-      "newlyGroomed": [],
-      "ungroomed": [
+        },
         {
           "name": "La Griffe",
           "difficulty": "Very Difficult",
@@ -69,32 +68,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-26",
-        "high_f": null,
-        "low_f": -5,
-        "high_c": null,
-        "low_c": -20,
+        "date": "2026-01-27",
+        "high_f": 5,
+        "low_f": 0,
+        "high_c": -15,
+        "low_c": -18,
         "description": "Cloudy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-01-27",
-          "high_f": 5,
-          "low_f": 0,
-          "high_c": -15,
-          "low_c": -18,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-01-28",
           "high_f": 6,
           "low_f": 1,
-          "high_c": -15,
+          "high_c": -14,
           "low_c": -17,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -103,10 +91,21 @@
         },
         {
           "date": "2026-01-29",
-          "high_f": 0,
+          "high_f": 1,
           "low_f": -8,
-          "high_c": -18,
+          "high_c": -17,
           "low_c": -22,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-30",
+          "high_f": 1,
+          "low_f": -1,
+          "high_c": -17,
+          "low_c": -18,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -114,11 +113,11 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-01-27",
-        "high_f": 5,
-        "low_f": 0,
-        "high_c": -15,
-        "low_c": -18,
+        "date": "2026-01-28",
+        "high_f": 6,
+        "low_f": 1,
+        "high_c": -14,
+        "low_c": -17,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -138,19 +137,20 @@
       "1 new trail opened today"
     ],
     "trends": [
-      "Great week for snow - 17\" in last 7 days"
+      "Great week for snow - 16\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Peak terrain status: almost everything is available today.",
+    "headline": "Layer Up, Ski Hard",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 1 new trail opened today. Arctic air has settled in. 5° means quick laps and hot cocoa breaks.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "temp_frigid",
+          "category": "weather",
+          "priority": 73,
           "usedFor": "headline"
         },
         {
@@ -160,19 +160,25 @@
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
+          "id": "terrain_micro",
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "temp_frigid",
+          "category": "weather",
+          "priority": 73,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 3,
+        "condition": "cold_snap",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Tuesday"
     }
