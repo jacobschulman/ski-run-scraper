@@ -12,8 +12,8 @@ on:
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
-  group: lift-scraper
-  cancel-in-progress: false  # Let each run complete independently
+  group: data-repo-push
+  cancel-in-progress: false  # Queue workflows to prevent git push conflicts
 
 permissions:
   contents: write  # Required to commit and push changes
@@ -117,6 +117,9 @@ jobs:
           else
             # Create commit with timestamp
             git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+            # Pull latest changes before pushing to avoid conflicts
+            git pull --rebase --autostash origin main
 
             # Push changes
             git push

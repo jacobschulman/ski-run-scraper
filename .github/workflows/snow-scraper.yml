@@ -2,15 +2,15 @@ name: Snow Report Scraper
 
 on:
   schedule:
-    # Run every 4 hours to keep snow reports fresh
+    # Run every 4 hours at :07 to avoid collisions with other workflows
     # Snow conditions update overnight, not hourly; this reduces commits while keeping data fresh
-    - cron: '0 */4 * * *'
+    - cron: '7 */4 * * *'
 
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
-  group: snow-scraper
-  cancel-in-progress: false
+  group: data-repo-push
+  cancel-in-progress: false  # Queue workflows to prevent git push conflicts
 
 permissions:
   contents: write  # Required to commit and push changes
@@ -117,6 +117,9 @@ jobs:
           else
             # Create commit with timestamp
             git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
+
+            # Pull latest changes before pushing to avoid conflicts
+            git pull --rebase --autostash origin main
 
             # Push changes
             git push

@@ -2,17 +2,17 @@ name: Daily Terrain Scraper
 
 on:
   schedule:
-    # Run every 1 hour to catch all resorts at their local 5-8 AM time
+    # Run every 1 hour at :03 to avoid collisions with other workflows
     # Each resort's terrain is scraped once daily in the morning (grooming happens overnight)
     # Scraper checks timezone, season dates, and existing data before scraping
     # Snow reports are handled by snow-scraper.yml (runs hourly throughout the day)
-    - cron: '0 */1 * * *'
+    - cron: '3 */1 * * *'
 
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
-  group: scraper
-  cancel-in-progress: false
+  group: data-repo-push
+  cancel-in-progress: false  # Queue workflows to prevent git push conflicts
 
 permissions:
   contents: write  # Required to commit and push changes
@@ -133,6 +133,9 @@ jobs:
           else
             # Create commit with timestamp
             git commit -m "Update ski data - $(date +'%Y-%m-%d')"
+
+            # Pull latest changes before pushing to avoid conflicts
+            git pull --rebase --autostash origin main
 
             # Push changes
             git push
