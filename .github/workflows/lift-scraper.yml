@@ -94,6 +94,9 @@ jobs:
             # Pull latest changes with rebase to avoid conflicts
             git pull --rebase --autostash origin "$BRANCH_NAME"
 
+            # Re-stage files after rebase
+            git add data/**/lifts/ data/latest-lifts.json cache/
+
             # Create commit with timestamp
             git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
 
