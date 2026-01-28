@@ -2,7 +2,7 @@
   "resort": "buttermilk",
   "resortName": "Buttermilk",
   "date": "2026-01-28",
-  "generated": "2026-01-28T18:47:36.483Z",
+  "generated": "2026-01-28T19:37:22.020Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 44,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 21,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 52
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Main Buttermilk Uphill Route",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -113,19 +119,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "Steady snowfall - 7\" in last 7 days"
+      "Steady snowfall - 7\" in last 7 days",
+      "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Quiet Days on the Hill",
-    "body": "Steady snowfall with 7\" over the last week.",
+    "body": "Steady snowfall with 7\" over the last week. 1 new trail opened today.",
     "debug": {
       "firedRules": [
         {
@@ -139,9 +148,15 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 1,
