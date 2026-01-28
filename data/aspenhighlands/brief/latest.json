@@ -2,7 +2,7 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-01-28",
-  "generated": "2026-01-28T11:21:20.331Z",
+  "generated": "2026-01-28T12:45:51.265Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 75,
+          "today": 77,
           "yesterday": 75,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 20,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 126
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Aspen Highlands (Lower)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        },
+        {
+          "name": "Aspen Highlands (Upper)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,20 +113,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
+      "2 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Quiet Days on the Hill",
-    "body": "Steady snowfall with 9\" over the last week. Light snow possible in the forecast.",
+    "body": "Steady snowfall with 9\" over the last week. 2 new trails opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -131,13 +145,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 1,
