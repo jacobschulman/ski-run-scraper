@@ -295,6 +295,7 @@
     </div>
   </div>
 
+  <script src="shared/data-source-config.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('api-providers');
@@ -304,8 +305,7 @@
 
     async function loadConfig() {
       try {
-        const response = await fetch('../config.json');
-        const config = await response.json();
+        const config = await dataSourceManager.fetchData('config.json');
 
         allResorts = config.resorts.map(resort => {
           // Determine the effective providers for each data type

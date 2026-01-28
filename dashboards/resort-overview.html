@@ -351,20 +351,17 @@
     </div>
   </div>
 
+  <script src="shared/data-source-config.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('overview');
-
-    const dataFolder = '../data';
-    const liveBaseUrl = 'https://jacobschulman.github.io/ski-run-scraper/data';
     let allResorts = [];
     let currentFilter = 'all';
     let providerFilter = 'all'; // Track provider filter separately
 
     async function loadResortData() {
       try {
-        const response = await fetch(`${dataFolder}/index.json`);
-        const data = await response.json();
+        const data = await dataSourceManager.fetchData('data/index.json');
 
         allResorts = Object.entries(data.resorts).map(([key, resort]) => ({
           key,

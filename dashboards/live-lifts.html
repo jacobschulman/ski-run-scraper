@@ -239,9 +239,10 @@
     </div>
   </div>
 
+  <script src="shared/data-source-config.js" onerror="console.error('Failed to load data-source-config.js')"></script>
   <script src="shared/nav.js" onerror="window.initNav=function(){}"></script>
   <script>
-    // Initialize navigation (both GitHub Pages and Hetzner serve from /dashboards/)
+    // Initialize navigation
     if (typeof initNav === 'function') {
       initNav('lifts');
     }
@@ -254,11 +255,6 @@
     const availableDatesCache = {};
     let autoRefreshInterval = null;
     const AUTO_REFRESH_MS = 30000; // 30 seconds
-
-    // Both GitHub Pages and Hetzner serve dashboards at /dashboards/
-    // Data is always at ../data/ relative to this file
-    const basePath = '..';
-    let dataFolder = `${basePath}/data`;
     let currentDateKey = '';
 
     const $ = (id) => document.getElementById(id);
@@ -333,11 +329,8 @@
       if (fallbackDate) dates.add(fallbackDate);
 
       try {
-        const res = await fetch(`${dataFolder}/${resortKey}/lifts/dates.json`);
-        if (res.ok) {
-          const list = await res.json();
-          (list || []).forEach(d => dates.add(d));
-        }
+        const list = await dataSourceManager.fetchData(`data/${resortKey}/lifts/dates.json`);
+        (list || []).forEach(d => dates.add(d));
       } catch (_) {}
 
       // Probe recent dates only if we still have very few options
@@ -349,7 +342,8 @@
           const key = probe.toISOString().slice(0, 10);
           if (dates.has(key)) continue;
           try {
-            const res = await fetch(`${dataFolder}/${resortKey}/lifts/${key}.ndjson`, { method: 'HEAD' });
+            const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${key}.ndjson`);
+            const res = await fetch(url, { method: 'HEAD' });
             if (res.ok) dates.add(key);
           } catch (_) {}
         }
@@ -378,7 +372,8 @@
     }
 
     async function fetchHistory(resortKey, dateKey, fullHistory = false) {
-      const cacheKey = dataFolder + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
+      const source = dataSourceManager.getCurrentSource();
+      const cacheKey = source.id + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
 
       const promise = (async () => {
@@ -402,7 +397,7 @@
       };
 
         const tryFetch = async (rangeBytes) => {
-          const url = `${dataFolder}/${resortKey}/lifts/${dateKey}.ndjson`;
+          const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${dateKey}.ndjson`);
           // If range requested, first check file size to avoid 500 errors on oversized ranges
           if (rangeBytes) {
             try {
@@ -873,9 +868,7 @@
       try {
         const cacheKey = `${dataFolder}-${resortKey}`;
         if (!cachedIndex[cacheKey]) {
-          const res = await fetch(`${dataFolder}/${resortKey}/lifts/index.json`);
-          if (!res.ok) throw new Error('Index fetch failed');
-          cachedIndex[cacheKey] = await res.json();
+          cachedIndex[cacheKey] = await dataSourceManager.fetchData(`data/${resortKey}/lifts/index.json`);
         }
         const resortData = cachedIndex[cacheKey];
         const dateKey = requestedDate || currentDateKey || deriveDateKey(resortData);
@@ -902,16 +895,8 @@
     }
 
     async function init() {
-      // Restore local data mode preference from localStorage
-      const savedLocalMode = localStorage.getItem('localDataMode');
-      if (savedLocalMode === 'true') {
-        dataFolder = `${basePath}/data-local`;
-        $('local-data-mode').checked = true;
-      }
-
       try {
-        const configRes = await fetch(`${basePath}/config.json`);
-        const config = await configRes.json();
+        const config = await dataSourceManager.fetchData('config.json');
         resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
         resortMap = resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
 

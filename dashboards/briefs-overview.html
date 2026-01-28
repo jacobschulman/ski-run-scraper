@@ -428,12 +428,12 @@
     <div id="briefs-container"></div>
   </div>
 
+  <script src="shared/data-source-config.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('briefs');
 
     const $ = (id) => document.getElementById(id);
-    const dataFolder = '../data';
 
     const state = {
       viewMode: 'day', // 'day' or 'resort'
@@ -469,9 +469,7 @@
     // Data loading
     async function loadBriefsIndex() {
       try {
-        const res = await fetch(`${dataFolder}/briefs-index.json`);
-        if (!res.ok) throw new Error('Failed to load briefs index');
-        state.briefsIndex = await res.json();
+        state.briefsIndex = await dataSourceManager.fetchData('data/briefs-index.json');
 
         // Get all unique dates
         const dates = new Set();
@@ -508,10 +506,7 @@
 
     async function loadRulesReference() {
       try {
-        const res = await fetch(`${dataFolder}/rules-reference.json`);
-        if (res.ok) {
-          state.rulesReference = await res.json();
-        }
+        state.rulesReference = await dataSourceManager.fetchData('data/rules-reference.json');
       } catch (_) {
         // Rules reference is optional
       }
@@ -519,9 +514,7 @@
 
     async function loadBriefForResort(resortKey, date) {
       try {
-        const res = await fetch(`${dataFolder}/${resortKey}/brief/${date}.json`);
-        if (!res.ok) return null;
-        return await res.json();
+        return await dataSourceManager.fetchData(`data/${resortKey}/brief/${date}.json`);
       } catch (_) {
         return null;
       }

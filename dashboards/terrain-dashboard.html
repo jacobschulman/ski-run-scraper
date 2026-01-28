@@ -187,12 +187,12 @@
     </div>
   </div>
 
+  <script src="shared/data-source-config.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('terrain');
 
     const $ = (id) => document.getElementById(id);
-    const dataFolder = '../data';
 
     const state = {
       resorts: [],
@@ -256,9 +256,7 @@
       const key = resortKey + '-' + dateKey;
       if (state.terrainCache.has(key)) return state.terrainCache.get(key);
       const promise = (async () => {
-        const res = await fetch(`${dataFolder}/${resortKey}/terrain/${dateKey}.json`);
-        if (!res.ok) throw new Error(`HTTP ${res.status} for ${resortKey}/terrain/${dateKey}.json - ${res.statusText}`);
-        return res.json();
+        return dataSourceManager.fetchData(`data/${resortKey}/terrain/${dateKey}.json`);
       })().catch((err) => {
         state.terrainCache.delete(key);
         console.error(`Failed to fetch terrain for ${resortKey} on ${dateKey}:`, err);
@@ -585,9 +583,7 @@
 
       let indexEntry;
       try {
-        const res = await fetch(`${dataFolder}/${resortKey}/terrain/index.json`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        indexEntry = await res.json();
+        indexEntry = await dataSourceManager.fetchData(`data/${resortKey}/terrain/index.json`);
       } catch (err) {
         console.error(`Failed to load terrain index for ${resortKey}:`, err);
         $('meta-bar').innerHTML = `<div class="meta-pill">Failed to load terrain index: ${err.message}</div>`;
@@ -698,10 +694,7 @@
       }
 
       try {
-        const config = await fetch('../config.json').then(r => {
-          if (!r.ok) throw new Error(`HTTP ${r.status} loading config.json`);
-          return r.json();
-        });
+        const config = await dataSourceManager.fetchData('config.json');
         state.resorts = (config.resorts || []).map(r => ({ key: r.key, name: r.name, timezone: r.timezone })).sort((a, b) => a.name.localeCompare(b.name));
         state.resortMap = state.resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
         $('resort-count').textContent = state.resorts.length + ' resorts configured';
