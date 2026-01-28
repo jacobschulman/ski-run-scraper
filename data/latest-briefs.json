@@ -4393,7 +4393,7 @@
       "resort": "wilmot",
       "resortName": "Wilmot Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T11:21:13.447Z",
+      "generated": "2026-01-28T15:29:40.035Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -4523,8 +4523,8 @@
           "today": {
             "date": "2026-01-28",
             "high_f": 12,
-            "low_f": -2,
-            "high_c": -12,
+            "low_f": -1,
+            "high_c": -11,
             "low_c": -19,
             "description": "Clear",
             "snowfall_day_inches": 0,
@@ -4534,21 +4534,21 @@
             {
               "date": "2026-01-29T06:00:00Z",
               "high_f": 11,
-              "low_f": -3,
+              "low_f": -4,
               "high_c": -12,
               "low_c": -20,
-              "description": "Mostly Clear",
+              "description": "Clear",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
             },
             {
               "date": "2026-01-30T06:00:00Z",
-              "high_f": 12,
+              "high_f": 13,
               "low_f": null,
               "high_c": -11,
               "low_c": -18,
-              "description": "Mostly Cloudy",
+              "description": "Partly Cloudy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -4559,7 +4559,7 @@
               "low_f": 5,
               "high_c": -7,
               "low_c": -15,
-              "description": "Partly Cloudy",
+              "description": "Mostly Clear",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -4568,10 +4568,10 @@
           "tomorrow": {
             "date": "2026-01-29T06:00:00Z",
             "high_f": 11,
-            "low_f": -3,
+            "low_f": -4,
             "high_c": -12,
             "low_c": -20,
-            "description": "Mostly Clear",
+            "description": "Clear",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
             "snowfall_expected": 0
@@ -4590,7 +4590,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Not Open Yet",
+        "headline": "Stay Tuned for Opening",
         "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
         "debug": {
           "firedRules": [
@@ -4613,7 +4613,7 @@
             "variationIndex": 1,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "BRRRRRRRRR"
+            "previousHeadline": "Not Open Yet"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -5095,7 +5095,7 @@
       "resort": "bostonmills",
       "resortName": "Boston Mills",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:30.610Z",
+      "generated": "2026-01-28T15:29:40.040Z",
       "rawData": {
         "snow": {
           "overnight_inches": 1,
@@ -5116,9 +5116,9 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 0,
+              "today": 7,
               "yesterday": 6,
-              "delta": -6
+              "delta": 1
             },
             "groomedTrails": {
               "today": 0,
@@ -5127,39 +5127,14 @@
             },
             "totalTrails": 7
           },
-          "newlyOpened": [],
-          "newlyClosed": [
+          "newlyOpened": [
             {
-              "name": "Buttermilk",
+              "name": "Jug Handle",
               "difficulty": "Blue",
-              "area": "Boston Mills"
-            },
-            {
-              "name": "Croyle",
-              "difficulty": "Black",
-              "area": "Boston Mills"
-            },
-            {
-              "name": "North Bowl",
-              "difficulty": "Black",
-              "area": "Boston Mills"
-            },
-            {
-              "name": "Peter's Pride",
-              "difficulty": "TerrainPark",
-              "area": "Boston Mills"
-            },
-            {
-              "name": "Summit",
-              "difficulty": "Green",
-              "area": "Boston Mills"
-            },
-            {
-              "name": "Tiger",
-              "difficulty": "Black",
               "area": "Boston Mills"
             }
           ],
+          "newlyClosed": [],
           "newlyGroomed": [],
           "ungroomed": []
         },
@@ -5229,42 +5204,56 @@
         "flags": {
           "hasFreshSnow": true,
           "isPowderDay": false,
-          "hasNewTrails": false,
+          "hasNewTrails": true,
           "significantGroomingIncrease": false
         },
         "alerts": [
-          "1\" new snow overnight"
+          "1\" new snow overnight",
+          "1 new trail opened today"
         ],
         "trends": [
-          "Great week for snow - 15\" in last 7 days"
+          "Great week for snow - 15\" in last 7 days",
+          "1 more trail open than yesterday"
         ],
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Waiting for Opening Day",
-        "body": "No trails open yet. Current forecast: Mostly Cloudy.",
+        "headline": "Solid Refresh: 3\"",
+        "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. 1 new trail opened today. Cold day ahead: 13° high. Dress warmly.",
         "debug": {
           "firedRules": [
             {
-              "id": "resort_closed",
-              "category": "terrain",
-              "priority": 95,
+              "id": "snow_solid",
+              "category": "snow",
+              "priority": 82,
               "usedFor": "headline"
             },
             {
-              "id": "resort_closed",
+              "id": "snow_solid",
+              "category": "snow",
+              "priority": 82,
+              "usedFor": "body"
+            },
+            {
+              "id": "terrain_micro",
               "category": "terrain",
-              "priority": 95,
+              "priority": 45,
+              "usedFor": "body"
+            },
+            {
+              "id": "temp_cold",
+              "category": "weather",
+              "priority": 55,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 4,
+          "totalRulesFired": 6,
           "headlineSelection": {
-            "condition": "resort_closed",
+            "condition": "snow_solid",
             "variationIndex": 0,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "The Wait Continues"
+            "previousHeadline": "Waiting for Opening Day"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -5280,7 +5269,7 @@
       "resort": "brandywine",
       "resortName": "Brandywine",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:30.615Z",
+      "generated": "2026-01-28T15:29:40.043Z",
       "rawData": {
         "snow": {
           "overnight_inches": 1,
@@ -5451,7 +5440,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Waiting for Opening Day",
+        "headline": "Not Open Yet",
         "body": "Not open for the season yet. Current conditions: Mostly Cloudy.",
         "debug": {
           "firedRules": [
@@ -5474,7 +5463,7 @@
             "variationIndex": 0,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Almost There..."
+            "previousHeadline": "Waiting for Opening Day"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -6373,7 +6362,7 @@
       "resort": "stratton",
       "resortName": "Stratton",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.223Z",
+      "generated": "2026-01-28T15:29:46.267Z",
       "rawData": {
         "snow": {
           "overnight_inches": 1,
@@ -6547,7 +6536,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Crisp Conditions",
+        "headline": "Layer Up, Ski Hard",
         "body": "A light refresh of 1\" overnight makes the groomers smoother. Peak terrain status: almost everything is available today. Arctic air has settled in. 7° means quick laps and hot cocoa breaks.",
         "debug": {
           "firedRules": [
@@ -6582,7 +6571,7 @@
             "variationIndex": 2,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "It's Gonna Be a Cold One"
+            "previousHeadline": "Crisp Conditions"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -6598,7 +6587,7 @@
       "resort": "palisades",
       "resortName": "Palisades Tahoe",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.231Z",
+      "generated": "2026-01-28T15:29:46.275Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6717,7 +6706,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Fewer Crowds, More Turns",
+        "headline": "Midweek Bliss",
         "body": "184/301 trails spinning, 79 freshly groomed. Windy. Windy conditions expected. Upper lifts may have holds or delays.",
         "debug": {
           "firedRules": [
@@ -6746,7 +6735,7 @@
             "variationIndex": 2,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Midweek Bliss"
+            "previousHeadline": "Fewer Crowds, More Turns"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -6763,7 +6752,7 @@
       "resort": "jacksonhole",
       "resortName": "Jackson Hole",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.341Z",
+      "generated": "2026-01-28T15:29:46.387Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6918,7 +6907,7 @@
       "resort": "bigsky",
       "resortName": "Big Sky",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.344Z",
+      "generated": "2026-01-28T15:29:46.390Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6944,15 +6933,251 @@
               "delta": 0
             },
             "groomedTrails": {
-              "today": 3,
+              "today": 50,
               "yesterday": 3,
-              "delta": 0
+              "delta": 47
             },
             "totalTrails": 319
           },
           "newlyOpened": [],
           "newlyClosed": [],
-          "newlyGroomed": [],
+          "newlyGroomed": [
+            {
+              "name": "Cupajo",
+              "difficulty": "Green",
+              "area": "Derringer Area"
+            },
+            {
+              "name": "Bozeman Trail",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Lois Lane",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Lone Wolf",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Mr. Ed",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Mr. K",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "White Wing",
+              "difficulty": "Green",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Black & Blue",
+              "difficulty": "Blue",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "Chet's Knob",
+              "difficulty": "Blue",
+              "area": "Explorer Area"
+            },
+            {
+              "name": "SA Road",
+              "difficulty": "Green",
+              "area": "Iron Horse Area"
+            },
+            {
+              "name": "Blue Moon",
+              "difficulty": "Blue",
+              "area": "Iron Horse Area"
+            },
+            {
+              "name": "Fast Lane",
+              "difficulty": "Blue",
+              "area": "Iron Horse Area"
+            },
+            {
+              "name": "Powder River",
+              "difficulty": "Blue",
+              "area": "Iron Horse Area"
+            },
+            {
+              "name": "Horseshoe Cutoff",
+              "difficulty": "Green",
+              "area": "Lone Tree Area"
+            },
+            {
+              "name": "Horseshoe",
+              "difficulty": "Blue",
+              "area": "Lone Tree Area"
+            },
+            {
+              "name": "Meriwether Cutoff",
+              "difficulty": "Blue",
+              "area": "Lone Tree Area"
+            },
+            {
+              "name": "Ice House",
+              "difficulty": "advanced intermediate",
+              "area": "Lone Tree Area"
+            },
+            {
+              "name": "Cinnabar",
+              "difficulty": "Green",
+              "area": "Madison Area"
+            },
+            {
+              "name": "Lazy Jack",
+              "difficulty": "Green",
+              "area": "Madison Area"
+            },
+            {
+              "name": "Meriwether",
+              "difficulty": "Blue",
+              "area": "Madison Area"
+            },
+            {
+              "name": "Stillwater Traverse",
+              "difficulty": "Blue",
+              "area": "Madison Area"
+            },
+            {
+              "name": "Morningstar",
+              "difficulty": "Blue",
+              "area": "Powder Seeker Area"
+            },
+            {
+              "name": "Gun Mount",
+              "difficulty": "advanced intermediate",
+              "area": "Powder Seeker Area"
+            },
+            {
+              "name": "Never Sweat",
+              "difficulty": "Black",
+              "area": "Powder Seeker Area"
+            },
+            {
+              "name": "Pacifier",
+              "difficulty": "Green",
+              "area": "Ramcharger Area"
+            },
+            {
+              "name": "Safari",
+              "difficulty": "Blue",
+              "area": "Ramcharger Area"
+            },
+            {
+              "name": "Ambush",
+              "difficulty": "advanced intermediate",
+              "area": "Ramcharger Area"
+            },
+            {
+              "name": "Hangman's",
+              "difficulty": "advanced intermediate",
+              "area": "Ramcharger Area"
+            },
+            {
+              "name": "Tippy's Tumble",
+              "difficulty": "advanced intermediate",
+              "area": "Ramcharger Area"
+            },
+            {
+              "name": "Cow Flats",
+              "difficulty": "Blue",
+              "area": "Shedhorn Area"
+            },
+            {
+              "name": "Duck Walk",
+              "difficulty": "Blue",
+              "area": "Shedhorn Area"
+            },
+            {
+              "name": "Skittles Road",
+              "difficulty": "Blue",
+              "area": "Shedhorn Area"
+            },
+            {
+              "name": "Deep South",
+              "difficulty": "Green",
+              "area": "Southern Comfort Area"
+            },
+            {
+              "name": "Sacajawea",
+              "difficulty": "Green",
+              "area": "Southern Comfort Area"
+            },
+            {
+              "name": "Yellow Brick Road",
+              "difficulty": "Green",
+              "area": "Southern Comfort Area"
+            },
+            {
+              "name": "El Dorado",
+              "difficulty": "Blue",
+              "area": "Southern Comfort Area"
+            },
+            {
+              "name": "Ponderosa",
+              "difficulty": "Blue",
+              "area": "Southern Comfort Area"
+            },
+            {
+              "name": "Clubhouse Loop",
+              "difficulty": "Green",
+              "area": "Spanish Peaks Area"
+            },
+            {
+              "name": "K1 Return",
+              "difficulty": "Green",
+              "area": "Spanish Peaks Area"
+            },
+            {
+              "name": "Spanish Peaks Learning Area",
+              "difficulty": "Green",
+              "area": "Spanish Peaks Area"
+            },
+            {
+              "name": "Take a Bough (Lower)",
+              "difficulty": "Green",
+              "area": "Spanish Peaks Area"
+            },
+            {
+              "name": "Mountain Village Learning Area",
+              "difficulty": "Green",
+              "area": "Swift Current Area"
+            },
+            {
+              "name": "Huntley Hollow",
+              "difficulty": "Blue",
+              "area": "Swift Current Area"
+            },
+            {
+              "name": "Jay Walk",
+              "difficulty": "Blue",
+              "area": "Swift Current Area"
+            },
+            {
+              "name": "Lobo",
+              "difficulty": "Blue",
+              "area": "Swift Current Area"
+            },
+            {
+              "name": "Calamity Jane (Upper)",
+              "difficulty": "advanced intermediate",
+              "area": "Swift Current Area"
+            },
+            {
+              "name": "Elk Park Ridge",
+              "difficulty": "advanced intermediate",
+              "area": "Thunder Wolf Area"
+            }
+          ],
           "ungroomed": []
         },
         "lifts": {
@@ -7019,30 +7244,43 @@
           "hasFreshSnow": false,
           "isPowderDay": false,
           "hasNewTrails": false,
-          "significantGroomingIncrease": false,
+          "significantGroomingIncrease": true,
           "highLiftDemand": false
         },
-        "alerts": [],
+        "alerts": [
+          "47 trails freshly groomed"
+        ],
         "trends": [
+          "Grooming increased 1567% from yesterday",
           "2\" snow expected Thursday"
         ],
-        "recommendations": []
+        "recommendations": [
+          "Fresh corduroy on Cupajo - great for beginners",
+          "Fresh corduroy on Bozeman Trail - great for beginners",
+          "Fresh corduroy on Lois Lane - great for beginners"
+        ]
       },
       "morningBrief": {
-        "headline": "A Refresh Is Coming",
-        "body": "230 trails open, 3 groomed. Cloudy, high of 24°. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+        "headline": "Grooming Crew MVP",
+        "body": "230 trails open, 50 groomed. Cloudy, high of 24°. The snow cats went hard: 47 runs of fresh corduroy across Derringer Area, Explorer Area, and more. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
         "debug": {
           "firedRules": [
             {
-              "id": "forecast_snow_coming",
-              "category": "weather",
-              "priority": 55,
+              "id": "grooming_massive",
+              "category": "terrain",
+              "priority": 78,
               "usedFor": "headline"
             },
             {
               "id": "fallback_headline",
               "category": "snow",
               "priority": 10,
+              "usedFor": "body"
+            },
+            {
+              "id": "grooming_massive",
+              "category": "terrain",
+              "priority": 78,
               "usedFor": "body"
             },
             {
@@ -7054,11 +7292,11 @@
           ],
           "totalRulesFired": 4,
           "headlineSelection": {
-            "condition": "snow_coming",
-            "variationIndex": 2,
-            "totalVariations": 6,
+            "condition": "grooming_massive",
+            "variationIndex": 3,
+            "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "More Snow Coming"
+            "previousHeadline": "Corduroy Everywhere"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -7074,7 +7312,7 @@
       "resort": "deervalley",
       "resortName": "Deer Valley",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.239Z",
+      "generated": "2026-01-28T15:29:46.283Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7106,7 +7344,13 @@
             },
             "totalTrails": 227
           },
-          "newlyOpened": [],
+          "newlyOpened": [
+            {
+              "name": "Tug of War (Upper)",
+              "difficulty": "Easy",
+              "area": "Big Dutch Peak"
+            }
+          ],
           "newlyClosed": [
             {
               "name": "Bluebell",
@@ -7117,6 +7361,11 @@
               "name": "Dream",
               "difficulty": "Easy",
               "area": "Park Peak"
+            },
+            {
+              "name": "Jordanelle",
+              "difficulty": "Advanced Intermediate",
+              "area": "Little Baldy Peak"
             }
           ],
           "newlyGroomed": [
@@ -7134,6 +7383,11 @@
               "name": "Silver Hill",
               "difficulty": "Intermediate",
               "area": "Little Baldy Peak"
+            },
+            {
+              "name": "Tug of War (Upper)",
+              "difficulty": "Easy",
+              "area": "Big Dutch Peak"
             },
             {
               "name": "Dew Drop",
@@ -7242,12 +7496,13 @@
         "flags": {
           "hasFreshSnow": false,
           "isPowderDay": false,
-          "hasNewTrails": false,
+          "hasNewTrails": true,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
         "alerts": [
-          "8 trails freshly groomed"
+          "1 new trail opened today",
+          "9 trails freshly groomed"
         ],
         "trends": [],
         "recommendations": [
@@ -7257,8 +7512,8 @@
         ]
       },
       "morningBrief": {
-        "headline": "Midweek Bliss",
-        "body": "119 trails open, 67 groomed. Cloudy, high of 29°. 8 runs freshly groomed, mostly in Flagstaff Mountain, Little Baldy Peak, and more.",
+        "headline": "Quiet Days on the Hill",
+        "body": "119 trails open, 67 groomed. Cloudy, high of 29°. 9 runs freshly groomed, mostly in Flagstaff Mountain, Little Baldy Peak, and more.",
         "debug": {
           "firedRules": [
             {
@@ -7286,7 +7541,7 @@
             "variationIndex": 1,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Quiet Days on the Hill"
+            "previousHeadline": "Midweek Bliss"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -7404,7 +7659,7 @@
       "resort": "snowbird",
       "resortName": "Snowbird",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.350Z",
+      "generated": "2026-01-28T15:29:46.397Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7560,7 +7815,7 @@
       "resort": "solitude",
       "resortName": "Solitude",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.246Z",
+      "generated": "2026-01-28T15:29:46.292Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7679,7 +7934,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Quiet Days on the Hill",
+        "headline": "Midweek Bliss",
         "body": "97 trails open, 35 groomed. Cloudy, high of 29°. 97/107 trails open, 35 groomed. 29° and Cloudy.",
         "debug": {
           "firedRules": [
@@ -7708,7 +7963,7 @@
             "variationIndex": 1,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Midweek Bliss"
+            "previousHeadline": "Quiet Days on the Hill"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -7725,7 +7980,7 @@
       "resort": "aspenhighlands",
       "resortName": "Aspen Highlands",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.354Z",
+      "generated": "2026-01-28T15:29:46.400Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -7751,9 +8006,9 @@
               "delta": 2
             },
             "groomedTrails": {
-              "today": 20,
+              "today": 21,
               "yesterday": 20,
-              "delta": 0
+              "delta": 1
             },
             "totalTrails": 126
           },
@@ -7770,8 +8025,75 @@
             }
           ],
           "newlyClosed": [],
-          "newlyGroomed": [],
-          "ungroomed": []
+          "newlyGroomed": [
+            {
+              "name": "Limelight",
+              "difficulty": "Black",
+              "area": "Lower Mountain"
+            },
+            {
+              "name": "Golden Horn",
+              "difficulty": "Blue",
+              "area": "Thunderbowl"
+            },
+            {
+              "name": "Smuggler",
+              "difficulty": "Blue",
+              "area": "Thunderbowl"
+            },
+            {
+              "name": "T-Lazy-7 Catwalk",
+              "difficulty": "Blue",
+              "area": "Thunderbowl"
+            },
+            {
+              "name": "Thunderbowl",
+              "difficulty": "Blue",
+              "area": "Thunderbowl"
+            },
+            {
+              "name": "Hayden",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            },
+            {
+              "name": "Kandahar",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            }
+          ],
+          "ungroomed": [
+            {
+              "name": "Exhibition",
+              "difficulty": "Blue",
+              "area": "Mid Mountain"
+            },
+            {
+              "name": "Red Onion",
+              "difficulty": "Blue",
+              "area": "Mid Mountain"
+            },
+            {
+              "name": "Easy Street",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            },
+            {
+              "name": "Gunbarrel",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            },
+            {
+              "name": "Scarlett's ",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            },
+            {
+              "name": "Upper Meadows",
+              "difficulty": "Blue",
+              "area": "Upper Mountain"
+            }
+          ]
         },
         "lifts": {
           "available": true,
@@ -7841,17 +8163,22 @@
           "highLiftDemand": false
         },
         "alerts": [
-          "2 new trails opened today"
+          "2 new trails opened today",
+          "7 trails freshly groomed"
         ],
         "trends": [
           "Steady snowfall - 9\" in last 7 days",
           "2 more trails open than yesterday"
         ],
-        "recommendations": []
+        "recommendations": [
+          "Fresh corduroy on Limelight - challenging for advanced skiers",
+          "Fresh corduroy on Golden Horn - perfect for intermediate skiers",
+          "Fresh corduroy on Smuggler - perfect for intermediate skiers"
+        ]
       },
       "morningBrief": {
         "headline": "Quiet Days on the Hill",
-        "body": "Steady snowfall with 9\" over the last week. 2 new trails opened today.",
+        "body": "Steady snowfall with 9\" over the last week. 7 runs freshly groomed, mostly in Lower Mountain, Thunderbowl, and more.",
         "debug": {
           "firedRules": [
             {
@@ -7867,13 +8194,13 @@
               "usedFor": "body"
             },
             {
-              "id": "terrain_micro",
+              "id": "grooming_moderate",
               "category": "terrain",
-              "priority": 45,
+              "priority": 55,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 4,
+          "totalRulesFired": 5,
           "headlineSelection": {
             "condition": "midweek_mellow",
             "variationIndex": 1,
@@ -7896,7 +8223,7 @@
       "resort": "aspenmountain",
       "resortName": "Aspen Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.357Z",
+      "generated": "2026-01-28T15:29:46.403Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8060,7 +8387,7 @@
       "resort": "copper",
       "resortName": "Copper Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.362Z",
+      "generated": "2026-01-28T15:29:46.409Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8238,7 +8565,7 @@
       "resort": "steamboat",
       "resortName": "Steamboat",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.250Z",
+      "generated": "2026-01-28T15:29:46.296Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8264,16 +8591,78 @@
               "delta": 0
             },
             "groomedTrails": {
-              "today": 67,
+              "today": 71,
               "yesterday": 67,
-              "delta": 0
+              "delta": 4
             },
             "totalTrails": 193
           },
           "newlyOpened": [],
           "newlyClosed": [],
-          "newlyGroomed": [],
-          "ungroomed": []
+          "newlyGroomed": [
+            {
+              "name": "Blizzard",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Daybreak",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Kit",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Quickdraw",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Rooster",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Snooze Bar",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Sunshine Lift Line",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Velvet",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            }
+          ],
+          "ungroomed": [
+            {
+              "name": "Baby Powder",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Flintlock",
+              "difficulty": "Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Sunset",
+              "difficulty": "Advanced Intermediate",
+              "area": "Steamboat"
+            },
+            {
+              "name": "Voo Doo",
+              "difficulty": "Advanced",
+              "area": "Steamboat"
+            }
+          ]
         },
         "lifts": {
           "available": true,
@@ -8352,16 +8741,22 @@
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
+        "alerts": [
+          "8 trails freshly groomed"
+        ],
         "trends": [
           "Great week for snow - 12\" in last 7 days",
           "1\" snow expected Thursday"
         ],
-        "recommendations": []
+        "recommendations": [
+          "Fresh corduroy on Blizzard - all skill levels",
+          "Fresh corduroy on Daybreak - all skill levels",
+          "Fresh corduroy on Kit - all skill levels"
+        ]
       },
       "morningBrief": {
-        "headline": "Good Snow Persisting",
-        "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Light snow possible in the forecast.",
+        "headline": "The Base Is Holding Up",
+        "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. 8 runs freshly groomed, mostly in Steamboat. Light snow possible in the forecast.",
         "debug": {
           "firedRules": [
             {
@@ -8377,19 +8772,25 @@
               "usedFor": "body"
             },
             {
+              "id": "grooming_moderate",
+              "category": "terrain",
+              "priority": 55,
+              "usedFor": "body"
+            },
+            {
               "id": "forecast_flurries",
               "category": "weather",
               "priority": 30,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 4,
+          "totalRulesFired": 5,
           "headlineSelection": {
             "condition": "holding_strong",
             "variationIndex": 3,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "The Base Is Holding Up"
+            "previousHeadline": "Good Snow Persisting"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -8609,7 +9010,7 @@
       "resort": "mammoth",
       "resortName": "Mammoth Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.257Z",
+      "generated": "2026-01-28T15:29:46.302Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -8728,7 +9129,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Fewer Crowds, More Turns",
+        "headline": "Beat the Weekend Rush",
         "body": "The rundown: 180 trails open, 107 groomed. Partly Cloudy with temps around temps TBD. 180/191 trails open, 107 groomed. Partly Cloudy.",
         "debug": {
           "firedRules": [
@@ -8757,7 +9158,7 @@
             "variationIndex": 3,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Beat the Weekend Rush"
+            "previousHeadline": "Fewer Crowds, More Turns"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -8773,7 +9174,7 @@
       "resort": "crystal",
       "resortName": "Crystal Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.266Z",
+      "generated": "2026-01-28T15:29:46.312Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -8905,7 +9306,7 @@
         ]
       },
       "morningBrief": {
-        "headline": "2\" Freshened Things Up",
+        "headline": "Overnight Refresh",
         "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
         "debug": {
           "firedRules": [
@@ -8934,7 +9335,7 @@
             "variationIndex": 2,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Layer in Place"
+            "previousHeadline": "{snow24h}\" Freshened Things Up"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -8951,7 +9352,7 @@
       "resort": "killington",
       "resortName": "Killington",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.368Z",
+      "generated": "2026-01-28T15:29:46.414Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -8972,18 +9373,24 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 169,
+              "today": 170,
               "yesterday": 169,
-              "delta": 0
+              "delta": 1
             },
             "groomedTrails": {
-              "today": 82,
+              "today": 83,
               "yesterday": 81,
-              "delta": 1
+              "delta": 2
             },
             "totalTrails": 222
           },
-          "newlyOpened": [],
+          "newlyOpened": [
+            {
+              "name": "Needles Eye - Middle",
+              "difficulty": "Blue",
+              "area": "Skye Peak"
+            }
+          ],
           "newlyClosed": [],
           "newlyGroomed": [
             {
@@ -9057,15 +9464,17 @@
         "flags": {
           "hasFreshSnow": true,
           "isPowderDay": false,
-          "hasNewTrails": false,
+          "hasNewTrails": true,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
         "alerts": [
           "2\" fresh snow overnight",
+          "1 new trail opened today",
           "1 trail freshly groomed"
         ],
         "trends": [
+          "1 more trail open than yesterday",
           "2\" snow expected Thursday"
         ],
         "recommendations": [
@@ -9074,7 +9483,7 @@
       },
       "morningBrief": {
         "headline": "It's Gonna Be a Cold One",
-        "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. Arctic air has settled in. 4° means quick laps and hot cocoa breaks.",
+        "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. 1 new trail opened today. Arctic air has settled in. 4° means quick laps and hot cocoa breaks.",
         "debug": {
           "firedRules": [
             {
@@ -9090,13 +9499,19 @@
               "usedFor": "body"
             },
             {
+              "id": "terrain_micro",
+              "category": "terrain",
+              "priority": 45,
+              "usedFor": "body"
+            },
+            {
               "id": "temp_frigid",
               "category": "weather",
               "priority": 73,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 5,
+          "totalRulesFired": 6,
           "headlineSelection": {
             "condition": "cold_snap",
             "variationIndex": 1,
@@ -9118,7 +9533,7 @@
       "resort": "sugarbush",
       "resortName": "Sugarbush",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.270Z",
+      "generated": "2026-01-28T15:29:46.316Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9139,19 +9554,35 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 111,
+              "today": 108,
               "yesterday": 111,
-              "delta": 0
+              "delta": -3
             },
             "groomedTrails": {
-              "today": 44,
+              "today": 43,
               "yesterday": 44,
-              "delta": 0
+              "delta": -1
             },
             "totalTrails": 142
           },
           "newlyOpened": [],
-          "newlyClosed": [],
+          "newlyClosed": [
+            {
+              "name": "Lower Twist",
+              "difficulty": "Difficult",
+              "area": "Gadd Peak"
+            },
+            {
+              "name": "Racer's Edge",
+              "difficulty": "Intermediate",
+              "area": "Gadd Peak"
+            },
+            {
+              "name": "The Mall",
+              "difficulty": "Difficult",
+              "area": "Gadd Peak"
+            }
+          ],
           "newlyGroomed": [],
           "ungroomed": []
         },
@@ -9237,7 +9668,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Layer Up, Ski Hard",
+        "headline": "It's Gonna Be a Cold One",
         "body": "Overnight dusting of 2\" means the hardpack got a makeover. Brace yourself: 4° today. Dress like you mean it.",
         "debug": {
           "firedRules": [
@@ -9266,7 +9697,7 @@
             "variationIndex": 1,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Bundle Up Out There"
+            "previousHeadline": "Layer Up, Ski Hard"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -9283,7 +9714,7 @@
       "resort": "sugarloaf",
       "resortName": "Sugarloaf",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.372Z",
+      "generated": "2026-01-28T15:29:46.418Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9587,7 +10018,7 @@
       "resort": "sundayriver",
       "resortName": "Sunday River",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.376Z",
+      "generated": "2026-01-28T15:29:46.425Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9608,9 +10039,9 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 139,
+              "today": 140,
               "yesterday": 137,
-              "delta": 2
+              "delta": 3
             },
             "groomedTrails": {
               "today": 78,
@@ -9620,6 +10051,11 @@
             "totalTrails": 144
           },
           "newlyOpened": [
+            {
+              "name": "Upper Chutzpah",
+              "difficulty": "Double Black",
+              "area": "WHITE CAP"
+            },
             {
               "name": "Upper Hard Ball",
               "difficulty": "Double Black",
@@ -9703,17 +10139,17 @@
           "highLiftDemand": false
         },
         "alerts": [
-          "2 new trails opened today"
+          "3 new trails opened today"
         ],
         "trends": [
           "Great week for snow - 24\" in last 7 days",
-          "2 more trails open than yesterday"
+          "3 more trails open than yesterday"
         ],
         "recommendations": []
       },
       "morningBrief": {
         "headline": "Crisp Conditions",
-        "body": "Holding steady - that 24\" base from recent storms is doing the heavy lifting. 2 new trails opened today. Brace yourself: 6° today. Dress like you mean it.",
+        "body": "Holding steady - that 24\" base from recent storms is doing the heavy lifting. 3 new trails are now available. Nice little expansion. Brace yourself: 6° today. Dress like you mean it.",
         "debug": {
           "firedRules": [
             {
@@ -9729,9 +10165,9 @@
               "usedFor": "body"
             },
             {
-              "id": "terrain_micro",
+              "id": "terrain_few",
               "category": "terrain",
-              "priority": 45,
+              "priority": 60,
               "usedFor": "body"
             },
             {
@@ -9764,7 +10200,7 @@
       "resort": "loon",
       "resortName": "Loon Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.380Z",
+      "generated": "2026-01-28T15:29:46.428Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9943,7 +10379,7 @@
       "resort": "tremblant",
       "resortName": "Tremblant",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.275Z",
+      "generated": "2026-01-28T15:29:46.321Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -9964,9 +10400,9 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 114,
+              "today": 112,
               "yesterday": 129,
-              "delta": -15
+              "delta": -17
             },
             "groomedTrails": {
               "today": 61,
@@ -9979,6 +10415,16 @@
           "newlyClosed": [
             {
               "name": "Kandahar",
+              "difficulty": "Very Difficult",
+              "area": "South Side"
+            },
+            {
+              "name": "Ryan Bas",
+              "difficulty": "Extreme Terrain",
+              "area": "South Side"
+            },
+            {
+              "name": "Ryan Haut",
               "difficulty": "Very Difficult",
               "area": "South Side"
             },
@@ -10166,7 +10612,7 @@
         ]
       },
       "morningBrief": {
-        "headline": "BRRRRRRRRR",
+        "headline": "Arctic Air in Place",
         "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Arctic air has settled in. 7° means quick laps and hot cocoa breaks.",
         "debug": {
           "firedRules": [
@@ -10195,7 +10641,7 @@
             "variationIndex": 4,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "It's Gonna Be a Cold One"
+            "previousHeadline": "BRRRRRRRRR"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -10211,7 +10657,7 @@
       "resort": "blue",
       "resortName": "Blue Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.281Z",
+      "generated": "2026-01-28T15:29:46.326Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -10344,7 +10790,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "The Mountain Got a Touch-Up",
+        "headline": "Fresh Layer in Place",
         "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Light snow possible in the forecast.",
         "debug": {
           "firedRules": [
@@ -10373,7 +10819,7 @@
             "variationIndex": 4,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fresh Layer in Place"
+            "previousHeadline": "The Mountain Got a Touch-Up"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -10493,7 +10939,7 @@
       "resort": "cypressmountain",
       "resortName": "Cypress Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.383Z",
+      "generated": "2026-01-28T15:29:46.431Z",
       "rawData": {
         "snow": {
           "overnight_inches": 2,
@@ -10654,7 +11100,7 @@
       "resort": "banff",
       "resortName": "Banff Sunshine Village",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.386Z",
+      "generated": "2026-01-28T15:29:46.434Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -10663,8 +11109,8 @@
           "24hour_cm": 0,
           "48hour_inches": 0,
           "48hour_cm": 0,
-          "7day_inches": 0.8,
-          "7day_cm": 2,
+          "7day_inches": 0,
+          "7day_cm": 0,
           "season_total_inches": 0,
           "season_total_cm": 0,
           "conditions": {
@@ -10697,9 +11143,9 @@
         "forecast": {
           "today": {
             "date": "2026-01-28",
-            "high_f": 28.4,
+            "high_f": 26.6,
             "low_f": 12.2,
-            "high_c": -2,
+            "high_c": -3,
             "low_c": -11,
             "description": "Unknown",
             "snowfall_day_inches": 0,
@@ -10707,7 +11153,7 @@
           },
           "outlook": [
             {
-              "date": "2026-01-29T13:46:57.595Z",
+              "date": "2026-01-29T14:26:45.816Z",
               "high_f": 28.4,
               "low_f": 14,
               "high_c": -2,
@@ -10718,7 +11164,7 @@
               "snowfall_expected": 0
             },
             {
-              "date": "2026-01-30T13:46:57.595Z",
+              "date": "2026-01-30T14:26:45.816Z",
               "high_f": 33.8,
               "low_f": 21.2,
               "high_c": 1,
@@ -10730,7 +11176,7 @@
             }
           ],
           "tomorrow": {
-            "date": "2026-01-29T13:46:57.595Z",
+            "date": "2026-01-29T14:26:45.816Z",
             "high_f": 28.4,
             "low_f": 14,
             "high_c": -2,
@@ -10755,7 +11201,7 @@
       },
       "morningBrief": {
         "headline": "Fewer Crowds, More Turns",
-        "body": "The rundown: 115 trails open, 54 groomed. Unknown with temps around 28.4°. Peak terrain status: almost everything is available today. 115/120 trails open, 54 groomed. 28.4° and Unknown.",
+        "body": "The rundown: 115 trails open, 54 groomed. Unknown with temps around 26.6°. Peak terrain status: almost everything is available today. 115/120 trails open, 54 groomed. 26.6° and Unknown.",
         "debug": {
           "firedRules": [
             {
@@ -10806,7 +11252,7 @@
       "resort": "lakelouise",
       "resortName": "Lake Louise",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.391Z",
+      "generated": "2026-01-28T15:29:46.436Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -10906,7 +11352,7 @@
           },
           "outlook": [
             {
-              "date": "2026-01-29T13:46:57.665Z",
+              "date": "2026-01-29T14:26:45.921Z",
               "high_f": 32,
               "low_f": 32,
               "high_c": 0,
@@ -10917,7 +11363,7 @@
               "snowfall_expected": 0
             },
             {
-              "date": "2026-01-30T13:46:57.665Z",
+              "date": "2026-01-30T14:26:45.921Z",
               "high_f": 32,
               "low_f": 32,
               "high_c": 0,
@@ -10928,7 +11374,7 @@
               "snowfall_expected": 0
             },
             {
-              "date": "2026-01-31T13:46:57.665Z",
+              "date": "2026-01-31T14:26:45.921Z",
               "high_f": 32,
               "low_f": 32,
               "high_c": 0,
@@ -10940,7 +11386,7 @@
             }
           ],
           "tomorrow": {
-            "date": "2026-01-29T13:46:57.665Z",
+            "date": "2026-01-29T14:26:45.921Z",
             "high_f": 32,
             "low_f": 32,
             "high_c": 0,
@@ -11215,7 +11661,7 @@
       "resort": "junemountain",
       "resortName": "June Mountain",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.263Z",
+      "generated": "2026-01-28T15:29:46.309Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -11334,7 +11780,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Quiet Days on the Hill",
+        "headline": "Midweek Bliss",
         "body": "44 trails open, 14 groomed. Windy, temperatures TBD. Nearly full mountain access with 44 of 44 trails spinning. Windy conditions expected. Upper lifts may have holds or delays.",
         "debug": {
           "firedRules": [
@@ -11369,7 +11815,7 @@
             "variationIndex": 1,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Midweek Bliss"
+            "previousHeadline": "Quiet Days on the Hill"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -11386,7 +11832,7 @@
       "resort": "buttermilk",
       "resortName": "Buttermilk",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.360Z",
+      "generated": "2026-01-28T15:29:46.406Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -11412,16 +11858,27 @@
               "delta": 0
             },
             "groomedTrails": {
-              "today": 23,
+              "today": 21,
               "yesterday": 23,
-              "delta": 0
+              "delta": -2
             },
             "totalTrails": 52
           },
           "newlyOpened": [],
           "newlyClosed": [],
           "newlyGroomed": [],
-          "ungroomed": []
+          "ungroomed": [
+            {
+              "name": "Ptarmigan",
+              "difficulty": "Blue",
+              "area": "Tiehack"
+            },
+            {
+              "name": "Rabbit Run",
+              "difficulty": "Blue",
+              "area": "Tiehack"
+            }
+          ]
         },
         "lifts": {
           "available": true,
@@ -11537,7 +11994,7 @@
       "resort": "norquay",
       "resortName": "Mt Norquay",
       "date": "2026-01-28",
-      "generated": "2026-01-28T14:26:37.394Z",
+      "generated": "2026-01-28T15:29:46.439Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,

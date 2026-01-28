@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-28",
-  "generated": "2026-01-28T14:26:37.368Z",
+  "generated": "2026-01-28T15:29:46.414Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 169,
+          "today": 170,
           "yesterday": 169,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 82,
+          "today": 83,
           "yesterday": 81,
-          "delta": 1
+          "delta": 2
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Needles Eye - Middle",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -108,15 +114,17 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "2\" fresh snow overnight",
+      "1 new trail opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Thursday"
     ],
     "recommendations": [
@@ -125,7 +133,7 @@
   },
   "morningBrief": {
     "headline": "It's Gonna Be a Cold One",
-    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. Arctic air has settled in. 4° means quick laps and hot cocoa breaks.",
+    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. 1 new trail opened today. Arctic air has settled in. 4° means quick laps and hot cocoa breaks.",
     "debug": {
       "firedRules": [
         {
@@ -141,13 +149,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_frigid",
           "category": "weather",
           "priority": 73,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "cold_snap",
         "variationIndex": 1,
