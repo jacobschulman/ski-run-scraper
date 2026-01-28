@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-28",
-  "generated": "2026-01-28T15:29:46.387Z",
+  "generated": "2026-01-28T16:32:35.916Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 114,
           "yesterday": 111,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 47,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Dick's Ditch (Upper)",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -96,14 +112,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "3 new trails opened today",
       "4 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Kemmerer (Lower) - perfect for intermediate skiers",
       "Fresh corduroy on Thunder - challenging for advanced skiers",
@@ -111,14 +130,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "The rundown: 111 trails open, 47 groomed. Variable conditions with temps around temps TBD. 111/145 trails open, 47 groomed. Variable conditions.",
+    "headline": "Terrain Update",
+    "body": "The rundown: 114 trails open, 47 groomed. Variable conditions with temps around temps TBD. Ski patrol opened 3 additional trails. A few more choices today.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -128,19 +147,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 3,
+        "condition": "terrain_few",
+        "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Beat the Weekend Rush"
+        "previousHeadline": "A Few More Options Today"
       },
       "dayOfWeek": "Wednesday"
     }
