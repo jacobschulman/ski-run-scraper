@@ -2,8 +2,24 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-01-28",
-  "generated": "2026-01-28T08:27:48.958Z",
+  "generated": "2026-01-28T09:31:15.326Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 7,
+      "24hour_cm": 17,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 74,
+      "season_total_cm": 187,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,108 @@
         "totalLiftsTracked": 6,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-27",
+        "high_f": null,
+        "low_f": 32,
+        "description": "Rain Snow",
+        "snowfall_day_inches": 4,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-28",
+          "high_f": 35,
+          "low_f": 35,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        },
+        {
+          "date": "2026-01-29",
+          "high_f": 38,
+          "low_f": 38,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-30",
+          "high_f": 39,
+          "low_f": 38,
+          "description": "Rain",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-28",
+        "high_f": 35,
+        "low_f": 35,
+        "description": "Rain Snow",
+        "snowfall_day_inches": 6,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 6
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days",
+      "6\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Mother Nature Can't Decide",
+    "body": "Mother Nature delivered 7\" of the good stuff. Face shots are on the menu. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "weather_mixed",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Transition Day"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
