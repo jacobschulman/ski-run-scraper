@@ -118,8 +118,14 @@ class DataSourceManager {
    * @param {object} options - Fetch options
    */
   async fetchData(path, options = {}) {
-    const url = this.buildDataUrl(path);
-    const source = this.getCurrentSource();
+    // Always fetch config.json from local source (it's the source of truth)
+    // Only data files come from the selected data source
+    const isConfig = path === 'config.json' || path === '../config.json';
+    const source = isConfig ? DATA_SOURCES.LOCAL : this.getCurrentSource();
+
+    // Build URL using the appropriate source
+    const cleanPath = path.replace(/^\.?\/?/, '');
+    const url = source.id === 'local' ? `${source.baseUrl}/${cleanPath}` : `${source.baseUrl}/${cleanPath}`;
 
     // Add CORS mode for remote sources if needed
     if (source.requiresCors && !options.mode) {
