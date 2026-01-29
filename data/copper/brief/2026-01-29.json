@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-01-29",
-  "generated": "2026-01-29T13:21:21.700Z",
+  "generated": "2026-01-29T14:44:53.351Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Loose Granular",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,9 +28,9 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 39,
+          "today": 43,
           "yesterday": 42,
-          "delta": -3
+          "delta": 1
         },
         "totalTrails": 202
       },
@@ -27,28 +43,7 @@
           "area": "West"
         }
       ],
-      "ungroomed": [
-        {
-          "name": "Oh No (U)",
-          "difficulty": "Blue",
-          "area": "East"
-        },
-        {
-          "name": "Oh No (L)",
-          "difficulty": "Blue",
-          "area": "East"
-        },
-        {
-          "name": "I-Way",
-          "difficulty": "easiest",
-          "area": "West"
-        },
-        {
-          "name": "Sluice",
-          "difficulty": "easiest",
-          "area": "Center"
-        }
-      ]
+      "ungroomed": []
     },
     "lifts": {
       "available": true,
@@ -59,10 +54,60 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-01-29",
+        "high_f": 13,
+        "low_f": 3,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-01-30",
+          "high_f": 19,
+          "low_f": 8,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-01-31",
+          "high_f": 26,
+          "low_f": 9,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-01",
+          "high_f": 31,
+          "low_f": 14,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-01-30",
+        "high_f": 19,
+        "low_f": 8,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -75,6 +120,40 @@
       "Fresh corduroy on Easy Feelin' - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Midweek Mountain Report",
+    "body": "126 of 202 trails are open with 43 groomed. Cloudy with a high of 13°F. Cold day ahead: 13° high. Dress warmly.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Quiet Days on the Hill"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

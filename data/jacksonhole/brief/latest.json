@@ -2,26 +2,69 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-01-29",
-  "generated": "2026-01-29T13:21:21.689Z",
+  "generated": "2026-01-29T14:44:53.331Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 4,
+      "7day_cm": 10,
+      "season_total_inches": 219,
+      "season_total_cm": 556,
+      "conditions": {
+        "today": "6 AM—Pop on out of bed; you don't need the beauty sleep. And besides, it's time to reap the lofty rewards of a tiny little touch-up, two inches deep. Freshly softened corduroy carpeting will guide you through a nicely refurbished alpine landscape. Continue your smooth cruise or dip off-piste into the mad world of micro-powder pockets. Dramatic skies will feature bright solar beams breaking through a perforated cloud cover. Comfortable high temperatures will top out near 20 at the summit while Teton Village makes its way towards the 30-degree mark. A refreshing west-northwest breeze will blow through at 5-15 mph.",
+        "yesterday": "6 AM—Pssst. Hey. Wakey, wakey! We've got a welcome little change in the air for your Wednesday. Early morning sunshine will yield to encroaching cloud cover before midday, so come quick and you may catch a couple rays. But, even if you miss 'em, stick around. Because before too long, some cool frosty flakes should be coming down. High temperatures will top out near 20 at the summit and in the upper 20s down in the Village. Winds should remain on the light side, breezing out of the west in the 5-15 mph range. Head for the slopes without fear or hesitation. Because the time has come to get a little zesty with the forces of gravitation, as a sacrificial offering to the atmosphere for an extra hefty powder application. - Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 112,
+          "today": 111,
           "yesterday": 112,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 43,
           "yesterday": 47,
-          "delta": 0
+          "delta": -4
         },
         "totalTrails": 145
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Tower Three Chute",
+          "difficulty": "Double Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Sleeping Indian",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Thunder",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Symmetry",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Gros Ventre (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -36,14 +79,46 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Layer in Place",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
