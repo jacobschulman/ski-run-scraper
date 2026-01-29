@@ -212,10 +212,6 @@
           <input type="checkbox" id="auto-refresh" style="width: auto; margin: 0;" checked>
           <label for="auto-refresh" style="margin: 0; cursor: pointer;">Auto-refresh (30s)</label>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="local-data-mode" style="width: auto; margin: 0;">
-          <label for="local-data-mode" style="margin: 0; cursor: pointer; color: var(--muted); font-size: 0.9rem;" title="Use data from ../data-local folder for testing">Use local test data</label>
-        </div>
       </div>
     </div>
 
@@ -322,7 +318,7 @@
     };
 
     async function getAvailableDates(resortKey, resortData) {
-      const cacheKey = dataFolder + '-' + resortKey;
+      const cacheKey = dataSourceManager.getCurrentSource().id + '-' + resortKey;
       if (availableDatesCache[cacheKey]) return availableDatesCache[cacheKey];
       const dates = new Set();
       const fallbackDate = deriveDateKey(resortData || {});
@@ -866,7 +862,7 @@
       $('notice').textContent = 'Loading recent runs...';
 
       try {
-        const cacheKey = `${dataFolder}-${resortKey}`;
+        const cacheKey = `${dataSourceManager.getCurrentSource().id}-${resortKey}`;
         if (!cachedIndex[cacheKey]) {
           cachedIndex[cacheKey] = await dataSourceManager.fetchData(`data/${resortKey}/lifts/index.json`);
         }
@@ -937,7 +933,7 @@
     $('lift-filter').addEventListener('input', async () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
-      const cacheKey = `${dataFolder}-${key}`;
+      const cacheKey = `${dataSourceManager.getCurrentSource().id}-${key}`;
       if (!resortInfo || !cachedIndex[cacheKey]) return;
       const resortData = cachedIndex[cacheKey];
       const dateKey = currentDateKey || deriveDateKey(resortData);
@@ -952,7 +948,7 @@
     $('open-only-filter').addEventListener('change', async () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
-      const cacheKey = `${dataFolder}-${key}`;
+      const cacheKey = `${dataSourceManager.getCurrentSource().id}-${key}`;
       if (!resortInfo || !cachedIndex[cacheKey]) return;
       const resortData = cachedIndex[cacheKey];
       const dateKey = currentDateKey || deriveDateKey(resortData);
@@ -964,24 +960,11 @@
       renderRows(resortData, history, fullHistory, tz, dateKey);
     });
 
-    $('local-data-mode').addEventListener('change', async (e) => {
-      dataFolder = e.target.checked ? `${basePath}/data-local` : `${basePath}/data`;
-      localStorage.setItem('localDataMode', e.target.checked);
-      // Clear caches
-      historyCache.clear();
-      Object.keys(cachedIndex).forEach(key => delete cachedIndex[key]);
-      Object.keys(availableDatesCache).forEach(key => delete availableDatesCache[key]);
-      // Reload current resort if one is selected
-      const key = $('resort-select').value;
-      if (key) {
-        await loadResort(key);
-      }
-    });
 
     $('hide-no-wait-filter').addEventListener('change', async () => {
       const key = $('resort-select').value;
       const resortInfo = resortMap[key];
-      const cacheKey = `${dataFolder}-${key}`;
+      const cacheKey = `${dataSourceManager.getCurrentSource().id}-${key}`;
       if (!resortInfo || !cachedIndex[cacheKey]) return;
       const resortData = cachedIndex[cacheKey];
       const dateKey = currentDateKey || deriveDateKey(resortData);
@@ -1001,11 +984,12 @@
         const key = $('resort-select').value;
         if (!key) return;
         // Clear cache so we get fresh data
-        const cacheKey = `${dataFolder}-${key}`;
+        const sourceId = dataSourceManager.getCurrentSource().id;
+        const cacheKey = `${sourceId}-${key}`;
         delete cachedIndex[cacheKey];
         const dateKey = currentDateKey || new Date().toISOString().slice(0, 10);
-        historyCache.delete(`${dataFolder}-${key}-${dateKey}`);
-        historyCache.delete(`${dataFolder}-${key}-${dateKey}-full`);
+        historyCache.delete(`${sourceId}-${key}-${dateKey}`);
+        historyCache.delete(`${sourceId}-${key}-${dateKey}-full`);
         console.log('[Auto-refresh] Reloading data...');
         await loadResort(key, currentDateKey);
       }, AUTO_REFRESH_MS);
