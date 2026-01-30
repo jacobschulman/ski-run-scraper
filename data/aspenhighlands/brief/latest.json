@@ -2,7 +2,7 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-01-30",
-  "generated": "2026-01-30T11:37:24.529Z",
+  "generated": "2026-01-30T13:18:51.287Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 62,
+          "today": 64,
           "yesterday": 62,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 12,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 126
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Aspen Highlands (Lower)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        },
+        {
+          "name": "Aspen Highlands (Upper)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +113,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
-      "Steady snowfall - 9\" in last 7 days"
+      "Steady snowfall - 9\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "TGIF",
-    "body": "Steady snowfall with 9\" over the last week.",
+    "body": "Steady snowfall with 9\" over the last week. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
@@ -128,9 +142,15 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "weekend_kickoff",
         "variationIndex": 0,
