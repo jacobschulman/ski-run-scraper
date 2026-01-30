@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-01-30",
-  "generated": "2026-01-30T13:18:51.211Z",
+  "generated": "2026-01-30T14:42:02.721Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,31 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 112,
           "yesterday": 111,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 48,
+          "today": 49,
           "yesterday": 46,
-          "delta": 2
+          "delta": 3
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jester",
+          "difficulty": "Intermediate",
+          "area": "Lincoln Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
+        {
+          "name": "Jester",
+          "difficulty": "Intermediate",
+          "area": "Lincoln Peak"
+        },
         {
           "name": "Lower Ripcord",
           "difficulty": "Difficult",
@@ -144,23 +155,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "4 trails freshly groomed"
+      "1 new trail opened today",
+      "5 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": [
+      "Fresh corduroy on Jester - all skill levels",
       "Fresh corduroy on Lower Ripcord - all skill levels",
-      "Fresh corduroy on Sigi's Ripcord - all skill levels",
-      "Fresh corduroy on Cruiser - all skill levels"
+      "Fresh corduroy on Sigi's Ripcord - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "Cheers to the Weekend",
-    "body": "111 trails open, 48 groomed. Windy, temperatures TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "The Weekend Starts Now",
+    "body": "112 trails open, 49 groomed. Windy, temperatures TBD. 5 runs freshly groomed, mostly in Lincoln Peak and Mt. Ellen. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
@@ -176,19 +190,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_windy",
           "category": "weather",
           "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weekend_kickoff",
         "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Cheers to the Weekend"
       },
       "dayOfWeek": "Friday"
     }
