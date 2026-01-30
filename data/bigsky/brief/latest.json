@@ -2,13 +2,13 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-01-29",
-  "generated": "2026-01-30T02:38:01.245Z",
+  "generated": "2026-01-30T04:46:41.154Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 2,
-      "overnight_cm": 5,
-      "24hour_inches": 7,
-      "24hour_cm": 18,
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
       "48hour_inches": 7,
       "48hour_cm": 18,
       "7day_inches": 8,
@@ -144,10 +144,10 @@
     "forecast": {
       "today": {
         "date": "2026-01-29",
-        "high_f": 22,
-        "low_f": 18,
+        "high_f": null,
+        "low_f": 17,
         "description": "Mostly Cloudy",
-        "snowfall_day_inches": 2,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
@@ -162,21 +162,21 @@
         },
         {
           "date": "2026-01-31",
-          "high_f": 31,
+          "high_f": 32,
           "low_f": 27,
-          "description": "Mostly Cloudy",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-02-01",
-          "high_f": 36,
-          "low_f": 23,
+          "high_f": 35,
+          "low_f": 22,
           "description": "Cloudy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 1
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
@@ -193,14 +193,13 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight",
-      "7\" in last 24 hours - powder day!",
+      "1\" new snow overnight",
       "17 new trails opened today"
     ],
     "trends": [
@@ -211,20 +210,20 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter Delivered Big",
-    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. Ski patrol opened 17 new runs. Major expansion today. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "headline": "17 New Options",
+    "body": "Overnight dusting of 2\" means the hardpack got a makeover. Ski patrol opened 17 new runs. Major expansion today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder",
-          "category": "snow",
-          "priority": 90,
+          "id": "terrain_major",
+          "category": "terrain",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 90,
+          "priority": 70,
           "usedFor": "body"
         },
         {
@@ -234,19 +233,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 4,
-        "totalVariations": 11,
+        "condition": "terrain_major",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Tracks for Days"
+        "previousHeadline": "Major Terrain Drop: {newTrailsCount} Runs"
       },
       "dayOfWeek": "Thursday"
     }
