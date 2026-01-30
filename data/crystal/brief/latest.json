@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-01-30",
-  "generated": "2026-01-30T20:39:58.016Z",
+  "generated": "2026-01-30T21:35:30.740Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 30,
+          "today": 31,
           "yesterday": 30,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 22,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Rolling Knolls",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -118,21 +124,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "2\" fresh snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Rain at Base, Snow Up Top",
-    "body": "A light refresh of 2\" overnight makes the groomers smoother. The elevation will make all the difference today. Rain down low, snow up high.",
+    "headline": "Mixed Precip Today",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother. 1 new trail opened today. The elevation will make all the difference today. Rain down low, snow up high.",
     "debug": {
       "firedRules": [
         {
@@ -148,19 +156,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_mixed",
           "category": "weather",
           "priority": 195,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mixed Precip Today"
+        "previousHeadline": "Rain at Base, Snow Up Top"
       },
       "dayOfWeek": "Friday"
     }
