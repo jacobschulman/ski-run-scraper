@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-01-31",
-  "generated": "2026-01-31T15:31:35.311Z",
+  "generated": "2026-01-31T16:38:20.678Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 172,
+          "today": 173,
           "yesterday": 172,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 92,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Rendezvous",
+          "difficulty": "easiest",
+          "area": "Sunrise"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,17 +108,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Weekend Mode: Engaged",
-    "body": "172 trails open, 92 groomed. Windy, temperatures TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "body": "173 trails open, 92 groomed. Windy, temperatures TBD. 1 new trail opened today. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
@@ -125,6 +135,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
