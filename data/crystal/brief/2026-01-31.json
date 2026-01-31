@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-01-31",
-  "generated": "2026-01-31T17:30:26.576Z",
+  "generated": "2026-01-31T18:04:41.491Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 31,
+          "today": 35,
           "yesterday": 31,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 22,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "A-Basin",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        },
+        {
+          "name": "Silver Basin",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        },
+        {
+          "name": "Silver King",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        },
+        {
+          "name": "Three Way Peak",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,31 +133,40 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Saturday at the Mountain",
-    "body": "31/86 trails spinning, 22 freshly groomed. 43° and Cloudy. Light snow possible in the forecast.",
+    "headline": "Terrain Update",
+    "body": "35/86 trails spinning, 22 freshly groomed. 43° and Cloudy. 4 more trails opened today, expanding your options. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -148,11 +178,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "saturday",
-        "variationIndex": 0,
+        "condition": "terrain_few",
+        "variationIndex": 3,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": null
+        "previousHeadline": "Saturday at the Mountain"
       },
       "dayOfWeek": "Saturday"
     }
