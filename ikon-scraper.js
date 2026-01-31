@@ -197,10 +197,12 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
   // Normalize Inspector data to Vail format
   const normalizedData = dataNormalization.normalizeInspectorResort(inspectorData);
 
-  // Add provider metadata
+  // Add provider metadata and scrape timestamp
   const terrainDataWithProvider = {
     ...normalizedData,
-    provider: resort.provider || 'vail'
+    provider: resort.provider || 'vail',
+    scrapedAt: new Date().toISOString(),
+    sourceLastUpdated: normalizedData.Date  // Preserve original source timestamp from resort's API
   };
 
   // Ensure data directory structure exists

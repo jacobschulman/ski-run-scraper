@@ -248,21 +248,22 @@ function shouldScrapeResort(resort, dataType = 'terrain') {
     return true;
   }
 
-  // Grooming/terrain remains once per day in the morning window.
-  const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
-  const inWindow = isInScrapingWindow(resort);
-
-  // For resorts with real-time-only APIs (retryIfZeroTrails), re-scrape if we got 0 open trails
-  // This handles resorts that only report trail status when lifts are running
-  if (dataType === 'terrain' && resort.retryIfZeroTrails && hasBeenScraped && hasZeroOpenTrails(resort)) {
+  // Terrain/grooming: Re-scrape during morning hours (5-11 AM) as grooming data updates continuously
+  // After 11 AM, data is typically stable and we don't need to keep re-scraping
+  if (dataType === 'terrain') {
     const currentHour = getResortLocalHour(resort.timezone);
-    // Only retry between 9 AM and 6 PM local time (when resort should be open)
-    if (currentHour >= 9 && currentHour < 18) {
+
+    // Always scrape during morning grooming window (5-11 AM) to catch updates
+    if (currentHour >= 5 && currentHour < 11) {
       return true;
     }
+
+    // After 11 AM, only scrape if we haven't scraped yet today (catch-up for missed runs)
+    const hasBeenScraped = hasBeenScrapedToday(resort, dataType);
+    return !hasBeenScraped;
   }
 
-  return !hasBeenScraped && inWindow;
+  return false;
 }
 
 /**
@@ -588,10 +589,12 @@ function saveResortData(resortKey, data) {
   const terrainDir = path.join('data', resortKey, 'terrain');
   ensureDirectoryExists(terrainDir);
 
-  // Add provider metadata to terrain data
+  // Add provider metadata and scrape timestamp to terrain data
   const terrainDataWithProvider = {
     ...filteredData,
-    provider: resort.provider || 'vail'
+    provider: resort.provider || 'vail',
+    scrapedAt: new Date().toISOString(),
+    sourceLastUpdated: filteredData.Date  // Preserve original source timestamp from resort's API
   };
 
   // Save timestamped file
