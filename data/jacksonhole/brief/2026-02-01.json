@@ -2,21 +2,21 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-01",
-  "generated": "2026-02-01T13:13:17.762Z",
+  "generated": "2026-02-01T14:43:06.389Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 1,
-      "overnight_cm": 3,
-      "24hour_inches": 1,
-      "24hour_cm": 3,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
       "48hour_inches": 1,
       "48hour_cm": 3,
-      "7day_inches": 5,
-      "7day_cm": 13,
+      "7day_inches": 4,
+      "7day_cm": 10,
       "season_total_inches": 220,
       "season_total_cm": 559,
       "conditions": {
-        "today": "6 AM—Greetings, Jackson Hole. Not that you needed an excuse to get out and play, but you certainly have one because it's finally Saturday. And if that isn't enough, morning clouds will be fading fast, leading to mostly sunny skies illuminating the sparkling Teton terrain. Western winds will be diminishing alongside the decreasing clouds, eventually blowing between just 5 and 10 mph. Warm temperatures will rise to the mid-20s at the summit and close to 40 in the Village. Come on out and get a little experimental; the secret to success is not being too self-judgmental. Because after all, whether you shred, struggle, or fall, the only real purpose is to have yourself a ball. -Lege",
+        "today": "Happy Sunday! As the weekend unfolds look for morning sunshine to decrease as cloud cover moves into the valley as the day progresses. Light to moderate winds will be trending out of the WSW at 10-15 MPH with moderate gusting into the 20 MPH range. Warming temperatures will reach the low 30's up at the Corbet's Cabin waffle factory while the valley floor will reach the high 30's by late afternoon. Cold morning conditions will ski fast and continue to soften as the day warms up. Your Sunday fun day starts with a trip to the Top Of The World and finishes with a choose your own adventure down Rendezvous' finest! Stay safe out there. - MB  ",
         "yesterday": "6 AM—Greetings, Jackson Hole. Not that you needed an excuse to get out and play, but you certainly have one because it's finally Saturday. And if that isn't enough, morning clouds will be fading fast, leading to mostly sunny skies illuminating the sparkling Teton terrain. Western winds will be diminishing alongside the decreasing clouds, eventually blowing between just 5 and 10 mph. Warm temperatures will rise to the mid-20s at the summit and close to 40 in the Village. Come on out and get a little experimental; the secret to success is not being too self-judgmental. Because after all, whether you shred, struggle, or fall, the only real purpose is to have yourself a ball. -Lege"
       }
     },
@@ -28,16 +28,53 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 50,
+          "today": 49,
           "yesterday": 50,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 145
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Bivouac",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Ranger",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Gros Ventre (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Sleeping Indian",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "St. John's",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Thunder",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Buck Run",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -52,43 +89,53 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
+      "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "3 trails freshly groomed"
     ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Bivouac - challenging for advanced skiers",
+      "Fresh corduroy on Ranger - challenging for advanced skiers",
+      "Fresh corduroy on Gros Ventre (Upper) - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Fresh Coat on the Mountain",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo.",
+    "headline": "Weekend Finale",
+    "body": "The rundown: 116 trails open, 49 groomed. Variable conditions with temps around temps TBD. 116/145 trails open, 49 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "time_sunday",
+          "category": "time",
+          "priority": 38,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 70,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "sunday",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "Sunday Skiing"
       },
       "dayOfWeek": "Sunday"
     }

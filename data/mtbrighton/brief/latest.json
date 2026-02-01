@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-01",
-  "generated": "2026-02-01T13:13:10.819Z",
+  "generated": "2026-02-01T14:42:58.608Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,129 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 22,
           "yesterday": 0,
-          "delta": 0
+          "delta": 22
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 20,
           "yesterday": 0,
-          "delta": 0
+          "delta": 20
         },
         "totalTrails": 25
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Challenge",
+          "difficulty": "DoubleBlack",
+          "area": "Backside"
+        },
+        {
+          "name": "Golden Eagle",
+          "difficulty": "Black",
+          "area": "Backside"
+        },
+        {
+          "name": "Jax Bowl",
+          "difficulty": "Blue",
+          "area": "Backside"
+        },
+        {
+          "name": "Ore Creek",
+          "difficulty": "Black",
+          "area": "Backside"
+        },
+        {
+          "name": "Perk's Folly",
+          "difficulty": "DoubleBlack",
+          "area": "Backside"
+        },
+        {
+          "name": "Spartan Street",
+          "difficulty": "Blue",
+          "area": "Backside"
+        },
+        {
+          "name": "Wolverine Way",
+          "difficulty": "Blue",
+          "area": "Backside"
+        },
+        {
+          "name": "Bunny",
+          "difficulty": "Green",
+          "area": "Beginner Area"
+        },
+        {
+          "name": "Flatiron",
+          "difficulty": "Green",
+          "area": "Beginner Area"
+        },
+        {
+          "name": "Larkspur",
+          "difficulty": "Green",
+          "area": "Beginner Area"
+        },
+        {
+          "name": "Snowshoe",
+          "difficulty": "Green",
+          "area": "Beginner Area"
+        },
+        {
+          "name": "Big Riskey",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Blue Sky",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Cheetah",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Chicken Chute",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Crosscut",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Easy Street",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Gasoline Alley",
+          "difficulty": "TerrainPark",
+          "area": "Front Side"
+        },
+        {
+          "name": "Ryan's Run",
+          "difficulty": "TerrainPark",
+          "area": "Front Side"
+        },
+        {
+          "name": "Sawtooth Ridge",
+          "difficulty": "TerrainPark",
+          "area": "Front Side"
+        },
+        {
+          "name": "Spike's Folly",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Thalacker's",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -46,7 +157,7 @@
       "today": {
         "date": "2026-02-01",
         "high_f": 23,
-        "low_f": -1,
+        "low_f": null,
         "high_c": -5,
         "low_c": -18,
         "description": "Clear",
@@ -71,7 +182,7 @@
           "low_f": 9,
           "high_c": -6,
           "low_c": -13,
-          "description": "Mostly Cloudy",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -79,10 +190,10 @@
         {
           "date": "2026-02-04T05:00:00Z",
           "high_f": 18,
-          "low_f": 2,
+          "low_f": 3,
           "high_c": -8,
-          "low_c": -17,
-          "description": "Mostly Clear",
+          "low_c": -16,
+          "description": "Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -105,38 +216,54 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "22 new trails opened today"
+    ],
+    "trends": [
+      "22 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "No trails open yet. Current forecast: Clear.",
+    "headline": "Patrol Won't Quit",
+    "body": "22/25 trails spinning, 20 freshly groomed. 23° and Clear. Ski patrol opened 22 new runs. Major expansion today. It's a postcard kind of day. 23° and sunny - the mountain is photogenic.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_major",
           "category": "terrain",
-          "priority": 95,
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_major",
           "category": "terrain",
-          "priority": 95,
+          "priority": 88,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "terrain_major",
         "variationIndex": 2,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Sunday"
     }

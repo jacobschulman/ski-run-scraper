@@ -2,15 +2,15 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-02-01",
-  "generated": "2026-02-01T13:13:17.704Z",
+  "generated": "2026-02-01T14:43:06.328Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
       "24hour_inches": 0,
-      "24hour_cm": 1,
-      "48hour_inches": 2,
-      "48hour_cm": 6,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 1,
       "7day_inches": 9,
       "7day_cm": 23,
       "season_total_inches": 84,
@@ -63,27 +63,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-01-31",
-        "high_f": null,
-        "low_f": 6,
-        "high_c": null,
-        "low_c": -15,
-        "description": "Mostly Clear",
+        "date": "2026-02-01",
+        "high_f": 16,
+        "low_f": 13,
+        "high_c": -9,
+        "low_c": -11,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-01",
-          "high_f": 16,
-          "low_f": 13,
-          "high_c": -9,
-          "low_c": -11,
-          "description": "Mostly Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-02-02",
           "high_f": 23,
@@ -98,22 +87,33 @@
         {
           "date": "2026-02-03",
           "high_f": 19,
-          "low_f": 10,
+          "low_f": 11,
           "high_c": -7,
           "low_c": -12,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-04",
+          "high_f": 15,
+          "low_f": 13,
+          "high_c": -9,
+          "low_c": -11,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-02-01",
-        "high_f": 16,
-        "low_f": 13,
-        "high_c": -9,
-        "low_c": -11,
-        "description": "Mostly Sunny",
+        "date": "2026-02-02",
+        "high_f": 23,
+        "low_f": 18,
+        "high_c": -5,
+        "low_c": -8,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -137,14 +137,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "All Systems Go",
-    "body": "Steady snowfall with 9\" over the last week. Peak terrain status: almost everything is available today.",
+    "headline": "Clear Skies, Cold Temps",
+    "body": "Steady snowfall with 9\" over the last week. Peak terrain status: almost everything is available today. Bluebird conditions with a high around 16°. Bundle up for crisp, beautiful turns.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_full",
-          "category": "terrain",
-          "priority": 45,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -158,15 +158,21 @@
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "percent_full",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "bluebird_day",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Whole Mountain Awaits"
+        "previousHeadline": "All Systems Go"
       },
       "dayOfWeek": "Sunday"
     }
