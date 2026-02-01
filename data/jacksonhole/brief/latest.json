@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-01",
-  "generated": "2026-02-01T08:43:00.990Z",
+  "generated": "2026-02-01T09:39:07.663Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 5,
+      "7day_cm": 13,
+      "season_total_inches": 220,
+      "season_total_cm": 559,
+      "conditions": {
+        "today": "6 AM—Greetings, Jackson Hole. Not that you needed an excuse to get out and play, but you certainly have one because it's finally Saturday. And if that isn't enough, morning clouds will be fading fast, leading to mostly sunny skies illuminating the sparkling Teton terrain. Western winds will be diminishing alongside the decreasing clouds, eventually blowing between just 5 and 10 mph. Warm temperatures will rise to the mid-20s at the summit and close to 40 in the Village. Come on out and get a little experimental; the secret to success is not being too self-judgmental. Because after all, whether you shred, struggle, or fall, the only real purpose is to have yourself a ball. -Lege",
+        "yesterday": "6 AM—Greetings, Jackson Hole. Not that you needed an excuse to get out and play, but you certainly have one because it's finally Saturday. And if that isn't enough, morning clouds will be fading fast, leading to mostly sunny skies illuminating the sparkling Teton terrain. Western winds will be diminishing alongside the decreasing clouds, eventually blowing between just 5 and 10 mph. Warm temperatures will rise to the mid-20s at the summit and close to 40 in the Village. Come on out and get a little experimental; the secret to success is not being too self-judgmental. Because after all, whether you shred, struggle, or fall, the only real purpose is to have yourself a ball. -Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -36,14 +52,46 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Coat on the Mountain",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
