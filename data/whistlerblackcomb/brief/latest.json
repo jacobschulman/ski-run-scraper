@@ -2,8 +2,24 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-02-01",
-  "generated": "2026-02-01T08:42:53.591Z",
+  "generated": "2026-02-01T13:13:10.832Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 1,
+      "24hour_inches": 0,
+      "24hour_cm": 1,
+      "48hour_inches": 5,
+      "48hour_cm": 13,
+      "7day_inches": 11,
+      "7day_cm": 30,
+      "season_total_inches": 201,
+      "season_total_cm": 512,
+      "conditions": {
+        "today": "Wet Snow",
+        "yesterday": "Wet Snow"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -72,19 +88,116 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-01",
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": null,
+        "low_c": null,
+        "description": "Wet flurries.",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-01T20:10:57-07:00",
+          "high_f": 32,
+          "low_f": 32,
+          "high_c": null,
+          "low_c": null,
+          "description": "Periods of snow.",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-02T20:10:57-07:00",
+          "high_f": 33,
+          "low_f": 26,
+          "high_c": 1,
+          "low_c": -3,
+          "description": "Periods of snow.",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-03T20:10:57-07:00",
+          "high_f": 37,
+          "low_f": 33,
+          "high_c": 3,
+          "low_c": 1,
+          "description": "Mainly cloudy with isolated showers.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-01T20:10:57-07:00",
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": null,
+        "low_c": null,
+        "description": "Periods of snow.",
+        "snowfall_day_inches": 5,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 5
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
       "4 new trails opened today"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 11\" in last 7 days",
+      "5\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Forecast Looks Loaded",
+    "body": "Steady snowfall with 11\" over the last week. The weather models are locked in: 10\" of snow heading our way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 5,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
