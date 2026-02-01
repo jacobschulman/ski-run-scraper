@@ -2,7 +2,7 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-02-01",
-  "generated": "2026-02-01T16:48:42.394Z",
+  "generated": "2026-02-01T17:36:21.954Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 255,
+          "today": 258,
           "yesterday": 255,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 143,
+          "today": 145,
           "yesterday": 145,
-          "delta": -2
+          "delta": 0
         },
         "totalTrails": 305
       },
@@ -57,21 +57,6 @@
         }
       ],
       "newlyClosed": [
-        {
-          "name": "Tree Fort",
-          "difficulty": "Green",
-          "area": "Big Red / Garbanzo / Village Gondola - Upper"
-        },
-        {
-          "name": "Bobcat Park",
-          "difficulty": "TerrainPark",
-          "area": "Emerald / Garbanzo / Village Gondola - Upper"
-        },
-        {
-          "name": "Chipmunk Park",
-          "difficulty": "TerrainPark",
-          "area": "Emerald / Garbanzo / Village Gondola - Upper"
-        },
         {
           "name": "Magic Castle",
           "difficulty": "Green",
@@ -193,6 +178,7 @@
     ],
     "trends": [
       "Steady snowfall - 11\" in last 7 days",
+      "3 more trails open than yesterday",
       "4\" snow expected Monday"
     ],
     "recommendations": [
@@ -202,14 +188,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "Steady snowfall with 11\" over the last week. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "headline": "More Variety Today",
+    "body": "Steady snowfall with 11\" over the last week. 4 more trails opened today, expanding your options. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -219,19 +205,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "Fresh Snow on the Way"
       },
       "dayOfWeek": "Sunday"
     }
