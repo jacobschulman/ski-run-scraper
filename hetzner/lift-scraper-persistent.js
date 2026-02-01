@@ -100,6 +100,14 @@ const health = {
 // Simple failure counter for current cycle — exit process on repeated failures
 let cycleFailures = 0;
 
+// Chrome memory management
+// With --single-process, Chrome accumulates memory across page navigations.
+// dmesg showed Chrome growing to 3-4GB RSS before kernel OOM-killed it.
+// Fix: close browser after each Vail cycle so Chrome never runs long enough to balloon.
+const MAX_VAIL_CYCLES = 20; // Force full process restart after this many cycles
+const MIN_AVAILABLE_MEMORY_MB = 512; // Exit if system memory drops below this
+let vailCycleCount = 0;
+
 // Load main config
 let config;
 try {
@@ -1092,25 +1100,26 @@ async function runVailScraper() {
     return; // Too soon, skip this run
   }
 
+  // Check system memory before launching Chrome
+  const mem = getMemoryUsage();
+  if (mem && mem.availableMB < MIN_AVAILABLE_MEMORY_MB) {
+    console.error(`[VAIL] Available memory critically low: ${mem.availableMB}MB (min: ${MIN_AVAILABLE_MEMORY_MB}MB) - exiting for PM2 restart`);
+    process.exit(1);
+  }
+
+  // Force full process restart after N cycles to prevent long-term memory growth
+  if (vailCycleCount >= MAX_VAIL_CYCLES) {
+    console.log(`[VAIL] Reached ${MAX_VAIL_CYCLES} cycles - exiting for clean PM2 restart`);
+    process.exit(0);
+  }
+
   vailState.running = true;
   vailState.lastCycleStart = now;
 
   health.vail.lastRun = new Date().toISOString();
   health.vail.totalRuns++;
 
-  // Ensure browser is alive
-  if (!vailState.browser) {
-    await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
-  } else {
-    try {
-      await vailState.browser.version();
-    } catch (e) {
-      console.log('[VAIL] Browser died, restarting...');
-      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
-    }
-  }
-
-  // Build fresh queue for this cycle (only resorts in enabledResorts)
+  // Build queue first — skip browser launch if nothing to scrape
   vailState.queue = buildVailQueue();
 
   if (vailState.queue.length === 0) {
@@ -1119,12 +1128,25 @@ async function runVailScraper() {
     return;
   }
 
-  console.log(`[VAIL] Starting cycle - ${vailState.queue.length} resorts: ${vailState.queue.map(r => r.key).join(', ')}`);
+  // Launch fresh browser each cycle — with --single-process, Chrome leaks memory
+  // across navigations, so we kill it after each cycle to prevent OOM
+  await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+
+  console.log(`[VAIL] Cycle ${vailCycleCount + 1}/${MAX_VAIL_CYCLES} - ${vailState.queue.length} resorts: ${vailState.queue.map(r => r.key).join(', ')}`);
 
   await processScrapeQueue(vailState, 'VAIL', CONFIG.vail.delayBetweenScrapes);
 
+  // Close browser after each cycle to free all Chrome memory
+  if (vailState.browser) {
+    try { await vailState.browser.close(); } catch (e) {}
+    vailState.browser = null;
+    vailState.pagePool.length = 0;
+  }
+  await killOrphanedChromium();
+
+  vailCycleCount++;
   cycleFailures = 0;
-  console.log('[VAIL] Cycle complete');
+  console.log(`[VAIL] Cycle complete (memory released)`);
   vailState.running = false;
 }
 
@@ -1258,11 +1280,12 @@ async function main() {
   console.log('└───────────────────────────────────────────────────────────────────────');
   console.log('');
   console.log(`Error handling: crash-and-restart via PM2 (exit on 2+ failures per cycle)`);
+  console.log(`Memory management: browser closed after each cycle, full restart after ${MAX_VAIL_CYCLES} cycles`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
   console.log('');
 
-  // Initialize single Vail browser
-  await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+  // Browser is now launched fresh each Vail cycle and closed after (prevents OOM)
+  // No early browser init needed
 
   // Track last run time for Ikon APIs
   let lastIkonRun = 0;
