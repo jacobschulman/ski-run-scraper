@@ -97,8 +97,43 @@ const health = {
   startTime: Date.now(),
 };
 
-// Simple failure counter for current cycle — exit process on repeated failures
-let cycleFailures = 0;
+// Per-resort failure tracking - triggers browser restart instead of cooldown
+const resortFailures = new Map(); // key -> { failures: number }
+let browserNeedsRestart = false; // Flag to trigger immediate browser restart
+
+function isResortInCooldown(resortKey) {
+  // No more cooldowns - we restart browser instead
+  return false;
+}
+
+function recordResortFailure(resortKey) {
+  const record = resortFailures.get(resortKey) || { failures: 0 };
+  record.failures++;
+  resortFailures.set(resortKey, record);
+
+  // Count total failures across all resorts
+  let totalFailures = 0;
+  for (const [, r] of resortFailures) {
+    totalFailures += r.failures;
+  }
+
+  // If we hit 3+ total failures, trigger browser restart
+  if (totalFailures >= 3) {
+    console.log(`[VAIL] ${resortKey}: ${record.failures} failures (${totalFailures} total) - will restart browser`);
+    browserNeedsRestart = true;
+  } else {
+    console.log(`[VAIL] ${resortKey}: ${record.failures} consecutive failures`);
+  }
+}
+
+function recordResortSuccess(resortKey) {
+  resortFailures.delete(resortKey);
+}
+
+function clearAllFailures() {
+  resortFailures.clear();
+  browserNeedsRestart = false;
+}
 
 // Load main config
 let config;
@@ -213,7 +248,7 @@ function fetchInspectorData() {
   return new Promise((resolve, reject) => {
     const url = `${INSPECTOR_API_URL}?bearer_token=${BEARER_TOKEN}`;
 
-    const req = https.get(url, (res) => {
+    https.get(url, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -227,9 +262,7 @@ function fetchInspectorData() {
           reject(new Error(`HTTP ${res.statusCode}`));
         }
       });
-    });
-    req.on('error', reject);
-    req.setTimeout(30000, () => req.destroy(new Error('Inspector API timeout after 30s')));
+    }).on('error', reject);
   });
 }
 
@@ -245,7 +278,7 @@ function getTodayLiftHours(hoursObj, timezone) {
 function fetchAspenData(mountainId) {
   return new Promise((resolve, reject) => {
     const url = `${ASPEN_API_BASE}?mountain=${mountainId}&areas=&isSummer=False`;
-    const req = https.get(url, (res) => {
+    https.get(url, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);
       res.on('end', () => {
@@ -259,9 +292,7 @@ function fetchAspenData(mountainId) {
           reject(new Error(`Aspen HTTP ${res.statusCode}`));
         }
       });
-    });
-    req.on('error', reject);
-    req.setTimeout(30000, () => req.destroy(new Error('Aspen API timeout after 30s')));
+    }).on('error', reject);
   });
 }
 
@@ -379,7 +410,6 @@ function fetchReportPalData(resort) {
     req.on('error', (error) => {
       reject(new Error(`ReportPal request failed: ${error.message}`));
     });
-    req.setTimeout(30000, () => req.destroy(new Error('ReportPal API timeout after 30s')));
 
     req.end();
   });
@@ -494,7 +524,6 @@ function fetchZanerayData(resort) {
     req.on('error', (error) => {
       reject(new Error(`Zaneray request failed: ${error.message}`));
     });
-    req.setTimeout(30000, () => req.destroy(new Error('Zaneray API timeout after 30s')));
 
     req.end();
   });
@@ -626,7 +655,6 @@ function fetchDorData(resort) {
     req.on('error', (error) => {
       reject(new Error(`DOR request failed: ${error.message}`));
     });
-    req.setTimeout(30000, () => req.destroy(new Error('DOR API timeout after 30s')));
 
     req.end();
   });
@@ -856,23 +884,25 @@ async function initBrowser(state, poolSize, label) {
       '--disable-background-timer-throttling',
       '--disable-backgrounding-occluded-windows',
       '--disable-renderer-backgrounding',
-      // Memory optimizations (but NOT --single-process or --no-zygote which cause
-      // full-process hangs when a page freezes, blocking all scraping including Ikon HTTP)
-      '--disable-extensions',
-      '--disable-plugins',
-      '--disable-default-apps',
-      '--mute-audio',
-      '--disable-sync',
-      '--disable-translate',
+      // Additional memory optimizations
+      '--single-process',              // Run in single process (saves ~100MB)
+      '--disable-extensions',          // No extensions
+      '--disable-plugins',             // No plugins
+      '--disable-default-apps',        // No default apps
+      '--mute-audio',                  // No audio processing
+      '--disable-sync',                // No sync
+      '--disable-translate',           // No translation
       '--disable-features=TranslateUI',
       '--disable-ipc-flooding-protection',
+      '--disable-hang-monitor',
       '--disable-popup-blocking',
       '--disable-prompt-on-repost',
       '--disable-domain-reliability',
       '--disable-component-update',
-      '--disable-breakpad',
+      '--disable-breakpad',            // No crash reporting
       '--no-first-run',
-      '--js-flags=--max-old-space-size=256',  // Limit JS heap to 256MB
+      '--no-zygote',                   // No zygote process (saves memory)
+      '--js-flags=--max-old-space-size=128',  // Limit JS heap to 128MB
     ],
   });
 
@@ -908,6 +938,7 @@ function buildVailQueue() {
 
   const resorts = allVailResorts.filter(r =>
     !isInDeadHours(r.timezone) &&
+    !isResortInCooldown(r.key) &&
     (r.terrainUrl || r.url)
   );
 
@@ -984,11 +1015,19 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
 
     fs.appendFileSync(outputFile, records.map(r => JSON.stringify(r)).join('\n') + '\n');
 
+    // Clear page cache to free memory
+    try {
+      const client = await page.target().createCDPSession();
+      await client.send('Network.clearBrowserCache');
+      await client.detach();
+    } catch (e) { /* ignore cache clear errors */ }
+
     console.log(`[${label}] ${resort.key}: ${records.length} lifts`);
-    cycleFailures = 0; // Reset on success
+    recordResortSuccess(resort.key);
     return { success: true, lifts: records.length };
 
   } catch (error) {
+    // Enhanced error diagnostics
     let errorType = 'Unknown';
     if (error.message.includes('timeout')) errorType = 'Timeout';
     if (error.message.includes('waitForFunction')) errorType = 'DataWaitTimeout';
@@ -997,22 +1036,20 @@ async function scrapeOneResort(poolEntry, resort, label = 'VAIL') {
     if (error.message.includes('browser')) errorType = 'BrowserError';
 
     console.error(`[${label}] ${resort.key} [${errorType}]: ${error.message}`);
-    cycleFailures++;
 
-    // Browser/navigation errors = browser is in a bad state, exit immediately
+    // Close page on critical errors to prevent bad state
     if (errorType === 'BrowserError' || errorType === 'NavigationError') {
-      console.error(`[${label}] Fatal browser error - exiting for PM2 restart`);
-      process.exit(1);
+      try {
+        await poolEntry.page.close();
+        console.log(`[${label}] Closed bad page for recovery`);
+      } catch (closeErr) {
+        console.error(`[${label}] Error closing page: ${closeErr.message}`);
+      }
     }
 
-    // 2+ timeouts in one cycle = something is wrong, exit for clean restart
-    if (cycleFailures >= 2) {
-      console.error(`[${label}] ${cycleFailures} failures this cycle - exiting for PM2 restart`);
-      process.exit(1);
-    }
-
-    // Single timeout = skip this resort, try next one
+    // Reset lastUrl so we do full navigation next time
     poolEntry.lastUrl = null;
+    recordResortFailure(resort.key);
     return { success: false, lifts: 0 };
   }
 }
@@ -1124,8 +1161,38 @@ async function runVailScraper() {
 
   await processScrapeQueue(vailState, 'VAIL', CONFIG.vail.delayBetweenScrapes);
 
-  // Reset cycle failure counter on successful cycle completion
-  cycleFailures = 0;
+  // Check if we need to restart browser due to failures
+  if (browserNeedsRestart) {
+    console.log('[VAIL] Restarting browser due to failures...');
+    try {
+      if (vailState.browser) {
+        await vailState.browser.close();
+        vailState.browser = null;
+        vailState.pagePool.length = 0;
+      }
+      await killOrphanedChromium();
+      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+      clearAllFailures(); // Reset failure counters after restart
+      console.log('[VAIL] Browser restarted successfully, failure counters reset');
+    } catch (e) {
+      console.error('[VAIL] Error during failure recovery restart:', e.message);
+    }
+  }
+  // Also do periodic restart every 10 cycles as a safety measure
+  else if (health.vail.totalRuns % 10 === 0) {
+    console.log('[VAIL] Periodic browser restart to free memory...');
+    try {
+      if (vailState.browser) {
+        await vailState.browser.close();
+        vailState.browser = null;
+        vailState.pagePool.length = 0;
+      }
+      await killOrphanedChromium();
+      await initBrowser(vailState, CONFIG.vail.pagePoolSize, 'VAIL');
+    } catch (e) {
+      console.error('[VAIL] Error during periodic restart:', e.message);
+    }
+  }
 
   console.log('[VAIL] Cycle complete');
   vailState.running = false;
@@ -1260,7 +1327,7 @@ async function main() {
   console.log(`│ Timeouts: nav=${CONFIG.vail.navigationTimeout / 1000}s, data=${CONFIG.vail.dataWaitTimeout / 1000}s`);
   console.log('└───────────────────────────────────────────────────────────────────────');
   console.log('');
-  console.log(`Error handling: crash-and-restart via PM2 (exit on 2+ failures per cycle)`);
+  console.log(`Failure cooldown: ${CONFIG.vail.failureCooldownMs / 60000} min after ${CONFIG.vail.maxConsecutiveFailures} failures`);
   console.log(`Data directory: ${CONFIG.dataDir}`);
   console.log('');
 
