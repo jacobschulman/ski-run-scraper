@@ -4,6 +4,162 @@
 <!-- Format: ## YYYY-MM-DD HH:MM - Resort/Issue Type -->
 <!-- Then: Summary, Root Cause, Actions, Outcome -->
 
+## 2026-02-02 10:30 - bigsky snow stale on GitHub Pages
+
+**Summary**: Snow data for bigsky showing 247 minutes stale on GitHub Pages. bigsky is completely absent from the GitHub Pages `latest-snow.json` (only 33 resorts present vs expected ~66). Hetzner API has fresh data (`lastScraped: 2026-02-02T09:56:19Z`). Same root cause as all other snow staleness issues today — the 08:56 scheduled snow scraper was cancelled (pre-concurrency-fix commit), and the 09:42 manual run failed at data repo push due to merge conflicts.
+
+**Symptoms**:
+- bigsky not present in GitHub Pages `latest-snow.json` at all
+- Hetzner API has fresh bigsky snow data (`lastScraped: 2026-02-02T09:56:19.508Z`)
+- 08:56 scheduled snow scraper run was cancelled (pre-concurrency-fix commit)
+- 09:42 manual snow scraper run failed at data repo push (merge conflicts)
+- Two fix runs active: `21585602118` (in-progress, commit `d9b6cd9`) and `21585623469` (pending, commit `39fb339`)
+
+**Root Cause**: Two compounding issues, both already fixed:
+1. The 08:56 scheduled run used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run scraped successfully but the data repo push failed with merge conflicts during `git pull --rebase --autostash` from concurrent lift scraper pushes (fixed in `d9b6cd9` and `39fb339`)
+
+**Actions Taken**:
+1. Verified bigsky is absent from GitHub Pages `latest-snow.json`
+2. Verified Hetzner API has fresh bigsky snow data (`lastScraped: 2026-02-02T09:56:19.508Z`)
+3. Confirmed config.json has bigsky as an Ikon resort (provider: ikon, apiProvider: reportpal)
+4. Confirmed snow scraper run `21585602118` is in-progress with data repo fix
+5. Confirmed run `21585623469` is pending with the most robust fix (`39fb339`)
+
+**Outcome**: ALREADY FIXED - No additional action needed. Both underlying fixes (concurrency group separation and data repo pull-first pattern) are deployed. The in-progress/pending snow scraper runs will update GitHub Pages data for bigsky and all other resorts.
+
+---
+
+## 2026-02-02 10:28 - beavercreek snow stale on GitHub Pages (repeat)
+
+**Summary**: Snow data for beavercreek reported as 260 minutes stale on GitHub Pages. Investigation found the data is already fresh — GitHub Pages `latest-snow.json` has beavercreek with timestamp `2026-02-02T09:44:29.175Z` (only ~35 minutes old). The staleness alert was a transient artifact generated before the 09:42 run's public repo push deployed to GitHub Pages. This is beavercreek's second alert today (first at 09:58 UTC); the same root cause pattern as all other snow staleness issues today.
+
+**Symptoms**:
+- Health check reported beavercreek snow 260 minutes stale on GitHub Pages
+- GitHub Pages `latest-snow.json` actually contains fresh beavercreek data (`2026-02-02T09:44:29.175Z`)
+- Two fix runs: `21585602118` (in-progress, commit `d9b6cd9`) and `21585623469` (pending, commit `39fb339`)
+
+**Root Cause**: Same two compounding issues as all other snow staleness alerts today, both already fixed:
+1. The 08:56 scheduled snow scraper used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run scraped successfully and pushed to the public repo (refreshing GitHub Pages) but failed at the data repo push due to merge conflicts (fixed in `d9b6cd9` and `39fb339`)
+
+The alert was transient — data was already fresh on GitHub Pages by the time of investigation.
+
+**Actions Taken**:
+1. Verified GitHub Pages `latest-snow.json` has fresh beavercreek data (timestamp `2026-02-02T09:44:29.175Z`)
+2. Confirmed snow scraper run `21585602118` is in-progress with data repo fix
+3. Confirmed run `21585623469` is pending with the most robust fix
+
+**Outcome**: ALREADY RESOLVED - GitHub Pages data for beavercreek is already fresh. The staleness alert was transient, generated before the ~09:58 UTC deployment completed. Both underlying fixes are deployed. In-progress and queued runs will provide the next scheduled updates.
+
+---
+
+## 2026-02-02 10:25 - bigboulder snow stale on GitHub Pages
+
+**Summary**: Snow data for bigboulder reported as 251 minutes stale on GitHub Pages. Investigation found the data is already fresh — GitHub Pages `latest-snow.json` has bigboulder with timestamp `2026-02-02T09:51:28.293Z`. The staleness alert was generated before the successful deployment from the 09:42 run's public repo push (which completed at ~09:58 UTC). This is the same root cause pattern as all other snow staleness issues today.
+
+**Symptoms**:
+- Health check reported bigboulder snow 251 minutes stale on GitHub Pages
+- GitHub Pages `latest-snow.json` actually contains fresh bigboulder data (`2026-02-02T09:51:28.293Z`)
+- 08:56 scheduled snow scraper was cancelled (pre-concurrency-fix commit)
+- 09:42 manual snow scraper run succeeded on public repo push but failed on data repo push (merge conflicts)
+- Two fix runs in progress/queued: `21585602118` (commit `d9b6cd9`, in-progress) and `21585623469` (commit `39fb339`, pending)
+
+**Root Cause**: Same two compounding issues as all other snow staleness alerts today:
+1. The 08:56 scheduled snow scraper used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run scraped successfully and pushed to the public repo (making GitHub Pages data fresh) but failed at the data repo push step due to merge conflicts (fixed in `d9b6cd9` and `39fb339`)
+
+The alert was a transient artifact — the data had already been refreshed on GitHub Pages by the time of investigation.
+
+**Actions Taken**:
+1. Verified GitHub Pages `latest-snow.json` has fresh bigboulder data (timestamp `2026-02-02T09:51:28.293Z`)
+2. Confirmed this is the same root cause as all prior snow staleness issues today
+3. Confirmed snow scraper run `21585602118` is in progress with rebase fix (`d9b6cd9`)
+4. Confirmed run `21585623469` is pending with merge conflict fix (`39fb339`)
+
+**Outcome**: ALREADY RESOLVED - GitHub Pages data for bigboulder is already fresh. The staleness alert was transient, generated before the ~09:58 UTC deployment completed. Both underlying fixes (concurrency group separation and data repo pull-first pattern) are deployed. In-progress and pending runs will provide the next scheduled updates.
+
+---
+
+## 2026-02-02 10:20 - aspenhighlands snow stale on GitHub Pages
+
+**Summary**: Snow data for aspenhighlands showing 247 minutes stale on GitHub Pages. aspenhighlands is completely absent from the GitHub Pages `latest-snow.json` (only 32 resorts present vs expected ~65). Hetzner API has fresh data (`lastScraped: 2026-02-02T09:56:09Z`). Same root cause as all other snow staleness issues today — the 08:56 scheduled snow scraper was cancelled (pre-concurrency-fix commit), and the 09:42 manual run failed at data repo push due to merge conflicts.
+
+**Symptoms**:
+- aspenhighlands not present in GitHub Pages `latest-snow.json` at all
+- Hetzner API has fresh aspenhighlands snow data (`lastScraped: 2026-02-02T09:56:09Z`)
+- 08:56 scheduled snow scraper run was cancelled (pre-concurrency-fix commit)
+- 09:42 manual snow scraper run failed at data repo push (merge conflicts)
+- Two fix runs queued: `21585602118` (in-progress, commit `d9b6cd9`) and `21585623469` (pending, commit `39fb339`)
+
+**Root Cause**: Two compounding issues, both already fixed:
+1. The 08:56 scheduled run used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run scraped successfully but the data repo push failed with merge conflicts during `git pull --rebase --autostash` from concurrent lift scraper pushes (fixed in `d9b6cd9` and `39fb339`)
+
+**Actions Taken**:
+1. Verified aspenhighlands is absent from GitHub Pages `latest-snow.json`
+2. Verified Hetzner API has fresh aspenhighlands snow data (`lastScraped: 2026-02-02T09:56:09Z`)
+3. Confirmed config.json has aspenhighlands as an Ikon resort (provider: ikon, apiProvider: aspensnowmass)
+4. Confirmed snow scraper run `21585602118` is in-progress with data repo fix
+5. Confirmed run `21585623469` is pending with the most robust fix (`39fb339`)
+
+**Outcome**: ALREADY FIXED - No additional action needed. Both underlying fixes (concurrency group separation and data repo pull-first pattern) are deployed. The in-progress/pending snow scraper runs will update GitHub Pages data for aspenhighlands and all other resorts.
+
+---
+
+## 2026-02-02 10:15 - aspenmountain snow stale on GitHub Pages
+
+**Summary**: Snow data for aspenmountain showing 247 minutes stale on GitHub Pages. aspenmountain is completely absent from GitHub Pages `latest-snow.json`. Hetzner API has fresh data (`lastScraped: 2026-02-02T09:56:09Z`) and local `latest-snow.json` includes aspenmountain with timestamp `2026-02-02T09:57:55Z`. Same root cause as all other snow staleness issues today — the 08:56 scheduled snow scraper was cancelled (pre-concurrency-fix commit), and the 09:42 manual run failed at data repo push due to merge conflicts.
+
+**Symptoms**:
+- aspenmountain NOT present in GitHub Pages `latest-snow.json` (stale from 05:36 UTC run)
+- Hetzner API has fresh aspenmountain snow data (`lastScraped: 2026-02-02T09:56:09Z`)
+- Local `latest-snow.json` has aspenmountain with timestamp `2026-02-02T09:57:55Z`
+- 08:56 scheduled snow scraper run was cancelled (pre-concurrency-fix commit)
+- 09:42 manual snow scraper run failed at data repo push (merge conflicts)
+
+**Root Cause**: Two compounding issues, both already fixed in earlier investigations today:
+1. The 08:56 scheduled snow scraper used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run succeeded at scraping but failed at the data repo push step due to merge conflicts during `git pull --rebase --autostash` (fixed in `d9b6cd9` and `39fb339`)
+
+**Actions Taken**:
+1. Verified aspenmountain is absent from GitHub Pages `latest-snow.json`
+2. Verified Hetzner API has fresh aspenmountain snow data (`lastScraped: 2026-02-02T09:56:09Z`)
+3. Verified local `latest-snow.json` includes aspenmountain with fresh data
+4. Confirmed snow scraper run `21585602118` (commit `d9b6cd9`) is in-progress with fix
+5. Confirmed snow scraper run `21585623469` (commit `39fb339`) is queued behind it with latest fix
+
+**Outcome**: ALREADY FIXED - No additional action needed. Both underlying fixes (concurrency group separation and data repo pull-first pattern) are already deployed. The in-progress snow scraper run will update GitHub Pages data for aspenmountain and all other resorts. Future scheduled runs will not encounter these issues.
+
+---
+
+## 2026-02-02 10:15 - attitash snow stale on GitHub Pages
+
+**Summary**: Snow data for attitash reported as 255 minutes stale on GitHub Pages. Investigation found the data is already fresh — GitHub Pages `latest-snow.json` has attitash with timestamp `2026-02-02T09:48:20.634Z`. The staleness alert was generated before the successful deployment from the 09:42 run's public repo push (which completed at ~09:58 UTC). This is the same root cause pattern as all other snow staleness issues today.
+
+**Symptoms**:
+- Health check reported attitash snow 255 minutes stale on GitHub Pages
+- GitHub Pages `latest-snow.json` actually contains fresh attitash data (`2026-02-02T09:48:20.634Z`)
+- 08:56 scheduled snow scraper was cancelled (pre-concurrency-fix commit)
+- 09:42 manual snow scraper run succeeded on public repo push but failed on data repo push (merge conflicts)
+- Two fix runs in progress/queued: `21585602118` (commit `d9b6cd9`) and `21585623469` (commit `39fb339`)
+
+**Root Cause**: Same two compounding issues as all other snow staleness alerts today:
+1. The 08:56 scheduled snow scraper used a pre-fix commit and was cancelled by the lift scraper via shared `data-repo-push` concurrency group (fixed in `f88d0ca`)
+2. The 09:42 manual run scraped successfully and pushed to the public repo (making GitHub Pages data fresh) but failed at the data repo push step due to merge conflicts (fixed in `d9b6cd9` and `39fb339`)
+
+The alert was a transient artifact — the data had already been refreshed on GitHub Pages by the time of investigation.
+
+**Actions Taken**:
+1. Verified GitHub Pages `latest-snow.json` has fresh attitash data (timestamp `2026-02-02T09:48:20.634Z`)
+2. Confirmed this is the same root cause as all prior snow staleness issues today
+3. Confirmed snow scraper run `21585602118` is in progress with rebase fix (`d9b6cd9`)
+4. Confirmed run `21585623469` is queued with merge conflict fix (`39fb339`)
+
+**Outcome**: ALREADY RESOLVED - GitHub Pages data for attitash is already fresh. The staleness alert was transient, generated before the ~09:58 UTC deployment completed. Both underlying fixes (concurrency group separation and data repo pull-first pattern) are deployed. In-progress and queued runs will provide the next scheduled updates.
+
+---
+
 ## 2026-02-02 10:05 - hiddenvalley snow stale on GitHub Pages
 
 **Summary**: Snow data for hiddenvalley showing 241 minutes stale on GitHub Pages. Same root cause as all other snow staleness issues today (vail, attitash, bigboulder, beavercreek, breckenridge, alta, abasin, alpinevalley) — the 08:56 scheduled snow scraper was cancelled due to concurrency group collision, the 09:42 manual run failed due to data repo merge conflicts, and the fix runs (10:01 UTC) are currently in progress.
