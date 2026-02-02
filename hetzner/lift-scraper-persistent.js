@@ -105,7 +105,7 @@ let cycleFailures = 0;
 // dmesg showed Chrome growing to 3-4GB RSS before kernel OOM-killed it.
 // Fix: close browser after each Vail cycle so Chrome never runs long enough to balloon.
 const MAX_VAIL_CYCLES = 20; // Force full process restart after this many cycles
-const MIN_AVAILABLE_MEMORY_MB = 512; // Exit if system memory drops below this
+const MIN_AVAILABLE_MEMORY_MB = 256; // Exit if system memory drops below this
 let vailCycleCount = 0;
 
 // Load main config
@@ -1100,19 +1100,6 @@ async function runVailScraper() {
     return; // Too soon, skip this run
   }
 
-  // Check system memory before launching Chrome
-  const mem = getMemoryUsage();
-  if (mem && mem.availableMB < MIN_AVAILABLE_MEMORY_MB) {
-    console.error(`[VAIL] Available memory critically low: ${mem.availableMB}MB (min: ${MIN_AVAILABLE_MEMORY_MB}MB) - exiting for PM2 restart`);
-    process.exit(1);
-  }
-
-  // Force full process restart after N cycles to prevent long-term memory growth
-  if (vailCycleCount >= MAX_VAIL_CYCLES) {
-    console.log(`[VAIL] Reached ${MAX_VAIL_CYCLES} cycles - exiting for clean PM2 restart`);
-    process.exit(0);
-  }
-
   vailState.running = true;
   vailState.lastCycleStart = now;
 
@@ -1126,6 +1113,18 @@ async function runVailScraper() {
     console.log('[VAIL] No active resorts to scrape');
     vailState.running = false;
     return;
+  }
+
+  // Only check memory/cycles when we're actually about to launch Chrome
+  const mem = getMemoryUsage();
+  if (mem && mem.availableMB < MIN_AVAILABLE_MEMORY_MB) {
+    console.error(`[VAIL] Available memory critically low: ${mem.availableMB}MB (min: ${MIN_AVAILABLE_MEMORY_MB}MB) - exiting for PM2 restart`);
+    process.exit(1);
+  }
+
+  if (vailCycleCount >= MAX_VAIL_CYCLES) {
+    console.log(`[VAIL] Reached ${MAX_VAIL_CYCLES} cycles - exiting for clean PM2 restart`);
+    process.exit(0);
   }
 
   // Launch fresh browser each cycle — with --single-process, Chrome leaks memory
