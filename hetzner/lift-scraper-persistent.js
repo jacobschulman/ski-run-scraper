@@ -46,6 +46,7 @@ const CONFIG = {
       'beavercreek',
       'breckenridge',
       'laurelmountain',
+      'aftonalps',
       // Add more here as needed:
       // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
