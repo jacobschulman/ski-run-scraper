@@ -1050,6 +1050,7 @@ function generateLatestSnowFile(scrapedData) {
 
   // Load existing data to merge with (supports multiple provider runs)
   let existing = {};
+  let loadFailed = false;
   try {
     if (fs.existsSync(latestPath)) {
       existing = JSON.parse(fs.readFileSync(latestPath, 'utf8'));
@@ -1057,26 +1058,30 @@ function generateLatestSnowFile(scrapedData) {
     }
   } catch (e) {
     console.log(`\n⚠️  Could not load existing latest-snow.json: ${e.message}`);
+    console.log(`⚠️  Skipping latest-snow.json update to avoid overwriting with partial data`);
+    loadFailed = true;
   }
 
-  // Merge new data (new data overwrites existing for same resort)
-  const latest = { ...existing };
+  if (!loadFailed) {
+    // Merge new data (new data overwrites existing for same resort)
+    const latest = { ...existing };
 
-  scrapedData.forEach(result => {
-    if (result && result.data) {
-      latest[result.resortKey] = {
-        date: result.date,
-        name: RESORTS[result.resortKey].name,
-        provider: RESORTS[result.resortKey].provider || 'vail',
-        data: result.data
-      };
+    scrapedData.forEach(result => {
+      if (result && result.data) {
+        latest[result.resortKey] = {
+          date: result.date,
+          name: RESORTS[result.resortKey].name,
+          provider: RESORTS[result.resortKey].provider || 'vail',
+          data: result.data
+        };
+      }
+    });
+
+    if (Object.keys(latest).length > 0) {
+      fs.writeFileSync(latestPath, JSON.stringify(latest, null, 2));
+      const newCount = scrapedData.filter(r => r && r.data).length;
+      console.log(`✓ Updated data/latest-snow.json (${Object.keys(latest).length} total resorts, ${newCount} updated this run)`);
     }
-  });
-
-  if (Object.keys(latest).length > 0) {
-    fs.writeFileSync(latestPath, JSON.stringify(latest, null, 2));
-    const newCount = scrapedData.filter(r => r && r.data).length;
-    console.log(`✓ Updated data/latest-snow.json (${Object.keys(latest).length} total resorts, ${newCount} updated this run)`);
   }
 }
 

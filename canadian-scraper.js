@@ -145,6 +145,7 @@ function updateLatestSnowJson(resorts) {
 
   // Load existing data to merge with
   let existing = {};
+  let loadFailed = false;
   try {
     if (fs.existsSync(latestSnowPath)) {
       existing = JSON.parse(fs.readFileSync(latestSnowPath, 'utf8'));
@@ -152,6 +153,8 @@ function updateLatestSnowJson(resorts) {
     }
   } catch (e) {
     console.log(`\n⚠️  Could not load existing latest-snow.json: ${e.message}`);
+    console.log(`⚠️  Skipping latest-snow.json update to avoid overwriting with partial data`);
+    loadFailed = true;
   }
 
   // Merge Canadian resorts snow data
@@ -174,7 +177,7 @@ function updateLatestSnowJson(resorts) {
     }
   }
 
-  if (added > 0) {
+  if (added > 0 && !loadFailed) {
     fileStorage.ensureDirectoryExists('data');
     fs.writeFileSync(latestSnowPath, JSON.stringify(existing, null, 2));
     console.log(`✓ Updated data/latest-snow.json (${Object.keys(existing).length} total resorts, ${added} Canadian)`);
