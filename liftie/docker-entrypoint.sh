@@ -119,6 +119,15 @@ echo ""
 check_claude_status || echo "⚠️ Some checks failed - agents may not work properly"
 echo ""
 
+# Fix log file permissions after volume mount
+# The ./logs:/var/log mount creates /var/log owned by root, so liftie can't write.
+# This must happen at runtime (after mount), not build time.
+touch /var/log/liftie.log
+chown liftie:liftie /var/log/liftie.log
+# Cron/exim also need writable dirs under /var/log
+mkdir -p /var/log/exim4
+chown liftie:liftie /var/log/exim4
+
 # Save runtime environment variables for cron
 # Cron runs in a stripped-down env that doesn't inherit Docker's runtime env vars.
 # Without this, DISCORD_WEBHOOK_URL is empty and all notifications silently fail.
@@ -132,7 +141,7 @@ chmod 600 "$ENV_FILE"
 
 # Install crontab dynamically so it sources the env file
 # The Dockerfile's static crontab lacks runtime env vars and proper PATH
-echo "*/10 * * * * . $ENV_FILE; cd /app && node liftie/index.js >> /var/log/liftie.log 2>&1" | crontab -u liftie -
+printf 'MAILTO=""\n*/10 * * * * . %s; cd /app && node liftie/index.js >> /var/log/liftie.log 2>&1\n' "$ENV_FILE" | crontab -u liftie -
 
 echo "Starting cron scheduler (runs every 10 minutes)..."
 echo "Logs: tail -f /var/log/liftie.log"
