@@ -2,8 +2,24 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-02-02",
-  "generated": "2026-02-02T13:30:25.667Z",
+  "generated": "2026-02-02T15:03:09.905Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 4,
+      "24hour_inches": 2,
+      "24hour_cm": 6,
+      "48hour_inches": 2,
+      "48hour_cm": 7,
+      "7day_inches": 14,
+      "7day_cm": 36,
+      "season_total_inches": 203,
+      "season_total_cm": 518,
+      "conditions": {
+        "today": "Wet Snow",
+        "yesterday": "Wet Snow"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,9 +28,9 @@
           "delta": -3
         },
         "groomedTrails": {
-          "today": 140,
+          "today": 137,
           "yesterday": 145,
-          "delta": -5
+          "delta": -8
         },
         "totalTrails": 305
       },
@@ -58,24 +74,130 @@
           "name": "Franz's - Mid",
           "difficulty": "Blue",
           "area": "Creekside"
+        },
+        {
+          "name": "Slingshot",
+          "difficulty": "Blue",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Slingshot Connector",
+          "difficulty": "Blue",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Wally World",
+          "difficulty": "Blue",
+          "area": "Jersey Cream"
         }
       ]
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-02",
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": null,
+        "low_c": null,
+        "description": "Cloudy with scattered flurries.",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-03T02:13:35-07:00",
+          "high_f": 37,
+          "low_f": 30,
+          "high_c": 3,
+          "low_c": -1,
+          "description": "Mainly cloudy with isolated showers.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-04T02:13:35-07:00",
+          "high_f": 44,
+          "low_f": 37,
+          "high_c": 7,
+          "low_c": 3,
+          "description": "Cloudy with sunny periods and isolated showers.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-05T02:13:35-07:00",
+          "high_f": 50,
+          "low_f": 44,
+          "high_c": 10,
+          "low_c": 7,
+          "description": "A mix of sun and cloud.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-03T02:13:35-07:00",
+        "high_f": 37,
+        "low_f": 30,
+        "high_c": 3,
+        "low_c": -1,
+        "description": "Mainly cloudy with isolated showers.",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
+      "1\" new snow overnight",
       "1 new trail opened today"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 14\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "2\" Freshened Things Up",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": null
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
