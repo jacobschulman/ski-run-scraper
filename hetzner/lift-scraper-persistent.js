@@ -51,6 +51,7 @@ const CONFIG = {
       'bigboulder',
       'bostonmills',
       'brandywine',
+      'hiddenvalley',
       // Add more here as needed:
       // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
