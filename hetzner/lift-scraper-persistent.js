@@ -54,6 +54,8 @@ const CONFIG = {
       'hiddenvalley',
       'alpinevalley',
       'crotched',
+      'attitash',
+      'hunter',
       // Add more here as needed:
       // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
