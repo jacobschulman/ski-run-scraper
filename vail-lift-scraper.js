@@ -53,7 +53,7 @@ function getInSeasonResorts() {
     // Only include Vail resorts (exclude Ikon resorts)
     const isVailResort = !resort.provider || resort.provider === 'vail';
     // Only scrape resorts that publish wait times (65% reduction from 40 to 14 resorts)
-    const hasWaitTimes = resort.hasWaitTimes === true;
+    const hasWaitTimes = resort.liftWaitTimesAvailable === true;
     return isVailResort && isResortInSeason(resort) && hasWaitTimes;
   });
 }
