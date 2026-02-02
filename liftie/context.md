@@ -64,6 +64,7 @@ When investigating data issues, check for these red flags:
 ## Known Patterns
 - **Concurrency group cancellation**: GitHub Actions scrapers sharing a concurrency group can cancel each other. The lift scraper (every 10min) is especially aggressive. Snow scraper now has its own `snow-scraper` group. Terrain and lift still share `data-repo-push` — if terrain starts getting cancelled, it may need its own group too.
 - **Git autostash restaging**: After `git pull --rebase --autostash`, files need to be re-staged with `git add data/`. Fixed in PR #33 (Jan 2026).
+- **Data repo rebase conflicts**: When multiple scrapers push to `ski-run-scraper-data` concurrently, a commit-then-rebase pattern causes merge conflicts (50+ files). Fix: pull first, then `git add data/`, then commit. Fixed in commit `d9b6cd9` (Feb 2026). Both public and data repo commit steps now use pull-first pattern.
 
 ## Resort-Specific Notes
 (Claude will add entries here as it learns quirks about specific resorts)
