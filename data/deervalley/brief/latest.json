@@ -2,7 +2,7 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-02-02",
-  "generated": "2026-02-02T17:48:39.070Z",
+  "generated": "2026-02-02T23:36:47.561Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 145,
+          "today": 148,
           "yesterday": 145,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 73,
+          "today": 75,
           "yesterday": 78,
-          "delta": -5
+          "delta": -3
         },
         "totalTrails": 227
       },
@@ -44,20 +44,14 @@
           "name": "Mountaineer",
           "difficulty": "Intermediate",
           "area": "Little Baldy Peak"
-        }
-      ],
-      "newlyClosed": [
-        {
-          "name": "Redemption",
-          "difficulty": "Advanced Intermediate",
-          "area": "Park Peak"
         },
         {
-          "name": "Silver Hill",
-          "difficulty": "Intermediate",
-          "area": "Little Baldy Peak"
+          "name": "Tug of War (Lower)",
+          "difficulty": "Easy",
+          "area": "Big Dutch Peak"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Keno",
@@ -73,6 +67,11 @@
           "name": "Mountaineer",
           "difficulty": "Intermediate",
           "area": "Little Baldy Peak"
+        },
+        {
+          "name": "Tug of War (Lower)",
+          "difficulty": "Easy",
+          "area": "Big Dutch Peak"
         }
       ],
       "ungroomed": [
@@ -93,6 +92,11 @@
         },
         {
           "name": "Free Will",
+          "difficulty": "Advanced Intermediate",
+          "area": "Park Peak"
+        },
+        {
+          "name": "Redemption",
           "difficulty": "Advanced Intermediate",
           "area": "Park Peak"
         },
@@ -186,10 +190,12 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today",
-      "3 trails freshly groomed"
+      "3 new trails opened today",
+      "4 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Keno - all skill levels",
       "Fresh corduroy on Crescent - all skill levels",
@@ -197,14 +203,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "145/227 trails spinning, 73 freshly groomed. 33° and Mostly Sunny. 145/227 trails open, 73 groomed. 33° and Mostly Sunny.",
+    "headline": "Patrol Opened 3 More",
+    "body": "148/227 trails spinning, 75 freshly groomed. 33° and Mostly Sunny. 3 more trails opened today, expanding your options.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -214,19 +220,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "fallback",
+        "condition": "terrain_few",
         "variationIndex": 2,
-        "totalVariations": 7,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": null
+        "previousHeadline": "Mountain Conditions Update"
       },
       "dayOfWeek": "Monday"
     }
