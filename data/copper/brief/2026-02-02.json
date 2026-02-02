@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-02",
-  "generated": "2026-02-02T16:58:49.853Z",
+  "generated": "2026-02-02T17:48:39.179Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 131,
+          "today": 133,
           "yesterday": 132,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
           "today": 44,
@@ -34,14 +34,14 @@
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Too Much",
+          "name": "Far East",
           "difficulty": "Black",
           "area": "East"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Home Run",
@@ -159,8 +159,8 @@
       "outlook": [
         {
           "date": "2026-02-03",
-          "high_f": 22,
-          "low_f": 11,
+          "high_f": 21,
+          "low_f": 10,
           "description": "Windy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
@@ -168,7 +168,7 @@
         },
         {
           "date": "2026-02-04",
-          "high_f": 26,
+          "high_f": 27,
           "low_f": 13,
           "description": "Sunny",
           "snowfall_day_inches": 0,
@@ -187,8 +187,8 @@
       ],
       "tomorrow": {
         "date": "2026-02-03",
-        "high_f": 22,
-        "low_f": 11,
+        "high_f": 21,
+        "low_f": 10,
         "description": "Windy",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
@@ -200,14 +200,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1 new trail opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": [
@@ -216,7 +218,7 @@
   },
   "morningBrief": {
     "headline": "Today's Conditions",
-    "body": "131/202 trails spinning, 44 freshly groomed. 28° and Partly Cloudy. Light snow possible in the forecast.",
+    "body": "133/202 trails spinning, 44 freshly groomed. 28° and Partly Cloudy. 1 new trail opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -232,6 +234,12 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
@@ -244,7 +252,7 @@
         "variationIndex": 1,
         "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mountain Conditions Update"
+        "previousHeadline": "Today at {resortName}"
       },
       "dayOfWeek": "Monday"
     }
