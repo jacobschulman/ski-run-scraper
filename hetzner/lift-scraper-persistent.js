@@ -47,6 +47,7 @@ const CONFIG = {
       'breckenridge',
       'laurelmountain',
       'aftonalps',
+      'bigboulder',
       // Add more here as needed:
       // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
