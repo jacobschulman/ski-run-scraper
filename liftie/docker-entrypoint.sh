@@ -143,7 +143,9 @@ chmod 600 "$ENV_FILE"
 # The Dockerfile's static crontab lacks runtime env vars and proper PATH
 printf 'MAILTO=""\n*/10 * * * * . %s; cd /app && node liftie/index.js >> /var/log/liftie.log 2>&1\n' "$ENV_FILE" | crontab -u liftie -
 
+# Start cron FIRST so scheduled runs aren't blocked by the initial health check
 echo "Starting cron scheduler (runs every 10 minutes)..."
+cron
 echo "Logs: tail -f /var/log/liftie.log"
 echo ""
 
@@ -151,5 +153,5 @@ echo ""
 echo "Running initial health check..."
 gosu liftie node /app/liftie/index.js || true
 
-# Then start cron (cron runs the job as liftie user via crontab -u)
-cron -f
+# Keep container alive by tailing the log (cron runs in background)
+exec tail -f /var/log/liftie.log
