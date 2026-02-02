@@ -111,20 +111,36 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Pull latest changes first to avoid rebase conflicts
-          git pull --rebase --autostash origin main
+          # Retry loop: other scrapers may push to data repo during our run,
+          # causing rebase conflicts. On each attempt, reset to remote HEAD,
+          # re-sync from public repo (authoritative source), and try again.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
 
-          # Stage all data files (re-stage after pull)
-          git add data/
+            # Re-copy data from public repo (authoritative source)
+            rsync -av --delete ../public-repo/data/ data/
 
-          # Check if there are changes
-          if git diff --cached --quiet; then
-            echo "No changes to commit in data repo"
-          else
-            # Commit and push
+            git add data/
+
+            if git diff --cached --quiet; then
+              echo "No changes to commit in data repo"
+              break
+            fi
+
             git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
-          fi
+            if git push origin main; then
+              echo "✓ Data repo push succeeded on attempt $attempt"
+              break
+            fi
+
+            echo "⚠ Push failed on attempt $attempt, retrying..."
+            if [ "$attempt" -eq 3 ]; then
+              echo "✗ Data repo push failed after 3 attempts"
+              exit 1
+            fi
+            sleep 5
+          done
 
       - name: Summary
         run: |
