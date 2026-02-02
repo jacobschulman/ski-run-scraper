@@ -22,9 +22,9 @@ const CONFIG = {
     jitterMs: 30000,               // 0-30 seconds random jitter
   },
   vail: {
-    intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
+    intervalMs: 3 * 60 * 60 * 1000, // 3 hours
     jitterMs: 60000,               // 0-60 seconds random jitter
-    delayBetweenResorts: 5000,     // 5 seconds between resorts
+    delayBetweenResorts: 10000,    // 10 seconds between resorts
   },
   canadianBig3: {
     intervalMs: 60 * 60 * 1000,    // 60 minutes (hourly)
@@ -465,6 +465,14 @@ async function runVailSnowScraper() {
   } catch (error) {
     console.error(`[VAIL-SNOW] Error: ${error.message}`);
     health.vail.consecutiveFailures++;
+  } finally {
+    // Close browser after each run to free memory (3hr gap between runs)
+    if (browser) {
+      try { await browser.close(); } catch (e) {}
+      browser = null;
+      page = null;
+      console.log('[VAIL-SNOW] Browser closed to free memory');
+    }
   }
 }
 
