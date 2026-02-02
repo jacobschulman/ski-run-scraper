@@ -108,20 +108,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage all data files
+          # Pull latest changes first to avoid rebase conflicts
+          git pull --rebase --autostash origin main
+
+          # Stage all data files (re-stage after pull)
           git add data/
 
           # Check if there are changes
           if git diff --cached --quiet; then
             echo "No changes to commit in data repo"
           else
-            # Create commit with timestamp
+            # Commit and push
             git commit -m "Update snow reports - $(date -u +'%Y-%m-%d %H:%M UTC')"
-
-            # Pull latest changes before pushing to avoid conflicts
-            git pull --rebase --autostash origin main
-
-            # Push changes
             git push
           fi
 
