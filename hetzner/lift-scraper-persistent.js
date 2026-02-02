@@ -899,8 +899,8 @@ async function initBrowser(state, poolSize, label) {
       '--no-first-run',
       '--no-zygote',                   // No zygote process (saves memory)
       '--js-flags=--max-old-space-size=128',  // Limit JS heap to 128MB
-      // Use Google DoH if system DNS is broken (e.g., Tailscale MagicDNS down)
-      '--dns-over-https-mode=automatic',
+      // Force Google DoH to bypass broken system DNS (Tailscale MagicDNS REFUSED)
+      '--dns-over-https-mode=secure',
       '--dns-over-https-templates=https://dns.google/dns-query{?dns}',
     ],
   });

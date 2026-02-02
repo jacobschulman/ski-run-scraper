@@ -327,8 +327,8 @@ async function initBrowser() {
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
       '--single-process',
-      // Use Google DoH if system DNS is broken (e.g., Tailscale MagicDNS down)
-      '--dns-over-https-mode=automatic',
+      // Force Google DoH to bypass broken system DNS (Tailscale MagicDNS REFUSED)
+      '--dns-over-https-mode=secure',
       '--dns-over-https-templates=https://dns.google/dns-query{?dns}',
     ]
   });
