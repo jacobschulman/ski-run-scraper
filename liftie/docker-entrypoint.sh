@@ -119,7 +119,21 @@ echo ""
 check_claude_status || echo "⚠️ Some checks failed - agents may not work properly"
 echo ""
 
-# Start cron in foreground
+# Save runtime environment variables for cron
+# Cron runs in a stripped-down env that doesn't inherit Docker's runtime env vars.
+# Without this, DISCORD_WEBHOOK_URL is empty and all notifications silently fail.
+ENV_FILE=$LIFTIE_HOME/.cron-env
+echo "Saving environment variables for cron to $ENV_FILE..."
+printenv | grep -E '^(DISCORD_|HETZNER_|SSH_|GITHUB_|CLAUDE_|LIFTIE_|HOME=|PATH=|NODE_|NPM_)' | while IFS='=' read -r key value; do
+    echo "export ${key}=\"${value}\""
+done > "$ENV_FILE"
+chown liftie:liftie "$ENV_FILE"
+chmod 600 "$ENV_FILE"
+
+# Install crontab dynamically so it sources the env file
+# The Dockerfile's static crontab lacks runtime env vars and proper PATH
+echo "*/10 * * * * . $ENV_FILE; cd /app && node liftie/index.js >> /var/log/liftie.log 2>&1" | crontab -u liftie -
+
 echo "Starting cron scheduler (runs every 10 minutes)..."
 echo "Logs: tail -f /var/log/liftie.log"
 echo ""

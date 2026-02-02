@@ -48,10 +48,9 @@ RUN chown -R liftie:liftie /app
 # Create log file accessible by liftie user
 RUN touch /var/log/liftie.log && chown liftie:liftie /var/log/liftie.log
 
-# Create the cron job for liftie user (runs every 10 minutes)
-RUN echo "*/10 * * * * cd /app && node liftie/index.js >> /var/log/liftie.log 2>&1" > /etc/cron.d/liftie \
-    && chmod 0644 /etc/cron.d/liftie \
-    && crontab -u liftie /etc/cron.d/liftie
+# Crontab is installed dynamically by docker-entrypoint.sh at runtime
+# so it can source Docker's runtime environment variables (DISCORD_WEBHOOK_URL, etc.)
+# The static cron.d approach doesn't work because cron strips the environment.
 
 # Entrypoint script
 COPY liftie/docker-entrypoint.sh /docker-entrypoint.sh
