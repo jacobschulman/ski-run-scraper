@@ -9,8 +9,8 @@ on:
   workflow_dispatch: # Allow manual triggering
 
 concurrency:
-  group: data-repo-push
-  cancel-in-progress: false  # Queue workflows to prevent git push conflicts
+  group: snow-scraper
+  cancel-in-progress: false  # Separate group so lift/terrain scrapers can't cancel snow runs
 
 permissions:
   contents: write  # Required to commit and push changes
