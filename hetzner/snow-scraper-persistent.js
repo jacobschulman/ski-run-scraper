@@ -2,6 +2,10 @@
 // Runs both Ikon (HTTP API) and Vail (Puppeteer) snow scrapers
 // Uses a single persistent page for efficiency
 
+const dns = require('dns');
+// Fallback to public DNS if system resolver is broken (e.g., Tailscale MagicDNS down)
+dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
+
 const puppeteer = require('puppeteer');
 const https = require('https');
 const http = require('http');
@@ -323,6 +327,9 @@ async function initBrowser() {
       '--disable-accelerated-2d-canvas',
       '--disable-gpu',
       '--single-process',
+      // Use Google DoH if system DNS is broken (e.g., Tailscale MagicDNS down)
+      '--dns-over-https-mode=automatic',
+      '--dns-over-https-templates=https://dns.google/dns-query{?dns}',
     ]
   });
 

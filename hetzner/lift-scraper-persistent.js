@@ -2,6 +2,10 @@
 // Runs both Ikon (HTTP API) and Vail (Puppeteer) scrapers with separate timing
 // Keeps browser warm between runs for better performance
 
+const dns = require('dns');
+// Fallback to public DNS if system resolver is broken (e.g., Tailscale MagicDNS down)
+dns.setServers(['8.8.8.8', '1.1.1.1', '8.8.4.4']);
+
 const puppeteer = require('puppeteer');
 const https = require('https');
 const fs = require('fs');
@@ -56,6 +60,7 @@ const CONFIG = {
       'crotched',
       'attitash',
       'hunter',
+      'jackfrost',
       // Add more here as needed:
       // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
       // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
@@ -894,6 +899,9 @@ async function initBrowser(state, poolSize, label) {
       '--no-first-run',
       '--no-zygote',                   // No zygote process (saves memory)
       '--js-flags=--max-old-space-size=128',  // Limit JS heap to 128MB
+      // Use Google DoH if system DNS is broken (e.g., Tailscale MagicDNS down)
+      '--dns-over-https-mode=automatic',
+      '--dns-over-https-templates=https://dns.google/dns-query{?dns}',
     ],
   });
 
