@@ -62,7 +62,8 @@ When investigating data issues, check for these red flags:
 - **Missing from source**: Resort in config but not in data file = scraper crash or never ran
 
 ## Known Patterns
-(Claude will add entries here as it learns from investigations)
+- **Concurrency group cancellation**: GitHub Actions scrapers sharing a concurrency group can cancel each other. The lift scraper (every 10min) is especially aggressive. Snow scraper now has its own `snow-scraper` group. Terrain and lift still share `data-repo-push` — if terrain starts getting cancelled, it may need its own group too.
+- **Git autostash restaging**: After `git pull --rebase --autostash`, files need to be re-staged with `git add data/`. Fixed in PR #33 (Jan 2026).
 
 ## Resort-Specific Notes
 (Claude will add entries here as it learns quirks about specific resorts)
