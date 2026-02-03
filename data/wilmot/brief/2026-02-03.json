@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2026-02-03",
-  "generated": "2026-02-03T15:03:06.720Z",
+  "generated": "2026-02-03T16:02:19.561Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,131 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 23,
           "yesterday": 22,
-          "delta": -22
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 23,
           "yesterday": 22,
-          "delta": -22
+          "delta": 1
         },
         "totalTrails": 26
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Bunny West",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Turtle",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Competition",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Exhibition",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Heartland",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Inspiration",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Lower Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Meadows",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Paradise",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Ridge Run",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Shenanigan",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sidewinder",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Snowbowl",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Stateline",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sundance",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sunnyside",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Superior",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Upper Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Walter's Folly",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "The Gully",
-          "difficulty": "TerrainPark",
-          "area": "Terrain Park"
-        },
-        {
-          "name": "The Rope",
+          "name": "Progression Park",
           "difficulty": "TerrainPark",
           "area": "Terrain Park"
         }
       ],
-      "newlyGroomed": [],
+      "newlyClosed": [],
+      "newlyGroomed": [
+        {
+          "name": "Progression Park",
+          "difficulty": "TerrainPark",
+          "area": "Terrain Park"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -216,38 +117,57 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Progression Park - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "Postcard Day",
+    "body": "23 of 26 trails are open with 23 groomed. Mostly Clear with a high of 23°F. 1 new trail opened today. Clear skies and 23° means stunning views and firm snow. Layer up.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_bluebird",
+          "category": "weather",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
+        "condition": "bluebird_day",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Tuesday"
     }
