@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-02",
-  "generated": "2026-02-02T23:36:47.652Z",
+  "generated": "2026-02-03T04:53:29.214Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -63,9 +63,9 @@
     "forecast": {
       "today": {
         "date": "2026-02-02",
-        "high_f": 27,
-        "low_f": 24,
-        "description": "Mostly Sunny",
+        "high_f": null,
+        "low_f": 23,
+        "description": "Windy",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
@@ -73,16 +73,16 @@
         {
           "date": "2026-02-03",
           "high_f": 29,
-          "low_f": 25,
-          "description": "Cloudy",
+          "low_f": 26,
+          "description": "Windy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
         },
         {
           "date": "2026-02-04",
-          "high_f": 37,
-          "low_f": 34,
+          "high_f": 38,
+          "low_f": 33,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -101,8 +101,8 @@
       "tomorrow": {
         "date": "2026-02-03",
         "high_f": 29,
-        "low_f": 25,
-        "description": "Cloudy",
+        "low_f": 26,
+        "description": "Windy",
         "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
         "snowfall_expected": 1
@@ -128,14 +128,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Clear Skies, Cold Temps",
-    "body": "Steady snowfall with 7\" over the last week. 2 new trails opened today. Sun's out, but so is the cold - expect a high of 27°. Gorgeous if you dress for it.",
+    "headline": "The Rundown",
+    "body": "Steady snowfall with 7\" over the last week. 2 new trails opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird",
-          "category": "weather",
-          "priority": 70,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -151,19 +151,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_bluebird",
+          "id": "forecast_flurries",
           "category": "weather",
-          "priority": 70,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 5,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Postcard Day"
+        "previousHeadline": "Your Daily Ski Report"
       },
       "dayOfWeek": "Monday"
     }
