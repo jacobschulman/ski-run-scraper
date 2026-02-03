@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-02-02",
-  "generated": "2026-02-02T23:36:47.577Z",
+  "generated": "2026-02-03T02:44:24.890Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 188,
+          "today": 180,
           "yesterday": 180,
-          "delta": 8
+          "delta": 0
         },
         "groomedTrails": {
           "today": 107,
@@ -34,48 +34,7 @@
         },
         "totalTrails": 191
       },
-      "newlyOpened": [
-        {
-          "name": "Jill's Run Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Main Lodge"
-        },
-        {
-          "name": "Lost in the Woods (Lower) Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Main Lodge"
-        },
-        {
-          "name": "Lost in the Woods (Upper) Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Main Lodge"
-        },
-        {
-          "name": "West Summit Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Main Lodge"
-        },
-        {
-          "name": "Big Bird Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Canyon Lodge"
-        },
-        {
-          "name": "Canyon Lodge Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Canyon Lodge"
-        },
-        {
-          "name": "Skiback Trail Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Canyon Lodge"
-        },
-        {
-          "name": "Eagle Lodge Uphill Route",
-          "difficulty": "Uphill Access",
-          "area": "Eagle Lodge"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -153,27 +112,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": true,
+      "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [
-      "8 new trails opened today"
-    ],
-    "trends": [
-      "8 more trails open than yesterday"
-    ],
+    "alerts": [],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "8 New Trails Today",
-    "body": "188 of 191 trails are open with 107 groomed. Sunny with a high of 37°F. New terrain alert: 8 trails added to the mix.",
+    "headline": "Your Daily Ski Report",
+    "body": "180 of 191 trails are open with 107 groomed. Sunny with a high of 37°F. 180/191 trails open, 107 groomed. 37° and Sunny.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expanding",
-          "category": "terrain",
-          "priority": 75,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -183,19 +138,19 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expanding",
-          "category": "terrain",
-          "priority": 75,
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 3,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Terrain Unlocked"
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
       },
       "dayOfWeek": "Monday"
     }
