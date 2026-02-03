@@ -80,6 +80,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+          # Fetch latest to avoid conflicts with Hetzner scraper pushes
+          git fetch origin "$BRANCH_NAME"
+          git reset "origin/$BRANCH_NAME"
+
           # Stage files
           git add data/**/lifts/ data/latest-lifts.json cache/
 
@@ -88,19 +94,7 @@ jobs:
             echo "No changes to commit in public repo"
             echo "has_public_changes=false" >> $GITHUB_ENV
           else
-            # Get the current branch name
-            BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
-
-            # Pull latest changes with rebase to avoid conflicts
-            git pull --rebase --autostash origin "$BRANCH_NAME"
-
-            # Re-stage files after rebase
-            git add data/**/lifts/ data/latest-lifts.json cache/
-
-            # Create commit with timestamp
             git commit -m "Update lift wait times - $(date -u +'%Y-%m-%d %H:%M UTC')"
-
-            # Push changes to the current branch
             git push origin "$BRANCH_NAME"
             echo "has_public_changes=true" >> $GITHUB_ENV
           fi

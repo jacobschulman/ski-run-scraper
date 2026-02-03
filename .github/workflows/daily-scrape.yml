@@ -98,6 +98,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          BRANCH_NAME="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+
+          # Fetch latest to avoid conflicts with Hetzner scraper pushes
+          git fetch origin "$BRANCH_NAME"
+          git reset "origin/$BRANCH_NAME"
+
           # Stage all data changes
           git add data/
 
@@ -106,15 +112,8 @@ jobs:
             echo "No changes to commit in public repo"
             echo "has_public_changes=false" >> $GITHUB_ENV
           else
-            # Pull with rebase
-            git pull --rebase --autostash origin main
-
-            # Re-stage after rebase
-            git add data/
-
-            # Commit and push
             git commit -m "Update ski data - $(date +'%Y-%m-%d')"
-            git push
+            git push origin "$BRANCH_NAME"
             echo "has_public_changes=true" >> $GITHUB_ENV
           fi
 
