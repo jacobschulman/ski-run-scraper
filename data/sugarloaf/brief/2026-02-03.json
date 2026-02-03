@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-03",
-  "generated": "2026-02-03T10:55:43.686Z",
+  "generated": "2026-02-03T11:46:37.663Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,103 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 52,
+          "today": 59,
           "yesterday": 52,
-          "delta": 0
+          "delta": 7
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Gin Pole",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Spurline",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Gondola Line",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Midstation X-Cut",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Gondola Line",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lombard X-Cut",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower Spillway",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Chute",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Spillway",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,27 +193,39 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "12 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Candy Side - perfect for intermediate skiers",
+      "Fresh corduroy on Gin Pole - perfect for intermediate skiers",
+      "Fresh corduroy on Peavy X-Cut - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "148/176 trails spinning, 52 freshly groomed. Windy. Light snow possible in the forecast.",
+    "headline": "Smooth Sailing Today",
+    "body": "148/176 trails spinning, 59 freshly groomed. Windy. The grooming crew went hard: 12 trails of fresh corduroy in SuperQuad, Skyline, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         },
         {
@@ -138,11 +237,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "grooming_highlight",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "{groomedCount} {GroomedRunWord} Groomed Overnight"
       },
       "dayOfWeek": "Tuesday"
     }
