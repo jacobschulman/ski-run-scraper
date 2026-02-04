@@ -115,7 +115,8 @@ jobs:
             # Re-copy data from public repo (authoritative source)
             rsync -av --delete ../public-repo/data/ data/
 
-            git add data/
+            # Only stage lift-related files to avoid confusing commit messages
+            git add data/*/lifts/ data/latest-lifts.json data/index.json
 
             if git diff --cached --quiet; then
               echo "No changes to commit in data repo"

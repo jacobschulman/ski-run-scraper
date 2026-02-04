@@ -3,13 +3,18 @@
  * Injects a consistent navigation bar across all dashboard pages
  */
 
+// Detect if we're in hetzner or dashboards directory
+const isHetznerPath = window.location.pathname.includes('/hetzner/');
+const dashboardBase = isHetznerPath ? '../dashboards/' : '';
+const hetznerBase = isHetznerPath ? '' : '../hetzner/';
+
 const NAV_PAGES = [
-  { id: 'overview', label: 'Home', href: 'resort-overview.html' },
-  { id: 'terrain', label: 'Trails', href: 'terrain-dashboard.html' },
-  { id: 'lifts', label: 'Lifts', href: 'live-lifts.html' },
-  { id: 'briefs', label: 'Briefs', href: 'briefs-overview.html' },
-  { id: 'api-providers', label: 'APIs Status', href: 'api-providers.html' },
-  { id: 'monitor', label: 'Health', href: '../hetzner/monitor.html' }
+  { id: 'overview', label: 'Home', href: `${dashboardBase}resort-overview.html` },
+  { id: 'terrain', label: 'Trails', href: `${dashboardBase}terrain-dashboard.html` },
+  { id: 'lifts', label: 'Lifts', href: `${dashboardBase}live-lifts.html` },
+  { id: 'briefs', label: 'Briefs', href: `${dashboardBase}briefs-overview.html` },
+  { id: 'api-providers', label: 'APIs Status', href: `${dashboardBase}api-providers.html` },
+  { id: 'monitor', label: 'Health', href: `${hetznerBase}monitor.html` }
 ];
 
 function initNav(currentPage) {

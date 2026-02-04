@@ -77,29 +77,35 @@ curl http://46.62.169.104:3000/health
 
 Use these slugs in API paths (e.g., `/data/{resort}/...`):
 
-### Vail Resorts
+### Vail Resorts (40 resorts)
 ```
-vail, beaver-creek, breckenridge, keystone, park-city,
-heavenly, northstar, kirkwood, stevens-pass, stowe,
-okemo, mount-snow, hunter-mountain, attitash, wildcat,
-crotched, mount-sunapee, whistler-blackcomb, perisher,
-falls-creek, hotham, andermatt-sedrun, crans-montana,
-wilmot, afton-alps, mt-brighton, liberty, roundtop,
-whitetail, jack-frost, big-boulder, hidden-valley, snow-creek,
-paoli-peaks, mad-river-mountain, boston-mills, brandywine,
-alpine-valley
+vail, beavercreek, breckenridge, parkcity, keystone,
+crestedbutte, heavenly, northstar, kirkwood, stevenspass,
+stowe, okemo, mountsnow, hunter, attitash, wildcat,
+mountsunapee, crotched, liberty, roundtop, whitetail,
+jackfrost, bigboulder, hiddenvalley, laurelmountain, sevensprings,
+wilmot, aftonalps, mtbrighton, alpinevalley, bostonmills,
+brandywine, madrivermountain, snowcreek, paolipeaks,
+whistlerblackcomb, perisher, fallscreek, hotham, telluride
 ```
 
-### Ikon Resorts
+### Ikon Resorts (30 resorts)
 ```
-stratton, palisades-tahoe, jackson-hole, big-sky, deer-valley,
-alta, aspen-highlands, aspen-mountain, buttermilk, snowmass,
-copper-mountain, steamboat, winter-park, arapahoe-basin,
-eldora, taos, mammoth-mountain, june-mountain, big-bear,
-crystal-mountain, killington, sugarbush, sugarloaf, sunday-river,
-loon, tremblant, blue-mountain, revelstoke, cypress-mountain,
-banff-sunshine, lake-louise, mt-norquay, red-mountain, panorama,
-big-white, silver-star, sun-peaks, kicking-horse
+stratton, palisades, jacksonhole, bigsky, deervalley, alta,
+snowbird, solitude, aspenhighlands, aspenmountain, buttermilk,
+copper, steamboat, abasin, taos, mammoth, junemountain, crystal,
+killington, sugarbush, sugarloaf, sundayriver, loon, tremblant,
+blue, revelstoke, cypressmountain, banff, lakelouise, norquay
+```
+
+### Resorts with Real-Time Wait Times
+The following resorts have confirmed lift wait time data (numeric minutes, not just open/closed):
+```
+Vail: vail, beavercreek, breckenridge, parkcity, keystone, crestedbutte,
+      heavenly, northstar, kirkwood, stowe, mountsnow, hunter, whistlerblackcomb
+
+Ikon: bigsky (Lone Peak Tram only), snowbird, copper, killington,
+      sugarloaf, sundayriver, loon, cypressmountain
 ```
 
 ---

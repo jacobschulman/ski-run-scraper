@@ -299,6 +299,22 @@ async function checkLiftScrapeGaps() {
   const now = new Date();
   const today = now.toISOString().split('T')[0]; // YYYY-MM-DD
 
+  // Get the list of resorts that are actively being scraped for lift data
+  // from config.json liftScraping section (source of truth)
+  const enabledVailResorts = new Set(resortConfig.liftScraping?.vail?.enabledResorts || []);
+  const enabledIkonProviders = new Set(resortConfig.liftScraping?.ikon?.enabledProviders || []);
+
+  // Build set of Ikon resorts based on enabled providers
+  const enabledIkonResorts = new Set();
+  for (const resort of resortConfig.resorts) {
+    if (resort.provider === 'ikon') {
+      const apiProvider = resort.apiProvider || 'inspector';
+      if (enabledIkonProviders.has(apiProvider)) {
+        enabledIkonResorts.add(resort.key);
+      }
+    }
+  }
+
   // Get list of resorts that should have lift data
   const liftsDir = path.join(__dirname, '..', 'data');
 
@@ -309,6 +325,12 @@ async function checkLiftScrapeGaps() {
     });
 
     for (const resortId of resortDirs) {
+      // Skip if resort is not actively being scraped
+      const resort = RESORTS_BY_KEY[resortId];
+      const provider = resort?.provider || 'vail';
+      if (provider === 'vail' && !enabledVailResorts.has(resortId)) continue;
+      if (provider === 'ikon' && !enabledIkonResorts.has(resortId)) continue;
+
       // Skip if resort is not in operating hours
       if (!isResortInOperatingHours(resortId)) continue;
       if (!isResortInSeason(resortId)) continue;
@@ -413,14 +435,15 @@ async function checkMissingResorts() {
 
     for (const resortKey of expectedResorts) {
       const resort = RESORTS_BY_KEY[resortKey];
-      // Only check resorts that should have snow data
-      if (resort?.dataCapabilities?.snow !== false && !resortsWithSnow.has(resortKey)) {
+      // Only check resorts that have snowReportUrl configured (meaning they should have snow data)
+      const shouldHaveSnow = !!resort?.snowReportUrl;
+      if (shouldHaveSnow && !resortsWithSnow.has(resortKey)) {
         issues.push({
           type: 'resort_missing_from_source',
           dataType: 'snow',
           source: 'github-pages',
           resort: resortKey,
-          details: `${resortKey}: Expected in config but missing from GitHub Pages snow data`,
+          details: `${resortKey}: Has snowReportUrl in config but missing from GitHub Pages snow data`,
           severity: 'warning'
         });
       }
@@ -436,14 +459,15 @@ async function checkMissingResorts() {
 
     for (const resortKey of expectedResorts) {
       const resort = RESORTS_BY_KEY[resortKey];
-      // Only check resorts that should have terrain data
-      if (resort?.dataCapabilities?.terrain !== false && !resortsWithTerrain.has(resortKey)) {
+      // Only check resorts that have terrainUrl configured (meaning they should have terrain data)
+      const shouldHaveTerrain = !!resort?.terrainUrl;
+      if (shouldHaveTerrain && !resortsWithTerrain.has(resortKey)) {
         issues.push({
           type: 'resort_missing_from_source',
           dataType: 'terrain',
           source: 'github-pages',
           resort: resortKey,
-          details: `${resortKey}: Expected in config but missing from GitHub Pages terrain data`,
+          details: `${resortKey}: Has terrainUrl in config but missing from GitHub Pages terrain data`,
           severity: 'warning'
         });
       }
