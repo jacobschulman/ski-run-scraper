@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-04",
-  "generated": "2026-02-04T10:55:54.064Z",
+  "generated": "2026-02-04T11:47:56.056Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,58 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 56,
+          "today": 60,
           "yesterday": 56,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Cross Haul",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Lower Windrow",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +148,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Lower Skidder - all skill levels",
+      "Fresh corduroy on Cross Haul - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Quiet Days on the Hill",
-    "body": "146 trails open, 56 groomed. Partly Cloudy, temperatures TBD. Light snow possible in the forecast.",
+    "body": "146 trails open, 60 groomed. Partly Cloudy, temperatures TBD. 6 runs freshly groomed, mostly in SuperQuad, Whiffletree, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +175,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
