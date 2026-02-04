@@ -150,7 +150,7 @@
       "seasonStart": "11-08",
       "seasonEnd": "04-28",
       "provider": "vail",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "mountsnow",
@@ -463,7 +463,7 @@
       "inspectorName": "Palisades Tahoe",
       "seasonStart": "11-20",
       "seasonEnd": "05-28",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "jacksonhole",
@@ -490,7 +490,9 @@
         "resortCode": "bs"
       },
       "seasonStart": "11-20",
-      "seasonEnd": "04-20"
+      "seasonEnd": "04-20",
+      "liftWaitTimesAvailable": true,
+      "_waitTimeNote": "Only Lone Peak Tram has wait times - other lifts show status only"
     },
     {
       "key": "deervalley",
@@ -526,7 +528,8 @@
         "resortId": "801010"
       },
       "seasonStart": "11-20",
-      "seasonEnd": "05-25"
+      "seasonEnd": "05-25",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "solitude",
@@ -592,7 +595,8 @@
         "resortId": "303009"
       },
       "seasonStart": "11-08",
-      "seasonEnd": "04-20"
+      "seasonEnd": "04-20",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "steamboat",
@@ -664,7 +668,8 @@
         "resortId": "802007"
       },
       "seasonStart": "10-15",
-      "seasonEnd": "05-26"
+      "seasonEnd": "05-26",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "sugarbush",
@@ -687,7 +692,8 @@
         "resortCode": "sl"
       },
       "seasonStart": "11-15",
-      "seasonEnd": "05-05"
+      "seasonEnd": "05-05",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "sundayriver",
@@ -701,7 +707,8 @@
         "resortCode": "sr"
       },
       "seasonStart": "11-15",
-      "seasonEnd": "04-28"
+      "seasonEnd": "04-28",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "loon",
@@ -715,7 +722,8 @@
         "resortCode": "loon"
       },
       "seasonStart": "11-20",
-      "seasonEnd": "04-20"
+      "seasonEnd": "04-20",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "tremblant",
@@ -756,7 +764,8 @@
         "resortCode": "cypress"
       },
       "seasonStart": "11-20",
-      "seasonEnd": "04-15"
+      "seasonEnd": "04-15",
+      "liftWaitTimesAvailable": true
     },
     {
       "key": "banff",
@@ -829,6 +838,51 @@
       "scrapingWindowHours": "Number of hours after targetHour to allow scraping (provides buffer for missed runs). 5 AM - 8 AM window.",
       "defaultSeasonStart": "Default season start date (MM-DD). Resorts can override with their own seasonStart field.",
       "defaultSeasonEnd": "Default season end date (MM-DD). Resorts can override with their own seasonEnd field."
+    }
+  },
+  "liftScraping": {
+    "_comment": "Configuration for real-time lift wait time scraping on Hetzner. This is the source of truth - lift-scraper-persistent.js should read from here.",
+    "ikon": {
+      "enabledProviders": [
+        "inspector",
+        "aspensnowmass",
+        "reportpal",
+        "dor"
+      ],
+      "_providerNotes": {
+        "inspector": "Ikon Inspector API - 15 resorts with wait times",
+        "aspensnowmass": "Aspen (3 mountains) - status only, no wait times",
+        "reportpal": "Big Sky, Sugarloaf, Sunday River, Loon, Cypress - has wait times",
+        "dor": "Snowbird, Copper, Killington - has wait times",
+        "zaneray": "Jackson Hole - disabled, status only"
+      }
+    },
+    "vail": {
+      "enabledResorts": [
+        "vail",
+        "beavercreek",
+        "breckenridge",
+        "crestedbutte",
+        "laurelmountain"
+      ],
+      "_notes": "Only resorts with confirmed wait time support. Others have lift STATUS but not wait TIMES."
+    }
+  },
+  "dataCapabilities": {
+    "_comment": "Documentation for resort data capability fields. Each resort can have liftWaitTimesAvailable (boolean) and dataCapabilityOverrides (object) to override auto-detected capabilities.",
+    "fields": {
+      "liftWaitTimesAvailable": "Set to true if the resort's API/website provides real numeric wait times (not just status). False positives should be corrected.",
+      "dataCapabilityOverrides": "Object to override auto-detected capabilities. Example: { liftStatusAvailable: true } for resorts where lift status comes from a different source than terrain."
+    },
+    "resortsWithWaitTimes": {
+      "_comment": "Reference list of resorts confirmed to have real wait time data",
+      "vail": ["vail", "beavercreek", "breckenridge", "parkcity", "keystone", "crestedbutte", "heavenly", "northstar", "kirkwood", "stowe", "mountsnow", "hunter", "whistlerblackcomb"],
+      "ikon": ["bigsky", "copper", "snowbird", "killington", "sugarloaf", "sundayriver", "loon", "cypressmountain"]
+    },
+    "resortsWithStatusOnly": {
+      "_comment": "Resorts that have lift open/closed status but no wait times",
+      "vail": ["stevenspass", "attitash", "wildcat", "mountsunapee", "crotched", "liberty", "roundtop", "whitetail", "jackfrost", "bigboulder", "hiddenvalley", "laurelmountain", "sevensprings", "wilmot", "aftonalps", "mtbrighton", "alpinevalley", "bostonmills", "brandywine", "madrivermountain", "snowcreek", "paolipeaks", "perisher", "fallscreek", "hotham", "telluride"],
+      "ikon": ["stratton", "palisades", "jacksonhole", "deervalley", "alta", "solitude", "aspenhighlands", "aspenmountain", "buttermilk", "steamboat", "abasin", "taos", "mammoth", "junemountain", "crystal", "sugarbush", "tremblant", "blue", "revelstoke", "banff", "lakelouise", "norquay"]
     }
   }
 }
