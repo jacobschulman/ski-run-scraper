@@ -1,15 +1,31 @@
 {
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
-  "date": "2026-02-04",
-  "generated": "2026-02-04T08:56:27.880Z",
+  "date": "2026-02-03",
+  "generated": "2026-02-04T07:52:34.592Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 2,
+      "7day_cm": 5,
+      "season_total_inches": 154,
+      "season_total_cm": 391,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 222,
-          "yesterday": 222,
-          "delta": 0
+          "yesterday": 224,
+          "delta": -2
         },
         "groomedTrails": {
           "today": 84,
@@ -18,32 +34,145 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Alt 75",
+          "difficulty": "Expert",
+          "area": "KT Peak"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Classic",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Summer Road Pockets",
+          "difficulty": "Very Difficult",
+          "area": "High Camp"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-03",
+        "date": "2026-02-02",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 39,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-03",
+        "high_f": null,
+        "low_f": 35,
+        "high_c": null,
+        "low_c": 2,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-04",
+          "high_f": 48,
+          "low_f": 35,
+          "high_c": 9,
+          "low_c": 1,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-05",
+          "high_f": 47,
+          "low_f": 36,
+          "high_c": 8,
+          "low_c": 2,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-06",
+          "high_f": 43,
+          "low_f": 33,
+          "high_c": 6,
+          "low_c": 1,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-04",
+        "high_f": 48,
+        "low_f": 35,
+        "high_c": 9,
+        "low_c": 1,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fewer Crowds, More Turns",
+    "body": "222/301 trails spinning, 84 freshly groomed. Clear. 222/301 trails open, 84 groomed. Clear.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Midweek Bliss"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
