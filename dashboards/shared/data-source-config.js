@@ -22,7 +22,7 @@ const DATA_SOURCES = {
     id: 'hetzner',
     name: 'Hetzner Server',
     description: 'Data from Hetzner production server',
-    baseUrl: 'https://46.62.169.104:3000',
+    baseUrl: 'http://46.62.169.104:3000',
     requiresCors: true
   }
 };
