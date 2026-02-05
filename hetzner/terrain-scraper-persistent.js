@@ -17,6 +17,9 @@ const seasonUtils = require('../lib/season-utils');
 const fileStorage = require('../lib/file-storage');
 const dataNormalization = require('../lib/data-normalization');
 const canadianBig3 = require('../lib/providers/canadian-big3');
+const reportpal = require('../lib/providers/reportpal');
+const dor = require('../lib/providers/dor');
+const zaneray = require('../lib/providers/zaneray');
 // Note: Database saves are skipped in persistent scraper - file storage is primary
 // The import-to-database.js script handles DB imports via aggregates cron
 
@@ -40,7 +43,7 @@ const RESORTS = configLoader.getResortsMap(config);
 console.log(`[CONFIG] Loaded ${config.resorts.length} resorts`);
 
 // Validate expected providers exist (catch config loading issues early)
-const expectedProviders = ['aspensnowmass', 'canadian-big3'];
+const expectedProviders = ['aspensnowmass', 'canadian-big3', 'reportpal', 'dor', 'zaneray'];
 for (const provider of expectedProviders) {
   const count = config.resorts.filter(r => r.apiProvider === provider).length;
   if (count === 0) {
@@ -62,6 +65,9 @@ const health = {
   vail: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
   aspen: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
   canadianBig3: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  reportpal: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  dor: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
+  zaneray: { totalRuns: 0, resortsScraped: 0, lastRun: null, lastSuccess: null, consecutiveFailures: 0 },
 };
 
 // Shared browser for Vail scraping
@@ -599,6 +605,229 @@ async function runCanadianBig3TerrainScraper() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// REPORTPAL TERRAIN SCRAPER (HTTP - Big Sky, Sugarloaf, Sunday River, Loon, Cypress)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function saveAlternateProviderTerrainData(resortKey, normalizedData, providerName) {
+  const resort = RESORTS[resortKey];
+  if (!resort || !normalizedData) return null;
+
+  const timezone = resort.timezone || 'America/Denver';
+  const today = seasonUtils.getResortLocalDate(timezone);
+
+  const terrainData = {
+    ...normalizedData,
+    provider: resort.provider || 'ikon',
+    apiProvider: providerName,
+    scrapedAt: new Date().toISOString(),
+    date: today,
+  };
+
+  // Ensure directory exists
+  const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
+  fileStorage.ensureDirectoryExists(terrainDir);
+
+  // Save timestamped file
+  fs.writeFileSync(path.join(terrainDir, `${today}.json`), JSON.stringify(terrainData, null, 2));
+  fs.writeFileSync(path.join(terrainDir, 'latest.json'), JSON.stringify(terrainData, null, 2));
+
+  // Update terrain index
+  const terrainFiles = fs.readdirSync(terrainDir)
+    .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
+    .sort().reverse();
+
+  const terrainIndex = {
+    resort: resortKey,
+    resortName: resort.name,
+    provider: resort.provider || 'ikon',
+    apiProvider: providerName,
+    files: terrainFiles,
+    latest: terrainFiles[0] || null,
+    count: terrainFiles.length,
+    lastUpdated: new Date().toISOString(),
+  };
+  fs.writeFileSync(path.join(terrainDir, 'index.json'), JSON.stringify(terrainIndex, null, 2));
+
+  return terrainData;
+}
+
+async function runReportPalTerrainScraper() {
+  console.log(`\n[REPORTPAL-TERRAIN] Checking resorts...`);
+  health.reportpal.lastRun = new Date().toISOString();
+
+  try {
+    const reportpalResorts = config.resorts.filter(r =>
+      r.apiProvider === 'reportpal' &&
+      seasonUtils.isResortInSeason(r, config)
+    );
+
+    const resortsToScrape = reportpalResorts.filter(r => {
+      if (hasScrapedToday(r.key, r.timezone)) return false;
+      if (!isInScrapingWindow(r)) return false;
+      return true;
+    });
+
+    if (resortsToScrape.length === 0) {
+      console.log('[REPORTPAL-TERRAIN] No resorts need scraping right now');
+      return;
+    }
+
+    console.log(`[REPORTPAL-TERRAIN] Scraping ${resortsToScrape.length} resorts`);
+    health.reportpal.totalRuns++;
+
+    let scraped = 0;
+
+    for (const resort of resortsToScrape) {
+      try {
+        const rawData = await reportpal.fetch(resort);
+        if (rawData) {
+          const normalizedData = dataNormalization.normalizeReportPalResort(rawData, resort.key);
+          const saved = saveAlternateProviderTerrainData(resort.key, normalizedData, 'reportpal');
+          if (saved) {
+            scraped++;
+            markScrapedToday(resort.key, resort.timezone);
+            const localTime = seasonUtils.getResortLocalTimeFormatted(resort.timezone);
+            const liftCount = saved.Lifts?.length || 0;
+            console.log(`[REPORTPAL-TERRAIN] ✓ ${resort.key} (${localTime}) - ${liftCount} lifts`);
+          }
+        }
+      } catch (e) {
+        console.error(`[REPORTPAL-TERRAIN] ✗ ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.reportpal.resortsScraped += scraped;
+    health.reportpal.consecutiveFailures = 0;
+    health.reportpal.lastSuccess = new Date().toISOString();
+    console.log(`[REPORTPAL-TERRAIN] Completed: ${scraped} resorts`);
+
+  } catch (error) {
+    console.error(`[REPORTPAL-TERRAIN] Error: ${error.message}`);
+    health.reportpal.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DOR TERRAIN SCRAPER (HTTP - Killington, Copper, Snowbird)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function runDORTerrainScraper() {
+  console.log(`\n[DOR-TERRAIN] Checking resorts...`);
+  health.dor.lastRun = new Date().toISOString();
+
+  try {
+    const dorResorts = config.resorts.filter(r =>
+      r.apiProvider === 'dor' &&
+      seasonUtils.isResortInSeason(r, config)
+    );
+
+    const resortsToScrape = dorResorts.filter(r => {
+      if (hasScrapedToday(r.key, r.timezone)) return false;
+      if (!isInScrapingWindow(r)) return false;
+      return true;
+    });
+
+    if (resortsToScrape.length === 0) {
+      console.log('[DOR-TERRAIN] No resorts need scraping right now');
+      return;
+    }
+
+    console.log(`[DOR-TERRAIN] Scraping ${resortsToScrape.length} resorts`);
+    health.dor.totalRuns++;
+
+    let scraped = 0;
+
+    for (const resort of resortsToScrape) {
+      try {
+        const rawData = await dor.fetch(resort);
+        if (rawData) {
+          const normalizedData = dataNormalization.normalizeDORResort(rawData, resort.key);
+          const saved = saveAlternateProviderTerrainData(resort.key, normalizedData, 'dor');
+          if (saved) {
+            scraped++;
+            markScrapedToday(resort.key, resort.timezone);
+            const localTime = seasonUtils.getResortLocalTimeFormatted(resort.timezone);
+            const liftCount = saved.Lifts?.length || 0;
+            console.log(`[DOR-TERRAIN] ✓ ${resort.key} (${localTime}) - ${liftCount} lifts`);
+          }
+        }
+      } catch (e) {
+        console.error(`[DOR-TERRAIN] ✗ ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.dor.resortsScraped += scraped;
+    health.dor.consecutiveFailures = 0;
+    health.dor.lastSuccess = new Date().toISOString();
+    console.log(`[DOR-TERRAIN] Completed: ${scraped} resorts`);
+
+  } catch (error) {
+    console.error(`[DOR-TERRAIN] Error: ${error.message}`);
+    health.dor.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ZANERAY TERRAIN SCRAPER (HTTP - Jackson Hole)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function runZanerayTerrainScraper() {
+  console.log(`\n[ZANERAY-TERRAIN] Checking resorts...`);
+  health.zaneray.lastRun = new Date().toISOString();
+
+  try {
+    const zanerayResorts = config.resorts.filter(r =>
+      r.apiProvider === 'zaneray' &&
+      seasonUtils.isResortInSeason(r, config)
+    );
+
+    const resortsToScrape = zanerayResorts.filter(r => {
+      if (hasScrapedToday(r.key, r.timezone)) return false;
+      if (!isInScrapingWindow(r)) return false;
+      return true;
+    });
+
+    if (resortsToScrape.length === 0) {
+      console.log('[ZANERAY-TERRAIN] No resorts need scraping right now');
+      return;
+    }
+
+    console.log(`[ZANERAY-TERRAIN] Scraping ${resortsToScrape.length} resorts`);
+    health.zaneray.totalRuns++;
+
+    let scraped = 0;
+
+    for (const resort of resortsToScrape) {
+      try {
+        const rawData = await zaneray.fetch(resort);
+        if (rawData) {
+          const normalizedData = dataNormalization.normalizeZanerayResort(rawData, resort.key);
+          const saved = saveAlternateProviderTerrainData(resort.key, normalizedData, 'zaneray');
+          if (saved) {
+            scraped++;
+            markScrapedToday(resort.key, resort.timezone);
+            const localTime = seasonUtils.getResortLocalTimeFormatted(resort.timezone);
+            const liftCount = saved.Lifts?.length || 0;
+            console.log(`[ZANERAY-TERRAIN] ✓ ${resort.key} (${localTime}) - ${liftCount} lifts`);
+          }
+        }
+      } catch (e) {
+        console.error(`[ZANERAY-TERRAIN] ✗ ${resort.key}: ${e.message}`);
+      }
+    }
+
+    health.zaneray.resortsScraped += scraped;
+    health.zaneray.consecutiveFailures = 0;
+    health.zaneray.lastSuccess = new Date().toISOString();
+    console.log(`[ZANERAY-TERRAIN] Completed: ${scraped} resorts`);
+
+  } catch (error) {
+    console.error(`[ZANERAY-TERRAIN] Error: ${error.message}`);
+    health.zaneray.consecutiveFailures++;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // VAIL TERRAIN SCRAPER (Puppeteer)
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -784,14 +1013,26 @@ async function runVailTerrainScraper() {
 const HEALTH_FILE = path.join(__dirname, 'terrain-health.json');
 
 function writeHealthFile() {
+  const allProvidersHealthy =
+    health.ikon.consecutiveFailures < 3 &&
+    health.vail.consecutiveFailures < 3 &&
+    health.aspen.consecutiveFailures < 3 &&
+    health.canadianBig3.consecutiveFailures < 3 &&
+    health.reportpal.consecutiveFailures < 3 &&
+    health.dor.consecutiveFailures < 3 &&
+    health.zaneray.consecutiveFailures < 3;
+
   const healthData = {
     scraper: 'terrain',
-    status: health.ikon.consecutiveFailures < 3 && health.vail.consecutiveFailures < 3 && health.aspen.consecutiveFailures < 3 && health.canadianBig3.consecutiveFailures < 3 ? 'ok' : 'degraded',
+    status: allProvidersHealthy ? 'ok' : 'degraded',
     uptime: Math.round((Date.now() - health.startTime) / 1000),
     ikon: health.ikon,
     vail: health.vail,
     aspen: health.aspen,
     canadianBig3: health.canadianBig3,
+    reportpal: health.reportpal,
+    dor: health.dor,
+    zaneray: health.zaneray,
     scrapedToday: Object.fromEntries(scrapedToday),
     updatedAt: new Date().toISOString(),
   };
@@ -856,6 +1097,9 @@ async function main() {
     await runIkonTerrainScraper();
     await runAspenTerrainScraper();
     await runCanadianBig3TerrainScraper();
+    await runReportPalTerrainScraper();
+    await runDORTerrainScraper();
+    await runZanerayTerrainScraper();
     await runVailTerrainScraper();
 
     // Regenerate data/index.json to update lastTerrainUpdate timestamps
