@@ -18,6 +18,7 @@ const reportpal = require('../lib/providers/reportpal');
 const zaneray = require('../lib/providers/zaneray');
 const snocountry = require('../lib/providers/snocountry');
 const dataNormalization = require('../lib/data-normalization');
+const fileStorage = require('../lib/file-storage');
 
 // Configuration
 const CONFIG = {
@@ -1086,6 +1087,8 @@ async function main() {
   let lastReportPalRun = 0;
   let lastZanerayRun = 0;
   let lastSnoCountryRun = 0;
+  let lastIndexGeneration = 0;
+  const INDEX_GENERATION_INTERVAL = 5 * 60 * 1000; // Regenerate index every 5 minutes
 
   // Main loop
   while (!isShuttingDown) {
@@ -1134,6 +1137,17 @@ async function main() {
     if (now - lastSnoCountryRun >= CONFIG.snocountry.intervalMs) {
       lastSnoCountryRun = now;
       setTimeout(() => runSnoCountrySnowScraper().catch(console.error), 210000);
+    }
+
+    // Regenerate data/index.json periodically to update lastSnowUpdate timestamps
+    // This ensures the dashboard shows current data freshness
+    if (now - lastIndexGeneration >= INDEX_GENERATION_INTERVAL) {
+      lastIndexGeneration = now;
+      try {
+        fileStorage.generateDataIndex(config);
+      } catch (err) {
+        console.error('[INDEX] Failed to regenerate index:', err.message);
+      }
     }
 
     await sleep(10000);

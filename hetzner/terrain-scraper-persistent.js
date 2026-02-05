@@ -858,6 +858,14 @@ async function main() {
     await runCanadianBig3TerrainScraper();
     await runVailTerrainScraper();
 
+    // Regenerate data/index.json to update lastTerrainUpdate timestamps
+    // This ensures the dashboard shows current data freshness
+    try {
+      fileStorage.generateDataIndex(config);
+    } catch (err) {
+      console.error('[INDEX] Failed to regenerate index:', err.message);
+    }
+
     // Wait before next check
     await sleep(CONFIG.checkIntervalMs);
   }
