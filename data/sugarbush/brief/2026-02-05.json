@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-02-05",
-  "generated": "2026-02-05T17:02:56.032Z",
+  "generated": "2026-02-05T17:59:19.297Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 112,
           "yesterday": 111,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 47,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Racer's Edge",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,19 +118,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fresh Snow, Fresh Vibes",
-    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. Light snow possible in the forecast.",
+    "headline": "A Proper Refresh",
+    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. 1 new trail opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +149,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Proper Refresh"
+        "previousHeadline": "Fresh Snow, Fresh Vibes"
       },
       "dayOfWeek": "Thursday"
     }
