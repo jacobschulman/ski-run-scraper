@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-04",
-  "generated": "2026-02-04T23:36:07.774Z",
+  "generated": "2026-02-05T04:54:59.579Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 2,
+      "7day_cm": 5,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
@@ -114,9 +114,9 @@
     "forecast": {
       "today": {
         "date": "2026-02-04",
-        "high_f": 38,
+        "high_f": null,
         "low_f": 33,
-        "description": "Partly Cloudy",
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -125,14 +125,14 @@
           "date": "2026-02-05",
           "high_f": 44,
           "low_f": 34,
-          "description": "Mostly Sunny",
+          "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-02-06",
-          "high_f": 41,
+          "high_f": 42,
           "low_f": 30,
           "description": "Sunny",
           "snowfall_day_inches": 0,
@@ -153,7 +153,7 @@
         "date": "2026-02-05",
         "high_f": 44,
         "low_f": 34,
-        "description": "Mostly Sunny",
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -171,14 +171,12 @@
     "alerts": [
       "2 new trails opened today"
     ],
-    "trends": [
-      "Steady snowfall - 6\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Quiet Days on the Hill",
-    "body": "Steady snowfall with 6\" over the last week.",
+    "body": "261 of 319 trails are open with 3 groomed. Mostly Clear with a temperatures TBD. 261/319 trails open, 3 groomed. Mostly Clear.",
     "debug": {
       "firedRules": [
         {
@@ -188,9 +186,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
