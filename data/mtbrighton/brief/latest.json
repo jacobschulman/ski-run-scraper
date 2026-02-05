@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-05",
-  "generated": "2026-02-05T13:28:41.077Z",
+  "generated": "2026-02-05T15:03:14.570Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,120 +23,30 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 22,
           "yesterday": 20,
-          "delta": -20
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 20,
           "yesterday": 20,
-          "delta": -20
+          "delta": 0
         },
         "totalTrails": 25
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Golden Eagle",
-          "difficulty": "Black",
+          "name": "Challenge",
+          "difficulty": "DoubleBlack",
           "area": "Backside"
         },
         {
-          "name": "Ore Creek",
-          "difficulty": "Black",
+          "name": "Perk's Folly",
+          "difficulty": "DoubleBlack",
           "area": "Backside"
-        },
-        {
-          "name": "Osprey",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Snyder's Escape",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Bunny",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Flatiron",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Larkspur",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Snowshoe",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Big Riskey",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Blue Sky",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Cheetah",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Chicken Chute",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Crosscut",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Gasoline Alley",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Grand River",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Ryan's Run",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Sawtooth Ridge",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Spike's Folly",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Thalacker's",
-          "difficulty": "Blue",
-          "area": "Front Side"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -148,38 +58,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
+    "trends": [
+      "2 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "No trails open yet. Current forecast: Variable conditions.",
+    "headline": "Midweek Mountain Report",
+    "body": "22/25 trails spinning, 20 freshly groomed. Variable conditions. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Thursday"
     }
