@@ -13,58 +13,46 @@ const path = require('path');
 const { formatInTimeZone } = require('date-fns-tz');
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CONFIGURATION - Edit these arrays to scale up/down
+// CONFIGURATION - Reads from config.json liftScraping section
 // ═══════════════════════════════════════════════════════════════════════════════
 //
-// TO ADD MORE RESORTS: Just add resort keys to the arrays below
-// TO ADD MORE PROVIDERS: Add provider name to enabledProviders array
+// TO CHANGE RESORTS/PROVIDERS: Edit config.json liftScraping section
+// - liftScraping.vail.enabledResorts: Array of Vail resort keys to scrape
+// - liftScraping.ikon.enabledProviders: Array of Ikon provider names to use
 //
-// Available Ikon providers: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'
-// Available Vail resorts: see config.json for full list
-//
+// Load config.json first
+const configPath = path.join(__dirname, '..', 'config.json');
+let config;
+try {
+  config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (error) {
+  console.error('Failed to load config.json:', error.message);
+  process.exit(1);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATION - Now reads from config.json liftScraping section
+// Edit config.json to change which resorts/providers are scraped
+// ═══════════════════════════════════════════════════════════════════════════════
 const CONFIG = {
   ikon: {
     intervalMs: 120 * 1000,     // 2 minutes
     jitterMs: 10000,            // 0-10 seconds random jitter
 
-    // ┌─────────────────────────────────────────────────────────────────────────┐
-    // │ IKON PROVIDERS TO SCRAPE - Add more as stability improves              │
-    // │ Options: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'   │
-    // └─────────────────────────────────────────────────────────────────────────┘
-    enabledProviders: [
-      'aspensnowmass',   // Aspen (3 mountains) - status only, no wait times
-      'inspector',       // Ikon Inspector API (15 resorts) - HAS WAIT TIMES!
-      'reportpal',       // Big Sky, Sugarloaf, Sunday River, Loon, Cypress - HAS WAIT TIMES!
-      'dor',             // Snowbird, Copper, Killington - HAS WAIT TIMES!
-      // 'zaneray',      // Jackson Hole - status only, no wait times
+    // Read enabled providers from config.json liftScraping.ikon.enabledProviders
+    // Options: 'inspector', 'aspensnowmass', 'reportpal', 'zaneray', 'dor'
+    enabledProviders: config.liftScraping?.ikon?.enabledProviders || [
+      'inspector',
+      'aspensnowmass',
+      'reportpal',
+      'dor',
     ],
   },
 
   vail: {
-    // ┌─────────────────────────────────────────────────────────────────────────┐
-    // │ VAIL RESORTS TO SCRAPE - Add more as stability improves                │
-    // │ These use Puppeteer (browser) so they're more resource-intensive       │
-    // └─────────────────────────────────────────────────────────────────────────┘
-    enabledResorts: [
-      'vail',
-      'beavercreek',
-      'breckenridge',
-      'crestedbutte',
-      'laurelmountain',
-      'aftonalps',
-      'bigboulder',
-      'bostonmills',
-      'brandywine',
-      'hiddenvalley',
-      'alpinevalley',
-      'crotched',
-      'attitash',
-      'hunter',
-      'jackfrost',
-      // Add more here as needed:
-      // 'parkcity', 'stowe', 'keystone', 'whistlerblackcomb',
-      // 'northstar', 'heavenly', 'kirkwood', 'stevenspass',
-    ],
+    // Read enabled resorts from config.json liftScraping.vail.enabledResorts
+    // These use Puppeteer (browser) so they're more resource-intensive
+    enabledResorts: config.liftScraping?.vail?.enabledResorts || [],
 
     // Operating hours - when to scrape (local resort time)
     // Lifts typically open 8:30-9:00 AM, so start 30 min before earliest opening
@@ -91,7 +79,7 @@ const CONFIG = {
   },
 
   dataDir: path.join(__dirname, '..', 'data'),
-  configPath: path.join(__dirname, '..', 'config.json'),
+  configPath: configPath,
 };
 
 // User agents for rotation
@@ -123,15 +111,6 @@ let cycleFailures = 0;
 const MAX_VAIL_CYCLES = 20; // Force full process restart after this many cycles
 const MIN_AVAILABLE_MEMORY_MB = 256; // Exit if system memory drops below this
 let vailCycleCount = 0;
-
-// Load main config
-let config;
-try {
-  config = JSON.parse(fs.readFileSync(CONFIG.configPath, 'utf8'));
-} catch (error) {
-  console.error('Failed to load config.json:', error.message);
-  process.exit(1);
-}
 
 const RESORTS = config.resorts.reduce((acc, resort) => {
   acc[resort.key] = resort;
