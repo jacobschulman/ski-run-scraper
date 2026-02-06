@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-02-06",
-  "generated": "2026-02-06T19:42:46.646Z",
+  "generated": "2026-02-06T21:39:10.535Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -92,33 +92,22 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-05",
-        "high_f": null,
-        "low_f": 27,
-        "high_c": null,
-        "low_c": -3,
+        "date": "2026-02-06",
+        "high_f": 31,
+        "low_f": 24,
+        "high_c": 0,
+        "low_c": -4,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-06",
-          "high_f": 30,
-          "low_f": 24,
-          "high_c": -1,
-          "low_c": -5,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-07",
-          "high_f": 34,
-          "low_f": 27,
-          "high_c": 1,
-          "low_c": -3,
+          "high_f": 35,
+          "low_f": 28,
+          "high_c": 2,
+          "low_c": -2,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -126,23 +115,34 @@
         },
         {
           "date": "2026-02-08",
-          "high_f": 39,
+          "high_f": 40,
           "low_f": 29,
           "high_c": 4,
           "low_c": -2,
-          "description": "Mostly Sunny",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 33,
+          "low_f": 25,
+          "high_c": 1,
+          "low_c": -4,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-02-06",
-        "high_f": 30,
-        "low_f": 24,
-        "high_c": -1,
-        "low_c": -5,
-        "description": "Cloudy",
+        "date": "2026-02-07",
+        "high_f": 35,
+        "low_f": 28,
+        "high_c": 2,
+        "low_c": -2,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -161,13 +161,14 @@
       "8 new trails opened today"
     ],
     "trends": [
-      "8 more trails open than yesterday"
+      "8 more trails open than yesterday",
+      "2\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "8 New Trails Today",
-    "body": "188 of 191 trails are open with 107 groomed. Cloudy with a temperatures TBD. 8 new runs just opened up. Time to explore fresh terrain.",
+    "headline": "More Mountain to Explore",
+    "body": "188 of 191 trails are open with 107 groomed. Cloudy with a high of 31°F. 8 new runs just opened up. Time to explore fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -187,15 +188,21 @@
           "category": "terrain",
           "priority": 75,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "terrain_expansion",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Mountain to Explore"
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
       },
       "dayOfWeek": "Friday"
     }

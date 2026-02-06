@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-06",
-  "generated": "2026-02-06T19:42:46.762Z",
+  "generated": "2026-02-06T21:39:10.646Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,53 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 90,
+          "today": 95,
           "yesterday": 90,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 222
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Home Stretch - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Home Stretch - Upper",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Lower",
+          "difficulty": "Double Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Great Bear - Lower",
+          "difficulty": "Black",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Great Bear - Upper",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,36 +88,36 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-05",
-        "high_f": null,
-        "low_f": 10,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 0,
+        "date": "2026-02-06",
+        "high_f": 14,
+        "low_f": 12,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-06",
-          "high_f": 15,
-          "low_f": 12,
-          "description": "Cloudy",
-          "snowfall_day_inches": 3,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 3
-        },
-        {
           "date": "2026-02-07",
-          "high_f": 12,
-          "low_f": -11,
+          "high_f": 11,
+          "low_f": -10,
           "description": "Snow Wind",
-          "snowfall_day_inches": 5,
+          "snowfall_day_inches": 4,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 5
+          "snowfall_expected": 4
         },
         {
           "date": "2026-02-08",
-          "high_f": -6,
-          "low_f": -5,
+          "high_f": -2,
+          "low_f": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 10,
+          "low_f": 10,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -88,13 +125,13 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-06",
-        "high_f": 15,
-        "low_f": 12,
-        "description": "Cloudy",
-        "snowfall_day_inches": 3,
+        "date": "2026-02-07",
+        "high_f": 11,
+        "low_f": -10,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 4,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 3
+        "snowfall_expected": 4
       }
     }
   },
@@ -106,21 +143,27 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "3\" snow expected Friday"
+    "alerts": [
+      "6 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "4\" snow expected Saturday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Home Stretch - Lower - perfect for intermediate skiers",
+      "Fresh corduroy on Home Stretch - Upper - perfect for intermediate skiers",
+      "Fresh corduroy on Ovation - Lower - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Major System Approaching",
-    "body": "177 of 222 trails are open with 90 groomed. Mostly Cloudy with a temperatures TBD. Storm cycle alert! 8\" on the way. Conditions are about to level up.",
+    "headline": "The Forecast Looks Promising",
+    "body": "177 of 222 trails are open with 95 groomed. Cloudy with a high of 14°F. 6 runs freshly groomed, mostly in Skye Peak and Snowdon. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -130,19 +173,25 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
+        "condition": "snow_coming",
         "variationIndex": 4,
-        "totalVariations": 7,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Loaded"
+        "previousHeadline": "More Snow Coming"
       },
       "dayOfWeek": "Friday"
     }

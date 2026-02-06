@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-02-06",
-  "generated": "2026-02-06T19:42:46.743Z",
+  "generated": "2026-02-06T21:39:10.627Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -57,28 +57,19 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-05",
-        "high_f": null,
-        "low_f": 33,
-        "description": "Clear",
+        "date": "2026-02-06",
+        "high_f": 33,
+        "low_f": 26,
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-06",
-          "high_f": 33,
-          "low_f": 26,
-          "description": "Partly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-07",
           "high_f": 29,
-          "low_f": 26,
-          "description": "Mostly Sunny",
+          "low_f": 25,
+          "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -87,17 +78,26 @@
           "date": "2026-02-08",
           "high_f": 33,
           "low_f": 31,
-          "description": "Mostly Sunny",
+          "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 31,
+          "low_f": 21,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
-        "date": "2026-02-06",
-        "high_f": 33,
-        "low_f": 26,
-        "description": "Partly Cloudy",
+        "date": "2026-02-07",
+        "high_f": 29,
+        "low_f": 25,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -116,19 +116,20 @@
       "1 new trail opened today"
     ],
     "trends": [
-      "1 more trail open than yesterday"
+      "1 more trail open than yesterday",
+      "3\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Cheers to the Weekend",
-    "body": "The rundown: 183 trails open, 49 groomed. Clear with temps around temps TBD. 1 new trail opened today.",
+    "headline": "Snow in the Forecast",
+    "body": "The rundown: 183 trails open, 49 groomed. Partly Cloudy with temps around 33°. 1 new trail opened today. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -142,15 +143,21 @@
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Fresh Snow on the Way"
       },
       "dayOfWeek": "Friday"
     }
