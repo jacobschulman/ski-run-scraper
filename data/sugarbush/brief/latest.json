@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-02-06",
-  "generated": "2026-02-06T10:55:02.601Z",
+  "generated": "2026-02-06T11:46:54.507Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,59 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 112,
+          "today": 111,
           "yesterday": 112,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 51,
           "yesterday": 47,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 142
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [
+        {
+          "name": "Racer's Edge",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Lower Snowball",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Spring Road",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Pushover Chute",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Sunrise",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Cruiser",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Which Way",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -116,15 +154,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Snowball - all skill levels",
+      "Fresh corduroy on Spring Road - all skill levels",
+      "Fresh corduroy on Pushover Chute - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "2\" Freshened Things Up",
-    "body": "A light refresh of 2\" overnight makes the groomers smoother. Light snow possible in the forecast.",
+    "headline": "Overnight Refresh",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother. 5 runs freshly groomed, mostly in Gadd Peak, North Lynx Peak, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +184,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Overnight Refresh"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Friday"
     }

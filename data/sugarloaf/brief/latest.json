@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-06",
-  "generated": "2026-02-06T10:55:02.701Z",
+  "generated": "2026-02-06T11:46:54.607Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 73,
           "yesterday": 63,
-          "delta": 0
+          "delta": 10
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Winter's Way",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Double Bitter",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Spillway",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Spillway",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Gondola Line Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,27 +168,39 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "11 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Winter's Way - all skill levels",
+      "Fresh corduroy on Haywire - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Double Bitter - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "The rundown: 147 trails open, 63 groomed. Windy with temps around temps TBD. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "headline": "The Corduroy Is Calling",
+    "body": "The rundown: 147 trails open, 73 groomed. Windy with temps around temps TBD. Smooth operators: 11 runs got the full treatment overnight. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         },
         {
@@ -138,11 +212,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 1,
+        "condition": "grooming_highlight",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "Groomers Did Their Thing"
       },
       "dayOfWeek": "Friday"
     }
