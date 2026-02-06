@@ -2,7 +2,7 @@
   "resort": "beavercreek",
   "resortName": "Beaver Creek",
   "date": "2026-02-06",
-  "generated": "2026-02-06T16:02:32.460Z",
+  "generated": "2026-02-06T17:00:39.586Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 87,
+          "today": 93,
           "yesterday": 87,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
           "today": 30,
@@ -34,8 +34,50 @@
         },
         "totalTrails": 183
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Roughlock",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Easy Come Easy Go",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Ford's Way",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Highlands Skiway",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Lamplighter",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Meander",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        },
+        {
+          "name": "Pines/Chateau",
+          "difficulty": "Green",
+          "area": "Resort Skiways"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Bridle",
+          "difficulty": "Green",
+          "area": "Rose Bowl"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Bitterroot",
@@ -160,27 +202,30 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "7 new trails opened today",
       "1 trail freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "6 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Bitterroot - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Above Average Temps",
-    "body": "87 of 183 trails are open with 30 groomed. Mostly Clear with a high of 48°F. Watch for crowds at Upper BC Mtn Express, which saw 14-minute waits yesterday. Above average temps (48°) will soften things up. Hit it early.",
+    "headline": "Fresh Terrain Unlocked",
+    "body": "93 of 183 trails are open with 30 groomed. Mostly Clear with a high of 48°F. New terrain alert: 7 trails added to the mix. Watch for crowds at Upper BC Mtn Express, which saw 14-minute waits yesterday.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_unseasonably_warm",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -190,25 +235,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_moderate",
           "category": "lifts",
           "priority": 60,
           "usedFor": "body"
-        },
-        {
-          "id": "temp_unseasonably_warm",
-          "category": "weather",
-          "priority": 55,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "unseasonably_warm",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Warm for Winter"
+        "previousHeadline": "Above Average Temps"
       },
       "dayOfWeek": "Friday"
     }
