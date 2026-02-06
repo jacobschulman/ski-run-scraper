@@ -2,7 +2,7 @@
   "resort": "stevenspass",
   "resortName": "Stevens Pass",
   "date": "2026-02-06",
-  "generated": "2026-02-06T17:00:39.623Z",
+  "generated": "2026-02-06T17:54:08.970Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,31 +23,27 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 31,
           "yesterday": 33,
-          "delta": -33
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 16,
           "yesterday": 16,
-          "delta": -16
+          "delta": 0
         },
         "totalTrails": 57
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Hog Heaven",
+          "difficulty": "Blue",
+          "area": "Cowboy Mountain"
+        }
+      ],
       "newlyClosed": [
         {
-          "name": "Promenade",
-          "difficulty": "Green",
-          "area": "Big Chief Mountain"
-        },
-        {
           "name": "Crest Trail",
-          "difficulty": "Blue",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Showcase",
           "difficulty": "Blue",
           "area": "Big Chief Mountain"
         },
@@ -57,149 +53,9 @@
           "area": "Big Chief Mountain"
         },
         {
-          "name": "I-5",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Lower Diamond",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
           "name": "Roller Coaster",
           "difficulty": "Black",
           "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Trapper",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Brennan's Trail",
-          "difficulty": "Blue",
-          "area": "Brooks"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Blue",
-          "area": "Brooks"
-        },
-        {
-          "name": "Waterfall",
-          "difficulty": "Blue",
-          "area": "Brooks"
-        },
-        {
-          "name": "Midway Park",
-          "difficulty": "TerrainPark",
-          "area": "Brooks"
-        },
-        {
-          "name": "76 Road",
-          "difficulty": "Green",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Green",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Tye Creek",
-          "difficulty": "Green",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Barrier Ridge",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Blue Trail",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hagen Hill",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hog Wild",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hoot 'n Holler",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "International",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Marmot Meadows",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Rock n Blue",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "SkyLine",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Slow Poke",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Walls Street",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Barrier Bowl",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Exhibition",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Lower Terminal",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Panorama",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Parachute 1",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Parachute 2",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Training Grounds Park",
-          "difficulty": "TerrainPark",
-          "area": "Cowboy Mountain"
         }
       ],
       "newlyGroomed": [],
@@ -271,10 +127,12 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
       "Steady snowfall - 10\" in last 7 days",
       "1\" snow expected Saturday"
@@ -282,30 +140,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "No trails open yet. Current forecast: Partly Cloudy.",
+    "headline": "Snow in the Forecast",
+    "body": "Steady snowfall with 10\" over the last week. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
+        "condition": "snow_coming",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Friday"
     }
