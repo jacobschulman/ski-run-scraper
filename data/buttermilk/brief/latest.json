@@ -2,7 +2,7 @@
   "resort": "buttermilk",
   "resortName": "Buttermilk",
   "date": "2026-02-06",
-  "generated": "2026-02-06T14:58:49.611Z",
+  "generated": "2026-02-06T16:02:40.258Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,37 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 47,
+          "today": 49,
           "yesterday": 47,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 29,
+          "today": 32,
           "yesterday": 29,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 52
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Government",
+          "difficulty": "TerrainPark",
+          "area": "Pipes/Parks"
+        },
+        {
+          "name": "Spruce Face",
+          "difficulty": "TerrainPark",
+          "area": "Pipes/Parks"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Bear",
+          "difficulty": "Blue",
+          "area": "Main"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,17 +119,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2 new trails opened today",
+      "1 trail freshly groomed"
+    ],
+    "trends": [
+      "2 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Bear - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Is It the Weekend Yet?",
-    "body": "47 of 52 trails are open with 29 groomed. Clear with a temperatures TBD. 47/52 trails open, 29 groomed. Clear.",
+    "body": "49 of 52 trails are open with 32 groomed. Clear with a temperatures TBD. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
@@ -128,9 +152,9 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         }
       ],
