@@ -1,49 +1,201 @@
 {
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
-  "date": "2026-02-06",
-  "generated": "2026-02-06T08:57:20.006Z",
+  "date": "2026-02-05",
+  "generated": "2026-02-06T07:07:09.967Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 1,
+      "7day_cm": 3,
+      "season_total_inches": 154,
+      "season_total_cm": 391,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 222,
-          "yesterday": 222,
-          "delta": 0
+          "yesterday": 221,
+          "delta": 1
         },
         "groomedTrails": {
           "today": 84,
-          "yesterday": 84,
-          "delta": 0
+          "yesterday": 80,
+          "delta": 4
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Scott Chute",
+          "difficulty": "Expert",
+          "area": "Scott/Lakeview Peak"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "The Buttress",
+          "difficulty": "Expert",
+          "area": "Summit Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Wolverine Bowl",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Wolverine Saddle",
+          "difficulty": "Very Difficult",
+          "area": "Summit Peak"
+        },
+        {
+          "name": "Bobby's Run",
+          "difficulty": "Intermediate",
+          "area": "Scott/Lakeview Peak"
+        },
+        {
+          "name": "Twilight Zone",
+          "difficulty": "Intermediate",
+          "area": "Scott/Lakeview Peak"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-05",
+        "date": "2026-02-04",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 39,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-05",
+        "high_f": null,
+        "low_f": 35,
+        "high_c": null,
+        "low_c": 2,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-06",
+          "high_f": 41,
+          "low_f": 31,
+          "high_c": 5,
+          "low_c": -1,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-07",
+          "high_f": 43,
+          "low_f": 34,
+          "high_c": 6,
+          "low_c": 1,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-08",
+          "high_f": 42,
+          "low_f": 32,
+          "high_c": 6,
+          "low_c": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-06",
+        "high_f": 41,
+        "low_f": 31,
+        "high_c": 5,
+        "low_c": -1,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1 new trail opened today",
+      "4 trails freshly groomed"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Wolverine Bowl - all skill levels",
+      "Fresh corduroy on Wolverine Saddle - all skill levels",
+      "Fresh corduroy on Bobby's Run - all skill levels"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Quiet Days on the Hill",
+    "body": "222 of 301 trails are open with 84 groomed. Mostly Cloudy with a temperatures TBD. 1 new trail opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Midweek Mountain Report"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
