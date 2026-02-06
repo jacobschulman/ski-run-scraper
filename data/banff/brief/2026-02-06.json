@@ -2,7 +2,7 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-02-06",
-  "generated": "2026-02-06T21:39:18.249Z",
+  "generated": "2026-02-06T22:34:25.574Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 118,
+          "today": 107,
           "yesterday": 113,
-          "delta": 5
+          "delta": -6
         },
         "groomedTrails": {
           "today": 42,
@@ -36,18 +36,8 @@
       },
       "newlyOpened": [
         {
-          "name": "GE. Eagle Glades",
-          "difficulty": "DoubleBlack",
-          "area": "All Terrain"
-        },
-        {
           "name": "TP. Bushwhackers",
           "difficulty": "Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "UM. Delirium Dive",
-          "difficulty": "DoubleBlack",
           "area": "All Terrain"
         },
         {
@@ -61,7 +51,48 @@
           "area": "All Terrain"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "SS. Ewe First",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Goat's Head Soup",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Mother-In-Law",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Wildside",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Farside",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Renegade",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Stampede",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        },
+        {
+          "name": "SS. Think Again",
+          "difficulty": "DoubleBlack",
+          "area": "All Terrain"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "UM. Red 90",
@@ -168,7 +199,7 @@
       },
       "outlook": [
         {
-          "date": "2026-02-07T21:39:18.248Z",
+          "date": "2026-02-07T22:34:25.573Z",
           "high_f": 37.4,
           "low_f": 19.4,
           "high_c": 3,
@@ -179,7 +210,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-02-08T21:39:18.248Z",
+          "date": "2026-02-08T22:34:25.573Z",
           "high_f": 30.2,
           "low_f": 15.8,
           "high_c": -1,
@@ -191,7 +222,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-07T21:39:18.248Z",
+        "date": "2026-02-07T22:34:25.573Z",
         "high_f": 37.4,
         "low_f": 19.4,
         "high_c": 3,
@@ -211,12 +242,10 @@
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "5 new trails opened today",
+      "3 new trails opened today",
       "5 trails freshly groomed"
     ],
-    "trends": [
-      "5 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": [
       "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers",
       "Fresh corduroy on St. Bunkers - perfect for intermediate skiers",
@@ -224,14 +253,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "More Variety Today",
-    "body": "118 of 120 trails are open with 42 groomed. Unknown with a high of 41°F. 5 new trails are now available. Nice little expansion.",
+    "headline": "Friday: Ready for the Weekend",
+    "body": "107 of 120 trails are open with 42 groomed. Unknown with a high of 41°F. 5 runs freshly groomed, mostly in All Terrain. 107/120 trails open, 42 groomed. 41° and Unknown.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
           "usedFor": "headline"
         },
         {
@@ -241,16 +270,22 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "grooming_moderate",
           "category": "terrain",
-          "priority": 60,
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 3,
+        "condition": "weekend_kickoff",
+        "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
         "previousHeadline": "Terrain Update"
