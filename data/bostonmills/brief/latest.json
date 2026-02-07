@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-02-07",
-  "generated": "2026-02-07T13:16:14.673Z",
+  "generated": "2026-02-07T14:41:11.020Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 0,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,38 @@
         },
         "totalTrails": 7
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Buttermilk",
+          "difficulty": "Blue",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Croyle",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "North Bowl",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Peter's Pride",
+          "difficulty": "TerrainPark",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Summit",
+          "difficulty": "Green",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Tiger",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,40 +78,49 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "3\" fresh snow overnight",
+      "6 new trails opened today"
     ],
-    "trends": [],
+    "trends": [
+      "6 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "No trails open yet. Current forecast: Variable conditions.",
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "A proper refresh: 3\" of new snow making everything ski better. New terrain alert: 6 trails added to the mix.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
+        "condition": "snow_solid",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Saturday"
     }
