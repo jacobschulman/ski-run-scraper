@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-07",
-  "generated": "2026-02-07T11:34:26.005Z",
+  "generated": "2026-02-07T13:16:14.666Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,44 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 0,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 0,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 25
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Big Riskey",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Blue Sky",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Cheetah",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Chicken Chute",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Grand River",
+          "difficulty": "Black",
+          "area": "Front Side"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,38 +73,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
+    "trends": [
+      "5 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "5 New Runs Open",
+    "body": "5 of 25 trails are open with 5 groomed. Variable conditions with a temperatures TBD. 5 new trails are now available. Nice little expansion.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Saturday"
     }
