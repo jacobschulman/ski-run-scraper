@@ -4,22 +4,50 @@
 module.exports = {
   apps: [
     // ═══════════════════════════════════════════════════════════════════════════
-    // LIFT SCRAPER - Real-time wait times (every 1-2.5 minutes)
+    // LIFT SCRAPER - Others (HTTP API providers: Inspector, Aspen, ReportPal, Zaneray, DOR)
+    // Lightweight HTTP-only process, should essentially never crash
     // ═══════════════════════════════════════════════════════════════════════════
     {
-      name: 'lift-scraper',
-      script: './lift-scraper-persistent.js',
+      name: 'lift-scraper-others',
+      script: './lift-scraper-others.js',
       cwd: __dirname,
       instances: 1,
       autorestart: true,
-      min_uptime: '10s',
+      min_uptime: '30s',
       watch: false,
-      max_memory_restart: '1500M',
+      max_memory_restart: '300M',
+      restart_delay: 5000,         // 5s pause between restarts
+      max_restarts: 50,            // Allow many restarts before PM2 gives up
       env: {
         NODE_ENV: 'production',
       },
-      error_file: '/home/scraper/logs/lift-error.log',
-      out_file: '/home/scraper/logs/lift-out.log',
+      error_file: '/home/scraper/logs/lift-others-error.log',
+      out_file: '/home/scraper/logs/lift-others-out.log',
+      merge_logs: true,
+      log_date_format: 'YYYY-MM-DD HH:mm:ss',
+    },
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // LIFT SCRAPER - Vail (Puppeteer-based, scrapes every 3 minutes)
+    // Isolated from HTTP scrapers so Chrome crashes don't affect other providers
+    // ═══════════════════════════════════════════════════════════════════════════
+    {
+      name: 'lift-scraper-vail',
+      script: './lift-scraper-vail.js',
+      cwd: __dirname,
+      instances: 1,
+      autorestart: true,
+      min_uptime: '30s',
+      watch: false,
+      max_memory_restart: '1200M',
+      exp_backoff_restart_delay: 1000,  // Exponential backoff: 1s, 2s, 4s... (caps at 15s)
+      max_restarts: 30,
+      node_args: '--expose-gc',         // Allow manual GC for memory management
+      env: {
+        NODE_ENV: 'production',
+      },
+      error_file: '/home/scraper/logs/lift-vail-error.log',
+      out_file: '/home/scraper/logs/lift-vail-out.log',
       merge_logs: true,
       log_date_format: 'YYYY-MM-DD HH:mm:ss',
     },
