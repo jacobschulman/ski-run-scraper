@@ -2,19 +2,35 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-02-07",
-  "generated": "2026-02-07T15:44:53.256Z",
+  "generated": "2026-02-07T17:36:56.608Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 85,
+      "season_total_cm": 216,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 146,
+          "today": 142,
           "yesterday": 149,
-          "delta": -3
+          "delta": -7
         },
         "groomedTrails": {
-          "today": 80,
+          "today": 82,
           "yesterday": 75,
-          "delta": 5
+          "delta": 7
         },
         "totalTrails": 227
       },
@@ -36,6 +52,21 @@
         }
       ],
       "newlyClosed": [
+        {
+          "name": "Magnet (Lower)",
+          "difficulty": "Expert",
+          "area": "Lady Morgan"
+        },
+        {
+          "name": "Magnet (Upper)",
+          "difficulty": "Expert",
+          "area": "Lady Morgan"
+        },
+        {
+          "name": "Daly Chutes",
+          "difficulty": "Extremely Difficult",
+          "area": "Empire"
+        },
         {
           "name": "Evening Star",
           "difficulty": "Intermediate",
@@ -65,6 +96,11 @@
           "name": "Tug of War (Upper)",
           "difficulty": "Easy",
           "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Sunrise",
+          "difficulty": "Intermediate",
+          "area": "Bald Eagle Mountain"
         }
       ],
       "newlyGroomed": [
@@ -74,8 +110,18 @@
           "area": "Bald Mountain"
         },
         {
+          "name": "Homeward Bound (Lower)",
+          "difficulty": "Easy",
+          "area": "Bald Mountain"
+        },
+        {
           "name": "Keno",
           "difficulty": "Intermediate",
+          "area": "Bald Mountain"
+        },
+        {
+          "name": "Northern Light (Lower)",
+          "difficulty": "Easy",
           "area": "Bald Mountain"
         },
         {
@@ -136,25 +182,127 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-07",
+        "high_f": 37,
+        "low_f": 30,
+        "high_c": 3,
+        "low_c": -1,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-08",
+          "high_f": 39,
+          "low_f": 33,
+          "high_c": 4,
+          "low_c": 1,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 34,
+          "low_f": 24,
+          "high_c": 1,
+          "low_c": -4,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 31,
+          "low_f": 27,
+          "high_c": 0,
+          "low_c": -3,
+          "description": "Snow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-08",
+        "high_f": 39,
+        "low_f": 33,
+        "high_c": 4,
+        "low_c": 1,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "3 new trails opened today",
-      "10 trails freshly groomed"
+      "12 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "3\" snow expected Tuesday"
+    ],
     "recommendations": [
       "Fresh corduroy on Edgar's Alley - all skill levels",
-      "Fresh corduroy on Keno - all skill levels",
-      "Fresh corduroy on Star - all skill levels"
+      "Fresh corduroy on Homeward Bound (Lower) - all skill levels",
+      "Fresh corduroy on Keno - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Groomers Did Their Thing",
+    "body": "142 trails open, 82 groomed. Sunny, high of 37°. The grooming crew went hard: 12 trails of fresh corduroy in Bald Mountain, Flagstaff Mountain, and more. A little something coming our way. Light snow expected to dust things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "grooming_highlight",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

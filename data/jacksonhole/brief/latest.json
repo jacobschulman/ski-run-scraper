@@ -2,14 +2,30 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-07",
-  "generated": "2026-02-07T15:44:53.328Z",
+  "generated": "2026-02-07T17:36:56.711Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 220,
+      "season_total_cm": 559,
+      "conditions": {
+        "today": "6 AM—Time to get up, Jackson Hole. Sure, it's Saturday, and you could easily take it chill and mild. But why not tap into your inner child by letting all your fall-line fantasies run totally wild? Morning clouds with the slim potential for a passing snow shower will add an air of mystery unseen as of late on the slopes of Teton Village before quickly giving way to beams of afternoon sunshine. High temperatures will tickle the freezing point at the summit and rise to the low 40s down in the Village. Light to moderate winds will shift out of the west as they blow in the 5-20 mph neighborhood. Now, I'm not going to pretend that every slope you descend will lead to a place where your ego can transcend. But as it's often been said, the fool who persists in his folly gets wise in the end. -Lege",
+        "yesterday": "6 AM—Good morning, Jackson Hole. Head for the Village, all you alpine adventurers, because Friday is dawning with the promise of boundless skies and spring-like temperatures. Following a brief inversion this morning, the highs will soar into the upper 30s on the deck of Corbet's Cabin and the mid-40s in the valley. A subtle touch from a south-southwest breeze will finish the scene as it blows between zilch and 10 mph. Often seductive and sometimes sedating, a little ski in the sunshine is always the right thing. So, don't even question it. It's not worth debating. Blow off work because a better time is waiting. -Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 117,
+          "today": 119,
           "yesterday": 117,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 47,
@@ -18,7 +34,18 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -52,20 +79,59 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2 new trails opened today",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "2 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Teewinot (Upper) - perfect for intermediate skiers",
       "Fresh corduroy on Laramie - perfect for intermediate skiers",
       "Fresh corduroy on Ranger - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Saturday Session",
+    "body": "The rundown: 119 trails open, 47 groomed. Variable conditions with temps around temps TBD. 2 new trails opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_saturday",
+          "category": "time",
+          "priority": 38,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "saturday",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Saturday at the Mountain"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

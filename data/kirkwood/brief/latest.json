@@ -2,14 +2,30 @@
   "resort": "kirkwood",
   "resortName": "Kirkwood",
   "date": "2026-02-07",
-  "generated": "2026-02-07T15:44:46.284Z",
+  "generated": "2026-02-07T17:36:49.643Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 161,
+      "season_total_cm": 408,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 112,
           "yesterday": 112,
-          "delta": -2
+          "delta": 0
         },
         "groomedTrails": {
           "today": 43,
@@ -19,18 +35,7 @@
         "totalTrails": 113
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Bandit Terrain Park",
-          "difficulty": "TerrainPark",
-          "area": "Terrain Parks"
-        },
-        {
-          "name": "Buckaroo",
-          "difficulty": "TerrainPark",
-          "area": "Terrain Parks"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -79,18 +84,120 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-07",
+        "high_f": 41,
+        "low_f": 29,
+        "high_c": 5,
+        "low_c": -2,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-08T08:00:00Z",
+          "high_f": 42,
+          "low_f": 31,
+          "high_c": 5,
+          "low_c": -1,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09T08:00:00Z",
+          "high_f": 37,
+          "low_f": 29,
+          "high_c": 3,
+          "low_c": -2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-02-10T08:00:00Z",
+          "high_f": 29,
+          "low_f": 24,
+          "high_c": -2,
+          "low_c": -5,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 4,
+          "snowfall_expected": 9
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-08T08:00:00Z",
+        "high_f": 42,
+        "low_f": 31,
+        "high_c": 5,
+        "low_c": -1,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "3\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter's Coming Back",
+    "body": "112 of 113 trails are open with 43 groomed. Mostly Clear with a high of 41°F. Peak terrain status: almost everything is available today. Watch for crowds at #7 TC Express, which saw 14-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 3,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Cheers to the Weekend"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

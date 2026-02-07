@@ -2,14 +2,30 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-02-07",
-  "generated": "2026-02-07T15:44:53.261Z",
+  "generated": "2026-02-07T17:36:56.616Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 131,
+      "season_total_cm": 333,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 90,
+          "today": 97,
           "yesterday": 90,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
           "today": 43,
@@ -18,7 +34,43 @@
         },
         "totalTrails": 107
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Boundary Chutes",
+          "difficulty": "Difficult",
+          "area": "Honeycomb Canyon"
+        },
+        {
+          "name": "Crystal Point",
+          "difficulty": "Expert",
+          "area": "Honeycomb Canyon"
+        },
+        {
+          "name": "No Man's Land",
+          "difficulty": "Expert",
+          "area": "Honeycomb Canyon"
+        },
+        {
+          "name": "Barrett's Glade",
+          "difficulty": "Expert",
+          "area": "Evergreen Peak"
+        },
+        {
+          "name": "Dead Tree",
+          "difficulty": "Expert",
+          "area": "Evergreen Peak"
+        },
+        {
+          "name": "Evening Star",
+          "difficulty": "Difficult",
+          "area": "Evergreen Peak"
+        },
+        {
+          "name": "Evergreen Chutes",
+          "difficulty": "Expert",
+          "area": "Evergreen Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -49,23 +101,127 @@
         "totalLiftsTracked": 10,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-07",
+        "high_f": 37,
+        "low_f": 29,
+        "high_c": 3,
+        "low_c": -1,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-08",
+          "high_f": 40,
+          "low_f": 33,
+          "high_c": 4,
+          "low_c": 0,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 35,
+          "low_f": 25,
+          "high_c": 2,
+          "low_c": -4,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 32,
+          "low_f": 27,
+          "high_c": 0,
+          "low_c": -3,
+          "description": "Snow",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 4
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-08",
+        "high_f": 40,
+        "low_f": 33,
+        "high_c": 4,
+        "low_c": 0,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "7 new trails opened today",
       "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "7 more trails open than yesterday",
+      "1\" snow expected Monday"
+    ],
     "recommendations": [
       "Fresh corduroy on Grumble Lower - all skill levels",
       "Fresh corduroy on Rumble Lower - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "More Mountain to Explore",
+    "body": "97 trails open, 43 groomed. Sunny, high of 37°. Ski patrol has been busy - 7 additional trails are now open. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Is It the Weekend Yet?"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
