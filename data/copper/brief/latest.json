@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-08",
-  "generated": "2026-02-08T15:46:48.809Z",
+  "generated": "2026-02-08T17:36:02.618Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 1,
+      "7day_cm": 3,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -125,20 +141,72 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-08",
+        "high_f": 32,
+        "low_f": 19,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-09",
+          "high_f": 35,
+          "low_f": 19,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 33,
+          "low_f": 20,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-11",
+          "high_f": 29,
+          "low_f": 22,
+          "description": "Cloudy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-09",
+        "high_f": 35,
+        "low_f": 19,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1\" new snow overnight",
       "7 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
-      "8 more trails open than yesterday"
+      "8 more trails open than yesterday",
+      "1\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Clear Cut - perfect for intermediate skiers",
@@ -146,6 +214,46 @@
       "Fresh corduroy on I-Way - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "More Mountain to Explore",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 7 new runs just opened up. Time to explore fresh terrain. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Terrain Expanding"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

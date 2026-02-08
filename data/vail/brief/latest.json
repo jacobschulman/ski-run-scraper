@@ -2,8 +2,24 @@
   "resort": "vail",
   "resortName": "Vail",
   "date": "2026-02-08",
-  "generated": "2026-02-08T15:46:39.485Z",
+  "generated": "2026-02-08T17:35:54.951Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 1,
+      "7day_cm": 2,
+      "season_total_inches": 90,
+      "season_total_cm": 228,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -211,10 +227,70 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-08",
+        "high_f": 42,
+        "low_f": 22,
+        "high_c": 5,
+        "low_c": -6,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-09T07:00:00Z",
+          "high_f": 44,
+          "low_f": 25,
+          "high_c": 7,
+          "low_c": -4,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-10T07:00:00Z",
+          "high_f": 42,
+          "low_f": 27,
+          "high_c": 5,
+          "low_c": -3,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-11T07:00:00Z",
+          "high_f": 39,
+          "low_f": 29,
+          "high_c": 3,
+          "low_c": -2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-09T07:00:00Z",
+        "high_f": 44,
+        "low_f": 25,
+        "high_c": 7,
+        "low_c": -4,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -222,13 +298,55 @@
     "alerts": [
       "5 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "2\" snow expected Wednesday"
+    ],
     "recommendations": [
       "Fresh corduroy on The Star - perfect for intermediate skiers",
       "Fresh corduroy on Ha Ha - West - great for beginners",
       "Fresh corduroy on Compromise - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Sunday Skiing",
+    "body": "189 trails open, 95 groomed. Clear, high of 42°. 5 runs freshly groomed, mostly in Blue Sky Basin, Lionshead, and more. Heads up: Northwoods Express #11 peaked at 40 minutes yesterday. Consider alternatives.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_sunday",
+          "category": "time",
+          "priority": 38,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_busy",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "sunday",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Corduroy Awaits"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

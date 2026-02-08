@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-08",
-  "generated": "2026-02-08T15:46:48.800Z",
+  "generated": "2026-02-08T17:36:02.600Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 218,
+          "today": 210,
           "yesterday": 218,
-          "delta": 0
+          "delta": -8
         },
         "groomedTrails": {
           "today": 41,
@@ -19,7 +35,48 @@
         "totalTrails": 319
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Liberty Bowl",
+          "difficulty": "Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Cron's",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Dictator Chutes",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Lenin",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Marx",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "The Gullies",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Tohelluride",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Yeti Traverse",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Cupajo",
@@ -231,10 +288,60 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-08",
+        "high_f": 32,
+        "low_f": 23,
+        "description": "Windy",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-09",
+          "high_f": 22,
+          "low_f": 12,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 22,
+          "low_f": 18,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-11",
+          "high_f": 24,
+          "low_f": 17,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-09",
+        "high_f": 22,
+        "low_f": 12,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 6,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 6
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
@@ -243,7 +350,8 @@
       "38 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 1267% from yesterday"
+      "Grooming increased 1267% from yesterday",
+      "6\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -251,6 +359,46 @@
       "Fresh corduroy on Bozeman Trail - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major System Approaching",
+    "body": "210 of 319 trails are open with 41 groomed. Windy with a high of 32°F. 38 runs freshly groomed. The mountain is absolutely pristine. Big things coming. 9\" in the forecast. Might be time to plan ahead.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_massive",
+          "category": "terrain",
+          "priority": 78,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Forecast Looks Loaded"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
