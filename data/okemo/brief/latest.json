@@ -1,35 +1,111 @@
 {
   "resort": "okemo",
   "resortName": "Okemo",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.548Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.293Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 84,
+      "season_total_cm": 213,
+      "conditions": {
+        "today": "Fresh",
+        "yesterday": "Fresh"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 127,
-          "yesterday": 126,
-          "delta": 1
+          "today": 126,
+          "yesterday": 116,
+          "delta": 10
         },
         "groomedTrails": {
-          "today": 93,
-          "yesterday": 92,
-          "delta": 1
+          "today": 92,
+          "yesterday": 84,
+          "delta": 8
         },
         "totalTrails": 129
       },
       "newlyOpened": [
         {
-          "name": "The Zone",
+          "name": "Drop Off",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Easy Street",
+          "difficulty": "Green",
+          "area": "Main Face"
+        },
+        {
+          "name": "Halfpipe",
           "difficulty": "TerrainPark",
           "area": "Main Face"
+        },
+        {
+          "name": "Home Stretch",
+          "difficulty": "Green",
+          "area": "Main Face"
+        },
+        {
+          "name": "Ledges",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower Sel's",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Muellers' Run",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Scooter",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Dream Weaver",
+          "difficulty": "Green",
+          "area": "South Face"
+        },
+        {
+          "name": "Moon Dog",
+          "difficulty": "Blue",
+          "area": "South Face"
         }
       ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
-          "name": "The Zone",
-          "difficulty": "TerrainPark",
+          "name": "Easy Street",
+          "difficulty": "Green",
+          "area": "Main Face"
+        },
+        {
+          "name": "Home Stretch",
+          "difficulty": "Green",
+          "area": "Main Face"
+        },
+        {
+          "name": "Rum Run",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Upper Mtn Road",
+          "difficulty": "Green",
           "area": "Main Face"
         }
       ],
@@ -41,20 +117,58 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "1 new trail opened today",
-      "1 trail freshly groomed"
+      "10 new trails opened today",
+      "4 trails freshly groomed"
     ],
     "trends": [
-      "1 more trail open than yesterday"
+      "10 more trails open than yesterday"
     ],
     "recommendations": [
-      "Fresh corduroy on The Zone - all skill levels"
+      "Fresh corduroy on Easy Street - great for beginners",
+      "Fresh corduroy on Home Stretch - great for beginners",
+      "Fresh corduroy on Rum Run - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Terrain Unlocked",
+    "body": "126 trails open, 92 groomed. Variable conditions, temperatures TBD. Ski patrol has been busy - 10 additional trails are now open.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Map Got Bigger"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

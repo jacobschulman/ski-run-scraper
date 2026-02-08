@@ -1,15 +1,31 @@
 {
   "resort": "bostonmills",
   "resortName": "Boston Mills",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.568Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.342Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 5,
+      "7day_cm": 14,
+      "season_total_inches": 48,
+      "season_total_cm": 121,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
-          "yesterday": 6,
-          "delta": -6
+          "today": 6,
+          "yesterday": 0,
+          "delta": 6
         },
         "groomedTrails": {
           "today": 0,
@@ -18,8 +34,7 @@
         },
         "totalTrails": 7
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
           "name": "Buttermilk",
           "difficulty": "Blue",
@@ -51,6 +66,7 @@
           "area": "Boston Mills"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -60,13 +76,54 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight",
+      "6 new trails opened today"
+    ],
+    "trends": [
+      "6 more trails open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Proper Refresh",
+    "body": "A proper refresh: 3\" of new snow making everything ski better. New terrain alert: 6 trails added to the mix.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Snow, Fresh Vibes"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

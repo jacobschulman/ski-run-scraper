@@ -1,9 +1,25 @@
 {
   "resort": "madrivermountain",
   "resortName": "Mad River Mountain",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.569Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.346Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 5,
+      "24hour_cm": 12,
+      "48hour_inches": 5,
+      "48hour_cm": 12,
+      "7day_inches": 5,
+      "7day_cm": 12,
+      "season_total_inches": 33,
+      "season_total_cm": 83,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -29,13 +45,45 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "4\" fresh snow overnight"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "5\" Freshened Things Up",
+    "body": "5\" settled in while you were sleeping. Groomers are smooth, off-piste is soft.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Boost"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

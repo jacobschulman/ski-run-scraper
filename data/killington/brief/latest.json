@@ -1,9 +1,25 @@
 {
   "resort": "killington",
   "resortName": "Killington",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:42.859Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T23:38:10.064Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 3,
+      "7day_cm": 8,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -26,24 +42,112 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-07",
+        "date": "2026-02-06",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 19,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-07",
+        "high_f": 12,
+        "low_f": -10,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-08",
+          "high_f": -2,
+          "low_f": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09",
+          "high_f": 10,
+          "low_f": 11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 22,
+          "low_f": 19,
+          "description": "Cloudy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-08",
+        "high_f": -2,
+        "low_f": -2,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight"
+    ],
+    "trends": [
+      "3\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Proper Refresh"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

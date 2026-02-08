@@ -1,58 +1,130 @@
 {
   "resort": "attitash",
   "resortName": "Attitash",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.554Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.304Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 57,
+      "season_total_cm": 146,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 69,
-          "yesterday": 73,
-          "delta": -4
+          "today": 73,
+          "yesterday": 65,
+          "delta": 8
         },
         "groomedTrails": {
-          "today": 54,
-          "yesterday": 56,
-          "delta": -2
+          "today": 56,
+          "yesterday": 49,
+          "delta": 7
         },
         "totalTrails": 76
       },
       "newlyOpened": [
+        {
+          "name": "Idiot's Option",
+          "difficulty": "Black",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Middle Highway",
+          "difficulty": "Blue",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Straight Shot",
+          "difficulty": "Blue",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Upper Highway",
+          "difficulty": "Blue",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Blueberry Lane",
+          "difficulty": "Green",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Kachina Falls",
+          "difficulty": "Black",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Moonbeam",
+          "difficulty": "Green",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Quiver",
+          "difficulty": "Black",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Quiver Glade",
+          "difficulty": "Black",
+          "area": "Bear Peak"
+        }
+      ],
+      "newlyClosed": [
         {
           "name": "Trillium",
           "difficulty": "Blue",
           "area": "Bear Peak"
         }
       ],
-      "newlyClosed": [
+      "newlyGroomed": [
         {
-          "name": "Ptarmigan Park",
-          "difficulty": "TerrainPark",
+          "name": "Chicken's Option",
+          "difficulty": "Blue",
           "area": "Attitash Peak"
         },
         {
-          "name": "Tim's",
+          "name": "Idiot's Option",
           "difficulty": "Black",
           "area": "Attitash Peak"
         },
         {
-          "name": "Wildfred's Gawm",
+          "name": "Avenger",
           "difficulty": "Black",
-          "area": "Attitash Peak"
-        },
-        {
-          "name": "Arcade",
-          "difficulty": "TerrainPark",
           "area": "Bear Peak"
         },
         {
-          "name": "Illusion",
+          "name": "Blueberry Lane",
+          "difficulty": "Green",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Moonbeam",
+          "difficulty": "Green",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Mythmaker",
+          "difficulty": "Black",
+          "area": "Bear Peak"
+        },
+        {
+          "name": "Quiver",
           "difficulty": "Black",
           "area": "Bear Peak"
         }
       ],
-      "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
@@ -61,15 +133,58 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "1 new trail opened today"
+      "9 new trails opened today",
+      "7 trails freshly groomed"
     ],
-    "trends": [],
-    "recommendations": []
+    "trends": [
+      "8 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Chicken's Option - perfect for intermediate skiers",
+      "Fresh corduroy on Idiot's Option - challenging for advanced skiers",
+      "Fresh corduroy on Avenger - challenging for advanced skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "New Runs Now Open",
+    "body": "73/76 trails spinning, 56 freshly groomed. Variable conditions. 9 new runs just opened up. Time to explore fresh terrain.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

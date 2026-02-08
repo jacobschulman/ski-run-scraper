@@ -1,15 +1,31 @@
 {
   "resort": "brandywine",
   "resortName": "Brandywine",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.569Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.344Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 5,
+      "7day_cm": 14,
+      "season_total_inches": 48,
+      "season_total_cm": 121,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
-          "yesterday": 11,
-          "delta": -11
+          "today": 11,
+          "yesterday": 0,
+          "delta": 11
         },
         "groomedTrails": {
           "today": 0,
@@ -18,8 +34,7 @@
         },
         "totalTrails": 11
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
           "name": "Champagne",
           "difficulty": "Black",
@@ -76,6 +91,7 @@
           "area": "Brandywine"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -85,13 +101,54 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight",
+      "11 new trails opened today"
+    ],
+    "trends": [
+      "11 more trails open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Nice Little Top-Up",
+    "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Ski patrol has been busy - 11 additional trails are now open.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Proper Refresh"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

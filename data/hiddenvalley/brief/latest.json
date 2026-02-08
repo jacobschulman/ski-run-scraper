@@ -1,41 +1,189 @@
 {
   "resort": "hiddenvalley",
   "resortName": "Hidden Valley",
-  "date": "2026-02-08",
-  "generated": "2026-02-08T05:32:36.563Z",
+  "date": "2026-02-07",
+  "generated": "2026-02-07T15:44:46.328Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 4,
+      "7day_cm": 10,
+      "season_total_inches": 82,
+      "season_total_cm": 208,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 31,
-          "yesterday": 31,
-          "delta": 0
+          "yesterday": 30,
+          "delta": 1
         },
         "groomedTrails": {
           "today": 27,
-          "yesterday": 27,
-          "delta": 0
+          "yesterday": 24,
+          "delta": 3
         },
         "totalTrails": 31
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Road Runner",
+          "difficulty": "Black",
+          "area": "Valley"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Blazer",
+          "difficulty": "Blue",
+          "area": "North Summit"
+        },
+        {
+          "name": "Cherokee",
+          "difficulty": "Blue",
+          "area": "North Summit"
+        },
+        {
+          "name": "Road Runner",
+          "difficulty": "Black",
+          "area": "Valley"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-07",
+        "high_f": 20,
+        "low_f": 16,
+        "high_c": -7,
+        "low_c": -9,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-07T05:00:00Z",
+          "high_f": 14,
+          "low_f": -4,
+          "high_c": -10,
+          "low_c": -20,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-08T05:00:00Z",
+          "high_f": 7,
+          "low_f": -1,
+          "high_c": -14,
+          "low_c": -19,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-09T05:00:00Z",
+          "high_f": 26,
+          "low_f": 4,
+          "high_c": -3,
+          "low_c": -16,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-07T05:00:00Z",
+        "high_f": 14,
+        "low_f": -4,
+        "high_c": -10,
+        "low_c": -20,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2\" fresh snow overnight",
+      "1 new trail opened today",
+      "3 trails freshly groomed"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Blazer - perfect for intermediate skiers",
+      "Fresh corduroy on Cherokee - perfect for intermediate skiers",
+      "Fresh corduroy on Road Runner - challenging for advanced skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Overnight Refresh",
+    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. 1 new trail opened today. Cold day ahead: 20° high. Dress warmly.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
