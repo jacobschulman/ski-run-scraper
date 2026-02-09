@@ -2,7 +2,7 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-02-09",
-  "generated": "2026-02-09T11:59:52.820Z",
+  "generated": "2026-02-09T15:11:24.328Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,43 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 65,
+          "today": 64,
           "yesterday": 65,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 193
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Sunshine Lift Line",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Voo Doo",
+          "difficulty": "Advanced",
+          "area": "Steamboat"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Flintlock",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Over Easy",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        },
+        {
+          "name": "Quickdraw",
+          "difficulty": "Intermediate",
+          "area": "Steamboat"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,27 +78,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-08",
-        "high_f": null,
-        "low_f": 29,
-        "high_c": null,
-        "low_c": -1,
-        "description": "Mostly Clear",
+        "date": "2026-02-09",
+        "high_f": 36,
+        "low_f": 22,
+        "high_c": 2,
+        "low_c": -6,
+        "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-09",
-          "high_f": 36,
-          "low_f": 22,
-          "high_c": 3,
-          "low_c": -6,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-02-10",
           "high_f": 32,
@@ -91,17 +107,28 @@
           "low_c": -3,
           "description": "Thundersnow",
           "snowfall_day_inches": 1,
-          "snowfall_night_inches": 3,
-          "snowfall_expected": 4
+          "snowfall_night_inches": 4,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-12",
+          "high_f": 27,
+          "low_f": 22,
+          "high_c": -3,
+          "low_c": -5,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 5
         }
       ],
       "tomorrow": {
-        "date": "2026-02-09",
-        "high_f": 36,
-        "low_f": 22,
-        "high_c": 3,
-        "low_c": -6,
-        "description": "Windy",
+        "date": "2026-02-10",
+        "high_f": 32,
+        "low_f": 28,
+        "high_c": 0,
+        "low_c": -2,
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -116,21 +143,26 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "4\" snow expected Wednesday"
+    "alerts": [
+      "2 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "5\" snow expected Wednesday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Sunshine Lift Line - all skill levels",
+      "Fresh corduroy on Voo Doo - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "162/193 trails spinning, 65 freshly groomed. Mostly Clear. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "Big Snow Incoming",
+    "body": "162/193 trails spinning, 64 freshly groomed. 36° and Windy. A significant storm is brewing with 10\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -140,19 +172,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Monday"
     }

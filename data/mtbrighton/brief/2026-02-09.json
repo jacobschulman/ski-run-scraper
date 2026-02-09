@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-09",
-  "generated": "2026-02-09T11:59:46.619Z",
+  "generated": "2026-02-09T15:11:16.488Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 20,
           "yesterday": 25,
-          "delta": -25
+          "delta": -5
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 22,
-          "delta": -22
+          "delta": -3
         },
         "totalTrails": 26
       },
@@ -42,33 +42,13 @@
           "area": "Backside"
         },
         {
-          "name": "Golden Eagle",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
           "name": "Jax Bowl",
           "difficulty": "Blue",
           "area": "Backside"
         },
         {
-          "name": "Ore Creek",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Osprey",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
           "name": "Perk's Folly",
           "difficulty": "DoubleBlack",
-          "area": "Backside"
-        },
-        {
-          "name": "Snyder's Escape",
-          "difficulty": "Black",
           "area": "Backside"
         },
         {
@@ -82,82 +62,7 @@
           "area": "Backside"
         },
         {
-          "name": "Bunny",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Flatiron",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Larkspur",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Snowshoe",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Big Riskey",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Blue Sky",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Cheetah",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Chicken Chute",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Crosscut",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Gasoline Alley",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Grand River",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Ryan's Run",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Sawtooth Ridge",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
           "name": "Spike's Folly",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Thalacker's",
           "difficulty": "Blue",
           "area": "Front Side"
         }
@@ -186,7 +91,7 @@
           "low_f": 23,
           "high_c": 4,
           "low_c": -5,
-          "description": "Windy",
+          "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -205,9 +110,9 @@
         {
           "date": "2026-02-12T05:00:00Z",
           "high_f": 26,
-          "low_f": 18,
+          "low_f": 17,
           "high_c": -4,
-          "low_c": -8,
+          "low_c": -9,
           "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -220,7 +125,7 @@
         "low_f": 23,
         "high_c": 4,
         "low_c": -5,
-        "description": "Windy",
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -239,30 +144,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "No trails open yet. Current forecast: Mostly Cloudy.",
+    "headline": "Your Morning Mountain Brief",
+    "body": "20/26 trails spinning, 19 freshly groomed. 27° and Mostly Cloudy. 20/26 trails open, 19 groomed. 27° and Mostly Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 0,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Monday"
     }

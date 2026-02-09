@@ -2,15 +2,15 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-02-09",
-  "generated": "2026-02-09T11:59:52.840Z",
+  "generated": "2026-02-09T15:11:24.350Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 2,
-      "24hour_cm": 5,
-      "48hour_inches": 6,
-      "48hour_cm": 15,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
       "7day_inches": 0,
       "7day_cm": 0,
       "season_total_inches": 166,
@@ -23,19 +23,30 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 114,
+          "today": 112,
           "yesterday": 114,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 55,
           "yesterday": 62,
-          "delta": -5
+          "delta": -7
         },
         "totalTrails": 142
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Brambles",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        },
+        {
+          "name": "Inverness",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": [
         {
@@ -77,27 +88,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-08",
-        "high_f": null,
-        "low_f": -3,
-        "high_c": null,
-        "low_c": -19,
+        "date": "2026-02-09",
+        "high_f": 9,
+        "low_f": 9,
+        "high_c": -13,
+        "low_c": -13,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-09",
-          "high_f": 8,
-          "low_f": 9,
-          "high_c": -13,
-          "low_c": -13,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-02-10",
           "high_f": 20,
@@ -116,21 +116,32 @@
           "high_c": -8,
           "low_c": -12,
           "description": "Windy",
-          "snowfall_day_inches": 1,
+          "snowfall_day_inches": 0,
           "snowfall_night_inches": 1,
-          "snowfall_expected": 2
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-12",
+          "high_f": 13,
+          "low_f": 10,
+          "high_c": -11,
+          "low_c": -12,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-02-09",
-        "high_f": 8,
-        "low_f": 9,
-        "high_c": -13,
-        "low_c": -13,
+        "date": "2026-02-10",
+        "high_f": 20,
+        "low_f": 19,
+        "high_c": -7,
+        "low_c": -7,
         "description": "Windy",
-        "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 2,
+        "snowfall_expected": 3
       }
     }
   },
@@ -149,20 +160,20 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "A light refresh of 2\" overnight makes the groomers smoother. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "headline": "Arctic Air in Place",
+    "body": "112 of 142 trails are open with 55 groomed. Windy with a high of 9°F. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "temp_frigid",
+          "category": "weather",
+          "priority": 73,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 70,
+          "priority": 10,
           "usedFor": "body"
         },
         {
@@ -172,13 +183,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 0,
+        "condition": "cold_snap",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Coat on the Mountain"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Monday"
     }

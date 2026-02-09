@@ -2,15 +2,15 @@
   "resort": "okemo",
   "resortName": "Okemo",
   "date": "2026-02-09",
-  "generated": "2026-02-09T11:59:46.566Z",
+  "generated": "2026-02-09T15:11:16.438Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 1,
-      "24hour_cm": 2,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 1,
+      "48hour_cm": 2,
       "7day_inches": 2,
       "7day_cm": 5,
       "season_total_inches": 86,
@@ -23,19 +23,51 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 120,
+          "today": 124,
           "yesterday": 120,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 89,
+          "today": 91,
           "yesterday": 89,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Chute",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Fast Lane",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower Chief",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Upper Chief",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Willie's Way",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "The Zone",
+          "difficulty": "TerrainPark",
+          "area": "Main Face"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -46,9 +78,9 @@
       "today": {
         "date": "2026-02-09",
         "high_f": 14,
-        "low_f": -5,
+        "low_f": -3,
         "high_c": -10,
-        "low_c": -21,
+        "low_c": -20,
         "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -58,12 +90,12 @@
           "date": "2026-02-10T05:00:00Z",
           "high_f": 26,
           "low_f": 8,
-          "high_c": -3,
+          "high_c": -4,
           "low_c": -14,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         },
         {
           "date": "2026-02-11T05:00:00Z",
@@ -82,7 +114,7 @@
           "low_f": 13,
           "high_c": -5,
           "low_c": -11,
-          "description": "Mostly Cloudy",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -92,12 +124,12 @@
         "date": "2026-02-10T05:00:00Z",
         "high_f": 26,
         "low_f": 8,
-        "high_c": -3,
+        "high_c": -4,
         "low_c": -14,
         "description": "Cloudy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
       }
     }
   },
@@ -105,28 +137,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
+    "trends": [
+      "4 more trails open than yesterday",
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Touch-Up",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. It's a postcard kind of day. 14° and sunny - the mountain is photogenic.",
+    "headline": "Unlimited Visibility",
+    "body": "The rundown: 124 trails open, 91 groomed. Mostly Clear with temps around 14°. The terrain list grew by 5 today. More variety to choose from. It's a postcard kind of day. 14° and sunny - the mountain is photogenic.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
+          "id": "weather_bluebird",
+          "category": "weather",
           "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 70,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -136,13 +179,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "bluebird_day",
         "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Layer in Place"
+        "previousHeadline": "The Mountain Got a Touch-Up"
       },
       "dayOfWeek": "Monday"
     }
