@@ -1,9 +1,25 @@
 {
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
-  "date": "2026-02-09",
-  "generated": "2026-02-09T09:07:16.684Z",
+  "date": "2026-02-08",
+  "generated": "2026-02-09T07:17:16.863Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 4,
+      "7day_cm": 11,
+      "season_total_inches": 118,
+      "season_total_cm": 300,
+      "conditions": {
+        "today": "Hard Pack",
+        "yesterday": "Hard Pack"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -13,37 +29,157 @@
         },
         "groomedTrails": {
           "today": 22,
-          "yesterday": 22,
-          "delta": 0
+          "yesterday": 20,
+          "delta": 2
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Collins",
+          "difficulty": "Novice",
+          "area": "Lions Express"
+        },
+        {
+          "name": "Cat Track (upper)",
+          "difficulty": "Blue",
+          "area": "Lions Express"
+        },
+        {
+          "name": "T-33",
+          "difficulty": "Blue",
+          "area": "Sky Quad"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Fork",
+          "difficulty": "Blue",
+          "area": "Eagle Express"
+        },
+        {
+          "name": "Gibsons",
+          "difficulty": "Black",
+          "area": "Lions Express"
+        },
+        {
+          "name": "Cat Track (lower)",
+          "difficulty": "Blue",
+          "area": "Lions Express"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-08",
+        "date": "2026-02-07",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 6,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-08",
+        "high_f": null,
+        "low_f": 30,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-09",
+          "high_f": 31,
+          "low_f": 31,
+          "description": "Snow",
+          "snowfall_day_inches": 10,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 10
+        },
+        {
+          "date": "2026-02-10",
+          "high_f": 34,
+          "low_f": 34,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-11",
+          "high_f": 35,
+          "low_f": 32,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-09",
+        "high_f": 31,
+        "low_f": 31,
+        "description": "Snow",
+        "snowfall_day_inches": 10,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 10
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "10\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Big Snow Incoming",
+    "body": "The rundown: 23 trails open, 22 groomed. Cloudy with temps around temps TBD. A significant storm is brewing with 11\" expected over the next few days.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm Cycle Building"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
