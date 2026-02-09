@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-02-09",
-  "generated": "2026-02-09T15:11:24.477Z",
+  "generated": "2026-02-09T16:10:32.779Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 23,
+          "today": 24,
           "yesterday": 23,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 22,
@@ -34,10 +34,28 @@
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Fork",
+          "difficulty": "Blue",
+          "area": "Eagle Express"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Fork",
+          "difficulty": "Blue",
+          "area": "Eagle Express"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "T-33",
+          "difficulty": "Blue",
+          "area": "Sky Quad"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,19 +120,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "11\" snow expected Monday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Fork - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "23 of 96 trails are open with 22 groomed. Cloudy with a temperatures TBD. Winter has more to say. 13\" forecasted means conditions improving soon.",
+    "body": "24 of 96 trails are open with 22 groomed. Cloudy with a temperatures TBD. 1 new trail opened today. Winter has more to say. 13\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +151,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {

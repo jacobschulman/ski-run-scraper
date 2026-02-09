@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2026-02-09",
-  "generated": "2026-02-09T15:11:16.483Z",
+  "generated": "2026-02-09T16:10:25.275Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,131 +23,21 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 22,
           "yesterday": 23,
-          "delta": -23
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 22,
           "yesterday": 23,
-          "delta": -23
+          "delta": -1
         },
         "totalTrails": 26
       },
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Bunny West",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Turtle",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Competition",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Exhibition",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Heartland",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Inspiration",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Lower Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Meadows",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Paradise",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Ridge Run",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Shenanigan",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sidewinder",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Snowbowl",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Stateline",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sundance",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sunnyside",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Superior",
-          "difficulty": "Black",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Upper Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Walter's Folly",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
           "name": "Progression Park",
-          "difficulty": "TerrainPark",
-          "area": "Terrain Park"
-        },
-        {
-          "name": "The Gully",
-          "difficulty": "TerrainPark",
-          "area": "Terrain Park"
-        },
-        {
-          "name": "The Rope",
           "difficulty": "TerrainPark",
           "area": "Terrain Park"
         }
@@ -229,30 +119,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "No trails open yet. Current forecast: Mostly Cloudy.",
+    "headline": "The Rundown",
+    "body": "22/26 trails spinning, 22 freshly groomed. 36° and Mostly Cloudy. 22/26 trails open, 22 groomed. 36° and Mostly Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 6,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Monday"
     }
