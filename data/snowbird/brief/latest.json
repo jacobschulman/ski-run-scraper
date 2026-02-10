@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-02-10",
-  "generated": "2026-02-10T15:19:13.264Z",
+  "generated": "2026-02-10T17:14:55.538Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 179,
+          "today": 180,
           "yesterday": 179,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 48,
           "yesterday": 47,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Fluffy Bunny",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Fluffy Bunny",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,19 +114,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "7\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Fluffy Bunny - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Major System Approaching",
-    "body": "179 of 200 trails are open with 47 groomed. Cloudy with a temperatures TBD. Storm cycle alert! 25\" on the way. Conditions are about to level up.",
+    "body": "180 of 200 trails are open with 48 groomed. Cloudy with a temperatures TBD. 1 new trail opened today. Storm cycle alert! 25\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +145,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
