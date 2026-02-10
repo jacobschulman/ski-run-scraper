@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-10",
-  "generated": "2026-02-10T07:19:28.849Z",
+  "generated": "2026-02-10T11:11:52.787Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 2,
+      "7day_cm": 5,
+      "season_total_inches": 220,
+      "season_total_cm": 559,
+      "conditions": {
+        "today": "6AM - Well, it looks like Old Man Winter decided to show up (which is more than we can say for some offensive lines). Whether you're looking to celebrate or forget your troubles, one thing is for sure: storm skiing is the perfect pairing for your Monday aspirations.  Light to moderate snow will fall most of the day with up to an inch per hour falling over Tetons above 8,500 ft. Today's much needed precipitation will be accompanied by strong winds out of the West with gusts up to 60mph possible across ridges and peaks. Temperatures will cool slightly from their morning highs - 36 degrees at the base and 25 degrees at the summit for mid-day projections. Break out the gore-tex and meet us on the slopes! -Orion",
+        "yesterday": "6AM - Well, it looks like Old Man Winter decided to show up (which is more than we can say for some offensive lines). Whether you're looking to celebrate or forget your troubles, one thing is for sure: storm skiing is the perfect pairing for your Monday aspirations.  Light to moderate snow will fall most of the day with up to an inch per hour falling over Tetons above 8,500 ft. Today's much needed precipitation will be accompanied by strong winds out of the West with gusts up to 60mph possible across ridges and peaks. Temperatures will cool slightly from their morning highs - 36 degrees at the base and 25 degrees at the summit for mid-day projections. Break out the gore-tex and meet us on the slopes! -Orion"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -36,14 +52,46 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Layer in Place",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Touch-Up"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
