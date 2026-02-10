@@ -2,7 +2,7 @@
   "resort": "buttermilk",
   "resortName": "Buttermilk",
   "date": "2026-02-10",
-  "generated": "2026-02-10T13:50:54.460Z",
+  "generated": "2026-02-10T15:19:13.273Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,15 +28,116 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 21,
           "yesterday": 0,
-          "delta": 0
+          "delta": 21
         },
         "totalTrails": 52
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Baby Doe",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Bear",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Columbine",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Homestead Road",
+          "difficulty": "Green",
+          "area": "Main"
+        },
+        {
+          "name": "Lover's Lane",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Midway Avenue",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Panda Hill",
+          "difficulty": "Green",
+          "area": "Main"
+        },
+        {
+          "name": "Ridge Trail",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Savio (Upper)",
+          "difficulty": "Blue",
+          "area": "Main"
+        },
+        {
+          "name": "Family Cross",
+          "difficulty": "TerrainPark",
+          "area": "Pipes/Parks"
+        },
+        {
+          "name": "Mini Pipe",
+          "difficulty": "TerrainPark",
+          "area": "Pipes/Parks"
+        },
+        {
+          "name": "Eagle Hill",
+          "difficulty": "Blue",
+          "area": "Tiehack"
+        },
+        {
+          "name": "Klaus' Way",
+          "difficulty": "Black",
+          "area": "Tiehack"
+        },
+        {
+          "name": "Magic Carpet",
+          "difficulty": "Blue",
+          "area": "Tiehack"
+        },
+        {
+          "name": "Sterner Gulch",
+          "difficulty": "Blue",
+          "area": "Tiehack"
+        },
+        {
+          "name": "Tiehack Trail",
+          "difficulty": "Black",
+          "area": "Tiehack"
+        },
+        {
+          "name": "Big Face Hollow",
+          "difficulty": "Blue",
+          "area": "West Buttermilk"
+        },
+        {
+          "name": "Larkspur",
+          "difficulty": "Green",
+          "area": "West Buttermilk"
+        },
+        {
+          "name": "Tom's Thumb",
+          "difficulty": "Green",
+          "area": "West Buttermilk"
+        },
+        {
+          "name": "Westward Ho",
+          "difficulty": "Green",
+          "area": "West Buttermilk"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -106,27 +207,39 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "20 trails freshly groomed"
+    ],
     "trends": [
       "3\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Baby Doe - perfect for intermediate skiers",
+      "Fresh corduroy on Bear - perfect for intermediate skiers",
+      "Fresh corduroy on Columbine - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "The rundown: 47 trails open, 0 groomed. Mostly Cloudy with temps around temps TBD. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "The Corduroy Is Calling",
+    "body": "The rundown: 47 trails open, 21 groomed. Mostly Cloudy with temps around temps TBD. The snow cats were busy. 20 trails in Main, Pipes/Parks, and more looking mint. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
           "usedFor": "body"
         },
         {
@@ -138,11 +251,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
+        "condition": "grooming_highlight",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead"
+        "previousHeadline": "Smooth Sailing Today"
       },
       "dayOfWeek": "Tuesday"
     }
