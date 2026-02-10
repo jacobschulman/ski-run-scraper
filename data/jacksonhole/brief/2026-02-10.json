@@ -2,30 +2,30 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-10",
-  "generated": "2026-02-10T15:19:13.256Z",
+  "generated": "2026-02-10T19:16:59.058Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 2,
-      "overnight_cm": 5,
-      "24hour_inches": 2,
-      "24hour_cm": 5,
-      "48hour_inches": 2,
-      "48hour_cm": 5,
-      "7day_inches": 2,
-      "7day_cm": 5,
-      "season_total_inches": 220,
-      "season_total_cm": 559,
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 8,
+      "24hour_cm": 20,
+      "48hour_inches": 10,
+      "48hour_cm": 25,
+      "7day_inches": 10,
+      "7day_cm": 25,
+      "season_total_inches": 226,
+      "season_total_cm": 574,
       "conditions": {
-        "today": "6AM - Well, it looks like Old Man Winter decided to show up (which is more than we can say for some offensive lines). Whether you're looking to celebrate or forget your troubles, one thing is for sure: storm skiing is the perfect pairing for your Monday aspirations.  Light to moderate snow will fall most of the day with up to an inch per hour falling over Tetons above 8,500 ft. Today's much needed precipitation will be accompanied by strong winds out of the West with gusts up to 60mph possible across ridges and peaks. Temperatures will cool slightly from their morning highs - 36 degrees at the base and 25 degrees at the summit for mid-day projections. Break out the gore-tex and meet us on the slopes! -Orion",
+        "today": "6 AM—Kaboom! The upper elevations of Rendezvous Mountain have been blasted with 8\" of unadulterated blower over the past 24 hours, supplying you with high-grade materials to showcase your personal powder powers. Prepare for slightly cooler temperatures and mostly cloudy conditions today as we sit inside the calm between two storms. Highs will peak in the upper teens on the deck of Corbet's Cabin and in the mid-30s in the Village. In contrast to your raging dopamine rush, light and variable winds will keep the atmospheric vibe relaxed as they barely breeze above 5 or 10 mph. The pow has returned to merge your white-room dreams with reality. So, embrace the momentary insanity, and don't be too ashamed to let all your friends see. Because when you go ripping by, it'll whip 'em right into a frenzy. -Lege\n ",
         "yesterday": "6AM - Well, it looks like Old Man Winter decided to show up (which is more than we can say for some offensive lines). Whether you're looking to celebrate or forget your troubles, one thing is for sure: storm skiing is the perfect pairing for your Monday aspirations.  Light to moderate snow will fall most of the day with up to an inch per hour falling over Tetons above 8,500 ft. Today's much needed precipitation will be accompanied by strong winds out of the West with gusts up to 60mph possible across ridges and peaks. Temperatures will cool slightly from their morning highs - 36 degrees at the base and 25 degrees at the summit for mid-day projections. Break out the gore-tex and meet us on the slopes! -Orion"
       }
     },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 112,
           "yesterday": 110,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 45,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -75,46 +86,57 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": false,
-      "hasNewTrails": false,
+      "isPowderDay": true,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight",
+      "4\" fresh snow overnight",
+      "8\" in last 24 hours - powder day!",
+      "2 new trails opened today",
       "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 10\" in last 7 days",
+      "2 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Bivouac - challenging for advanced skiers",
       "Fresh corduroy on Gros Ventre (Upper) - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Layer in Place",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade.",
+    "headline": "Fresh Tracks for Days",
+    "body": "It's a 8\" day. You know what to do. First chair or regret it. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 70,
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 70,
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
+        "condition": "powder_alert",
         "variationIndex": 4,
-        "totalVariations": 6,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Tuesday"
     }

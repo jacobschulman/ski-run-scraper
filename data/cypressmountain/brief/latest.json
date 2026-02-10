@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-02-10",
-  "generated": "2026-02-10T15:19:13.294Z",
+  "generated": "2026-02-10T19:16:59.100Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 26,
+          "today": 27,
           "yesterday": 26,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 24,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Glades",
+          "difficulty": "Black",
+          "area": "Sky Quad"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -51,23 +57,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-09",
-        "high_f": null,
-        "low_f": 31,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 5,
+        "date": "2026-02-10",
+        "high_f": 35,
+        "low_f": 35,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-10",
-          "high_f": 35,
-          "low_f": 35,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 1
-        },
         {
           "date": "2026-02-11",
           "high_f": 37,
@@ -85,16 +82,25 @@
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-13",
+          "high_f": 31,
+          "low_f": 27,
+          "description": "Snow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
         }
       ],
       "tomorrow": {
-        "date": "2026-02-10",
-        "high_f": 35,
-        "low_f": 35,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 1,
+        "date": "2026-02-11",
+        "high_f": 37,
+        "low_f": 34,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 1
+        "snowfall_expected": 0
       }
     }
   },
@@ -102,25 +108,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
-      "1\" snow expected Tuesday"
+      "1 more trail open than yesterday",
+      "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Active Weather Today",
-    "body": "26/96 trails spinning, 24 freshly groomed. Snow Wind. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "Storm on the Horizon",
+    "body": "27/96 trails spinning, 24 freshly groomed. 35° and Mostly Cloudy. 1 new trail opened today. Storm cycle alert! 6\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_wind",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 82,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,19 +139,25 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 55,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_wind",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "storm_major",
+        "variationIndex": 0,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter in Full Force"
+        "previousHeadline": "Storm Cycle Building"
       },
       "dayOfWeek": "Tuesday"
     }

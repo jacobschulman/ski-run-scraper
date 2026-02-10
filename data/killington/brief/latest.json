@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-10",
-  "generated": "2026-02-10T15:19:13.280Z",
+  "generated": "2026-02-10T19:16:59.083Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,63 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 174,
+          "today": 176,
           "yesterday": 174,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 95,
+          "today": 89,
           "yesterday": 95,
-          "delta": 0
+          "delta": -6
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Solitude",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Sassafras",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Ovation - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Lower",
+          "difficulty": "Double Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Great Bear - Lower",
+          "difficulty": "Black",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Great Bear - Upper",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Pipe Dream - Lower",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,36 +93,36 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-09",
-        "high_f": null,
-        "low_f": 10,
+        "date": "2026-02-10",
+        "high_f": 23,
+        "low_f": 21,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 5,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-10",
-          "high_f": 23,
-          "low_f": 20,
-          "description": "Windy",
-          "snowfall_day_inches": 6,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 6
-        },
-        {
           "date": "2026-02-11",
-          "high_f": 20,
+          "high_f": 21,
           "low_f": 11,
           "description": "Windy",
-          "snowfall_day_inches": 4,
+          "snowfall_day_inches": 3,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 4
+          "snowfall_expected": 3
         },
         {
           "date": "2026-02-12",
-          "high_f": 13,
-          "low_f": 12,
+          "high_f": 14,
+          "low_f": 13,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-13",
+          "high_f": 17,
+          "low_f": 16,
           "description": "Windy",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
@@ -88,13 +130,13 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-10",
-        "high_f": 23,
-        "low_f": 20,
+        "date": "2026-02-11",
+        "high_f": 21,
+        "low_f": 11,
         "description": "Windy",
-        "snowfall_day_inches": 6,
+        "snowfall_day_inches": 3,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 6
+        "snowfall_expected": 3
       }
     }
   },
@@ -102,25 +144,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
-      "6\" snow expected Tuesday"
+      "2 more trails open than yesterday",
+      "3\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Major System Approaching",
-    "body": "The rundown: 174 trails open, 95 groomed. Windy with temps around temps TBD. The weather models are locked in: 11\" of snow heading our way.",
+    "headline": "Fresh Snow on the Way",
+    "body": "The rundown: 176 trails open, 89 groomed. Windy with temps around 23°. 2 new trails opened today. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -130,19 +175,25 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 3,
-        "totalVariations": 7,
+        "condition": "snow_coming",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Winter's Coming Back"
+        "previousHeadline": "A Refresh Is Coming"
       },
       "dayOfWeek": "Tuesday"
     }
