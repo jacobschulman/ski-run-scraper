@@ -1,15 +1,31 @@
 {
   "resort": "crystal",
   "resortName": "Crystal Mountain",
-  "date": "2026-02-10",
-  "generated": "2026-02-10T09:06:39.437Z",
+  "date": "2026-02-09",
+  "generated": "2026-02-10T07:19:28.795Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 153,
+      "season_total_cm": 389,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 33,
-          "yesterday": 33,
-          "delta": 0
+          "yesterday": 32,
+          "delta": 1
         },
         "groomedTrails": {
           "today": 21,
@@ -18,7 +34,13 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Powder Bowl",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -26,24 +48,123 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-09",
+        "date": "2026-02-08",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-09",
+        "high_f": null,
+        "low_f": 23,
+        "high_c": null,
+        "low_c": -5,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-10",
+          "high_f": 32,
+          "low_f": 25,
+          "high_c": 0,
+          "low_c": -4,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-11",
+          "high_f": 35,
+          "low_f": 31,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-12",
+          "high_f": 35,
+          "low_f": 26,
+          "high_c": 2,
+          "low_c": -3,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-10",
+        "high_f": 32,
+        "low_f": 25,
+        "high_c": 0,
+        "low_c": -4,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight",
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Coat on the Mountain",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 1 new trail opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Layer in Place"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
