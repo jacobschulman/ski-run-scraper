@@ -2,13 +2,13 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-02-10",
-  "generated": "2026-02-10T12:04:08.889Z",
+  "generated": "2026-02-10T13:58:43.071Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 1.2,
-      "24hour_cm": 3,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
       "7day_inches": 2,
@@ -55,7 +55,7 @@
       },
       "outlook": [
         {
-          "date": "2026-02-11T12:04:08.888Z",
+          "date": "2026-02-11T13:58:43.070Z",
           "high_f": 26.6,
           "low_f": 10.4,
           "high_c": -3,
@@ -66,7 +66,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-02-12T12:04:08.888Z",
+          "date": "2026-02-12T13:58:43.070Z",
           "high_f": 32,
           "low_f": 10.4,
           "high_c": 0,
@@ -78,7 +78,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-11T12:04:08.888Z",
+        "date": "2026-02-11T13:58:43.070Z",
         "high_f": 26.6,
         "low_f": 10.4,
         "high_c": -3,
@@ -102,20 +102,20 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Overnight Refresh",
-    "body": "The mountain got a nice 1.2\" touch-up. Expect improved conditions. Nearly full mountain access with 116 of 120 trails spinning.",
+    "headline": "Midweek Bliss",
+    "body": "The rundown: 116 trails open, 48 groomed. Unknown with temps around 26.6°. Nearly full mountain access with 116 of 120 trails spinning. 116/120 trails open, 48 groomed. 26.6° and Unknown.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 70,
+          "priority": 10,
           "usedFor": "body"
         },
         {
@@ -123,15 +123,21 @@
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got a Touch-Up"
+        "previousHeadline": "Overnight Refresh"
       },
       "dayOfWeek": "Tuesday"
     }
