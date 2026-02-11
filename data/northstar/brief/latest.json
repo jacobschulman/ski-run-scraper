@@ -2,14 +2,30 @@
   "resort": "northstar",
   "resortName": "Northstar",
   "date": "2026-02-11",
-  "generated": "2026-02-11T16:19:02.891Z",
+  "generated": "2026-02-11T18:06:38.032Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 17,
+      "24hour_inches": 7,
+      "24hour_cm": 17,
+      "48hour_inches": 7,
+      "48hour_cm": 17,
+      "7day_inches": 7,
+      "7day_cm": 17,
+      "season_total_inches": 163,
+      "season_total_cm": 414,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 99,
+          "today": 98,
           "yesterday": 99,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 57,
@@ -19,7 +35,13 @@
         "totalTrails": 103
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Gooseneck",
+          "difficulty": "Black",
+          "area": "Lookout Mountain"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Delight",
@@ -140,18 +162,81 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": 36,
+        "low_f": 25,
+        "high_c": 2,
+        "low_c": -4,
+        "description": "Rain/Snow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12T08:00:00Z",
+          "high_f": 38,
+          "low_f": 22,
+          "high_c": 3,
+          "low_c": -6,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13T08:00:00Z",
+          "high_f": 42,
+          "low_f": 23,
+          "high_c": 5,
+          "low_c": -5,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T08:00:00Z",
+          "high_f": 42,
+          "low_f": 28,
+          "high_c": 6,
+          "low_c": -2,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12T08:00:00Z",
+        "high_f": 38,
+        "low_f": 22,
+        "high_c": 3,
+        "low_c": -6,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
+      "7\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!",
       "13 trails freshly groomed"
     ],
     "trends": [
+      "Steady snowfall - 7\" in last 7 days",
       "Grooming increased 27% from yesterday"
     ],
     "recommendations": [
@@ -160,6 +245,46 @@
       "Fresh corduroy on Flying Squirrel - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Variable Conditions",
+    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. 13 freshly groomed runs mean plenty of velvet corduroy. Watch for crowds at The Big Easy Quad, which saw 11-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 9,
+      "headlineSelection": {
+        "condition": "weather_mixed",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Rain at Base, Snow Up Top"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

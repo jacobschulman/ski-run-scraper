@@ -2,14 +2,30 @@
   "resort": "heavenly",
   "resortName": "Heavenly",
   "date": "2026-02-11",
-  "generated": "2026-02-11T16:19:02.889Z",
+  "generated": "2026-02-11T18:06:38.024Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 6,
+      "overnight_cm": 15,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 120,
+      "season_total_cm": 304,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 110,
+          "today": 111,
           "yesterday": 110,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 53,
@@ -18,7 +34,13 @@
         },
         "totalTrails": 113
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Mott Canyon",
+          "difficulty": "Extreme",
+          "area": "Nevada"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -185,19 +207,84 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": 27,
+        "low_f": 22,
+        "high_c": -3,
+        "low_c": -6,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12T08:00:00Z",
+          "high_f": 27,
+          "low_f": 21,
+          "high_c": -3,
+          "low_c": -6,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13T08:00:00Z",
+          "high_f": 34,
+          "low_f": 23,
+          "high_c": 1,
+          "low_c": -5,
+          "description": "Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T08:00:00Z",
+          "high_f": 34,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12T08:00:00Z",
+        "high_f": 27,
+        "low_f": 21,
+        "high_c": -3,
+        "low_c": -6,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
+      "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
+      "6\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!",
+      "1 new trail opened today",
       "22 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 66% from yesterday"
+      "Steady snowfall - 6\" in last 7 days",
+      "Grooming increased 66% from yesterday",
+      "1 more trail open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Groove Trail - great for beginners",
@@ -205,6 +292,46 @@
       "Fresh corduroy on Patsy's - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Time to Call in Sick",
+    "body": "It's a 6\" day. You know what to do. First chair or regret it. 22 freshly groomed runs mean plenty of velvet corduroy. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 9,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter in Full Force"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
