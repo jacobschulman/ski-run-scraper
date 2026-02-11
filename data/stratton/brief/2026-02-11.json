@@ -2,8 +2,24 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-02-11",
-  "generated": "2026-02-11T05:14:44.463Z",
+  "generated": "2026-02-11T07:16:56.682Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 3,
+      "7day_cm": 8,
+      "season_total_inches": 111,
+      "season_total_cm": 282,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -121,10 +137,70 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-10",
+        "high_f": null,
+        "low_f": 23,
+        "high_c": null,
+        "low_c": -5,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 1
+      },
+      "outlook": [
+        {
+          "date": "2026-02-11",
+          "high_f": 23,
+          "low_f": 13,
+          "high_c": -5,
+          "low_c": -10,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-12",
+          "high_f": 16,
+          "low_f": 13,
+          "high_c": -9,
+          "low_c": -11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13",
+          "high_f": 19,
+          "low_f": 16,
+          "high_c": -7,
+          "low_c": -9,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-11",
+        "high_f": 23,
+        "low_f": 13,
+        "high_c": -5,
+        "low_c": -10,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -142,6 +218,46 @@
       "Fresh corduroy on Yodeler - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Stormy Conditions",
+    "body": "116/123 trails spinning, 62 freshly groomed. Snow Wind. 6 runs freshly groomed, mostly in Lower Mountain and Upper Mountain. Winter flexing today: snow and wind in the forecast. Dress for it.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_wind",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fewer Crowds, More Turns"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
