@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-10",
-  "generated": "2026-02-11T02:55:22.145Z",
+  "generated": "2026-02-11T05:14:44.560Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -104,8 +104,8 @@
     "forecast": {
       "today": {
         "date": "2026-02-10",
-        "high_f": 23,
-        "low_f": 17,
+        "high_f": null,
+        "low_f": 16,
         "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -113,25 +113,25 @@
       "outlook": [
         {
           "date": "2026-02-11",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 20,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_expected": 1
         },
         {
           "date": "2026-02-12",
-          "high_f": 27,
-          "low_f": 19,
-          "description": "Sunny",
+          "high_f": 28,
+          "low_f": 18,
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-02-13",
-          "high_f": 27,
+          "high_f": 26,
           "low_f": 20,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
@@ -141,12 +141,12 @@
       ],
       "tomorrow": {
         "date": "2026-02-11",
-        "high_f": 27,
+        "high_f": 26,
         "low_f": 20,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 0,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 0
+        "snowfall_expected": 1
       }
     }
   },
@@ -162,13 +162,14 @@
       "7 new trails opened today"
     ],
     "trends": [
-      "4 more trails open than yesterday"
+      "4 more trails open than yesterday",
+      "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "A Few More Options Today",
-    "body": "269 trails open, 3 groomed. Partly Cloudy, high of 23°. The terrain list grew by 7 today. More variety to choose from.",
+    "body": "269 trails open, 3 groomed. Partly Cloudy, temperatures TBD. The terrain list grew by 7 today. More variety to choose from. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -188,9 +189,15 @@
           "category": "terrain",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "terrain_few",
         "variationIndex": 0,
