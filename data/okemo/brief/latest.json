@@ -2,7 +2,7 @@
   "resort": "okemo",
   "resortName": "Okemo",
   "date": "2026-02-11",
-  "generated": "2026-02-11T11:59:24.489Z",
+  "generated": "2026-02-11T13:35:43.692Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 120,
+          "today": 122,
           "yesterday": 123,
-          "delta": -3
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 90,
+          "today": 86,
           "yesterday": 91,
-          "delta": -1
+          "delta": -5
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "The Zone",
+          "difficulty": "TerrainPark",
+          "area": "Main Face"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Big Bang",
@@ -45,15 +51,41 @@
           "name": "Eclipse",
           "difficulty": "Black",
           "area": "Jackson Gore"
-        },
-        {
-          "name": "Lower Sapphire",
-          "difficulty": "Blue",
-          "area": "Main Face"
         }
       ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Upper Limelight",
+          "difficulty": "Black",
+          "area": "Jackson Gore"
+        },
+        {
+          "name": "White Lightning",
+          "difficulty": "Black",
+          "area": "Jackson Gore"
+        },
+        {
+          "name": "Lower Tomahawk",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Muellers' Run",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Upper Tomahawk",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Boomerang",
+          "difficulty": "Blue",
+          "area": "Solitude"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -63,16 +95,18 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "120/129 trails spinning, 90 freshly groomed. Variable conditions. 120/129 trails open, 90 groomed. Variable conditions.",
+    "headline": "Fewer Crowds, More Turns",
+    "body": "122/129 trails spinning, 86 freshly groomed. Variable conditions. Nearly full mountain access with 122 of 129 trails spinning. 122/129 trails open, 86 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
@@ -88,19 +122,25 @@
           "usedFor": "body"
         },
         {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "fallback_body",
           "category": "weather",
           "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "Midweek Bliss"
       },
       "dayOfWeek": "Wednesday"
     }
