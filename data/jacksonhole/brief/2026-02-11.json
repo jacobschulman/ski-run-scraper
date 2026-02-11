@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-11",
-  "generated": "2026-02-11T11:59:30.722Z",
+  "generated": "2026-02-11T15:13:33.968Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 10,
+      "48hour_cm": 25,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 229,
+      "season_total_cm": 582,
+      "conditions": {
+        "today": "6 AM—Hit your hump day with enthusiasm and speed, and let sweet storm-skiing satisfy your every need. 2\" of high-grade pow has already slathered the slopes this morning, and more is expected to drop through the day. Beware that periods of heavy accumulations can push you towards a full-blown case of \"Deep Snow-cosis,\" the only cure for which is a treatment of extended white-room hypnosis. High temperatures will peak in the low 20s atop Rendezvous Mountain and reach the upper 30s in Teton Village. The fresh flying flakes will be blown by steady southwest winds between 5 and 15 mph. We've been jiggling the key to the powder padlock, and it finally spun. So, don't delay; it's time for some gluttonous big-mountain fun. -Lege\n ",
+        "yesterday": "6 AM—Kaboom! The upper elevations of Rendezvous Mountain have been blasted with 8\" of unadulterated blower over the past 24 hours, supplying you with high-grade materials to showcase your personal powder powers. Prepare for slightly cooler temperatures and mostly cloudy conditions today as we sit inside the calm between two storms. Highs will peak in the upper teens on the deck of Corbet's Cabin and in the mid-30s in the Village. In contrast to your raging dopamine rush, light and variable winds will keep the atmospheric vibe relaxed as they barely breeze above 5 or 10 mph. The pow has returned to merge your white-room dreams with reality. So, embrace the momentary insanity, and don't be too ashamed to let all your friends see. Because when you go ripping by, it'll whip 'em right into a frenzy. -Lege\n "
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,16 +28,73 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 45,
+          "today": 46,
           "yesterday": 45,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 145
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Kemmerer (Lower)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Kemmerer (Upper)",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Sundog",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Snag Tree",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Tensleep",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Ranger",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Sundance (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Bivouac",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Sundance",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Sleeping Indian",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Gros Ventre (Upper)",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -36,14 +109,59 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2\" fresh snow overnight",
+      "6 trails freshly groomed"
+    ],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Kemmerer (Lower) - perfect for intermediate skiers",
+      "Fresh corduroy on Kemmerer (Upper) - challenging for advanced skiers",
+      "Fresh corduroy on Sundog - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got a Touch-Up",
+    "body": "2\" fell while you were sleeping. The bumps are softer, groomers are primo. 6 runs freshly groomed, mostly in All Terrain.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

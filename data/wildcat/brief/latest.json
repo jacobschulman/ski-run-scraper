@@ -2,30 +2,30 @@
   "resort": "wildcat",
   "resortName": "Wildcat Mountain",
   "date": "2026-02-11",
-  "generated": "2026-02-11T11:59:24.505Z",
+  "generated": "2026-02-11T15:13:25.727Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 1,
-      "7day_cm": 3,
-      "season_total_inches": 80,
-      "season_total_cm": 203,
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 5,
+      "7day_cm": 14,
+      "season_total_inches": 84,
+      "season_total_cm": 214,
       "conditions": {
-        "today": "Packed Powder",
+        "today": "Fresh",
         "yesterday": "Packed Powder"
       }
     },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 43,
+          "today": 48,
           "yesterday": 39,
-          "delta": 4
+          "delta": 9
         },
         "groomedTrails": {
           "today": 18,
@@ -35,6 +35,21 @@
         "totalTrails": 48
       },
       "newlyOpened": [
+        {
+          "name": "Al's Folly",
+          "difficulty": "Black",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Feline",
+          "difficulty": "Black",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Hairball",
+          "difficulty": "Black",
+          "area": "Wildcat"
+        },
         {
           "name": "Lower Lynx",
           "difficulty": "Blue",
@@ -53,6 +68,16 @@
         {
           "name": "Middle Lynx",
           "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Midway",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Top Cat",
+          "difficulty": "Black",
           "area": "Wildcat"
         }
       ],
@@ -83,22 +108,81 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": 29,
+        "low_f": 19,
+        "high_c": -2,
+        "low_c": -8,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12T05:00:00Z",
+          "high_f": 26,
+          "low_f": 14,
+          "high_c": -3,
+          "low_c": -10,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13T05:00:00Z",
+          "high_f": 28,
+          "low_f": 10,
+          "high_c": -2,
+          "low_c": -12,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T05:00:00Z",
+          "high_f": 31,
+          "low_f": 13,
+          "high_c": -1,
+          "low_c": -11,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12T05:00:00Z",
+        "high_f": 26,
+        "low_f": 14,
+        "high_c": -3,
+        "low_c": -10,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
+      "hasFreshSnow": true,
       "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true
     },
     "alerts": [
-      "4 new trails opened today",
+      "4\" fresh snow overnight",
+      "9 new trails opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
       "Grooming increased 29% from yesterday",
-      "4 more trails open than yesterday"
+      "9 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Lower Lynx - perfect for intermediate skiers",
@@ -107,36 +191,36 @@
     ]
   },
   "morningBrief": {
-    "headline": "Terrain Update",
-    "body": "43 trails open, 18 groomed. Variable conditions, temperatures TBD. Ski patrol opened 4 additional trails. A few more choices today.",
+    "headline": "The Mountain Got a Boost",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. Ski patrol has been busy - 9 additional trails are now open.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 10,
+          "priority": 82,
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 60,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Patrol Opened {newTrailsCount} More"
+        "previousHeadline": "Terrain Update"
       },
       "dayOfWeek": "Wednesday"
     }

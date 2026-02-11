@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-02-11",
-  "generated": "2026-02-11T11:59:24.543Z",
+  "generated": "2026-02-11T15:13:25.767Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,43 +35,70 @@
         "totalTrails": 7
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Buttermilk",
-          "difficulty": "Blue",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Croyle",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "North Bowl",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Peter's Pride",
-          "difficulty": "TerrainPark",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Summit",
-          "difficulty": "Green",
-          "area": "Boston Mills"
-        },
-        {
-          "name": "Tiger",
-          "difficulty": "Black",
-          "area": "Boston Mills"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": 35,
+        "low_f": 27,
+        "high_c": 1,
+        "low_c": -3,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12T05:00:00Z",
+          "high_f": 27,
+          "low_f": 21,
+          "high_c": -3,
+          "low_c": -7,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13T05:00:00Z",
+          "high_f": 36,
+          "low_f": 15,
+          "high_c": 2,
+          "low_c": -10,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T05:00:00Z",
+          "high_f": 43,
+          "low_f": 27,
+          "high_c": 6,
+          "low_c": -3,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12T05:00:00Z",
+        "high_f": 27,
+        "low_f": 21,
+        "high_c": -3,
+        "low_c": -7,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
@@ -86,30 +113,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "Not open for the season yet. Current conditions: Variable conditions.",
+    "headline": "Quiet Days on the Hill",
+    "body": "6 trails open, 0 groomed. Cloudy, high of 35°. 6/7 trails open, 0 groomed. 35° and Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Wednesday"
     }

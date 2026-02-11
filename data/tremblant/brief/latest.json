@@ -2,19 +2,19 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-02-11",
-  "generated": "2026-02-11T11:59:30.679Z",
+  "generated": "2026-02-11T15:13:33.908Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 7,
-      "7day_cm": 18,
-      "season_total_inches": 153,
-      "season_total_cm": 389,
+      "24hour_inches": 7,
+      "24hour_cm": 17,
+      "48hour_inches": 7,
+      "48hour_cm": 17,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 160,
+      "season_total_cm": 406,
       "conditions": {
         "today": "Machine Groomed",
         "yesterday": "Machine Groomed"
@@ -78,34 +78,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-10",
-        "high_f": null,
-        "low_f": 14,
-        "high_c": null,
-        "low_c": -10,
-        "description": "Snow",
-        "snowfall_day_inches": 4,
-        "snowfall_night_inches": 2
+        "date": "2026-02-11",
+        "high_f": 20,
+        "low_f": 11,
+        "high_c": -7,
+        "low_c": -11,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-11",
-          "high_f": 20,
-          "low_f": 11,
-          "high_c": -6,
-          "low_c": -12,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-12",
-          "high_f": 18,
+          "high_f": 19,
           "low_f": 10,
-          "high_c": -8,
+          "high_c": -7,
           "low_c": -12,
-          "description": "Windy",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -113,9 +102,20 @@
         {
           "date": "2026-02-13",
           "high_f": 18,
-          "low_f": 15,
+          "low_f": 17,
           "high_c": -8,
-          "low_c": -10,
+          "low_c": -9,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14",
+          "high_f": 19,
+          "low_f": 12,
+          "high_c": -7,
+          "low_c": -11,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -123,12 +123,12 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-11",
-        "high_f": 20,
-        "low_f": 11,
-        "high_c": -6,
+        "date": "2026-02-12",
+        "high_f": 19,
+        "low_f": 10,
+        "high_c": -7,
         "low_c": -12,
-        "description": "Cloudy",
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -138,32 +138,34 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": false,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "7\" in last 24 hours - powder day!"
+    ],
     "trends": [
-      "Steady snowfall - 7\" in last 7 days"
+      "Great week for snow - 12\" in last 7 days"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "Steady snowfall with 7\" over the last week. The whole mountain is basically open. Go explore.",
+    "headline": "The Mountain Got Buried",
+    "body": "Powder alert: 7\" of fresh overnight means soft conditions across the mountain. The whole mountain is basically open. Go explore. Cold day ahead: 20° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 40,
+          "priority": 90,
           "usedFor": "body"
         },
         {
@@ -171,15 +173,21 @@
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Fewer Crowds, More Turns"
       },
       "dayOfWeek": "Wednesday"
     }
