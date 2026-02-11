@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-11",
-  "generated": "2026-02-11T10:08:02.829Z",
+  "generated": "2026-02-11T11:07:37.723Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,83 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 58,
           "yesterday": 57,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Wedge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Gondola Line Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Whistle Punk",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Chute",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +173,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "7 trails freshly groomed"
+    ],
     "trends": [
       "2\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Skidder - all skill levels",
+      "Fresh corduroy on Upper Skidder - all skill levels",
+      "Fresh corduroy on Wedge - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Active Weather Today",
-    "body": "145 trails open, 57 groomed. Snow Wind, temperatures TBD. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "body": "145 trails open, 58 groomed. Snow Wind, temperatures TBD. 7 runs freshly groomed, mostly in SuperQuad, Skyline, and more. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +200,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
