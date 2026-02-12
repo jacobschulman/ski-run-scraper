@@ -1,9 +1,25 @@
 {
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
-  "date": "2026-02-12",
-  "generated": "2026-02-12T09:03:11.229Z",
+  "date": "2026-02-11",
+  "generated": "2026-02-12T07:16:25.333Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 17,
+      "24hour_cm": 43,
+      "48hour_inches": 27,
+      "48hour_cm": 69,
+      "7day_inches": 27,
+      "7day_cm": 69,
+      "season_total_inches": 173,
+      "season_total_cm": 439,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -26,24 +42,116 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-11",
+        "date": "2026-02-10",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 25,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": null,
+        "low_f": 13,
+        "high_c": null,
+        "low_c": -10,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12",
+          "high_f": 25,
+          "low_f": 16,
+          "high_c": -4,
+          "low_c": -9,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-13",
+          "high_f": 30,
+          "low_f": 24,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14",
+          "high_f": 33,
+          "low_f": 22,
+          "high_c": 0,
+          "low_c": -5,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12",
+        "high_f": 25,
+        "low_f": 16,
+        "high_c": -4,
+        "low_c": -9,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "17\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 27\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "17\" and Counting",
+    "body": "The mountain got buried overnight: 17\" of fresh. Hero conditions everywhere.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "snow_deep",
+        "variationIndex": 3,
+        "totalVariations": 8,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Stashes Are Loaded"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
