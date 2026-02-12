@@ -2,8 +2,24 @@
   "resort": "mountsnow",
   "resortName": "Mount Snow",
   "date": "2026-02-12",
-  "generated": "2026-02-12T05:12:11.599Z",
+  "generated": "2026-02-12T11:10:13.394Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 2,
+      "24hour_inches": 5,
+      "24hour_cm": 12,
+      "48hour_inches": 5,
+      "48hour_cm": 12,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 95,
+      "season_total_cm": 241,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -67,22 +83,124 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-12",
+        "high_f": 13,
+        "low_f": 10,
+        "high_c": -11,
+        "low_c": -13,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-13T05:00:00Z",
+          "high_f": 16,
+          "low_f": 13,
+          "high_c": -9,
+          "low_c": -11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T05:00:00Z",
+          "high_f": 19,
+          "low_f": 15,
+          "high_c": -7,
+          "low_c": -10,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-15T05:00:00Z",
+          "high_f": 24,
+          "low_f": 15,
+          "high_c": -4,
+          "low_c": -10,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-13T05:00:00Z",
+        "high_f": 16,
+        "low_f": 13,
+        "high_c": -9,
+        "low_c": -11,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1\" new snow overnight",
       "1 new trail opened today"
     ],
     "trends": [
+      "Steady snowfall - 6\" in last 7 days",
       "1 more trail open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "5\" Freshened Things Up",
+    "body": "Solid refresh: 5\" overnight freshened up the mountain nicely. 1 new trail opened today. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 9,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Boost"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
