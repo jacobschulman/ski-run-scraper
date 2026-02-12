@@ -2,7 +2,7 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:51:08.862Z",
+  "generated": "2026-02-12T13:33:01.025Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 63,
           "yesterday": 61,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 15,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 126
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Aspen Highlands (Lower)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        },
+        {
+          "name": "Aspen Highlands (Upper)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +113,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [
+      "2 more trails open than yesterday",
       "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Snow Showers Ahead",
-    "body": "61 trails open, 15 groomed. Cloudy, temperatures TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "body": "63 trails open, 15 groomed. Cloudy, temperatures TBD. 2 new trails opened today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +141,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {

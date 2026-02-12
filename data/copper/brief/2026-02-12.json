@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:51:08.870Z",
+  "generated": "2026-02-12T13:33:01.033Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,57 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 128,
+          "today": 131,
           "yesterday": 128,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 48,
           "yesterday": 44,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Farleys (L)",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        },
+        {
+          "name": "Farleys (U)",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        },
+        {
+          "name": "Farleys Connect",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Collage (U)",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "Farleys (L)",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        },
+        {
+          "name": "Farleys (U)",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        },
+        {
+          "name": "Farleys Connect",
+          "difficulty": "Blue",
+          "area": "Cross Country Skiing"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,31 +139,45 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "4 trails freshly groomed"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "2\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Collage (U) - perfect for intermediate skiers",
+      "Fresh corduroy on Farleys (L) - perfect for intermediate skiers",
+      "Fresh corduroy on Farleys (U) - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Fresh Snow on the Way",
-    "body": "The rundown: 128 trails open, 44 groomed. Cloudy with temps around temps TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "Patrol Opened 3 More",
+    "body": "The rundown: 131 trails open, 48 groomed. Cloudy with temps around temps TBD. Ski patrol opened 3 additional trails. A few more choices today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -138,11 +189,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow in the Forecast"
+        "previousHeadline": "More Variety Today"
       },
       "dayOfWeek": "Thursday"
     }
