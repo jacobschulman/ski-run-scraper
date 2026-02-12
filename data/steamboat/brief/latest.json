@@ -2,8 +2,24 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-02-12",
-  "generated": "2026-02-12T07:16:25.329Z",
+  "generated": "2026-02-12T10:01:36.676Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 3,
+      "7day_cm": 8,
+      "season_total_inches": 102,
+      "season_total_cm": 260,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,116 @@
         "totalLiftsTracked": 24,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-11",
+        "high_f": null,
+        "low_f": 27,
+        "high_c": null,
+        "low_c": -3,
+        "description": "Snow",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 1
+      },
+      "outlook": [
+        {
+          "date": "2026-02-12",
+          "high_f": 29,
+          "low_f": 25,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Snow",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-13",
+          "high_f": 30,
+          "low_f": 19,
+          "high_c": -1,
+          "low_c": -7,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14",
+          "high_f": 27,
+          "low_f": 25,
+          "high_c": -3,
+          "low_c": -4,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-12",
+        "high_f": 29,
+        "low_f": 25,
+        "high_c": -1,
+        "low_c": -4,
+        "description": "Snow",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
+    "trends": [
+      "2\" snow expected Thursday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Overnight Refresh",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
