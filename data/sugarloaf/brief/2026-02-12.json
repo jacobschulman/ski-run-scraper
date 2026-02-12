@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:10:21.698Z",
+  "generated": "2026-02-12T11:51:08.881Z",
   "rawData": {
     "snow": {
       "overnight_inches": 3,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 60,
+          "today": 62,
           "yesterday": 60,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Sluice Headwall",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Binder",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Rollway",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Upper Buckboard",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "White Nitro",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "White Nitro Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -107,17 +169,22 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "3\" fresh snow overnight"
+      "3\" fresh snow overnight",
+      "7 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Cribworks - all skill levels",
+      "Fresh corduroy on Sluice Headwall - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Nice Little Top-Up",
-    "body": "The mountain got a nice 5\" boost overnight. Conditions are improved. Light snow possible in the forecast.",
+    "body": "The mountain got a nice 5\" boost overnight. Conditions are improved. 7 runs freshly groomed, mostly in SuperQuad, Skyline, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -133,13 +200,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
