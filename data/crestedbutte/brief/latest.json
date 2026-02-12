@@ -2,8 +2,24 @@
   "resort": "crestedbutte",
   "resortName": "Crested Butte",
   "date": "2026-02-12",
-  "generated": "2026-02-12T07:16:16.658Z",
+  "generated": "2026-02-12T15:08:41.052Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 17,
+      "24hour_inches": 7,
+      "24hour_cm": 17,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 8,
+      "7day_cm": 20,
+      "season_total_inches": 74,
+      "season_total_cm": 188,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -61,18 +77,117 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-12",
+        "high_f": 36,
+        "low_f": 25,
+        "high_c": 2,
+        "low_c": -4,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-13T07:00:00Z",
+          "high_f": 33,
+          "low_f": 24,
+          "high_c": null,
+          "low_c": -5,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14T07:00:00Z",
+          "high_f": 35,
+          "low_f": 20,
+          "high_c": 1,
+          "low_c": -7,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-15T07:00:00Z",
+          "high_f": 39,
+          "low_f": 17,
+          "high_c": 4,
+          "low_c": -8,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-13T07:00:00Z",
+        "high_f": 33,
+        "low_f": 24,
+        "high_c": null,
+        "low_c": -5,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Steady snowfall - 8\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Deep Day at Crested Butte",
+    "body": "The mountain is absolutely loaded with 7\" of fresh. This is not a drill. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 1,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm on the Horizon"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

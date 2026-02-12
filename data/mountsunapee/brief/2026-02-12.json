@@ -2,19 +2,19 @@
   "resort": "mountsunapee",
   "resortName": "Mount Sunapee",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:51:01.741Z",
+  "generated": "2026-02-12T15:08:41.093Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 5,
-      "24hour_cm": 12,
-      "48hour_inches": 5,
-      "48hour_cm": 12,
-      "7day_inches": 6,
-      "7day_cm": 15,
-      "season_total_inches": 47,
-      "season_total_cm": 119,
+      "overnight_inches": 1,
+      "overnight_cm": 2,
+      "24hour_inches": 1,
+      "24hour_cm": 2,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 7,
+      "7day_cm": 17,
+      "season_total_inches": 48,
+      "season_total_cm": 121,
       "conditions": {
         "today": "Snow Groomed",
         "yesterday": "Snow Groomed"
@@ -23,18 +23,29 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 65,
           "yesterday": 63,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 42,
+          "today": 43,
           "yesterday": 42,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 66
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lynx",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
+        {
+          "name": "Summit Glades",
+          "difficulty": "Black",
+          "area": "Summit"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -49,7 +60,7 @@
         "low_f": 13,
         "high_c": -4,
         "low_c": -11,
-        "description": "Mostly Cloudy",
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -60,7 +71,7 @@
           "low_f": 11,
           "high_c": -3,
           "low_c": -12,
-          "description": "Partly Cloudy",
+          "description": "Mostly Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -69,20 +80,20 @@
           "date": "2026-02-14T05:00:00Z",
           "high_f": 30,
           "low_f": 14,
-          "high_c": -2,
+          "high_c": -1,
           "low_c": -10,
-          "description": "Partly Cloudy",
+          "description": "Mostly Clear",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-02-15T05:00:00Z",
-          "high_f": 31,
-          "low_f": 14,
-          "high_c": -1,
-          "low_c": -10,
-          "description": "Mostly Cloudy",
+          "high_f": 28,
+          "low_f": 11,
+          "high_c": -2,
+          "low_c": -12,
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -94,7 +105,7 @@
         "low_f": 11,
         "high_c": -3,
         "low_c": -12,
-        "description": "Partly Cloudy",
+        "description": "Mostly Clear",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -103,48 +114,52 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
+      "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1\" new snow overnight",
+      "2 new trails opened today"
+    ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days"
+      "Steady snowfall - 7\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "5\" Freshened Things Up",
-    "body": "5\" of new snow. Not a powder day, but definitely an upgrade. Peak terrain status: almost everything is available today.",
+    "headline": "Fresh Layer in Place",
+    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_solid",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 82,
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "snow_solid",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 82,
+          "priority": 70,
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
+          "id": "terrain_micro",
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_solid",
-        "variationIndex": 1,
+        "condition": "fresh_coat",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Nice Little Top-Up"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Thursday"
     }

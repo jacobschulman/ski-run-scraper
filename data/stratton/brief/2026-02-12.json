@@ -2,19 +2,19 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:51:08.740Z",
+  "generated": "2026-02-12T15:08:47.430Z",
   "rawData": {
     "snow": {
       "overnight_inches": 4,
       "overnight_cm": 10,
-      "24hour_inches": 4,
-      "24hour_cm": 10,
-      "48hour_inches": 4,
-      "48hour_cm": 10,
+      "24hour_inches": 8,
+      "24hour_cm": 20,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
       "7day_inches": 7,
       "7day_cm": 18,
-      "season_total_inches": 115,
-      "season_total_cm": 292,
+      "season_total_inches": 119,
+      "season_total_cm": 302,
       "conditions": {
         "today": "Machine Groomed Packed Powder",
         "yesterday": "Machine Groomed Variable Conditions"
@@ -23,19 +23,25 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 118,
+          "today": 117,
           "yesterday": 118,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 75,
+          "today": 74,
           "yesterday": 66,
-          "delta": 9
+          "delta": 8
         },
         "totalTrails": 123
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Janeway Junction",
+          "difficulty": "Intermediate",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Cabot's Run",
@@ -118,32 +124,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-11",
-        "high_f": null,
+        "date": "2026-02-12",
+        "high_f": 17,
         "low_f": 13,
-        "high_c": null,
-        "low_c": -10,
+        "high_c": -9,
+        "low_c": -11,
         "description": "Windy",
-        "snowfall_day_inches": 2,
-        "snowfall_night_inches": 1
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-12",
-          "high_f": 17,
-          "low_f": 13,
-          "high_c": -9,
-          "low_c": -11,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-13",
-          "high_f": 19,
+          "high_f": 18,
           "low_f": 16,
-          "high_c": -7,
+          "high_c": -8,
           "low_c": -9,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
@@ -153,9 +148,20 @@
         {
           "date": "2026-02-14",
           "high_f": 24,
-          "low_f": 20,
+          "low_f": 16,
           "high_c": -5,
-          "low_c": -7,
+          "low_c": -9,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-15",
+          "high_f": 26,
+          "low_f": 25,
+          "high_c": -3,
+          "low_c": -4,
           "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -163,12 +169,12 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-12",
-        "high_f": 17,
-        "low_f": 13,
-        "high_c": -9,
-        "low_c": -11,
-        "description": "Windy",
+        "date": "2026-02-13",
+        "high_f": 18,
+        "low_f": 16,
+        "high_c": -8,
+        "low_c": -9,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -178,13 +184,14 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": true,
-      "isPowderDay": false,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "4\" fresh snow overnight",
+      "8\" in last 24 hours - powder day!",
       "11 trails freshly groomed"
     ],
     "trends": [
@@ -197,20 +204,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "The Mountain Got a Boost",
-    "body": "Solid refresh: 4\" overnight freshened up the mountain nicely. The snow cats were busy. 11 trails in Lower Mountain and Upper Mountain looking mint. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "Winter Delivered Big",
+    "body": "8\" dumped overnight. The stashes are loaded and the groomers are buried. The snow cats were busy. 11 trails in Lower Mountain and Upper Mountain looking mint. Cold day ahead: 17° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_solid",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 82,
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "snow_solid",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 82,
+          "priority": 90,
           "usedFor": "body"
         },
         {
@@ -220,19 +227,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_windy",
+          "id": "temp_cold",
           "category": "weather",
-          "priority": 45,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "snow_solid",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "powder_alert",
+        "variationIndex": 4,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fresh Snow, Fresh Vibes"
+        "previousHeadline": "The Mountain Got a Boost"
       },
       "dayOfWeek": "Thursday"
     }

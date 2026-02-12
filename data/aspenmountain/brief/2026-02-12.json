@@ -2,17 +2,17 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-02-12",
-  "generated": "2026-02-12T11:51:08.864Z",
+  "generated": "2026-02-12T15:08:47.558Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 0,
-      "7day_cm": 0,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 4,
+      "7day_cm": 10,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
@@ -28,15 +28,31 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 19,
+          "today": 22,
           "yesterday": 19,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 140
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Bellissimo (Lower)",
+          "difficulty": "Blue",
+          "area": "Ajax Express"
+        },
+        {
+          "name": "Bellissimo (Upper)",
+          "difficulty": "Blue",
+          "area": "Ajax Express"
+        },
+        {
+          "name": "Tower Ten Road",
+          "difficulty": "Blue",
+          "area": "Shadow Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -51,50 +67,50 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-11",
-        "high_f": null,
-        "low_f": 24,
+        "date": "2026-02-12",
+        "high_f": 30,
+        "low_f": 22,
         "description": "Cloudy",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-12",
-          "high_f": 30,
-          "low_f": 23,
-          "description": "Cloudy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
-        {
           "date": "2026-02-13",
           "high_f": 29,
           "low_f": 19,
-          "description": "Scattered T Storms",
+          "description": "Cloudy",
           "snowfall_day_inches": 3,
           "snowfall_night_inches": 0,
           "snowfall_expected": 3
         },
         {
           "date": "2026-02-14",
-          "high_f": 29,
+          "high_f": 28,
           "low_f": 20,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
           "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-15",
+          "high_f": 36,
+          "low_f": 23,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-02-12",
-        "high_f": 30,
-        "low_f": 23,
+        "date": "2026-02-13",
+        "high_f": 29,
+        "low_f": 19,
         "description": "Cloudy",
-        "snowfall_day_inches": 2,
+        "snowfall_day_inches": 3,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 2
+        "snowfall_expected": 3
       }
     }
   },
@@ -106,43 +122,49 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "2\" snow expected Thursday"
+    "alerts": [
+      "3 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "3\" snow expected Friday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Bellissimo (Lower) - perfect for intermediate skiers",
+      "Fresh corduroy on Bellissimo (Upper) - perfect for intermediate skiers",
+      "Fresh corduroy on Tower Ten Road - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "113/140 trails spinning, 19 freshly groomed. Cloudy. The weather models are locked in: 6\" of snow heading our way.",
+    "headline": "The Mountain Got a Boost",
+    "body": "Solid refresh: 4\" overnight freshened up the mountain nicely. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 10,
+          "priority": 82,
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 0,
-        "totalVariations": 7,
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Big Snow Incoming"
+        "previousHeadline": "Fresh Snow, Fresh Vibes"
       },
       "dayOfWeek": "Thursday"
     }
