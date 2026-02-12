@@ -2,7 +2,7 @@
   "resort": "aftonalps",
   "resortName": "Afton Alps",
   "date": "2026-02-12",
-  "generated": "2026-02-12T15:08:41.123Z",
+  "generated": "2026-02-12T16:08:50.507Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 32,
           "yesterday": 32,
-          "delta": -32
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,168 +35,7 @@
         "totalTrails": 35
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Polly's Pass",
-          "difficulty": "Green",
-          "area": "Alpine Area"
-        },
-        {
-          "name": "Barbi's Challenge",
-          "difficulty": "Black",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Belinda's Bowl",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Christina's Trail",
-          "difficulty": "Green",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Deb's Drop",
-          "difficulty": "Green",
-          "area": "Alps Area"
-        },
-        {
-          "name": "De's Dive",
-          "difficulty": "Black",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Heidi's Playground",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Inga's Run",
-          "difficulty": "Black",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Johanna's Pass",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Lisa's Lane",
-          "difficulty": "Green",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Micky's Meadow",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Nancy's Nursery",
-          "difficulty": "Green",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Patti's Pass",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Teresa's Trail",
-          "difficulty": "Blue",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Trudy's Schuss",
-          "difficulty": "Black",
-          "area": "Alps Area"
-        },
-        {
-          "name": "Amy's Lane",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Andrea's Highlands",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Chris's Canyon",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Dawn's Highlands",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Fannie's Folly",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Hazel's Highlands",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Heather's Highlands",
-          "difficulty": "Black",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Monica's Highlands",
-          "difficulty": "Blue",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Pandora's Pass",
-          "difficulty": "Green",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Rosie's Run",
-          "difficulty": "Black",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Sally's Valley",
-          "difficulty": "Black",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "Tucker's Trench",
-          "difficulty": "Black",
-          "area": "Highlands Area"
-        },
-        {
-          "name": "East",
-          "difficulty": "TerrainPark",
-          "area": "Landing Zone"
-        },
-        {
-          "name": "West",
-          "difficulty": "TerrainPark",
-          "area": "Landing Zone"
-        },
-        {
-          "name": "Daisy's Meadow",
-          "difficulty": "Green",
-          "area": "Meadows Area"
-        },
-        {
-          "name": "Kitty's Garden",
-          "difficulty": "Green",
-          "area": "Meadows Area"
-        },
-        {
-          "name": "Susie's Meadow",
-          "difficulty": "Green",
-          "area": "Meadows Area"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -274,30 +113,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "No trails open yet. Current forecast: Mostly Clear.",
+    "headline": "Quiet Days on the Hill",
+    "body": "32/35 trails spinning, 0 freshly groomed. 41° and Mostly Clear. 32/35 trails open, 0 groomed. 41° and Mostly Clear.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Almost There..."
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Thursday"
     }

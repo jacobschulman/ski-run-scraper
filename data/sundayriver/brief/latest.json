@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-02-12",
-  "generated": "2026-02-12T15:08:47.579Z",
+  "generated": "2026-02-12T16:08:57.914Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,54 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 134,
+          "today": 141,
           "yesterday": 134,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
-          "today": 78,
+          "today": 82,
           "yesterday": 78,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sensation",
+          "difficulty": "novice",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Paradigm",
+          "difficulty": "Blue",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Lower Airglow",
+          "difficulty": "Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Black Hole",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Celestial",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Super Nova",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Lower Vortex",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,26 +138,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "7 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
+      "7 more trails open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "Steady snowfall with 6\" over the last week. Light snow possible in the forecast.",
+    "headline": "More Mountain to Explore",
+    "body": "Steady snowfall with 6\" over the last week. 7 new runs just opened up. Time to explore fresh terrain. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -131,19 +170,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Fewer Crowds, More Turns"
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
       },
       "dayOfWeek": "Thursday"
     }
