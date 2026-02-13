@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-02-13",
-  "generated": "2026-02-13T16:00:37.658Z",
+  "generated": "2026-02-13T17:01:28.961Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,57 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 170,
+          "today": 176,
           "yesterday": 170,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 48,
+          "today": 49,
           "yesterday": 48,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "High Saddle",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Figure 8 Bowl",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Thunder Bowl",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Hoop's",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Ski Patrol Gully",
+          "difficulty": "Black",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "Tail Feathers",
+          "difficulty": "Black",
+          "area": "Mineral Basin"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Road to Provo",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,31 +139,43 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "6 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Road to Provo - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Cheers to the Weekend",
-    "body": "The rundown: 170 trails open, 48 groomed. Cloudy with temps around temps TBD. Light snow possible in the forecast.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 176 trails open, 49 groomed. Cloudy with temps around temps TBD. Terrain expanding: 6 new trails opening up more options. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "body"
         },
         {
@@ -138,11 +187,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "More Mountain to Explore"
       },
       "dayOfWeek": "Friday"
     }
