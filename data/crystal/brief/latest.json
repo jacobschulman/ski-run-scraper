@@ -1,49 +1,192 @@
 {
   "resort": "crystal",
   "resortName": "Crystal Mountain",
-  "date": "2026-02-13",
-  "generated": "2026-02-13T08:56:28.585Z",
+  "date": "2026-02-12",
+  "generated": "2026-02-13T07:57:40.229Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 153,
+      "season_total_cm": 389,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 37,
-          "yesterday": 37,
-          "delta": 0
+          "yesterday": 34,
+          "delta": 3
         },
         "groomedTrails": {
           "today": 24,
-          "yesterday": 24,
-          "delta": 0
+          "yesterday": 25,
+          "delta": -1
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "A-Basin",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        },
+        {
+          "name": "Silver Basin",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        },
+        {
+          "name": "Silver King",
+          "difficulty": "Very Difficult",
+          "area": "South"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Campbell Basin",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        }
+      ]
     },
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-12",
+        "date": "2026-02-11",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-12",
+        "high_f": null,
+        "low_f": 25,
+        "high_c": null,
+        "low_c": -4,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-13",
+          "high_f": 30,
+          "low_f": 23,
+          "high_c": -1,
+          "low_c": -5,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-14",
+          "high_f": 26,
+          "low_f": 25,
+          "high_c": -3,
+          "low_c": -4,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-15",
+          "high_f": 30,
+          "low_f": 25,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-13",
+        "high_f": 30,
+        "low_f": 23,
+        "high_c": -1,
+        "low_c": -5,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 2,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday",
+      "2\" snow expected Friday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Patrol Opened 3 More",
+    "body": "37 of 86 trails are open with 24 groomed. Mostly Cloudy with a temperatures TBD. 3 new trails are now available. Nice little expansion. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_few",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{newTrailsCount} New Runs Open"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
