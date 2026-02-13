@@ -2,7 +2,7 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2026-02-13",
-  "generated": "2026-02-13T19:48:14.631Z",
+  "generated": "2026-02-13T21:43:46.422Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -51,33 +51,22 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-12",
-        "high_f": null,
-        "low_f": 15,
-        "high_c": null,
-        "low_c": -9,
-        "description": "Clear",
+        "date": "2026-02-13",
+        "high_f": 30,
+        "low_f": 25,
+        "high_c": -1,
+        "low_c": -4,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-13",
-          "high_f": 30,
-          "low_f": 25,
-          "high_c": -1,
-          "low_c": -4,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-14",
           "high_f": 32,
-          "low_f": 23,
+          "low_f": 22,
           "high_c": 0,
-          "low_c": -5,
+          "low_c": -6,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -85,23 +74,34 @@
         },
         {
           "date": "2026-02-15",
-          "high_f": 29,
-          "low_f": 20,
-          "high_c": -2,
-          "low_c": -7,
+          "high_f": 27,
+          "low_f": 21,
+          "high_c": -3,
+          "low_c": -6,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-16",
+          "high_f": 22,
+          "low_f": 13,
+          "high_c": -5,
+          "low_c": -11,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 9,
+          "snowfall_night_inches": 7,
+          "snowfall_expected": 16
         }
       ],
       "tomorrow": {
-        "date": "2026-02-13",
-        "high_f": 30,
-        "low_f": 25,
-        "high_c": -1,
-        "low_c": -4,
-        "description": "Sunny",
+        "date": "2026-02-14",
+        "high_f": 32,
+        "low_f": 22,
+        "high_c": 0,
+        "low_c": -6,
+        "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -120,19 +120,20 @@
       "7\" in last 24 hours - powder day!"
     ],
     "trends": [
-      "Great week for snow - 15\" in last 7 days"
+      "Great week for snow - 15\" in last 7 days",
+      "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "7\" of Fresh Overnight",
-    "body": "Mother Nature delivered 7\" of the good stuff. Face shots are on the menu. Peak terrain status: almost everything is available today.",
+    "headline": "Storm Cycle Building",
+    "body": "Mother Nature delivered 7\" of the good stuff. Face shots are on the menu. Peak terrain status: almost everything is available today. The weather models are locked in: 17\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder",
-          "category": "snow",
-          "priority": 90,
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
           "usedFor": "headline"
         },
         {
@@ -146,15 +147,21 @@
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 1,
-        "totalVariations": 11,
+        "condition": "storm_major",
+        "variationIndex": 2,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Friday"
     }

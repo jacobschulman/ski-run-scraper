@@ -2,19 +2,19 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-02-13",
-  "generated": "2026-02-13T19:48:14.609Z",
+  "generated": "2026-02-13T21:43:46.399Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 2,
-      "overnight_cm": 5,
-      "24hour_inches": 6,
-      "24hour_cm": 15,
-      "48hour_inches": 12,
-      "48hour_cm": 30,
-      "7day_inches": 12,
-      "7day_cm": 30,
-      "season_total_inches": 98,
-      "season_total_cm": 248,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 2,
+      "24hour_cm": 4,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 14,
+      "7day_cm": 35,
+      "season_total_inches": 99,
+      "season_total_cm": 252,
       "conditions": {
         "today": "Fresh Powder",
         "yesterday": "Fresh Powder"
@@ -235,34 +235,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-12",
-        "high_f": null,
-        "low_f": 23,
-        "high_c": null,
-        "low_c": -5,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 1,
+        "date": "2026-02-13",
+        "high_f": 29,
+        "low_f": 22,
+        "high_c": -2,
+        "low_c": -6,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-13",
-          "high_f": 29,
-          "low_f": 22,
-          "high_c": -1,
-          "low_c": -6,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-02-14",
           "high_f": 33,
           "low_f": 29,
           "high_c": 1,
-          "low_c": -1,
-          "description": "Mostly Cloudy",
+          "low_c": -2,
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -277,15 +266,26 @@
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-16",
+          "high_f": 36,
+          "low_f": 22,
+          "high_c": 2,
+          "low_c": -6,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-02-13",
-        "high_f": 29,
-        "low_f": 22,
-        "high_c": -1,
-        "low_c": -6,
-        "description": "Mostly Cloudy",
+        "date": "2026-02-14",
+        "high_f": 33,
+        "low_f": 29,
+        "high_c": 1,
+        "low_c": -2,
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -294,20 +294,19 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
-      "isPowderDay": true,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight",
-      "6\" in last 24 hours - powder day!",
       "3 new trails opened today",
       "17 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 12\" in last 7 days"
+      "Great week for snow - 14\" in last 7 days",
+      "2\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Birdseye - all skill levels",
@@ -316,20 +315,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Powder Day Alert",
-    "body": "The mountain is absolutely loaded with 6\" of fresh. This is not a drill. 17 freshly groomed runs mean plenty of velvet corduroy.",
+    "headline": "The Corduroy Is Calling",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 17 freshly groomed runs mean plenty of velvet corduroy. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder",
-          "category": "snow",
-          "priority": 90,
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 90,
+          "priority": 70,
           "usedFor": "body"
         },
         {
@@ -337,15 +336,21 @@
           "category": "terrain",
           "priority": 72,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 0,
-        "totalVariations": 11,
+        "condition": "grooming_highlight",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Deep Day at {resortName}"
+        "previousHeadline": "Powder Day Alert"
       },
       "dayOfWeek": "Friday"
     }

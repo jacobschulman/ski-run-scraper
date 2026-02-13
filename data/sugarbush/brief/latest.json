@@ -2,21 +2,21 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-02-13",
-  "generated": "2026-02-13T19:48:14.638Z",
+  "generated": "2026-02-13T21:43:46.429Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
-      "24hour_inches": 6,
-      "24hour_cm": 15,
-      "48hour_inches": 12,
-      "48hour_cm": 30,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
       "7day_inches": 0,
       "7day_cm": 0,
       "season_total_inches": 178,
       "season_total_cm": 452,
       "conditions": {
-        "today": "Powder / Packed Powder",
+        "today": "Machine Groomed Packed Powder",
         "yesterday": "Powder / Packed Powder"
       }
     },
@@ -103,32 +103,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-12",
-        "high_f": null,
-        "low_f": 11,
-        "high_c": null,
-        "low_c": -12,
+        "date": "2026-02-13",
+        "high_f": 18,
+        "low_f": 15,
+        "high_c": -8,
+        "low_c": -9,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-13",
-          "high_f": 17,
-          "low_f": 15,
-          "high_c": -9,
-          "low_c": -9,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-14",
-          "high_f": 17,
-          "low_f": 8,
-          "high_c": -8,
+          "high_f": 19,
+          "low_f": 9,
+          "high_c": -7,
           "low_c": -13,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -138,21 +127,32 @@
         {
           "date": "2026-02-15",
           "high_f": 21,
-          "low_f": 21,
+          "low_f": 22,
           "high_c": -6,
           "low_c": -6,
-          "description": "Mostly Sunny",
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-16",
+          "high_f": 28,
+          "low_f": 28,
+          "high_c": -2,
+          "low_c": -2,
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-02-13",
-        "high_f": 17,
-        "low_f": 15,
-        "high_c": -9,
-        "low_c": -9,
+        "date": "2026-02-14",
+        "high_f": 19,
+        "low_f": 9,
+        "high_c": -7,
+        "low_c": -13,
         "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
@@ -163,13 +163,12 @@
   "computedInsights": {
     "flags": {
       "hasFreshSnow": false,
-      "isPowderDay": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "6\" in last 24 hours - powder day!",
       "8 trails freshly groomed"
     ],
     "trends": [],
@@ -180,20 +179,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Time to Call in Sick",
-    "body": "It's a 6\" day. You know what to do. First chair or regret it. 8 runs freshly groomed, mostly in Lincoln Peak, Gadd Peak, and more. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "TGIF",
+    "body": "112 trails open, 62 groomed. Windy, high of 18°. 8 runs freshly groomed, mostly in Lincoln Peak, Gadd Peak, and more. Cold day ahead: 18° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_powder",
-          "category": "snow",
-          "priority": 90,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
           "usedFor": "headline"
         },
         {
-          "id": "snow_powder",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 90,
+          "priority": 10,
           "usedFor": "body"
         },
         {
@@ -203,19 +202,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_windy",
+          "id": "temp_cold",
           "category": "weather",
-          "priority": 45,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "powder_alert",
-        "variationIndex": 6,
-        "totalVariations": 11,
+        "condition": "weekend_kickoff",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Dump Day at {resortName}"
+        "previousHeadline": "Time to Call in Sick"
       },
       "dayOfWeek": "Friday"
     }
