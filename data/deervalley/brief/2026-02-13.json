@@ -2,8 +2,24 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-02-13",
-  "generated": "2026-02-13T07:57:40.208Z",
+  "generated": "2026-02-13T09:58:21.750Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 98,
+      "season_total_cm": 248,
+      "conditions": {
+        "today": "Fresh Powder",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -125,19 +141,82 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-12",
+        "high_f": null,
+        "low_f": 23,
+        "high_c": null,
+        "low_c": -5,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-13",
+          "high_f": 29,
+          "low_f": 22,
+          "high_c": -1,
+          "low_c": -6,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-14",
+          "high_f": 33,
+          "low_f": 29,
+          "high_c": 1,
+          "low_c": -1,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-15",
+          "high_f": 34,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-13",
+        "high_f": 29,
+        "low_f": 22,
+        "high_c": -1,
+        "low_c": -6,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!",
       "2 new trails opened today",
       "12 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 12\" in last 7 days",
       "2 more trails open than yesterday"
     ],
     "recommendations": [
@@ -146,6 +225,40 @@
       "Fresh corduroy on North Star - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Dump Day at Deer Valley",
+    "body": "The mountain is absolutely loaded with 6\" of fresh. This is not a drill. 12 freshly groomed runs mean plenty of velvet corduroy.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 7,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Patrol Went Big Today"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
