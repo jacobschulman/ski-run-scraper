@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-13",
-  "generated": "2026-02-13T10:56:59.704Z",
+  "generated": "2026-02-13T11:44:39.406Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -28,16 +28,103 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 72,
           "yesterday": 63,
-          "delta": 0
+          "delta": 9
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "White Nitro",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Condo X-Cut",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Cross Haul",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Moose Alley",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "White Nitro Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Binder",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Buckboard",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Chipper",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -107,17 +194,22 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "13 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Skidder - all skill levels",
+      "Fresh corduroy on Upper Skidder - all skill levels",
+      "Fresh corduroy on White Nitro - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Overnight Refresh",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Light snow possible in the forecast.",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. The snow cats were busy. 13 trails in SuperQuad, Skyline, and more looking mint. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -133,13 +225,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 2,

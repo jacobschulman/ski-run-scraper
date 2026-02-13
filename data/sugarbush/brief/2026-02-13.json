@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-02-13",
-  "generated": "2026-02-13T10:56:59.608Z",
+  "generated": "2026-02-13T11:44:39.309Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,79 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 112,
+          "today": 111,
           "yesterday": 112,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 56,
+          "today": 61,
           "yesterday": 56,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 142
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [
+        {
+          "name": "Racer's Edge",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Paradise Extension",
+          "difficulty": "Difficult",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Header",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Murphy's Glades",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Runout",
+          "difficulty": "Intermediate",
+          "area": "Castlerock Peak"
+        },
+        {
+          "name": "Castlerock Connection",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Sleeper Chutes",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Village Run",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Which Way",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Birdland",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "The Cliffs",
+          "difficulty": "Difficult",
+          "area": "Mt. Ellen"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -117,14 +175,19 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "6\" in last 24 hours - powder day!"
+      "6\" in last 24 hours - powder day!",
+      "8 trails freshly groomed"
     ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Paradise Extension - all skill levels",
+      "Fresh corduroy on Header - all skill levels",
+      "Fresh corduroy on Murphy's Glades - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Time to Call in Sick",
-    "body": "It's a 6\" day. You know what to do. First chair or regret it. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "Dump Day at Sugarbush",
+    "body": "It's a 6\" day. You know what to do. First chair or regret it. 8 runs freshly groomed, mostly in Lincoln Peak, Gadd Peak, and more. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
@@ -140,19 +203,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_windy",
           "category": "weather",
           "priority": 45,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 6,
         "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "Dump Day at {resortName}"
+        "previousHeadline": "Time to Call in Sick"
       },
       "dayOfWeek": "Friday"
     }
