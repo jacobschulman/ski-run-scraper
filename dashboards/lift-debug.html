@@ -185,27 +185,23 @@
       font-size: 14px;
     }
     .current-wait {
-      font-weight: 700;
-      font-size: 15px;
+      font-weight: 800;
+      font-size: 20px;
       white-space: nowrap;
       color: var(--accent);
+      letter-spacing: -0.02em;
     }
     .current-wait.zero { color: var(--positive); }
     .current-wait.high { color: var(--warning); }
     .current-wait.very-high { color: var(--negative); }
-    .current-wait.na { color: var(--muted); font-weight: 400; font-size: 13px; }
-    .readings {
-      display: flex;
-      gap: 3px;
-      flex-wrap: wrap;
-      margin-top: 3px;
-      padding-left: 25px;
-      font-size: 12px;
+    .current-wait.na { color: var(--muted); font-weight: 400; font-size: 14px; }
+    .prev-line {
+      font-size: 11px;
       color: var(--muted);
+      padding-left: 25px;
+      margin-top: 1px;
     }
-    .reading { white-space: nowrap; }
-    .reading .val { color: var(--text); font-weight: 600; }
-    .reading-sep { opacity: 0.4; }
+    .prev-line .val { color: var(--text); font-weight: 600; }
     .empty-msg {
       padding: 24px;
       text-align: center;
@@ -255,7 +251,7 @@
 
   <script src="shared/data-source-config.js" onerror="console.error('data-source-config.js not found')"></script>
   <script>
-    const READINGS_TO_SHOW = 5;
+    const READINGS_TO_SHOW = 2;
     const AUTO_REFRESH_MS = 30000;
     const PINS_STORAGE_KEY = 'lift-debug-pins';
     let resorts = [];
@@ -488,18 +484,15 @@
         const waitText = hasWait ? w + 'm' : '--';
         const isPinned = pins.includes(lift.liftId);
 
-        // Build readings: "2m 3 mins ago | 5m 6 mins ago | ..."
-        let readingsHtml = '';
-        const readings = hist.slice(0, READINGS_TO_SHOW + 1);
-        if (readings.length > 0) {
-          const parts = [];
-          for (let i = 0; i < readings.length && i <= READINGS_TO_SHOW; i++) {
-            const r = readings[i];
+        // Build compact prev line: "prev: 20m 3 min ago, 19m 6 min ago"
+        let prevHtml = '';
+        const prev = hist.slice(1, 1 + READINGS_TO_SHOW);
+        if (prev.length > 0) {
+          const parts = prev.map(r => {
             const val = r.waitMinutes !== null && r.waitMinutes !== undefined ? r.waitMinutes + 'm' : '--';
-            const ago = timeAgoLong(r.timestamp);
-            parts.push(`<span class="reading"><span class="val">${val}</span> ${ago}</span>`);
-          }
-          readingsHtml = `<div class="readings">${parts.join('<span class="reading-sep"> | </span>')}</div>`;
+            return `<span class="val">${val}</span> ${timeAgoLong(r.timestamp)}`;
+          });
+          prevHtml = `<div class="prev-line">prev: ${parts.join(', ')}</div>`;
         }
 
         html += `<div class="lift-row${isPinned ? ' pinned' : ''}" data-lift-id="${lift.liftId}">
@@ -509,7 +502,7 @@
             <span class="lift-name">${display.name}</span>
             <span class="current-wait ${waitClass}">${waitText}</span>
           </div>
-          ${readingsHtml}
+          ${prevHtml}
         </div>`;
         shown++;
       }
