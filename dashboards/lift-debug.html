@@ -20,12 +20,13 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
+      font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      font-size: 12px;
+      font-size: 14px;
       -webkit-text-size-adjust: none;
+      line-height: 1.4;
     }
 
     /* ── Header ── */
@@ -35,7 +36,7 @@
       z-index: 10;
       background: var(--bg);
       border-bottom: 1px solid var(--border);
-      padding: 6px 10px;
+      padding: 8px 12px;
     }
     .header-row {
       display: flex;
@@ -43,60 +44,54 @@
       gap: 8px;
     }
     .header-title {
-      flex: 1;
-      min-width: 0;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 16px;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
+    .header-sep {
+      color: var(--muted);
+      font-weight: 300;
     }
-    .header-date {
-      font-size: 11px;
+    .header-asof {
+      font-size: 13px;
       color: var(--muted);
       white-space: nowrap;
     }
-    .header-updated {
-      font-size: 10px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .header-updated .fresh { color: var(--positive); }
-    .header-updated .stale { color: var(--warning); }
-    .header-updated .old { color: var(--negative); }
+    .header-asof .fresh { color: var(--positive); }
+    .header-asof .stale { color: var(--warning); }
+    .header-asof .old { color: var(--negative); }
+    .header-spacer { flex: 1; }
     .gear-btn {
       background: none;
       border: 1px solid var(--border);
       border-radius: 6px;
       color: var(--muted);
-      padding: 3px 6px;
+      padding: 4px 7px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1;
       transition: all 0.15s;
+      flex-shrink: 0;
     }
     .gear-btn:hover, .gear-btn.active { color: var(--accent); border-color: var(--accent); }
-    .header-meta {
+    .header-row2 {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 3px;
-      font-size: 10px;
+      margin-top: 4px;
+    }
+    .header-meta {
+      font-size: 12px;
       color: var(--muted);
+      white-space: nowrap;
     }
     .filter-inline {
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 2px 6px;
-      font-size: 11px;
+      padding: 4px 8px;
+      font-size: 13px;
       font-family: inherit;
       flex: 1;
       min-width: 0;
@@ -106,25 +101,25 @@
     /* ── Settings Panel ── */
     .settings-panel {
       display: none;
-      padding: 8px 10px;
+      padding: 10px 12px;
       background: var(--panel);
       border-bottom: 1px solid var(--border);
     }
     .settings-panel.open { display: block; }
     .settings-row {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
       flex-wrap: wrap;
     }
-    .settings-row + .settings-row { margin-top: 6px; }
+    .settings-row + .settings-row { margin-top: 8px; }
     .settings-panel select {
       background: var(--card);
       color: var(--text);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 4px 6px;
-      font-size: 12px;
+      padding: 6px 8px;
+      font-size: 14px;
       font-family: inherit;
       flex: 1;
       min-width: 0;
@@ -133,46 +128,45 @@
     .settings-panel label {
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 13px;
       white-space: nowrap;
       cursor: pointer;
     }
-    .settings-panel input[type="checkbox"] { width: 14px; height: 14px; margin: 0; }
+    .settings-panel input[type="checkbox"] { width: 16px; height: 16px; margin: 0; }
 
     /* ── Lift List ── */
     .lift-list { padding: 0; }
     .lift-row {
-      padding: 4px 8px;
+      padding: 6px 12px;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
     .lift-row:nth-child(even) { background: rgba(255,255,255,0.015); }
     .lift-row:active { background: rgba(255,255,255,0.04); }
-    .lift-row.pinned { background: rgba(123, 216, 255, 0.05); border-left: 2px solid var(--accent); padding-left: 6px; }
+    .lift-row.pinned { background: rgba(123, 216, 255, 0.05); border-left: 3px solid var(--accent); padding-left: 9px; }
     .lift-row.pinned:nth-child(even) { background: rgba(123, 216, 255, 0.07); }
     .lift-header {
       display: flex;
       align-items: baseline;
-      gap: 5px;
-      line-height: 1.3;
+      gap: 6px;
     }
     .pin-icon {
-      font-size: 9px;
+      font-size: 10px;
       color: var(--accent);
       flex-shrink: 0;
       opacity: 0;
       transition: opacity 0.15s;
-      width: 10px;
+      width: 12px;
       text-align: center;
     }
     .lift-row.pinned .pin-icon { opacity: 1; }
     .dot {
       display: inline-block;
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       flex-shrink: 0;
       position: relative;
@@ -188,41 +182,40 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       font-weight: 600;
-      font-size: 12px;
-    }
-    .lift-zone {
-      color: var(--muted);
-      font-weight: 400;
-      font-size: 10px;
+      font-size: 14px;
     }
     .current-wait {
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       white-space: nowrap;
       color: var(--accent);
     }
     .current-wait.zero { color: var(--positive); }
     .current-wait.high { color: var(--warning); }
     .current-wait.very-high { color: var(--negative); }
-    .current-wait.na { color: var(--muted); font-weight: 400; font-size: 11px; }
+    .current-wait.na { color: var(--muted); font-weight: 400; font-size: 13px; }
     .readings {
       display: flex;
-      gap: 4px;
+      gap: 3px;
       flex-wrap: wrap;
-      margin-top: 2px;
-      padding-left: 21px;
-    }
-    .reading {
-      font-size: 10px;
+      margin-top: 3px;
+      padding-left: 25px;
+      font-size: 12px;
       color: var(--muted);
-      white-space: nowrap;
     }
+    .reading { white-space: nowrap; }
     .reading .val { color: var(--text); font-weight: 600; }
-    .reading .ts { opacity: 0.7; }
+    .reading-sep { opacity: 0.4; }
     .empty-msg {
-      padding: 20px;
+      padding: 24px;
       text-align: center;
       color: var(--muted);
+      font-size: 14px;
+    }
+    .settings-hint {
+      font-size: 12px;
+      color: var(--muted);
+      opacity: 0.7;
     }
   </style>
 </head>
@@ -230,12 +223,14 @@
   <div class="page-header">
     <div class="header-row">
       <span class="header-title" id="header-title">Live Lifts</span>
-      <span class="header-updated" id="header-updated"></span>
+      <span class="header-sep" id="header-sep"></span>
+      <span class="header-asof" id="header-asof"></span>
+      <span class="header-spacer"></span>
       <button class="gear-btn" id="gear-btn" title="Settings">&#9881;</button>
     </div>
-    <div class="header-meta">
-      <span class="header-date" id="header-date"></span>
-      <span style="flex:1"></span>
+    <div class="header-row2">
+      <span class="header-meta" id="header-meta"></span>
+      <span class="header-spacer"></span>
       <input type="search" class="filter-inline" id="filter" placeholder="Filter...">
     </div>
   </div>
@@ -249,8 +244,8 @@
       <label><input type="checkbox" id="wait-only" checked> With waits</label>
       <label><input type="checkbox" id="auto-refresh" checked> Auto-refresh (30s)</label>
     </div>
-    <div class="settings-row" style="font-size:10px; color: var(--muted);">
-      Tap a lift to pin it to the top. Pins are saved per resort.
+    <div class="settings-row">
+      <span class="settings-hint">Tap a lift to pin it to the top. Pins are saved per resort.</span>
     </div>
   </div>
 
@@ -266,7 +261,8 @@
     let resorts = [];
     let resortMap = {};
     let autoRefreshInterval = null;
-    let lastFetchTime = null;
+    let lastScrapeTime = null; // actual data scrape timestamp (from resort index)
+    let currentTz = 'UTC';
     let updatedTickInterval = null;
     const historyCache = new Map();
     const cachedIndex = {};
@@ -297,17 +293,22 @@
     const slugify = s => (s || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
     const canonicalLiftId = lift => lift ? `${slugify(lift.mountain || 'unknown')}:${slugify(lift.name || 'unknown')}` : '';
 
-    const timeAgo = iso => {
+    const timeAgoLong = iso => {
       if (!iso) return '';
       const d = new Date(iso);
       if (isNaN(d)) return '';
       const m = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
-      if (m < 1) return 'now';
-      if (m < 60) return m + 'm';
+      if (m < 1) return 'just now';
+      if (m === 1) return '1 min ago';
+      if (m < 60) return m + ' mins ago';
       const h = Math.floor(m / 60);
       const rm = m % 60;
-      if (h < 24) return rm ? h + 'h' + rm + 'm' : h + 'h';
-      return Math.floor(h / 24) + 'd';
+      if (h < 24) {
+        if (rm === 0) return h === 1 ? '1 hr ago' : h + ' hrs ago';
+        return h + 'h ' + rm + 'm ago';
+      }
+      const days = Math.floor(h / 24);
+      return days === 1 ? '1 day ago' : days + ' days ago';
     };
 
     const formatClock = (iso, tz) => {
@@ -323,21 +324,25 @@
       return fg || fl || new Date().toISOString().slice(0, 10);
     };
 
-    function updateHeaderTime() {
-      const el = $('header-updated');
-      if (!lastFetchTime) { el.textContent = ''; return; }
-      const ago = Math.round((Date.now() - lastFetchTime) / 1000);
-      let label, cls;
-      if (ago < 10) { label = 'just now'; cls = 'fresh'; }
-      else if (ago < 60) { label = ago + 's ago'; cls = 'fresh'; }
-      else if (ago < 120) { label = Math.floor(ago / 60) + 'm ago'; cls = 'stale'; }
-      else { label = Math.floor(ago / 60) + 'm ago'; cls = 'old'; }
-      el.innerHTML = `<span class="${cls}">${label}</span>`;
+    function updateAsOf() {
+      const el = $('header-asof');
+      const sep = $('header-sep');
+      if (!lastScrapeTime) { el.textContent = ''; sep.textContent = ''; return; }
+      sep.textContent = '\u2014';
+      const d = new Date(lastScrapeTime);
+      const m = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
+      let cls;
+      if (m <= 5) cls = 'fresh';
+      else if (m <= 15) cls = 'stale';
+      else cls = 'old';
+      const clockStr = formatClock(lastScrapeTime, currentTz);
+      const agoStr = timeAgoLong(lastScrapeTime);
+      el.innerHTML = `As of <span class="${cls}">${clockStr} (${agoStr})</span>`;
     }
 
     function startUpdatedTick() {
       if (updatedTickInterval) clearInterval(updatedTickInterval);
-      updatedTickInterval = setInterval(updateHeaderTime, 5000);
+      updatedTickInterval = setInterval(updateAsOf, 10000);
     }
 
     async function fetchHistory(resortKey, dateKey) {
@@ -391,13 +396,13 @@
       $('header-title').textContent = name + ' Live Lifts';
       document.title = name + ' Live Lifts';
 
-      const now = new Date();
-      const dateStr = now.toLocaleDateString('en-US', {
-        weekday: 'short', month: 'short', day: 'numeric',
-        timeZone: tz
-      });
+      // Use the scrape timestamp from data
+      lastScrapeTime = resortData?.generated || null;
+      currentTz = tz;
+      updateAsOf();
+
       const liftCount = resortData?.lifts?.length || 0;
-      $('header-date').textContent = dateStr + ' \u00b7 ' + liftCount + ' lifts';
+      $('header-meta').textContent = liftCount + ' lifts tracked';
     }
 
     function render(resortData, history, tz) {
@@ -441,15 +446,12 @@
 
       let lifts = Array.from(liftMap.values())
         .sort((a, b) => {
-          // Pinned lifts first
           const ap = pins.includes(a.liftId) ? 1 : 0;
           const bp = pins.includes(b.liftId) ? 1 : 0;
           if (ap !== bp) return bp - ap;
-          // Open lifts next
           const ao = a.status?.toLowerCase() === 'open' ? 1 : 0;
           const bo = b.status?.toLowerCase() === 'open' ? 1 : 0;
           if (ao !== bo) return bo - ao;
-          // Lifts with wait data next
           const aw = hasWaitData(a.liftId) ? 1 : 0;
           const bw = hasWaitData(b.liftId) ? 1 : 0;
           if (aw !== bw) return bw - aw;
@@ -472,7 +474,7 @@
         const isOpen = display.status?.toLowerCase() === 'open';
         if (openOnly && !isOpen) continue;
         if (waitOnly && !hasWaitData(lift.liftId)) continue;
-        const text = ((display.name || '') + ' ' + (display.mountain || '')).toLowerCase();
+        const text = (display.name || '').toLowerCase();
         if (filter && !text.includes(filter)) continue;
 
         const statusClass = display.status?.toLowerCase() === 'open' ? 'open'
@@ -484,29 +486,27 @@
           waitClass = w === 0 ? 'zero' : w >= 15 ? 'very-high' : w >= 8 ? 'high' : '';
         }
         const waitText = hasWait ? w + 'm' : '--';
-        const zone = display.mountain ? ` <span class="lift-zone">${display.mountain}</span>` : '';
         const isPinned = pins.includes(lift.liftId);
 
-        // Build readings
+        // Build readings: "2m 3 mins ago | 5m 6 mins ago | ..."
         let readingsHtml = '';
         const readings = hist.slice(0, READINGS_TO_SHOW + 1);
         if (readings.length > 0) {
-          readingsHtml = '<div class="readings">';
+          const parts = [];
           for (let i = 0; i < readings.length && i <= READINGS_TO_SHOW; i++) {
             const r = readings[i];
             const val = r.waitMinutes !== null && r.waitMinutes !== undefined ? r.waitMinutes + 'm' : '--';
-            const ts = timeAgo(r.timestamp);
-            const clock = formatClock(r.timestamp, tz);
-            readingsHtml += `<span class="reading" title="${clock}"><span class="val">${val}</span><span class="ts">@${ts}</span></span>`;
+            const ago = timeAgoLong(r.timestamp);
+            parts.push(`<span class="reading"><span class="val">${val}</span> ${ago}</span>`);
           }
-          readingsHtml += '</div>';
+          readingsHtml = `<div class="readings">${parts.join('<span class="reading-sep"> | </span>')}</div>`;
         }
 
         html += `<div class="lift-row${isPinned ? ' pinned' : ''}" data-lift-id="${lift.liftId}">
           <div class="lift-header">
             <span class="pin-icon">\u25C6</span>
             <span class="dot ${statusClass}"></span>
-            <span class="lift-name">${display.name}${zone}</span>
+            <span class="lift-name">${display.name}</span>
             <span class="current-wait ${waitClass}">${waitText}</span>
           </div>
           ${readingsHtml}
@@ -542,8 +542,6 @@
         const resortData = cachedIndex[ck];
         const dateKey = deriveDateKey(resortData);
         const history = await fetchHistory(resortKey, dateKey);
-        lastFetchTime = Date.now();
-        updateHeaderTime();
         updateHeader(resortKey, resortData, tz);
         render(resortData, history, tz);
       } catch (e) {
@@ -612,10 +610,8 @@
 
     // ── Event listeners ──
     $('gear-btn').addEventListener('click', () => {
-      const panel = $('settings-panel');
-      const btn = $('gear-btn');
-      panel.classList.toggle('open');
-      btn.classList.toggle('active');
+      $('settings-panel').classList.toggle('open');
+      $('gear-btn').classList.toggle('active');
     });
 
     $('resort-select').addEventListener('change', e => {

@@ -28,8 +28,8 @@ module.exports = {
     },
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // LIFT SCRAPER - Vail (Puppeteer-based, scrapes every 3 minutes)
-    // Isolated from HTTP scrapers so Chrome crashes don't affect other providers
+    // LIFT SCRAPER - Vail (Puppeteer-based, scrapes other Vail resorts every 3 min)
+    // Does NOT scrape Vail itself - that's handled by vail-live-scraper
     // ═══════════════════════════════════════════════════════════════════════════
     {
       name: 'lift-scraper-vail',
@@ -40,14 +40,38 @@ module.exports = {
       min_uptime: '30s',
       watch: false,
       max_memory_restart: '1200M',
-      exp_backoff_restart_delay: 1000,  // Exponential backoff: 1s, 2s, 4s... (caps at 15s)
+      exp_backoff_restart_delay: 1000,
       max_restarts: 30,
-      node_args: '--expose-gc',         // Allow manual GC for memory management
+      node_args: '--expose-gc',
       env: {
         NODE_ENV: 'production',
       },
       error_file: '/home/scraper/logs/lift-vail-error.log',
       out_file: '/home/scraper/logs/lift-vail-out.log',
+      merge_logs: true,
+      log_date_format: 'YYYY-MM-DD HH:mm:ss',
+    },
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // VAIL LIVE SCRAPER - Bare-bones Vail-only, scrapes every 45 seconds
+    // Keeps browser alive between cycles for maximum data frequency
+    // ═══════════════════════════════════════════════════════════════════════════
+    {
+      name: 'vail-live-scraper',
+      script: './vail-live-scraper.js',
+      cwd: __dirname,
+      instances: 1,
+      autorestart: true,
+      min_uptime: '30s',
+      watch: false,
+      max_memory_restart: '800M',
+      exp_backoff_restart_delay: 1000,
+      max_restarts: 50,
+      env: {
+        NODE_ENV: 'production',
+      },
+      error_file: '/home/scraper/logs/vail-live-error.log',
+      out_file: '/home/scraper/logs/vail-live-out.log',
       merge_logs: true,
       log_date_format: 'YYYY-MM-DD HH:mm:ss',
     },

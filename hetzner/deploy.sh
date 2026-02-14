@@ -47,6 +47,6 @@ log "Code changes detected: $CODE_CHANGES"
 log "Restarting PM2 apps..."
 
 # Restart affected services
-pm2 restart lift-scraper-others lift-scraper-vail snow-scraper terrain-scraper api-server >> "$LOG_FILE" 2>&1
+pm2 restart lift-scraper-others lift-scraper-vail vail-live-scraper snow-scraper terrain-scraper api-server >> "$LOG_FILE" 2>&1
 
 log "Deploy complete"
