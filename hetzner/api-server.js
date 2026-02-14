@@ -333,6 +333,19 @@ app.use('/dashboards', express.static(DASHBOARDS_DIR, {
   },
 }));
 
+// Resources (icons, images) - needed for OG image previews
+const RESOURCES_DIR = path.join(__dirname, '..', 'resources');
+app.use('/resources', express.static(RESOURCES_DIR, {
+  maxAge: '1d',
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.png')) {
+      res.setHeader('Content-Type', 'image/png');
+    } else if (filePath.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml');
+    }
+  },
+}));
+
 // Config file for dashboards (at root, same as GitHub Pages)
 app.get('/config.json', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'config.json'));
