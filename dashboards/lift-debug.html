@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Lift Debug</title>
+  <style>
+    :root {
+      --bg: #0c1a2b;
+      --panel: #0f243a;
+      --card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #e9f1ff;
+      --muted: #9bb3d1;
+      --accent: #7bd8ff;
+      --positive: #7bffc3;
+      --negative: #ff8f87;
+      --warning: #ffcc66;
+      --chip: rgba(255, 255, 255, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      font-size: 12px;
+      -webkit-text-size-adjust: none;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 10px;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .header-title {
+      flex: 1;
+      min-width: 0;
+      font-weight: 700;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .header-date {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .header-updated {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .header-updated .fresh { color: var(--positive); }
+    .header-updated .stale { color: var(--warning); }
+    .header-updated .old { color: var(--negative); }
+    .gear-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted);
+      padding: 3px 6px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      transition: all 0.15s;
+    }
+    .gear-btn:hover, .gear-btn.active { color: var(--accent); border-color: var(--accent); }
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--muted);
+    }
+    .filter-inline {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 11px;
+      font-family: inherit;
+      flex: 1;
+      min-width: 0;
+    }
+    .filter-inline:focus { outline: none; border-color: var(--accent); }
+
+    /* ── Settings Panel ── */
+    .settings-panel {
+      display: none;
+      padding: 8px 10px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--border);
+    }
+    .settings-panel.open { display: block; }
+    .settings-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .settings-row + .settings-row { margin-top: 6px; }
+    .settings-panel select {
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 6px;
+      font-size: 12px;
+      font-family: inherit;
+      flex: 1;
+      min-width: 0;
+    }
+    .settings-panel select:focus { outline: none; border-color: var(--accent); }
+    .settings-panel label {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .settings-panel input[type="checkbox"] { width: 14px; height: 14px; margin: 0; }
+
+    /* ── Lift List ── */
+    .lift-list { padding: 0; }
+    .lift-row {
+      padding: 4px 8px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lift-row:nth-child(even) { background: rgba(255,255,255,0.015); }
+    .lift-row:active { background: rgba(255,255,255,0.04); }
+    .lift-row.pinned { background: rgba(123, 216, 255, 0.05); border-left: 2px solid var(--accent); padding-left: 6px; }
+    .lift-row.pinned:nth-child(even) { background: rgba(123, 216, 255, 0.07); }
+    .lift-header {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      line-height: 1.3;
+    }
+    .pin-icon {
+      font-size: 9px;
+      color: var(--accent);
+      flex-shrink: 0;
+      opacity: 0;
+      transition: opacity 0.15s;
+      width: 10px;
+      text-align: center;
+    }
+    .lift-row.pinned .pin-icon { opacity: 1; }
+    .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      top: -1px;
+    }
+    .dot.open { background: var(--positive); }
+    .dot.closed { background: var(--negative); }
+    .dot.hold { background: var(--warning); }
+    .lift-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    .lift-zone {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 10px;
+    }
+    .current-wait {
+      font-weight: 700;
+      font-size: 13px;
+      white-space: nowrap;
+      color: var(--accent);
+    }
+    .current-wait.zero { color: var(--positive); }
+    .current-wait.high { color: var(--warning); }
+    .current-wait.very-high { color: var(--negative); }
+    .current-wait.na { color: var(--muted); font-weight: 400; font-size: 11px; }
+    .readings {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+      padding-left: 21px;
+    }
+    .reading {
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .reading .val { color: var(--text); font-weight: 600; }
+    .reading .ts { opacity: 0.7; }
+    .empty-msg {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="header-row">
+      <span class="header-title" id="header-title">Live Lifts</span>
+      <span class="header-updated" id="header-updated"></span>
+      <button class="gear-btn" id="gear-btn" title="Settings">&#9881;</button>
+    </div>
+    <div class="header-meta">
+      <span class="header-date" id="header-date"></span>
+      <span style="flex:1"></span>
+      <input type="search" class="filter-inline" id="filter" placeholder="Filter...">
+    </div>
+  </div>
+
+  <div class="settings-panel" id="settings-panel">
+    <div class="settings-row">
+      <select id="resort-select" aria-label="Resort"></select>
+    </div>
+    <div class="settings-row">
+      <label><input type="checkbox" id="open-only" checked> Open only</label>
+      <label><input type="checkbox" id="wait-only" checked> With waits</label>
+      <label><input type="checkbox" id="auto-refresh" checked> Auto-refresh (30s)</label>
+    </div>
+    <div class="settings-row" style="font-size:10px; color: var(--muted);">
+      Tap a lift to pin it to the top. Pins are saved per resort.
+    </div>
+  </div>
+
+  <div class="lift-list" id="lift-list">
+    <div class="empty-msg">Loading...</div>
+  </div>
+
+  <script src="shared/data-source-config.js" onerror="console.error('data-source-config.js not found')"></script>
+  <script>
+    const READINGS_TO_SHOW = 5;
+    const AUTO_REFRESH_MS = 30000;
+    const PINS_STORAGE_KEY = 'lift-debug-pins';
+    let resorts = [];
+    let resortMap = {};
+    let autoRefreshInterval = null;
+    let lastFetchTime = null;
+    let updatedTickInterval = null;
+    const historyCache = new Map();
+    const cachedIndex = {};
+
+    // ── Pinned lifts (per resort, in localStorage) ──
+    function getPins(resortKey) {
+      try {
+        const all = JSON.parse(localStorage.getItem(PINS_STORAGE_KEY) || '{}');
+        return all[resortKey] || [];
+      } catch (_) { return []; }
+    }
+    function setPins(resortKey, pins) {
+      try {
+        const all = JSON.parse(localStorage.getItem(PINS_STORAGE_KEY) || '{}');
+        all[resortKey] = pins;
+        localStorage.setItem(PINS_STORAGE_KEY, JSON.stringify(all));
+      } catch (_) {}
+    }
+    function togglePin(resortKey, liftId) {
+      const pins = getPins(resortKey);
+      const idx = pins.indexOf(liftId);
+      if (idx >= 0) pins.splice(idx, 1);
+      else pins.push(liftId);
+      setPins(resortKey, pins);
+    }
+
+    const $ = id => document.getElementById(id);
+    const slugify = s => (s || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
+    const canonicalLiftId = lift => lift ? `${slugify(lift.mountain || 'unknown')}:${slugify(lift.name || 'unknown')}` : '';
+
+    const timeAgo = iso => {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d)) return '';
+      const m = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
+      if (m < 1) return 'now';
+      if (m < 60) return m + 'm';
+      const h = Math.floor(m / 60);
+      const rm = m % 60;
+      if (h < 24) return rm ? h + 'h' + rm + 'm' : h + 'h';
+      return Math.floor(h / 24) + 'd';
+    };
+
+    const formatClock = (iso, tz) => {
+      if (!iso) return '';
+      const t = new Date(iso);
+      if (isNaN(t)) return '';
+      return new Intl.DateTimeFormat([], { hour: 'numeric', minute: '2-digit', timeZone: tz || 'UTC' }).format(t);
+    };
+
+    const deriveDateKey = resort => {
+      const fg = resort.generated ? resort.generated.split('T')[0] : null;
+      const fl = resort.lifts?.length ? resort.lifts[0].lastUpdated?.split('T')[0] : null;
+      return fg || fl || new Date().toISOString().slice(0, 10);
+    };
+
+    function updateHeaderTime() {
+      const el = $('header-updated');
+      if (!lastFetchTime) { el.textContent = ''; return; }
+      const ago = Math.round((Date.now() - lastFetchTime) / 1000);
+      let label, cls;
+      if (ago < 10) { label = 'just now'; cls = 'fresh'; }
+      else if (ago < 60) { label = ago + 's ago'; cls = 'fresh'; }
+      else if (ago < 120) { label = Math.floor(ago / 60) + 'm ago'; cls = 'stale'; }
+      else { label = Math.floor(ago / 60) + 'm ago'; cls = 'old'; }
+      el.innerHTML = `<span class="${cls}">${label}</span>`;
+    }
+
+    function startUpdatedTick() {
+      if (updatedTickInterval) clearInterval(updatedTickInterval);
+      updatedTickInterval = setInterval(updateHeaderTime, 5000);
+    }
+
+    async function fetchHistory(resortKey, dateKey) {
+      const source = dataSourceManager.getCurrentSource();
+      const ck = source.id + '-' + resortKey + '-' + dateKey + '-full';
+      if (historyCache.has(ck)) return historyCache.get(ck);
+
+      const promise = (async () => {
+        try {
+          const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${dateKey}.ndjson`);
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`${res.status}`);
+          const text = await res.text();
+          const lines = text.trim().split('\n').filter(Boolean);
+          const history = {};
+          for (let i = lines.length - 1; i >= 0; i--) {
+            try {
+              const entry = JSON.parse(lines[i]);
+              const id = canonicalLiftId(entry);
+              if (!history[id]) history[id] = [];
+              if (!history[id].some(h => h.timestamp === entry.timestamp)) {
+                history[id].push({ ...entry, liftId: id });
+              }
+            } catch (_) {}
+          }
+          return history;
+        } catch (e) {
+          console.error('fetchHistory error:', e);
+          return {};
+        }
+      })();
+
+      historyCache.set(ck, promise);
+      return promise;
+    }
+
+    function renderResortOptions() {
+      const sel = $('resort-select');
+      sel.innerHTML = '';
+      resorts.forEach(({ key, name }) => {
+        const o = document.createElement('option');
+        o.value = key;
+        o.textContent = name;
+        sel.appendChild(o);
+      });
+    }
+
+    function updateHeader(resortKey, resortData, tz) {
+      const info = resortMap[resortKey];
+      const name = info?.name || resortKey;
+      $('header-title').textContent = name + ' Live Lifts';
+      document.title = name + ' Live Lifts';
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', {
+        weekday: 'short', month: 'short', day: 'numeric',
+        timeZone: tz
+      });
+      const liftCount = resortData?.lifts?.length || 0;
+      $('header-date').textContent = dateStr + ' \u00b7 ' + liftCount + ' lifts';
+    }
+
+    function render(resortData, history, tz) {
+      const resortKey = $('resort-select').value;
+      const list = $('lift-list');
+      const filter = $('filter').value.trim().toLowerCase();
+      const openOnly = $('open-only').checked;
+      const waitOnly = $('wait-only').checked;
+      const pins = getPins(resortKey);
+
+      const liftMap = new Map();
+      const addLift = lift => {
+        if (!lift) return;
+        const id = canonicalLiftId(lift);
+        const existing = liftMap.get(id);
+        if (!existing) { liftMap.set(id, { ...lift, liftId: id }); return; }
+        const m = { ...existing };
+        if (lift.status) m.status = lift.status;
+        if (lift.lastUpdated && (!m.lastUpdated || new Date(lift.lastUpdated) > new Date(m.lastUpdated))) {
+          m.lastUpdated = lift.lastUpdated;
+          m.waitMinutes = lift.waitMinutes !== undefined ? lift.waitMinutes : m.waitMinutes;
+        }
+        m.openTime = m.openTime || lift.openTime;
+        m.closeTime = m.closeTime || lift.closeTime;
+        m.mountain = m.mountain || lift.mountain;
+        m.type = m.type || lift.type;
+        m.name = m.name || lift.name;
+        liftMap.set(id, m);
+      };
+
+      (resortData?.lifts || []).forEach(addLift);
+      Object.keys(history).forEach(id => {
+        const latest = history[id]?.[0];
+        if (latest) addLift({ ...latest, liftId: id });
+      });
+
+      const hasWaitData = id => {
+        const h = history[id] || [];
+        return h.some(e => e.waitMinutes !== null && e.waitMinutes !== undefined);
+      };
+
+      let lifts = Array.from(liftMap.values())
+        .sort((a, b) => {
+          // Pinned lifts first
+          const ap = pins.includes(a.liftId) ? 1 : 0;
+          const bp = pins.includes(b.liftId) ? 1 : 0;
+          if (ap !== bp) return bp - ap;
+          // Open lifts next
+          const ao = a.status?.toLowerCase() === 'open' ? 1 : 0;
+          const bo = b.status?.toLowerCase() === 'open' ? 1 : 0;
+          if (ao !== bo) return bo - ao;
+          // Lifts with wait data next
+          const aw = hasWaitData(a.liftId) ? 1 : 0;
+          const bw = hasWaitData(b.liftId) ? 1 : 0;
+          if (aw !== bw) return bw - aw;
+          return (a.name || '').localeCompare(b.name || '');
+        });
+
+      let html = '';
+      let shown = 0;
+
+      for (const lift of lifts) {
+        const hist = history[lift.liftId] || [];
+        const latest = hist[0];
+        const display = { ...lift };
+        if (latest) {
+          display.waitMinutes = latest.waitMinutes;
+          display.status = latest.status || display.status;
+          display.lastUpdated = latest.timestamp;
+        }
+
+        const isOpen = display.status?.toLowerCase() === 'open';
+        if (openOnly && !isOpen) continue;
+        if (waitOnly && !hasWaitData(lift.liftId)) continue;
+        const text = ((display.name || '') + ' ' + (display.mountain || '')).toLowerCase();
+        if (filter && !text.includes(filter)) continue;
+
+        const statusClass = display.status?.toLowerCase() === 'open' ? 'open'
+          : display.status?.toLowerCase().includes('hold') ? 'hold' : 'closed';
+        const w = display.waitMinutes;
+        const hasWait = w !== null && w !== undefined;
+        let waitClass = 'na';
+        if (hasWait) {
+          waitClass = w === 0 ? 'zero' : w >= 15 ? 'very-high' : w >= 8 ? 'high' : '';
+        }
+        const waitText = hasWait ? w + 'm' : '--';
+        const zone = display.mountain ? ` <span class="lift-zone">${display.mountain}</span>` : '';
+        const isPinned = pins.includes(lift.liftId);
+
+        // Build readings
+        let readingsHtml = '';
+        const readings = hist.slice(0, READINGS_TO_SHOW + 1);
+        if (readings.length > 0) {
+          readingsHtml = '<div class="readings">';
+          for (let i = 0; i < readings.length && i <= READINGS_TO_SHOW; i++) {
+            const r = readings[i];
+            const val = r.waitMinutes !== null && r.waitMinutes !== undefined ? r.waitMinutes + 'm' : '--';
+            const ts = timeAgo(r.timestamp);
+            const clock = formatClock(r.timestamp, tz);
+            readingsHtml += `<span class="reading" title="${clock}"><span class="val">${val}</span><span class="ts">@${ts}</span></span>`;
+          }
+          readingsHtml += '</div>';
+        }
+
+        html += `<div class="lift-row${isPinned ? ' pinned' : ''}" data-lift-id="${lift.liftId}">
+          <div class="lift-header">
+            <span class="pin-icon">\u25C6</span>
+            <span class="dot ${statusClass}"></span>
+            <span class="lift-name">${display.name}${zone}</span>
+            <span class="current-wait ${waitClass}">${waitText}</span>
+          </div>
+          ${readingsHtml}
+        </div>`;
+        shown++;
+      }
+
+      if (!shown) {
+        html = '<div class="empty-msg">No lifts match filters.</div>';
+      }
+
+      list.innerHTML = html;
+
+      // Attach tap-to-pin handlers
+      list.querySelectorAll('.lift-row[data-lift-id]').forEach(row => {
+        row.addEventListener('click', () => {
+          togglePin(resortKey, row.dataset.liftId);
+          rerender();
+        });
+      });
+    }
+
+    async function loadResort(resortKey) {
+      const info = resortMap[resortKey];
+      if (!info) return;
+      const tz = info.timezone || 'UTC';
+
+      try {
+        const ck = `${dataSourceManager.getCurrentSource().id}-${resortKey}`;
+        if (!cachedIndex[ck]) {
+          cachedIndex[ck] = await dataSourceManager.fetchData(`data/${resortKey}/lifts/index.json`);
+        }
+        const resortData = cachedIndex[ck];
+        const dateKey = deriveDateKey(resortData);
+        const history = await fetchHistory(resortKey, dateKey);
+        lastFetchTime = Date.now();
+        updateHeaderTime();
+        updateHeader(resortKey, resortData, tz);
+        render(resortData, history, tz);
+      } catch (e) {
+        $('lift-list').innerHTML = '<div class="empty-msg">Error: ' + (e.message || e) + '</div>';
+      }
+    }
+
+    function refreshCurrentResort() {
+      const key = $('resort-select').value;
+      if (!key) return;
+      const sid = dataSourceManager.getCurrentSource().id;
+      delete cachedIndex[`${sid}-${key}`];
+      for (const k of historyCache.keys()) {
+        if (k.includes(key)) historyCache.delete(k);
+      }
+      loadResort(key);
+    }
+
+    async function rerender() {
+      const key = $('resort-select').value;
+      const info = resortMap[key];
+      if (!key || !info) return;
+      const tz = info.timezone || 'UTC';
+      const sid = dataSourceManager.getCurrentSource().id;
+      const resortData = cachedIndex[`${sid}-${key}`];
+      if (!resortData) return;
+      const dateKey = deriveDateKey(resortData);
+      const history = await fetchHistory(key, dateKey);
+      render(resortData, history, tz);
+    }
+
+    function startAutoRefresh() {
+      stopAutoRefresh();
+      if (!$('auto-refresh').checked) return;
+      autoRefreshInterval = setInterval(refreshCurrentResort, AUTO_REFRESH_MS);
+    }
+
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) { clearInterval(autoRefreshInterval); autoRefreshInterval = null; }
+    }
+
+    async function init() {
+      try {
+        const config = await dataSourceManager.fetchData('config.json');
+        resorts = (config.resorts || [])
+          .filter(r => r.liftWaitTimesAvailable)
+          .map(r => ({ key: r.key, name: r.name, timezone: r.timezone }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        resortMap = resorts.reduce((acc, r) => { acc[r.key] = r; return acc; }, {});
+
+        renderResortOptions();
+
+        const params = new URLSearchParams(window.location.search);
+        const requested = params.get('resort');
+        const initial = requested && resortMap[requested] ? requested : (resortMap['vail'] ? 'vail' : resorts[0]?.key);
+        if (initial) {
+          $('resort-select').value = initial;
+          await loadResort(initial);
+          startAutoRefresh();
+          startUpdatedTick();
+        }
+      } catch (e) {
+        $('lift-list').innerHTML = '<div class="empty-msg">Failed to load config.json</div>';
+      }
+    }
+
+    // ── Event listeners ──
+    $('gear-btn').addEventListener('click', () => {
+      const panel = $('settings-panel');
+      const btn = $('gear-btn');
+      panel.classList.toggle('open');
+      btn.classList.toggle('active');
+    });
+
+    $('resort-select').addEventListener('change', e => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('resort', e.target.value);
+      window.history.replaceState({}, '', url);
+      loadResort(e.target.value);
+      startAutoRefresh();
+    });
+
+    $('filter').addEventListener('input', rerender);
+    $('open-only').addEventListener('change', rerender);
+    $('wait-only').addEventListener('change', rerender);
+    $('auto-refresh').addEventListener('change', () => {
+      $('auto-refresh').checked ? startAutoRefresh() : stopAutoRefresh();
+    });
+
+    init();
+  </script>
+</body>
+</html>

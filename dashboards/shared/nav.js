@@ -12,6 +12,7 @@ const NAV_PAGES = [
   { id: 'overview', label: 'Home', href: `${dashboardBase}resort-overview.html` },
   { id: 'terrain', label: 'Trails', href: `${dashboardBase}terrain-dashboard.html` },
   { id: 'lifts', label: 'Lifts', href: `${dashboardBase}live-lifts.html` },
+  { id: 'lift-debug', label: 'Debug', href: `${dashboardBase}lift-debug.html` },
   { id: 'briefs', label: 'Briefs', href: `${dashboardBase}briefs-overview.html` },
   { id: 'api-providers', label: 'APIs Status', href: `${dashboardBase}api-providers.html` },
   { id: 'monitor', label: 'Health', href: `${hetznerBase}monitor.html` }
