@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-02-14",
-  "generated": "2026-02-14T13:13:14.978Z",
+  "generated": "2026-02-14T14:49:59.656Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 0,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,38 @@
         },
         "totalTrails": 7
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Buttermilk",
+          "difficulty": "Blue",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Croyle",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "North Bowl",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Peter's Pride",
+          "difficulty": "TerrainPark",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Summit",
+          "difficulty": "Green",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Tiger",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,38 +78,54 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "6 new trails opened today"
+    ],
+    "trends": [
+      "6 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "No trails open yet. Current forecast: Variable conditions.",
+    "headline": "Terrain Expanding",
+    "body": "6/7 trails spinning, 0 freshly groomed. Variable conditions. 6 new runs just opened up. Time to explore fresh terrain. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "terrain_expansion",
         "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waiting for Opening Day"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Saturday"
     }

@@ -2,7 +2,7 @@
   "resort": "okemo",
   "resortName": "Okemo",
   "date": "2026-02-14",
-  "generated": "2026-02-14T13:13:14.930Z",
+  "generated": "2026-02-14T14:49:59.607Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,82 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 119,
+          "today": 125,
           "yesterday": 119,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 84,
+          "today": 94,
           "yesterday": 84,
-          "delta": 0
+          "delta": 10
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Chute",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Fast Lane",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower Chief",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower World Cup",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Upper Chief",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Willie's Way",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Eclipse",
+          "difficulty": "Black",
+          "area": "Jackson Gore"
+        },
+        {
+          "name": "Upper Limelight",
+          "difficulty": "Black",
+          "area": "Jackson Gore"
+        },
+        {
+          "name": "White Lightning",
+          "difficulty": "Black",
+          "area": "Jackson Gore"
+        },
+        {
+          "name": "Lower Tomahawk",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Muellers' Run",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Boomerang",
+          "difficulty": "Blue",
+          "area": "Solitude"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -47,24 +109,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 10\" in last 7 days"
+    "alerts": [
+      "6 new trails opened today",
+      "6 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 10\" in last 7 days",
+      "6 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Eclipse - challenging for advanced skiers",
+      "Fresh corduroy on Upper Limelight - challenging for advanced skiers",
+      "Fresh corduroy on White Lightning - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Holiday Skiing",
-    "body": "Steady snowfall with 10\" over the last week. It's a holiday - expect a full house. Plan for crowds at popular lifts.",
+    "headline": "The Map Got Bigger",
+    "body": "Steady snowfall with 10\" over the last week. Ski patrol has been busy - 6 additional trails are now open. It's a holiday - expect a full house. Plan for crowds at popular lifts.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_holiday",
-          "category": "time",
-          "priority": 70,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -74,19 +144,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "time_holiday",
           "category": "time",
           "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "holiday",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Peak Season Mode"
+        "previousHeadline": "Holiday Skiing"
       },
       "dayOfWeek": "Saturday"
     }
