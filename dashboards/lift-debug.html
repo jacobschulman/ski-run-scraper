@@ -274,8 +274,10 @@
     let lastScrapeTime = null;
     let currentTz = 'UTC';
     let updatedTickInterval = null;
-    const historyCache = new Map();
-    const cachedIndex = {};
+    // Last-fetched data for re-renders (filter/pin changes) without network calls
+    let lastResortData = null;
+    let lastHistory = null;
+    let lastTz = 'UTC';
 
     // ── Pinned lifts (per resort, in localStorage) ──
     function getPins(resortKey) {
@@ -362,37 +364,28 @@
     }
 
     async function fetchHistory(resortKey, dateKey) {
-      const source = dataSourceManager.getCurrentSource();
-      const ck = source.id + '-' + resortKey + '-' + dateKey + '-full';
-      if (historyCache.has(ck)) return historyCache.get(ck);
-
-      const promise = (async () => {
-        try {
-          const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${dateKey}.ndjson`);
-          const res = await fetchFresh(url);
-          if (!res.ok) throw new Error(`${res.status}`);
-          const text = await res.text();
-          const lines = text.trim().split('\n').filter(Boolean);
-          const history = {};
-          for (let i = lines.length - 1; i >= 0; i--) {
-            try {
-              const entry = JSON.parse(lines[i]);
-              const id = canonicalLiftId(entry);
-              if (!history[id]) history[id] = [];
-              if (!history[id].some(h => h.timestamp === entry.timestamp)) {
-                history[id].push({ ...entry, liftId: id });
-              }
-            } catch (_) {}
-          }
-          return history;
-        } catch (e) {
-          console.error('fetchHistory error:', e);
-          return {};
+      try {
+        const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${dateKey}.ndjson`);
+        const res = await fetchFresh(url);
+        if (!res.ok) throw new Error(`${res.status}`);
+        const text = await res.text();
+        const lines = text.trim().split('\n').filter(Boolean);
+        const history = {};
+        for (let i = lines.length - 1; i >= 0; i--) {
+          try {
+            const entry = JSON.parse(lines[i]);
+            const id = canonicalLiftId(entry);
+            if (!history[id]) history[id] = [];
+            if (!history[id].some(h => h.timestamp === entry.timestamp)) {
+              history[id].push({ ...entry, liftId: id });
+            }
+          } catch (_) {}
         }
-      })();
-
-      historyCache.set(ck, promise);
-      return promise;
+        return history;
+      } catch (e) {
+        console.error('fetchHistory error:', e);
+        return {};
+      }
     }
 
     // Cache-busting wrapper for dataSourceManager.fetchData
@@ -417,7 +410,7 @@
       });
     }
 
-    function updateHeader(resortKey, resortData, history, tz) {
+    function updateHeader(resortKey, resortData, tz) {
       const info = resortMap[resortKey];
       const name = info?.name || resortKey;
       $('header-title').textContent = name + ' Live Lifts';
@@ -427,21 +420,9 @@
       currentTz = tz;
       updateAsOf();
 
-      // Show lift count + scrape interval (time between last two scrapes)
       const liftCount = resortData?.lifts?.length || 0;
-      let metaText = liftCount + ' lifts';
-      if (history) {
-        const anyLiftHist = Object.values(history).find(h => h.length >= 2);
-        if (anyLiftHist) {
-          const t1 = new Date(anyLiftHist[0].timestamp).getTime();
-          const t2 = new Date(anyLiftHist[1].timestamp).getTime();
-          const intervalMin = Math.round(Math.abs(t1 - t2) / 60000);
-          metaText += ' \u00b7 ~' + intervalMin + 'min intervals';
-        }
-      }
-      $('header-meta').textContent = metaText;
+      $('header-meta').textContent = liftCount + ' lifts';
 
-      // Show data source
       const source = dataSourceManager.getCurrentSource();
       $('header-source').textContent = source.name;
     }
@@ -580,14 +561,17 @@
       const tz = info.timezone || 'UTC';
 
       try {
-        const ck = `${dataSourceManager.getCurrentSource().id}-${resortKey}`;
-        if (!cachedIndex[ck]) {
-          cachedIndex[ck] = await fetchDataFresh(`data/${resortKey}/lifts/index.json`);
-        }
-        const resortData = cachedIndex[ck];
+        // Always fetch fresh — no JS caching
+        const resortData = await fetchDataFresh(`data/${resortKey}/lifts/index.json`);
         const dateKey = deriveDateKey(resortData);
         const history = await fetchHistory(resortKey, dateKey);
-        updateHeader(resortKey, resortData, history, tz);
+
+        // Store for rerender (filter/pin changes without network)
+        lastResortData = resortData;
+        lastHistory = history;
+        lastTz = tz;
+
+        updateHeader(resortKey, resortData, tz);
         render(resortData, history, tz);
       } catch (e) {
         $('lift-list').innerHTML = '<div class="empty-msg">Error: ' + (e.message || e) + '</div>';
@@ -597,25 +581,12 @@
     function refreshCurrentResort() {
       const key = $('resort-select').value;
       if (!key) return;
-      const sid = dataSourceManager.getCurrentSource().id;
-      delete cachedIndex[`${sid}-${key}`];
-      for (const k of historyCache.keys()) {
-        if (k.includes(key)) historyCache.delete(k);
-      }
       loadResort(key);
     }
 
-    async function rerender() {
-      const key = $('resort-select').value;
-      const info = resortMap[key];
-      if (!key || !info) return;
-      const tz = info.timezone || 'UTC';
-      const sid = dataSourceManager.getCurrentSource().id;
-      const resortData = cachedIndex[`${sid}-${key}`];
-      if (!resortData) return;
-      const dateKey = deriveDateKey(resortData);
-      const history = await fetchHistory(key, dateKey);
-      render(resortData, history, tz);
+    function rerender() {
+      if (!lastResortData) return;
+      render(lastResortData, lastHistory || {}, lastTz);
     }
 
     function startAutoRefresh() {
