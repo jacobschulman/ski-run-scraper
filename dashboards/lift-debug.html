@@ -561,12 +561,20 @@
       const tz = info.timezone || 'UTC';
 
       try {
-        // Always fetch fresh — no JS caching
-        const resortData = await fetchDataFresh(`data/${resortKey}/lifts/index.json`);
-        const dateKey = deriveDateKey(resortData);
-        const history = await fetchHistory(resortKey, dateKey);
+        let resortData, history;
 
-        // Store for rerender (filter/pin changes without network)
+        // Fast path: single request returning only last N readings per lift (Hetzner)
+        try {
+          const data = await fetchDataFresh(`data/${resortKey}/lifts/recent.json?n=3`);
+          resortData = { resort: resortKey, generated: data.generated, liftCount: data.liftCount, lifts: data.lifts };
+          history = data.history || {};
+        } catch (_) {
+          // Fallback: two requests (local/GitHub — no recent.json endpoint)
+          resortData = await fetchDataFresh(`data/${resortKey}/lifts/index.json`);
+          const dateKey = deriveDateKey(resortData);
+          history = await fetchHistory(resortKey, dateKey);
+        }
+
         lastResortData = resortData;
         lastHistory = history;
         lastTz = tz;

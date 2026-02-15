@@ -310,6 +310,81 @@ app.get('/data/:resort/lifts/index.json', (req, res) => {
   }
 });
 
+// Recent lift history - returns last N readings per lift in a single response
+// Replaces fetching full-day NDJSON on the client (which grows all day)
+app.get('/data/:resort/lifts/recent.json', (req, res) => {
+  const resortKey = req.params.resort;
+  const n = Math.min(Math.max(parseInt(req.query.n) || 3, 1), 10);
+  const liftsDir = path.join(DATA_DIR, resortKey, 'lifts');
+
+  if (!fs.existsSync(liftsDir)) {
+    return res.status(404).json({ error: 'Resort not found' });
+  }
+
+  try {
+    const files = fs.readdirSync(liftsDir).filter(f => f.endsWith('.ndjson')).sort().reverse();
+    if (files.length === 0) {
+      return res.status(404).json({ error: 'No lift data available' });
+    }
+
+    const latestFile = path.join(liftsDir, files[0]);
+    const content = fs.readFileSync(latestFile, 'utf8').trim();
+    if (!content) {
+      return res.status(404).json({ error: 'Empty data' });
+    }
+
+    const allLines = content.split('\n').filter(Boolean);
+
+    // Slugify must match the client's canonicalLiftId exactly
+    const slugify = s => (s || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
+
+    // Parse from end — collect last n readings per lift (newest first)
+    const history = {};
+    let fullCount = 0;
+    let totalLifts = 0;
+
+    for (let i = allLines.length - 1; i >= 0; i--) {
+      let r;
+      try { r = JSON.parse(allLines[i]); } catch { continue; }
+
+      const id = `${slugify(r.mountain || 'unknown')}:${slugify(r.name || 'unknown')}`;
+      if (!history[id]) { history[id] = []; totalLifts++; }
+      if (history[id].length >= n) {
+        // Already have enough for this lift — check if ALL lifts are full
+        if (fullCount >= totalLifts) break;
+        continue;
+      }
+      if (history[id].some(h => h.timestamp === r.timestamp)) continue;
+
+      history[id].push(r);
+      if (history[id].length === n) fullCount++;
+      if (fullCount >= totalLifts) break;
+    }
+
+    // Latest timestamp from the newest record
+    let generated = null;
+    try { generated = JSON.parse(allLines[allLines.length - 1]).timestamp; } catch {}
+
+    // Build current lift list from newest entry per lift
+    const lifts = Object.values(history).map(readings => {
+      const r = readings[0];
+      return {
+        name: r.name, mountain: r.mountain, type: r.type,
+        status: r.status, waitMinutes: r.waitMinutes,
+        openTime: r.openTime, closeTime: r.closeTime,
+        lastUpdated: r.timestamp,
+      };
+    });
+
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 'public, max-age=15');
+    res.json({ resort: resortKey, generated, liftCount: lifts.length, lifts, history });
+  } catch (error) {
+    console.error(`Error generating recent lifts for ${resortKey}:`, error);
+    res.status(500).json({ error: 'Failed to generate recent lift data' });
+  }
+});
+
 // Static file serving for data directory
 app.use('/data', express.static(DATA_DIR, {
   maxAge: '30s',
