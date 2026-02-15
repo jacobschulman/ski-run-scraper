@@ -310,75 +310,94 @@ app.get('/data/:resort/lifts/index.json', (req, res) => {
   }
 });
 
-// Recent lift history - returns last N readings per lift in a single response
-// Replaces fetching full-day NDJSON on the client (which grows all day)
+// Recent lift data — cached in memory, only reads new bytes when file grows
+const _rc = new Map(); // resortKey → { file, size, history:{id→[readings]}, generated }
+const _slug = s => (s || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
+const _lid = r => `${_slug(r.mountain || 'unknown')}:${_slug(r.name || 'unknown')}`;
+const MAX_CACHED = 10; // always cache up to 10 readings per lift
+
+function _parseLines(lines, history) {
+  for (const line of lines) {
+    let r; try { r = JSON.parse(line); } catch { continue; }
+    const id = _lid(r);
+    if (!history[id]) history[id] = [];
+    if (!history[id].some(h => h.timestamp === r.timestamp)) {
+      history[id].unshift(r); // newest first
+      if (history[id].length > MAX_CACHED) history[id].length = MAX_CACHED;
+    }
+  }
+}
+
 app.get('/data/:resort/lifts/recent.json', (req, res) => {
   const resortKey = req.params.resort;
-  const n = Math.min(Math.max(parseInt(req.query.n) || 3, 1), 10);
+  const n = Math.min(Math.max(parseInt(req.query.n) || 3, 1), MAX_CACHED);
   const liftsDir = path.join(DATA_DIR, resortKey, 'lifts');
-
-  if (!fs.existsSync(liftsDir)) {
-    return res.status(404).json({ error: 'Resort not found' });
-  }
+  if (!fs.existsSync(liftsDir)) return res.status(404).json({ error: 'Resort not found' });
 
   try {
     const files = fs.readdirSync(liftsDir).filter(f => f.endsWith('.ndjson')).sort().reverse();
-    if (files.length === 0) {
-      return res.status(404).json({ error: 'No lift data available' });
-    }
+    if (!files.length) return res.status(404).json({ error: 'No lift data' });
 
-    const latestFile = path.join(liftsDir, files[0]);
-    const content = fs.readFileSync(latestFile, 'utf8').trim();
-    if (!content) {
-      return res.status(404).json({ error: 'Empty data' });
-    }
+    const file = path.join(liftsDir, files[0]);
+    const { size } = fs.statSync(file);
+    if (!size) return res.status(404).json({ error: 'Empty data' });
 
-    const allLines = content.split('\n').filter(Boolean);
+    const c = _rc.get(resortKey);
+    let history, generated;
 
-    // Slugify must match the client's canonicalLiftId exactly
-    const slugify = s => (s || '').toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
-
-    // Parse from end — collect last n readings per lift (newest first)
-    const history = {};
-    let fullCount = 0;
-    let totalLifts = 0;
-
-    for (let i = allLines.length - 1; i >= 0; i--) {
-      let r;
-      try { r = JSON.parse(allLines[i]); } catch { continue; }
-
-      const id = `${slugify(r.mountain || 'unknown')}:${slugify(r.name || 'unknown')}`;
-      if (!history[id]) { history[id] = []; totalLifts++; }
-      if (history[id].length >= n) {
-        // Already have enough for this lift — check if ALL lifts are full
-        if (fullCount >= totalLifts) break;
-        continue;
+    if (c && c.file === file && c.size === size) {
+      // File unchanged — no I/O at all
+      history = c.history;
+      generated = c.generated;
+    } else if (c && c.file === file && size > c.size) {
+      // File grew — read only new bytes
+      const buf = Buffer.alloc(size - c.size);
+      const fd = fs.openSync(file, 'r');
+      fs.readSync(fd, buf, 0, buf.length, c.size);
+      fs.closeSync(fd);
+      history = Object.fromEntries(Object.entries(c.history).map(([id, arr]) => [id, [...arr]]));
+      _parseLines(buf.toString('utf8').split('\n').filter(Boolean), history);
+      const last = buf.toString('utf8').trim().split('\n').filter(Boolean).pop();
+      generated = last ? (JSON.parse(last).timestamp || c.generated) : c.generated;
+      _rc.set(resortKey, { file, size, history, generated });
+    } else {
+      // Cold start — read last 64KB (covers ~250 lines, plenty for 10 readings × 50 lifts)
+      const tail = Math.min(size, 64 * 1024);
+      const start = size - tail;
+      const buf = Buffer.alloc(tail);
+      const fd = fs.openSync(file, 'r');
+      fs.readSync(fd, buf, 0, tail, start);
+      fs.closeSync(fd);
+      let text = buf.toString('utf8');
+      if (start > 0) { const nl = text.indexOf('\n'); if (nl >= 0) text = text.substring(nl + 1); }
+      const lines = text.split('\n').filter(Boolean);
+      // Parse from end for proper newest-first ordering
+      history = {};
+      for (let i = lines.length - 1; i >= 0; i--) {
+        let r; try { r = JSON.parse(lines[i]); } catch { continue; }
+        const id = _lid(r);
+        if (!history[id]) history[id] = [];
+        if (history[id].length < MAX_CACHED && !history[id].some(h => h.timestamp === r.timestamp)) {
+          history[id].push(r);
+        }
       }
-      if (history[id].some(h => h.timestamp === r.timestamp)) continue;
-
-      history[id].push(r);
-      if (history[id].length === n) fullCount++;
-      if (fullCount >= totalLifts) break;
+      generated = null;
+      try { generated = JSON.parse(lines[lines.length - 1]).timestamp; } catch {}
+      _rc.set(resortKey, { file, size, history, generated });
     }
 
-    // Latest timestamp from the newest record
-    let generated = null;
-    try { generated = JSON.parse(allLines[allLines.length - 1]).timestamp; } catch {}
-
-    // Build current lift list from newest entry per lift
-    const lifts = Object.values(history).map(readings => {
-      const r = readings[0];
-      return {
-        name: r.name, mountain: r.mountain, type: r.type,
-        status: r.status, waitMinutes: r.waitMinutes,
-        openTime: r.openTime, closeTime: r.closeTime,
-        lastUpdated: r.timestamp,
-      };
+    // Build response — trim to requested n
+    const trimmed = {};
+    for (const [id, arr] of Object.entries(history)) trimmed[id] = arr.slice(0, n);
+    const lifts = Object.values(trimmed).map(a => {
+      const r = a[0];
+      return { name: r.name, mountain: r.mountain, type: r.type, status: r.status,
+        waitMinutes: r.waitMinutes, openTime: r.openTime, closeTime: r.closeTime, lastUpdated: r.timestamp };
     });
 
     res.setHeader('Content-Type', 'application/json');
     res.setHeader('Cache-Control', 'public, max-age=15');
-    res.json({ resort: resortKey, generated, liftCount: lifts.length, lifts, history });
+    res.json({ resort: resortKey, generated, liftCount: lifts.length, lifts, history: trimmed });
   } catch (error) {
     console.error(`Error generating recent lifts for ${resortKey}:`, error);
     res.status(500).json({ error: 'Failed to generate recent lift data' });
