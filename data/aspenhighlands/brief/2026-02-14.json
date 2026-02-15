@@ -2,14 +2,30 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-02-14",
-  "generated": "2026-02-15T02:52:38.550Z",
+  "generated": "2026-02-15T05:06:58.817Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 7,
+      "48hour_cm": 18,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 62,
+          "today": 61,
           "yesterday": 61,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
           "today": 27,
@@ -18,13 +34,7 @@
         },
         "totalTrails": 126
       },
-      "newlyOpened": [
-        {
-          "name": "Aspen Highlands (Lower)",
-          "difficulty": "Blue",
-          "area": "Uphill Routes"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -100,21 +110,71 @@
         "totalLiftsTracked": 5,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-14",
+        "high_f": null,
+        "low_f": 23,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-15",
+          "high_f": 34,
+          "low_f": 25,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-16",
+          "high_f": 36,
+          "low_f": 24,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-17",
+          "high_f": 24,
+          "low_f": 13,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-15",
+        "high_f": 34,
+        "low_f": 25,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": true,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": false,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today",
       "9 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 12\" in last 7 days",
       "Grooming increased 29% from yesterday",
-      "1 more trail open than yesterday"
+      "1\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Limelight - challenging for advanced skiers",
@@ -122,6 +182,46 @@
       "Fresh corduroy on Cakewalk - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Prepare for Pow",
+    "body": "A light refresh of 1\" overnight makes the groomers smoother. 9 runs freshly groomed, mostly in Lower Mountain, Mid Mountain, and more. Big things coming. 7\" in the forecast. Might be time to plan ahead.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 5,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter's Coming Back"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
