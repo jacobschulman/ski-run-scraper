@@ -2,14 +2,30 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-02-15",
-  "generated": "2026-02-15T15:46:29.081Z",
+  "generated": "2026-02-15T17:36:19.878Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 180,
+      "season_total_cm": 457,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 181,
+          "today": 189,
           "yesterday": 181,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
           "today": 103,
@@ -18,7 +34,48 @@
         },
         "totalTrails": 191
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jill's Run Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Lost in the Woods (Lower) Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Lost in the Woods (Upper) Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "West Summit Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Big Bird Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Canyon Lodge"
+        },
+        {
+          "name": "Canyon Lodge Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Canyon Lodge"
+        },
+        {
+          "name": "Skiback Trail Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Canyon Lodge"
+        },
+        {
+          "name": "Eagle Lodge Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Eagle Lodge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -32,18 +89,123 @@
         "totalLiftsTracked": 25,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-15",
+        "high_f": 28,
+        "low_f": 20,
+        "high_c": -2,
+        "low_c": -7,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-16",
+          "high_f": 24,
+          "low_f": 9,
+          "high_c": -5,
+          "low_c": -13,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 10,
+          "snowfall_night_inches": 10,
+          "snowfall_expected": 20
+        },
+        {
+          "date": "2026-02-17",
+          "high_f": 16,
+          "low_f": 6,
+          "high_c": -9,
+          "low_c": -14,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 8,
+          "snowfall_night_inches": 17,
+          "snowfall_expected": 25
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 9,
+          "low_f": 6,
+          "high_c": -13,
+          "low_c": -15,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-16",
+        "high_f": 24,
+        "low_f": 9,
+        "high_c": -5,
+        "low_c": -13,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 10,
+        "snowfall_night_inches": 10,
+        "snowfall_expected": 20
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "8 new trails opened today"
+    ],
+    "trends": [
+      "8 more trails open than yesterday",
+      "20\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Storm Cycle Building",
+    "body": "189/191 trails spinning, 103 freshly groomed. 28° and Mostly Sunny. 8 new runs just opened up. Time to explore fresh terrain. The weather models are locked in: 48\" of snow heading our way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 2,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major System Approaching"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

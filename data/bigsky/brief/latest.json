@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-15",
-  "generated": "2026-02-15T15:46:29.146Z",
+  "generated": "2026-02-15T17:36:19.965Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 5,
+      "7day_cm": 13,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 274,
+          "today": 272,
           "yesterday": 274,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
           "today": 58,
@@ -19,7 +35,18 @@
         "totalTrails": 319
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "AZ Chutes",
+          "difficulty": "high exposure",
+          "area": "Challenger Area"
+        },
+        {
+          "name": "Kastle Rock (A-Z Chutes)",
+          "difficulty": "high exposure",
+          "area": "Challenger Area"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Cupajo",
@@ -316,10 +343,60 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-15",
+        "high_f": 28,
+        "low_f": 21,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-16",
+          "high_f": 29,
+          "low_f": 24,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-17",
+          "high_f": 24,
+          "low_f": 12,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 16,
+          "low_f": 4,
+          "description": "Cloudy",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-16",
+        "high_f": 29,
+        "low_f": 24,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
@@ -328,7 +405,8 @@
       "55 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 1833% from yesterday"
+      "Grooming increased 1833% from yesterday",
+      "1\" snow expected Monday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -336,6 +414,46 @@
       "Fresh corduroy on Bozeman Trail - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Big Snow Incoming",
+    "body": "272 of 319 trails are open with 58 groomed. Windy with a high of 28°F. 55 runs freshly groomed. The mountain is absolutely pristine. Watch for crowds at Lone Peak Tram, which saw 10-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_massive",
+          "category": "terrain",
+          "priority": 78,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 0,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm on the Horizon"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

@@ -2,8 +2,24 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-02-15",
-  "generated": "2026-02-15T15:46:29.086Z",
+  "generated": "2026-02-15T17:36:19.886Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 5,
+      "48hour_cm": 13,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 158,
+      "season_total_cm": 401,
+      "conditions": {
+        "today": "Skier Pack",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,122 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-15",
+        "high_f": 29,
+        "low_f": 22,
+        "high_c": -2,
+        "low_c": -6,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-16",
+          "high_f": 22,
+          "low_f": 14,
+          "high_c": -5,
+          "low_c": -10,
+          "description": "Snow Showers",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-17",
+          "high_f": 21,
+          "low_f": 15,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 19,
+          "low_f": 15,
+          "high_c": -7,
+          "low_c": -9,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-16",
+        "high_f": 22,
+        "low_f": 14,
+        "high_c": -5,
+        "low_c": -10,
+        "description": "Snow Showers",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
+    "trends": [
+      "1\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Proper Refresh",
+    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved. Light snow possible in the forecast. Peak season vibes today. Expect longer lift lines, especially late morning.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
