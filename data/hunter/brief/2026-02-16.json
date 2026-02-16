@@ -2,7 +2,7 @@
   "resort": "hunter",
   "resortName": "Hunter Mountain",
   "date": "2026-02-16",
-  "generated": "2026-02-16T13:33:32.596Z",
+  "generated": "2026-02-16T15:02:19.684Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 62,
           "yesterday": 62,
-          "delta": 1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 56,
           "yesterday": 57,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 71
       },
@@ -41,9 +41,32 @@
           "area": "Hunter West"
         }
       ],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [
+        {
+          "name": "Upper 42nd Street",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Lower 42nd Street",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Lower K27",
+          "difficulty": "DoubleBlack",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Racers Edge",
+          "difficulty": "DoubleBlack",
+          "area": "Main Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -94,16 +117,17 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today"
+      "1 new trail opened today",
+      "1 trail freshly groomed"
     ],
-    "trends": [
-      "1 more trail open than yesterday"
-    ],
-    "recommendations": []
+    "trends": [],
+    "recommendations": [
+      "Fresh corduroy on Lower 42nd Street - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Peak Season Mode",
-    "body": "63/71 trails spinning, 57 freshly groomed. Variable conditions. 1 new trail opened today. Heads up: Broadway Express peaked at 16 minutes yesterday. Consider alternatives.",
+    "headline": "Holiday Crowds Expected",
+    "body": "62/71 trails spinning, 56 freshly groomed. Variable conditions. Heads up: Broadway Express peaked at 16 minutes yesterday. Consider alternatives. Holiday mode: the mountain will be popular. Early birds get the goods.",
     "debug": {
       "firedRules": [
         {
@@ -119,25 +143,25 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_micro",
-          "category": "terrain",
-          "priority": 45,
-          "usedFor": "body"
-        },
-        {
           "id": "lift_busy",
           "category": "lifts",
           "priority": 80,
           "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
         "condition": "holiday",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Holiday Crowds Expected"
+        "previousHeadline": "Peak Season Mode"
       },
       "dayOfWeek": "Monday"
     }

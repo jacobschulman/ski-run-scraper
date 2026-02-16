@@ -2,7 +2,7 @@
   "resort": "brandywine",
   "resortName": "Brandywine",
   "date": "2026-02-16",
-  "generated": "2026-02-16T13:33:32.643Z",
+  "generated": "2026-02-16T15:02:19.732Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 11,
           "yesterday": 11,
-          "delta": -11
+          "delta": 0
         },
         "groomedTrails": {
           "today": 0,
@@ -35,63 +35,7 @@
         "totalTrails": 11
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Champagne",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Down Draft",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Easy Rider",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Frosty",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Grizzly",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "J's Way",
-          "difficulty": "Green",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Outer Limits",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Progression Park",
-          "difficulty": "TerrainPark",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Regulator Johnston",
-          "difficulty": "Black",
-          "area": "Brandywine"
-        },
-        {
-          "name": "Shredder",
-          "difficulty": "Blue",
-          "area": "Brandywine"
-        },
-        {
-          "name": "The Park",
-          "difficulty": "TerrainPark",
-          "area": "Brandywine"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -111,30 +55,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "Not open for the season yet. Current conditions: Variable conditions.",
+    "headline": "Holiday Crowds Expected",
+    "body": "11 trails open, 0 groomed. Variable conditions, temperatures TBD. The whole mountain is basically open. Go explore. 11/11 trails open, 0 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "holiday",
         "variationIndex": 2,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Monday"
     }
