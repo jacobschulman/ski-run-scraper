@@ -2,7 +2,7 @@
   "resort": "laurelmountain",
   "resortName": "Laurel Mountain",
   "date": "2026-02-16",
-  "generated": "2026-02-16T10:10:42.767Z",
+  "generated": "2026-02-16T11:07:18.376Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 2,
           "yesterday": 16,
-          "delta": -16
+          "delta": -14
         },
         "groomedTrails": {
           "today": 0,
@@ -42,11 +42,6 @@
           "area": "Laurel Mountain"
         },
         {
-          "name": "Easy Way",
-          "difficulty": "Blue",
-          "area": "Laurel Mountain"
-        },
-        {
           "name": "Heagan's Cut",
           "difficulty": "Blue",
           "area": "Laurel Mountain"
@@ -59,11 +54,6 @@
         {
           "name": "Last Chance",
           "difficulty": "Green",
-          "area": "Laurel Mountain"
-        },
-        {
-          "name": "Laurel Run",
-          "difficulty": "Black",
           "area": "Laurel Mountain"
         },
         {
@@ -136,30 +126,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "Busy Day Ahead",
+    "body": "2 of 19 trails are open with 0 groomed. Variable conditions with a temperatures TBD. 2/19 trails open, 0 groomed. Variable conditions. Holiday period means the mountain will be busy. Start early to beat the crowds.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "holiday",
         "variationIndex": 3,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Holiday Crowds Expected"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Monday"
     }
