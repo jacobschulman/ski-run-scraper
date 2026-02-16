@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-16",
-  "generated": "2026-02-16T19:37:31.715Z",
+  "generated": "2026-02-16T21:36:50.670Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 13,
+      "24hour_inches": 5,
+      "24hour_cm": 13,
+      "48hour_inches": 5,
+      "48hour_cm": 13,
+      "7day_inches": 5,
+      "7day_cm": 13,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 284,
+          "today": 276,
           "yesterday": 272,
-          "delta": 12
+          "delta": 4
         },
         "groomedTrails": {
           "today": 55,
@@ -38,46 +54,6 @@
           "name": "Obsidian",
           "difficulty": "high exposure",
           "area": "Lone Tree Area"
-        },
-        {
-          "name": "Deepwater Bowl",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Launcher Road",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Oxbow",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Double Direct",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "North Summit Snowfield",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Rips",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Summit Direct",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Tears",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
         }
       ],
       "newlyClosed": [],
@@ -354,21 +330,73 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-16",
+        "high_f": 29,
+        "low_f": 24,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-17",
+          "high_f": 23,
+          "low_f": 9,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 16,
+          "low_f": 3,
+          "description": "Snow",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        },
+        {
+          "date": "2026-02-19",
+          "high_f": 9,
+          "low_f": 3,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-17",
+        "high_f": 23,
+        "low_f": 9,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 4,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 4
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "12 new trails opened today",
+      "5\" fresh snow overnight",
+      "4 new trails opened today",
       "52 trails freshly groomed"
     ],
     "trends": [
       "Grooming increased 1733% from yesterday",
-      "12 more trails open than yesterday"
+      "4 more trails open than yesterday",
+      "4\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Half Moon - challenging for advanced skiers",
@@ -376,6 +404,46 @@
       "Fresh corduroy on Hippy Highway - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Big Snow Incoming",
+    "body": "5\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. The terrain list grew by 4 today. More variety to choose from. Big things coming. 12\" in the forecast. Might be time to plan ahead.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 1,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm Cycle Building"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

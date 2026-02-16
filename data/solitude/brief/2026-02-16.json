@@ -2,8 +2,24 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-02-16",
-  "generated": "2026-02-16T19:37:31.642Z",
+  "generated": "2026-02-16T21:36:50.581Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 143,
+      "season_total_cm": 363,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -43,10 +59,70 @@
         "totalLiftsTracked": 10,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-16",
+        "high_f": 36,
+        "low_f": 19,
+        "high_c": 2,
+        "low_c": -7,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 3
+      },
+      "outlook": [
+        {
+          "date": "2026-02-17",
+          "high_f": 21,
+          "low_f": 19,
+          "high_c": -6,
+          "low_c": -7,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 4,
+          "snowfall_expected": 8
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 20,
+          "low_f": 4,
+          "high_c": -7,
+          "low_c": -16,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 11,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 14
+        },
+        {
+          "date": "2026-02-19",
+          "high_f": 13,
+          "low_f": 11,
+          "high_c": -11,
+          "low_c": -12,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-17",
+        "high_f": 21,
+        "low_f": 19,
+        "high_c": -6,
+        "low_c": -7,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 4,
+        "snowfall_night_inches": 4,
+        "snowfall_expected": 8
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -54,12 +130,55 @@
     "alerts": [
       "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days",
+      "8\" snow expected Tuesday"
+    ],
     "recommendations": [
       "Fresh corduroy on Last Run - all skill levels",
       "Fresh corduroy on Post Card - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major System Approaching",
+    "body": "Holding steady - that 12\" base from recent storms is doing the heavy lifting. A significant storm is brewing with 24\" expected over the next few days. Peak season vibes today. Expect longer lift lines, especially late morning.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        },
+        {
+          "id": "time_holiday",
+          "category": "time",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 3,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter's Coming Back"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
