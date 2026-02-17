@@ -2,14 +2,30 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2026-02-17",
-  "generated": "2026-02-17T19:07:18.895Z",
+  "generated": "2026-02-17T21:43:13.020Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 18,
+      "24hour_inches": 22,
+      "24hour_cm": 56,
+      "48hour_inches": 22,
+      "48hour_cm": 56,
+      "7day_inches": 37,
+      "7day_cm": 94,
+      "season_total_inches": 149,
+      "season_total_cm": 378,
+      "conditions": {
+        "today": "Fresh Powder",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 44,
+          "today": 43,
           "yesterday": 44,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 21,
@@ -19,7 +35,13 @@
         "totalTrails": 44
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Spike Camp Trail",
+          "difficulty": "Intermediate",
+          "area": "June Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -32,18 +54,124 @@
         "totalLiftsTracked": 7,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-17",
+        "high_f": 17,
+        "low_f": 2,
+        "high_c": -9,
+        "low_c": -17,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 10,
+        "snowfall_night_inches": 10
+      },
+      "outlook": [
+        {
+          "date": "2026-02-18",
+          "high_f": 9,
+          "low_f": 6,
+          "high_c": -13,
+          "low_c": -15,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-19",
+          "high_f": 14,
+          "low_f": 4,
+          "high_c": -10,
+          "low_c": -15,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 21,
+          "low_f": 14,
+          "high_c": -6,
+          "low_c": -10,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-18",
+        "high_f": 9,
+        "low_f": 6,
+        "high_c": -13,
+        "low_c": -15,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "22\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 37\" in last 7 days",
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "EPIC: 22\" of Fresh",
+    "body": "22\" overnight. This is the stuff dreams are made of. Time to call in. Nearly full mountain access with 43 of 44 trails spinning. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_epic",
+          "category": "snow",
+          "priority": 98,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_epic",
+          "category": "snow",
+          "priority": 98,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "snow_epic",
+        "variationIndex": 0,
+        "totalVariations": 9,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Time to Call in Sick"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

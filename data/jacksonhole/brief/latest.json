@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-17",
-  "generated": "2026-02-17T19:07:18.953Z",
+  "generated": "2026-02-17T21:43:13.097Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 6,
+      "overnight_cm": 15,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 23,
+      "7day_cm": 58,
+      "season_total_inches": 247,
+      "season_total_cm": 627,
+      "conditions": {
+        "today": "6 AM—Greetings, Jackson Hole. Don't succumb to a midweek slumber; come witness the white renovation that Rendezvous Mountain is under. 6\" of high-grade pow landed in the upper elevations overnight, and periods of heavy snow are likely through the morning hours. Strong southwest winds may affect some lift operations today, but they will also help etch-a-sketch any pesky imperfections away as they crank between 15 and 40 mph. By the afternoon we'll see partly sunny skies, setting up a colorful sunset scenario to conclude your perfect pow day. Temperatures will be fairly steady, with the summit hovering in the upper teens to 20 degrees and Teton Village sitting in the low 30s. Who cares if logic makes it feel like a flaky superstition? Forget your inhibitions, follow that intuition, and let the experience be your only mission. -Lege",
+        "yesterday": "6AM - Abraham Lincoln once said: \"Give me 6 hours to ski and I'll spend the first 4 hours sharpening my edges!\" We're not sure this is great advice, but we sleep easy knowing Honest Abe loved to shred as much as we do. Happy Presidents' Day everyone - we're looking at another relatively dry and mild day before the next storm system moves into the area. That storm is pushing winds ahead of it - ridgetop gusts are expected to top out at 40mph today. The base area will be balmy with an anticipated high of 43 degrees while summit temps should hover in the mid-20s. That next system moves in tonight, bringing with it a good chance of moderate snow and more seasonable temperatures. Happy Holidays everyone! - Orion"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -95,20 +111,54 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "6\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!",
       "1 new trail opened today",
       "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 23\" in last 7 days"
+    ],
     "recommendations": [
       "Fresh corduroy on Sleeping Indian - perfect for intermediate skiers",
       "Fresh corduroy on Symmetry - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Deep Day at Jackson Hole",
+    "body": "The mountain is absolutely loaded with 6\" of fresh. This is not a drill.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 1,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got Buried"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

@@ -2,8 +2,24 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-02-17",
-  "generated": "2026-02-17T19:07:18.885Z",
+  "generated": "2026-02-17T21:43:13.004Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 16,
+      "7day_cm": 41,
+      "season_total_inches": 147,
+      "season_total_cm": 373,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -129,18 +145,117 @@
         "totalLiftsTracked": 10,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-17",
+        "high_f": 21,
+        "low_f": 19,
+        "high_c": -6,
+        "low_c": -7,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 5,
+        "snowfall_night_inches": 4
+      },
+      "outlook": [
+        {
+          "date": "2026-02-18",
+          "high_f": 19,
+          "low_f": 3,
+          "high_c": -7,
+          "low_c": -16,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 12,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 15
+        },
+        {
+          "date": "2026-02-19",
+          "high_f": 14,
+          "low_f": 10,
+          "high_c": -10,
+          "low_c": -12,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 13,
+          "low_f": 7,
+          "high_c": -11,
+          "low_c": -14,
+          "description": "Snow Showers",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-18",
+        "high_f": 19,
+        "low_f": 3,
+        "high_c": -7,
+        "low_c": -16,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 12,
+        "snowfall_night_inches": 3,
+        "snowfall_expected": 15
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4\" fresh snow overnight"
+    ],
+    "trends": [
+      "Great week for snow - 16\" in last 7 days",
+      "15\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Forecast Looks Loaded",
+    "body": "Solid refresh: 4\" overnight freshened up the mountain nicely. Winter has more to say. 17\" forecasted means conditions improving soon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major System Approaching"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
