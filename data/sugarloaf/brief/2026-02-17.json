@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-17",
-  "generated": "2026-02-17T15:12:59.767Z",
+  "generated": "2026-02-17T16:14:58.716Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 151,
+          "today": 152,
           "yesterday": 149,
-          "delta": 2
+          "delta": 3
         },
         "groomedTrails": {
           "today": 68,
@@ -44,6 +44,11 @@
           "name": "Upper Narrow Gauge",
           "difficulty": "Black",
           "area": "Skyline"
+        },
+        {
+          "name": "Winter's Way Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
         }
       ],
       "newlyClosed": [],
@@ -155,12 +160,12 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today",
+      "3 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
-      "2 more trails open than yesterday",
+      "3 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": [
@@ -170,14 +175,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "Steady snowfall with 9\" over the last week. 5 runs freshly groomed, mostly in SuperQuad, Whiffletree, and more. Light snow possible in the forecast.",
+    "headline": "Terrain Update",
+    "body": "Steady snowfall with 9\" over the last week. Ski patrol opened 3 additional trails. A few more choices today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -187,9 +192,9 @@
           "usedFor": "body"
         },
         {
-          "id": "grooming_moderate",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 55,
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -201,11 +206,11 @@
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "fallback",
+        "condition": "terrain_few",
         "variationIndex": 2,
-        "totalVariations": 7,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "{newTrailsCount} New Runs Open"
       },
       "dayOfWeek": "Tuesday"
     }
