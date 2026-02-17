@@ -2,17 +2,17 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-02-17",
-  "generated": "2026-02-17T17:18:29.154Z",
+  "generated": "2026-02-17T19:07:25.176Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 4.7,
-      "overnight_cm": 12,
-      "24hour_inches": 4.7,
-      "24hour_cm": 12,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 7.1,
-      "7day_cm": 18,
+      "7day_inches": 0,
+      "7day_cm": 0,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 115,
+          "today": 118,
           "yesterday": 115,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 50,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 120
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "TP. Bushwhackers",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "TP. Horto's Revenge",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "TP. The Shoulder",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -147,7 +163,7 @@
       },
       "outlook": [
         {
-          "date": "2026-02-18T17:18:29.153Z",
+          "date": "2026-02-18T19:07:25.175Z",
           "high_f": 3.2,
           "low_f": -14.8,
           "high_c": -16,
@@ -158,7 +174,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-02-19T17:18:29.153Z",
+          "date": "2026-02-19T19:07:25.175Z",
           "high_f": 12.2,
           "low_f": -14.8,
           "high_c": -11,
@@ -170,7 +186,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-02-18T17:18:29.153Z",
+        "date": "2026-02-18T19:07:25.175Z",
         "high_f": 3.2,
         "low_f": -14.8,
         "high_c": -16,
@@ -184,17 +200,17 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
+      "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "4.7\" fresh snow overnight",
+      "3 new trails opened today",
       "11 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 7.1\" in last 7 days"
+      "3 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on JW. Goat Chicken Gully - challenging for advanced skiers",
@@ -203,26 +219,26 @@
     ]
   },
   "morningBrief": {
-    "headline": "Fresh Snow, Fresh Vibes",
-    "body": "4.7\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. 11 freshly groomed runs mean plenty of velvet corduroy. Cold day ahead: 17.6° high. Dress warmly.",
+    "headline": "The Corduroy Is Calling",
+    "body": "118 of 120 trails are open with 50 groomed. Unknown with a high of 17.6°F. 3 new trails are now available. Nice little expansion. Cold day ahead: 17.6° high. Dress warmly.",
     "debug": {
       "firedRules": [
-        {
-          "id": "snow_solid",
-          "category": "snow",
-          "priority": 82,
-          "usedFor": "headline"
-        },
-        {
-          "id": "snow_solid",
-          "category": "snow",
-          "priority": 82,
-          "usedFor": "body"
-        },
         {
           "id": "grooming_good",
           "category": "terrain",
           "priority": 68,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -232,10 +248,10 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "snow_solid",
-        "variationIndex": 3,
+        "condition": "grooming_highlight",
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
         "previousHeadline": "The Mountain Got a Boost"
