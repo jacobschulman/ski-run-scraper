@@ -2,19 +2,19 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-02-17",
-  "generated": "2026-02-17T13:30:01.392Z",
+  "generated": "2026-02-17T15:13:16.976Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
+      "overnight_inches": 6.7,
+      "overnight_cm": 17,
+      "24hour_inches": 6.7,
+      "24hour_cm": 17,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 0.8,
-      "7day_cm": 2,
-      "season_total_inches": 81.9,
-      "season_total_cm": 208,
+      "7day_inches": 7.9,
+      "7day_cm": 20,
+      "season_total_inches": 88.6,
+      "season_total_cm": 225,
       "conditions": {
         "today": "Unknown",
         "yesterday": null
@@ -45,10 +45,10 @@
     "forecast": {
       "today": {
         "date": "2026-02-17",
-        "high_f": 15.8,
-        "low_f": 15.8,
-        "high_c": -9,
-        "low_c": -9,
+        "high_f": 12.2,
+        "low_f": 12.2,
+        "high_c": -11,
+        "low_c": -11,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -58,30 +58,35 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
-      "isPowderDay": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "6.7\" fresh snow overnight",
+      "6.7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Steady snowfall - 7.9\" in last 7 days"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "71/81 trails spinning, 31 freshly groomed. 15.8° and Unknown. Cold day ahead: 15.8° high. Dress warmly.",
+    "headline": "Fresh Tracks for Days",
+    "body": "The mountain is absolutely loaded with 6.7\" of fresh. This is not a drill. Cold day ahead: 12.2° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 10,
+          "priority": 90,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_powder",
           "category": "snow",
-          "priority": 10,
+          "priority": 90,
           "usedFor": "body"
         },
         {
@@ -91,11 +96,11 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "powder_alert",
+        "variationIndex": 5,
+        "totalVariations": 11,
         "usedWeekendVariation": false,
         "previousHeadline": "Today's Conditions"
       },
