@@ -2,8 +2,43 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-02-17",
-  "generated": "2026-02-17T05:00:05.119Z",
+  "generated": "2026-02-17T06:11:23.219Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 8,
+      "7day_cm": 20,
+      "season_total_inches": 119,
+      "season_total_cm": 302,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
+    "terrain": {
+      "stats": {
+        "openTrails": {
+          "today": 118,
+          "yesterday": 118,
+          "delta": 0
+        },
+        "groomedTrails": {
+          "today": 77,
+          "yesterday": 77,
+          "delta": 0
+        },
+        "totalTrails": 123
+      },
+      "newlyOpened": [],
+      "newlyClosed": [],
+      "newlyGroomed": [],
+      "ungroomed": []
+    },
     "lifts": {
       "available": true,
       "yesterday": {
@@ -13,16 +48,121 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-16",
+        "high_f": null,
+        "low_f": 25,
+        "high_c": null,
+        "low_c": -4,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-17",
+          "high_f": 32,
+          "low_f": 28,
+          "high_c": 0,
+          "low_c": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-18",
+          "high_f": 31,
+          "low_f": 21,
+          "high_c": -1,
+          "low_c": -6,
+          "description": "Snow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 3,
+          "snowfall_expected": 4
+        },
+        {
+          "date": "2026-02-19",
+          "high_f": 28,
+          "low_f": 26,
+          "high_c": -2,
+          "low_c": -3,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-17",
+        "high_f": 32,
+        "low_f": 28,
+        "high_c": 0,
+        "low_c": -2,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 8\" in last 7 days",
+      "4\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "More Snow Coming",
+    "body": "Steady snowfall with 8\" over the last week. Peak terrain status: almost everything is available today. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "snow_coming",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Holiday Crowds Expected"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
