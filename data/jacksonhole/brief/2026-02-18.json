@@ -2,14 +2,30 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.151Z",
+  "generated": "2026-02-18T21:45:49.626Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 13,
+      "24hour_inches": 9,
+      "24hour_cm": 23,
+      "48hour_inches": 15,
+      "48hour_cm": 38,
+      "7day_inches": 30,
+      "7day_cm": 76,
+      "season_total_inches": 255,
+      "season_total_cm": 648,
+      "conditions": {
+        "today": "6 AM—Wake up and walk into a world of white where all your trivial midweek cares fade far out of sight. 9 inches of fresh fell on Rendezvous Mountain over the past 24 hours, with more than half landing post-lift closure. But that's just the beginning; because periods of powfall will continue to pile until the day is over. The cold-smoking clouds you kick up will be swirling high, blown by light to moderate southwest winds in the 5 to 20 mph range. High temperatures begin a slight cooling trend today, with the summit stalling out in the teens and Teton Village right around the freezing mark. Entertain every crazy thought that may invade and embark on a frosty mountain escapade. Just beware, you could lose your mind. Because deep in the whiteroom it's nearly impossible to find. -Lege",
+        "yesterday": "6 AM—Greetings, Jackson Hole. Don't succumb to a midweek slumber; come witness the white renovation that Rendezvous Mountain is under. 6\" of high-grade pow landed in the upper elevations overnight, and periods of heavy snow are likely through the morning hours. Strong southwest winds may affect some lift operations today, but they will also help etch-a-sketch any pesky imperfections away as they crank between 15 and 40 mph. By the afternoon we'll see partly sunny skies, setting up a colorful sunset scenario to conclude your perfect pow day. Temperatures will be fairly steady, with the summit hovering in the upper teens to 20 degrees and Teton Village sitting in the low 30s. Who cares if logic makes it feel like a flaky superstition? Forget your inhibitions, follow that intuition, and let the experience be your only mission. -Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 118,
+          "today": 110,
           "yesterday": 110,
-          "delta": 8
+          "delta": 0
         },
         "groomedTrails": {
           "today": 48,
@@ -18,48 +34,7 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [
-        {
-          "name": "Liar's Slide",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Moccasin",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Greybull",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Headwall",
-          "difficulty": "Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Coombs",
-          "difficulty": "Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Fremont",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Casper Bowl",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        },
-        {
-          "name": "Beartooth",
-          "difficulty": "Double Black",
-          "area": "All Terrain"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -149,16 +124,19 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": true,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
+      "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "8 new trails opened today",
+      "5\" fresh snow overnight",
+      "9\" in last 24 hours - powder day!",
       "8 trails freshly groomed"
     ],
     "trends": [
-      "8 more trails open than yesterday"
+      "Great week for snow - 30\" in last 7 days"
     ],
     "recommendations": [
       "Fresh corduroy on Way Home - perfect for intermediate skiers",
@@ -166,6 +144,40 @@
       "Fresh corduroy on St. John's - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got Buried",
+    "body": "It's a 9\" day. You know what to do. First chair or regret it. 8 runs freshly groomed, mostly in All Terrain.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter Delivered Big"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

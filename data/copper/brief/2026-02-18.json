@@ -2,14 +2,30 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.163Z",
+  "generated": "2026-02-18T21:45:49.647Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 6,
+      "overnight_cm": 15,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 144,
+          "today": 146,
           "yesterday": 140,
-          "delta": 4
+          "delta": 6
         },
         "groomedTrails": {
           "today": 62,
@@ -32,6 +48,16 @@
         {
           "name": "Too Much",
           "difficulty": "Black",
+          "area": "East"
+        },
+        {
+          "name": "Black Bear Glade",
+          "difficulty": "Double Black",
+          "area": "East"
+        },
+        {
+          "name": "Free Fall Glade",
+          "difficulty": "Double Black",
           "area": "East"
         },
         {
@@ -130,21 +156,75 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 18,
+        "low_f": -4,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 5,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-19",
+          "high_f": 4,
+          "low_f": -4,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 13,
+          "low_f": -2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 15,
+          "low_f": -1,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-19",
+        "high_f": 4,
+        "low_f": -4,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "4 new trails opened today",
+      "6\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!",
+      "6 new trails opened today",
       "14 trails freshly groomed"
     ],
     "trends": [
+      "Steady snowfall - 6\" in last 7 days",
       "Grooming increased 27% from yesterday",
-      "4 more trails open than yesterday"
+      "6 more trails open than yesterday",
+      "2\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Otto Bahn - perfect for intermediate skiers",
@@ -152,6 +232,46 @@
       "Fresh corduroy on Spaulding Ridge - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter Delivered Big",
+    "body": "Wake up, it's a powder day! 6\" overnight means hero snow everywhere. Terrain expanding: 6 new trails opening up more options. A little something coming our way. Light snow expected to dust things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 9,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Powder Day Alert"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

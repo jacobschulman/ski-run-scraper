@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.153Z",
+  "generated": "2026-02-18T21:45:49.629Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 14,
+      "7day_cm": 36,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 292,
+          "today": 278,
           "yesterday": 257,
-          "delta": 35
+          "delta": 21
         },
         "groomedTrails": {
           "today": 64,
@@ -28,21 +44,6 @@
           "name": "LRT Traverse",
           "difficulty": "Double Black",
           "area": "Challenger Area"
-        },
-        {
-          "name": "Firehole",
-          "difficulty": "high exposure",
-          "area": "Headwaters Area"
-        },
-        {
-          "name": "Hellroaring",
-          "difficulty": "high exposure",
-          "area": "Headwaters Area"
-        },
-        {
-          "name": "Jack Creek",
-          "difficulty": "high exposure",
-          "area": "Headwaters Area"
         },
         {
           "name": "Rock Creek",
@@ -85,11 +86,6 @@
           "area": "Lone Peak Area"
         },
         {
-          "name": "Big Couloir",
-          "difficulty": "high exposure",
-          "area": "Lone Peak Area"
-        },
-        {
           "name": "Castro's",
           "difficulty": "high exposure",
           "area": "Lone Peak Area"
@@ -108,56 +104,6 @@
           "name": "Lone Creek Gully",
           "difficulty": "Black",
           "area": "Madison Area"
-        },
-        {
-          "name": "Deepwater Bowl",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Great Falls Gully",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Launcher Road",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Oxbow",
-          "difficulty": "Black",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Double Direct",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Great Falls",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "North Summit Snowfield",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Rips",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Summit Direct",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
-        },
-        {
-          "name": "Tears",
-          "difficulty": "high exposure",
-          "area": "North Summit Area"
         },
         {
           "name": "Black Rock Gully",
@@ -514,21 +460,74 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 15,
+        "low_f": 1,
+        "description": "Snow",
+        "snowfall_day_inches": 6,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-19",
+          "high_f": 9,
+          "low_f": 1,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 10,
+          "low_f": 5,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 18,
+          "low_f": 13,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-19",
+        "high_f": 9,
+        "low_f": 1,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "35 new trails opened today",
+      "2\" fresh snow overnight",
+      "21 new trails opened today",
       "61 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 14\" in last 7 days",
       "Grooming increased 2033% from yesterday",
-      "35 more trails open than yesterday"
+      "21 more trails open than yesterday",
+      "2\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Dakota Road - perfect for intermediate skiers",
@@ -536,6 +535,46 @@
       "Fresh corduroy on Mule Skinner - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Significant Terrain Release",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. 21 additional trails are now available. Lots of new ground to cover. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_major",
+          "category": "terrain",
+          "priority": 88,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_major",
+          "category": "terrain",
+          "priority": 88,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "terrain_major",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major Terrain Drop: {newTrailsCount} Runs"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

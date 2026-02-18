@@ -2,8 +2,24 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.096Z",
+  "generated": "2026-02-18T21:45:49.555Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 161,
+      "season_total_cm": 409,
+      "conditions": {
+        "today": "Skier Pack",
+        "yesterday": "Skier Pack"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -38,18 +54,116 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 20,
+        "low_f": 15,
+        "high_c": -7,
+        "low_c": -10,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-19",
+          "high_f": 21,
+          "low_f": 12,
+          "high_c": -6,
+          "low_c": -11,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 22,
+          "low_f": 20,
+          "high_c": -6,
+          "low_c": -7,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 24,
+          "low_f": 22,
+          "high_c": -4,
+          "low_c": -5,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-19",
+        "high_f": 21,
+        "low_f": 12,
+        "high_c": -6,
+        "low_c": -11,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
+    "trends": [
+      "1\" snow expected Thursday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Conditions Report"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

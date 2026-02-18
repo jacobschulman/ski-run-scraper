@@ -2,23 +2,44 @@
   "resort": "buttermilk",
   "resortName": "Buttermilk",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.162Z",
+  "generated": "2026-02-18T21:45:49.644Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 18,
+      "7day_cm": 46,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 48,
+          "today": 49,
           "yesterday": 46,
-          "delta": 2
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 30,
+          "today": 31,
           "yesterday": 30,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 52
       },
       "newlyOpened": [
+        {
+          "name": "Sterner Catwalk",
+          "difficulty": "Green",
+          "area": "Main"
+        },
         {
           "name": "Oregon Trail",
           "difficulty": "Green",
@@ -95,20 +116,73 @@
         "totalLiftsTracked": 5,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 26,
+        "low_f": 3,
+        "description": "Snow",
+        "snowfall_day_inches": 8,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-19",
+          "high_f": 15,
+          "low_f": 6,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 20,
+          "low_f": 4,
+          "description": "Snow",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 24,
+          "low_f": 7,
+          "description": "Sunny",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-19",
+        "high_f": 15,
+        "low_f": 6,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today",
+      "6\" in last 24 hours - powder day!",
+      "3 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
-      "2 more trails open than yesterday"
+      "Great week for snow - 18\" in last 7 days",
+      "3 more trails open than yesterday",
+      "2\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Bear - perfect for intermediate skiers",
@@ -116,6 +190,46 @@
       "Fresh corduroy on Racer's Edge - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got Buried",
+    "body": "Wake up, it's a powder day! 6\" overnight means hero snow everywhere. Ski patrol opened 3 additional trails. A few more choices today. Winter has more to say. 8\" forecasted means conditions improving soon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Time to Call in Sick"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

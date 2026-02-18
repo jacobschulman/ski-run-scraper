@@ -2,14 +2,30 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-02-18",
-  "generated": "2026-02-18T19:06:05.160Z",
+  "generated": "2026-02-18T21:45:49.641Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 19,
+      "7day_cm": 48,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 120,
+          "today": 121,
           "yesterday": 116,
-          "delta": 4
+          "delta": 5
         },
         "groomedTrails": {
           "today": 27,
@@ -33,6 +49,11 @@
           "name": "Franklin Dump",
           "difficulty": "DoubleBlack",
           "area": "Lower Mountain"
+        },
+        {
+          "name": "Super 8",
+          "difficulty": "DoubleBlack",
+          "area": "Shadow Mountain"
         },
         {
           "name": "Jackpot",
@@ -89,21 +110,74 @@
         "totalLiftsTracked": 8,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 18,
+        "low_f": -2,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 8,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-19",
+          "high_f": 6,
+          "low_f": 2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-20",
+          "high_f": 13,
+          "low_f": 1,
+          "description": "Snow",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 6
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 16,
+          "low_f": 6,
+          "description": "Sunny",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-19",
+        "high_f": 6,
+        "low_f": 2,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "4 new trails opened today",
+      "7\" in last 24 hours - powder day!",
+      "5 new trails opened today",
       "7 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 19\" in last 7 days",
       "Grooming increased 35% from yesterday",
-      "4 more trails open than yesterday"
+      "5 more trails open than yesterday",
+      "2\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Bellissimo (Lower) - perfect for intermediate skiers",
@@ -111,6 +185,46 @@
       "Fresh corduroy on Magnifico Road - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Dump Day at Aspen Mountain",
+    "body": "The mountain is absolutely loaded with 7\" of fresh. This is not a drill. 5 new trails are now available. Nice little expansion. Winter has more to say. 9\" forecasted means conditions improving soon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 8,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 6,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got Buried"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
