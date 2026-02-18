@@ -2,8 +2,24 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-02-18",
-  "generated": "2026-02-18T08:07:30.706Z",
+  "generated": "2026-02-18T09:07:37.100Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4.7,
+      "overnight_cm": 12,
+      "24hour_inches": 4.7,
+      "24hour_cm": 12,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 7.1,
+      "7day_cm": 18,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -25,17 +41,76 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-18",
+        "high_f": 53.6,
+        "low_f": 53.6,
+        "high_c": 12,
+        "low_c": 12,
+        "description": "Unknown",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": []
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "4.7\" fresh snow overnight"
+    ],
+    "trends": [
+      "Steady snowfall - 7.1\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Proper Refresh",
+    "body": "A proper refresh: 4.7\" of new snow making everything ski better. Nearly full mountain access with 114 of 120 trails spinning. Warmer than usual with 53.6° expected. Early session recommended.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_unseasonably_warm",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Snow, Fresh Vibes"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
