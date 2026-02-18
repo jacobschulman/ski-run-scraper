@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-18",
-  "generated": "2026-02-18T13:33:03.715Z",
+  "generated": "2026-02-18T15:14:08.927Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,145 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 25,
           "yesterday": 25,
-          "delta": -25
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 22,
           "yesterday": 22,
-          "delta": -22
+          "delta": 0
         },
         "totalTrails": 25
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Challenge",
-          "difficulty": "DoubleBlack",
-          "area": "Backside"
-        },
-        {
-          "name": "Golden Eagle",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Jax Bowl",
-          "difficulty": "Blue",
-          "area": "Backside"
-        },
-        {
-          "name": "Ore Creek",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Osprey",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Perk's Folly",
-          "difficulty": "DoubleBlack",
-          "area": "Backside"
-        },
-        {
-          "name": "Snyder's Escape",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Spartan Street",
-          "difficulty": "Blue",
-          "area": "Backside"
-        },
-        {
-          "name": "Wolverine Way",
-          "difficulty": "Blue",
-          "area": "Backside"
-        },
-        {
-          "name": "Bunny",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Flatiron",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Larkspur",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Snowshoe",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Big Riskey",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Blue Sky",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Cheetah",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Chicken Chute",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Crosscut",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Gasoline Alley",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Grand River",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Ryan's Run",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Sawtooth Ridge",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Spike's Folly",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Thalacker's",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -181,30 +55,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "All Systems Go",
+    "body": "25 of 25 trails are open with 22 groomed. Variable conditions with a temperatures TBD. The whole mountain is basically open. Go explore. 25/25 trails open, 22 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "percent_full",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
           "category": "terrain",
-          "priority": 95,
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "percent_full",
         "variationIndex": 3,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Almost There..."
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Wednesday"
     }
