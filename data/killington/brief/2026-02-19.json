@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-19",
-  "generated": "2026-02-19T20:41:25.123Z",
+  "generated": "2026-02-19T21:41:29.668Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -36,8 +36,60 @@
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Double Dipper - Upper",
+          "difficulty": "Blue",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Upper",
+          "difficulty": "Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Home Stretch - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Low Road",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Conclusion - Upper",
+          "difficulty": "Black",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Edgemont / Whiffletree",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +158,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 trails freshly groomed"
+    ],
     "trends": [
       "12\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Double Dipper - Lower - all skill levels",
+      "Fresh corduroy on Double Dipper - Upper - perfect for intermediate skiers",
+      "Fresh corduroy on Downdraft - Upper - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "The Forecast Looks Loaded",
-    "body": "177/222 trails spinning, 99 freshly groomed. Cloudy. The weather models are locked in: 15\" of snow heading our way.",
+    "body": "177/222 trails spinning, 99 freshly groomed. Cloudy. 5 runs freshly groomed, mostly in Canyon Area and Skye Peak. The weather models are locked in: 15\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
@@ -130,13 +188,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 4,
