@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-19",
-  "generated": "2026-02-19T13:33:54.721Z",
+  "generated": "2026-02-19T15:11:29.545Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 25,
-          "delta": -25
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 22,
-          "delta": -22
+          "delta": -3
         },
         "totalTrails": 25
       },
@@ -42,23 +42,8 @@
           "area": "Backside"
         },
         {
-          "name": "Golden Eagle",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
           "name": "Jax Bowl",
           "difficulty": "Blue",
-          "area": "Backside"
-        },
-        {
-          "name": "Ore Creek",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Osprey",
-          "difficulty": "Black",
           "area": "Backside"
         },
         {
@@ -80,86 +65,6 @@
           "name": "Wolverine Way",
           "difficulty": "Blue",
           "area": "Backside"
-        },
-        {
-          "name": "Bunny",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Flatiron",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Larkspur",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Snowshoe",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Big Riskey",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Blue Sky",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Cheetah",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Chicken Chute",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Crosscut",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Gasoline Alley",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Grand River",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Ryan's Run",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Sawtooth Ridge",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Spike's Folly",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Thalacker's",
-          "difficulty": "Blue",
-          "area": "Front Side"
         }
       ],
       "newlyGroomed": [],
@@ -181,30 +86,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "The mountain is still prepping for the season. Weather today: Variable conditions.",
+    "headline": "Your Morning Mountain Brief",
+    "body": "The rundown: 19 trails open, 19 groomed. Variable conditions with temps around temps TBD. 19/25 trails open, 19 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 0,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Thursday"
     }
