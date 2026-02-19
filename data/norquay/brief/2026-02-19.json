@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-02-19",
-  "generated": "2026-02-19T19:02:03.496Z",
+  "generated": "2026-02-19T19:44:41.138Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -45,10 +45,10 @@
     "forecast": {
       "today": {
         "date": "2026-02-19",
-        "high_f": -2.2,
-        "low_f": -2.2,
-        "high_c": -19,
-        "low_c": -19,
+        "high_f": 23,
+        "low_f": 23,
+        "high_c": -5,
+        "low_c": -5,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -70,14 +70,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Sub-Zero Day",
-    "body": "Steady snowfall with 9.8\" over the last week. Sub-zero temps today. Layer up, cover all skin, and take frequent warming breaks.",
+    "headline": "Your Daily Ski Report",
+    "body": "Steady snowfall with 9.8\" over the last week.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_arctic",
-          "category": "weather",
-          "priority": 85,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -85,21 +85,15 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
-        },
-        {
-          "id": "temp_arctic",
-          "category": "weather",
-          "priority": 85,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "cold_arctic",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 3,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Rundown"
+        "previousHeadline": "Arctic Blast: {tempHigh}°"
       },
       "dayOfWeek": "Thursday"
     }
