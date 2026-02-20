@@ -2,8 +2,24 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-02-19",
-  "generated": "2026-02-19T23:38:32.856Z",
+  "generated": "2026-02-20T04:53:23.092Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 15,
+      "overnight_cm": 38,
+      "24hour_inches": 21,
+      "24hour_cm": 53,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 97,
+      "7day_cm": 246,
+      "season_total_inches": 260,
+      "season_total_cm": 660,
+      "conditions": {
+        "today": "Fresh Powder",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -299,20 +315,112 @@
         "totalLiftsTracked": 39,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-19",
+        "high_f": null,
+        "low_f": 10,
+        "high_c": null,
+        "low_c": -12,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 1
+      },
+      "outlook": [
+        {
+          "date": "2026-02-20",
+          "high_f": 25,
+          "low_f": 17,
+          "high_c": -4,
+          "low_c": -8,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 31,
+          "low_f": 26,
+          "high_c": 0,
+          "low_c": -3,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-22",
+          "high_f": 36,
+          "low_f": 30,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-20",
+        "high_f": 25,
+        "low_f": 17,
+        "high_c": -4,
+        "low_c": -8,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "15\" fresh snow overnight",
+      "21\" in last 24 hours - powder day!",
       "2 new trails opened today"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 97\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Deep. Very Deep.",
+    "body": "EPIC: 21\" of fresh powder. Career day potential. First chair or regret it.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_epic",
+          "category": "snow",
+          "priority": 98,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_epic",
+          "category": "snow",
+          "priority": 98,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_epic",
+        "variationIndex": 3,
+        "totalVariations": 9,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Motherload Has Arrived"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

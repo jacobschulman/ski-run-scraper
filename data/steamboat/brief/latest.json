@@ -2,8 +2,24 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-02-19",
-  "generated": "2026-02-19T23:38:32.867Z",
+  "generated": "2026-02-20T04:53:23.109Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
+      "48hour_inches": 14,
+      "48hour_cm": 36,
+      "7day_inches": 25,
+      "7day_cm": 64,
+      "season_total_inches": 127,
+      "season_total_cm": 323,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -100,20 +116,83 @@
         "totalLiftsTracked": 24,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-19",
+        "high_f": null,
+        "low_f": 5,
+        "high_c": null,
+        "low_c": -15,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-20",
+          "high_f": 12,
+          "low_f": 3,
+          "high_c": -11,
+          "low_c": -16,
+          "description": "Snow",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-02-21",
+          "high_f": 16,
+          "low_f": 13,
+          "high_c": -9,
+          "low_c": -10,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-22",
+          "high_f": 28,
+          "low_f": 23,
+          "high_c": -2,
+          "low_c": -5,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-20",
+        "high_f": 12,
+        "low_f": 3,
+        "high_c": -11,
+        "low_c": -16,
+        "description": "Snow",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 3
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "4\" fresh snow overnight",
       "1 new trail opened today",
       "9 trails freshly groomed"
     ],
     "trends": [
-      "1 more trail open than yesterday"
+      "Great week for snow - 25\" in last 7 days",
+      "1 more trail open than yesterday",
+      "3\" snow expected Friday"
     ],
     "recommendations": [
       "Fresh corduroy on Baby Powder - all skill levels",
@@ -121,6 +200,46 @@
       "Fresh corduroy on Cyclone - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got a Boost",
+    "body": "A proper refresh: 4\" of new snow making everything ski better. 9 runs freshly groomed, mostly in Steamboat. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Deep Day at {resortName}"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
