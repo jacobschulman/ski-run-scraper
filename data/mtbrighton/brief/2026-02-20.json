@@ -2,7 +2,7 @@
   "resort": "mtbrighton",
   "resortName": "Mt Brighton",
   "date": "2026-02-20",
-  "generated": "2026-02-20T13:29:17.040Z",
+  "generated": "2026-02-20T15:01:50.865Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,115 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 19,
-          "delta": -19
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 19,
-          "delta": -19
+          "delta": 0
         },
         "totalTrails": 25
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Golden Eagle",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Ore Creek",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Osprey",
-          "difficulty": "Black",
-          "area": "Backside"
-        },
-        {
-          "name": "Bunny",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Flatiron",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Larkspur",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Snowshoe",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Big Riskey",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Blue Sky",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Cheetah",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Chicken Chute",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Crosscut",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Easy Street",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Gasoline Alley",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Grand River",
-          "difficulty": "Black",
-          "area": "Front Side"
-        },
-        {
-          "name": "Ryan's Run",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Sawtooth Ridge",
-          "difficulty": "TerrainPark",
-          "area": "Front Side"
-        },
-        {
-          "name": "Spike's Folly",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        },
-        {
-          "name": "Thalacker's",
-          "difficulty": "Blue",
-          "area": "Front Side"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -151,30 +55,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "Not open for the season yet. Current conditions: Variable conditions.",
+    "headline": "Cheers to the Weekend",
+    "body": "19 trails open, 19 groomed. Variable conditions, temperatures TBD. 19/25 trails open, 19 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
+        "condition": "weekend_kickoff",
         "variationIndex": 4,
-        "totalVariations": 6,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Almost There..."
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Friday"
     }
