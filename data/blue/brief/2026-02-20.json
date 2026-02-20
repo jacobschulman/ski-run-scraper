@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-02-20",
-  "generated": "2026-02-20T09:52:14.741Z",
+  "generated": "2026-02-20T10:54:02.315Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 63,
+          "today": 64,
           "yesterday": 63,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 50,
+          "today": 51,
           "yesterday": 50,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Burner",
+          "difficulty": "Moderately Difficult",
+          "area": "Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,22 +118,24 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "7\" in last 24 hours - powder day!"
+      "7\" in last 24 hours - powder day!",
+      "1 new trail opened today"
     ],
     "trends": [
       "Steady snowfall - 8\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "7\" of Fresh Overnight",
-    "body": "It's a 7\" day. You know what to do. First chair or regret it. The whole mountain is basically open. Go explore. Light snow possible in the forecast.",
+    "headline": "The Mountain Got Buried",
+    "body": "It's a 7\" day. You know what to do. First chair or regret it. 1 new trail opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -143,7 +151,7 @@
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
+          "id": "terrain_micro",
           "category": "terrain",
           "priority": 45,
           "usedFor": "body"
@@ -155,13 +163,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 8,
+      "totalRulesFired": 9,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
         "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got Buried"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Friday"
     }
