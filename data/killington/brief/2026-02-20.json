@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-20",
-  "generated": "2026-02-20T19:40:31.983Z",
+  "generated": "2026-02-20T21:33:33.596Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 99,
+          "today": 107,
           "yesterday": 99,
-          "delta": 0
+          "delta": 8
         },
         "totalTrails": 222
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Solitude",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Space Walk",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Low Road",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Sassafras",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Edgemont / Whiffletree",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Fall Line",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Highridge",
+          "difficulty": "easiest",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Trail Creek",
+          "difficulty": "easiest",
+          "area": "Condo Trails"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -51,27 +113,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-19",
-        "high_f": null,
-        "low_f": 26,
-        "description": "Mostly Cloudy",
-        "snowfall_day_inches": 0,
+        "date": "2026-02-20",
+        "high_f": 27,
+        "low_f": 22,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 13,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-20",
-          "high_f": 27,
-          "low_f": 22,
-          "description": "Snow Wind",
-          "snowfall_day_inches": 13,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 13
-        },
-        {
           "date": "2026-02-21",
-          "high_f": 23,
-          "low_f": 18,
+          "high_f": 24,
+          "low_f": 17,
           "description": "Cloudy",
           "snowfall_day_inches": 3,
           "snowfall_night_inches": 0,
@@ -85,16 +138,25 @@
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
+        },
+        {
+          "date": "2026-02-23",
+          "high_f": 18,
+          "low_f": 9,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-02-20",
-        "high_f": 27,
-        "low_f": 22,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 13,
+        "date": "2026-02-21",
+        "high_f": 24,
+        "low_f": 17,
+        "description": "Cloudy",
+        "snowfall_day_inches": 3,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 13
+        "snowfall_expected": 3
       }
     }
   },
@@ -106,21 +168,27 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "13\" snow expected Friday"
+    "alerts": [
+      "10 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "3\" snow expected Saturday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Solitude - perfect for intermediate skiers",
+      "Fresh corduroy on OL Express - all skill levels",
+      "Fresh corduroy on Outer Limits - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Winter's Coming Back",
-    "body": "177 of 222 trails are open with 99 groomed. Mostly Cloudy with a temperatures TBD. Storm cycle alert! 18\" on the way. Conditions are about to level up.",
+    "body": "177 of 222 trails are open with 107 groomed. Snow Wind with a high of 27°F. Smooth operators: 10 runs got the full treatment overnight. Storm cycle alert! 7\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_major_storm",
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 92,
+          "priority": 85,
           "usedFor": "headline"
         },
         {
@@ -130,13 +198,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_major_storm",
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
           "category": "weather",
-          "priority": 92,
+          "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 2,

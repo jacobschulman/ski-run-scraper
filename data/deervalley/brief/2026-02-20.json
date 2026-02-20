@@ -2,19 +2,35 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-02-20",
-  "generated": "2026-02-20T19:40:31.897Z",
+  "generated": "2026-02-20T21:33:33.477Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 11,
+      "24hour_inches": 5,
+      "24hour_cm": 11,
+      "48hour_inches": 16,
+      "48hour_cm": 40,
+      "7day_inches": 30,
+      "7day_cm": 75,
+      "season_total_inches": 130,
+      "season_total_cm": 329,
+      "conditions": {
+        "today": "New Natural Snow",
+        "yesterday": "Fresh Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 183,
+          "today": 190,
           "yesterday": 179,
-          "delta": 4
+          "delta": 11
         },
         "groomedTrails": {
-          "today": 89,
+          "today": 96,
           "yesterday": 88,
-          "delta": 1
+          "delta": 8
         },
         "totalTrails": 227
       },
@@ -50,8 +66,43 @@
           "area": "Little Baldy Peak"
         },
         {
+          "name": "Evening Star",
+          "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
           "name": "Joker",
           "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Primrose",
+          "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Sure Thing",
+          "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Torpedo",
+          "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "To the Max",
+          "difficulty": "Intermediate",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Tug of War (Lower)",
+          "difficulty": "Easy",
+          "area": "Big Dutch Peak"
+        },
+        {
+          "name": "Tug of War (Upper)",
+          "difficulty": "Easy",
           "area": "Big Dutch Peak"
         },
         {
@@ -151,20 +202,82 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-20",
+        "high_f": 13,
+        "low_f": 7,
+        "high_c": -11,
+        "low_c": -14,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-21",
+          "high_f": 26,
+          "low_f": 21,
+          "high_c": -4,
+          "low_c": -6,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-22",
+          "high_f": 34,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-23",
+          "high_f": 38,
+          "low_f": 34,
+          "high_c": 4,
+          "low_c": 1,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-21",
+        "high_f": 26,
+        "low_f": 21,
+        "high_c": -4,
+        "low_c": -6,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "8 new trails opened today",
+      "5\" fresh snow overnight",
+      "15 new trails opened today",
       "7 trails freshly groomed"
     ],
     "trends": [
-      "4 more trails open than yesterday"
+      "Great week for snow - 30\" in last 7 days",
+      "11 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Corner Stone - all skill levels",
@@ -172,6 +285,46 @@
       "Fresh corduroy on Catch All (Lower) - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "Solid refresh: 5\" overnight freshened up the mountain nicely. 15 new runs just opened up. Time to explore fresh terrain. Cold day ahead: 13° high. Dress warmly.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "MASSIVE Expansion: {newTrailsCount} New Runs"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

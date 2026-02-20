@@ -2,14 +2,30 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-20",
-  "generated": "2026-02-20T19:40:31.980Z",
+  "generated": "2026-02-20T21:33:33.589Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 3,
+      "7day_cm": 8,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 160,
+          "today": 161,
           "yesterday": 154,
-          "delta": 6
+          "delta": 7
         },
         "groomedTrails": {
           "today": 64,
@@ -53,6 +69,11 @@
           "name": "Spaulding Glades",
           "difficulty": "Black",
           "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Overlode",
+          "difficulty": "Black",
+          "area": "East"
         }
       ],
       "newlyClosed": [
@@ -146,20 +167,71 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-20",
+        "high_f": 12,
+        "low_f": -5,
+        "description": "Snow",
+        "snowfall_day_inches": 5,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-21",
+          "high_f": 16,
+          "low_f": 3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-22",
+          "high_f": 30,
+          "low_f": 10,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-23",
+          "high_f": 34,
+          "low_f": 19,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-21",
+        "high_f": 16,
+        "low_f": 3,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "7 new trails opened today",
+      "1\" new snow overnight",
+      "8 new trails opened today",
       "5 trails freshly groomed"
     ],
     "trends": [
-      "6 more trails open than yesterday"
+      "7 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Triple Zero - all skill levels",
@@ -167,6 +239,46 @@
       "Fresh corduroy on Revenge (L) - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "New Runs Now Open",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. New terrain alert: 8 trails added to the mix. Cold day ahead: 12° high. Dress warmly.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_cold",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Terrain Expanding"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
