@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-02-20",
-  "generated": "2026-02-20T22:35:52.766Z",
+  "generated": "2026-02-20T23:36:14.745Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 36,
+          "today": 37,
           "yesterday": 36,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 26,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "The Throne",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,21 +118,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "5\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Loaded",
-    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. Storm cycle alert! 20\" on the way. Conditions are about to level up.",
+    "headline": "Prepare for Pow",
+    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. 1 new trail opened today. Storm cycle alert! 20\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -142,19 +150,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 5,
         "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Prepare for Pow"
+        "previousHeadline": "The Forecast Looks Loaded"
       },
       "dayOfWeek": "Friday"
     }
