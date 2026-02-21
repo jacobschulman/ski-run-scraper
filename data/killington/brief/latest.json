@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-21",
-  "generated": "2026-02-21T21:32:01.905Z",
+  "generated": "2026-02-21T22:33:08.572Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,68 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 107,
+          "today": 109,
           "yesterday": 107,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 222
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Escapade",
+          "difficulty": "Double Black",
+          "area": "Killington Peak"
+        },
+        {
+          "name": "Wildfire - Upper",
+          "difficulty": "Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Touch Down",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Field Goal",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Vagabond",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Breakaway",
+          "difficulty": "Black",
+          "area": "South Ridge Area"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Solitude",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Sassafras",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Edgemont / Whiffletree",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Trail Creek",
+          "difficulty": "easiest",
+          "area": "Condo Trails"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +158,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "2\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Escapade - all skill levels",
+      "Fresh corduroy on Wildfire - Upper - challenging for advanced skiers",
+      "Fresh corduroy on Touch Down - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Winter's Coming Back",
-    "body": "177 trails open, 107 groomed. Snow Wind, temperatures TBD. A significant storm is brewing with 7\" expected over the next few days.",
+    "body": "177 trails open, 109 groomed. Snow Wind, temperatures TBD. 6 runs freshly groomed, mostly in Killington Peak, Bear Mountain, and more. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +185,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
