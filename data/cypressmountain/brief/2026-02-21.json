@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-02-21",
-  "generated": "2026-02-21T15:42:10.344Z",
+  "generated": "2026-02-21T16:45:25.442Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 44,
+          "today": 47,
           "yesterday": 44,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 39,
+          "today": 42,
           "yesterday": 35,
-          "delta": 4
+          "delta": 7
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Pop Fly",
+          "difficulty": "Black",
+          "area": "Nordic Ridge Trails"
+        },
+        {
+          "name": "Five Lakes",
+          "difficulty": "Novice",
+          "area": "Nordic Upper Trails"
+        },
+        {
+          "name": "4th Lake",
+          "difficulty": "Novice",
+          "area": "Nordic Upper Trails"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -123,14 +139,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
+      "3 new trails opened today",
       "4 trails freshly groomed"
     ],
     "trends": [
+      "Grooming increased 20% from yesterday",
+      "3 more trails open than yesterday",
       "6\" snow expected Saturday"
     ],
     "recommendations": [
@@ -141,7 +160,7 @@
   },
   "morningBrief": {
     "headline": "The Forecast Looks Loaded",
-    "body": "44/96 trails spinning, 39 freshly groomed. Cloudy. Storm cycle alert! 18\" on the way. Conditions are about to level up.",
+    "body": "47/96 trails spinning, 42 freshly groomed. Cloudy. 3 more trails opened today, expanding your options. Storm cycle alert! 18\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -154,6 +173,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
