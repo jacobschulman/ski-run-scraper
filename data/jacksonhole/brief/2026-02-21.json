@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-02-21",
-  "generated": "2026-02-21T07:40:50.239Z",
+  "generated": "2026-02-21T09:39:59.866Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 24,
+      "7day_cm": 61,
+      "season_total_inches": 266,
+      "season_total_cm": 676,
+      "conditions": {
+        "today": "6 AM—Friday is here, Jackson! Why not start the weekend a little early and spend the day in a sugar-frosted wonderland? 2 inches of sweet crystals fell in dribs and drabs over the past 24 hours, sprinkling a few fresh flakes for flashing across the slopes. Sunshine and clouds will dance slowly through the sky, blown by the rhythm of southwest winds in the zip to 15 mph range. Higher gusts will likely hit the upper elevations this afternoon as they shift more out of the west. Bundle up because cool temperatures will stall out in the single digits at the summit and in the low 20s down in the base zone. Escape the humdrum by getting off the endlessly spinning corporate hamster wheel. You might lose income, but Rendezvous Mountains' reimbursement is far more real. -Lege",
+        "yesterday": "6 AM—Friday is here, Jackson! Why not start the weekend a little early and spend the day in a sugar-frosted wonderland? 2 inches of sweet crystals fell in dribs and drabs over the past 24 hours, sprinkling a few fresh flakes for flashing across the slopes. Sunshine and clouds will dance slowly through the sky, blown by the rhythm of southwest winds in the zip to 15 mph range. Higher gusts will likely hit the upper elevations this afternoon as they shift more out of the west. Bundle up because cool temperatures will stall out in the single digits at the summit and in the low 20s down in the base zone. Escape the humdrum by getting off the endlessly spinning corporate hamster wheel. You might lose income, but Rendezvous Mountains' reimbursement is far more real. -Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -36,14 +52,46 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 24\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "2\" Freshened Things Up",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
