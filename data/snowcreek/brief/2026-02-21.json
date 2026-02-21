@@ -2,7 +2,7 @@
   "resort": "snowcreek",
   "resortName": "Snow Creek",
   "date": "2026-02-21",
-  "generated": "2026-02-21T14:44:47.488Z",
+  "generated": "2026-02-21T15:42:02.327Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,79 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 0,
-          "delta": 0
+          "delta": 12
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 0,
-          "delta": 0
+          "delta": 12
         },
         "totalTrails": 14
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Flatlands",
+          "difficulty": "Green",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Gunslinger Progression Park",
+          "difficulty": "TerrainPark",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Holiday Bowl",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Jasons Run",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Jayme's Way",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Lower Six Shooter",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Oregon Trail",
+          "difficulty": "Green",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Rainbow Ridge",
+          "difficulty": "Green",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Santa Fe Trail",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Six Shooter",
+          "difficulty": "Black",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Wagon Wheel",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        },
+        {
+          "name": "Wild Turkey",
+          "difficulty": "Blue",
+          "area": "Snow Creek"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,38 +166,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "12 new trails opened today"
+    ],
+    "trends": [
+      "12 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "The mountain is still prepping for the season. Weather today: Partly Cloudy.",
+    "headline": "More Mountain to Explore",
+    "body": "12 trails open, 12 groomed. Partly Cloudy, high of 34°. Terrain expanding: 12 new trails opening up more options.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Saturday"
     }
