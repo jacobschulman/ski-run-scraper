@@ -2,7 +2,7 @@
   "resort": "keystone",
   "resortName": "Keystone",
   "date": "2026-02-21",
-  "generated": "2026-02-21T14:01:46.247Z",
+  "generated": "2026-02-21T14:44:47.397Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,71 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 102,
+          "today": 110,
           "yesterday": 102,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 46,
           "yesterday": 47,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Oh Bob",
+          "difficulty": "Blue",
+          "area": "Outback"
+        },
+        {
+          "name": "Indy Face",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Liberty",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Liberty Trees",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Midnight Ride",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Nuchu",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Patriot",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Revolution",
+          "difficulty": "Black",
+          "area": "Bergman"
+        },
+        {
+          "name": "Two If By Sea",
+          "difficulty": "Black",
+          "area": "Bergman"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Park Lane",
+          "difficulty": "TerrainPark",
+          "area": "Terrain Park"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -148,25 +200,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 new trails opened today"
+    ],
     "trends": [
-      "Steady snowfall - 8\" in last 7 days"
+      "Steady snowfall - 8\" in last 7 days",
+      "8 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Unlimited Visibility",
-    "body": "Steady snowfall with 8\" over the last week. Watch for crowds at Peru Express, which saw 10-minute waits yesterday. Picture-perfect day: sunny skies, 24° temps, not a cloud to block the view.",
+    "headline": "9 New Trails Today",
+    "body": "Steady snowfall with 8\" over the last week. 9 new runs just opened up. Time to explore fresh terrain. Watch for crowds at Peru Express, which saw 10-minute waits yesterday.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_bluebird",
-          "category": "weather",
-          "priority": 70,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -176,25 +231,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_moderate",
           "category": "lifts",
           "priority": 60,
           "usedFor": "body"
-        },
-        {
-          "id": "weather_bluebird",
-          "category": "weather",
-          "priority": 70,
-          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "bluebird_day",
-        "variationIndex": 3,
+        "condition": "terrain_expansion",
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not a Cloud in Sight"
+        "previousHeadline": "Unlimited Visibility"
       },
       "dayOfWeek": "Saturday"
     }
