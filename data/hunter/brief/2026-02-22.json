@@ -2,7 +2,7 @@
   "resort": "hunter",
   "resortName": "Hunter Mountain",
   "date": "2026-02-22",
-  "generated": "2026-02-22T14:47:49.919Z",
+  "generated": "2026-02-22T15:44:12.943Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 59,
+          "today": 61,
           "yesterday": 60,
-          "delta": -1
+          "delta": 1
         },
         "groomedTrails": {
           "today": 52,
@@ -34,14 +34,14 @@
         },
         "totalTrails": 71
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Upper Taylor's Run",
-          "difficulty": "Black",
+          "name": "Annapurna",
+          "difficulty": "DoubleBlack",
           "area": "Hunter West"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -89,19 +89,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": [
       "Broadway Express had longest waits (10.2 min avg) - consider alternatives"
     ]
   },
   "morningBrief": {
-    "headline": "1\" Freshened Things Up",
-    "body": "1\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Heads up: Broadway Express peaked at 18 minutes yesterday. Consider alternatives.",
+    "headline": "A Little Sugar on Top",
+    "body": "1\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 1 new trail opened today. Heads up: Broadway Express peaked at 18 minutes yesterday. Consider alternatives.",
     "debug": {
       "firedRules": [
         {
@@ -117,19 +121,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_busy",
           "category": "lifts",
           "priority": 80,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Sunday"
     }
