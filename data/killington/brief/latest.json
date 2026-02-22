@@ -2,21 +2,21 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-21",
-  "generated": "2026-02-21T23:32:53.643Z",
+  "generated": "2026-02-22T04:55:44.124Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 3,
-      "48hour_cm": 8,
-      "7day_inches": 3,
-      "7day_cm": 8,
+      "overnight_inches": 12,
+      "overnight_cm": 30,
+      "24hour_inches": 12,
+      "24hour_cm": 30,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 12,
+      "7day_cm": 30,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
-        "today": "Machine Groomed",
+        "today": "Powder",
         "yesterday": "Machine Groomed"
       }
     },
@@ -103,27 +103,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-20",
+        "date": "2026-02-21",
         "high_f": null,
-        "low_f": 22,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 9,
+        "low_f": 18,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-21",
-          "high_f": 23,
-          "low_f": 18,
-          "description": "Cloudy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
-        {
           "date": "2026-02-22",
           "high_f": 20,
-          "low_f": 17,
+          "low_f": 16,
           "description": "Windy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
@@ -131,19 +122,28 @@
         },
         {
           "date": "2026-02-23",
-          "high_f": 17,
-          "low_f": 9,
+          "high_f": 16,
+          "low_f": 8,
           "description": "Snow Wind",
-          "snowfall_day_inches": 3,
+          "snowfall_day_inches": 5,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 3
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-02-24",
+          "high_f": 9,
+          "low_f": 6,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-02-21",
-        "high_f": 23,
-        "low_f": 18,
-        "description": "Cloudy",
+        "date": "2026-02-22",
+        "high_f": 20,
+        "low_f": 16,
+        "description": "Windy",
         "snowfall_day_inches": 2,
         "snowfall_night_inches": 0,
         "snowfall_expected": 2
@@ -152,17 +152,20 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
-      "isPowderDay": false,
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "12\" fresh snow overnight",
+      "12\" in last 24 hours - powder day!",
       "6 trails freshly groomed"
     ],
     "trends": [
-      "2\" snow expected Saturday"
+      "Great week for snow - 12\" in last 7 days",
+      "2\" snow expected Sunday"
     ],
     "recommendations": [
       "Fresh corduroy on Escapade - all skill levels",
@@ -171,20 +174,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Winter's Coming Back",
-    "body": "177 trails open, 109 groomed. Snow Wind, temperatures TBD. 6 runs freshly groomed, mostly in Killington Peak, Bear Mountain, and more. A significant storm is brewing with 7\" expected over the next few days.",
+    "headline": "Saturday Powder Stash",
+    "body": "12\" of fresh powder waiting. This is a powder emergency. Act accordingly. 6 runs freshly groomed, mostly in Killington Peak, Bear Mountain, and more. A significant storm is brewing with 9\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_deep",
           "category": "snow",
-          "priority": 10,
+          "priority": 95,
           "usedFor": "body"
         },
         {
@@ -202,11 +205,11 @@
       ],
       "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 3,
-        "totalVariations": 7,
-        "usedWeekendVariation": false,
-        "previousHeadline": "Major System Approaching"
+        "condition": "snow_deep",
+        "variationIndex": 0,
+        "totalVariations": 8,
+        "usedWeekendVariation": true,
+        "previousHeadline": "Deep Weekend Ahead"
       },
       "dayOfWeek": "Saturday"
     }

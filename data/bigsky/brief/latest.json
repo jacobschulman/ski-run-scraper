@@ -2,15 +2,15 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-21",
-  "generated": "2026-02-21T23:32:53.621Z",
+  "generated": "2026-02-22T04:55:44.099Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
       "overnight_cm": 0,
       "24hour_inches": 0,
       "24hour_cm": 0,
-      "48hour_inches": 1,
-      "48hour_cm": 3,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
       "7day_inches": 14,
       "7day_cm": 36,
       "season_total_inches": 0,
@@ -121,28 +121,19 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-20",
+        "date": "2026-02-21",
         "high_f": null,
-        "low_f": 4,
+        "low_f": 14,
         "description": "Cloudy",
-        "snowfall_day_inches": 1,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-02-21",
-          "high_f": 20,
-          "low_f": 14,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-02-22",
-          "high_f": 30,
+          "high_f": 31,
           "low_f": 23,
-          "description": "Windy",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -150,18 +141,27 @@
         {
           "date": "2026-02-23",
           "high_f": 31,
-          "low_f": 27,
+          "low_f": 26,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-24",
+          "high_f": 29,
+          "low_f": 22,
+          "description": "Windy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
-        "date": "2026-02-21",
-        "high_f": 20,
-        "low_f": 14,
-        "description": "Mostly Cloudy",
+        "date": "2026-02-22",
+        "high_f": 31,
+        "low_f": 23,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -181,7 +181,8 @@
     ],
     "trends": [
       "Great week for snow - 14\" in last 7 days",
-      "High demand yesterday - average wait time 15 min"
+      "High demand yesterday - average wait time 15 min",
+      "3\" snow expected Tuesday"
     ],
     "recommendations": [
       "Lone Peak Tram had longest waits (15 min avg) - consider alternatives"
@@ -189,7 +190,7 @@
   },
   "morningBrief": {
     "headline": "The Base Is Holding Up",
-    "body": "No fresh overnight, but 14\" in the past week is keeping things soft and fun. Watch for crowds at Lone Peak Tram, which saw 15-minute waits yesterday.",
+    "body": "No fresh overnight, but 14\" in the past week is keeping things soft and fun. Watch for crowds at Lone Peak Tram, which saw 15-minute waits yesterday. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -209,9 +210,15 @@
           "category": "lifts",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 4,

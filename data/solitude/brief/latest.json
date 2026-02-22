@@ -2,19 +2,19 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-02-21",
-  "generated": "2026-02-21T23:32:53.524Z",
+  "generated": "2026-02-22T04:55:44.000Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
       "overnight_cm": 3,
-      "24hour_inches": 1,
-      "24hour_cm": 3,
-      "48hour_inches": 18,
-      "48hour_cm": 46,
-      "7day_inches": 41,
-      "7day_cm": 104,
-      "season_total_inches": 184,
-      "season_total_cm": 467,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 44,
+      "7day_cm": 112,
+      "season_total_inches": 187,
+      "season_total_cm": 475,
       "conditions": {
         "today": "Packed Powder",
         "yesterday": "Packed Powder"
@@ -159,34 +159,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-02-20",
+        "date": "2026-02-21",
         "high_f": null,
-        "low_f": 6,
+        "low_f": 20,
         "high_c": null,
-        "low_c": -14,
-        "description": "Mostly Clear",
-        "snowfall_day_inches": 1,
+        "low_c": -7,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-02-21",
-          "high_f": 27,
-          "low_f": 20,
-          "high_c": -3,
-          "low_c": -7,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-02-22",
           "high_f": 36,
           "low_f": 28,
           "high_c": 2,
           "low_c": -2,
-          "description": "Mostly Sunny",
+          "description": "Partly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -194,22 +183,33 @@
         {
           "date": "2026-02-23",
           "high_f": 39,
-          "low_f": 34,
+          "low_f": 33,
           "high_c": 4,
           "low_c": 1,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-24",
+          "high_f": 36,
+          "low_f": 33,
+          "high_c": 2,
+          "low_c": 1,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
         }
       ],
       "tomorrow": {
-        "date": "2026-02-21",
-        "high_f": 27,
-        "low_f": 20,
-        "high_c": -3,
-        "low_c": -7,
-        "description": "Sunny",
+        "date": "2026-02-22",
+        "high_f": 36,
+        "low_f": 28,
+        "high_c": 2,
+        "low_c": -2,
+        "description": "Partly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -230,8 +230,9 @@
       "9 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 41\" in last 7 days",
-      "10 more trails open than yesterday"
+      "Great week for snow - 44\" in last 7 days",
+      "10 more trails open than yesterday",
+      "1\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Abba's Alley - all skill levels",
@@ -240,20 +241,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "Terrain Expanding",
-    "body": "A light refresh of 1\" overnight makes the groomers smoother. Ski patrol has been busy - 10 additional trails are now open.",
+    "headline": "A Proper Refresh",
+    "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Ski patrol has been busy - 10 additional trails are now open. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expanding",
-          "category": "terrain",
-          "priority": 75,
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 70,
+          "priority": 82,
           "usedFor": "body"
         },
         {
@@ -261,15 +262,21 @@
           "category": "terrain",
           "priority": 75,
           "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 7,
+      "totalRulesFired": 8,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 0,
+        "condition": "snow_solid",
+        "variationIndex": 5,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "New Runs Now Open"
+        "previousHeadline": "Terrain Expanding"
       },
       "dayOfWeek": "Saturday"
     }
