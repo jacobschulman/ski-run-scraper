@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-02-23",
-  "generated": "2026-02-23T10:10:06.895Z",
+  "generated": "2026-02-23T11:12:11.023Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 64,
           "yesterday": 61,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 48,
+          "today": 51,
           "yesterday": 48,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Rabbits Run",
+          "difficulty": "Moderately Difficult",
+          "area": "North"
+        },
+        {
+          "name": "Starting Gate",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,26 +128,29 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
+      "3 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Whole Mountain Awaits",
-    "body": "Steady snowfall with 7\" over the last week. Nearly full mountain access with 61 of 64 trails spinning. Light snow possible in the forecast.",
+    "headline": "Patrol Opened 3 More",
+    "body": "Steady snowfall with 7\" over the last week. 3 new trails are now available. Nice little expansion. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_full",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 45,
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -141,9 +160,9 @@
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 45,
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -153,13 +172,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "percent_full",
+        "condition": "terrain_few",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "All Systems Go"
+        "previousHeadline": "The Whole Mountain Awaits"
       },
       "dayOfWeek": "Monday"
     }
