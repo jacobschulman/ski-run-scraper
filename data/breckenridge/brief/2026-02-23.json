@@ -2,14 +2,30 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-02-23",
-  "generated": "2026-02-23T07:20:03.082Z",
+  "generated": "2026-02-23T15:18:31.186Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 10,
+      "7day_cm": 25,
+      "season_total_inches": 96,
+      "season_total_cm": 243,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 130,
+          "today": 138,
           "yesterday": 130,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
           "today": 50,
@@ -18,7 +34,48 @@
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Beyond Bowl",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Breathless",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Chi",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Irie",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Sublime",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Yugen",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Serenity Bowl",
+          "difficulty": "Extreme",
+          "area": "Peak 6"
+        },
+        {
+          "name": "Purgatory",
+          "difficulty": "DoubleBlack",
+          "area": "Peak 9"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -68,20 +125,126 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-23",
+        "high_f": 40,
+        "low_f": 15,
+        "high_c": 4,
+        "low_c": -10,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-24T07:00:00Z",
+          "high_f": 41,
+          "low_f": 23,
+          "high_c": 5,
+          "low_c": -5,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-25T07:00:00Z",
+          "high_f": 35,
+          "low_f": 23,
+          "high_c": 2,
+          "low_c": -5,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-02-26T07:00:00Z",
+          "high_f": 32,
+          "low_f": 16,
+          "high_c": null,
+          "low_c": -9,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-24T07:00:00Z",
+        "high_f": 41,
+        "low_f": 23,
+        "high_c": 5,
+        "low_c": -5,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "8 new trails opened today"
+    ],
+    "trends": [
+      "Steady snowfall - 10\" in last 7 days",
+      "8 more trails open than yesterday",
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": [
       "Beaver Run SuperChair had longest waits (10.1 min avg) - consider alternatives"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Map Got Bigger",
+    "body": "Steady snowfall with 10\" over the last week. Ski patrol has been busy - 8 additional trails are now open. Heads up: Beaver Run SuperChair peaked at 46 minutes yesterday. Consider alternatives.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_busy",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "terrain_expansion",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Big Expansion Today"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
