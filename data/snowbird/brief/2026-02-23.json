@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-02-23",
-  "generated": "2026-02-23T16:03:24.796Z",
+  "generated": "2026-02-23T17:17:22.195Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 159,
+          "today": 168,
           "yesterday": 159,
-          "delta": 0
+          "delta": 9
         },
         "groomedTrails": {
           "today": 46,
@@ -34,7 +34,53 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Low Saddle",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Exit Gully",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "High Saddle",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Mushroom Land",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "White Rabbit",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Figure 8 Bowl",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Upper Tiger Tail",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Red Lens Line",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Thunder Bowl",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +148,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 new trails opened today"
+    ],
     "trends": [
+      "9 more trails open than yesterday",
       "10\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "159/200 trails spinning, 46 freshly groomed. 34° and Partly Cloudy. The weather models are locked in: 16\" of snow heading our way.",
+    "body": "168/200 trails spinning, 46 freshly groomed. 34° and Partly Cloudy. 9 new runs just opened up. Time to explore fresh terrain. The weather models are locked in: 16\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +176,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "body"
         },
         {
