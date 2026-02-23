@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-23",
-  "generated": "2026-02-23T11:12:11.098Z",
+  "generated": "2026-02-23T12:00:39.448Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 165,
+          "today": 166,
           "yesterday": 165,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 67,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sail Away Glades",
+          "difficulty": "Black",
+          "area": "Center"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +108,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "165 trails open, 67 groomed. Mostly Clear, temperatures TBD. Winter has more to say. 9\" forecasted means conditions improving soon.",
+    "body": "166 trails open, 67 groomed. Mostly Clear, temperatures TBD. 1 new trail opened today. Winter has more to say. 9\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +136,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
