@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-02-23",
-  "generated": "2026-02-23T15:18:38.539Z",
+  "generated": "2026-02-23T16:03:24.831Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 43,
+          "today": 48,
           "yesterday": 43,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 36,
+          "today": 41,
           "yesterday": 36,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Unrun",
+          "difficulty": "Blue",
+          "area": "Eagle Express"
+        },
+        {
+          "name": "Shuttle",
+          "difficulty": "Novice",
+          "area": "Midway Chair"
+        },
+        {
+          "name": "Blaster",
+          "difficulty": "Blue",
+          "area": "Midway Chair"
+        },
+        {
+          "name": "Hut Run",
+          "difficulty": "Blue",
+          "area": "Midway Chair"
+        },
+        {
+          "name": "Webb-Site",
+          "difficulty": "Blue",
+          "area": "Midway Chair"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Lower Bowen",
+          "difficulty": "Blue",
+          "area": "Lions Express"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,19 +134,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "5 more trails open than yesterday",
       "4\" snow expected Monday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Bowen - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Variable Conditions",
-    "body": "43 of 96 trails are open with 36 groomed. Rain Snow with a temperatures TBD. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "body": "48 of 96 trails are open with 41 groomed. Rain Snow with a temperatures TBD. 5 new trails are now available. Nice little expansion. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +165,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
