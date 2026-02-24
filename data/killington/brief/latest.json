@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-02-24",
-  "generated": "2026-02-24T20:45:30.051Z",
+  "generated": "2026-02-24T21:43:22.026Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,41 +23,85 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 176,
+          "today": 177,
           "yesterday": 177,
-          "delta": -1
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 100,
+          "today": 99,
           "yesterday": 102,
-          "delta": -2
+          "delta": -3
         },
         "totalTrails": 222
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Blue Heaven",
-          "difficulty": "Blue",
-          "area": "Killington Peak"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
-          "name": "Breakaway",
-          "difficulty": "Black",
-          "area": "South Ridge Area"
-        }
-      ],
-      "ungroomed": [
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
         {
-          "name": "Fall Line",
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Skyelark - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Edgemont / Whiffletree",
           "difficulty": "Blue",
           "area": "Condo Trails"
         },
         {
-          "name": "Highridge",
+          "name": "Trail Creek",
           "difficulty": "easiest",
+          "area": "Condo Trails"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Escapade",
+          "difficulty": "Double Black",
+          "area": "Killington Peak"
+        },
+        {
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Space Walk",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Home Stretch - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Touch Down",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Field Goal",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "North Star",
+          "difficulty": "Black",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Fall Line",
+          "difficulty": "Blue",
           "area": "Condo Trails"
         }
       ]
@@ -130,18 +174,20 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1 trail freshly groomed"
+      "5 trails freshly groomed"
     ],
     "trends": [
       "4\" snow expected Wednesday"
     ],
     "recommendations": [
-      "Fresh corduroy on Breakaway - challenging for advanced skiers"
+      "Fresh corduroy on Downdraft - Lower - all skill levels",
+      "Fresh corduroy on Downdraft - Middle - all skill levels",
+      "Fresh corduroy on Skyelark - Lower - challenging for advanced skiers"
     ]
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "176 of 222 trails are open with 100 groomed. Windy with a high of 8°F. Winter has more to say. 6\" forecasted means conditions improving soon.",
+    "body": "177 of 222 trails are open with 99 groomed. Windy with a high of 8°F. 5 runs freshly groomed, mostly in Canyon Area, Skye Peak, and more. Winter has more to say. 6\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -157,13 +203,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 0,
