@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-24",
-  "generated": "2026-02-24T11:04:17.630Z",
+  "generated": "2026-02-24T11:53:01.647Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,103 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 56,
+          "today": 51,
           "yesterday": 56,
-          "delta": 0
+          "delta": -5
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Spillway",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Spillway",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Condo X-Cut",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Cross Haul",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Drop Line",
+          "difficulty": "Double Black",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Gin Pole",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Gondola Line",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Midstation X-Cut",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Gondola Line",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lombard X-Cut",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,16 +193,22 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
       "2\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Spillway - perfect for intermediate skiers",
+      "Fresh corduroy on Upper Spillway - challenging for advanced skiers",
+      "Fresh corduroy on Condo X-Cut - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Midweek Bliss",
-    "body": "Steady snowfall with 9\" over the last week. Light snow possible in the forecast.",
+    "body": "Steady snowfall with 9\" over the last week. 6 runs freshly groomed, mostly in Skyline, Whiffletree, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -131,13 +224,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 1,
