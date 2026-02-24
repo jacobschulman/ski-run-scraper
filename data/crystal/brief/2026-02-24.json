@@ -2,8 +2,24 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-02-24",
-  "generated": "2026-02-24T16:15:55.631Z",
+  "generated": "2026-02-24T18:04:02.227Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 13,
+      "24hour_inches": 11,
+      "24hour_cm": 28,
+      "48hour_inches": 18,
+      "48hour_cm": 46,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 185,
+      "season_total_cm": 470,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,109 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-24",
+        "high_f": 31,
+        "low_f": 19,
+        "high_c": -1,
+        "low_c": -7,
+        "description": "Snow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-25",
+          "high_f": 25,
+          "low_f": 21,
+          "high_c": -4,
+          "low_c": -6,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-26",
+          "high_f": 31,
+          "low_f": 26,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-27",
+          "high_f": 31,
+          "low_f": 27,
+          "high_c": 0,
+          "low_c": -3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-25",
+        "high_f": 25,
+        "low_f": 21,
+        "high_c": -4,
+        "low_c": -6,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5\" fresh snow overnight",
+      "11\" in last 24 hours - powder day!"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got Buried",
+    "body": "It's a 11\" day. You know what to do. First chair or regret it.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 2,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Powder Day Alert"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

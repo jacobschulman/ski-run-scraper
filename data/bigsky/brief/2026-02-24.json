@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-24",
-  "generated": "2026-02-24T16:15:55.688Z",
+  "generated": "2026-02-24T18:04:02.301Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 7,
+      "7day_cm": 18,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 282,
+          "today": 291,
           "yesterday": 282,
-          "delta": 0
+          "delta": 9
         },
         "groomedTrails": {
           "today": 52,
@@ -23,15 +39,49 @@
           "name": "Obsidian",
           "difficulty": "high exposure",
           "area": "Lone Tree Area"
-        }
-      ],
-      "newlyClosed": [
+        },
         {
-          "name": "Big Couloir",
+          "name": "Deepwater Bowl",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Launcher Road",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Oxbow",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Double Direct",
           "difficulty": "high exposure",
-          "area": "Lone Peak Area"
+          "area": "North Summit Area"
+        },
+        {
+          "name": "North Summit Snowfield",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Rips",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Summit Direct",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Tears",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [
         {
           "name": "Cupajo",
@@ -290,20 +340,74 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-24",
+        "high_f": 28,
+        "low_f": 25,
+        "description": "Windy",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-25",
+          "high_f": 25,
+          "low_f": 18,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-26",
+          "high_f": 29,
+          "low_f": 24,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-27",
+          "high_f": 30,
+          "low_f": 23,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-25",
+        "high_f": 25,
+        "low_f": 18,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today",
+      "1\" new snow overnight",
+      "9 new trails opened today",
       "49 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 1633% from yesterday"
+      "Steady snowfall - 7\" in last 7 days",
+      "Grooming increased 1633% from yesterday",
+      "9 more trails open than yesterday",
+      "1\" snow expected Wednesday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -311,6 +415,46 @@
       "Fresh corduroy on Lois Lane - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Snow Cats Went Hard",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 9 new runs just opened up. Time to explore fresh terrain. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "grooming_massive",
+          "category": "terrain",
+          "priority": 78,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 8,
+      "headlineSelection": {
+        "condition": "grooming_massive",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{groomedCount} Runs Freshly Groomed"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
