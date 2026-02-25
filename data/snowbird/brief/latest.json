@@ -2,19 +2,35 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-02-25",
-  "generated": "2026-02-25T16:22:18.092Z",
+  "generated": "2026-02-25T18:08:08.805Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 5,
+      "48hour_cm": 13,
+      "7day_inches": 5,
+      "7day_cm": 13,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 117,
+          "today": 111,
           "yesterday": 162,
-          "delta": -45
+          "delta": -51
         },
         "groomedTrails": {
-          "today": 40,
+          "today": 38,
           "yesterday": 46,
-          "delta": -6
+          "delta": -8
         },
         "totalTrails": 200
       },
@@ -88,6 +104,21 @@
         {
           "name": "Come From Behind Gully",
           "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Carbonate",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Get Serious Chutes",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Jones Avenue",
+          "difficulty": "Double Black",
           "area": "Gad Valley"
         },
         {
@@ -244,6 +275,21 @@
           "name": "Upper White Diamonds",
           "difficulty": "Black",
           "area": "Mineral Basin"
+        },
+        {
+          "name": "Condo Bypass",
+          "difficulty": "Blue",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Lightning Tree Gully",
+          "difficulty": "Black",
+          "area": "Peruvian Gulch"
+        },
+        {
+          "name": "Whodunnit",
+          "difficulty": "Blue",
+          "area": "Peruvian Gulch"
         }
       ],
       "newlyGroomed": [],
@@ -258,18 +304,106 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-25",
+        "high_f": 30,
+        "low_f": 26,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 6,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-26",
+          "high_f": 28,
+          "low_f": 26,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-02-27",
+          "high_f": 32,
+          "low_f": 31,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-28",
+          "high_f": 34,
+          "low_f": 32,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-26",
+        "high_f": 28,
+        "low_f": 26,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight"
+    ],
+    "trends": [
+      "1\" snow expected Thursday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "3\" Freshened Things Up",
+    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Solid Refresh: {snow24h}\""
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

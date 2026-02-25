@@ -2,14 +2,30 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-25",
-  "generated": "2026-02-25T16:22:18.089Z",
+  "generated": "2026-02-25T18:08:08.800Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 2,
+      "7day_cm": 5,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 281,
+          "today": 293,
           "yesterday": 282,
-          "delta": -1
+          "delta": 11
         },
         "groomedTrails": {
           "today": 47,
@@ -18,12 +34,73 @@
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Ace",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Dirt Bag Wall",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "King",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Big Couloir",
+          "difficulty": "high exposure",
+          "area": "Lone Peak Area"
+        },
+        {
+          "name": "Deepwater Bowl",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Launcher Road",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Oxbow",
+          "difficulty": "Black",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Double Direct",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "North Summit Snowfield",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Rips",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Summit Direct",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        },
+        {
+          "name": "Tears",
+          "difficulty": "high exposure",
+          "area": "North Summit Area"
+        }
+      ],
       "newlyClosed": [
         {
-          "name": "Horseshoe",
-          "difficulty": "Blue",
-          "area": "Lone Tree Area"
+          "name": "The Wave",
+          "difficulty": "Double Black",
+          "area": "Lone Peak Area"
         }
       ],
       "newlyGroomed": [
@@ -259,19 +336,72 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-25",
+        "high_f": 27,
+        "low_f": 18,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-26",
+          "high_f": 31,
+          "low_f": 23,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-27",
+          "high_f": 32,
+          "low_f": 24,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-28",
+          "high_f": 32,
+          "low_f": 26,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-26",
+        "high_f": 31,
+        "low_f": 23,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
+      "2\" fresh snow overnight",
+      "12 new trails opened today",
       "44 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 1467% from yesterday"
+      "Grooming increased 1467% from yesterday",
+      "11 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -279,6 +409,46 @@
       "Fresh corduroy on Bozeman Trail - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Storm Mode: Snow + Wind",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Terrain expanding: 12 new trails opening up more options. Storm mode engaged. Expect snow and wind, especially at higher elevations.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_wind",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter in Full Force"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }

@@ -2,14 +2,30 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-02-25",
-  "generated": "2026-02-25T16:22:18.024Z",
+  "generated": "2026-02-25T18:08:08.719Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 6,
+      "overnight_cm": 15,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 18,
+      "7day_cm": 46,
+      "season_total_inches": 141,
+      "season_total_cm": 358,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 163,
+          "today": 166,
           "yesterday": 167,
-          "delta": -4
+          "delta": -1
         },
         "groomedTrails": {
           "today": 74,
@@ -21,22 +37,7 @@
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "No Names",
-          "difficulty": "Expert",
-          "area": "Steamboat"
-        },
-        {
-          "name": "North St. Pats",
-          "difficulty": "Expert",
-          "area": "Steamboat"
-        },
-        {
           "name": "See Me",
-          "difficulty": "Advanced",
-          "area": "Steamboat"
-        },
-        {
-          "name": "Wake Up Call",
           "difficulty": "Advanced",
           "area": "Steamboat"
         }
@@ -115,24 +116,122 @@
         "totalLiftsTracked": 24,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-25",
+        "high_f": 33,
+        "low_f": 24,
+        "high_c": 1,
+        "low_c": -4,
+        "description": "Thundersnow",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 1
+      },
+      "outlook": [
+        {
+          "date": "2026-02-26",
+          "high_f": 29,
+          "low_f": 22,
+          "high_c": -2,
+          "low_c": -6,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-27",
+          "high_f": 34,
+          "low_f": 26,
+          "high_c": 1,
+          "low_c": -3,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-02-28",
+          "high_f": 36,
+          "low_f": 31,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-26",
+        "high_f": 29,
+        "low_f": 22,
+        "high_c": -2,
+        "low_c": -6,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "6\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!",
       "6 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 18\" in last 7 days"
+    ],
     "recommendations": [
       "Fresh corduroy on Bail Out - all skill levels",
       "Fresh corduroy on First Chance - all skill levels",
       "Fresh corduroy on Last Chance - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Tracks for Days",
+    "body": "Mother Nature delivered 6\" of the good stuff. Face shots are on the menu. 6 runs freshly groomed, mostly in Steamboat.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 5,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm Mode: Snow + Wind"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
