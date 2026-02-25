@@ -2,8 +2,24 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-02-25",
-  "generated": "2026-02-25T05:04:29.356Z",
+  "generated": "2026-02-25T10:08:52.577Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 8,
+      "7day_cm": 20,
+      "season_total_inches": 252,
+      "season_total_cm": 640,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -95,6 +111,8 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -102,7 +120,9 @@
     "alerts": [
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 8\" in last 7 days"
+    ],
     "recommendations": [
       "Fresh corduroy on Duck Walk - perfect for intermediate skiers",
       "Fresh corduroy on Hayride - challenging for advanced skiers",
@@ -110,6 +130,46 @@
       "Mansfield Gondola had longest waits (10.2 min avg) - consider alternatives"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Midweek Mountain Report",
+    "body": "Steady snowfall with 8\" over the last week. Nearly full mountain access with 121 of 128 trails spinning. Heads up: Mansfield Gondola peaked at 25 minutes yesterday. Consider alternatives.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_week_total",
+          "category": "snow",
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_busy",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Quiet Days on the Hill"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
