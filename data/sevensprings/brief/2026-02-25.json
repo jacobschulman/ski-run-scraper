@@ -2,7 +2,7 @@
   "resort": "sevensprings",
   "resortName": "Seven Springs",
   "date": "2026-02-25",
-  "generated": "2026-02-25T13:35:39.793Z",
+  "generated": "2026-02-25T15:09:25.524Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 43,
+          "today": 45,
           "yesterday": 43,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 31,
+          "today": 32,
           "yesterday": 26,
-          "delta": 5
+          "delta": 6
         },
         "totalTrails": 52
       },
@@ -39,6 +39,16 @@
           "name": "The Foggy Bowl",
           "difficulty": "TerrainPark",
           "area": "Front Face"
+        },
+        {
+          "name": "The Spot Halfpipe",
+          "difficulty": "TerrainPark",
+          "area": "Front Face"
+        },
+        {
+          "name": "Gunnar Chair Line Glades",
+          "difficulty": "Black",
+          "area": "North Face"
         }
       ],
       "newlyClosed": [
@@ -52,6 +62,11 @@
         {
           "name": "Alpine Meadows",
           "difficulty": "Blue",
+          "area": "Front Face"
+        },
+        {
+          "name": "The Spot Halfpipe",
+          "difficulty": "TerrainPark",
           "area": "Front Face"
         },
         {
@@ -81,25 +96,27 @@
       "hasFreshSnow": false,
       "isPowderDay": true,
       "hasNewTrails": true,
-      "significantGroomingIncrease": false
+      "significantGroomingIncrease": true
     },
     "alerts": [
       "11\" in last 24 hours - powder day!",
-      "1 new trail opened today",
-      "4 trails freshly groomed"
+      "3 new trails opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 15\" in last 7 days"
+      "Great week for snow - 15\" in last 7 days",
+      "Grooming increased 23% from yesterday",
+      "2 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Alpine Meadows - perfect for intermediate skiers",
-      "Fresh corduroy on Giant Boulder - perfect for intermediate skiers",
-      "Fresh corduroy on North Face - challenging for advanced skiers"
+      "Fresh corduroy on The Spot Halfpipe - all skill levels",
+      "Fresh corduroy on Giant Boulder - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "11\" of Fresh Overnight",
-    "body": "11\" dumped overnight. The stashes are loaded and the groomers are buried.",
+    "headline": "The Mountain Got Buried",
+    "body": "11\" dumped overnight. The stashes are loaded and the groomers are buried. 5 runs freshly groomed, mostly in Front Face and North Face.",
     "debug": {
       "firedRules": [
         {
@@ -113,15 +130,21 @@
           "category": "snow",
           "priority": 90,
           "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "powder_alert",
         "variationIndex": 2,
         "totalVariations": 11,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Mountain Got Buried"
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
       },
       "dayOfWeek": "Wednesday"
     }
