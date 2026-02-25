@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-25",
-  "generated": "2026-02-25T11:08:25.074Z",
+  "generated": "2026-02-25T11:56:56.243Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,25 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 150,
+          "today": 149,
           "yesterday": 150,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 53,
+          "today": 60,
           "yesterday": 49,
-          "delta": 4
+          "delta": 11
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Gin Pole",
@@ -56,9 +62,70 @@
           "name": "Pinch",
           "difficulty": "Blue",
           "area": "SuperQuad"
+        },
+        {
+          "name": "Gondola Line",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Gondola Line",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Wedge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "White Nitro",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Rollway",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "White Nitro Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Upper Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
         }
       ],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Condo X-Cut",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Drop Line",
+          "difficulty": "Double Black",
+          "area": "Whiffletree"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -124,14 +191,15 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "4 trails freshly groomed"
+      "14 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 9\" in last 7 days",
+      "Grooming increased 22% from yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": [
@@ -142,7 +210,7 @@
   },
   "morningBrief": {
     "headline": "Solid Refresh: 3\"",
-    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "body": "3\" of new snow. Not a powder day, but definitely an upgrade. 14 runs were freshly groomed overnight. Corduroy is crisp. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -158,13 +226,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
