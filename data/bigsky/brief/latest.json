@@ -2,11 +2,11 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-02-25",
-  "generated": "2026-02-25T23:36:38.558Z",
+  "generated": "2026-02-26T04:57:26.295Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 2,
-      "overnight_cm": 5,
+      "overnight_inches": 0,
+      "overnight_cm": 0,
       "24hour_inches": 2,
       "24hour_cm": 5,
       "48hour_inches": 2,
@@ -68,10 +68,10 @@
     "forecast": {
       "today": {
         "date": "2026-02-25",
-        "high_f": 27,
-        "low_f": 18,
-        "description": "Snow Wind",
-        "snowfall_day_inches": 2,
+        "high_f": null,
+        "low_f": 17,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
@@ -96,8 +96,8 @@
         {
           "date": "2026-02-28",
           "high_f": 32,
-          "low_f": 25,
-          "description": "Partly Cloudy",
+          "low_f": 26,
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -116,14 +116,13 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": true,
+      "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight",
       "3 new trails opened today"
     ],
     "trends": [
@@ -132,14 +131,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Storm Mode: Snow + Wind",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Ski patrol opened 3 additional trails. A few more choices today. Storm mode engaged. Expect snow and wind, especially at higher elevations.",
+    "headline": "Overnight Refresh",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Ski patrol opened 3 additional trails. A few more choices today. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_storm_wind",
-          "category": "weather",
-          "priority": 82,
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
@@ -155,19 +154,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_storm_wind",
+          "id": "weather_windy",
           "category": "weather",
-          "priority": 82,
+          "priority": 45,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_wind",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Active Weather Today"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Wednesday"
     }
