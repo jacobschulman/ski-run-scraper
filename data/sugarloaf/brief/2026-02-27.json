@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-02-27",
-  "generated": "2026-02-27T10:55:02.832Z",
+  "generated": "2026-02-27T11:43:33.901Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,107 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 151,
+          "today": 152,
           "yesterday": 151,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 56,
+          "today": 72,
           "yesterday": 56,
-          "delta": 0
+          "delta": 16
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Cruiser",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "White Nitro",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Drop Line",
+          "difficulty": "Double Black",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Old Winter's Way",
+          "difficulty": "Blue",
+          "area": "King Pine"
+        },
+        {
+          "name": "Widowmaker",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Gondola Line Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "White Nitro Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Narrow Gauge Ext",
+          "difficulty": "Black",
+          "area": "Timberline"
+        },
+        {
+          "name": "Upper Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,26 +189,35 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "16 trails freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 12\" in last 7 days",
+      "Grooming increased 29% from yesterday",
+      "1 more trail open than yesterday",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Haywire - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Skidder - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "1\" Freshened Things Up",
-    "body": "A light refresh of 1\" overnight makes the groomers smoother. Light snow possible in the forecast.",
+    "headline": "Fresh Corduroy Awaits",
+    "body": "A light refresh of 1\" overnight makes the groomers smoother. The grooming crew went hard: 16 trails of fresh corduroy in SuperQuad, Skyline, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
           "usedFor": "headline"
         },
         {
@@ -131,19 +227,25 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_excellent",
+          "category": "terrain",
+          "priority": 72,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "grooming_highlight",
+        "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{groomedCount} {GroomedRunWord} Groomed Overnight"
       },
       "dayOfWeek": "Friday"
     }
