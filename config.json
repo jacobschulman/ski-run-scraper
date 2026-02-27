@@ -491,8 +491,7 @@
       },
       "seasonStart": "11-20",
       "seasonEnd": "04-20",
-      "liftWaitTimesAvailable": true,
-      "_waitTimeNote": "Only Lone Peak Tram has wait times - other lifts show status only"
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "deervalley",
@@ -529,7 +528,7 @@
       },
       "seasonStart": "11-20",
       "seasonEnd": "05-25",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "solitude",
@@ -596,7 +595,7 @@
       },
       "seasonStart": "11-08",
       "seasonEnd": "04-20",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "steamboat",
@@ -669,7 +668,7 @@
       },
       "seasonStart": "10-15",
       "seasonEnd": "05-26",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "sugarbush",
@@ -693,7 +692,7 @@
       },
       "seasonStart": "11-15",
       "seasonEnd": "05-05",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "sundayriver",
@@ -708,7 +707,7 @@
       },
       "seasonStart": "11-15",
       "seasonEnd": "04-28",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "loon",
@@ -723,7 +722,7 @@
       },
       "seasonStart": "11-20",
       "seasonEnd": "04-20",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "tremblant",
@@ -765,7 +764,7 @@
       },
       "seasonStart": "11-20",
       "seasonEnd": "04-15",
-      "liftWaitTimesAvailable": true
+      "liftWaitTimesAvailable": false
     },
     {
       "key": "banff",
@@ -841,30 +840,33 @@
     }
   },
   "liftScraping": {
-    "_comment": "Configuration for real-time lift wait time scraping on Hetzner. This is the source of truth - lift-scraper-persistent.js should read from here.",
+    "_comment": "Configuration for lift scraping on Hetzner VPS. Vail resorts use Puppeteer (live-scraper instances). Ikon resorts use lightweight HTTP APIs (lift-scraper-others).",
     "ikon": {
       "enabledProviders": [
         "inspector",
         "aspensnowmass",
         "reportpal",
-        "dor"
+        "dor",
+        "zaneray"
       ],
       "_providerNotes": {
-        "inspector": "Ikon Inspector API - 15 resorts with wait times",
+        "inspector": "Ikon Inspector API - 15 resorts, status only (all wait times return null/--)",
         "aspensnowmass": "Aspen (3 mountains) - status only, no wait times",
-        "reportpal": "Big Sky, Sugarloaf, Sunday River, Loon, Cypress - has wait times",
-        "dor": "Snowbird, Copper, Killington - has wait times",
-        "zaneray": "Jackson Hole - disabled, status only"
+        "reportpal": "Big Sky, Sugarloaf, Sunday River, Loon, Cypress - status only (wait times stopped working ~Feb 2026)",
+        "dor": "Snowbird, Copper, Killington - status only (wait times always null)",
+        "zaneray": "Jackson Hole - status only"
       }
     },
     "vail": {
-      "enabledResorts": [
-        "beavercreek",
-        "breckenridge",
-        "crestedbutte",
-        "laurelmountain"
-      ],
-      "_notes": "Vail handled by vail-live-scraper (45s cycle). Others scraped here every 3 min."
+      "enabledResorts": ["beavercreek", "breckenridge", "crestedbutte"],
+      "_enabledResortsNote": "LEGACY: Used by lift-scraper-vail.js during transition. Remove once live-scraper instances are stable.",
+      "instances": {
+        "a": { "resorts": ["breckenridge", "parkcity", "keystone"], "cycleMs": 120000 },
+        "b": { "resorts": ["heavenly", "northstar", "kirkwood"], "cycleMs": 120000 },
+        "c": { "resorts": ["stowe", "mountsnow", "beavercreek", "crestedbutte"], "cycleMs": 120000 }
+      },
+      "disabledResorts": ["telluride"],
+      "_notes": "vail resort itself handled by dedicated vail-live-scraper (45s cycle). Instances a/b/c run via live-scraper.js on Hetzner with fresh browser per resort (~2min cycles). All other Vail resorts get open/closed from GH Actions every 10min. Telluride disabled: non-standard URL format."
     }
   },
   "dataCapabilities": {
@@ -874,14 +876,14 @@
       "dataCapabilityOverrides": "Object to override auto-detected capabilities. Example: { liftStatusAvailable: true } for resorts where lift status comes from a different source than terrain."
     },
     "resortsWithWaitTimes": {
-      "_comment": "Reference list of resorts confirmed to have real wait time data",
+      "_comment": "Reference list of resorts confirmed to have real numeric wait time data (not just status). Audited Feb 2026.",
       "vail": ["vail", "beavercreek", "breckenridge", "parkcity", "keystone", "crestedbutte", "heavenly", "northstar", "kirkwood", "stowe", "mountsnow", "hunter", "whistlerblackcomb"],
-      "ikon": ["bigsky", "copper", "snowbird", "killington", "sugarloaf", "sundayriver", "loon", "cypressmountain"]
+      "ikon": []
     },
     "resortsWithStatusOnly": {
       "_comment": "Resorts that have lift open/closed status but no wait times",
-      "vail": ["stevenspass", "attitash", "wildcat", "mountsunapee", "crotched", "liberty", "roundtop", "whitetail", "jackfrost", "bigboulder", "hiddenvalley", "laurelmountain", "sevensprings", "wilmot", "aftonalps", "mtbrighton", "alpinevalley", "bostonmills", "brandywine", "madrivermountain", "snowcreek", "paolipeaks", "perisher", "fallscreek", "hotham", "telluride"],
-      "ikon": ["stratton", "palisades", "jacksonhole", "deervalley", "alta", "solitude", "aspenhighlands", "aspenmountain", "buttermilk", "steamboat", "abasin", "taos", "mammoth", "junemountain", "crystal", "sugarbush", "tremblant", "blue", "revelstoke", "banff", "lakelouise", "norquay"]
+      "vail": ["stevenspass", "attitash", "wildcat", "mountsunapee", "crotched", "liberty", "roundtop", "whitetail", "jackfrost", "bigboulder", "hiddenvalley", "laurelmountain", "sevensprings", "wilmot", "aftonalps", "mtbrighton", "alpinevalley", "bostonmills", "brandywine", "madrivermountain", "snowcreek", "paolipeaks", "perisher", "fallscreek", "hotham", "telluride", "okemo"],
+      "ikon": ["bigsky", "copper", "snowbird", "killington", "sugarloaf", "sundayriver", "loon", "cypressmountain", "stratton", "palisades", "jacksonhole", "deervalley", "alta", "solitude", "aspenhighlands", "aspenmountain", "buttermilk", "steamboat", "abasin", "taos", "mammoth", "junemountain", "crystal", "sugarbush", "tremblant", "blue", "revelstoke", "banff", "lakelouise", "norquay"]
     }
   }
 }

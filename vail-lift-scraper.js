@@ -45,16 +45,13 @@ const RESORTS = config.resorts.reduce((acc, resort) => {
  * Get all Vail resorts that are currently in season
  * This automatically scales - no need to manually maintain a list
  * Only processes Vail resorts - Ikon resorts are handled by ikon-lift-scraper.js
- * OPTIMIZATION: Only scrape resorts that publish wait times (hasWaitTimes: true)
- * Resorts without wait times are status-only and don't need real-time scraping
+ * Scrapes ALL in-season Vail resorts for open/closed status (wait times come from Hetzner live-scrapers)
  */
 function getInSeasonResorts() {
+  const disabled = new Set(config.liftScraping?.vail?.disabledResorts || []);
   return config.resorts.filter(resort => {
-    // Only include Vail resorts (exclude Ikon resorts)
     const isVailResort = !resort.provider || resort.provider === 'vail';
-    // Only scrape resorts that publish wait times (65% reduction from 40 to 14 resorts)
-    const hasWaitTimes = resort.liftWaitTimesAvailable === true;
-    return isVailResort && isResortInSeason(resort) && hasWaitTimes;
+    return isVailResort && resort.terrainUrl && !disabled.has(resort.key) && isResortInSeason(resort);
   });
 }
 

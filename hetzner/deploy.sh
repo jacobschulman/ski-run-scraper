@@ -46,7 +46,13 @@ fi
 log "Code changes detected: $CODE_CHANGES"
 log "Restarting PM2 apps..."
 
-# Restart affected services
-pm2 restart lift-scraper-others lift-scraper-vail vail-live-scraper snow-scraper terrain-scraper api-server >> "$LOG_FILE" 2>&1
+# Reload ecosystem config - this picks up new/removed processes automatically
+# Uses 'reload' for graceful restart (sends SIGINT first, waits for shutdown)
+cd "$REPO_DIR/hetzner"
+pm2 reload ecosystem.config.js >> "$LOG_FILE" 2>&1
+
+# Clean up any processes that were removed from ecosystem
+# PM2 reload doesn't stop processes that are no longer in the config
+pm2 save >> "$LOG_FILE" 2>&1
 
 log "Deploy complete"

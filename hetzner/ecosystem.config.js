@@ -28,8 +28,9 @@ module.exports = {
     },
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // LIFT SCRAPER - Vail (Puppeteer-based, scrapes other Vail resorts every 3 min)
-    // Does NOT scrape Vail itself - that's handled by vail-live-scraper
+    // LIFT SCRAPER - Vail (LEGACY - keep during live-scraper transition)
+    // Rotating Puppeteer queue for enabledResorts in config.json
+    // Remove once live-scraper instances are proven stable
     // ═══════════════════════════════════════════════════════════════════════════
     {
       name: 'lift-scraper-vail',
@@ -41,8 +42,7 @@ module.exports = {
       watch: false,
       max_memory_restart: '1200M',
       exp_backoff_restart_delay: 1000,
-      max_restarts: 30,
-      node_args: '--expose-gc',
+      max_restarts: 50,
       env: {
         NODE_ENV: 'production',
       },
@@ -51,6 +51,84 @@ module.exports = {
       merge_logs: true,
       log_date_format: 'YYYY-MM-DD HH:mm:ss',
     },
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    // LIVE SCRAPERS - Real-time lift wait times (fresh browser per resort)
+    // Based on vail-live-scraper pattern. Each instance handles 3-4 resorts.
+    // Resort groups configured in config.json liftScraping.vail.instances
+    //
+    // STAGED ROLLOUT:
+    //   Phase 1: Enable live-scraper-a only (breckenridge, parkcity, keystone)
+    //   Phase 2: Uncomment live-scraper-b (heavenly, northstar, kirkwood)
+    //   Phase 3: Uncomment live-scraper-c (stowe, mountsnow, beavercreek, crestedbutte)
+    //   Phase 4: Remove lift-scraper-vail above once all instances are stable
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    // Phase 1: Uncomment to start (breckenridge, parkcity, keystone)
+    // {
+    //   name: 'live-scraper-a',
+    //   script: './live-scraper.js',
+    //   args: 'a',
+    //   cwd: __dirname,
+    //   instances: 1,
+    //   autorestart: true,
+    //   min_uptime: '30s',
+    //   watch: false,
+    //   max_memory_restart: '400M',
+    //   exp_backoff_restart_delay: 1000,
+    //   max_restarts: 50,
+    //   env: {
+    //     NODE_ENV: 'production',
+    //   },
+    //   error_file: '/home/scraper/logs/live-a-error.log',
+    //   out_file: '/home/scraper/logs/live-a-out.log',
+    //   merge_logs: true,
+    //   log_date_format: 'YYYY-MM-DD HH:mm:ss',
+    // },
+
+    // Phase 2: Uncomment when live-scraper-a is stable
+    // {
+    //   name: 'live-scraper-b',
+    //   script: './live-scraper.js',
+    //   args: 'b',
+    //   cwd: __dirname,
+    //   instances: 1,
+    //   autorestart: true,
+    //   min_uptime: '30s',
+    //   watch: false,
+    //   max_memory_restart: '400M',
+    //   exp_backoff_restart_delay: 1000,
+    //   max_restarts: 50,
+    //   env: {
+    //     NODE_ENV: 'production',
+    //   },
+    //   error_file: '/home/scraper/logs/live-b-error.log',
+    //   out_file: '/home/scraper/logs/live-b-out.log',
+    //   merge_logs: true,
+    //   log_date_format: 'YYYY-MM-DD HH:mm:ss',
+    // },
+
+    // Phase 3: Uncomment when live-scraper-b is stable
+    // {
+    //   name: 'live-scraper-c',
+    //   script: './live-scraper.js',
+    //   args: 'c',
+    //   cwd: __dirname,
+    //   instances: 1,
+    //   autorestart: true,
+    //   min_uptime: '30s',
+    //   watch: false,
+    //   max_memory_restart: '400M',
+    //   exp_backoff_restart_delay: 1000,
+    //   max_restarts: 50,
+    //   env: {
+    //     NODE_ENV: 'production',
+    //   },
+    //   error_file: '/home/scraper/logs/live-c-error.log',
+    //   out_file: '/home/scraper/logs/live-c-out.log',
+    //   merge_logs: true,
+    //   log_date_format: 'YYYY-MM-DD HH:mm:ss',
+    // },
 
     // ═══════════════════════════════════════════════════════════════════════════
     // VAIL LIVE SCRAPER - Bare-bones Vail-only, scrapes every 45 seconds
