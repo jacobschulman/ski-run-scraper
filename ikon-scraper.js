@@ -209,10 +209,17 @@ function saveInspectorTerrainData(resortKey, inspectorData) {
   const terrainDir = path.join('data', resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
   console.log(`✓ Saved terrain data to ${timestampedFile}`);
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainDataWithProvider, null, 2));
+    console.log(`✓ Also saved UTC date copy: ${utcDate}.json`);
+  }
 
   // Update per-resort terrain index (mirrors generate-terrain-indexes.js)
   const terrainFiles = fs.readdirSync(terrainDir)
@@ -723,10 +730,17 @@ function saveAlternateProviderTerrainData(resortKey, normalizedData) {
   const terrainDir = path.join('data', resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
   console.log(`✓ Saved terrain data to ${timestampedFile}`);
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainDataWithProvider, null, 2));
+    console.log(`✓ Also saved UTC date copy: ${utcDate}.json`);
+  }
 
   // Update per-resort terrain index
   const terrainFiles = fs.readdirSync(terrainDir)

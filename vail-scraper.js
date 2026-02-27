@@ -597,10 +597,19 @@ function saveResortData(resortKey, data) {
     sourceLastUpdated: filteredData.Date  // Preserve original source timestamp from resort's API
   };
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainDataWithProvider, null, 2));
   console.log(`✓ Saved data to ${timestampedFile}`);
+
+  // Also save under UTC date if it differs from local date
+  // (app fetches by UTC date, scraper writes by local date — this bridges the gap)
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    const utcFile = path.join(terrainDir, `${utcDate}.json`);
+    fs.writeFileSync(utcFile, JSON.stringify(terrainDataWithProvider, null, 2));
+    console.log(`✓ Also saved UTC date copy to ${utcFile}`);
+  }
 
   // Save to database
   const database = getDb();

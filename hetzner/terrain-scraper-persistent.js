@@ -157,9 +157,15 @@ function saveIkonTerrainData(resortKey, resortData) {
   const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainData, null, 2));
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+  }
 
   // Save as latest.json
   const latestFile = path.join(terrainDir, 'latest.json');
@@ -328,9 +334,15 @@ function saveAspenTerrainData(resortKey, liftData, snowData, groomingData) {
   const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainData, null, 2));
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+  }
 
   // Save as latest.json
   const latestFile = path.join(terrainDir, 'latest.json');
@@ -463,9 +475,15 @@ async function saveCanadianBig3TerrainData(resortKey, data) {
   const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   const timestampedFile = path.join(terrainDir, `${today}.json`);
   fs.writeFileSync(timestampedFile, JSON.stringify(terrainData, null, 2));
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+  }
 
   // Save as latest.json
   const latestFile = path.join(terrainDir, 'latest.json');
@@ -627,8 +645,15 @@ function saveAlternateProviderTerrainData(resortKey, normalizedData, providerNam
   const terrainDir = path.join(CONFIG.dataDir, resortKey, 'terrain');
   fileStorage.ensureDirectoryExists(terrainDir);
 
-  // Save timestamped file
+  // Save timestamped file (local date)
   fs.writeFileSync(path.join(terrainDir, `${today}.json`), JSON.stringify(terrainData, null, 2));
+
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+  }
+
   fs.writeFileSync(path.join(terrainDir, 'latest.json'), JSON.stringify(terrainData, null, 2));
 
   // Update terrain index
@@ -917,6 +942,13 @@ async function scrapeVailTerrain(resortKey, url) {
     fileStorage.ensureDirectoryExists(terrainDir);
 
     fs.writeFileSync(path.join(terrainDir, `${today}.json`), JSON.stringify(terrainData, null, 2));
+
+    // Also save under UTC date if it differs from local date
+    const utcDate = new Date().toISOString().slice(0, 10);
+    if (utcDate !== today) {
+      fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+    }
+
     fs.writeFileSync(path.join(terrainDir, 'latest.json'), JSON.stringify(terrainData, null, 2));
 
     // Update terrain index

@@ -41,6 +41,12 @@ function saveTerrainData(resortKey, data) {
   fs.writeFileSync(path.join(terrainDir, `${today}.json`), JSON.stringify(terrainData, null, 2));
   fs.writeFileSync(path.join(terrainDir, 'latest.json'), JSON.stringify(terrainData, null, 2));
 
+  // Also save under UTC date if it differs from local date
+  const utcDate = new Date().toISOString().slice(0, 10);
+  if (utcDate !== today) {
+    fs.writeFileSync(path.join(terrainDir, `${utcDate}.json`), JSON.stringify(terrainData, null, 2));
+  }
+
   // Update index
   const terrainFiles = fs.readdirSync(terrainDir)
     .filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f))
