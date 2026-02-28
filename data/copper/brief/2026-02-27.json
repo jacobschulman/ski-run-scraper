@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-02-27",
-  "generated": "2026-02-28T04:20:57.868Z",
+  "generated": "2026-02-28T05:42:41.306Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -68,22 +84,115 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-27",
+        "high_f": null,
+        "low_f": 17,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-28",
+          "high_f": 36,
+          "low_f": 25,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-01",
+          "high_f": 36,
+          "low_f": 22,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-02",
+          "high_f": 36,
+          "low_f": 20,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-28",
+        "high_f": 36,
+        "low_f": 25,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "3\" fresh snow overnight",
       "7 new trails opened today"
     ],
     "trends": [
-      "7 more trails open than yesterday"
+      "Steady snowfall - 6\" in last 7 days",
+      "7 more trails open than yesterday",
+      "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Nice Little Top-Up",
+    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved. Ski patrol has been busy - 7 additional trails are now open. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Boost"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

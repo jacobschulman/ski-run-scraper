@@ -2,24 +2,66 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-02-27",
-  "generated": "2026-02-28T04:20:57.883Z",
+  "generated": "2026-02-28T05:42:41.327Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 1,
+      "48hour_cm": 3,
+      "7day_inches": 4,
+      "7day_cm": 11,
+      "season_total_inches": 118,
+      "season_total_cm": 300,
+      "conditions": {
+        "today": "Hard Pack",
+        "yesterday": "Hard Pack"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 46,
+          "today": 41,
           "yesterday": 46,
-          "delta": 0
+          "delta": -5
         },
         "groomedTrails": {
-          "today": 35,
+          "today": 34,
           "yesterday": 33,
-          "delta": 2
+          "delta": 1
         },
         "totalTrails": 96
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "T-33",
+          "difficulty": "Blue",
+          "area": "Sky Quad"
+        },
+        {
+          "name": "Horsefly Canyon",
+          "difficulty": "Blue",
+          "area": "Sky Quad"
+        },
+        {
+          "name": "Glades",
+          "difficulty": "Black",
+          "area": "Sky Quad"
+        },
+        {
+          "name": "Tomcat",
+          "difficulty": "Black",
+          "area": "Sky Quad"
+        },
+        {
+          "name": "Ripcord",
+          "difficulty": "Black",
+          "area": "Sky Quad"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Lower Fork",
@@ -43,10 +85,60 @@
         "totalLiftsTracked": 6,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-27",
+        "high_f": null,
+        "low_f": 30,
+        "description": "Cloudy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-28",
+          "high_f": 36,
+          "low_f": 37,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-01",
+          "high_f": 42,
+          "low_f": 36,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-02",
+          "high_f": 39,
+          "low_f": 36,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-28",
+        "high_f": 36,
+        "low_f": 37,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -60,6 +152,40 @@
       "Fresh corduroy on Cascade - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Is It the Weekend Yet?",
+    "body": "41 of 96 trails are open with 34 groomed. Cloudy with a temperatures TBD. 41/96 trails open, 34 groomed. Cloudy.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "weekend_kickoff",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Cheers to the Weekend"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
