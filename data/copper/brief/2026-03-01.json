@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-01",
-  "generated": "2026-03-01T16:43:30.477Z",
+  "generated": "2026-03-01T17:33:46.004Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 153,
+          "today": 167,
           "yesterday": 166,
-          "delta": -13
+          "delta": 1
         },
         "groomedTrails": {
           "today": 75,
@@ -34,72 +34,23 @@
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Matchless",
+          "difficulty": "Black",
+          "area": "Copper Bowl"
+        },
+        {
+          "name": "Lallarookn",
+          "difficulty": "Double Black",
+          "area": "Copper Bowl"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Bradley's Plunge",
           "difficulty": "extreme_terrain",
           "area": "Copper Bowl"
-        },
-        {
-          "name": "Denverite",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "The Springs",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "Ram's Run",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "Buffalo Stampede",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "The Taco",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "Western Slope",
-          "difficulty": "extreme_terrain",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "Summit Stash",
-          "difficulty": "Black",
-          "area": "Tucker Mountain"
-        },
-        {
-          "name": "Gold Digger",
-          "difficulty": "Black",
-          "area": "Union Peak"
-        },
-        {
-          "name": "Colman's Retreat",
-          "difficulty": "Black",
-          "area": "Union Peak"
-        },
-        {
-          "name": "Union Peak",
-          "difficulty": "Black",
-          "area": "Union Peak"
-        },
-        {
-          "name": "Kaboom",
-          "difficulty": "Black",
-          "area": "Union Peak"
-        },
-        {
-          "name": "Little Trees",
-          "difficulty": "Black",
-          "area": "Union Peak"
         }
       ],
       "newlyGroomed": [
@@ -190,14 +141,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2 new trails opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": [
@@ -206,7 +159,7 @@
   },
   "morningBrief": {
     "headline": "Winter's Coming Back",
-    "body": "153 of 202 trails are open with 75 groomed. Cloudy with a temperatures TBD. Storm cycle alert! 7\" on the way. Conditions are about to level up.",
+    "body": "167 of 202 trails are open with 75 groomed. Cloudy with a temperatures TBD. 2 new trails opened today. Storm cycle alert! 7\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -219,6 +172,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
