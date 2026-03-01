@@ -2,7 +2,7 @@
   "resort": "keystone",
   "resortName": "Keystone",
   "date": "2026-03-01",
-  "generated": "2026-03-01T13:13:15.673Z",
+  "generated": "2026-03-01T13:56:01.954Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,49 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 114,
+          "today": 117,
           "yesterday": 114,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 47,
+          "today": 48,
           "yesterday": 47,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Park Lane",
+          "difficulty": "TerrainPark",
+          "area": "Terrain Park"
+        },
+        {
+          "name": "Riperoo's Forest",
+          "difficulty": "Green",
+          "area": "Dercum Mountain"
+        },
+        {
+          "name": "Riperoo's Glade",
+          "difficulty": "Green",
+          "area": "Dercum Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Jackwacker",
+          "difficulty": "Blue",
+          "area": "Dercum Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Porcupine",
+          "difficulty": "Blue",
+          "area": "Outback"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -148,26 +176,32 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Steady snowfall - 7\" in last 7 days",
+      "3 more trails open than yesterday",
       "2\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Jackwacker - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Sunday Funday",
-    "body": "Steady snowfall with 7\" over the last week. Watch for crowds at Peru Express, which saw 14-minute waits yesterday. Light snow possible in the forecast.",
+    "headline": "A Few More Options Today",
+    "body": "Steady snowfall with 7\" over the last week. The terrain list grew by 3 today. More variety to choose from. Watch for crowds at Peru Express, which saw 14-minute waits yesterday.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_sunday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -177,25 +211,25 @@
           "usedFor": "body"
         },
         {
-          "id": "lift_moderate",
-          "category": "lifts",
+          "id": "terrain_few",
+          "category": "terrain",
           "priority": 60,
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
-          "category": "weather",
-          "priority": 30,
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "sunday",
+        "condition": "terrain_few",
         "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "More Snow Coming"
+        "previousHeadline": "Sunday Funday"
       },
       "dayOfWeek": "Sunday"
     }
