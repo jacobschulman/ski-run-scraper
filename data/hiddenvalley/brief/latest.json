@@ -1,15 +1,31 @@
 {
   "resort": "hiddenvalley",
   "resortName": "Hidden Valley",
-  "date": "2026-03-01",
-  "generated": "2026-03-01T05:07:13.756Z",
+  "date": "2026-02-28",
+  "generated": "2026-02-28T15:40:51.508Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 14,
+      "7day_cm": 35,
+      "season_total_inches": 101,
+      "season_total_cm": 256,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 24,
-          "yesterday": 27,
-          "delta": -3
+          "today": 27,
+          "yesterday": 26,
+          "delta": 1
         },
         "groomedTrails": {
           "today": 24,
@@ -18,48 +34,129 @@
         },
         "totalTrails": 31
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
           "name": "Cougar",
           "difficulty": "Blue",
           "area": "North Summit"
-        },
-        {
-          "name": "Continental Glades",
-          "difficulty": "Black",
-          "area": "Valley"
-        },
-        {
-          "name": "Stingray",
-          "difficulty": "Blue",
-          "area": "Valley"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
-      "available": true,
-      "yesterday": {
+      "available": false
+    },
+    "forecast": {
+      "today": {
         "date": "2026-02-28",
-        "avgWaitTime": 0,
-        "maxWaitTime": 0,
-        "totalLiftsTracked": 7,
-        "busiest": []
+        "high_f": 42,
+        "low_f": 30,
+        "high_c": 6,
+        "low_c": -1,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-28T05:00:00Z",
+          "high_f": 49,
+          "low_f": 36,
+          "high_c": 9,
+          "low_c": 2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-01T05:00:00Z",
+          "high_f": 36,
+          "low_f": 19,
+          "high_c": 2,
+          "low_c": -8,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-02T05:00:00Z",
+          "high_f": 28,
+          "low_f": 18,
+          "high_c": -2,
+          "low_c": -8,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-28T05:00:00Z",
+        "high_f": 49,
+        "low_f": 36,
+        "high_c": 9,
+        "low_c": 2,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
-      "highLiftDemand": false
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "Great week for snow - 14\" in last 7 days",
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Soft Snow Holding Strong",
+    "body": "Zero new inches, but who's complaining? 14\" this week means conditions are still prime. 1 new trail opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "holding_strong",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Base Conditions Solid"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

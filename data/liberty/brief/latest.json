@@ -1,9 +1,25 @@
 {
   "resort": "liberty",
   "resortName": "Liberty Mountain",
-  "date": "2026-03-01",
-  "generated": "2026-03-01T05:07:13.750Z",
+  "date": "2026-02-28",
+  "generated": "2026-02-28T15:40:51.495Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -29,6 +45,8 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
@@ -36,6 +54,46 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "All Systems Go",
+    "body": "20 of 20 trails are open with 16 groomed. Variable conditions with a temperatures TBD. The whole mountain is basically open. Go explore. 20/20 trails open, 16 groomed. Variable conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "percent_full",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Whole Mountain Awaits"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }

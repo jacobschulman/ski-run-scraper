@@ -1,41 +1,149 @@
 {
   "resort": "tremblant",
   "resortName": "Tremblant",
-  "date": "2026-03-01",
-  "generated": "2026-03-01T05:07:19.904Z",
+  "date": "2026-02-28",
+  "generated": "2026-03-01T02:54:55.301Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 1,
+      "24hour_cm": 2,
+      "48hour_inches": 4,
+      "48hour_cm": 9,
+      "7day_inches": 4,
+      "7day_cm": 10,
+      "season_total_inches": 167,
+      "season_total_cm": 423,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 121,
-          "yesterday": 121,
-          "delta": 0
+          "yesterday": 126,
+          "delta": -5
         },
         "groomedTrails": {
           "today": 68,
-          "yesterday": 68,
-          "delta": 0
+          "yesterday": 71,
+          "delta": -3
         },
         "totalTrails": 129
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Flying Mile Haut",
+          "difficulty": "Extreme Terrain",
+          "area": "South Side"
+        },
+        {
+          "name": "Le P'tit Parc",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Roger McCarthy",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Buzz",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "Les Rapides",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        }
+      ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Belvédère",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-02-28",
+        "date": "2026-02-27",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-02-27",
+        "high_f": null,
+        "low_f": 23,
+        "high_c": null,
+        "low_c": -5,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-02-28",
+          "high_f": 33,
+          "low_f": 0,
+          "high_c": 0,
+          "low_c": -18,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-01",
+          "high_f": 3,
+          "low_f": -8,
+          "high_c": -16,
+          "low_c": -22,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-02",
+          "high_f": 9,
+          "low_f": 6,
+          "high_c": -13,
+          "low_c": -15,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-02-28",
+        "high_f": 33,
+        "low_f": 0,
+        "high_c": 0,
+        "low_c": -18,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -44,6 +152,40 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Windy conditions expected. Upper lifts may have holds or delays.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
