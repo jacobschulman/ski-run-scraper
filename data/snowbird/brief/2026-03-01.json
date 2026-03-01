@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-03-01",
-  "generated": "2026-03-01T22:33:00.376Z",
+  "generated": "2026-03-01T23:32:42.624Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 144,
+          "today": 145,
           "yesterday": 144,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 45,
-          "delta": -1
+          "delta": 0
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Whodunnit",
+          "difficulty": "Blue",
+          "area": "Peruvian Gulch"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -108,19 +114,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "9\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Major System Approaching",
-    "body": "144 trails open, 44 groomed. Cloudy, high of 36°. The weather models are locked in: 13\" of snow heading our way.",
+    "body": "145 trails open, 45 groomed. Cloudy, high of 36°. 1 new trail opened today. The weather models are locked in: 13\" of snow heading our way.",
     "debug": {
       "firedRules": [
         {
@@ -133,6 +142,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
