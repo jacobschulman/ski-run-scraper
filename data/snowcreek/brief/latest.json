@@ -2,7 +2,7 @@
   "resort": "snowcreek",
   "resortName": "Snow Creek",
   "date": "2026-03-01",
-  "generated": "2026-03-01T14:41:26.738Z",
+  "generated": "2026-03-01T15:42:16.188Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,80 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 12,
-          "delta": -12
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 12,
           "yesterday": 12,
-          "delta": -12
+          "delta": 0
         },
         "totalTrails": 14
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Flatlands",
-          "difficulty": "Green",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Gunslinger Progression Park",
-          "difficulty": "TerrainPark",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Holiday Bowl",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Jasons Run",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Jayme's Way",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Lower Six Shooter",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Oregon Trail",
-          "difficulty": "Green",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Rainbow Ridge",
-          "difficulty": "Green",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Santa Fe Trail",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Six Shooter",
-          "difficulty": "Black",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Wagon Wheel",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        },
-        {
-          "name": "Wild Turkey",
-          "difficulty": "Blue",
-          "area": "Snow Creek"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -182,8 +121,8 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Rain at Base, Snow Up Top",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "Variable Conditions",
+    "body": "12 of 14 trails are open with 12 groomed. Rain/Snow with a high of 39°F. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
     "debug": {
       "firedRules": [
         {
@@ -193,19 +132,25 @@
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Variable Conditions"
+        "previousHeadline": "Rain at Base, Snow Up Top"
       },
       "dayOfWeek": "Sunday"
     }
