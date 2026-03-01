@@ -988,22 +988,14 @@ async function main() {
   const skippedResorts = [];
 
   inSeasonResorts.forEach(resort => {
-    // Always check resorts with custom APIs if not in dead hours
-    if (resort.apiProvider === 'aspensnowmass' || resort.apiProvider === 'reportpal' || resort.apiProvider === 'zaneray' || resort.apiProvider === 'dor') {
-      if (!isInDeadHours(resort.timezone)) {
-        resortsToCheck.push(resort);
-      } else {
-        skippedResorts.push({ resort, reason: 'dead_hours' });
-      }
-      return;
-    }
-
-    const decision = shouldCheckResort(resort.key, resort, activeCache);
-
-    if (decision.shouldCheck) {
+    // All HTTP API resorts (Inspector + custom providers) are checked if not in dead hours.
+    // Inspector resorts share a single API call so there's no cost to checking them all.
+    // The complex shouldCheckResort logic was causing Inspector resorts to be skipped
+    // with "no_prior_data" outside the discovery window (chicken-and-egg problem).
+    if (!isInDeadHours(resort.timezone)) {
       resortsToCheck.push(resort);
     } else {
-      skippedResorts.push({ resort, reason: decision.reason });
+      skippedResorts.push({ resort, reason: 'dead_hours' });
     }
   });
 
