@@ -1,7 +1,7 @@
 // Service Worker for Ski Conditions PWA
-const CACHE_NAME = 'ski-conditions-v2';
-const STATIC_CACHE = 'ski-static-v2';
-const DATA_CACHE = 'ski-data-v2';
+const CACHE_NAME = 'ski-conditions-v3';
+const STATIC_CACHE = 'ski-static-v3';
+const DATA_CACHE = 'ski-data-v3';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -129,7 +129,12 @@ async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
 
   try {
-    const networkResponse = await fetch(request);
+    // Bypass the HTTP cache to avoid getting stale CDN responses.
+    // GitHub Pages returns cache-control: max-age=600, so without this
+    // the browser's HTTP cache can serve 10-min-old data to the SW,
+    // which the SW then treats as "fresh from network."
+    const freshRequest = new Request(request, { cache: 'no-cache' });
+    const networkResponse = await fetch(freshRequest);
     if (networkResponse.ok) {
       cache.put(request, networkResponse.clone());
     }
