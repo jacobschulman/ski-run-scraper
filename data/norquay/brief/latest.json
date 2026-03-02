@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-03-02",
-  "generated": "2026-03-02T17:04:24.326Z",
+  "generated": "2026-03-02T17:57:07.682Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,23 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 54,
+          "today": 55,
           "yesterday": 49,
-          "delta": 5
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 23,
+          "today": 24,
           "yesterday": 20,
-          "delta": 3
+          "delta": 4
         },
         "totalTrails": 81
       },
       "newlyOpened": [
+        {
+          "name": "Constellation",
+          "difficulty": "Green",
+          "area": "All Terrain"
+        },
         {
           "name": "Elves' Alley",
           "difficulty": "Green",
@@ -71,10 +76,10 @@
     "forecast": {
       "today": {
         "date": "2026-03-02",
-        "high_f": 39.2,
-        "low_f": 39.2,
-        "high_c": 4,
-        "low_c": 4,
+        "high_f": 42.8,
+        "low_f": 42.8,
+        "high_c": 6,
+        "low_c": 6,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -87,26 +92,27 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
-      "significantGroomingIncrease": false
+      "significantGroomingIncrease": true
     },
     "alerts": [
-      "5 new trails opened today"
+      "6 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 17.3\" in last 7 days",
-      "5 more trails open than yesterday"
+      "Grooming increased 20% from yesterday",
+      "6 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Recent Snow Still Skiing Well",
-    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Ski patrol opened 5 additional trails. A few more choices today.",
+    "headline": "New Runs Now Open",
+    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Ski patrol has been busy - 6 additional trails are now open.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_holding_strong",
-          "category": "snow",
-          "priority": 60,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -116,16 +122,16 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 60,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "holding_strong",
-        "variationIndex": 2,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
         "previousHeadline": "Good Snow Persisting"
