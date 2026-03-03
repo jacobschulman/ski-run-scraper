@@ -2,7 +2,7 @@
   "resort": "mountsnow",
   "resortName": "Mount Snow",
   "date": "2026-03-03",
-  "generated": "2026-03-03T13:28:08.599Z",
+  "generated": "2026-03-03T15:13:03.404Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 81,
+          "today": 82,
           "yesterday": 81,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 48,
@@ -34,8 +34,25 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Sap Bucket",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Under Pressure",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Jaws",
+          "difficulty": "Black",
+          "area": "North Face"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -83,17 +100,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Midweek Bliss",
-    "body": "81 trails open, 48 groomed. Variable conditions, temperatures TBD. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "headline": "Quiet Days on the Hill",
+    "body": "82 trails open, 48 groomed. Variable conditions, temperatures TBD. 2 new trails opened today. Lift lines were mellow yesterday. Expect a similar vibe today.",
     "debug": {
       "firedRules": [
         {
@@ -109,19 +130,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_mellow",
           "category": "lifts",
           "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Midweek Bliss"
       },
       "dayOfWeek": "Tuesday"
     }
