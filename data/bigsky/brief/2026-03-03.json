@@ -2,24 +2,67 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:04:02.213Z",
+  "generated": "2026-03-03T17:59:22.726Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 2,
+      "7day_cm": 5,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 273,
+          "today": 270,
           "yesterday": 273,
-          "delta": 0
+          "delta": -3
         },
         "groomedTrails": {
-          "today": 51,
+          "today": 52,
           "yesterday": 3,
-          "delta": 48
+          "delta": 49
         },
         "totalTrails": 319
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Elkhorn",
+          "difficulty": "advanced intermediate",
+          "area": "Madison Area"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Stillwater Bowl",
+          "difficulty": "Black",
+          "area": "Headwaters Area"
+        },
+        {
+          "name": "Alder Gulch",
+          "difficulty": "Double Black",
+          "area": "Headwaters Area"
+        },
+        {
+          "name": "Cold Spring",
+          "difficulty": "Double Black",
+          "area": "Headwaters Area"
+        },
+        {
+          "name": "Headwaters Bowl",
+          "difficulty": "Double Black",
+          "area": "Headwaters Area"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Dakota Road",
@@ -134,6 +177,11 @@
         {
           "name": "Stillwater Traverse",
           "difficulty": "Blue",
+          "area": "Madison Area"
+        },
+        {
+          "name": "Elkhorn",
+          "difficulty": "advanced intermediate",
           "area": "Madison Area"
         },
         {
@@ -273,19 +321,71 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-03",
+        "high_f": 36,
+        "low_f": 25,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-04",
+          "high_f": 33,
+          "low_f": 20,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-05",
+          "high_f": 22,
+          "low_f": 15,
+          "description": "Snow",
+          "snowfall_day_inches": 11,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 11
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 20,
+          "low_f": 16,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-04",
+        "high_f": 33,
+        "low_f": 20,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "48 trails freshly groomed"
+      "1 new trail opened today",
+      "49 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 1600% from yesterday"
+      "Grooming increased 1633% from yesterday",
+      "2\" snow expected Wednesday"
     ],
     "recommendations": [
       "Fresh corduroy on Dakota Road - perfect for intermediate skiers",
@@ -293,6 +393,46 @@
       "Fresh corduroy on Mule Skinner - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Forecast Looks Loaded",
+    "body": "270/319 trails spinning, 52 freshly groomed. 36° and Sunny. 49 runs freshly groomed. The mountain is absolutely pristine. Storm cycle alert! 15\" on the way. Conditions are about to level up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_massive",
+          "category": "terrain",
+          "priority": 78,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major System Approaching"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

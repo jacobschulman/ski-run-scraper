@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:04:02.230Z",
+  "generated": "2026-03-03T17:59:22.752Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 3,
+      "7day_cm": 8,
       "season_total_inches": 110,
       "season_total_cm": 279,
       "conditions": {
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 152,
+          "today": 149,
           "yesterday": 152,
-          "delta": 0
+          "delta": -3
         },
         "groomedTrails": {
           "today": 63,
@@ -35,7 +35,23 @@
         "totalTrails": 176
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Upper Springboard",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Hard Tack",
+          "difficulty": "Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "High Rigger",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Wedge",
@@ -97,23 +113,14 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-03-02",
-        "high_f": null,
-        "low_f": 2,
+        "date": "2026-03-03",
+        "high_f": 25,
+        "low_f": 25,
         "description": "Windy",
-        "snowfall_day_inches": 0,
+        "snowfall_day_inches": 2,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-03-03",
-          "high_f": 24,
-          "low_f": 24,
-          "description": "Windy",
-          "snowfall_day_inches": 2,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 2
-        },
         {
           "date": "2026-03-04",
           "high_f": 30,
@@ -127,20 +134,29 @@
           "date": "2026-03-05",
           "high_f": 28,
           "low_f": 19,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 2,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 2
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 24,
+          "low_f": 24,
+          "description": "Cloudy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
         }
       ],
       "tomorrow": {
-        "date": "2026-03-03",
-        "high_f": 24,
-        "low_f": 24,
+        "date": "2026-03-04",
+        "high_f": 30,
+        "low_f": 29,
         "description": "Windy",
-        "snowfall_day_inches": 2,
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 2
+        "snowfall_expected": 0
       }
     }
   },
@@ -156,8 +172,7 @@
       "9 trails freshly groomed"
     ],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days",
-      "2\" snow expected Tuesday"
+      "1\" snow expected Thursday"
     ],
     "recommendations": [
       "Fresh corduroy on Wedge - challenging for advanced skiers",
@@ -167,7 +182,7 @@
   },
   "morningBrief": {
     "headline": "Snow Showers Ahead",
-    "body": "Steady snowfall with 6\" over the last week. 9 runs freshly groomed, mostly in Skyline, Whiffletree, and more. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "body": "149 trails open, 63 groomed. Windy, high of 25°. 9 runs freshly groomed, mostly in Skyline, Whiffletree, and more. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -177,9 +192,9 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
           "usedFor": "body"
         },
         {
@@ -195,7 +210,7 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "snow_coming",
         "variationIndex": 3,

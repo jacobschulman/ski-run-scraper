@@ -2,74 +2,40 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:04:02.143Z",
+  "generated": "2026-03-03T17:59:22.629Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 18,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 7,
+      "48hour_cm": 18,
+      "7day_inches": 15,
+      "7day_cm": 38,
+      "season_total_inches": 202,
+      "season_total_cm": 513,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 68,
+          "today": 78,
           "yesterday": 88,
-          "delta": -20
+          "delta": -10
         },
         "groomedTrails": {
-          "today": 39,
+          "today": 43,
           "yesterday": 47,
-          "delta": -8
+          "delta": -4
         },
         "totalTrails": 107
       },
       "newlyOpened": [],
       "newlyClosed": [
-        {
-          "name": "Back Door",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Corner Chute",
-          "difficulty": "Difficult",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Dynamite",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Front Door",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Headwall Forest",
-          "difficulty": "Expert",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Liberty",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Mine",
-          "difficulty": "Intermediate",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Powderhorn Cirque",
-          "difficulty": "Difficult",
-          "area": "Solitude Canyon"
-        },
-        {
-          "name": "Shaft",
-          "difficulty": "Difficult",
-          "area": "Solitude Canyon"
-        },
         {
           "name": "SolBright",
           "difficulty": "Intermediate",
@@ -149,18 +115,118 @@
         "totalLiftsTracked": 10,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-03",
+        "high_f": 33,
+        "low_f": 27,
+        "high_c": 0,
+        "low_c": -3,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-04",
+          "high_f": 38,
+          "low_f": 21,
+          "high_c": 3,
+          "low_c": -6,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-05",
+          "high_f": 21,
+          "low_f": 18,
+          "high_c": -6,
+          "low_c": -8,
+          "description": "Snow",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 5
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 22,
+          "low_f": 18,
+          "high_c": -5,
+          "low_c": -8,
+          "description": "Snow",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-04",
+        "high_f": 38,
+        "low_f": 21,
+        "high_c": 3,
+        "low_c": -6,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 15\" in last 7 days",
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Dump Day at Solitude",
+    "body": "The mountain is absolutely loaded with 7\" of fresh. This is not a drill. Winter has more to say. 8\" forecasted means conditions improving soon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 7,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Snow on the Way"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

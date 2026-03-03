@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:04:02.238Z",
+  "generated": "2026-03-03T17:59:22.760Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6,
-      "7day_cm": 15,
+      "7day_inches": 4,
+      "7day_cm": 10,
       "season_total_inches": 115,
       "season_total_cm": 292,
       "conditions": {
@@ -51,27 +51,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-03-02",
-        "high_f": null,
-        "low_f": 9,
-        "description": "Clear",
-        "snowfall_day_inches": 0,
+        "date": "2026-03-03",
+        "high_f": 29,
+        "low_f": 27,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 6,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-03-03",
-          "high_f": 30,
-          "low_f": 26,
-          "description": "Cloudy",
-          "snowfall_day_inches": 6,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 6
-        },
-        {
           "date": "2026-03-04",
           "high_f": 39,
-          "low_f": 28,
+          "low_f": 32,
           "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -80,21 +71,30 @@
         {
           "date": "2026-03-05",
           "high_f": 41,
-          "low_f": 26,
-          "description": "Mostly Cloudy",
+          "low_f": 25,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 30,
+          "low_f": 28,
+          "description": "Cloudy",
           "snowfall_day_inches": 2,
           "snowfall_night_inches": 0,
           "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-03-03",
-        "high_f": 30,
-        "low_f": 26,
-        "description": "Cloudy",
-        "snowfall_day_inches": 6,
+        "date": "2026-03-04",
+        "high_f": 39,
+        "low_f": 32,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 6
+        "snowfall_expected": 0
       }
     }
   },
@@ -108,42 +108,41 @@
     },
     "alerts": [],
     "trends": [
-      "Steady snowfall - 6\" in last 7 days",
-      "6\" snow expected Tuesday"
+      "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Big Snow Incoming",
-    "body": "Steady snowfall with 6\" over the last week. Big things coming. 8\" in the forecast. Might be time to plan ahead.",
+    "headline": "Snow in the Forecast",
+    "body": "74 trails open, 59 groomed. Mostly Cloudy, high of 29°. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
           "usedFor": "body"
         },
         {
-          "id": "forecast_storm",
+          "id": "forecast_snow_coming",
           "category": "weather",
-          "priority": 85,
+          "priority": 55,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 1,
-        "totalVariations": 7,
+        "condition": "snow_coming",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Storm Cycle Building"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Tuesday"
     }

@@ -2,14 +2,30 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:04:02.216Z",
+  "generated": "2026-03-03T17:59:22.731Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 9,
+      "7day_cm": 23,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 142,
+          "today": 147,
           "yesterday": 142,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 42,
@@ -18,7 +34,33 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Low Saddle",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Exit Gully",
+          "difficulty": "Double Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Middle Tiger Tail",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Mozzarella Bowl",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Lower Tiger Tail",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -59,22 +101,118 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-03",
+        "high_f": 27,
+        "low_f": 26,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-04",
+          "high_f": 32,
+          "low_f": 16,
+          "description": "Windy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-03-05",
+          "high_f": 16,
+          "low_f": 13,
+          "description": "Snow",
+          "snowfall_day_inches": 11,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 11
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 16,
+          "low_f": 16,
+          "description": "Snow",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-04",
+        "high_f": 32,
+        "low_f": 16,
+        "description": "Windy",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 3
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "3\" fresh snow overnight",
+      "5 new trails opened today",
       "1 trail freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 9\" in last 7 days",
+      "5 more trails open than yesterday",
+      "3\" snow expected Wednesday"
+    ],
     "recommendations": [
       "Fresh corduroy on Harper's Ferry - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Forecast Looks Loaded",
+    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved. The terrain list grew by 5 today. More variety to choose from. Big things coming. 19\" in the forecast. Might be time to plan ahead.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 5,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Prepare for Pow"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }

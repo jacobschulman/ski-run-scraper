@@ -2,8 +2,24 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-03-03",
-  "generated": "2026-03-03T16:03:55.343Z",
+  "generated": "2026-03-03T17:59:16.013Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 3,
+      "48hour_cm": 7,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 108,
+      "season_total_cm": 274,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -68,18 +84,123 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-03",
+        "high_f": 33,
+        "low_f": 20,
+        "high_c": null,
+        "low_c": -7,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-04T07:00:00Z",
+          "high_f": 41,
+          "low_f": 17,
+          "high_c": 5,
+          "low_c": -8,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-05T07:00:00Z",
+          "high_f": 41,
+          "low_f": 20,
+          "high_c": 5,
+          "low_c": -7,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-06T07:00:00Z",
+          "high_f": 26,
+          "low_f": 15,
+          "high_c": -4,
+          "low_c": -10,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-04T07:00:00Z",
+        "high_f": 41,
+        "low_f": 17,
+        "high_c": 5,
+        "low_c": -8,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days",
+      "2\" snow expected Friday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Watch for crowds at Beaver Run SuperChair, which saw 13-minute waits yesterday. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{newTrailsCount} New {NewTrailWord} Today"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
