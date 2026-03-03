@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-03-02",
-  "generated": "2026-03-03T04:53:11.889Z",
+  "generated": "2026-03-03T06:01:57.255Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 10,
+      "24hour_inches": 4,
+      "24hour_cm": 10,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 22,
+      "7day_cm": 56,
+      "season_total_inches": 288,
+      "season_total_cm": 732,
+      "conditions": {
+        "today": "Happy Monday Morning to you, Jackson Hole! 4\" of fresh has fallen at elevation since the lifts stopped spinning yesterday. Today's forecast is calling for this pacific weather system to bring more snow up high and a wintery mix to the valley floor. The most aggressive precipitation is expected to fall during the morning hours over the Tetons before things lighten up through the afternoon. Southwesterly wind gusts will generally stay under 25mph. Valley highs will hit 43 degrees. Summit temps will stay just shy of freezing. Enjoy! -OH",
+        "yesterday": "The first day of March will start us off with plenty of options to choose from Rendezvous Mountains' bag of secret stashes. Today on the mountain look for partly cloudy skies in the morning with increasing cloud cover and precipitation throughout the day. Temperatures will dictate where the secrets are kept as they will climb into the mid-20's near the summit, while the valley floor will hit the low 40's by early afternoon. Snowfall and mixed precipitation are expected to start up by late morning and continue until closing bell. Spend your day in the high country and reap the benefits of the cooler temperature gradient. Today starts the last full month of the season so there is no time like the present to celebrate on skis! Stay safe out there and have fun. -MB  "
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -144,20 +160,53 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "4\" fresh snow overnight",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 22\" in last 7 days"
+    ],
     "recommendations": [
       "Fresh corduroy on Sleeping Indian - perfect for intermediate skiers",
       "Fresh corduroy on Sundog - perfect for intermediate skiers",
       "Fresh corduroy on Symmetry - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Nice Little Top-Up",
+    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Boost"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
