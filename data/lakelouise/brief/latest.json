@@ -2,19 +2,19 @@
   "resort": "lakelouise",
   "resortName": "Lake Louise",
   "date": "2026-03-04",
-  "generated": "2026-03-04T11:44:19.740Z",
+  "generated": "2026-03-04T13:28:28.745Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0,
-      "24hour_cm": 0,
-      "48hour_inches": 0,
-      "48hour_cm": 0,
-      "7day_inches": 15.7,
-      "7day_cm": 40,
-      "season_total_inches": 274.8,
-      "season_total_cm": 698,
+      "overnight_inches": 0.4,
+      "overnight_cm": 1,
+      "24hour_inches": 0.4,
+      "24hour_cm": 1,
+      "48hour_inches": 0.4,
+      "48hour_cm": 1,
+      "7day_inches": 9.4,
+      "7day_cm": 24,
+      "season_total_inches": 275.2,
+      "season_total_cm": 699,
       "conditions": {
         "today": "Sunny Spells",
         "yesterday": "Snowing"
@@ -28,16 +28,63 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 33,
+          "today": 36,
           "yesterday": 33,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 170
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Grizzly Gully",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Wapta",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Meadowlark",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Bunchberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "30 Goats",
+          "difficulty": "Blue",
+          "area": "Larch"
+        },
+        {
+          "name": "Egress",
+          "difficulty": "Black",
+          "area": "West Bowl"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Men's Downhill",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Jerry's Jungle",
+          "difficulty": "Green",
+          "area": "Front Side"
+        },
+        {
+          "name": "Charlie's Choice",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -55,7 +102,7 @@
       },
       "outlook": [
         {
-          "date": "2026-03-05T11:44:19.738Z",
+          "date": "2026-03-05T13:28:28.743Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -66,7 +113,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-06T11:44:19.738Z",
+          "date": "2026-03-06T13:28:28.743Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -77,7 +124,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-07T11:44:19.738Z",
+          "date": "2026-03-07T13:28:28.743Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -89,7 +136,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-03-05T11:44:19.738Z",
+        "date": "2026-03-05T13:28:28.743Z",
         "high_f": 32,
         "low_f": 32,
         "high_c": 0,
@@ -108,15 +155,21 @@
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 15.7\" in last 7 days"
+    "alerts": [
+      "6 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 9.4\" in last 7 days"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Grizzly Gully - perfect for intermediate skiers",
+      "Fresh corduroy on Wapta - challenging for advanced skiers",
+      "Fresh corduroy on Meadowlark - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "Variable Conditions",
-    "body": "Zero new inches, but who's complaining? 15.7\" this week means conditions are still prime. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "headline": "Rain at Base, Snow Up Top",
+    "body": "Steady snowfall with 9.4\" over the last week. 6 runs freshly groomed, mostly in Front Side, Larch, and more. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
     "debug": {
       "firedRules": [
         {
@@ -126,9 +179,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_holding_strong",
+          "id": "snow_week_total",
           "category": "snow",
-          "priority": 60,
+          "priority": 40,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
@@ -138,13 +197,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Rain at Base, Snow Up Top"
+        "previousHeadline": "Variable Conditions"
       },
       "dayOfWeek": "Wednesday"
     }
