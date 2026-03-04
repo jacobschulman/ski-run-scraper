@@ -2,7 +2,7 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-03-04",
-  "generated": "2026-03-04T16:01:38.877Z",
+  "generated": "2026-03-04T17:04:58.498Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 109,
+          "today": 111,
           "yesterday": 109,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
           "today": 44,
@@ -34,7 +34,18 @@
         },
         "totalTrails": 145
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Coombs",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -91,15 +102,17 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2 new trails opened today",
       "3 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 21\" in last 7 days"
+      "Great week for snow - 21\" in last 7 days",
+      "2 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Tram Line - perfect for intermediate skiers",
@@ -109,7 +122,7 @@
   },
   "morningBrief": {
     "headline": "The Base Is Holding Up",
-    "body": "Zero new inches, but who's complaining? 21\" this week means conditions are still prime.",
+    "body": "Zero new inches, but who's complaining? 21\" this week means conditions are still prime. 2 new trails opened today.",
     "debug": {
       "firedRules": [
         {
@@ -123,9 +136,15 @@
           "category": "snow",
           "priority": 60,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 4,
