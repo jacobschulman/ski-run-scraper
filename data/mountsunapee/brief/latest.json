@@ -2,7 +2,7 @@
   "resort": "mountsunapee",
   "resortName": "Mount Sunapee",
   "date": "2026-03-04",
-  "generated": "2026-03-04T13:23:17.795Z",
+  "generated": "2026-03-04T14:52:27.139Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 51,
+          "today": 54,
           "yesterday": 51,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 48,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 66
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Paradise",
+          "difficulty": "Green",
+          "area": "South Peak"
+        },
+        {
+          "name": "Paradise Glades",
+          "difficulty": "Blue",
+          "area": "South Peak"
+        },
+        {
+          "name": "Spinnaker",
+          "difficulty": "Blue",
+          "area": "South Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,29 +128,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Springlike Conditions",
-    "body": "51/66 trails spinning, 48 freshly groomed. 45° and Mostly Clear. Warmer temps with a high of 45°. Snow will soften up by afternoon.",
+    "headline": "Patrol Opened 3 More",
+    "body": "54/66 trails spinning, 48 freshly groomed. 45° and Mostly Clear. 3 more trails opened today, expanding your options. Warmer temps with a high of 45°. Snow will soften up by afternoon.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_spring",
-          "category": "weather",
-          "priority": 50,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -146,11 +172,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "spring_vibes",
+        "condition": "terrain_few",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Soft and Sunny"
+        "previousHeadline": "Springlike Conditions"
       },
       "dayOfWeek": "Wednesday"
     }
