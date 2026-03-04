@@ -2,8 +2,24 @@
   "resort": "solitude",
   "resortName": "Solitude",
   "date": "2026-03-04",
-  "generated": "2026-03-04T07:47:03.704Z",
+  "generated": "2026-03-04T09:53:44.883Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 7,
+      "overnight_cm": 18,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 7,
+      "48hour_cm": 18,
+      "7day_inches": 15,
+      "7day_cm": 38,
+      "season_total_inches": 202,
+      "season_total_cm": 513,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,118 @@
         "totalLiftsTracked": 10,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-03",
+        "high_f": null,
+        "low_f": 26,
+        "high_c": null,
+        "low_c": -3,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-04",
+          "high_f": 38,
+          "low_f": 19,
+          "high_c": 3,
+          "low_c": -7,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-05",
+          "high_f": 21,
+          "low_f": 18,
+          "high_c": -6,
+          "low_c": -8,
+          "description": "Snow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-06",
+          "high_f": 22,
+          "low_f": 17,
+          "high_c": -6,
+          "low_c": -8,
+          "description": "Snow Showers",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-04",
+        "high_f": 38,
+        "low_f": 19,
+        "high_c": 3,
+        "low_c": -7,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 2,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "7\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 15\" in last 7 days",
+      "2\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter Delivered Big",
+    "body": "7\" dumped overnight. The stashes are loaded and the groomers are buried. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got Buried"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
