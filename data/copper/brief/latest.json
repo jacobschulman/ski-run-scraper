@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-04",
-  "generated": "2026-03-04T11:44:09.853Z",
+  "generated": "2026-03-04T13:23:26.268Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,133 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 68,
+          "today": 70,
           "yesterday": 68,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 202
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Hallelujah Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Spaulding Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Lillie G Traverse",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Union Park",
+          "difficulty": "easiest",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Timber Ridge",
+          "difficulty": "Blue",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Formidable",
+          "difficulty": "Black",
+          "area": "East"
+        },
+        {
+          "name": "Oh No (U)",
+          "difficulty": "Blue",
+          "area": "East"
+        },
+        {
+          "name": "Oh No (L)",
+          "difficulty": "Blue",
+          "area": "East"
+        },
+        {
+          "name": "Slot Car Track",
+          "difficulty": "Blue",
+          "area": "East"
+        },
+        {
+          "name": "Scooter",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Woodwinds",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "See and Ski",
+          "difficulty": "easiest",
+          "area": "Center"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Colorado Boulevard",
+          "difficulty": "Blue",
+          "area": "Copper Bowl"
+        },
+        {
+          "name": "Wheeler Creek",
+          "difficulty": "easiest",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Revenge (L)",
+          "difficulty": "Black",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Easy Feelin'",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Fairway",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Prospector",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "I-Way",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Lyman Lane",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Pinecone Alley",
+          "difficulty": "Blue",
+          "area": "West"
+        },
+        {
+          "name": "Collage (U)",
+          "difficulty": "Blue",
+          "area": "Center"
+        },
+        {
+          "name": "Bittersweet (L)",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +223,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "12 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Hallelujah Ridge - challenging for advanced skiers",
+      "Fresh corduroy on Spaulding Ridge - challenging for advanced skiers",
+      "Fresh corduroy on Lillie G Traverse - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "174 trails open, 68 groomed. Partly Cloudy, temperatures TBD. A significant storm is brewing with 8\" expected over the next few days.",
+    "body": "174 trails open, 70 groomed. Partly Cloudy, temperatures TBD. 12 runs were freshly groomed overnight. Corduroy is crisp. A significant storm is brewing with 8\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +250,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         },
         {
