@@ -2,7 +2,7 @@
   "resort": "bostonmills",
   "resortName": "Boston Mills",
   "date": "2026-03-05",
-  "generated": "2026-03-05T13:29:58.395Z",
+  "generated": "2026-03-05T15:00:39.534Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 0,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 0,
@@ -34,7 +34,33 @@
         },
         "totalTrails": 7
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Buttermilk",
+          "difficulty": "Blue",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Croyle",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "North Bowl",
+          "difficulty": "Black",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Peter's Pride",
+          "difficulty": "TerrainPark",
+          "area": "Boston Mills"
+        },
+        {
+          "name": "Summit",
+          "difficulty": "Green",
+          "area": "Boston Mills"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,38 +73,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
+    "trends": [
+      "5 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "The mountain is still prepping for the season. Weather today: Variable conditions.",
+    "headline": "More Variety Today",
+    "body": "The rundown: 5 trails open, 0 groomed. Variable conditions with temps around temps TBD. Ski patrol opened 5 additional trails. A few more choices today.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Thursday"
     }
