@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-03-05",
-  "generated": "2026-03-05T11:47:32.941Z",
+  "generated": "2026-03-05T13:30:05.570Z",
   "rawData": {
     "snow": {
       "overnight_inches": 4,
@@ -28,16 +28,48 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 76,
+          "today": 80,
           "yesterday": 76,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 123
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Gentle Ben",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Main Line",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Shortcut Gentle Ben",
+          "difficulty": "Intermediate",
+          "area": "Sun Bowl"
+        },
+        {
+          "name": "Lower East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper East Meadow",
+          "difficulty": "Easy",
+          "area": "Upper Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Bear Down",
+          "difficulty": "Extreme Terrain",
+          "area": "Upper Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -117,17 +149,22 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "4\" fresh snow overnight"
+      "4\" fresh snow overnight",
+      "5 trails freshly groomed"
     ],
     "trends": [
       "Steady snowfall - 10\" in last 7 days",
       "3\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Gentle Ben - all skill levels",
+      "Fresh corduroy on Main Line - all skill levels",
+      "Fresh corduroy on Shortcut Gentle Ben - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Solid Refresh: 5\"",
-    "body": "5\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. The whole mountain is basically open. Go explore. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "Nice Little Top-Up",
+    "body": "5\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. 5 runs freshly groomed, mostly in Sun Bowl and Upper Mountain. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -143,9 +180,9 @@
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
+          "id": "grooming_moderate",
           "category": "terrain",
-          "priority": 45,
+          "priority": 55,
           "usedFor": "body"
         },
         {
@@ -155,13 +192,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Nice Little Top-Up"
+        "previousHeadline": "Solid Refresh: {snow24h}\""
       },
       "dayOfWeek": "Thursday"
     }
