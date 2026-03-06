@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-03-05",
-  "generated": "2026-03-06T02:38:47.377Z",
+  "generated": "2026-03-06T05:56:17.385Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 7,
+      "7day_cm": 18,
+      "season_total_inches": 291,
+      "season_total_cm": 739,
+      "conditions": {
+        "today": "6 AM—Get on up, Jackson. Don't waste time with rational contemplation because winter is making a welcome return for your recreational gratification. The uppermost elevations squeezed 3 sneaky inches out of the atmosphere last night, and intermittent showers should continue through the morning. By this afternoon another more promising wave of powfall will wash over the Tetons, so come out and watch the crystal tide rise. High temperatures will also make a seasonal reprise as the summit of Rendezvous stalls out in the upper teens and the Village hovers near the freezing point. The fresh flakes will be delivered on the wings of west winds in the neighborhood of 5 to 20 mph. Whether you're tantalized by dreams profound or pint-sized, a little falling snow helps make them easily realized. -Lege",
+        "yesterday": "6 AM—Wakey, wakey, sleepyhead! Midweek wonders await, so get your head straight and pop outta that bed. Mostly sunny skies and mild, springlike temperatures will make for sensational crystal shredding on Rendezvous Mountain today. High temperatures will tick into the upper 20s at the summit, while Teton Village makes a run for the mid-40s. As your rosy cheeks absorb the soothing solar rays, they will be caressed and cooled by a gentle southwest breeze. You know everyone gets to decide for themselves on life's ultimate purpose. So, shun the toxic culture tales and run away with the magical alpine circus. -Lege"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -73,20 +89,53 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "3\" fresh snow overnight",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 7\" in last 7 days"
+    ],
     "recommendations": [
       "Fresh corduroy on Teewinot (Upper) - perfect for intermediate skiers",
       "Fresh corduroy on Sleeping Indian - perfect for intermediate skiers",
       "Fresh corduroy on Thunder - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Proper Refresh",
+    "body": "The mountain got a nice 3\" boost overnight. Conditions are improved.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Solid Refresh: {snow24h}\""
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
