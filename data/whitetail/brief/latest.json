@@ -2,7 +2,7 @@
   "resort": "whitetail",
   "resortName": "Whitetail",
   "date": "2026-03-06",
-  "generated": "2026-03-06T11:40:24.140Z",
+  "generated": "2026-03-06T13:17:43.133Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,119 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 20,
           "yesterday": 0,
-          "delta": 0
+          "delta": 20
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 19,
           "yesterday": 0,
-          "delta": 0
+          "delta": 19
         },
         "totalTrails": 22
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "101 Terrain Park",
+          "difficulty": "TerrainPark",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Almost Home",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Angel Drop - Lower",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Angel Drop - Upper",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Bob Small's Traverse",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Bold Decision",
+          "difficulty": "DoubleBlack",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Drop In",
+          "difficulty": "DoubleBlack",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Drop Out",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Exhibition",
+          "difficulty": "Black",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Fall Mount",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Fanciful",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Home Run",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Launching Pad",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Limelight",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Northern Lights",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Ridge Runner",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Snowpark",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Stalker",
+          "difficulty": "Blue",
+          "area": "Whitetail"
+        },
+        {
+          "name": "Velvet",
+          "difficulty": "Green",
+          "area": "Whitetail"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,38 +148,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "20 new trails opened today"
+    ],
+    "trends": [
+      "20 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Waiting for Opening Day",
-    "body": "Not open for the season yet. Current conditions: Variable conditions.",
+    "headline": "Patrol Won't Quit",
+    "body": "20 trails open, 19 groomed. Variable conditions, temperatures TBD. Major terrain drop: 20 new trails opened overnight.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_major",
           "category": "terrain",
-          "priority": 95,
+          "priority": 88,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_major",
           "category": "terrain",
-          "priority": 95,
+          "priority": 88,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
-        "totalVariations": 6,
+        "condition": "terrain_major",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Waiting for Opening Day"
       },
       "dayOfWeek": "Friday"
     }
