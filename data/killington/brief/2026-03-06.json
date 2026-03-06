@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-06",
-  "generated": "2026-03-06T22:38:00.761Z",
+  "generated": "2026-03-06T23:35:21.720Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 93,
+          "today": 99,
           "yesterday": 93,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 222
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Idler",
+          "difficulty": "easiest",
+          "area": "Snowshed"
+        },
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Carpenter's Run",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Skyelark - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Edgemont / Whiffletree",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Fall Line",
+          "difficulty": "Blue",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Highridge",
+          "difficulty": "easiest",
+          "area": "Condo Trails"
+        },
+        {
+          "name": "Trail Creek",
+          "difficulty": "easiest",
+          "area": "Condo Trails"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Ovation - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,15 +168,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "9 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Idler - all skill levels",
+      "Fresh corduroy on OL Express - all skill levels",
+      "Fresh corduroy on Outer Limits - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Variable Conditions",
-    "body": "175 trails open, 93 groomed. Rain Snow, temperatures TBD. The elevation will make all the difference today. Rain down low, snow up high.",
+    "body": "175 trails open, 99 groomed. Rain Snow, temperatures TBD. 9 runs freshly groomed, mostly in Snowshed, Bear Mountain, and more. The elevation will make all the difference today. Rain down low, snow up high.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +195,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
