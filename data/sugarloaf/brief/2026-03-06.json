@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-06",
-  "generated": "2026-03-06T10:48:16.609Z",
+  "generated": "2026-03-06T11:40:30.435Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,16 +28,88 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 59,
+          "today": 69,
           "yesterday": 59,
-          "delta": 0
+          "delta": 10
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Spurline",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Gondola Line",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Gondola Line",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Moose Alley",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Gondola Line Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        },
+        {
+          "name": "Good Chance X-Cut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "WMXCut",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "White Nitro",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "White Nitro Ext",
+          "difficulty": "Double Black",
+          "area": "Snowfields™ Summit"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -106,19 +178,25 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "12 trails freshly groomed"
+    ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Skidder - all skill levels",
+      "Fresh corduroy on Spurline - perfect for intermediate skiers",
+      "Fresh corduroy on Upper Skidder - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Is It the Weekend Yet?",
-    "body": "151 of 176 trails are open with 59 groomed. Cloudy with a temperatures TBD. 151/176 trails open, 59 groomed. Cloudy.",
+    "headline": "12 Runs Groomed Overnight",
+    "body": "151 of 176 trails are open with 69 groomed. Cloudy with a temperatures TBD. Smooth operators: 12 runs got the full treatment overnight.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "headline"
         },
         {
@@ -128,19 +206,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "grooming_highlight",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "TGIF"
+        "previousHeadline": "Fresh Corduroy Awaits"
       },
       "dayOfWeek": "Friday"
     }
