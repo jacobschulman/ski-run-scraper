@@ -2,14 +2,30 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2026-03-06",
-  "generated": "2026-03-06T23:35:21.652Z",
+  "generated": "2026-03-07T04:26:55.175Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 181,
+      "season_total_cm": 460,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 42,
+          "today": 36,
           "yesterday": 42,
-          "delta": 0
+          "delta": -6
         },
         "groomedTrails": {
           "today": 21,
@@ -19,7 +35,38 @@
         "totalTrails": 44
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Carson",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Carson Cutoff",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Gull Ridge",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "IQ",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Slalom",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "The Face",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -32,10 +79,70 @@
         "totalLiftsTracked": 7,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-06",
+        "high_f": null,
+        "low_f": 17,
+        "high_c": null,
+        "low_c": -8,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-07",
+          "high_f": 32,
+          "low_f": 26,
+          "high_c": 0,
+          "low_c": -3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-08",
+          "high_f": 45,
+          "low_f": 36,
+          "high_c": 7,
+          "low_c": 2,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-09",
+          "high_f": 45,
+          "low_f": 31,
+          "high_c": 7,
+          "low_c": 0,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-07",
+        "high_f": 32,
+        "low_f": 26,
+        "high_c": 0,
+        "low_c": -3,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -44,6 +151,40 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "TGIF",
+    "body": "The rundown: 36 trails open, 21 groomed. Clear with temps around temps TBD. 36/44 trails open, 21 groomed. Clear.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "weekend_kickoff",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Midweek Bliss"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

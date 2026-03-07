@@ -2,8 +2,24 @@
   "resort": "steamboat",
   "resortName": "Steamboat",
   "date": "2026-03-06",
-  "generated": "2026-03-06T23:35:21.644Z",
+  "generated": "2026-03-07T04:26:55.165Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 13,
+      "24hour_inches": 5,
+      "24hour_cm": 13,
+      "48hour_inches": 5,
+      "48hour_cm": 13,
+      "7day_inches": 7,
+      "7day_cm": 18,
+      "season_total_inches": 145,
+      "season_total_cm": 369,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -100,19 +116,81 @@
         "totalLiftsTracked": 24,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-06",
+        "high_f": null,
+        "low_f": 13,
+        "high_c": null,
+        "low_c": -11,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-07",
+          "high_f": 24,
+          "low_f": 20,
+          "high_c": -4,
+          "low_c": -6,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-08",
+          "high_f": 34,
+          "low_f": 28,
+          "high_c": 1,
+          "low_c": -2,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-09",
+          "high_f": 39,
+          "low_f": 31,
+          "high_c": 4,
+          "low_c": 0,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-07",
+        "high_f": 24,
+        "low_f": 20,
+        "high_c": -4,
+        "low_c": -6,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "5\" fresh snow overnight",
       "1 new trail opened today",
       "7 trails freshly groomed"
     ],
     "trends": [
+      "Steady snowfall - 7\" in last 7 days",
       "1 more trail open than yesterday"
     ],
     "recommendations": [
@@ -121,6 +199,46 @@
       "Fresh corduroy on First Chance - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Solid Refresh: 5\"",
+    "body": "The mountain got a nice 5\" boost overnight. Conditions are improved. 7 runs freshly groomed, mostly in Steamboat. Windy conditions expected. Upper lifts may have holds or delays.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 0,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Refresh Is Coming"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
