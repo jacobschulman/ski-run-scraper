@@ -2,7 +2,7 @@
   "resort": "laurelmountain",
   "resortName": "Laurel Mountain",
   "date": "2026-03-07",
-  "generated": "2026-03-07T10:35:25.297Z",
+  "generated": "2026-03-07T11:31:34.445Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,84 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 0,
-          "delta": 0
+          "delta": 13
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 13,
           "yesterday": 0,
-          "delta": 0
+          "delta": 13
         },
         "totalTrails": 19
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Deer Path",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Heagan's Cut",
+          "difficulty": "Blue",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Innsbruck",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Last Chance",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Lincoln Highway",
+          "difficulty": "Blue",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Lower Broadway",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Lower Wildcat",
+          "difficulty": "DoubleBlack",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Lynx",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Old Innsbruck",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Ski Top",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Tame Cat",
+          "difficulty": "Green",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Upper Broadway",
+          "difficulty": "Blue",
+          "area": "Laurel Mountain"
+        },
+        {
+          "name": "Upper Wildcat",
+          "difficulty": "Black",
+          "area": "Laurel Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -105,38 +171,54 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "13 new trails opened today"
+    ],
+    "trends": [
+      "13 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Almost There...",
-    "body": "The mountain is still prepping for the season. Weather today: Partly Cloudy.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 13 trails open, 13 groomed. Partly Cloudy with temps around 63°. Ski patrol has been busy - 13 additional trails are now open. Spring skiing conditions: 63° and soft snow. Hit it early or catch afternoon corn.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Checking the Forecast"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Saturday"
     }
