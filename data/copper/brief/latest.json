@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-07",
-  "generated": "2026-03-07T23:31:08.664Z",
+  "generated": "2026-03-08T04:49:50.257Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 9,
+      "overnight_cm": 23,
+      "24hour_inches": 9,
+      "24hour_cm": 23,
+      "48hour_inches": 9,
+      "48hour_cm": 23,
+      "7day_inches": 9,
+      "7day_cm": 23,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -110,20 +126,74 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-07",
+        "high_f": null,
+        "low_f": 12,
+        "description": "Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-08",
+          "high_f": 34,
+          "low_f": 19,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-09",
+          "high_f": 37,
+          "low_f": 21,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-10",
+          "high_f": 35,
+          "low_f": 12,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-08",
+        "high_f": 34,
+        "low_f": 19,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "9\" fresh snow overnight",
+      "9\" in last 24 hours - powder day!",
       "1 new trail opened today",
       "12 trails freshly groomed"
     ],
     "trends": [
-      "1 more trail open than yesterday"
+      "Steady snowfall - 9\" in last 7 days",
+      "1 more trail open than yesterday",
+      "3\" snow expected Tuesday"
     ],
     "recommendations": [
       "Fresh corduroy on Colorado Boulevard - perfect for intermediate skiers",
@@ -131,6 +201,46 @@
       "Fresh corduroy on Hodson's Cut - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Time to Call in Sick",
+    "body": "Mother Nature delivered 9\" of the good stuff. Face shots are on the menu. The snow cats were busy. 12 trails in Copper Bowl, Spaulding & Resolution, and more looking mint. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 5,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Deep Day at {resortName}"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
