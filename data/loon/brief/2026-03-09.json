@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-03-09",
-  "generated": "2026-03-09T16:08:00.105Z",
+  "generated": "2026-03-09T17:53:53.174Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 75,
+          "today": 76,
           "yesterday": 82,
-          "delta": -7
+          "delta": -6
         },
         "groomedTrails": {
           "today": 65,
@@ -52,11 +52,6 @@
           "area": "South Peak"
         },
         {
-          "name": "Ripsaw",
-          "difficulty": "Double Black",
-          "area": "South Peak"
-        },
-        {
           "name": "Mike's Way",
           "difficulty": "Black",
           "area": "Loon Peak"
@@ -74,6 +69,11 @@
       ],
       "newlyGroomed": [],
       "ungroomed": [
+        {
+          "name": "Ripsaw",
+          "difficulty": "Double Black",
+          "area": "South Peak"
+        },
         {
           "name": "Angel Street",
           "difficulty": "Black",
@@ -93,27 +93,18 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-03-08",
-        "high_f": null,
-        "low_f": 35,
-        "description": "Clear",
+        "date": "2026-03-09",
+        "high_f": 53,
+        "low_f": 46,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-03-09",
-          "high_f": 52,
-          "low_f": 45,
-          "description": "Mostly Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-03-10",
-          "high_f": 56,
-          "low_f": 42,
+          "high_f": 57,
+          "low_f": 43,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -122,18 +113,27 @@
         {
           "date": "2026-03-11",
           "high_f": 41,
-          "low_f": 40,
+          "low_f": 39,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-12",
+          "high_f": 42,
+          "low_f": 16,
+          "description": "Scattered T Storms",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
         }
       ],
       "tomorrow": {
-        "date": "2026-03-09",
-        "high_f": 52,
-        "low_f": 45,
-        "description": "Mostly Cloudy",
+        "date": "2026-03-10",
+        "high_f": 57,
+        "low_f": 43,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -150,19 +150,20 @@
     },
     "alerts": [],
     "trends": [
-      "Steady snowfall - 8\" in last 7 days"
+      "Steady snowfall - 8\" in last 7 days",
+      "2\" snow expected Thursday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Mountain Conditions Update",
-    "body": "Steady snowfall with 8\" over the last week.",
+    "headline": "T-Shirt Weather",
+    "body": "Steady snowfall with 8\" over the last week. Spring vibes: 53° and sunny. Early morning firm, afternoon soft.",
     "debug": {
       "firedRules": [
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "headline"
         },
         {
@@ -170,15 +171,21 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "fallback",
-        "variationIndex": 2,
-        "totalVariations": 7,
+        "condition": "spring_vibes",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Daily Ski Report"
+        "previousHeadline": "Springlike Conditions"
       },
       "dayOfWeek": "Monday"
     }

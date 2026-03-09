@@ -2,8 +2,24 @@
   "resort": "jacksonhole",
   "resortName": "Jackson Hole",
   "date": "2026-03-09",
-  "generated": "2026-03-09T16:08:00.074Z",
+  "generated": "2026-03-09T17:53:53.130Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 3,
+      "24hour_cm": 8,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 15,
+      "7day_cm": 38,
+      "season_total_inches": 301,
+      "season_total_cm": 765,
+      "conditions": {
+        "today": "Another 3\" of new snow has fallen since the lifts stopped spinning yesterday, fostering a fantastic start to the second week of March. Today's forecast is calling for the chance of light snow showers at elevation especially during the morning hours. The low clouds you're seeing on your drive in should break up my mid morning giving way to mostly sunny skies by the afternoon. Southwest winds gusting up to 40 mph are already in place and we could see ridgetop gusts up to 55 mph by the afternoon. Summit temps will peak at 28 degrees today and the base area will hit 46 degrees. Have a great start to your week! - OH",
+        "yesterday": "3\" of new snow with 2\" stacking in after lifts closed yesterday. Look for snow flurries early on, moving into partly cloudy skies until another storm cycle moves into the Teton area around 3PM this afternoon. Moderate, gusty winds will be trending out of the West at 17-23 MPH with gusts ranging between 25-35 MPH. Mountain temperatures will reach the high 20's at the Tram summit while the low elevations in Teton Village will hit the mid-40's by late afternoon. The finals of Dick's Ditch will be held today off of Amphitheater.  Come and cheer on the competitors as they step up their game in the banked slalom classic. The high country got a nice touch up overnight paving the way for another beautiful Sunday! -MB"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -73,18 +89,56 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "3\" fresh snow overnight",
       "2 new trails opened today"
     ],
     "trends": [
+      "Great week for snow - 15\" in last 7 days",
       "2 more trails open than yesterday"
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Snow, Fresh Vibes",
+    "body": "Solid refresh: 3\" overnight freshened up the mountain nicely. 2 new trails opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Solid Refresh: {snow24h}\""
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

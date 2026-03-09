@@ -2,19 +2,35 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-03-09",
-  "generated": "2026-03-09T16:07:52.420Z",
+  "generated": "2026-03-09T17:53:45.352Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 2,
+      "48hour_cm": 7,
+      "7day_inches": 12,
+      "7day_cm": 31,
+      "season_total_inches": 267,
+      "season_total_cm": 680,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 280,
+          "today": 285,
           "yesterday": 281,
-          "delta": -1
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 155,
+          "today": 156,
           "yesterday": 154,
-          "delta": 1
+          "delta": 2
         },
         "totalTrails": 305
       },
@@ -28,19 +44,24 @@
           "name": "Ptarmigan - Upper",
           "difficulty": "Black",
           "area": "Emerald / Garbanzo / Village Gondola - Upper"
-        }
-      ],
-      "newlyClosed": [
-        {
-          "name": "Magic Castle",
-          "difficulty": "Green",
-          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
         },
         {
-          "name": "Blackcomb Glacier",
+          "name": "Blow Hole",
+          "difficulty": "DoubleBlack",
+          "area": "Glacier / Showcase T-bar"
+        },
+        {
+          "name": "Entrance to Blackcomb Glacier",
           "difficulty": "Black",
           "area": "Glacier / Showcase T-bar"
         },
+        {
+          "name": "Spankys Ladder",
+          "difficulty": "DoubleBlack",
+          "area": "Glacier / Showcase T-bar"
+        }
+      ],
+      "newlyClosed": [
         {
           "name": "Peak to Creek - Lower",
           "difficulty": "Blue",
@@ -69,23 +90,128 @@
     },
     "lifts": {
       "available": false
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-09",
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": null,
+        "low_c": null,
+        "description": "Cloudy with sunny periods.",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-10T09:34:41-06:00",
+          "high_f": 14,
+          "low_f": 10,
+          "high_c": -10,
+          "low_c": -12,
+          "description": "Flurries.",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-11T09:34:41-06:00",
+          "high_f": 23,
+          "low_f": 10,
+          "high_c": -5,
+          "low_c": -12,
+          "description": "Flurries.",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
+        },
+        {
+          "date": "2026-03-12T09:34:41-06:00",
+          "high_f": 26,
+          "low_f": 10,
+          "high_c": -3,
+          "low_c": -12,
+          "description": "Flurries.",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-10T09:34:41-06:00",
+        "high_f": 14,
+        "low_f": 10,
+        "high_c": -10,
+        "low_c": -12,
+        "description": "Flurries.",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "2 new trails opened today",
+      "1\" new snow overnight",
+      "5 new trails opened today",
       "2 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days",
+      "4 more trails open than yesterday",
+      "2\" snow expected Tuesday"
+    ],
     "recommendations": [
       "Fresh corduroy on Emerald Forest - Upper Entrance - perfect for intermediate skiers",
       "Fresh corduroy on Raven - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter's Coming Back",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Ski patrol opened 5 additional trails. A few more choices today. Big things coming. 9\" in the forecast. Might be time to plan ahead.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 3,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Little Sugar on Top"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
