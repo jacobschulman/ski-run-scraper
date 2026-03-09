@@ -2,7 +2,7 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2026-03-09",
-  "generated": "2026-03-09T11:44:09.576Z",
+  "generated": "2026-03-09T13:25:46.464Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,40 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 20,
+          "today": 16,
           "yesterday": 20,
-          "delta": 0
+          "delta": -4
         },
         "groomedTrails": {
-          "today": 12,
+          "today": 10,
           "yesterday": 12,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 20
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Floyd's Folly",
+          "difficulty": "Black",
+          "area": "Jack Frost"
+        },
+        {
+          "name": "Lightning",
+          "difficulty": "Black",
+          "area": "Jack Frost"
+        },
+        {
+          "name": "River Shot",
+          "difficulty": "Black",
+          "area": "Jack Frost"
+        },
+        {
+          "name": "Solitude",
+          "difficulty": "Black",
+          "area": "Jack Frost"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -63,14 +84,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "All Systems Go",
-    "body": "20 of 20 trails are open with 12 groomed. Variable conditions with a temperatures TBD. The whole mountain is basically open. Go explore. 20/20 trails open, 12 groomed. Variable conditions.",
+    "headline": "The Rundown",
+    "body": "16 of 20 trails are open with 10 groomed. Variable conditions with a temperatures TBD. 16/20 trails open, 10 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_full",
-          "category": "terrain",
-          "priority": 45,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -80,25 +101,19 @@
           "usedFor": "body"
         },
         {
-          "id": "percent_full",
-          "category": "terrain",
-          "priority": 45,
-          "usedFor": "body"
-        },
-        {
           "id": "fallback_body",
           "category": "weather",
           "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "percent_full",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "fallback",
+        "variationIndex": 6,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Whole Mountain Awaits"
+        "previousHeadline": "All Systems Go"
       },
       "dayOfWeek": "Monday"
     }

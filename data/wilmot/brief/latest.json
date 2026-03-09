@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2026-03-09",
-  "generated": "2026-03-09T11:44:09.589Z",
+  "generated": "2026-03-09T13:25:46.475Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,50 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 6,
           "yesterday": 6,
-          "delta": -6
+          "delta": 0
         },
         "totalTrails": 26
       },
       "newlyOpened": [],
-      "newlyClosed": [
-        {
-          "name": "Turtle",
-          "difficulty": "Green",
-          "area": "Beginner Area"
-        },
-        {
-          "name": "Broadway",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Lower Cat Trail",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Meadows",
-          "difficulty": "Green",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Paradise",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        },
-        {
-          "name": "Sunnyside",
-          "difficulty": "Blue",
-          "area": "Main Hill"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -94,30 +63,36 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "The mountain is still prepping for the season. Weather today: Variable conditions.",
+    "headline": "Season Just Getting Started",
+    "body": "The rundown: 6 trails open, 6 groomed. Variable conditions with temps around temps TBD. 6/26 trails open, 6 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "percent_early",
+          "category": "context",
+          "priority": 15,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "early_season",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Monday"
     }
