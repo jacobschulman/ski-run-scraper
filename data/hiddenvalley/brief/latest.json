@@ -1,63 +1,69 @@
 {
   "resort": "hiddenvalley",
   "resortName": "Hidden Valley",
-  "date": "2026-03-09",
-  "generated": "2026-03-09T05:02:45.922Z",
+  "date": "2026-03-08",
+  "generated": "2026-03-08T14:37:59.845Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 101,
+      "season_total_cm": 256,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
-          "yesterday": 8,
-          "delta": -8
+          "today": 8,
+          "yesterday": 14,
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 0,
-          "yesterday": 8,
-          "delta": -8
+          "today": 8,
+          "yesterday": 14,
+          "delta": -6
         },
         "totalTrails": 31
       },
       "newlyOpened": [],
       "newlyClosed": [
         {
-          "name": "Bobcat",
+          "name": "Angels Elbow",
+          "difficulty": "Blue",
+          "area": "North Summit"
+        },
+        {
+          "name": "Lower Comet",
+          "difficulty": "Green",
+          "area": "North Summit"
+        },
+        {
+          "name": "Tracker",
+          "difficulty": "Green",
+          "area": "North Summit"
+        },
+        {
+          "name": "Voyager",
+          "difficulty": "Green",
+          "area": "North Summit"
+        },
+        {
+          "name": "Model T",
           "difficulty": "Green",
           "area": "Valley"
         },
         {
-          "name": "Firebird",
-          "difficulty": "Black",
-          "area": "Valley"
-        },
-        {
-          "name": "Imperial",
-          "difficulty": "Blue",
-          "area": "Valley"
-        },
-        {
-          "name": "Lower Continental",
+          "name": "Rambler",
           "difficulty": "Green",
-          "area": "Valley"
-        },
-        {
-          "name": "Rippers Run",
-          "difficulty": "Green",
-          "area": "Valley"
-        },
-        {
-          "name": "Riviera",
-          "difficulty": "Blue",
-          "area": "Valley"
-        },
-        {
-          "name": "Thunderbird",
-          "difficulty": "Black",
-          "area": "Valley"
-        },
-        {
-          "name": "Upper Continental",
-          "difficulty": "Blue",
           "area": "Valley"
         }
       ],
@@ -67,16 +73,76 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-03-08",
+        "date": "2026-03-07",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
-        "totalLiftsTracked": 5,
+        "totalLiftsTracked": 6,
         "busiest": []
+      }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-08",
+        "high_f": 69,
+        "low_f": 56,
+        "high_c": 20,
+        "low_c": 13,
+        "description": "Scattered T-Storms",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-08T05:00:00Z",
+          "high_f": 54,
+          "low_f": 43,
+          "high_c": 12,
+          "low_c": 6,
+          "description": "Rain",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-09T05:00:00Z",
+          "high_f": 57,
+          "low_f": 42,
+          "high_c": 13,
+          "low_c": 6,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-10T05:00:00Z",
+          "high_f": 64,
+          "low_f": 53,
+          "high_c": 18,
+          "low_c": 12,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-08T05:00:00Z",
+        "high_f": 54,
+        "low_f": 43,
+        "high_c": 12,
+        "low_c": 6,
+        "description": "Rain",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -85,6 +151,40 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Springlike Conditions",
+    "body": "8 trails open, 8 groomed. Scattered T-Storms, high of 69°. Spring vibes: 69° and sunny. Early morning firm, afternoon soft.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Corn Snow Season"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }

@@ -1,15 +1,31 @@
 {
   "resort": "liberty",
   "resortName": "Liberty Mountain",
-  "date": "2026-03-09",
-  "generated": "2026-03-09T05:02:45.917Z",
+  "date": "2026-03-08",
+  "generated": "2026-03-08T14:37:59.830Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 20,
-          "yesterday": 20,
-          "delta": 0
+          "yesterday": 19,
+          "delta": 1
         },
         "groomedTrails": {
           "today": 16,
@@ -18,7 +34,13 @@
         },
         "totalTrails": 20
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Eastwind",
+          "difficulty": "DoubleBlack",
+          "area": "Back Side"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -29,13 +51,53 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "All Systems Go",
+    "body": "20 trails open, 16 groomed. Variable conditions, temperatures TBD. 1 new trail opened today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "percent_full",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "percent_full",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Peak Terrain"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
