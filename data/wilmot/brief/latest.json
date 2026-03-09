@@ -2,7 +2,7 @@
   "resort": "wilmot",
   "resortName": "Wilmot Mountain",
   "date": "2026-03-09",
-  "generated": "2026-03-09T06:08:09.463Z",
+  "generated": "2026-03-09T10:04:45.962Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 1,
+          "today": 0,
           "yesterday": 6,
-          "delta": -5
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 1,
+          "today": 0,
           "yesterday": 6,
-          "delta": -5
+          "delta": -6
         },
         "totalTrails": 26
       },
@@ -43,6 +43,11 @@
         },
         {
           "name": "Broadway",
+          "difficulty": "Green",
+          "area": "Main Hill"
+        },
+        {
+          "name": "Lower Cat Trail",
           "difficulty": "Green",
           "area": "Main Hill"
         },
@@ -89,36 +94,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Season Just Getting Started",
-    "body": "The rundown: 1 trail open, 1 groomed. Variable conditions with temps around temps TBD. 1/26 trails open, 1 groomed. Variable conditions.",
+    "headline": "Almost There...",
+    "body": "The mountain is still prepping for the season. Weather today: Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_early",
-          "category": "context",
-          "priority": 15,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "early_season",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "resort_closed",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "Season Just Getting Started"
       },
       "dayOfWeek": "Monday"
     }
