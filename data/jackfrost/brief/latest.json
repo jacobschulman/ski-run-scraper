@@ -2,8 +2,24 @@
   "resort": "jackfrost",
   "resortName": "Jack Frost",
   "date": "2026-03-10",
-  "generated": "2026-03-10T04:51:36.009Z",
+  "generated": "2026-03-10T09:58:17.886Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 62,
+      "season_total_cm": 157,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -57,6 +73,8 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
@@ -70,6 +88,40 @@
     ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Few More Options Today",
+    "body": "20/20 trails spinning, 12 freshly groomed. Variable conditions. 4 more trails opened today, expanding your options.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "terrain_few",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Rundown"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
