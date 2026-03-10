@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-10",
-  "generated": "2026-03-10T09:58:24.428Z",
+  "generated": "2026-03-10T10:55:36.456Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,109 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 127,
+          "today": 128,
           "yesterday": 127,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 33,
+          "today": 27,
           "yesterday": 33,
-          "delta": 0
+          "delta": -6
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Scoot",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Bridle Chain",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Cribworks",
+          "difficulty": "Double Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lower Whiffletree",
+          "difficulty": "Novice",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Tote Road Ext",
+          "difficulty": "Blue",
+          "area": "Timberline"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "King's Landing",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Midstation X-Cut",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lower Beaver Tail",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Chipper",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Knot Bumper",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Lower Windrow",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper Windrow",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Whistle Punk",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,19 +190,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "5 trails freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Narrow Gauge - all skill levels",
+      "Fresh corduroy on Bridle Chain - perfect for intermediate skiers",
+      "Fresh corduroy on Cribworks - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "Midweek Bliss",
-    "body": "127 trails open, 33 groomed. Windy, temperatures TBD. Light snow possible in the forecast.",
+    "body": "128 trails open, 27 groomed. Windy, temperatures TBD. 5 runs freshly groomed, mostly in Double Runner, SuperQuad, and more. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -130,13 +226,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "midweek_mellow",
         "variationIndex": 1,
