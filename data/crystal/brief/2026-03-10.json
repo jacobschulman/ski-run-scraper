@@ -2,8 +2,24 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-03-10",
-  "generated": "2026-03-10T16:08:33.268Z",
+  "generated": "2026-03-10T17:54:43.784Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 8,
+      "24hour_inches": 7,
+      "24hour_cm": 18,
+      "48hour_inches": 10,
+      "48hour_cm": 25,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 199,
+      "season_total_cm": 505,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,117 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-10",
+        "high_f": 20,
+        "low_f": 20,
+        "high_c": -6,
+        "low_c": -7,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 3
+      },
+      "outlook": [
+        {
+          "date": "2026-03-11",
+          "high_f": 31,
+          "low_f": 24,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 7,
+          "snowfall_expected": 13
+        },
+        {
+          "date": "2026-03-12",
+          "high_f": 25,
+          "low_f": 25,
+          "high_c": -4,
+          "low_c": -4,
+          "description": "Snow Wind",
+          "snowfall_day_inches": 6,
+          "snowfall_night_inches": 9,
+          "snowfall_expected": 15
+        },
+        {
+          "date": "2026-03-13",
+          "high_f": 30,
+          "low_f": 24,
+          "high_c": -1,
+          "low_c": -4,
+          "description": "Snow",
+          "snowfall_day_inches": 11,
+          "snowfall_night_inches": 7,
+          "snowfall_expected": 18
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-11",
+        "high_f": 31,
+        "low_f": 24,
+        "high_c": -1,
+        "low_c": -4,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 6,
+        "snowfall_night_inches": 7,
+        "snowfall_expected": 13
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight",
+      "7\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "13\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major System Approaching",
+    "body": "It's a 7\" day. You know what to do. First chair or regret it. Storm cycle alert! 46\" on the way. Conditions are about to level up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 3,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Winter's Coming Back"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
