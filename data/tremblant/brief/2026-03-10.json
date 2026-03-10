@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-03-10",
-  "generated": "2026-03-10T19:43:32.615Z",
+  "generated": "2026-03-10T20:43:04.781Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 1,
+          "today": 0,
           "yesterday": 81,
-          "delta": -80
+          "delta": -81
         },
         "groomedTrails": {
-          "today": 1,
+          "today": 0,
           "yesterday": 67,
-          "delta": -66
+          "delta": -67
         },
         "totalTrails": 129
       },
@@ -322,6 +322,11 @@
           "area": "North Side"
         },
         {
+          "name": "La Traverse",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
           "name": "Letendre",
           "difficulty": "Easy",
           "area": "North Side"
@@ -519,36 +524,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Quiet Days on the Hill",
-    "body": "1 of 129 trail is open with 1 groomed. Cloudy with a high of 38°F. Light snow possible in the forecast.",
+    "headline": "Checking the Forecast",
+    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_flurries",
-          "category": "weather",
-          "priority": 30,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "midweek_mellow",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "resort_closed",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Mountain Report"
+        "previousHeadline": "Quiet Days on the Hill"
       },
       "dayOfWeek": "Tuesday"
     }
