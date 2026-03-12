@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-12",
-  "generated": "2026-03-12T16:08:38.036Z",
+  "generated": "2026-03-12T17:55:48.697Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 1,
+      "24hour_cm": 3,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Powder",
+        "yesterday": "Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -74,24 +90,118 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-12",
+        "high_f": 34,
+        "low_f": 22,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-13",
+          "high_f": 37,
+          "low_f": 26,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-14",
+          "high_f": 37,
+          "low_f": 12,
+          "description": "Windy",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
+        },
+        {
+          "date": "2026-03-15",
+          "high_f": 14,
+          "low_f": 8,
+          "description": "Windy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-13",
+        "high_f": 37,
+        "low_f": 26,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1\" new snow overnight",
       "6 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 6\" in last 7 days",
+      "4\" snow expected Saturday"
+    ],
     "recommendations": [
       "Fresh corduroy on Triple Zero - all skill levels",
       "Fresh corduroy on Hodson's Cut - challenging for advanced skiers",
       "Fresh corduroy on Lillie G Traverse - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Forecast Looks Loaded",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 6 runs freshly groomed, mostly in Spaulding & Resolution, Union Peak, and more. The weather models are locked in: 6\" of snow heading our way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Big Snow Incoming"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

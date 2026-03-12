@@ -2,19 +2,35 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-03-12",
-  "generated": "2026-03-12T16:08:27.542Z",
+  "generated": "2026-03-12T17:55:40.990Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 2,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 4,
+      "48hour_cm": 10,
+      "7day_inches": 10,
+      "7day_cm": 26,
+      "season_total_inches": 273,
+      "season_total_cm": 693,
+      "conditions": {
+        "today": "Drifted",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 282,
+          "today": 286,
           "yesterday": 287,
-          "delta": -5
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 153,
+          "today": 154,
           "yesterday": 159,
-          "delta": -6
+          "delta": -5
         },
         "totalTrails": 305
       },
@@ -24,26 +40,6 @@
           "name": "Tree Fort",
           "difficulty": "Green",
           "area": "Big Red / Garbanzo / Village Gondola - Upper"
-        },
-        {
-          "name": "Magic Castle",
-          "difficulty": "Green",
-          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
-        },
-        {
-          "name": "Blow Hole",
-          "difficulty": "DoubleBlack",
-          "area": "Glacier / Showcase T-bar"
-        },
-        {
-          "name": "Entrance to Blackcomb Glacier",
-          "difficulty": "Black",
-          "area": "Glacier / Showcase T-bar"
-        },
-        {
-          "name": "Spankys Ladder",
-          "difficulty": "DoubleBlack",
-          "area": "Glacier / Showcase T-bar"
         }
       ],
       "newlyGroomed": [],
@@ -120,18 +116,121 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-12",
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": null,
+        "low_c": null,
+        "description": "Mainly cloudy with isolated flurries.",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-13T08:54:38-06:00",
+          "high_f": 17,
+          "low_f": 12,
+          "high_c": -8,
+          "low_c": -11,
+          "description": "Cloudy with sunny periods.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-14T08:54:38-06:00",
+          "high_f": 14,
+          "low_f": 10,
+          "high_c": -10,
+          "low_c": -12,
+          "description": "A mix of sun and cloud.",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-15T08:54:38-06:00",
+          "high_f": 17,
+          "low_f": 12,
+          "high_c": -8,
+          "low_c": -11,
+          "description": "Flurries.",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-13T08:54:38-06:00",
+        "high_f": 17,
+        "low_f": 12,
+        "high_c": -8,
+        "low_c": -11,
+        "description": "Cloudy with sunny periods.",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [],
+    "trends": [
+      "Steady snowfall - 10\" in last 7 days",
+      "3\" snow expected Sunday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "2\" Freshened Things Up",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. Heads up: Crystal Ridge Express peaked at 27 minutes yesterday. Consider alternatives. A little something coming our way. Light snow expected to dust things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_busy",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Major System Approaching"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

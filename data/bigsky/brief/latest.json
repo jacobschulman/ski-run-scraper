@@ -2,8 +2,24 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-03-12",
-  "generated": "2026-03-12T16:08:38.026Z",
+  "generated": "2026-03-12T17:55:48.678Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 15,
+      "7day_cm": 38,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -289,21 +305,74 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-12",
+        "high_f": 29,
+        "low_f": 27,
+        "description": "Windy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-13",
+          "high_f": 32,
+          "low_f": 28,
+          "description": "Windy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-03-14",
+          "high_f": 29,
+          "low_f": 4,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 10,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 10
+        },
+        {
+          "date": "2026-03-15",
+          "high_f": 16,
+          "low_f": 16,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-13",
+        "high_f": 32,
+        "low_f": 28,
+        "description": "Windy",
+        "snowfall_day_inches": 3,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 3
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
+      "2\" fresh snow overnight",
       "3 new trails opened today",
       "48 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 15\" in last 7 days",
       "Grooming increased 1600% from yesterday",
-      "3 more trails open than yesterday"
+      "3 more trails open than yesterday",
+      "3\" snow expected Friday"
     ],
     "recommendations": [
       "Fresh corduroy on Cupajo - great for beginners",
@@ -311,6 +380,46 @@
       "Fresh corduroy on Bozeman Trail - great for beginners"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Big Snow Incoming",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. 3 new trails are now available. Nice little expansion. A significant storm is brewing with 15\" expected over the next few days.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_major_storm",
+          "category": "weather",
+          "priority": 92,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 0,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Storm on the Horizon"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }

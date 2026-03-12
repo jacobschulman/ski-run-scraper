@@ -2,8 +2,24 @@
   "resort": "stevenspass",
   "resortName": "Stevens Pass",
   "date": "2026-03-12",
-  "generated": "2026-03-12T16:08:27.540Z",
+  "generated": "2026-03-12T17:55:40.986Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 2,
+      "24hour_inches": 11,
+      "24hour_cm": 27,
+      "48hour_inches": 16,
+      "48hour_cm": 40,
+      "7day_inches": 52,
+      "7day_cm": 132,
+      "season_total_inches": 277,
+      "season_total_cm": 703,
+      "conditions": {
+        "today": "Early Season",
+        "yesterday": "Early Season"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -173,18 +189,118 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-12",
+        "high_f": 35,
+        "low_f": 24,
+        "high_c": 1,
+        "low_c": -5,
+        "description": "Rain/Snow",
+        "snowfall_day_inches": 8,
+        "snowfall_night_inches": 9
+      },
+      "outlook": [
+        {
+          "date": "2026-03-13T07:00:00Z",
+          "high_f": 28,
+          "low_f": 23,
+          "high_c": -2,
+          "low_c": -5,
+          "description": "Snow",
+          "snowfall_day_inches": 7,
+          "snowfall_night_inches": 4,
+          "snowfall_expected": 11
+        },
+        {
+          "date": "2026-03-14T07:00:00Z",
+          "high_f": 26,
+          "low_f": 17,
+          "high_c": -4,
+          "low_c": -8,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-15T07:00:00Z",
+          "high_f": 30,
+          "low_f": 17,
+          "high_c": -1,
+          "low_c": -9,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 2,
+          "snowfall_expected": 2
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-13T07:00:00Z",
+        "high_f": 28,
+        "low_f": 23,
+        "high_c": -2,
+        "low_c": -5,
+        "description": "Snow",
+        "snowfall_day_inches": 7,
+        "snowfall_night_inches": 4,
+        "snowfall_expected": 11
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight",
+      "11\" in last 24 hours - powder day!"
+    ],
+    "trends": [
+      "Great week for snow - 52\" in last 7 days",
+      "11\" snow expected Friday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Rain at Base, Snow Up Top",
+    "body": "Powder alert: 11\" of fresh overnight means soft conditions across the mountain. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "weather_mixed",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Deep Day: {snow24h}\" Fresh"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
