@@ -2,7 +2,7 @@
   "resort": "roundtop",
   "resortName": "Roundtop Mountain",
   "date": "2026-03-12",
-  "generated": "2026-03-12T11:42:03.083Z",
+  "generated": "2026-03-12T13:24:06.592Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,24 +23,19 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 8,
           "yesterday": 14,
-          "delta": -14
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 3,
-          "delta": -3
+          "delta": 2
         },
         "totalTrails": 21
       },
       "newlyOpened": [],
       "newlyClosed": [
-        {
-          "name": "Discovery Area",
-          "difficulty": "Green",
-          "area": "Roundtop"
-        },
         {
           "name": "Drummer Boy",
           "difficulty": "Green",
@@ -62,6 +57,18 @@
           "area": "Roundtop"
         },
         {
+          "name": "Powderhorn",
+          "difficulty": "Green",
+          "area": "Roundtop"
+        },
+        {
+          "name": "Recruit",
+          "difficulty": "TerrainPark",
+          "area": "Roundtop"
+        }
+      ],
+      "newlyGroomed": [
+        {
           "name": "Lower Exhibition",
           "difficulty": "Blue",
           "area": "Roundtop"
@@ -82,32 +89,11 @@
           "area": "Roundtop"
         },
         {
-          "name": "Powderhorn",
-          "difficulty": "Green",
-          "area": "Roundtop"
-        },
-        {
-          "name": "Recruit",
-          "difficulty": "TerrainPark",
-          "area": "Roundtop"
-        },
-        {
           "name": "Susquehanna",
           "difficulty": "Blue",
           "area": "Roundtop"
-        },
-        {
-          "name": "Upper Exhibition",
-          "difficulty": "Black",
-          "area": "Roundtop"
-        },
-        {
-          "name": "Upper Lafayette",
-          "difficulty": "Black",
-          "area": "Roundtop"
         }
       ],
-      "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
@@ -119,37 +105,57 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": false,
-      "significantGroomingIncrease": false
+      "significantGroomingIncrease": true
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "5 trails freshly groomed"
+    ],
+    "trends": [
+      "Grooming increased 67% from yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Lower Exhibition - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Lafayette - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Ramrod - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "No trails open yet. Current forecast: Variable conditions.",
+    "headline": "Fewer Crowds, More Turns",
+    "body": "8/21 trails spinning, 5 freshly groomed. Variable conditions. 5 runs freshly groomed, mostly in Roundtop. 8/21 trails open, 5 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
           "category": "terrain",
-          "priority": 95,
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stay Tuned for Opening"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Thursday"
     }
