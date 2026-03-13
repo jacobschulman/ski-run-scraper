@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-03-13",
-  "generated": "2026-03-13T14:57:54.616Z",
+  "generated": "2026-03-13T15:55:15.323Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0.4,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 48,
+          "today": 51,
           "yesterday": 48,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 21,
@@ -34,10 +34,32 @@
         },
         "totalTrails": 81
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Banshee Glades",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Toni's Trees",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Crosby's Run",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Toni's Trees",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -45,10 +67,10 @@
     "forecast": {
       "today": {
         "date": "2026-03-13",
-        "high_f": 14,
-        "low_f": 14,
-        "high_c": -10,
-        "low_c": -10,
+        "high_f": 19.4,
+        "low_f": 19.4,
+        "high_c": -7,
+        "low_c": -7,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -60,24 +82,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
-      "Great week for snow - 13.8\" in last 7 days"
+      "Great week for snow - 13.8\" in last 7 days",
+      "3 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Friday: Ready for the Weekend",
-    "body": "The rundown: 48 trails open, 21 groomed. Unknown with temps around 14°. Cold day ahead: 14° high. Dress warmly.",
+    "headline": "3 New Runs Open",
+    "body": "The rundown: 51 trails open, 21 groomed. Unknown with temps around 19.4°. The terrain list grew by 3 today. More variety to choose from. Cold day ahead: 19.4° high. Dress warmly.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -87,15 +112,21 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "temp_cold",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
+        "condition": "terrain_few",
         "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
