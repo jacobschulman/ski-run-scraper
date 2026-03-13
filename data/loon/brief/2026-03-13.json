@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-03-13",
-  "generated": "2026-03-13T11:42:09.871Z",
+  "generated": "2026-03-13T13:23:17.564Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,87 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 73,
+          "today": 71,
           "yesterday": 73,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 57,
+          "today": 68,
           "yesterday": 57,
-          "delta": 0
+          "delta": 11
         },
         "totalTrails": 85
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyClosed": [
+        {
+          "name": "Big Dipper",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Triple Trouble",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Lower Flume",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
+        {
+          "name": "Upper Flume",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
+        {
+          "name": "Upper Walking Boss",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
+        {
+          "name": "Jobber",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Lower Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Ripsaw",
+          "difficulty": "Double Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Upper Twitcher",
+          "difficulty": "Black",
+          "area": "South Peak"
+        },
+        {
+          "name": "Angel Street",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Basin Street",
+          "difficulty": "Blue",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Dropline",
+          "difficulty": "novice",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Rolling Bear",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -106,15 +173,21 @@
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "11 trails freshly groomed"
+    ],
     "trends": [
       "3\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Lower Flume - challenging for advanced skiers",
+      "Fresh corduroy on Upper Flume - challenging for advanced skiers",
+      "Fresh corduroy on Upper Walking Boss - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Big Snow Incoming",
-    "body": "73 of 85 trails are open with 57 groomed. Windy with a temperatures TBD. Winter has more to say. 7\" forecasted means conditions improving soon.",
+    "body": "71 of 85 trails are open with 68 groomed. Windy with a temperatures TBD. 11 runs were freshly groomed overnight. Corduroy is crisp. Winter has more to say. 7\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +200,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         },
         {

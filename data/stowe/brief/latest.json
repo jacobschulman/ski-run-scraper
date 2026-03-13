@@ -2,7 +2,7 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-03-13",
-  "generated": "2026-03-13T11:42:01.214Z",
+  "generated": "2026-03-13T13:23:10.434Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,69 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 37,
+          "today": 44,
           "yesterday": 40,
-          "delta": -3
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 28,
+          "today": 36,
           "yesterday": 28,
-          "delta": 0
+          "delta": 8
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Christiana",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lord",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Lord",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Standard",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower T-Line",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Tyro",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "North Slope",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Gondolier",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - Gondola"
+        },
+        {
+          "name": "Upper Gondolier",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - Gondola"
+        },
+        {
+          "name": "Competition Hill",
+          "difficulty": "Blue",
+          "area": "Spruce Peak"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Lookout Loop",
@@ -47,14 +98,54 @@
           "area": "Mt. Mansfield - FourRunner"
         },
         {
-          "name": "Ridgeview",
+          "name": "East Run",
           "difficulty": "Blue",
-          "area": "Mt. Mansfield - FourRunner"
+          "area": "Spruce Peak"
+        },
+        {
+          "name": "Slalom Hill",
+          "difficulty": "Blue",
+          "area": "Spruce Peak"
+        },
+        {
+          "name": "West Run",
+          "difficulty": "Blue",
+          "area": "Spruce Peak"
+        },
+        {
+          "name": "West Slope",
+          "difficulty": "Blue",
+          "area": "Spruce Peak"
         }
       ],
       "newlyGroomed": [
         {
-          "name": "Slalom Hill",
+          "name": "Lower T-Line",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Tyro",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "North Slope",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Gondolier",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - Gondola"
+        },
+        {
+          "name": "Upper Gondolier",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - Gondola"
+        },
+        {
+          "name": "Competition Hill",
           "difficulty": "Blue",
           "area": "Spruce Peak"
         }
@@ -91,27 +182,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "1 trail freshly groomed"
+      "10 new trails opened today",
+      "6 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "Grooming increased 29% from yesterday",
+      "4 more trails open than yesterday"
+    ],
     "recommendations": [
-      "Fresh corduroy on Slalom Hill - perfect for intermediate skiers"
+      "Fresh corduroy on Lower T-Line - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Tyro - great for beginners",
+      "Fresh corduroy on North Slope - perfect for intermediate skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Friday: Ready for the Weekend",
-    "body": "37/129 trails spinning, 28 freshly groomed. Variable conditions. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "headline": "10 New Runs Open",
+    "body": "44/129 trails spinning, 36 freshly groomed. Variable conditions. 10 more trails opened today, expanding your options. Lift lines were mellow yesterday. Expect a similar vibe today.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -121,19 +218,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "lift_mellow",
           "category": "lifts",
           "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 2,
+        "condition": "terrain_few",
+        "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Friday: Ready for the Weekend"
       },
       "dayOfWeek": "Friday"
     }
