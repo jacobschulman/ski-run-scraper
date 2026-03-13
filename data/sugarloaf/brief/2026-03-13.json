@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-13",
-  "generated": "2026-03-13T13:23:17.557Z",
+  "generated": "2026-03-13T14:57:39.332Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 8,
+          "today": 11,
           "yesterday": 8,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 6,
+          "today": 9,
           "yesterday": 4,
-          "delta": 2
+          "delta": 5
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Feller Buncher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Hatchet",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Horseshoe",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [
         {
@@ -46,6 +62,21 @@
           "name": "The Birches",
           "difficulty": "Novice",
           "area": "Base Area"
+        },
+        {
+          "name": "Feller Buncher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Hatchet",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Horseshoe",
+          "difficulty": "Novice",
+          "area": "West Mountain"
         }
       ],
       "ungroomed": []
@@ -113,25 +144,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "2 trails freshly groomed"
+      "3 new trails opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
-      "Grooming increased 50% from yesterday",
+      "Grooming increased 125% from yesterday",
+      "3 more trails open than yesterday",
       "4\" snow expected Friday"
     ],
     "recommendations": [
       "Fresh corduroy on Snowbrook - all skill levels",
-      "Fresh corduroy on The Birches - all skill levels"
+      "Fresh corduroy on The Birches - all skill levels",
+      "Fresh corduroy on Feller Buncher - all skill levels"
     ]
   },
   "morningBrief": {
     "headline": "Storm Cycle Building",
-    "body": "8 of 176 trails are open with 6 groomed. Windy with a temperatures TBD. Winter has more to say. 12\" forecasted means conditions improving soon.",
+    "body": "11 of 176 trails are open with 9 groomed. Windy with a temperatures TBD. 3 new trails are now available. Nice little expansion. Winter has more to say. 12\" forecasted means conditions improving soon.",
     "debug": {
       "firedRules": [
         {
@@ -147,13 +181,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 2,
