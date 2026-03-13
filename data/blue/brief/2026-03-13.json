@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-03-13",
-  "generated": "2026-03-13T09:53:48.477Z",
+  "generated": "2026-03-13T10:51:18.441Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 51,
+          "today": 54,
           "yesterday": 51,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 39,
+          "today": 42,
           "yesterday": 39,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 64
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Avalanche",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Spectacular",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Avalanche",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Little Devil",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        },
+        {
+          "name": "Spectacular",
+          "difficulty": "Extreme Terrain",
+          "area": "North"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,31 +144,45 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "3 trails freshly groomed"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "2\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Avalanche - all skill levels",
+      "Fresh corduroy on Little Devil - all skill levels",
+      "Fresh corduroy on Spectacular - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Snow Showers Ahead",
-    "body": "51 of 64 trails are open with 39 groomed. Windy with a temperatures TBD. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "A Few More Options Today",
+    "body": "54 of 64 trails are open with 42 groomed. Windy with a temperatures TBD. 3 new trails are now available. Nice little expansion. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -148,11 +194,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Refresh Is Coming"
+        "previousHeadline": "Snow Showers Ahead"
       },
       "dayOfWeek": "Friday"
     }
