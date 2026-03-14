@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-14",
-  "generated": "2026-03-14T11:36:38.865Z",
+  "generated": "2026-03-14T13:14:03.635Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 112,
+          "today": 113,
           "yesterday": 112,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 105,
@@ -34,10 +34,28 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Grizzly",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Grizzly",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,19 +120,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "3\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Grizzly - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Blustery and Snowy",
-    "body": "112 of 222 trails are open with 105 groomed. Snow Wind with a temperatures TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "body": "113 of 222 trails are open with 105 groomed. Snow Wind with a temperatures TBD. 1 new trail opened today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +151,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {

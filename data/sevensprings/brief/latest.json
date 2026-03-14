@@ -2,7 +2,7 @@
   "resort": "sevensprings",
   "resortName": "Seven Springs",
   "date": "2026-03-14",
-  "generated": "2026-03-14T11:36:31.396Z",
+  "generated": "2026-03-14T13:13:57.052Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 3,
           "yesterday": 0,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 2,
           "yesterday": 0,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 52
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Fawn Lane",
+          "difficulty": "Green",
+          "area": "Front Face"
+        },
+        {
+          "name": "The Spot",
+          "difficulty": "TerrainPark",
+          "area": "Front Face"
+        },
+        {
+          "name": "Wagner",
+          "difficulty": "Blue",
+          "area": "Front Face"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -54,39 +70,49 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "No trails open yet. Current forecast: Variable conditions.",
+    "headline": "A Few More Options Today",
+    "body": "3/52 trails spinning, 2 freshly groomed. Variable conditions. 3 more trails opened today, expanding your options.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Almost There..."
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Saturday"
     }

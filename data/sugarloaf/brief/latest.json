@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-14",
-  "generated": "2026-03-14T11:36:38.870Z",
+  "generated": "2026-03-14T13:14:03.640Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,22 +23,37 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 32,
+          "today": 35,
           "yesterday": 32,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 28,
+          "today": 31,
           "yesterday": 30,
-          "delta": -2
+          "delta": 1
         },
         "totalTrails": 176
       },
       "newlyOpened": [
         {
+          "name": "Lower Competition Hill",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Competition Hill",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
           "name": "Spurline",
           "difficulty": "Blue",
           "area": "SuperQuad"
+        },
+        {
+          "name": "Midstation X-Cut",
+          "difficulty": "Blue",
+          "area": "Skyline"
         }
       ],
       "newlyClosed": [
@@ -130,16 +145,17 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today"
+      "4 new trails opened today"
     ],
     "trends": [
+      "3 more trails open than yesterday",
       "6\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Storm Cycle Building",
-    "body": "32 trails open, 28 groomed. Snow Wind, temperatures TBD. A significant storm is brewing with 7\" expected over the next few days.",
+    "body": "35 trails open, 31 groomed. Snow Wind, temperatures TBD. Ski patrol opened 4 additional trails. A few more choices today. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -152,6 +168,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {

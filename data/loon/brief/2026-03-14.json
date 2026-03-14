@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-03-14",
-  "generated": "2026-03-14T11:36:38.877Z",
+  "generated": "2026-03-14T13:14:03.648Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 71,
+          "today": 74,
           "yesterday": 71,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 67,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Northstar",
+          "difficulty": "Black",
+          "area": "West Basin"
+        },
+        {
+          "name": "Big Dipper",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        },
+        {
+          "name": "Triple Trouble",
+          "difficulty": "Black",
+          "area": "Loon Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -108,31 +124,40 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "3\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Refresh Is Coming",
-    "body": "The rundown: 71 trails open, 67 groomed. Snow with temps around temps TBD. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "Terrain Update",
+    "body": "The rundown: 74 trails open, 67 groomed. Snow with temps around temps TBD. The terrain list grew by 3 today. More variety to choose from. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -144,11 +169,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 3,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 2,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead"
+        "previousHeadline": "A Few More Options Today"
       },
       "dayOfWeek": "Saturday"
     }

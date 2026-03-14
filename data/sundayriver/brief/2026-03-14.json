@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-03-14",
-  "generated": "2026-03-14T11:36:38.874Z",
+  "generated": "2026-03-14T13:14:03.644Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,44 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 101,
+          "today": 106,
           "yesterday": 101,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 75,
+          "today": 77,
           "yesterday": 75,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Tightwire",
+          "difficulty": "Black",
+          "area": "LOCKE MOUNTAIN"
+        },
+        {
+          "name": "Lower Upper Cut",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Upper Airglow",
+          "difficulty": "Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Lower Vortex",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Upper Vortex",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +128,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
     "trends": [
+      "5 more trails open than yesterday",
       "3\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Storm Mode: Snow + Wind",
-    "body": "101 trails open, 75 groomed. Snow Wind, temperatures TBD. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "body": "106 trails open, 77 groomed. Snow Wind, temperatures TBD. Ski patrol opened 5 additional trails. A few more choices today. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +156,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
