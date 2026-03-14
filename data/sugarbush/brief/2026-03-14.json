@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-03-14",
-  "generated": "2026-03-14T09:45:18.679Z",
+  "generated": "2026-03-14T10:40:23.662Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,138 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 60,
+          "today": 68,
           "yesterday": 60,
-          "delta": 0
+          "delta": 8
         },
         "groomedTrails": {
-          "today": 35,
+          "today": 47,
           "yesterday": 35,
-          "delta": 0
+          "delta": 12
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyOpened": [
+        {
+          "name": "Elbow",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Lookin' Good",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Lower Elbow",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Lower Rim Run",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "North Star",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Panorama",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Riemergasse",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Rim Run",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Rob Roy",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "The Cliffs",
+          "difficulty": "Difficult",
+          "area": "Mt. Ellen"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Racer's Edge",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Brambles",
+          "difficulty": "Intermediate",
+          "area": "Inverness Peak"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Jester",
+          "difficulty": "Intermediate",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Lower Ripcord",
+          "difficulty": "Difficult",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Sigi's Ripcord",
+          "difficulty": "Expert",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Murphy's Glades",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Birch Run",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Second Thoughts",
+          "difficulty": "Intermediate",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Elbow",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Lower Elbow",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "North Star",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Riemergasse",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Rob Roy",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -112,25 +230,34 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "10 new trails opened today",
+      "11 trails freshly groomed"
+    ],
     "trends": [
+      "Grooming increased 34% from yesterday",
+      "8 more trails open than yesterday",
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Jester - all skill levels",
+      "Fresh corduroy on Lower Ripcord - all skill levels",
+      "Fresh corduroy on Sigi's Ripcord - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Weekend Mode: Engaged",
-    "body": "The rundown: 60 trails open, 35 groomed. Windy with temps around temps TBD. Light snow possible in the forecast.",
+    "headline": "New Runs Now Open",
+    "body": "The rundown: 68 trails open, 47 groomed. Windy with temps around temps TBD. Ski patrol has been busy - 10 additional trails are now open. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -140,19 +267,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "saturday",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Saturday Shred Day"
+        "previousHeadline": "Weekend Mode: Engaged"
       },
       "dayOfWeek": "Saturday"
     }
