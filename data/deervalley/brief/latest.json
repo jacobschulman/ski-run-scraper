@@ -2,14 +2,30 @@
   "resort": "deervalley",
   "resortName": "Deer Valley",
   "date": "2026-03-13",
-  "generated": "2026-03-14T04:52:41.243Z",
+  "generated": "2026-03-14T05:54:07.365Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 2,
+      "7day_cm": 6,
+      "season_total_inches": 144,
+      "season_total_cm": 365,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": "Machine Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 159,
+          "today": 158,
           "yesterday": 166,
-          "delta": -7
+          "delta": -8
         },
         "groomedTrails": {
           "today": 75,
@@ -26,6 +42,11 @@
         }
       ],
       "newlyClosed": [
+        {
+          "name": "Corner Stone",
+          "difficulty": "Intermediate",
+          "area": "Keetley Point"
+        },
         {
           "name": "Argus",
           "difficulty": "Expert",
@@ -166,10 +187,70 @@
         "totalLiftsTracked": 32,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-13",
+        "high_f": null,
+        "low_f": 39,
+        "high_c": null,
+        "low_c": 4,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-14",
+          "high_f": 39,
+          "low_f": 12,
+          "high_c": 4,
+          "low_c": -11,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-15",
+          "high_f": 21,
+          "low_f": 21,
+          "high_c": -6,
+          "low_c": -6,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-16",
+          "high_f": 35,
+          "low_f": 35,
+          "high_c": 2,
+          "low_c": 2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-14",
+        "high_f": 39,
+        "low_f": 12,
+        "high_c": 4,
+        "low_c": -11,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -185,6 +266,40 @@
       "Fresh corduroy on Fairview - all skill levels"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Weekend Starts Now",
+    "body": "The rundown: 158 trails open, 75 groomed. Mostly Clear with temps around temps TBD. 158/227 trails open, 75 groomed. Mostly Clear.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "weekend_kickoff",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Groomers Did Their Thing"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
