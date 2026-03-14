@@ -2,7 +2,7 @@
   "resort": "blue",
   "resortName": "Blue Mountain",
   "date": "2026-03-13",
-  "generated": "2026-03-13T23:37:05.634Z",
+  "generated": "2026-03-14T02:38:51.306Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 54,
+          "today": 49,
           "yesterday": 51,
-          "delta": 3
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 42,
+          "today": 37,
           "yesterday": 39,
-          "delta": 3
+          "delta": -2
         },
         "totalTrails": 64
       },
@@ -51,7 +51,33 @@
           "area": "North"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Apple Bowl",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        },
+        {
+          "name": "Calamity Lane",
+          "difficulty": "Extreme Terrain",
+          "area": "Valley"
+        },
+        {
+          "name": "Due North",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Happy Valley",
+          "difficulty": "Easy",
+          "area": "Valley"
+        },
+        {
+          "name": "Legacy",
+          "difficulty": "Intermediate",
+          "area": "Valley"
+        }
+      ],
       "newlyGroomed": [
         {
           "name": "Avalanche",
@@ -153,7 +179,6 @@
       "3 trails freshly groomed"
     ],
     "trends": [
-      "3 more trails open than yesterday",
       "2\" snow expected Friday"
     ],
     "recommendations": [
@@ -163,26 +188,20 @@
     ]
   },
   "morningBrief": {
-    "headline": "3 New Runs Open",
-    "body": "54 of 64 trails are open with 42 groomed. Windy with a temperatures TBD. 3 new trails are now available. Nice little expansion. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "Snow in the Forecast",
+    "body": "49 of 64 trails are open with 37 groomed. Windy with a temperatures TBD. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -194,11 +213,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Patrol Opened {newTrailsCount} More"
+        "previousHeadline": "{newTrailsCount} New Runs Open"
       },
       "dayOfWeek": "Friday"
     }
