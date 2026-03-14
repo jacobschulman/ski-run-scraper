@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-14",
-  "generated": "2026-03-14T15:38:14.304Z",
+  "generated": "2026-03-14T16:42:43.525Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,36 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 40,
+          "today": 51,
           "yesterday": 32,
-          "delta": 8
+          "delta": 19
         },
         "groomedTrails": {
-          "today": 32,
+          "today": 43,
           "yesterday": 30,
-          "delta": 2
+          "delta": 13
         },
         "totalTrails": 176
       },
       "newlyOpened": [
         {
+          "name": "Gin Pole",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Haywire",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
           "name": "Lower Competition Hill",
           "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Tote Road",
+          "difficulty": "Novice",
           "area": "SuperQuad"
         },
         {
@@ -53,6 +68,16 @@
         {
           "name": "Midstation X-Cut",
           "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Tote Road",
+          "difficulty": "Blue",
+          "area": "Skyline"
+        },
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
           "area": "Skyline"
         },
         {
@@ -79,6 +104,36 @@
           "name": "Upper Cruiser",
           "difficulty": "Blue",
           "area": "Whiffletree"
+        },
+        {
+          "name": "Drop Line",
+          "difficulty": "Double Black",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Ramdown",
+          "difficulty": "Blue",
+          "area": "King Pine"
+        },
+        {
+          "name": "Lower Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
+        },
+        {
+          "name": "Upper Timberline",
+          "difficulty": "Novice",
+          "area": "Timberline"
         }
       ],
       "newlyClosed": [
@@ -93,6 +148,26 @@
           "name": "Tohaul",
           "difficulty": "Blue",
           "area": "Whiffletree"
+        },
+        {
+          "name": "Drop Line",
+          "difficulty": "Double Black",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Flume",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Haulback",
+          "difficulty": "Black",
+          "area": "King Pine"
+        },
+        {
+          "name": "Ramdown",
+          "difficulty": "Blue",
+          "area": "King Pine"
         }
       ],
       "ungroomed": [
@@ -172,30 +247,33 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": true,
-      "significantGroomingIncrease": false,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "9 new trails opened today",
-      "1 trail freshly groomed"
+      "20 new trails opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
-      "8 more trails open than yesterday",
+      "Grooming increased 43% from yesterday",
+      "19 more trails open than yesterday",
       "6\" snow expected Saturday"
     ],
     "recommendations": [
-      "Fresh corduroy on Tohaul - perfect for intermediate skiers"
+      "Fresh corduroy on Tohaul - perfect for intermediate skiers",
+      "Fresh corduroy on Drop Line - all skill levels",
+      "Fresh corduroy on Flume - challenging for advanced skiers"
     ]
   },
   "morningBrief": {
-    "headline": "Storm Cycle Building",
-    "body": "40 trails open, 32 groomed. Snow Wind, temperatures TBD. Ski patrol has been busy - 9 additional trails are now open. A significant storm is brewing with 7\" expected over the next few days.",
+    "headline": "Patrol Won't Quit",
+    "body": "51 trails open, 43 groomed. Snow Wind, temperatures TBD. Major terrain drop: 20 new trails opened overnight. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "terrain_major",
+          "category": "terrain",
+          "priority": 88,
           "usedFor": "headline"
         },
         {
@@ -205,9 +283,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expanding",
+          "id": "terrain_major",
           "category": "terrain",
-          "priority": 75,
+          "priority": 88,
           "usedFor": "body"
         },
         {
@@ -217,13 +295,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
-        "condition": "storm_major",
+        "condition": "terrain_major",
         "variationIndex": 1,
-        "totalVariations": 7,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Big Snow Incoming"
+        "previousHeadline": "Major Terrain Drop: {newTrailsCount} Runs"
       },
       "dayOfWeek": "Saturday"
     }
