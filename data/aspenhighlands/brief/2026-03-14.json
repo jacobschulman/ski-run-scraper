@@ -2,14 +2,30 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-03-14",
-  "generated": "2026-03-14T23:36:38.452Z",
+  "generated": "2026-03-15T05:44:00.593Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 47,
+          "today": 46,
           "yesterday": 84,
-          "delta": -37
+          "delta": -38
         },
         "groomedTrails": {
           "today": 15,
@@ -43,11 +59,6 @@
           "name": "Suzi Q",
           "difficulty": "Black",
           "area": "Thunderbowl"
-        },
-        {
-          "name": "Aspen Highlands (Lower)",
-          "difficulty": "Blue",
-          "area": "Uphill Routes"
         }
       ],
       "newlyClosed": [
@@ -279,20 +290,106 @@
         "totalLiftsTracked": 5,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-14",
+        "high_f": null,
+        "low_f": 14,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-15",
+          "high_f": 13,
+          "low_f": 8,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-16",
+          "high_f": 27,
+          "low_f": 24,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-17",
+          "high_f": 39,
+          "low_f": 29,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-15",
+        "high_f": 13,
+        "low_f": 8,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "6 new trails opened today"
+      "5 new trails opened today"
     ],
-    "trends": [],
+    "trends": [
+      "1\" snow expected Sunday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Saturday Session",
+    "body": "46 of 126 trails are open with 15 groomed. Windy with a temperatures TBD. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_saturday",
+          "category": "time",
+          "priority": 38,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "saturday",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Weekend Mode: Engaged"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
