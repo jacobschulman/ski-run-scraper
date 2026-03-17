@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-17",
-  "generated": "2026-03-17T11:58:07.881Z",
+  "generated": "2026-03-17T15:07:01.795Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 3,
+      "48hour_cm": 8,
+      "7day_inches": 3,
+      "7day_cm": 8,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 83,
+          "today": 87,
           "yesterday": 83,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 202
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Wheeler Creek",
+          "difficulty": "easiest",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Formidable",
+          "difficulty": "Black",
+          "area": "East"
+        },
+        {
+          "name": "Bee Traverse",
+          "difficulty": "Black",
+          "area": "East"
+        },
+        {
+          "name": "The Moz",
+          "difficulty": "Blue",
+          "area": "West"
+        },
+        {
+          "name": "Bucksaw",
+          "difficulty": "Blue",
+          "area": "West"
+        },
+        {
+          "name": "Lyman Lane",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Pinecone Alley",
+          "difficulty": "Blue",
+          "area": "West"
+        },
+        {
+          "name": "Collage (L)",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Summit Stash",
+          "difficulty": "Black",
+          "area": "Tucker Mountain"
+        },
+        {
+          "name": "Triple Zero",
+          "difficulty": "Double Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Hodson's Cut",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Copperfield",
+          "difficulty": "Blue",
+          "area": "West"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -32,18 +110,115 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-17",
+        "high_f": 38,
+        "low_f": 27,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-18",
+          "high_f": 47,
+          "low_f": 29,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-19",
+          "high_f": 49,
+          "low_f": 30,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-20",
+          "high_f": 50,
+          "low_f": 30,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-18",
+        "high_f": 47,
+        "low_f": 29,
+        "description": "Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2\" fresh snow overnight",
+      "8 trails freshly groomed"
+    ],
     "trends": [],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Wheeler Creek - all skill levels",
+      "Fresh corduroy on Formidable - challenging for advanced skiers",
+      "Fresh corduroy on Bee Traverse - challenging for advanced skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "Overnight dusting of 2\" means the hardpack got a makeover. 8 runs freshly groomed, mostly in Union Peak, East, and more. Windy conditions expected. Upper lifts may have holds or delays.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Mountain Got a Touch-Up"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
