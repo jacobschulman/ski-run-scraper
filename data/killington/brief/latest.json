@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-17",
-  "generated": "2026-03-17T20:50:59.707Z",
+  "generated": "2026-03-17T21:47:04.894Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 85,
+          "today": 100,
           "yesterday": 125,
-          "delta": -40
+          "delta": -25
         },
         "groomedTrails": {
-          "today": 77,
+          "today": 92,
           "yesterday": 90,
-          "delta": -13
+          "delta": 2
         },
         "totalTrails": 222
       },
@@ -42,16 +42,6 @@
         }
       ],
       "newlyClosed": [
-        {
-          "name": "East Fall - Upper",
-          "difficulty": "Blue",
-          "area": "North Ridge Area"
-        },
-        {
-          "name": "Cascade",
-          "difficulty": "Double Black",
-          "area": "Killington Peak"
-        },
         {
           "name": "Escapade",
           "difficulty": "Double Black",
@@ -73,21 +63,6 @@
           "area": "Canyon Area"
         },
         {
-          "name": "Downdraft - Lower",
-          "difficulty": "Double Black",
-          "area": "Canyon Area"
-        },
-        {
-          "name": "Downdraft - Middle",
-          "difficulty": "Double Black",
-          "area": "Canyon Area"
-        },
-        {
-          "name": "Dream Maker",
-          "difficulty": "Blue",
-          "area": "Skye Peak"
-        },
-        {
           "name": "Dream Maker - Headwall",
           "difficulty": "Black",
           "area": "Bear Mountain"
@@ -101,11 +76,6 @@
           "name": "Outer Limits",
           "difficulty": "Double Black",
           "area": "Bear Mountain"
-        },
-        {
-          "name": "The Stash",
-          "difficulty": "Blue",
-          "area": "Skye Peak"
         },
         {
           "name": "Wildfire - Upper",
@@ -143,16 +113,6 @@
           "area": "Skye Peak"
         },
         {
-          "name": "Skyelark - Lower",
-          "difficulty": "Black",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "South Ridge Link",
-          "difficulty": "easiest",
-          "area": "Skye Peak"
-        },
-        {
           "name": "Thimble",
           "difficulty": "Black",
           "area": "Skye Peak"
@@ -168,22 +128,7 @@
           "area": "Skye Peak"
         },
         {
-          "name": "Full House",
-          "difficulty": "Blue",
-          "area": "Snowdon"
-        },
-        {
           "name": "Great Bear - Lower",
-          "difficulty": "Black",
-          "area": "Snowdon"
-        },
-        {
-          "name": "Great Bear - Upper",
-          "difficulty": "Blue",
-          "area": "Snowdon"
-        },
-        {
-          "name": "Highline",
           "difficulty": "Black",
           "area": "Snowdon"
         },
@@ -204,16 +149,6 @@
         },
         {
           "name": "Escape",
-          "difficulty": "Blue",
-          "area": "South Ridge Area"
-        },
-        {
-          "name": "Pipe Dream - Lower",
-          "difficulty": "Blue",
-          "area": "South Ridge Area"
-        },
-        {
-          "name": "Pipe Dream - Upper",
           "difficulty": "Blue",
           "area": "South Ridge Area"
         },
@@ -240,9 +175,39 @@
       ],
       "newlyGroomed": [
         {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
           "name": "Carpenter's Run",
           "difficulty": "easiest",
           "area": "Skye Peak"
+        },
+        {
+          "name": "South Ridge Link",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Great Bear - Upper",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Pipe Dream - Lower",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        },
+        {
+          "name": "Pipe Dream - Upper",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
         }
       ],
       "ungroomed": []
@@ -316,18 +281,20 @@
     },
     "alerts": [
       "1 new trail opened today",
-      "1 trail freshly groomed"
+      "7 trails freshly groomed"
     ],
     "trends": [
       "1\" snow expected Thursday"
     ],
     "recommendations": [
+      "Fresh corduroy on Downdraft - Lower - all skill levels",
+      "Fresh corduroy on Downdraft - Middle - all skill levels",
       "Fresh corduroy on Carpenter's Run - all skill levels"
     ]
   },
   "morningBrief": {
     "headline": "Snow in the Forecast",
-    "body": "The rundown: 85 trails open, 77 groomed. Windy with temps around 19°. A little something coming our way. Light snow expected to dust things up.",
+    "body": "The rundown: 100 trails open, 92 groomed. Windy with temps around 19°. 7 runs freshly groomed, mostly in Canyon Area, Skye Peak, and more. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
@@ -340,6 +307,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
