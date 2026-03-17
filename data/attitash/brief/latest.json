@@ -2,7 +2,7 @@
   "resort": "attitash",
   "resortName": "Attitash",
   "date": "2026-03-17",
-  "generated": "2026-03-17T10:06:05.316Z",
+  "generated": "2026-03-17T11:12:46.089Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,44 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 24,
-          "delta": -24
+          "delta": -19
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 5,
           "yesterday": 24,
-          "delta": -24
+          "delta": -19
         },
         "totalTrails": 76
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Councilor's Run",
+          "difficulty": "Green",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Inside Out",
+          "difficulty": "Green",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Learning Center",
+          "difficulty": "Green",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Lower Far Out",
+          "difficulty": "Green",
+          "area": "Attitash Peak"
+        },
+        {
+          "name": "Snowbelt",
+          "difficulty": "Green",
+          "area": "Attitash Peak"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Avenger",
@@ -175,39 +201,47 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "headline": "Beat the Weekend Rush",
+    "body": "5 of 76 trails are open with 5 groomed. Variable conditions with a temperatures TBD. 5/76 trails open, 5 groomed. Variable conditions.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "midweek_mellow",
+        "variationIndex": 4,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Beat the Weekend Rush"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Tuesday"
     }
