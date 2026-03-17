@@ -2,7 +2,7 @@
   "resort": "junemountain",
   "resortName": "June Mountain",
   "date": "2026-03-17",
-  "generated": "2026-03-17T17:14:16.096Z",
+  "generated": "2026-03-17T19:16:11.294Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 40,
           "yesterday": 34,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
           "today": 20,
@@ -34,7 +34,38 @@
         },
         "totalTrails": 44
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Carson",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Carson Cutoff",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Lower Carson",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "Slalom",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        },
+        {
+          "name": "The Face",
+          "difficulty": "Expert",
+          "area": "June Mountain"
+        },
+        {
+          "name": "The Wall",
+          "difficulty": "Very Difficult",
+          "area": "June Mountain"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,29 +143,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "6 new trails opened today"
+    ],
+    "trends": [
+      "6 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Corn Snow Season",
-    "body": "34 trails open, 20 groomed. Sunny, high of 58°. Spring vibes: 58° and sunny. Early morning firm, afternoon soft.",
+    "headline": "More Mountain to Explore",
+    "body": "40 trails open, 20 groomed. Sunny, high of 58°. Terrain expanding: 6 new trails opening up more options. Spring vibes: 58° and sunny. Early morning firm, afternoon soft.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_spring",
-          "category": "weather",
-          "priority": 50,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "body"
         },
         {
@@ -146,11 +187,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "spring_vibes",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Soft and Sunny"
+        "previousHeadline": "Corn Snow Season"
       },
       "dayOfWeek": "Tuesday"
     }
