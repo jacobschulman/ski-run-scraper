@@ -2,7 +2,7 @@
   "resort": "stevenspass",
   "resortName": "Stevens Pass",
   "date": "2026-03-17",
-  "generated": "2026-03-17T15:06:54.540Z",
+  "generated": "2026-03-17T17:14:08.477Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,132 +23,59 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 27,
           "yesterday": 22,
-          "delta": -22
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 16,
           "yesterday": 12,
-          "delta": -12
+          "delta": 4
         },
         "totalTrails": 57
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Promenade",
-          "difficulty": "Green",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Showcase",
-          "difficulty": "Blue",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "I-5",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Lower Diamond",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Trapper",
-          "difficulty": "Black",
-          "area": "Big Chief Mountain"
-        },
-        {
-          "name": "Brennan's Trail",
-          "difficulty": "Blue",
+          "name": "Lower Mavericks Park",
+          "difficulty": "TerrainPark",
           "area": "Brooks"
         },
         {
-          "name": "Broadway",
-          "difficulty": "Blue",
+          "name": "Midway Park",
+          "difficulty": "TerrainPark",
           "area": "Brooks"
         },
         {
-          "name": "Waterfall",
-          "difficulty": "Blue",
+          "name": "Upper Mavericks Park",
+          "difficulty": "TerrainPark",
           "area": "Brooks"
         },
         {
-          "name": "76 Road",
-          "difficulty": "Green",
+          "name": "Hagen Hill",
+          "difficulty": "Blue",
           "area": "Cowboy Mountain"
         },
         {
-          "name": "Easy Street",
-          "difficulty": "Green",
+          "name": "Panorama",
+          "difficulty": "Black",
           "area": "Cowboy Mountain"
-        },
+        }
+      ],
+      "newlyClosed": [],
+      "newlyGroomed": [
         {
           "name": "Tye Creek",
           "difficulty": "Green",
           "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Blue Trail",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hog Heaven",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hog Wild",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Hoot 'n Holler",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "International",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Rock n Blue",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Slow Poke",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Walls Street",
-          "difficulty": "Blue",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Parachute 1",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Parachute 2",
-          "difficulty": "Black",
-          "area": "Cowboy Mountain"
-        },
-        {
-          "name": "Training Grounds Park",
-          "difficulty": "TerrainPark",
-          "area": "Cowboy Mountain"
         }
       ],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Hagen Hill",
+          "difficulty": "Blue",
+          "area": "Cowboy Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -223,19 +150,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 60\" in last 7 days"
+    "alerts": [
+      "5 new trails opened today",
+      "1 trail freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Great week for snow - 60\" in last 7 days",
+      "Grooming increased 33% from yesterday",
+      "5 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Tye Creek - great for beginners"
+    ]
   },
   "morningBrief": {
-    "headline": "Wet Weather Ahead",
-    "body": "The mountain is still prepping for the season. Weather today: Rain.",
+    "headline": "Weather Advisory: Rain",
+    "body": "3\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Ski patrol opened 5 additional trails. A few more choices today. Rain expected today. Wet conditions likely at lower elevations. Snow may be slushy.",
     "debug": {
       "firedRules": [
         {
@@ -245,19 +179,31 @@
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weather_rain",
-        "variationIndex": 1,
+        "variationIndex": 4,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Rain at Base, Snow Up Top"
+        "previousHeadline": "Wet Weather Ahead"
       },
       "dayOfWeek": "Tuesday"
     }
