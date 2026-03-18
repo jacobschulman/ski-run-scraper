@@ -2,7 +2,7 @@
   "resort": "wildcat",
   "resortName": "Wildcat Mountain",
   "date": "2026-03-18",
-  "generated": "2026-03-18T09:02:48.496Z",
+  "generated": "2026-03-18T10:07:00.821Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,89 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 14,
           "yesterday": 0,
-          "delta": 0
+          "delta": 14
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 14,
           "yesterday": 0,
-          "delta": 0
+          "delta": 14
         },
         "totalTrails": 48
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Alley Cat",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Bobcat",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Cat & Mouse",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Cat Track",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Cheetah",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Lower Catapult",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Lower Polecat",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Middle Catapult",
+          "difficulty": "Black",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Middle Polecat",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Middle Wildcat",
+          "difficulty": "Blue",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Snow Cat Slope",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Snow Cat Trail",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Upper Polecat",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        },
+        {
+          "name": "Wild Kitten",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -47,38 +118,48 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "14 new trails opened today"
+    ],
+    "trends": [
+      "14 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Checking the Forecast",
-    "body": "Not open for the season yet. Current conditions: Variable conditions.",
+    "headline": "New Runs Now Open",
+    "body": "14 trails open, 14 groomed. Variable conditions, temperatures TBD. Terrain expanding: 14 new trails opening up more options.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 95,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 4,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Almost There..."
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Wednesday"
     }
