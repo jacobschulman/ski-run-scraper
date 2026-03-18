@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-18",
-  "generated": "2026-03-18T20:49:47.353Z",
+  "generated": "2026-03-18T21:42:54.550Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,27 +23,59 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 99,
+          "today": 103,
           "yesterday": 100,
-          "delta": -1
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 91,
+          "today": 93,
           "yesterday": 92,
-          "delta": -1
+          "delta": 1
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Pipe Dream - Upper",
-          "difficulty": "Blue",
-          "area": "South Ridge Area"
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "OL Express",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
         }
       ],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [],
+      "newlyGroomed": [
+        {
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -108,31 +140,44 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "2 trails freshly groomed"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "2\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Double Dipper - Lower - all skill levels",
+      "Fresh corduroy on Outer Limits - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "99 of 222 trails are open with 91 groomed. Windy with a temperatures TBD. A little something coming our way. Light snow expected to dust things up.",
+    "headline": "More Variety Today",
+    "body": "103 of 222 trails are open with 93 groomed. Windy with a temperatures TBD. 3 new trails are now available. Nice little expansion. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -144,11 +189,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Refresh Is Coming"
+        "previousHeadline": "A Few More Options Today"
       },
       "dayOfWeek": "Wednesday"
     }
