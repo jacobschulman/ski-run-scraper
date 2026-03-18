@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-18",
-  "generated": "2026-03-18T10:07:07.742Z",
+  "generated": "2026-03-18T11:10:48.392Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -28,15 +28,46 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 2,
+          "today": 8,
           "yesterday": 2,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 176
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Snowbrook",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        },
+        {
+          "name": "The Landing",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        },
+        {
+          "name": "The Birches",
+          "difficulty": "Novice",
+          "area": "Base Area"
+        },
+        {
+          "name": "Boardwalk",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Lower Narrow Gauge",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Lower Winter's Way",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -103,18 +134,25 @@
       "hasFreshSnow": false,
       "isPowderDay": false,
       "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "6 trails freshly groomed"
+    ],
     "trends": [
+      "Grooming increased 300% from yesterday",
       "2\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Snowbrook - all skill levels",
+      "Fresh corduroy on The Landing - all skill levels",
+      "Fresh corduroy on The Birches - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "A Refresh Is Coming",
-    "body": "The rundown: 10 trails open, 2 groomed. Windy with temps around temps TBD. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "body": "The rundown: 10 trails open, 8 groomed. Windy with temps around temps TBD. 6 runs freshly groomed, mostly in Base Area and Double Runner. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +165,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
