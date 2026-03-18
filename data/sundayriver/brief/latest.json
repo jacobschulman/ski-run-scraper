@@ -2,7 +2,7 @@
   "resort": "sundayriver",
   "resortName": "Sunday River",
   "date": "2026-03-18",
-  "generated": "2026-03-18T11:10:48.396Z",
+  "generated": "2026-03-18T13:34:31.505Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,115 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 85,
+          "today": 87,
           "yesterday": 85,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 62,
+          "today": 69,
           "yesterday": 62,
-          "delta": 0
+          "delta": 7
         },
         "totalTrails": 144
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Ecstasy",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Rocking Chair",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Sunday Punch",
+          "difficulty": "Blue",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Right Stuff",
+          "difficulty": "Black",
+          "area": "BARKER MOUNTAIN"
+        },
+        {
+          "name": "Lower Vortex",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Upper Vortex",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        },
+        {
+          "name": "Excalibur",
+          "difficulty": "Blue",
+          "area": "JORDAN BOWL"
+        },
+        {
+          "name": "Rogue Angel",
+          "difficulty": "Blue",
+          "area": "JORDAN BOWL"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Shock Wave",
+          "difficulty": "Double Black",
+          "area": "WHITE CAP"
+        },
+        {
+          "name": "Downdraft",
+          "difficulty": "Black",
+          "area": "SPRUCE PEAK"
+        },
+        {
+          "name": "Backside",
+          "difficulty": "novice",
+          "area": "NORTH PEAK"
+        },
+        {
+          "name": "Polaris",
+          "difficulty": "novice",
+          "area": "NORTH PEAK"
+        },
+        {
+          "name": "Enchanted Forest",
+          "difficulty": "Blue",
+          "area": "NORTH PEAK"
+        },
+        {
+          "name": "Black Hole",
+          "difficulty": "Double Black",
+          "area": "AURORA PEAK"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Exit Left",
+          "difficulty": "Blue",
+          "area": "SPRUCE PEAK"
+        },
+        {
+          "name": "Lower Risky Business",
+          "difficulty": "Blue",
+          "area": "SPRUCE PEAK"
+        },
+        {
+          "name": "Upper Risky Business",
+          "difficulty": "Blue",
+          "area": "SPRUCE PEAK"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Village Trail",
+          "difficulty": "novice",
+          "area": "WHITE CAP"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,19 +196,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "8 new trails opened today",
+      "3 trails freshly groomed"
+    ],
     "trends": [
+      "2 more trails open than yesterday",
       "1\" snow expected Thursday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Exit Left - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Risky Business - perfect for intermediate skiers",
+      "Fresh corduroy on Upper Risky Business - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Midweek Bliss",
-    "body": "The rundown: 85 trails open, 62 groomed. Windy with temps around temps TBD. Light snow possible in the forecast.",
+    "body": "The rundown: 87 trails open, 69 groomed. Windy with temps around temps TBD. 8 new trails opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +229,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
