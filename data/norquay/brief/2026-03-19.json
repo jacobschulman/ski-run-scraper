@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-03-19",
-  "generated": "2026-03-19T17:09:59.447Z",
+  "generated": "2026-03-19T19:09:31.236Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 7.9,
-      "7day_cm": 20,
+      "7day_inches": 5.1,
+      "7day_cm": 13,
       "season_total_inches": 124.4,
       "season_total_cm": 316,
       "conditions": {
@@ -71,10 +71,10 @@
     "forecast": {
       "today": {
         "date": "2026-03-19",
-        "high_f": 42.8,
-        "low_f": 42.8,
-        "high_c": 6,
-        "low_c": 6,
+        "high_f": 44.6,
+        "low_f": 44.6,
+        "high_c": 7,
+        "low_c": 7,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -90,14 +90,12 @@
       "significantGroomingIncrease": false
     },
     "alerts": [],
-    "trends": [
-      "Steady snowfall - 7.9\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Beat the Weekend Rush",
-    "body": "Steady snowfall with 7.9\" over the last week.",
+    "body": "34 trails open, 19 groomed. Unknown, high of 44.6°. 34/81 trails open, 19 groomed. 44.6° and Unknown.",
     "debug": {
       "firedRules": [
         {
@@ -107,9 +105,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
