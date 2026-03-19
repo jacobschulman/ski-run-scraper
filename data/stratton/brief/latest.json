@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-03-19",
-  "generated": "2026-03-19T09:58:09.491Z",
+  "generated": "2026-03-19T10:55:03.301Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,23 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 67,
+          "today": 69,
           "yesterday": 63,
-          "delta": 4
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 65,
+          "today": 67,
           "yesterday": 61,
-          "delta": 4
+          "delta": 6
         },
         "totalTrails": 123
       },
       "newlyOpened": [
+        {
+          "name": "Home Run",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
         {
           "name": "Bear Down",
           "difficulty": "Extreme Terrain",
@@ -54,10 +59,20 @@
           "name": "Upper Standard",
           "difficulty": "Expert",
           "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Switchback",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
         }
       ],
       "newlyClosed": [],
       "newlyGroomed": [
+        {
+          "name": "Home Run",
+          "difficulty": "Easy",
+          "area": "Sun Bowl"
+        },
         {
           "name": "Frank's Fall Line",
           "difficulty": "Expert",
@@ -75,6 +90,11 @@
         },
         {
           "name": "Upper Standard",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Switchback",
           "difficulty": "Expert",
           "area": "Upper Mountain"
         }
@@ -159,27 +179,27 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "4 new trails opened today",
-      "4 trails freshly groomed"
+      "6 new trails opened today",
+      "6 trails freshly groomed"
     ],
     "trends": [
-      "4 more trails open than yesterday"
+      "6 more trails open than yesterday"
     ],
     "recommendations": [
+      "Fresh corduroy on Home Run - all skill levels",
       "Fresh corduroy on Frank's Fall Line - all skill levels",
-      "Fresh corduroy on Free Fall - all skill levels",
-      "Fresh corduroy on Upper Grizzly Bear - all skill levels"
+      "Fresh corduroy on Free Fall - all skill levels"
     ]
   },
   "morningBrief": {
-    "headline": "Patrol Opened 4 More",
-    "body": "67 trails open, 65 groomed. Partly Cloudy, temperatures TBD. Ski patrol opened 4 additional trails. A few more choices today.",
+    "headline": "New Runs Now Open",
+    "body": "69 trails open, 67 groomed. Partly Cloudy, temperatures TBD. Ski patrol has been busy - 6 additional trails are now open.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 60,
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -189,19 +209,19 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 60,
+          "priority": 75,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 2,
-        "totalVariations": 5,
+        "condition": "terrain_expansion",
+        "variationIndex": 1,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Midweek Bliss"
+        "previousHeadline": "Patrol Opened {newTrailsCount} More"
       },
       "dayOfWeek": "Thursday"
     }
