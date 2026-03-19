@@ -2,26 +2,110 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-03-19",
-  "generated": "2026-03-19T05:04:00.979Z",
+  "generated": "2026-03-19T09:58:02.174Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 1,
+      "24hour_cm": 2,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 16,
+      "7day_cm": 40,
+      "season_total_inches": 272,
+      "season_total_cm": 690,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 62,
+          "today": 67,
           "yesterday": 62,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 55,
+          "today": 59,
           "yesterday": 55,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Hayride",
+          "difficulty": "Black",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Hayride Loop",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Tyro",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Tyro",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Upper Hayride",
+          "difficulty": "Black",
+          "area": "Mt. Mansfield - FourRunner"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Hayride",
+          "difficulty": "Black",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Hayride Loop",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Hayride",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Lower Tyro",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Tyro",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Upper Hayride",
+          "difficulty": "Black",
+          "area": "Mt. Mansfield - FourRunner"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Haychute",
+          "difficulty": "DoubleBlack",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Liftline",
+          "difficulty": "DoubleBlack",
+          "area": "Mt. Mansfield - FourRunner"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -65,14 +149,66 @@
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "5 new trails opened today",
+      "6 trails freshly groomed"
+    ],
+    "trends": [
+      "Great week for snow - 16\" in last 7 days",
+      "5 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Hayride - challenging for advanced skiers",
+      "Fresh corduroy on Hayride Loop - perfect for intermediate skiers",
+      "Fresh corduroy on Lower Hayride - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Little Sugar on Top",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. 5 new trails are now available. Nice little expansion. Watch for crowds at Mansfield Gondola, which saw 10-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Floodgates Opened"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
