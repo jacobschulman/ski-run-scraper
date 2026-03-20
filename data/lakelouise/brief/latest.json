@@ -2,7 +2,7 @@
   "resort": "lakelouise",
   "resortName": "Lake Louise",
   "date": "2026-03-20",
-  "generated": "2026-03-20T09:56:08.706Z",
+  "generated": "2026-03-20T10:52:14.734Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -28,16 +28,48 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 34,
+          "today": 38,
           "yesterday": 34,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 170
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Wapta",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Meadowlark",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "30 Goats",
+          "difficulty": "Blue",
+          "area": "Larch"
+        },
+        {
+          "name": "Larch Poma",
+          "difficulty": "Blue",
+          "area": "Larch"
+        },
+        {
+          "name": "Merlin",
+          "difficulty": "Blue",
+          "area": "Richardson's Ridge"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Buffaloberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -55,7 +87,7 @@
       },
       "outlook": [
         {
-          "date": "2026-03-21T09:56:08.705Z",
+          "date": "2026-03-21T10:52:14.734Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -66,7 +98,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-22T09:56:08.705Z",
+          "date": "2026-03-22T10:52:14.734Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -77,7 +109,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-23T09:56:08.705Z",
+          "date": "2026-03-23T10:52:14.734Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -89,7 +121,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-03-21T09:56:08.705Z",
+        "date": "2026-03-21T10:52:14.734Z",
         "high_f": 32,
         "low_f": 32,
         "high_c": 0,
@@ -109,16 +141,21 @@
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "2\" fresh snow overnight",
+      "5 trails freshly groomed"
     ],
     "trends": [
       "Great week for snow - 20.9\" in last 7 days"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Wapta - challenging for advanced skiers",
+      "Fresh corduroy on Meadowlark - challenging for advanced skiers",
+      "Fresh corduroy on 30 Goats - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Rain at Base, Snow Up Top",
-    "body": "A proper refresh: 3.1\" of new snow making everything ski better. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
+    "body": "A proper refresh: 3.1\" of new snow making everything ski better. 5 runs freshly groomed, mostly in Front Side, Larch, and more. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
     "debug": {
       "firedRules": [
         {
@@ -134,13 +171,19 @@
           "usedFor": "body"
         },
         {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_mixed",
           "category": "weather",
           "priority": 195,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 1,

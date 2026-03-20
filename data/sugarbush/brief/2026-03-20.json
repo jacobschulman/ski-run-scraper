@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-03-20",
-  "generated": "2026-03-20T09:55:56.890Z",
+  "generated": "2026-03-20T10:52:03.743Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,94 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 58,
+          "today": 62,
           "yesterday": 58,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 42,
           "yesterday": 44,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 142
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Stein's Run",
+          "difficulty": "Expert",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Sleeper Chutes",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Sunrise",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Waterfall",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Stein's Run",
+          "difficulty": "Expert",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Sleeper Chutes",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Sunrise",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        },
+        {
+          "name": "Waterfall",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Organgrinder",
+          "difficulty": "Difficult",
+          "area": "Lincoln Peak"
+        },
+        {
+          "name": "Birdland",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Murphy's Glades",
+          "difficulty": "Intermediate",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "Lookin' Good",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Northway",
+          "difficulty": "Easy",
+          "area": "Mt. Ellen"
+        },
+        {
+          "name": "Which Way",
+          "difficulty": "Intermediate",
+          "area": "Mt. Ellen"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,19 +185,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today",
+      "4 trails freshly groomed"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "3\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Stein's Run - all skill levels",
+      "Fresh corduroy on Sleeper Chutes - all skill levels",
+      "Fresh corduroy on Sunrise - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Storm on the Horizon",
-    "body": "58 of 142 trails are open with 44 groomed. Windy with a temperatures TBD. Storm cycle alert! 11\" on the way. Conditions are about to level up.",
+    "headline": "Big Snow Incoming",
+    "body": "62 of 142 trails are open with 42 groomed. Windy with a temperatures TBD. 4 new trails are now available. Nice little expansion. Storm cycle alert! 11\" on the way. Conditions are about to level up.",
     "debug": {
       "firedRules": [
         {
@@ -140,6 +221,12 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_storm",
           "category": "weather",
           "priority": 85,
@@ -152,7 +239,7 @@
         "variationIndex": 0,
         "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Big Snow Incoming"
+        "previousHeadline": "Storm on the Horizon"
       },
       "dayOfWeek": "Friday"
     }
