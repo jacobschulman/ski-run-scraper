@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-03-20",
-  "generated": "2026-03-20T08:53:09.441Z",
+  "generated": "2026-03-20T09:55:56.894Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,60 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 111,
+          "today": 112,
           "yesterday": 111,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 71,
+          "today": 70,
           "yesterday": 71,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Laurentienne",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Tiguidou",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Roger McCarthy",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "TAM-TAM",
+          "difficulty": "Easy",
+          "area": "South Side"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Erik Guay",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Action",
+          "difficulty": "Very Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Escapade",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,20 +151,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 13\" in last 7 days",
+      "1 more trail open than yesterday",
       "1\" snow expected Friday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on TAM-TAM - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "The Base Is Holding Up",
-    "body": "Holding steady - that 13\" base from recent storms is doing the heavy lifting. Light snow possible in the forecast.",
+    "headline": "Good Snow Persisting",
+    "body": "Holding steady - that 13\" base from recent storms is doing the heavy lifting. 2 new trails opened today. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +186,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "holding_strong",
         "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Good Snow Persisting"
+        "previousHeadline": "The Base Is Holding Up"
       },
       "dayOfWeek": "Friday"
     }
