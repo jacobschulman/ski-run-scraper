@@ -2,8 +2,24 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-03-21",
-  "generated": "2026-03-21T04:46:03.486Z",
+  "generated": "2026-03-21T09:42:56.677Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 6,
+      "overnight_cm": 15,
+      "24hour_inches": 8,
+      "24hour_cm": 20,
+      "48hour_inches": 8,
+      "48hour_cm": 20,
+      "7day_inches": 22,
+      "7day_cm": 55,
+      "season_total_inches": 282,
+      "season_total_cm": 716,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,9 +28,9 @@
           "delta": 5
         },
         "groomedTrails": {
-          "today": 61,
+          "today": 66,
           "yesterday": 59,
-          "delta": 2
+          "delta": 7
         },
         "totalTrails": 129
       },
@@ -46,7 +62,33 @@
         }
       ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Christiana",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Haychute",
+          "difficulty": "DoubleBlack",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Liftline",
+          "difficulty": "DoubleBlack",
+          "area": "Mt. Mansfield - FourRunner"
+        },
+        {
+          "name": "Tollhouse",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - Toll House"
+        },
+        {
+          "name": "Townhouse",
+          "difficulty": "Green",
+          "area": "Mt. Mansfield - Toll House"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -91,18 +133,68 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "5 new trails opened today"
+      "6\" fresh snow overnight",
+      "8\" in last 24 hours - powder day!",
+      "5 new trails opened today",
+      "5 trails freshly groomed"
     ],
     "trends": [
+      "Great week for snow - 22\" in last 7 days",
       "5 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Christiana - perfect for intermediate skiers",
+      "Fresh corduroy on Haychute - expert terrain only",
+      "Fresh corduroy on Liftline - expert terrain only"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter Delivered Big",
+    "body": "Wake up, it's a powder day! 8\" overnight means hero snow everywhere. Ski patrol opened 5 additional trails. A few more choices today. Watch for crowds at Mansfield Gondola, which saw 11-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 4,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Soft Snow Holding Strong"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
