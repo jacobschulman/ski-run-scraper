@@ -2,14 +2,30 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-03-21",
-  "generated": "2026-03-21T23:33:33.133Z",
+  "generated": "2026-03-22T05:02:12.895Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 1,
+      "7day_cm": 3,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 61,
+          "today": 60,
           "yesterday": 61,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 21,
@@ -18,13 +34,7 @@
         },
         "totalTrails": 126
       },
-      "newlyOpened": [
-        {
-          "name": "Aspen Highlands (Lower)",
-          "difficulty": "Blue",
-          "area": "Uphill Routes"
-        }
-      ],
+      "newlyOpened": [],
       "newlyClosed": [
         {
           "name": "Mac 6",
@@ -56,16 +66,65 @@
         "totalLiftsTracked": 5,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-21",
+        "high_f": null,
+        "low_f": 40,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-22",
+          "high_f": 49,
+          "low_f": 36,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-23",
+          "high_f": 46,
+          "low_f": 37,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-24",
+          "high_f": 51,
+          "low_f": 36,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-22",
+        "high_f": 49,
+        "low_f": 36,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": true,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1 new trail opened today",
       "1 trail freshly groomed"
     ],
     "trends": [],
@@ -73,6 +132,40 @@
       "Fresh corduroy on Exhibition - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Saturday Session",
+    "body": "60 of 126 trails are open with 21 groomed. Windy with a temperatures TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_saturday",
+          "category": "time",
+          "priority": 38,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "saturday",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Saturday Shred Day"
+      },
+      "dayOfWeek": "Saturday"
+    }
+  },
   "errors": []
 }
