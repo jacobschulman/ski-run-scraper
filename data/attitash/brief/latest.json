@@ -2,8 +2,24 @@
   "resort": "attitash",
   "resortName": "Attitash",
   "date": "2026-03-22",
-  "generated": "2026-03-22T05:02:06.183Z",
+  "generated": "2026-03-22T09:43:59.528Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 2,
+      "7day_cm": 5,
+      "season_total_inches": 77,
+      "season_total_cm": 197,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -54,11 +70,14 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "2\" fresh snow overnight",
       "1 new trail opened today",
       "1 trail freshly groomed"
     ],
@@ -67,6 +86,34 @@
       "Fresh corduroy on Tightrope - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Overnight Refresh",
+    "body": "Overnight dusting of 2\" means the hardpack got a makeover.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Weekend Mode: Engaged"
+      },
+      "dayOfWeek": "Sunday"
+    }
+  },
   "errors": []
 }
