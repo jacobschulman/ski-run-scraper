@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-22",
-  "generated": "2026-03-22T09:44:06.729Z",
+  "generated": "2026-03-22T10:39:17.214Z",
   "rawData": {
     "snow": {
       "overnight_inches": 4,
@@ -23,21 +23,38 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 54,
+          "today": 56,
           "yesterday": 54,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 53,
+          "today": 54,
           "yesterday": 53,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Narrow Gauge",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Picaroon",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,23 +119,25 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "4\" fresh snow overnight",
-      "6\" in last 24 hours - powder day!"
+      "6\" in last 24 hours - powder day!",
+      "2 new trails opened today"
     ],
     "trends": [
       "Steady snowfall - 6\" in last 7 days",
+      "2 more trails open than yesterday",
       "15\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Major System Approaching",
-    "body": "Mother Nature delivered 6\" of the good stuff. Face shots are on the menu. A significant storm is brewing with 19\" expected over the next few days.",
+    "body": "Mother Nature delivered 6\" of the good stuff. Face shots are on the menu. 2 new trails opened today. A significant storm is brewing with 19\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -134,13 +153,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_major_storm",
           "category": "weather",
           "priority": 92,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 7,
       "headlineSelection": {
         "condition": "storm_major",
         "variationIndex": 4,
