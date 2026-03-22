@@ -2,17 +2,17 @@
   "resort": "banff",
   "resortName": "Banff Sunshine Village",
   "date": "2026-03-22",
-  "generated": "2026-03-22T13:11:46.278Z",
+  "generated": "2026-03-22T14:40:30.407Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0,
-      "overnight_cm": 0,
-      "24hour_inches": 0.8,
-      "24hour_cm": 2,
+      "overnight_inches": 1.2,
+      "overnight_cm": 3,
+      "24hour_inches": 1.2,
+      "24hour_cm": 3,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 26,
-      "7day_cm": 66,
+      "7day_inches": 26.4,
+      "7day_cm": 67,
       "season_total_inches": 0,
       "season_total_cm": 0,
       "conditions": {
@@ -23,21 +23,84 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 107,
+          "today": 106,
           "yesterday": 107,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
-          "today": 41,
+          "today": 47,
           "yesterday": 41,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 120
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyClosed": [
+        {
+          "name": "Wa. Tincan Alley",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "JW. Goat Chicken Gully",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "JW. Fireweed",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "JW. Jackrabbit",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "GE. Rolling Thunder",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "JW. Short and Sweet",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Bye Bye Bowl",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Grizzly",
+          "difficulty": "Green",
+          "area": "All Terrain"
+        },
+        {
+          "name": "UM. Yellowhead North",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "Wa. Old T-Bar",
+          "difficulty": "Black",
+          "area": "All Terrain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "UM. Cherub",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        },
+        {
+          "name": "St. Bunkers",
+          "difficulty": "Blue",
+          "area": "All Terrain"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -46,16 +109,16 @@
       "today": {
         "date": "2026-03-22",
         "high_f": 30.2,
-        "low_f": 8.6,
+        "low_f": 6.8,
         "high_c": -1,
-        "low_c": -13,
+        "low_c": -14,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-03-23T13:11:46.276Z",
+          "date": "2026-03-23T14:40:30.406Z",
           "high_f": 37.4,
           "low_f": 8.6,
           "high_c": 3,
@@ -66,7 +129,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-24T13:11:46.276Z",
+          "date": "2026-03-24T14:40:30.406Z",
           "high_f": 24.8,
           "low_f": 15.8,
           "high_c": -4,
@@ -78,7 +141,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-03-23T13:11:46.276Z",
+        "date": "2026-03-23T14:40:30.406Z",
         "high_f": 37.4,
         "low_f": 8.6,
         "high_c": 3,
@@ -92,40 +155,53 @@
   },
   "computedInsights": {
     "flags": {
-      "hasFreshSnow": false,
+      "hasFreshSnow": true,
       "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [
-      "Great week for snow - 26\" in last 7 days"
+    "alerts": [
+      "1.2\" new snow overnight",
+      "9 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Great week for snow - 26.4\" in last 7 days"
+    ],
+    "recommendations": [
+      "Fresh corduroy on JW. Goat Chicken Gully - challenging for advanced skiers",
+      "Fresh corduroy on JW. Fireweed - challenging for advanced skiers",
+      "Fresh corduroy on JW. Jackrabbit - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "One More Day",
-    "body": "107 trails open, 41 groomed. Unknown, high of 30.2°.",
+    "headline": "Fresh Coat on the Mountain",
+    "body": "1.2\" fell while you were sleeping. The bumps are softer, groomers are primo. 9 runs freshly groomed, mostly in All Terrain.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_sunday",
-          "category": "time",
-          "priority": 38,
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_dusting",
           "category": "snow",
-          "priority": 10,
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "sunday",
+        "condition": "fresh_coat",
         "variationIndex": 0,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
         "previousHeadline": "Sunday Funday"
       },
