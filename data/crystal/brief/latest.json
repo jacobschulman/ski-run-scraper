@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-03-23",
-  "generated": "2026-03-23T19:05:05.299Z",
+  "generated": "2026-03-23T20:44:35.500Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 42,
+          "today": 39,
           "yesterday": 38,
-          "delta": 4
+          "delta": 1
         },
         "groomedTrails": {
           "today": 26,
@@ -56,7 +56,23 @@
           "area": "Frontside"
         }
       ],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Campbell Basin",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        },
+        {
+          "name": "Powder Bowl",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        },
+        {
+          "name": "The Throne",
+          "difficulty": "Very Difficult",
+          "area": "High Campbell"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -141,20 +157,20 @@
       "4 new trails opened today"
     ],
     "trends": [
-      "4 more trails open than yesterday",
+      "1 more trail open than yesterday",
       "2\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "A Few More Options Today",
-    "body": "The rundown: 42 trails open, 26 groomed. Mostly Cloudy with temps around 40°. The terrain list grew by 4 today. More variety to choose from. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "headline": "The Forecast Looks Promising",
+    "body": "The rundown: 39 trails open, 26 groomed. Mostly Cloudy with temps around 40°. 4 new trails opened today. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_few",
-          "category": "terrain",
-          "priority": 60,
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
           "usedFor": "headline"
         },
         {
@@ -164,9 +180,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "terrain_micro",
           "category": "terrain",
-          "priority": 60,
+          "priority": 45,
           "usedFor": "body"
         },
         {
@@ -178,11 +194,11 @@
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "terrain_few",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "snow_coming",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{newTrailsCount} New Runs Open"
+        "previousHeadline": "A Few More Options Today"
       },
       "dayOfWeek": "Monday"
     }
