@@ -2,19 +2,35 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-03-23",
-  "generated": "2026-03-23T11:54:15.237Z",
+  "generated": "2026-03-23T15:06:21.679Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": "Open"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 62,
+          "today": 61,
           "yesterday": 60,
-          "delta": 2
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 15,
+          "today": 14,
           "yesterday": 15,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 126
       },
@@ -23,16 +39,38 @@
           "name": "Aspen Highlands (Lower)",
           "difficulty": "Blue",
           "area": "Uphill Routes"
-        },
-        {
-          "name": "Aspen Highlands (Upper)",
-          "difficulty": "Blue",
-          "area": "Uphill Routes"
         }
       ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Apple Strudel",
+          "difficulty": "Blue",
+          "area": "Mid Mountain"
+        },
+        {
+          "name": "Grand Prix",
+          "difficulty": "Blue",
+          "area": "Upper Mountain"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Heatherbedlam",
+          "difficulty": "Blue",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Pyramid Park",
+          "difficulty": "Blue",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Scarlett's ",
+          "difficulty": "Blue",
+          "area": "Upper Mountain"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -43,22 +81,116 @@
         "totalLiftsTracked": 5,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-23",
+        "high_f": 47,
+        "low_f": 38,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-24",
+          "high_f": 51,
+          "low_f": 38,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-25",
+          "high_f": 55,
+          "low_f": 40,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-26",
+          "high_f": 51,
+          "low_f": 32,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-24",
+        "high_f": 51,
+        "low_f": 38,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2 new trails opened today"
+      "1 new trail opened today",
+      "2 trails freshly groomed"
     ],
     "trends": [
-      "2 more trails open than yesterday"
+      "1 more trail open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Apple Strudel - perfect for intermediate skiers",
+      "Fresh corduroy on Grand Prix - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Springlike Conditions",
+    "body": "61/126 trails spinning, 14 freshly groomed. 47° and Windy. 1 new trail opened today. The sun is working overtime today. Expect 47° and soft, buttery snow by lunch.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Soft and Sunny"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

@@ -2,8 +2,24 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-03-23",
-  "generated": "2026-03-23T11:54:15.241Z",
+  "generated": "2026-03-23T15:06:21.688Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Spring Conditions",
+        "yesterday": "Spring Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -12,9 +28,9 @@
           "delta": -13
         },
         "groomedTrails": {
-          "today": 60,
+          "today": 54,
           "yesterday": 65,
-          "delta": -5
+          "delta": -11
         },
         "totalTrails": 202
       },
@@ -87,7 +103,38 @@
         }
       ],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Hallelujah Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Spaulding Ridge",
+          "difficulty": "Black",
+          "area": "Spaulding & Resolution"
+        },
+        {
+          "name": "Revenge (L)",
+          "difficulty": "Black",
+          "area": "Union Peak"
+        },
+        {
+          "name": "Oh No (L)",
+          "difficulty": "Blue",
+          "area": "East"
+        },
+        {
+          "name": "Woodwinds",
+          "difficulty": "easiest",
+          "area": "West"
+        },
+        {
+          "name": "Lyman Lane",
+          "difficulty": "easiest",
+          "area": "West"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -98,10 +145,60 @@
         "totalLiftsTracked": 23,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-23",
+        "high_f": 45,
+        "low_f": 34,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-24",
+          "high_f": 50,
+          "low_f": 34,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-25",
+          "high_f": 54,
+          "low_f": 36,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-26",
+          "high_f": 51,
+          "low_f": 28,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-24",
+        "high_f": 50,
+        "low_f": 34,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -110,6 +207,40 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Spring Vibes",
+    "body": "127 of 202 trails are open with 54 groomed. Windy with a high of 45°F. Warmer temps with a high of 45°. Snow will soften up by afternoon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Springlike Conditions"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

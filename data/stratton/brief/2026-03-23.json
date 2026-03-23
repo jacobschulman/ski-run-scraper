@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-03-23",
-  "generated": "2026-03-23T11:54:15.140Z",
+  "generated": "2026-03-23T15:06:21.550Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,45 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 66,
+          "today": 61,
           "yesterday": 66,
-          "delta": 0
+          "delta": -5
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 60,
           "yesterday": 63,
-          "delta": 0
+          "delta": -3
         },
         "totalTrails": 123
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Duck Soup",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
+        {
+          "name": "East Byrnes Side",
+          "difficulty": "Terrain Park",
+          "area": "Lower Mountain"
+        },
+        {
+          "name": "Spillway",
+          "difficulty": "Intermediate",
+          "area": "Lower Mountain"
+        },
+        {
+          "name": "Shooter",
+          "difficulty": "Intermediate",
+          "area": "Upper Mountain"
+        },
+        {
+          "name": "Upper Middlebrook",
+          "difficulty": "Expert",
+          "area": "Upper Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -51,32 +77,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-03-22",
-        "high_f": null,
-        "low_f": 26,
-        "high_c": null,
-        "low_c": -3,
-        "description": "Rain Snow",
-        "snowfall_day_inches": 1,
+        "date": "2026-03-23",
+        "high_f": 26,
+        "low_f": 19,
+        "high_c": -3,
+        "low_c": -7,
+        "description": "Cloudy",
+        "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-03-23",
-          "high_f": 26,
-          "low_f": 19,
-          "high_c": -4,
-          "low_c": -7,
-          "description": "Cloudy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-03-24",
-          "high_f": 28,
+          "high_f": 27,
           "low_f": 23,
-          "high_c": -2,
+          "high_c": -3,
           "low_c": -5,
           "description": "Windy",
           "snowfall_day_inches": 0,
@@ -85,10 +100,21 @@
         },
         {
           "date": "2026-03-25",
-          "high_f": 36,
-          "low_f": 34,
+          "high_f": 35,
+          "low_f": 33,
           "high_c": 2,
           "low_c": 1,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-26",
+          "high_f": 47,
+          "low_f": 35,
+          "high_c": 8,
+          "low_c": 2,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -96,12 +122,12 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-03-23",
-        "high_f": 26,
-        "low_f": 19,
-        "high_c": -4,
-        "low_c": -7,
-        "description": "Cloudy",
+        "date": "2026-03-24",
+        "high_f": 27,
+        "low_f": 23,
+        "high_c": -3,
+        "low_c": -5,
+        "description": "Windy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -121,14 +147,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Rain at Base, Snow Up Top",
-    "body": "66/123 trails spinning, 63 freshly groomed. Rain Snow. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
+    "headline": "Conditions Report",
+    "body": "61/123 trails spinning, 60 freshly groomed. 26° and Cloudy. 61/123 trails open, 60 groomed. 26° and Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "weather_mixed",
-          "category": "weather",
-          "priority": 195,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -138,19 +164,19 @@
           "usedFor": "body"
         },
         {
-          "id": "weather_mixed",
+          "id": "fallback_body",
           "category": "weather",
-          "priority": 195,
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 2,
       "headlineSelection": {
-        "condition": "weather_mixed",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "fallback",
+        "variationIndex": 4,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Variable Conditions"
+        "previousHeadline": "Rain at Base, Snow Up Top"
       },
       "dayOfWeek": "Monday"
     }
