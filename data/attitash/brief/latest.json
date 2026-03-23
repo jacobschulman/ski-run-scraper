@@ -2,8 +2,24 @@
   "resort": "attitash",
   "resortName": "Attitash",
   "date": "2026-03-23",
-  "generated": "2026-03-23T05:13:03.529Z",
+  "generated": "2026-03-23T09:09:31.100Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 4,
+      "overnight_cm": 11,
+      "24hour_inches": 4,
+      "24hour_cm": 11,
+      "48hour_inches": 6,
+      "48hour_cm": 16,
+      "7day_inches": 6,
+      "7day_cm": 16,
+      "season_total_inches": 82,
+      "season_total_cm": 209,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -74,21 +90,59 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "4\" fresh snow overnight",
       "5 new trails opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "Steady snowfall - 6\" in last 7 days",
       "4 more trails open than yesterday"
     ],
     "recommendations": [
       "Fresh corduroy on Idiot's Option - challenging for advanced skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got a Boost",
+    "body": "The mountain got a nice 4\" boost overnight. Conditions are improved. The terrain list grew by 5 today. More variety to choose from.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Overnight Refresh"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

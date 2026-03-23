@@ -2,8 +2,24 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-03-23",
-  "generated": "2026-03-23T05:13:03.521Z",
+  "generated": "2026-03-23T09:09:31.083Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 3,
+      "overnight_cm": 7,
+      "24hour_inches": 5,
+      "24hour_cm": 12,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 16,
+      "7day_cm": 40,
+      "season_total_inches": 288,
+      "season_total_cm": 731,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -192,14 +208,54 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3\" fresh snow overnight"
+    ],
+    "trends": [
+      "Great week for snow - 16\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "A Proper Refresh",
+    "body": "The mountain got a nice 5\" boost overnight. Conditions are improved. Watch for crowds at Mansfield Gondola, which saw 10-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Layer in Place"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
