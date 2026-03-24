@@ -2,14 +2,30 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-03-24",
-  "generated": "2026-03-24T11:58:34.863Z",
+  "generated": "2026-03-24T15:09:22.150Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 254,
+      "season_total_cm": 645,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 37,
           "yesterday": 39,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
           "today": 26,
@@ -19,7 +35,18 @@
         "totalTrails": 86
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Middle Ferk's",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        },
+        {
+          "name": "Sunnyside",
+          "difficulty": "Difficult",
+          "area": "Frontside"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -32,18 +59,116 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-24",
+        "high_f": 36,
+        "low_f": 24,
+        "high_c": 2,
+        "low_c": -4,
+        "description": "Rain Snow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1
+      },
+      "outlook": [
+        {
+          "date": "2026-03-25",
+          "high_f": 26,
+          "low_f": 17,
+          "high_c": -3,
+          "low_c": -8,
+          "description": "Snow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-03-26",
+          "high_f": 30,
+          "low_f": 27,
+          "high_c": -1,
+          "low_c": -3,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-27",
+          "high_f": 43,
+          "low_f": 37,
+          "high_c": 6,
+          "low_c": 3,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-25",
+        "high_f": 26,
+        "low_f": 17,
+        "high_c": -3,
+        "low_c": -8,
+        "description": "Snow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
+    "trends": [
+      "2\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Rain at Base, Snow Up Top",
+    "body": "37 of 86 trails are open with 26 groomed. Rain Snow with a high of 36°F. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "weather_mixed",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Refresh Is Coming"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
