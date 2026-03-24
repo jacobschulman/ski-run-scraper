@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-03-24",
-  "generated": "2026-03-24T15:09:22.142Z",
+  "generated": "2026-03-24T17:10:33.258Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 159,
+          "today": 164,
           "yesterday": 159,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 89,
@@ -34,7 +34,33 @@
         },
         "totalTrails": 191
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Jill's Run Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Lost in the Woods (Lower) Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Lost in the Woods (Upper) Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "West Summit Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Main Lodge"
+        },
+        {
+          "name": "Big Bird Uphill Route",
+          "difficulty": "Uphill Access",
+          "area": "Canyon Lodge"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,29 +138,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
+    "trends": [
+      "5 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Springlike Conditions",
-    "body": "159 trails open, 89 groomed. Sunny, high of 56°. Spring vibes: 56° and sunny. Early morning firm, afternoon soft.",
+    "headline": "A Few More Options Today",
+    "body": "164 trails open, 89 groomed. Sunny, high of 56°. Ski patrol opened 5 additional trails. A few more choices today. Spring vibes: 56° and sunny. Early morning firm, afternoon soft.",
     "debug": {
       "firedRules": [
         {
-          "id": "temp_spring",
-          "category": "weather",
-          "priority": 50,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -146,11 +182,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "spring_vibes",
-        "variationIndex": 2,
+        "condition": "terrain_few",
+        "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Your Morning Mountain Brief"
+        "previousHeadline": "Springlike Conditions"
       },
       "dayOfWeek": "Tuesday"
     }

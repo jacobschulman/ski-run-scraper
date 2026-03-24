@@ -2,7 +2,7 @@
   "resort": "cypressmountain",
   "resortName": "Cypress Mountain",
   "date": "2026-03-24",
-  "generated": "2026-03-24T15:09:22.252Z",
+  "generated": "2026-03-24T17:10:33.392Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,44 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 31,
+          "today": 36,
           "yesterday": 31,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
-          "today": 24,
+          "today": 29,
           "yesterday": 24,
-          "delta": 0
+          "delta": 5
         },
         "totalTrails": 96
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Unknown Lake",
+          "difficulty": "Blue",
+          "area": "Nordic Upper Trails"
+        },
+        {
+          "name": "Triangle Lake",
+          "difficulty": "Blue",
+          "area": "Nordic Upper Trails"
+        },
+        {
+          "name": "Triangle Meadows",
+          "difficulty": "Blue",
+          "area": "Nordic Upper Trails"
+        },
+        {
+          "name": "Pacific",
+          "difficulty": "Blue",
+          "area": "Nordic Upper Trails"
+        },
+        {
+          "name": "Romstad",
+          "difficulty": "Black",
+          "area": "Nordic Upper Trails"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +128,23 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
     "trends": [
+      "Grooming increased 21% from yesterday",
+      "5 more trails open than yesterday",
       "6\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Variable Conditions",
-    "body": "31 of 96 trails are open with 24 groomed. Rain Snow with a high of 38°F. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "body": "36 of 96 trails are open with 29 groomed. Rain Snow with a high of 38°F. 5 new trails are now available. Nice little expansion. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +157,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
