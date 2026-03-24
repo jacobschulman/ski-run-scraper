@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-24",
-  "generated": "2026-03-24T20:52:13.571Z",
+  "generated": "2026-03-24T21:46:03.977Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 92,
+          "today": 93,
           "yesterday": 92,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 89,
+          "today": 86,
           "yesterday": 91,
-          "delta": -2
+          "delta": -5
         },
         "totalTrails": 222
       },
@@ -41,15 +41,29 @@
           "area": "Snowdon"
         }
       ],
-      "newlyClosed": [
-        {
-          "name": "Pipe Dream - Lower",
-          "difficulty": "Blue",
-          "area": "South Ridge Area"
-        }
-      ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
+        {
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Carpenter's Run",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        },
         {
           "name": "Skyelark - Lower",
           "difficulty": "Black",
@@ -128,13 +142,14 @@
       "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "The Forecast Looks Promising",
-    "body": "92 trails open, 89 groomed. Windy, high of 26°. A little something coming our way. Light snow expected to dust things up.",
+    "body": "93 trails open, 86 groomed. Windy, high of 26°. 1 new trail opened today. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
@@ -147,6 +162,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
