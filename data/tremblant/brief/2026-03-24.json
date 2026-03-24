@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-03-24",
-  "generated": "2026-03-24T09:04:16.279Z",
+  "generated": "2026-03-24T10:06:43.168Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,64 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 109,
+          "today": 112,
           "yesterday": 109,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 72,
+          "today": 71,
           "yesterday": 72,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Kandahar",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Rigodon",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Les Bouleaux",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Fuddle Duddle Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Chalumeau",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Ryan Haut",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Banzaï",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Expo Bas",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,20 +155,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
       "Great week for snow - 16\" in last 7 days",
+      "3 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Fuddle Duddle Haut - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "Solid Refresh: 4\"",
-    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "headline": "Nice Little Top-Up",
+    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. Ski patrol opened 3 additional trails. A few more choices today. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
@@ -141,19 +190,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 0,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Nice Little Top-Up"
+        "previousHeadline": "Solid Refresh: {snow24h}\""
       },
       "dayOfWeek": "Tuesday"
     }
