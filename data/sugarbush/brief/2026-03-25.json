@@ -2,7 +2,7 @@
   "resort": "sugarbush",
   "resortName": "Sugarbush",
   "date": "2026-03-25",
-  "generated": "2026-03-25T11:54:43.787Z",
+  "generated": "2026-03-25T13:31:49.377Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 88,
+          "today": 90,
           "yesterday": 84,
-          "delta": 4
+          "delta": 6
         },
         "groomedTrails": {
           "today": 49,
@@ -54,11 +54,33 @@
           "name": "Moonshine",
           "difficulty": "Intermediate",
           "area": "Gadd Peak"
+        },
+        {
+          "name": "Stein's Run",
+          "difficulty": "Expert",
+          "area": "Gadd Peak"
+        },
+        {
+          "name": "The Mall",
+          "difficulty": "Difficult",
+          "area": "Gadd Peak"
         }
       ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Waterfall",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Sleeper Chutes",
+          "difficulty": "Difficult",
+          "area": "North Lynx Peak"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -138,22 +160,25 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "4 new trails opened today"
+      "6 new trails opened today",
+      "1 trail freshly groomed"
     ],
     "trends": [
-      "4 more trails open than yesterday"
+      "6 more trails open than yesterday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Waterfall - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "A Little Sugar on Top",
-    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Ski patrol opened 4 additional trails. A few more choices today. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "More Mountain to Explore",
+    "body": "Overnight dusting of 1\" means the hardpack got a makeover. Ski patrol has been busy - 6 additional trails are now open. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -163,9 +188,9 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_few",
+          "id": "terrain_expanding",
           "category": "terrain",
-          "priority": 60,
+          "priority": 75,
           "usedFor": "body"
         },
         {
@@ -177,11 +202,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "{snow24h}\" Freshened Things Up"
+        "previousHeadline": "A Little Sugar on Top"
       },
       "dayOfWeek": "Wednesday"
     }
