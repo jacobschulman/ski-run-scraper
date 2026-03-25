@@ -2,8 +2,24 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-03-25",
-  "generated": "2026-03-25T05:04:11.541Z",
+  "generated": "2026-03-25T06:09:56.523Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 3,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 11,
+      "48hour_cm": 28,
+      "7day_inches": 17,
+      "7day_cm": 43,
+      "season_total_inches": 133,
+      "season_total_cm": 338,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,107 @@
         "totalLiftsTracked": 15,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-24",
+        "high_f": null,
+        "low_f": 17,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-25",
+          "high_f": 20,
+          "low_f": 21,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-03-26",
+          "high_f": 37,
+          "low_f": 23,
+          "description": "Windy",
+          "snowfall_day_inches": 3,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 3
+        },
+        {
+          "date": "2026-03-27",
+          "high_f": 21,
+          "low_f": -1,
+          "description": "Windy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-25",
+        "high_f": 20,
+        "low_f": 21,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1\" new snow overnight"
+    ],
+    "trends": [
+      "Great week for snow - 17\" in last 7 days",
+      "1\" snow expected Wednesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Layer in Place",
+    "body": "The mountain got a nice 2\" touch-up. Expect improved conditions. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 4,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Fresh Coat on the Mountain"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
