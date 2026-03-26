@@ -2,19 +2,19 @@
   "resort": "lakelouise",
   "resortName": "Lake Louise",
   "date": "2026-03-26",
-  "generated": "2026-03-26T09:09:49.575Z",
+  "generated": "2026-03-26T11:05:05.212Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 3.1,
-      "overnight_cm": 8,
-      "24hour_inches": 5.1,
-      "24hour_cm": 13,
-      "48hour_inches": 5.1,
-      "48hour_cm": 13,
-      "7day_inches": 25.2,
-      "7day_cm": 64,
-      "season_total_inches": 347.6,
-      "season_total_cm": 883,
+      "overnight_inches": 1.6,
+      "overnight_cm": 4,
+      "24hour_inches": 3.9,
+      "24hour_cm": 10,
+      "48hour_inches": 9.1,
+      "48hour_cm": 23,
+      "7day_inches": 25.6,
+      "7day_cm": 65,
+      "season_total_inches": 349.2,
+      "season_total_cm": 887,
       "conditions": {
         "today": "Changeable",
         "yesterday": "Changeable"
@@ -28,16 +28,78 @@
           "delta": 0
         },
         "groomedTrails": {
-          "today": 36,
+          "today": 34,
           "yesterday": 36,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 170
       },
       "newlyOpened": [],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Bearberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Jerry's Jungle",
+          "difficulty": "Green",
+          "area": "Front Side"
+        },
+        {
+          "name": "Buffaloberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Charlie's Choice",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Ski Out",
+          "difficulty": "Green",
+          "area": "Larch"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Men's Downhill",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Grizzly Gully",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Meadowlark",
+          "difficulty": "Black",
+          "area": "Front Side"
+        },
+        {
+          "name": "Bunchberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Boomerang",
+          "difficulty": "Blue",
+          "area": "Back Bowls"
+        },
+        {
+          "name": "30 Goats",
+          "difficulty": "Blue",
+          "area": "Larch"
+        },
+        {
+          "name": "Merlin",
+          "difficulty": "Blue",
+          "area": "Richardson's Ridge"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -55,7 +117,7 @@
       },
       "outlook": [
         {
-          "date": "2026-03-27T09:09:49.573Z",
+          "date": "2026-03-27T11:05:05.211Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -66,7 +128,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-28T09:09:49.573Z",
+          "date": "2026-03-28T11:05:05.211Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -77,7 +139,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-03-29T09:09:49.573Z",
+          "date": "2026-03-29T11:05:05.211Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -89,7 +151,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-03-27T09:09:49.573Z",
+        "date": "2026-03-27T11:05:05.211Z",
         "high_f": 32,
         "low_f": 32,
         "high_c": 0,
@@ -109,16 +171,21 @@
       "significantGroomingIncrease": false
     },
     "alerts": [
-      "3.1\" fresh snow overnight"
+      "1.6\" new snow overnight",
+      "5 trails freshly groomed"
     ],
     "trends": [
-      "Great week for snow - 25.2\" in last 7 days"
+      "Great week for snow - 25.6\" in last 7 days"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Bearberry - perfect for intermediate skiers",
+      "Fresh corduroy on Jerry's Jungle - great for beginners",
+      "Fresh corduroy on Buffaloberry - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Transition Day",
-    "body": "154 of 170 trails are open with 36 groomed. Cloud/Sun/Mixed with a high of 30.2°F. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
+    "body": "A proper refresh: 3.9\" of new snow making everything ski better. 5 runs freshly groomed, mostly in Front Side and Larch. Mixed precipitation expected. Rain at base, snow up top. Dress in layers.",
     "debug": {
       "firedRules": [
         {
@@ -128,9 +195,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
+          "id": "snow_solid",
           "category": "snow",
-          "priority": 10,
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_moderate",
+          "category": "terrain",
+          "priority": 55,
           "usedFor": "body"
         },
         {
@@ -140,7 +213,7 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 3,
