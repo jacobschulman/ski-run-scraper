@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-03-27",
-  "generated": "2026-03-27T19:05:59.761Z",
+  "generated": "2026-03-27T20:50:20.366Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,24 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 79,
+          "today": 94,
           "yesterday": 94,
-          "delta": -15
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 76,
+          "today": 93,
           "yesterday": 85,
-          "delta": -9
+          "delta": 8
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
+          "area": "Bear Mountain"
+        },
+        {
+          "name": "Ovation - Lower",
+          "difficulty": "Double Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Ovation - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Rime",
           "difficulty": "Blue",
           "area": "North Ridge Area"
         },
+        {
+          "name": "Royal Flush - Upper",
+          "difficulty": "Blue",
+          "area": "Snowdon"
+        },
+        {
+          "name": "Escape",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
+        }
+      ],
+      "newlyGroomed": [
         {
           "name": "Downdraft - Lower",
           "difficulty": "Double Black",
@@ -52,18 +80,13 @@
           "area": "Canyon Area"
         },
         {
-          "name": "Dream Maker",
+          "name": "High Traverse",
           "difficulty": "Blue",
-          "area": "Skye Peak"
+          "area": "Canyon Area"
         },
         {
-          "name": "The Stash",
-          "difficulty": "Blue",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "Wildfire - Upper",
-          "difficulty": "Black",
+          "name": "Outer Limits",
+          "difficulty": "Double Black",
           "area": "Bear Mountain"
         },
         {
@@ -72,38 +95,38 @@
           "area": "Skye Peak"
         },
         {
-          "name": "Nivis Walk",
-          "difficulty": "Blue",
+          "name": "Ovation - Lower",
+          "difficulty": "Double Black",
           "area": "Skye Peak"
         },
         {
-          "name": "South Ridge Link",
-          "difficulty": "easiest",
-          "area": "Skye Peak"
-        },
-        {
-          "name": "Highline",
+          "name": "Ovation - Middle",
           "difficulty": "Black",
-          "area": "Snowdon"
+          "area": "Skye Peak"
         },
         {
-          "name": "Royal Flush - Upper",
+          "name": "Frolic",
           "difficulty": "Blue",
           "area": "Snowdon"
-        },
-        {
-          "name": "Escape",
-          "difficulty": "Blue",
-          "area": "South Ridge Area"
         },
         {
           "name": "Pipe Dream - Lower",
           "difficulty": "Blue",
           "area": "South Ridge Area"
+        },
+        {
+          "name": "Pipe Dream - Upper",
+          "difficulty": "Blue",
+          "area": "South Ridge Area"
         }
       ],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Ledgewood Yurt Trail",
+          "difficulty": "easiest",
+          "area": "Skye Peak"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -168,19 +191,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "10 trails freshly groomed"
+    ],
     "trends": [
       "1\" snow expected Saturday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Downdraft - Lower - all skill levels",
+      "Fresh corduroy on Downdraft - Middle - all skill levels",
+      "Fresh corduroy on High Traverse - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Rain at Base, Snow Up Top",
-    "body": "79/222 trails spinning, 76 freshly groomed. Rain Snow. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
+    "body": "94/222 trails spinning, 93 freshly groomed. Rain Snow. The grooming crew went hard: 10 trails of fresh corduroy in Canyon Area, Bear Mountain, and more. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
     "debug": {
       "firedRules": [
         {
@@ -193,6 +223,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "grooming_good",
+          "category": "terrain",
+          "priority": 68,
           "usedFor": "body"
         },
         {
