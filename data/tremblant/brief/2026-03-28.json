@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-03-28",
-  "generated": "2026-03-28T08:52:24.682Z",
+  "generated": "2026-03-28T09:49:13.622Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,145 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 103,
+          "today": 115,
           "yesterday": 103,
-          "delta": 0
+          "delta": 12
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 62,
           "yesterday": 63,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyOpened": [
+        {
+          "name": "Bon Vivant",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Le Plateau",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Boiling Kettle",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "Buzz",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "Dynagriffe",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Les Vallons",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Action",
+          "difficulty": "Very Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Émotion",
+          "difficulty": "Extreme Terrain",
+          "area": "The Edge"
+        },
+        {
+          "name": "Escapade",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Extension",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Haute Tension",
+          "difficulty": "Extreme Terrain",
+          "area": "The Edge"
+        },
+        {
+          "name": "Réaction",
+          "difficulty": "Very Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Sensation Bas",
+          "difficulty": "Difficult",
+          "area": "The Edge"
+        },
+        {
+          "name": "Sensation Haut",
+          "difficulty": "Extreme Terrain",
+          "area": "The Edge"
+        },
+        {
+          "name": "Les Bouleaux",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Flying Mile Haut",
+          "difficulty": "Extreme Terrain",
+          "area": "South Side"
+        },
+        {
+          "name": "Nansen",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Rigodon",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Belvédère",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Bon Vivant",
+          "difficulty": "Easy",
+          "area": "South Side"
+        },
+        {
+          "name": "Erik Guay",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Boomerang",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Gagnon Bas",
+          "difficulty": "Easy",
+          "area": "North Side"
+        },
+        {
+          "name": "Gagnon Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -112,25 +236,33 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [
-      "Steady snowfall - 11\" in last 7 days"
+    "alerts": [
+      "15 new trails opened today",
+      "3 trails freshly groomed"
     ],
-    "recommendations": []
+    "trends": [
+      "Steady snowfall - 11\" in last 7 days",
+      "12 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Belvédère - all skill levels",
+      "Fresh corduroy on Bon Vivant - all skill levels",
+      "Fresh corduroy on Erik Guay - all skill levels"
+    ]
   },
   "morningBrief": {
-    "headline": "1\" Freshened Things Up",
-    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo.",
+    "headline": "More Mountain to Explore",
+    "body": "1\" fell while you were sleeping. The bumps are softer, groomers are primo. Terrain expanding: 15 new trails opening up more options.",
     "debug": {
       "firedRules": [
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
@@ -138,15 +270,21 @@
           "category": "snow",
           "priority": 70,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "fresh_coat",
-        "variationIndex": 1,
+        "condition": "terrain_expansion",
+        "variationIndex": 3,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Little Sugar on Top"
+        "previousHeadline": "{snow24h}\" Freshened Things Up"
       },
       "dayOfWeek": "Saturday"
     }
