@@ -2,7 +2,7 @@
   "resort": "wildcat",
   "resortName": "Wildcat Mountain",
   "date": "2026-03-28",
-  "generated": "2026-03-28T09:49:06.816Z",
+  "generated": "2026-03-28T10:42:49.936Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,57 +23,43 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 12,
+          "today": 22,
           "yesterday": 19,
-          "delta": -7
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 9,
+          "today": 18,
           "yesterday": 16,
-          "delta": -7
+          "delta": 2
         },
         "totalTrails": 48
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "Lower Lynx",
-          "difficulty": "Blue",
+          "name": "Middle Catapult",
+          "difficulty": "Black",
           "area": "Wildcat"
         },
         {
-          "name": "Lower Polecat",
+          "name": "Tomcat",
           "difficulty": "Green",
           "area": "Wildcat"
         },
         {
-          "name": "Middle Lynx",
+          "name": "Upper Lynx",
           "difficulty": "Blue",
-          "area": "Wildcat"
-        },
-        {
-          "name": "Middle Polecat",
-          "difficulty": "Green",
-          "area": "Wildcat"
-        },
-        {
-          "name": "Middle Wildcat",
-          "difficulty": "Blue",
-          "area": "Wildcat"
-        },
-        {
-          "name": "Upper Catapult",
-          "difficulty": "Blue",
-          "area": "Wildcat"
-        },
-        {
-          "name": "Upper Polecat",
-          "difficulty": "Green",
           "area": "Wildcat"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Tomcat",
+          "difficulty": "Green",
+          "area": "Wildcat"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -90,25 +76,28 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
     "trends": [
-      "Steady snowfall - 10\" in last 7 days"
+      "Steady snowfall - 10\" in last 7 days",
+      "3 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Saturday at the Mountain",
-    "body": "Steady snowfall with 10\" over the last week.",
+    "headline": "More Variety Today",
+    "body": "Steady snowfall with 10\" over the last week. 3 more trails opened today, expanding your options.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -116,15 +105,21 @@
           "category": "snow",
           "priority": 40,
           "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "saturday",
-        "variationIndex": 0,
+        "condition": "terrain_few",
+        "variationIndex": 4,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Saturday Session"
+        "previousHeadline": "Saturday at the Mountain"
       },
       "dayOfWeek": "Saturday"
     }
