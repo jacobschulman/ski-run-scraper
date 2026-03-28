@@ -1,9 +1,25 @@
 {
   "resort": "bigboulder",
   "resortName": "Big Boulder",
-  "date": "2026-03-28",
-  "generated": "2026-03-28T05:03:02.524Z",
+  "date": "2026-03-27",
+  "generated": "2026-03-27T13:26:29.403Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 62,
+      "season_total_cm": 158,
+      "conditions": {
+        "today": "Packed Powder",
+        "yesterday": "Packed Powder"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -29,6 +45,8 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false
     },
@@ -36,6 +54,34 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Almost There...",
+    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "resort_closed",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Wait Continues"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

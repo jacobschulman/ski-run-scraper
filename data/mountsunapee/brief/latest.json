@@ -1,24 +1,46 @@
 {
   "resort": "mountsunapee",
   "resortName": "Mount Sunapee",
-  "date": "2026-03-28",
-  "generated": "2026-03-28T05:03:02.520Z",
+  "date": "2026-03-27",
+  "generated": "2026-03-27T13:26:29.389Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 1,
+      "season_total_inches": 77,
+      "season_total_cm": 196,
+      "conditions": {
+        "today": "Snow Groomed",
+        "yesterday": "Snow Groomed"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 47,
-          "yesterday": 42,
-          "delta": 5
+          "today": 42,
+          "yesterday": 48,
+          "delta": -6
         },
         "groomedTrails": {
-          "today": 47,
-          "yesterday": 42,
-          "delta": 5
+          "today": 42,
+          "yesterday": 47,
+          "delta": -5
         },
         "totalTrails": 66
       },
-      "newlyOpened": [
+      "newlyOpened": [],
+      "newlyClosed": [
+        {
+          "name": "Goosebumps",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
         {
           "name": "Eggbeater",
           "difficulty": "Blue",
@@ -45,35 +67,58 @@
           "area": "Terrain Park"
         }
       ],
-      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
     "lifts": {
-      "available": true,
-      "yesterday": {
-        "date": "2026-03-27",
-        "avgWaitTime": 0,
-        "maxWaitTime": 0,
-        "totalLiftsTracked": 8,
-        "busiest": []
-      }
+      "available": false
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": true,
-      "significantGroomingIncrease": false,
-      "highLiftDemand": false
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": false,
+      "significantGroomingIncrease": false
     },
-    "alerts": [
-      "5 new trails opened today"
-    ],
-    "trends": [
-      "5 more trails open than yesterday"
-    ],
+    "alerts": [],
+    "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Weekend Starts Now",
+    "body": "42 trails open, 42 groomed. Variable conditions, temperatures TBD. 42/66 trails open, 42 groomed. Variable conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "weekend_kickoff",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Cheers to the Weekend"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

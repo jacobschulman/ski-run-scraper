@@ -1,9 +1,25 @@
 {
   "resort": "blue",
   "resortName": "Blue Mountain",
-  "date": "2026-03-28",
-  "generated": "2026-03-28T05:03:10.390Z",
+  "date": "2026-03-27",
+  "generated": "2026-03-27T23:40:55.161Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 1,
+      "season_total_inches": 117,
+      "season_total_cm": 296,
+      "conditions": {
+        "today": "Machine Groomed Variable Conditions",
+        "yesterday": "Machine Groomed Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -26,16 +42,76 @@
     "lifts": {
       "available": true,
       "yesterday": {
-        "date": "2026-03-27",
+        "date": "2026-03-26",
         "avgWaitTime": 0,
         "maxWaitTime": 0,
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-03-26",
+        "high_f": null,
+        "low_f": 16,
+        "high_c": null,
+        "low_c": -9,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-03-27",
+          "high_f": 19,
+          "low_f": 19,
+          "high_c": -7,
+          "low_c": -7,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-28",
+          "high_f": 27,
+          "low_f": 27,
+          "high_c": -3,
+          "low_c": -3,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-03-29",
+          "high_f": 45,
+          "low_f": 40,
+          "high_c": 7,
+          "low_c": 5,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-03-27",
+        "high_f": 19,
+        "low_f": 19,
+        "high_c": -7,
+        "low_c": -7,
+        "description": "Mostly Sunny",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
@@ -44,6 +120,40 @@
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Weekend Starts Now",
+    "body": "The rundown: 15 trails open, 12 groomed. Windy with temps around temps TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_windy",
+          "category": "weather",
+          "priority": 45,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "weekend_kickoff",
+        "variationIndex": 3,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Cheers to the Weekend"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
