@@ -2,8 +2,24 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-04-01",
-  "generated": "2026-04-02T02:53:03.325Z",
+  "generated": "2026-04-02T05:11:17.510Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 10,
+      "overnight_cm": 25,
+      "24hour_inches": 12,
+      "24hour_cm": 30,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 12,
+      "7day_cm": 30,
+      "season_total_inches": 278,
+      "season_total_cm": 706,
+      "conditions": {
+        "today": "Powder, Machine Groomed",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -115,20 +131,118 @@
         "totalLiftsTracked": 39,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-01",
+        "high_f": null,
+        "low_f": 26,
+        "high_c": null,
+        "low_c": -4,
+        "description": "Snow Wind",
+        "snowfall_day_inches": 8,
+        "snowfall_night_inches": 4
+      },
+      "outlook": [
+        {
+          "date": "2026-04-02",
+          "high_f": 34,
+          "low_f": 22,
+          "high_c": 1,
+          "low_c": -5,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-03",
+          "high_f": 42,
+          "low_f": 33,
+          "high_c": 5,
+          "low_c": 0,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-04",
+          "high_f": 49,
+          "low_f": 37,
+          "high_c": 10,
+          "low_c": 3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-02",
+        "high_f": 34,
+        "low_f": 22,
+        "high_c": 1,
+        "low_c": -5,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "10\" fresh snow overnight",
+      "12\" in last 24 hours - powder day!",
       "1 new trail opened today"
     ],
-    "trends": [],
+    "trends": [
+      "Great week for snow - 12\" in last 7 days"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Stashes Are Loaded",
+    "body": "The mountain got buried overnight: 12\" of fresh. Hero conditions everywhere. Winter flexing today: snow and wind in the forecast. Dress for it.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_deep",
+          "category": "snow",
+          "priority": 95,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_storm_wind",
+          "category": "weather",
+          "priority": 82,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "snow_deep",
+        "variationIndex": 3,
+        "totalVariations": 8,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Prepare for Pow"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
