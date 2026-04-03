@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-04-03",
-  "generated": "2026-04-03T13:22:46.262Z",
+  "generated": "2026-04-03T14:56:52.003Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 94,
+          "today": 97,
           "yesterday": 94,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 77,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Double Dipper - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Lower",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        },
+        {
+          "name": "Downdraft - Middle",
+          "difficulty": "Double Black",
+          "area": "Canyon Area"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,29 +118,39 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Cheers to the Weekend",
-    "body": "94 trails open, 77 groomed. Windy, temperatures TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "A Few More Options Today",
+    "body": "97 trails open, 77 groomed. Windy, temperatures TBD. The terrain list grew by 3 today. More variety to choose from. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_weekend_kickoff",
-          "category": "time",
-          "priority": 52,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -136,11 +162,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "weekend_kickoff",
-        "variationIndex": 3,
+        "condition": "terrain_few",
+        "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Weekend Starts Now"
+        "previousHeadline": "Terrain Update"
       },
       "dayOfWeek": "Friday"
     }
