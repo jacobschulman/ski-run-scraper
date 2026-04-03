@@ -1,26 +1,89 @@
 {
   "resort": "hunter",
   "resortName": "Hunter Mountain",
-  "date": "2026-04-03",
-  "generated": "2026-04-03T05:13:43.265Z",
+  "date": "2026-04-02",
+  "generated": "2026-04-02T13:47:12.662Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 86,
+      "season_total_cm": 218,
+      "conditions": {
+        "today": "Spring",
+        "yesterday": "Spring"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
           "today": 10,
-          "yesterday": 10,
-          "delta": 0
+          "yesterday": 16,
+          "delta": -6
         },
         "groomedTrails": {
           "today": 10,
-          "yesterday": 10,
-          "delta": 0
+          "yesterday": 7,
+          "delta": 3
         },
         "totalTrails": 71
       },
       "newlyOpened": [],
-      "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyClosed": [
+        {
+          "name": "7th Avenue",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Hellgate",
+          "difficulty": "Black",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Lower 42nd Street",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Lower Crossover",
+          "difficulty": "Black",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Upper 42nd Street",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Upper Crossover",
+          "difficulty": "DoubleBlack",
+          "area": "Main Mountain"
+        }
+      ],
+      "newlyGroomed": [
+        {
+          "name": "Fifth Avenue",
+          "difficulty": "Green",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Kennedy Drive",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        },
+        {
+          "name": "Madison",
+          "difficulty": "Blue",
+          "area": "Main Mountain"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -29,13 +92,57 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": false,
+      "isPowderDay": false,
       "hasNewTrails": false,
-      "significantGroomingIncrease": false
+      "significantGroomingIncrease": true
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "3 trails freshly groomed"
+    ],
+    "trends": [
+      "Grooming increased 43% from yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Fifth Avenue - great for beginners",
+      "Fresh corduroy on Kennedy Drive - perfect for intermediate skiers",
+      "Fresh corduroy on Madison - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Midweek Bliss",
+    "body": "10 trails open, 10 groomed. Variable conditions, temperatures TBD. 10/71 trails open, 10 groomed. Variable conditions.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 1,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Quiet Days on the Hill"
+      },
+      "dayOfWeek": "Thursday"
+    }
+  },
   "errors": []
 }
