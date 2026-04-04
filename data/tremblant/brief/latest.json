@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-04-04",
-  "generated": "2026-04-04T16:47:16.360Z",
+  "generated": "2026-04-04T17:40:16.039Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 73,
+          "today": 87,
           "yesterday": 78,
-          "delta": -5
+          "delta": 9
         },
         "groomedTrails": {
-          "today": 60,
+          "today": 65,
           "yesterday": 71,
-          "delta": -11
+          "delta": -6
         },
         "totalTrails": 129
       },
@@ -46,8 +46,18 @@
           "area": "North Side"
         },
         {
+          "name": "Boiling Kettle",
+          "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
           "name": "Buzz",
           "difficulty": "Extreme Terrain",
+          "area": "North Side"
+        },
+        {
+          "name": "Dynagriffe",
+          "difficulty": "Very Difficult",
           "area": "North Side"
         },
         {
@@ -61,6 +71,11 @@
           "area": "North Side"
         },
         {
+          "name": "Saute-Moutons",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
           "name": "Action",
           "difficulty": "Very Difficult",
           "area": "The Edge"
@@ -69,14 +84,44 @@
           "name": "Escapade",
           "difficulty": "Difficult",
           "area": "The Edge"
+        },
+        {
+          "name": "Bon Vieux Temps",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Brasse-Camarades",
+          "difficulty": "Extreme Terrain",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Cascades",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "La Jamme",
+          "difficulty": "Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Laurentienne",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Porc-à-Pic",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
+        },
+        {
+          "name": "Tiguidou",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
         }
       ],
       "newlyClosed": [
-        {
-          "name": "Beauvallon Haut",
-          "difficulty": "Difficult",
-          "area": "South Side"
-        },
         {
           "name": "Belvédère",
           "difficulty": "Very Difficult",
@@ -85,11 +130,6 @@
         {
           "name": "Dernier Cri",
           "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
-          "name": "DeSerres",
-          "difficulty": "Difficult",
           "area": "South Side"
         },
         {
@@ -121,16 +161,6 @@
           "name": "Taschereau",
           "difficulty": "Very Difficult",
           "area": "South Side"
-        },
-        {
-          "name": "Parc Mitik",
-          "difficulty": "Terrain Park",
-          "area": "North Side"
-        },
-        {
-          "name": "Sissy Schuss",
-          "difficulty": "Difficult",
-          "area": "North Side"
         }
       ],
       "newlyGroomed": [
@@ -165,6 +195,11 @@
           "name": "La Griffe",
           "difficulty": "Very Difficult",
           "area": "North Side"
+        },
+        {
+          "name": "Laurentienne",
+          "difficulty": "Very Difficult",
+          "area": "Versant Soleil"
         }
       ]
     },
@@ -246,10 +281,12 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "7 new trails opened today",
+      "17 new trails opened today",
       "3 trails freshly groomed"
     ],
-    "trends": [],
+    "trends": [
+      "9 more trails open than yesterday"
+    ],
     "recommendations": [
       "Fresh corduroy on Bon Vivant - all skill levels",
       "Fresh corduroy on Action - all skill levels",
@@ -257,20 +294,26 @@
     ]
   },
   "morningBrief": {
-    "headline": "Weekend Mode: Engaged",
-    "body": "73 of 129 trails are open with 60 groomed. Windy with a temperatures TBD. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "17 New Trails Today",
+    "body": "87 of 129 trails are open with 65 groomed. Windy with a temperatures TBD. New terrain alert: 17 trails added to the mix. Windy conditions expected. Upper lifts may have holds or delays.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
           "usedFor": "body"
         },
         {
@@ -282,11 +325,11 @@
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "saturday",
+        "condition": "terrain_expansion",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Saturday Session"
+        "previousHeadline": "Weekend Mode: Engaged"
       },
       "dayOfWeek": "Saturday"
     }
