@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-04",
-  "generated": "2026-04-04T08:53:23.154Z",
+  "generated": "2026-04-04T09:50:28.635Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 56,
+          "today": 57,
           "yesterday": 56,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 44,
+          "today": 45,
           "yesterday": 44,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,21 +108,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "2\" fresh snow overnight"
+      "2\" fresh snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Sunday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Fresh Coat on the Mountain",
-    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Snow showers in the forecast with a few inches expected. Conditions should improve.",
+    "body": "2\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 1 new trail opened today. Snow showers in the forecast with a few inches expected. Conditions should improve.",
     "debug": {
       "firedRules": [
         {
@@ -132,13 +140,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "fresh_coat",
         "variationIndex": 0,
