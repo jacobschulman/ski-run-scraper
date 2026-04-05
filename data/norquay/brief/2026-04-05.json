@@ -2,7 +2,7 @@
   "resort": "norquay",
   "resortName": "Mt Norquay",
   "date": "2026-04-05",
-  "generated": "2026-04-05T11:40:28.775Z",
+  "generated": "2026-04-05T13:22:21.890Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 6.3,
-      "7day_cm": 16,
+      "7day_inches": 5.9,
+      "7day_cm": 15,
       "season_total_inches": 143.3,
       "season_total_cm": 364,
       "conditions": {
@@ -45,10 +45,10 @@
     "forecast": {
       "today": {
         "date": "2026-04-05",
-        "high_f": 33.8,
-        "low_f": 33.8,
-        "high_c": 1,
-        "low_c": 1,
+        "high_f": 32,
+        "low_f": 32,
+        "high_c": 0,
+        "low_c": 0,
         "description": "Unknown",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
@@ -64,14 +64,12 @@
       "significantGroomingIncrease": false
     },
     "alerts": [],
-    "trends": [
-      "Steady snowfall - 6.3\" in last 7 days"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Sunday Skiing",
-    "body": "Steady snowfall with 6.3\" over the last week.",
+    "headline": "Weekend Finale",
+    "body": "The rundown: 47 trails open, 30 groomed. Unknown with temps around 32°. 47/81 trails open, 30 groomed. 32° and Unknown.",
     "debug": {
       "firedRules": [
         {
@@ -81,9 +79,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_week_total",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 40,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
@@ -93,7 +97,7 @@
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Weekend Finale"
+        "previousHeadline": "Sunday Skiing"
       },
       "dayOfWeek": "Sunday"
     }
