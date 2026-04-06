@@ -2,24 +2,77 @@
   "resort": "aspenmountain",
   "resortName": "Aspen Mountain",
   "date": "2026-04-06",
-  "generated": "2026-04-06T11:07:34.047Z",
+  "generated": "2026-04-06T15:00:22.785Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 14,
+      "7day_cm": 36,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Open",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 31,
+          "today": 28,
           "yesterday": 31,
-          "delta": 0
+          "delta": -3
         },
         "groomedTrails": {
-          "today": 15,
+          "today": 14,
           "yesterday": 15,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 140
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Buckhorn (Lower)",
+          "difficulty": "Blue",
+          "area": "Ajax Express"
+        },
+        {
+          "name": "Buckhorn (Upper)",
+          "difficulty": "Blue",
+          "area": "Ajax Express"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "FIS Trail",
+          "difficulty": "Black",
+          "area": "F.I.S."
+        },
+        {
+          "name": "Red's",
+          "difficulty": "Black",
+          "area": "Ruthie's"
+        },
+        {
+          "name": "Roch Run",
+          "difficulty": "Blue",
+          "area": "Ruthie's"
+        },
+        {
+          "name": "Ruthie's Run",
+          "difficulty": "Blue",
+          "area": "Ruthie's"
+        },
+        {
+          "name": "Strawpile",
+          "difficulty": "Blue",
+          "area": "Shadow Mountain"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -32,18 +85,107 @@
         "totalLiftsTracked": 8,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-06",
+        "high_f": 42,
+        "low_f": 31,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-07",
+          "high_f": 41,
+          "low_f": 28,
+          "description": "Scattered T Storms",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-04-08",
+          "high_f": 42,
+          "low_f": 30,
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-09",
+          "high_f": 43,
+          "low_f": 31,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-07",
+        "high_f": 41,
+        "low_f": 28,
+        "description": "Scattered T Storms",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
+    "trends": [
+      "Great week for snow - 14\" in last 7 days",
+      "1\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Base Conditions Solid",
+    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. Light snow possible in the forecast.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_holding_strong",
+          "category": "snow",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "holding_strong",
+        "variationIndex": 1,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Still Soft Out There"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

@@ -2,24 +2,112 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-04-06",
-  "generated": "2026-04-06T11:07:34.045Z",
+  "generated": "2026-04-06T15:00:22.779Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Machine Groomed",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 133,
+          "today": 123,
           "yesterday": 133,
-          "delta": 0
+          "delta": -10
         },
         "groomedTrails": {
-          "today": 40,
+          "today": 34,
           "yesterday": 40,
-          "delta": 0
+          "delta": -6
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Path to Paradise",
+          "difficulty": "Blue",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "Junior's Powder Paradise",
+          "difficulty": "Blue",
+          "area": "Mineral Basin"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Alice Avenue",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Bluebell",
+          "difficulty": "Blue",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Tiny Tiger",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Lazy Susan",
+          "difficulty": "Black",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "West 2nd South",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "W. 2nd Short",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Easy Street",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Thunder Junction",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Madam Annie's",
+          "difficulty": "Blue",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "W. 2nd S. On-Ramp",
+          "difficulty": "Blue",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "W. 2nd Long",
+          "difficulty": "easiest",
+          "area": "Gad Valley"
+        },
+        {
+          "name": "Chickadee",
+          "difficulty": "easiest",
+          "area": "Peruvian Gulch"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -32,18 +120,104 @@
         "totalLiftsTracked": 14,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-06",
+        "high_f": 41,
+        "low_f": 36,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-07",
+          "high_f": 40,
+          "low_f": 35,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-08",
+          "high_f": 39,
+          "low_f": 37,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-09",
+          "high_f": 41,
+          "low_f": 40,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-07",
+        "high_f": 40,
+        "low_f": 35,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Today at Snowbird",
+    "body": "123 trails open, 34 groomed. Partly Cloudy, high of 41°. 123/200 trails open, 34 groomed. 41° and Partly Cloudy.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 2,
+      "headlineSelection": {
+        "condition": "fallback",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Your Daily Ski Report"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
