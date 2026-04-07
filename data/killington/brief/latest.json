@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-04-07",
-  "generated": "2026-04-07T09:15:17.975Z",
+  "generated": "2026-04-07T11:08:08.927Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,52 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 71,
+          "today": 74,
           "yesterday": 71,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 63,
+          "today": 66,
           "yesterday": 63,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 222
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Needles Eye - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Needles Eye - Middle",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Panic Button",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Needles Eye - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Needles Eye - Middle",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Panic Button",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,31 +134,45 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "3 new trails opened today",
+      "3 trails freshly groomed"
+    ],
     "trends": [
+      "3 more trails open than yesterday",
       "5\" snow expected Tuesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Needles Eye - Lower - perfect for intermediate skiers",
+      "Fresh corduroy on Needles Eye - Middle - perfect for intermediate skiers",
+      "Fresh corduroy on Panic Button - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
-    "headline": "More Snow Coming",
-    "body": "71 trails open, 63 groomed. Windy, temperatures TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "3 New Runs Open",
+    "body": "74 trails open, 66 groomed. Windy, temperatures TBD. The terrain list grew by 3 today. More variety to choose from. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -138,11 +184,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "terrain_few",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "A Refresh Is Coming"
+        "previousHeadline": "A Few More Options Today"
       },
       "dayOfWeek": "Tuesday"
     }
