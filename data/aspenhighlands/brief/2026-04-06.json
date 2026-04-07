@@ -2,7 +2,7 @@
   "resort": "aspenhighlands",
   "resortName": "Aspen Highlands",
   "date": "2026-04-06",
-  "generated": "2026-04-07T02:58:10.501Z",
+  "generated": "2026-04-07T05:19:31.786Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 1,
+          "today": 0,
           "yesterday": 1,
-          "delta": 0
+          "delta": -1
         },
         "groomedTrails": {
           "today": 0,
@@ -35,7 +35,13 @@
         "totalTrails": 126
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Aspen Highlands (Lower)",
+          "difficulty": "Blue",
+          "area": "Uphill Routes"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -52,9 +58,9 @@
     "forecast": {
       "today": {
         "date": "2026-04-06",
-        "high_f": 42,
+        "high_f": null,
         "low_f": 30,
-        "description": "Partly Cloudy",
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
@@ -62,26 +68,26 @@
         {
           "date": "2026-04-07",
           "high_f": 41,
-          "low_f": 28,
-          "description": "Scattered T Storms",
-          "snowfall_day_inches": 2,
+          "low_f": 30,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 1,
           "snowfall_night_inches": 0,
-          "snowfall_expected": 2
+          "snowfall_expected": 1
         },
         {
           "date": "2026-04-08",
-          "high_f": 41,
-          "low_f": 31,
-          "description": "Mostly Sunny",
+          "high_f": 43,
+          "low_f": 32,
+          "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         },
         {
           "date": "2026-04-09",
-          "high_f": 43,
+          "high_f": 44,
           "low_f": 31,
-          "description": "Partly Cloudy",
+          "description": "Mostly Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -90,11 +96,11 @@
       "tomorrow": {
         "date": "2026-04-07",
         "high_f": 41,
-        "low_f": 28,
-        "description": "Scattered T Storms",
-        "snowfall_day_inches": 2,
+        "low_f": 30,
+        "description": "Mostly Cloudy",
+        "snowfall_day_inches": 1,
         "snowfall_night_inches": 0,
-        "snowfall_expected": 2
+        "snowfall_expected": 1
       }
     }
   },
@@ -108,41 +114,35 @@
     },
     "alerts": [],
     "trends": [
-      "2\" snow expected Tuesday"
+      "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Limited Terrain, Great Times",
-    "body": "1/126 trails spinning, 0 freshly groomed. 42° and Partly Cloudy. Light snow possible in the forecast.",
+    "headline": "Stay Tuned for Opening",
+    "body": "No trails open yet. Current forecast: Cloudy.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_early",
-          "category": "context",
-          "priority": 15,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_flurries",
-          "category": "weather",
-          "priority": 30,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "early_season",
+        "condition": "resort_closed",
         "variationIndex": 2,
-        "totalVariations": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Season Just Getting Started"
+        "previousHeadline": "Checking the Forecast"
       },
       "dayOfWeek": "Monday"
     }
