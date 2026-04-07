@@ -2,8 +2,24 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-04-07",
-  "generated": "2026-04-07T05:19:24.497Z",
+  "generated": "2026-04-07T09:15:12.107Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 1,
+      "overnight_cm": 2,
+      "24hour_inches": 1,
+      "24hour_cm": 2,
+      "48hour_inches": 1,
+      "48hour_cm": 2,
+      "7day_inches": 1,
+      "7day_cm": 2,
+      "season_total_inches": 297,
+      "season_total_cm": 754,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": "Variable"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -89,11 +105,14 @@
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "1\" new snow overnight",
       "1 new trail opened today",
       "4 trails freshly groomed"
     ],
@@ -104,6 +123,40 @@
       "Fresh corduroy on Upper Toll Road - perfect for intermediate skiers"
     ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fresh Layer in Place",
+    "body": "The mountain got a nice 1\" touch-up. Expect improved conditions. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "fresh_coat",
+        "variationIndex": 5,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Opening Phase"
+      },
+      "dayOfWeek": "Tuesday"
+    }
+  },
   "errors": []
 }
