@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-09",
-  "generated": "2026-04-09T14:03:45.643Z",
+  "generated": "2026-04-09T15:31:30.676Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 95,
+          "today": 99,
           "yesterday": 96,
-          "delta": -1
+          "delta": 3
         },
         "groomedTrails": {
           "today": 59,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower West Mountain",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Twitcher",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Upper West Mountain",
+          "difficulty": "Blue",
+          "area": "West Mountain"
+        },
+        {
+          "name": "Yarder",
+          "difficulty": "Novice",
+          "area": "West Mountain"
+        }
+      ],
       "newlyClosed": [
         {
           "name": "Moose Alley",
@@ -125,14 +146,16 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
+      "4 new trails opened today",
       "1 trail freshly groomed"
     ],
     "trends": [
+      "3 more trails open than yesterday",
       "1\" snow expected Friday"
     ],
     "recommendations": [
@@ -141,7 +164,7 @@
   },
   "morningBrief": {
     "headline": "3\" Freshened Things Up",
-    "body": "A proper refresh: 3\" of new snow making everything ski better. Light snow possible in the forecast.",
+    "body": "A proper refresh: 3\" of new snow making everything ski better. 4 more trails opened today, expanding your options. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -157,13 +180,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 2,
