@@ -2,7 +2,7 @@
   "resort": "loon",
   "resortName": "Loon Mountain",
   "date": "2026-04-11",
-  "generated": "2026-04-11T09:53:19.030Z",
+  "generated": "2026-04-11T10:45:26.519Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,34 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 30,
+          "today": 33,
           "yesterday": 30,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
-          "today": 25,
+          "today": 28,
           "yesterday": 25,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 85
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Sunset",
+          "difficulty": "Blue",
+          "area": "North Peak"
+        },
+        {
+          "name": "Upper Flume",
+          "difficulty": "Black",
+          "area": "North Peak"
+        },
+        {
+          "name": "Upper Walking Boss",
+          "difficulty": "Black",
+          "area": "North Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,23 +118,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Weekend Warrior Day",
-    "body": "30 trails open, 25 groomed. Rain, temperatures TBD. 30/85 trails open, 25 groomed. Rain.",
+    "headline": "Patrol Opened 3 More",
+    "body": "33 trails open, 28 groomed. Rain, temperatures TBD. The terrain list grew by 3 today. More variety to choose from.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -128,19 +148,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "saturday",
-        "variationIndex": 1,
+        "condition": "terrain_few",
+        "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Saturday Session"
+        "previousHeadline": "More Variety Today"
       },
       "dayOfWeek": "Saturday"
     }
