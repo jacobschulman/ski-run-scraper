@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-11",
-  "generated": "2026-04-11T10:45:26.510Z",
+  "generated": "2026-04-11T11:41:19.121Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,18 +23,24 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 99,
+          "today": 100,
           "yesterday": 99,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 50,
+          "today": 51,
           "yesterday": 55,
-          "delta": -5
+          "delta": -4
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower Competition Hill",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": [
@@ -128,19 +134,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Saturday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Mixed Precip Today",
-    "body": "99 trails open, 50 groomed. Rain Snow, temperatures TBD. It's going to be a mixed bag today. Expect rain below and snow above.",
+    "body": "100 trails open, 51 groomed. Rain Snow, temperatures TBD. 1 new trail opened today. It's going to be a mixed bag today. Expect rain below and snow above.",
     "debug": {
       "firedRules": [
         {
@@ -153,6 +162,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
