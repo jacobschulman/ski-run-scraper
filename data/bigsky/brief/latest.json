@@ -2,8 +2,24 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-04-13",
-  "generated": "2026-04-13T09:08:24.878Z",
+  "generated": "2026-04-13T11:25:45.767Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 2,
+      "24hour_cm": 5,
+      "48hour_inches": 6,
+      "48hour_cm": 15,
+      "7day_inches": 6,
+      "7day_cm": 15,
+      "season_total_inches": 0,
+      "season_total_cm": 0,
+      "conditions": {
+        "today": "Unknown",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,107 @@
         "totalLiftsTracked": 40,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-12",
+        "high_f": null,
+        "low_f": 22,
+        "description": "Scattered T Storms",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-13",
+          "high_f": 31,
+          "low_f": 22,
+          "description": "Cloudy",
+          "snowfall_day_inches": 2,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-04-14",
+          "high_f": 33,
+          "low_f": 27,
+          "description": "Cloudy",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-04-15",
+          "high_f": 32,
+          "low_f": 22,
+          "description": "Windy",
+          "snowfall_day_inches": 5,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 5
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-13",
+        "high_f": 31,
+        "low_f": 22,
+        "description": "Cloudy",
+        "snowfall_day_inches": 2,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": false,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2\" fresh snow overnight"
+    ],
+    "trends": [
+      "Steady snowfall - 6\" in last 7 days",
+      "2\" snow expected Monday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Major System Approaching",
+    "body": "A light refresh of 2\" overnight makes the groomers smoother. A significant storm is brewing with 8\" expected over the next few days.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_dusting",
+          "category": "snow",
+          "priority": 70,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_storm",
+          "category": "weather",
+          "priority": 85,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "storm_major",
+        "variationIndex": 4,
+        "totalVariations": 7,
+        "usedWeekendVariation": false,
+        "previousHeadline": "The Forecast Looks Loaded"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }

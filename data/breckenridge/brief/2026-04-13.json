@@ -2,24 +2,62 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-04-13",
-  "generated": "2026-04-13T06:25:22.692Z",
+  "generated": "2026-04-13T11:25:38.668Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 137,
+      "season_total_cm": 348,
+      "conditions": {
+        "today": "Spring",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 5,
+          "today": 3,
           "yesterday": 5,
-          "delta": 0
+          "delta": -2
         },
         "groomedTrails": {
-          "today": 5,
+          "today": 3,
           "yesterday": 5,
-          "delta": 0
+          "delta": -2
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Springmeier",
+          "difficulty": "Blue",
+          "area": "Peak 8"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Trygve's",
+          "difficulty": "Green",
+          "area": "Peak 8"
+        },
+        {
+          "name": "Freeway",
+          "difficulty": "Blue",
+          "area": "Peak 8"
+        },
+        {
+          "name": "Freeway Terrain Park",
+          "difficulty": "TerrainPark",
+          "area": "Peak 8"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -54,18 +92,122 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-13",
+        "high_f": 45,
+        "low_f": 27,
+        "high_c": 7,
+        "low_c": -3,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-14T06:00:00Z",
+          "high_f": 38,
+          "low_f": 22,
+          "high_c": 3,
+          "low_c": -6,
+          "description": "Thundersnow",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 1,
+          "snowfall_expected": 2
+        },
+        {
+          "date": "2026-04-15T06:00:00Z",
+          "high_f": 38,
+          "low_f": 22,
+          "high_c": 3,
+          "low_c": -6,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-16T06:00:00Z",
+          "high_f": 44,
+          "low_f": 25,
+          "high_c": 6,
+          "low_c": -4,
+          "description": "Mostly Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-14T06:00:00Z",
+        "high_f": 38,
+        "low_f": 22,
+        "high_c": 3,
+        "low_c": -6,
+        "description": "Thundersnow",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 1,
+        "snowfall_expected": 2
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
+    "trends": [
+      "2\" snow expected Tuesday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Spring Vibes",
+    "body": "3 of 193 trails are open with 3 groomed. Mostly Clear with a high of 45°F. Lift lines were mellow yesterday. Expect a similar vibe today. Warmer temps with a high of 45°. Snow will soften up by afternoon.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 5,
+      "headlineSelection": {
+        "condition": "spring_vibes",
+        "variationIndex": 0,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Corn Snow Season"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
