@@ -2,7 +2,7 @@
   "resort": "bigsky",
   "resortName": "Big Sky",
   "date": "2026-04-13",
-  "generated": "2026-04-13T17:14:57.673Z",
+  "generated": "2026-04-13T19:24:13.485Z",
   "rawData": {
     "snow": {
       "overnight_inches": 2,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 5,
+          "today": 0,
           "yesterday": 53,
-          "delta": -48
+          "delta": -53
         },
         "groomedTrails": {
           "today": 0,
@@ -257,6 +257,16 @@
           "area": "Shedhorn Area"
         },
         {
+          "name": "Mountain Village Learning Area",
+          "difficulty": "Green",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Huntley Hollow",
+          "difficulty": "Blue",
+          "area": "Swift Current Area"
+        },
+        {
           "name": "Jay Walk",
           "difficulty": "Blue",
           "area": "Swift Current Area"
@@ -264,6 +274,21 @@
         {
           "name": "Calamity Jane (Lower)",
           "difficulty": "advanced intermediate",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Calamity Jane (Upper)",
+          "difficulty": "advanced intermediate",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Buffalo Jump",
+          "difficulty": "Black",
+          "area": "Swift Current Area"
+        },
+        {
+          "name": "Rice Bowl",
+          "difficulty": "Black",
           "area": "Swift Current Area"
         },
         {
@@ -357,36 +382,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Major System Approaching",
-    "body": "A light refresh of 2\" overnight makes the groomers smoother. A significant storm is brewing with 8\" expected over the next few days.",
+    "headline": "Stay Tuned for Opening",
+    "body": "Trails aren't spinning yet, but keep an eye out for opening announcements.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
-          "category": "snow",
-          "priority": 70,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_storm",
-          "category": "weather",
-          "priority": 85,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "storm_major",
-        "variationIndex": 4,
-        "totalVariations": 7,
+        "condition": "resort_closed",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Forecast Looks Loaded"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Monday"
     }
