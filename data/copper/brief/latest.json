@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-04-13",
-  "generated": "2026-04-13T11:25:45.783Z",
+  "generated": "2026-04-13T14:01:27.111Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,21 +23,33 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 29,
+          "today": 30,
           "yesterday": 29,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 20,
+          "today": 19,
           "yesterday": 20,
-          "delta": 0
+          "delta": -1
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Ore Deal",
+          "difficulty": "Black",
+          "area": "East"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
-      "ungroomed": []
+      "ungroomed": [
+        {
+          "name": "Bittersweet (U)",
+          "difficulty": "Blue",
+          "area": "Center"
+        }
+      ]
     },
     "lifts": {
       "available": true,
@@ -102,19 +114,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Winter's Coming Back",
-    "body": "29 of 202 trails are open with 20 groomed. Windy with a temperatures TBD. A significant storm is brewing with 7\" expected over the next few days.",
+    "body": "30 of 202 trails are open with 19 groomed. Windy with a temperatures TBD. 1 new trail opened today. A significant storm is brewing with 7\" expected over the next few days.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +142,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
