@@ -2,7 +2,7 @@
   "resort": "snowbird",
   "resortName": "Snowbird",
   "date": "2026-04-13",
-  "generated": "2026-04-13T14:01:27.101Z",
+  "generated": "2026-04-13T15:25:29.707Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 93,
+          "today": 98,
           "yesterday": 93,
-          "delta": 0
+          "delta": 5
         },
         "groomedTrails": {
           "today": 34,
@@ -34,7 +34,33 @@
         },
         "totalTrails": 200
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Richie's Run",
+          "difficulty": "Double Black",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "The Endoras",
+          "difficulty": "Double Black",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "Bookmark Gully",
+          "difficulty": "Double Black",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "Bookends Bowl",
+          "difficulty": "Double Black",
+          "area": "Mineral Basin"
+        },
+        {
+          "name": "Bookends Traverse",
+          "difficulty": "Black",
+          "area": "Mineral Basin"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +128,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5 new trails opened today"
+    ],
     "trends": [
+      "5 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Stormy Conditions",
-    "body": "The rundown: 93 trails open, 34 groomed. Snow Wind with temps around temps TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "body": "The rundown: 98 trails open, 34 groomed. Snow Wind with temps around temps TBD. Ski patrol opened 5 additional trails. A few more choices today. Snow is in the cards for the next few days. Enough to freshen things up.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +156,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
