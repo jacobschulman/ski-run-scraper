@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-04-13",
-  "generated": "2026-04-13T15:25:29.606Z",
+  "generated": "2026-04-13T17:14:57.581Z",
   "rawData": {
     "snow": {
       "overnight_inches": 10,
@@ -23,19 +23,71 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 36,
+          "today": 42,
           "yesterday": 36,
-          "delta": 0
+          "delta": 6
         },
         "groomedTrails": {
-          "today": 22,
+          "today": 23,
           "yesterday": 22,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Chicken Bowl",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Chimney",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Classic",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Extra",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Main",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "National",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Shirley Bowl",
+          "difficulty": "Intermediate",
+          "area": "Granite Peak"
+        },
+        {
+          "name": "Tomlinson's - 1st Tree",
+          "difficulty": "Intermediate",
+          "area": "Granite Peak"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Newport",
+          "difficulty": "Intermediate",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "To Mountain Run",
+          "difficulty": "Intermediate",
+          "area": "Palisades Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -112,23 +164,25 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": true,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
       "10\" fresh snow overnight",
-      "14\" in last 24 hours - powder day!"
+      "14\" in last 24 hours - powder day!",
+      "8 new trails opened today"
     ],
     "trends": [
       "Great week for snow - 21\" in last 7 days",
+      "6 more trails open than yesterday",
       "1\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "14\" and Counting",
-    "body": "Seriously deep: 14\" of new snow. Bring your powder skis and your A-game. Light snow possible in the forecast.",
+    "headline": "The Stashes Are Loaded",
+    "body": "Seriously deep: 14\" of new snow. Bring your powder skis and your A-game. Terrain expanding: 8 new trails opening up more options. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
@@ -144,19 +198,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_flurries",
           "category": "weather",
           "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "snow_deep",
         "variationIndex": 3,
         "totalVariations": 8,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Stashes Are Loaded"
+        "previousHeadline": "{snow24h}\" and Counting"
       },
       "dayOfWeek": "Monday"
     }
