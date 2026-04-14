@@ -2,7 +2,7 @@
   "resort": "okemo",
   "resortName": "Okemo",
   "date": "2026-04-14",
-  "generated": "2026-04-14T12:05:46.289Z",
+  "generated": "2026-04-14T14:09:59.450Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,136 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 16,
           "yesterday": 37,
-          "delta": -37
+          "delta": -21
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 16,
           "yesterday": 37,
-          "delta": -37
+          "delta": -21
         },
-        "totalTrails": 0
+        "totalTrails": 129
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Mountain Road",
+          "difficulty": "Green",
+          "area": "Main Face"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Lift Line",
+          "difficulty": "Green",
+          "area": "Clock Tower"
+        },
+        {
+          "name": "Open Slope",
+          "difficulty": "Green",
+          "area": "Clock Tower"
+        },
+        {
+          "name": "Ski School Slope",
+          "difficulty": "Green",
+          "area": "Clock Tower"
+        },
+        {
+          "name": "Black Out",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Chute",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Countdown",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Double Dipper",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Drop Off",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Halfpipe",
+          "difficulty": "TerrainPark",
+          "area": "Main Face"
+        },
+        {
+          "name": "Link",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower Chief",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower Sel's",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Lower World Cup",
+          "difficulty": "Blue",
+          "area": "Main Face"
+        },
+        {
+          "name": "Muellers' Run",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Nor'Easter",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "The Zone",
+          "difficulty": "TerrainPark",
+          "area": "Main Face"
+        },
+        {
+          "name": "Upper World Cup",
+          "difficulty": "Black",
+          "area": "Main Face"
+        },
+        {
+          "name": "Boomerang",
+          "difficulty": "Blue",
+          "area": "Solitude"
+        },
+        {
+          "name": "Exhibition",
+          "difficulty": "Black",
+          "area": "Solitude"
+        },
+        {
+          "name": "Roundhouse Run",
+          "difficulty": "Green",
+          "area": "Solitude"
+        },
+        {
+          "name": "Moment's Rest",
+          "difficulty": "Blue",
+          "area": "South Face"
+        },
+        {
+          "name": "Sprint",
+          "difficulty": "Blue",
+          "area": "South Face"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -105,38 +222,46 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Stay Tuned for Opening",
-    "body": "The mountain is still prepping for the season. Weather today: Scattered T-Storms.",
+    "headline": "Soft and Sunny",
+    "body": "16 trails open, 16 groomed. Scattered T-Storms, high of 70°. Spring vibes: 70° and sunny. Early morning firm, afternoon soft.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 1,
-        "totalVariations": 6,
+        "condition": "spring_vibes",
+        "variationIndex": 3,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waiting for Opening Day"
+        "previousHeadline": "Stay Tuned for Opening"
       },
       "dayOfWeek": "Tuesday"
     }
