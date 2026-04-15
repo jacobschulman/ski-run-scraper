@@ -2,7 +2,7 @@
   "resort": "copper",
   "resortName": "Copper Mountain",
   "date": "2026-04-15",
-  "generated": "2026-04-15T12:03:23.748Z",
+  "generated": "2026-04-15T14:01:50.215Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 29,
+          "today": 30,
           "yesterday": 29,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
           "today": 19,
@@ -34,7 +34,13 @@
         },
         "totalTrails": 202
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Aerie/PHQ (Route 1)",
+          "difficulty": "Blue",
+          "area": "Uphill Trails"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -102,19 +108,22 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "3\" snow expected Friday"
     ],
     "recommendations": []
   },
   "morningBrief": {
     "headline": "Fresh Snow on the Way",
-    "body": "29/202 trails spinning, 19 freshly groomed. Cloudy. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "body": "30/202 trails spinning, 19 freshly groomed. Cloudy. 1 new trail opened today. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +136,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
