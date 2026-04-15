@@ -2,23 +2,50 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-04-15",
-  "generated": "2026-04-15T06:07:15.125Z",
+  "generated": "2026-04-15T12:03:17.266Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 137,
+      "season_total_cm": 348,
+      "conditions": {
+        "today": "Spring",
+        "yesterday": "Spring"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 3,
+          "today": 5,
           "yesterday": 3,
-          "delta": 0
+          "delta": 2
         },
         "groomedTrails": {
-          "today": 3,
+          "today": 5,
           "yesterday": 3,
-          "delta": 0
+          "delta": 2
         },
         "totalTrails": 193
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Freeway",
+          "difficulty": "Blue",
+          "area": "Peak 8"
+        },
+        {
+          "name": "Freeway Terrain Park",
+          "difficulty": "TerrainPark",
+          "area": "Peak 8"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -40,18 +67,124 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-15",
+        "high_f": 40,
+        "low_f": 21,
+        "high_c": 4,
+        "low_c": -6,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-16T06:00:00Z",
+          "high_f": 47,
+          "low_f": 24,
+          "high_c": 8,
+          "low_c": -5,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-17T06:00:00Z",
+          "high_f": 32,
+          "low_f": 11,
+          "high_c": null,
+          "low_c": -12,
+          "description": "Scattered T-Storms",
+          "snowfall_day_inches": 1,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 1
+        },
+        {
+          "date": "2026-04-18T06:00:00Z",
+          "high_f": 32,
+          "low_f": 8,
+          "high_c": null,
+          "low_c": -13,
+          "description": "Clear",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-16T06:00:00Z",
+        "high_f": 47,
+        "low_f": 24,
+        "high_c": 8,
+        "low_c": -5,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "2 new trails opened today"
+    ],
+    "trends": [
+      "Grooming increased 67% from yesterday",
+      "2 more trails open than yesterday",
+      "1\" snow expected Friday"
+    ],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Fewer Crowds, More Turns",
+    "body": "5/193 trails spinning, 5 freshly groomed. 40° and Partly Cloudy. 2 new trails opened today. Lift lines were mellow yesterday. Expect a similar vibe today.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "time_midweek_mellow",
+          "category": "time",
+          "priority": 45,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_mellow",
+          "category": "lifts",
+          "priority": 50,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 6,
+      "headlineSelection": {
+        "condition": "midweek_mellow",
+        "variationIndex": 2,
+        "totalVariations": 5,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Midweek Bliss"
+      },
+      "dayOfWeek": "Wednesday"
+    }
+  },
   "errors": []
 }
