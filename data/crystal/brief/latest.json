@@ -2,7 +2,7 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-04-15",
-  "generated": "2026-04-15T17:16:15.221Z",
+  "generated": "2026-04-15T19:29:09.975Z",
   "rawData": {
     "snow": {
       "overnight_inches": 1,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 34,
+          "today": 38,
           "yesterday": 37,
-          "delta": -3
+          "delta": 1
         },
         "groomedTrails": {
           "today": 22,
@@ -34,24 +34,14 @@
         },
         "totalTrails": 86
       },
-      "newlyOpened": [],
-      "newlyClosed": [
+      "newlyOpened": [
         {
-          "name": "A-Basin",
-          "difficulty": "Very Difficult",
-          "area": "South"
-        },
-        {
-          "name": "Silver Basin",
-          "difficulty": "Very Difficult",
-          "area": "South"
-        },
-        {
-          "name": "Silver King",
+          "name": "Three Way Peak",
           "difficulty": "Very Difficult",
           "area": "South"
         }
       ],
+      "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -128,21 +118,23 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
     "alerts": [
-      "1\" new snow overnight"
+      "1\" new snow overnight",
+      "1 new trail opened today"
     ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Wednesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Winter in Full Force",
-    "body": "1\" of fresh snow settled in overnight. Not a powder day, but an upgrade. Blustery conditions with snow. Upper lifts may have holds.",
+    "headline": "Stormy Conditions",
+    "body": "1\" of fresh snow settled in overnight. Not a powder day, but an upgrade. 1 new trail opened today. Blustery conditions with snow. Upper lifts may have holds.",
     "debug": {
       "firedRules": [
         {
@@ -158,19 +150,25 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
           "id": "weather_storm_wind",
           "category": "weather",
           "priority": 82,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
         "condition": "storm_wind",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Stormy Conditions"
+        "previousHeadline": "Winter in Full Force"
       },
       "dayOfWeek": "Wednesday"
     }
