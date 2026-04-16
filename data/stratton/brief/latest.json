@@ -2,7 +2,7 @@
   "resort": "stratton",
   "resortName": "Stratton",
   "date": "2026-04-16",
-  "generated": "2026-04-16T16:29:30.472Z",
+  "generated": "2026-04-16T18:14:11.343Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -51,32 +51,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-04-15",
-        "high_f": null,
-        "low_f": 57,
-        "high_c": null,
-        "low_c": 14,
-        "description": "Rain",
+        "date": "2026-04-16",
+        "high_f": 67,
+        "low_f": 54,
+        "high_c": 19,
+        "low_c": 12,
+        "description": "Rain Showers",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
         {
-          "date": "2026-04-16",
-          "high_f": 67,
-          "low_f": 54,
-          "high_c": 19,
-          "low_c": 12,
-          "description": "Windy",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
-        {
           "date": "2026-04-17",
-          "high_f": 55,
-          "low_f": 50,
-          "high_c": 13,
+          "high_f": 56,
+          "low_f": 49,
+          "high_c": 14,
           "low_c": 10,
           "description": "Cloudy",
           "snowfall_day_inches": 0,
@@ -85,23 +74,34 @@
         },
         {
           "date": "2026-04-18",
-          "high_f": 56,
-          "low_f": 49,
+          "high_f": 55,
+          "low_f": 48,
           "high_c": 13,
           "low_c": 9,
           "description": "Windy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-19",
+          "high_f": 48,
+          "low_f": 25,
+          "high_c": 9,
+          "low_c": -4,
+          "description": "Scattered T Storms",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-04-16",
-        "high_f": 67,
-        "low_f": 54,
-        "high_c": 19,
-        "low_c": 12,
-        "description": "Windy",
+        "date": "2026-04-17",
+        "high_f": 56,
+        "low_f": 49,
+        "high_c": 14,
+        "low_c": 10,
+        "description": "Cloudy",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -121,14 +121,14 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Not Open Yet",
-    "body": "Not open for the season yet. Current conditions: Rain.",
+    "headline": "Wet Weather Ahead",
+    "body": "Not open for the season yet. Current conditions: Rain Showers.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
           "usedFor": "headline"
         },
         {
@@ -138,13 +138,13 @@
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 2,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 0,
+        "condition": "weather_rain",
+        "variationIndex": 1,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Waiting for Opening Day"
+        "previousHeadline": "Not Open Yet"
       },
       "dayOfWeek": "Thursday"
     }
