@@ -2,8 +2,24 @@
   "resort": "crystal",
   "resortName": "Crystal Mountain",
   "date": "2026-04-17",
-  "generated": "2026-04-17T08:50:32.780Z",
+  "generated": "2026-04-17T10:20:08.511Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 5,
+      "overnight_cm": 13,
+      "24hour_inches": 6,
+      "24hour_cm": 15,
+      "48hour_inches": 12,
+      "48hour_cm": 30,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 281,
+      "season_total_cm": 714,
+      "conditions": {
+        "today": "Variable Conditions",
+        "yesterday": "Variable Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
@@ -32,18 +48,109 @@
         "totalLiftsTracked": 11,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-16",
+        "high_f": null,
+        "low_f": 21,
+        "high_c": null,
+        "low_c": -6,
+        "description": "Mostly Clear",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-17",
+          "high_f": 37,
+          "low_f": 32,
+          "high_c": 3,
+          "low_c": 0,
+          "description": "Partly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-18",
+          "high_f": 45,
+          "low_f": 40,
+          "high_c": 7,
+          "low_c": 4,
+          "description": "Mostly Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-19",
+          "high_f": 50,
+          "low_f": 45,
+          "high_c": 10,
+          "low_c": 7,
+          "description": "Cloudy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-17",
+        "high_f": 37,
+        "low_f": 32,
+        "high_c": 3,
+        "low_c": 0,
+        "description": "Partly Cloudy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
+      "hasFreshSnow": true,
+      "isPowderDay": true,
       "hasNewTrails": false,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "5\" fresh snow overnight",
+      "6\" in last 24 hours - powder day!"
+    ],
     "trends": [],
     "recommendations": []
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "Winter Delivered Big",
+    "body": "Wake up, it's a powder day! 6\" overnight means hero snow everywhere.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_powder",
+          "category": "snow",
+          "priority": 90,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 3,
+      "headlineSelection": {
+        "condition": "powder_alert",
+        "variationIndex": 3,
+        "totalVariations": 11,
+        "usedWeekendVariation": false,
+        "previousHeadline": "{snow24h}\" of Fresh Overnight"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }

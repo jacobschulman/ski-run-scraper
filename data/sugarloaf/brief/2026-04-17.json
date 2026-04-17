@@ -2,25 +2,68 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-17",
-  "generated": "2026-04-17T08:50:32.818Z",
+  "generated": "2026-04-17T10:20:08.578Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 0,
+      "overnight_cm": 0,
+      "24hour_inches": 0,
+      "24hour_cm": 0,
+      "48hour_inches": 0,
+      "48hour_cm": 0,
+      "7day_inches": 0,
+      "7day_cm": 0,
+      "season_total_inches": 138,
+      "season_total_cm": 351,
+      "conditions": {
+        "today": "Spring Conditions",
+        "yesterday": "Spring Conditions"
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 57,
+          "today": 58,
           "yesterday": 57,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 6,
+          "today": 10,
           "yesterday": 6,
-          "delta": 0
+          "delta": 4
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Tohaul",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Gin Pole",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Spillway X-Cut",
+          "difficulty": "Black",
+          "area": "Skyline"
+        },
+        {
+          "name": "Lombard X-Cut",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        },
+        {
+          "name": "Tohaul",
+          "difficulty": "Blue",
+          "area": "Whiffletree"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -32,18 +75,119 @@
         "totalLiftsTracked": 15,
         "busiest": []
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-16",
+        "high_f": null,
+        "low_f": 48,
+        "description": "Scattered T Storms",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-17",
+          "high_f": 50,
+          "low_f": 41,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-18",
+          "high_f": 41,
+          "low_f": 40,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-19",
+          "high_f": 44,
+          "low_f": 21,
+          "description": "Rain Snow",
+          "snowfall_day_inches": 4,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 4
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-17",
+        "high_f": 50,
+        "low_f": 41,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasFreshSnow": false,
+      "isPowderDay": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1 new trail opened today",
+      "4 trails freshly groomed"
+    ],
+    "trends": [
+      "Grooming increased 67% from yesterday",
+      "1 more trail open than yesterday",
+      "4\" snow expected Sunday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Gin Pole - perfect for intermediate skiers",
+      "Fresh corduroy on Spillway X-Cut - challenging for advanced skiers",
+      "Fresh corduroy on Lombard X-Cut - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "More Snow Coming",
+    "body": "The rundown: 58 trails open, 10 groomed. Scattered T Storms with temps around temps TBD. 1 new trail opened today. Keep an eye on the sky - a refresh is coming. A few inches on the way.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "headline"
+        },
+        {
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_snow_coming",
+          "category": "weather",
+          "priority": 55,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 4,
+      "headlineSelection": {
+        "condition": "snow_coming",
+        "variationIndex": 2,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "A Refresh Is Coming"
+      },
+      "dayOfWeek": "Friday"
+    }
+  },
   "errors": []
 }
