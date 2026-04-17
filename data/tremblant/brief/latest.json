@@ -2,7 +2,7 @@
   "resort": "tremblant",
   "resortName": "Tremblant",
   "date": "2026-04-17",
-  "generated": "2026-04-17T11:59:14.574Z",
+  "generated": "2026-04-17T13:49:22.639Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,14 +23,14 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 56,
+          "today": 37,
           "yesterday": 47,
-          "delta": 9
+          "delta": -10
         },
         "groomedTrails": {
-          "today": 36,
+          "today": 28,
           "yesterday": 31,
-          "delta": 5
+          "delta": -3
         },
         "totalTrails": 129
       },
@@ -48,11 +48,6 @@
         {
           "name": "Détour",
           "difficulty": "Easy",
-          "area": "North Side"
-        },
-        {
-          "name": "Expo Bas",
-          "difficulty": "Difficult",
           "area": "North Side"
         },
         {
@@ -86,11 +81,6 @@
           "area": "Versant Soleil"
         },
         {
-          "name": "Tiguidou",
-          "difficulty": "Very Difficult",
-          "area": "Versant Soleil"
-        },
-        {
           "name": "Toboggan",
           "difficulty": "Difficult",
           "area": "Versant Soleil"
@@ -111,6 +101,91 @@
           "name": "McCulloch",
           "difficulty": "Very Difficult",
           "area": "South Side"
+        },
+        {
+          "name": "Parc Progression",
+          "difficulty": "Terrain Park",
+          "area": "South Side"
+        },
+        {
+          "name": "Roger McCarthy",
+          "difficulty": "Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Taschereau",
+          "difficulty": "Very Difficult",
+          "area": "South Side"
+        },
+        {
+          "name": "Banzaï",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Beauchemin Haut",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Devil's River",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Duncan Bas",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Duncan Haut",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Jasey-Jay Anderson",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "La Traverse",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Lowell Thomas",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Marie-Claude Asselin",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Rigodon",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Rope Tow",
+          "difficulty": "Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Saute-Moutons",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Short Cut",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
+        },
+        {
+          "name": "Supérieur",
+          "difficulty": "Very Difficult",
+          "area": "North Side"
         }
       ],
       "newlyGroomed": [
@@ -135,11 +210,6 @@
           "area": "Versant Soleil"
         },
         {
-          "name": "Tiguidou",
-          "difficulty": "Very Difficult",
-          "area": "Versant Soleil"
-        },
-        {
           "name": "Toboggan",
           "difficulty": "Difficult",
           "area": "Versant Soleil"
@@ -150,16 +220,6 @@
           "name": "St-Bernard",
           "difficulty": "Very Difficult",
           "area": "South Side"
-        },
-        {
-          "name": "Taschereau",
-          "difficulty": "Very Difficult",
-          "area": "South Side"
-        },
-        {
-          "name": "Expo Bas",
-          "difficulty": "Difficult",
-          "area": "North Side"
         },
         {
           "name": "Letendre",
@@ -246,12 +306,10 @@
       "highLiftDemand": false
     },
     "alerts": [
-      "12 new trails opened today",
-      "6 trails freshly groomed"
+      "10 new trails opened today",
+      "5 trails freshly groomed"
     ],
-    "trends": [
-      "9 more trails open than yesterday"
-    ],
+    "trends": [],
     "recommendations": [
       "Fresh corduroy on Détour - all skill levels",
       "Fresh corduroy on Franc Sud - all skill levels",
@@ -259,14 +317,14 @@
     ]
   },
   "morningBrief": {
-    "headline": "The Map Got Bigger",
-    "body": "56/129 trails spinning, 36 freshly groomed. Rain. New terrain alert: 12 trails added to the mix.",
+    "headline": "Is It the Weekend Yet?",
+    "body": "37/129 trails spinning, 28 freshly groomed. Rain. 5 runs freshly groomed, mostly in North Side and Versant Soleil. 37/129 trails open, 28 groomed. Rain.",
     "debug": {
       "firedRules": [
         {
-          "id": "terrain_expanding",
-          "category": "terrain",
-          "priority": 75,
+          "id": "time_weekend_kickoff",
+          "category": "time",
+          "priority": 52,
           "usedFor": "headline"
         },
         {
@@ -276,19 +334,25 @@
           "usedFor": "body"
         },
         {
-          "id": "terrain_expanding",
+          "id": "grooming_moderate",
           "category": "terrain",
-          "priority": 75,
+          "priority": 55,
+          "usedFor": "body"
+        },
+        {
+          "id": "fallback_body",
+          "category": "weather",
+          "priority": 5,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 4,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "terrain_expansion",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "weekend_kickoff",
+        "variationIndex": 0,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Terrain Expanding"
+        "previousHeadline": "The Map Got Bigger"
       },
       "dayOfWeek": "Friday"
     }
