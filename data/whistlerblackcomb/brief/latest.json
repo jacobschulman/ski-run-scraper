@@ -2,7 +2,7 @@
   "resort": "whistlerblackcomb",
   "resortName": "Whistler Blackcomb",
   "date": "2026-04-20",
-  "generated": "2026-04-20T15:24:59.981Z",
+  "generated": "2026-04-20T17:15:38.026Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,61 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 111,
           "yesterday": 242,
-          "delta": -242
+          "delta": -131
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 64,
           "yesterday": 133,
-          "delta": -133
+          "delta": -69
         },
-        "totalTrails": 0
+        "totalTrails": 152
       },
-      "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyOpened": [
+        {
+          "name": "Spankys Ladder",
+          "difficulty": "DoubleBlack",
+          "area": "Glacier / Showcase T-bar"
+        }
+      ],
+      "newlyClosed": [
+        {
+          "name": "Black Magic",
+          "difficulty": "Black",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Freefall",
+          "difficulty": "Black",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Gear Jammer Upper",
+          "difficulty": "Black",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Slingshot",
+          "difficulty": "Blue",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Undercut",
+          "difficulty": "Black",
+          "area": "Excelerator / Catskinner / Blackcomb Gondola - Upper"
+        },
+        {
+          "name": "Blackcomb Glacier",
+          "difficulty": "Black",
+          "area": "Glacier / Showcase T-bar"
+        },
+        {
+          "name": "Entrance to Blackcomb Glacier",
+          "difficulty": "Black",
+          "area": "Glacier / Showcase T-bar"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -148,19 +190,21 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today"
+    ],
     "trends": [],
     "recommendations": [
       "Symphony Express had longest waits (40 min avg) - consider alternatives"
     ]
   },
   "morningBrief": {
-    "headline": "Rain at Base, Snow Up Top",
-    "body": "The mountain is still prepping for the season. Weather today: A mix of sun and cloud..",
+    "headline": "Mixed Precip Today",
+    "body": "111 trails open, 64 groomed. A mix of sun and cloud., high of 51°. Heads up: Symphony Express peaked at 40 minutes yesterday. Consider alternatives. It's going to be a mixed bag today. Expect rain below and snow above.",
     "debug": {
       "firedRules": [
         {
@@ -170,19 +214,31 @@
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_busy",
+          "category": "lifts",
+          "priority": 80,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_mixed",
+          "category": "weather",
+          "priority": 195,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 4,
       "headlineSelection": {
         "condition": "weather_mixed",
         "variationIndex": 0,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Mixed Precip Today"
+        "previousHeadline": "Rain at Base, Snow Up Top"
       },
       "dayOfWeek": "Monday"
     }
