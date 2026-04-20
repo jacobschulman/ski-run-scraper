@@ -2,25 +2,53 @@
   "resort": "stowe",
   "resortName": "Stowe",
   "date": "2026-04-20",
-  "generated": "2026-04-20T09:13:47.884Z",
+  "generated": "2026-04-20T11:26:17.276Z",
   "rawData": {
+    "snow": {
+      "overnight_inches": 2,
+      "overnight_cm": 5,
+      "24hour_inches": 5,
+      "24hour_cm": 12,
+      "48hour_inches": 5,
+      "48hour_cm": 12,
+      "7day_inches": 5,
+      "7day_cm": 12,
+      "season_total_inches": 309,
+      "season_total_cm": 784,
+      "conditions": {
+        "today": "Variable",
+        "yesterday": null
+      }
+    },
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 18,
           "yesterday": 17,
-          "delta": -17
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 15,
           "yesterday": 14,
-          "delta": -14
+          "delta": 1
         },
-        "totalTrails": 0
+        "totalTrails": 129
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Upper Lord",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Upper Lord",
+          "difficulty": "Blue",
+          "area": "Mt. Mansfield - FourRunner"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -40,18 +68,126 @@
           }
         ]
       }
+    },
+    "forecast": {
+      "today": {
+        "date": "2026-04-20",
+        "high_f": 23,
+        "low_f": 15,
+        "high_c": -5,
+        "low_c": -10,
+        "description": "Windy",
+        "snowfall_day_inches": 1,
+        "snowfall_night_inches": 0
+      },
+      "outlook": [
+        {
+          "date": "2026-04-21T04:00:00Z",
+          "high_f": 30,
+          "low_f": 16,
+          "high_c": -2,
+          "low_c": -9,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-22T04:00:00Z",
+          "high_f": 36,
+          "low_f": 29,
+          "high_c": 2,
+          "low_c": -2,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-04-23T04:00:00Z",
+          "high_f": 35,
+          "low_f": 31,
+          "high_c": 2,
+          "low_c": -1,
+          "description": "Windy",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        }
+      ],
+      "tomorrow": {
+        "date": "2026-04-21T04:00:00Z",
+        "high_f": 30,
+        "low_f": 16,
+        "high_c": -2,
+        "low_c": -9,
+        "description": "Windy",
+        "snowfall_day_inches": 0,
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
+      }
     }
   },
   "computedInsights": {
     "flags": {
-      "hasNewTrails": false,
+      "hasFreshSnow": true,
+      "isPowderDay": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "2\" fresh snow overnight",
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Upper Lord - perfect for intermediate skiers"
+    ]
   },
-  "morningBrief": null,
+  "morningBrief": {
+    "headline": "The Mountain Got a Boost",
+    "body": "The mountain got a nice 5\" boost overnight. Conditions are improved. 1 new trail opened today. Watch for crowds at Sunrise Lift, which saw 13-minute waits yesterday.",
+    "debug": {
+      "firedRules": [
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "headline"
+        },
+        {
+          "id": "snow_solid",
+          "category": "snow",
+          "priority": 82,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        }
+      ],
+      "totalRulesFired": 7,
+      "headlineSelection": {
+        "condition": "snow_solid",
+        "variationIndex": 3,
+        "totalVariations": 6,
+        "usedWeekendVariation": false,
+        "previousHeadline": "Smooth Sailing Today"
+      },
+      "dayOfWeek": "Monday"
+    }
+  },
   "errors": []
 }
