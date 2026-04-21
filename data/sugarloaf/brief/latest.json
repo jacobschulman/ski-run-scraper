@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-21",
-  "generated": "2026-04-21T14:08:58.984Z",
+  "generated": "2026-04-21T16:18:49.405Z",
   "rawData": {
     "snow": {
       "overnight_inches": 4,
@@ -23,20 +23,87 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 4,
+          "today": 11,
           "yesterday": 4,
-          "delta": 0
+          "delta": 7
         },
         "groomedTrails": {
-          "today": 2,
+          "today": 8,
           "yesterday": 2,
-          "delta": 0
+          "delta": 6
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Schipper's Streak",
+          "difficulty": "Novice",
+          "area": "Double Runner"
+        },
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Candy Side",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Hayburner",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Lower Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Pinch",
+          "difficulty": "Blue",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Sidewinder",
+          "difficulty": "Black",
+          "area": "SuperQuad"
+        },
+        {
+          "name": "Upper Skidder",
+          "difficulty": "Double Black",
+          "area": "SuperQuad"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,21 +169,29 @@
     "flags": {
       "hasFreshSnow": true,
       "isPowderDay": false,
-      "hasNewTrails": false,
-      "significantGroomingIncrease": false,
+      "hasNewTrails": true,
+      "significantGroomingIncrease": true,
       "highLiftDemand": false
     },
     "alerts": [
-      "4\" fresh snow overnight"
+      "4\" fresh snow overnight",
+      "7 new trails opened today",
+      "6 trails freshly groomed"
     ],
     "trends": [
+      "Grooming increased 300% from yesterday",
+      "7 more trails open than yesterday",
       "2\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Candy Side - perfect for intermediate skiers",
+      "Fresh corduroy on Hayburner - challenging for advanced skiers",
+      "Fresh corduroy on Lower Skidder - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "A Proper Refresh",
-    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
+    "body": "4\" settled in while you were sleeping. Groomers are smooth, off-piste is soft. 7 new runs just opened up. Time to explore fresh terrain. The forecast is flirting with us: light snow expected. Not a dump, but welcome.",
     "debug": {
       "firedRules": [
         {
@@ -132,13 +207,19 @@
           "usedFor": "body"
         },
         {
+          "id": "terrain_expanding",
+          "category": "terrain",
+          "priority": 75,
+          "usedFor": "body"
+        },
+        {
           "id": "forecast_snow_coming",
           "category": "weather",
           "priority": 55,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 8,
       "headlineSelection": {
         "condition": "snow_solid",
         "variationIndex": 4,
