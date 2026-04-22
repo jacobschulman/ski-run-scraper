@@ -2,7 +2,7 @@
   "resort": "sugarloaf",
   "resortName": "Sugarloaf",
   "date": "2026-04-22",
-  "generated": "2026-04-22T12:05:54.566Z",
+  "generated": "2026-04-22T14:08:10.853Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,32 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 10,
+          "today": 11,
           "yesterday": 10,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 8,
+          "today": 9,
           "yesterday": 8,
-          "delta": 0
+          "delta": 1
         },
         "totalTrails": 176
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Peavy X-Cut",
+          "difficulty": "Novice",
+          "area": "SuperQuad"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,19 +114,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "1 new trail opened today",
+      "1 trail freshly groomed"
+    ],
     "trends": [
+      "1 more trail open than yesterday",
       "2\" snow expected Wednesday"
     ],
-    "recommendations": []
+    "recommendations": [
+      "Fresh corduroy on Peavy X-Cut - all skill levels"
+    ]
   },
   "morningBrief": {
     "headline": "More Snow Coming",
-    "body": "10 trails open, 8 groomed. Mostly Clear, temperatures TBD. A little something coming our way. Light snow expected to dust things up.",
+    "body": "11 trails open, 9 groomed. Mostly Clear, temperatures TBD. 1 new trail opened today. A little something coming our way. Light snow expected to dust things up.",
     "debug": {
       "firedRules": [
         {
@@ -127,6 +145,12 @@
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
