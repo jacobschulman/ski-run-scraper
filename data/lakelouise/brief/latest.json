@@ -2,19 +2,19 @@
   "resort": "lakelouise",
   "resortName": "Lake Louise",
   "date": "2026-04-25",
-  "generated": "2026-04-25T10:01:46.175Z",
+  "generated": "2026-04-25T10:56:17.559Z",
   "rawData": {
     "snow": {
-      "overnight_inches": 0.8,
-      "overnight_cm": 2,
-      "24hour_inches": 1.2,
-      "24hour_cm": 3,
-      "48hour_inches": 3.1,
-      "48hour_cm": 8,
-      "7day_inches": 3.1,
-      "7day_cm": 8,
-      "season_total_inches": 369.7,
-      "season_total_cm": 939,
+      "overnight_inches": 0.4,
+      "overnight_cm": 1,
+      "24hour_inches": 0.8,
+      "24hour_cm": 2,
+      "48hour_inches": 2,
+      "48hour_cm": 5,
+      "7day_inches": 4.3,
+      "7day_cm": 11,
+      "season_total_inches": 370.1,
+      "season_total_cm": 940,
       "conditions": {
         "today": "Overcast",
         "yesterday": "Overcast"
@@ -23,21 +23,54 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 130,
+          "today": 131,
           "yesterday": 130,
-          "delta": 0
+          "delta": 1
         },
         "groomedTrails": {
-          "today": 34,
+          "today": 37,
           "yesterday": 34,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 170
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Lower 5",
+          "difficulty": "Black",
+          "area": "Back Bowls"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
-      "ungroomed": []
+      "newlyGroomed": [
+        {
+          "name": "Grizzly Gully",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "Jerry's Jungle",
+          "difficulty": "Green",
+          "area": "Front Side"
+        },
+        {
+          "name": "Charlie's Choice",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        },
+        {
+          "name": "30 Goats",
+          "difficulty": "Blue",
+          "area": "Larch"
+        }
+      ],
+      "ungroomed": [
+        {
+          "name": "Bearberry",
+          "difficulty": "Blue",
+          "area": "Front Side"
+        }
+      ]
     },
     "lifts": {
       "available": false
@@ -55,7 +88,7 @@
       },
       "outlook": [
         {
-          "date": "2026-04-26T10:01:46.174Z",
+          "date": "2026-04-26T10:56:17.557Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -66,7 +99,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-04-27T10:01:46.174Z",
+          "date": "2026-04-27T10:56:17.557Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -77,7 +110,7 @@
           "snowfall_expected": 0
         },
         {
-          "date": "2026-04-28T10:01:46.174Z",
+          "date": "2026-04-28T10:56:17.557Z",
           "high_f": 32,
           "low_f": 32,
           "high_c": 0,
@@ -89,7 +122,7 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-04-26T10:01:46.174Z",
+        "date": "2026-04-26T10:56:17.557Z",
         "high_f": 32,
         "low_f": 32,
         "high_c": 0,
@@ -105,16 +138,25 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "1 new trail opened today",
+      "4 trails freshly groomed"
+    ],
+    "trends": [
+      "1 more trail open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Grizzly Gully - perfect for intermediate skiers",
+      "Fresh corduroy on Jerry's Jungle - great for beginners",
+      "Fresh corduroy on Charlie's Choice - perfect for intermediate skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Transition Day",
-    "body": "A light refresh of 1.2\" overnight makes the groomers smoother. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
+    "body": "131/170 trails spinning, 37 freshly groomed. 48.2° and Cloud/Sun/Mixed. 1 new trail opened today. Transition weather: rain turning to snow as you climb. Variable conditions throughout.",
     "debug": {
       "firedRules": [
         {
@@ -124,9 +166,15 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_dusting",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 70,
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_micro",
+          "category": "terrain",
+          "priority": 45,
           "usedFor": "body"
         },
         {
