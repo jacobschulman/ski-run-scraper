@@ -2,7 +2,7 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-04-26",
-  "generated": "2026-04-26T11:47:07.976Z",
+  "generated": "2026-04-26T13:24:10.471Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,16 +23,16 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 4,
           "yesterday": 4,
-          "delta": -4
+          "delta": 0
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 4,
           "yesterday": 4,
-          "delta": -4
+          "delta": 0
         },
-        "totalTrails": 0
+        "totalTrails": 193
       },
       "newlyOpened": [],
       "newlyClosed": [],
@@ -131,30 +131,42 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Wait Continues",
-    "body": "No trails open yet. Current forecast: Scattered T-Storms.",
+    "headline": "One More Day",
+    "body": "4/193 trails spinning, 4 freshly groomed. 41° and Scattered T-Storms. Watch for crowds at Colorado SuperChair, which saw 9-minute waits yesterday. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "time_sunday",
+          "category": "time",
+          "priority": 38,
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
-          "category": "terrain",
-          "priority": 95,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "lift_moderate",
+          "category": "lifts",
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "forecast_flurries",
+          "category": "weather",
+          "priority": 30,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 6,
       "headlineSelection": {
-        "condition": "resort_closed",
-        "variationIndex": 2,
-        "totalVariations": 6,
+        "condition": "sunday",
+        "variationIndex": 1,
+        "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Not Open Yet"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Sunday"
     }
