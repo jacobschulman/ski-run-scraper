@@ -2,7 +2,7 @@
   "resort": "breckenridge",
   "resortName": "Breckenridge",
   "date": "2026-04-26",
-  "generated": "2026-04-26T13:24:10.471Z",
+  "generated": "2026-04-26T14:56:48.736Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,40 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 4,
+          "today": 0,
           "yesterday": 4,
-          "delta": 0
+          "delta": -4
         },
         "groomedTrails": {
-          "today": 4,
+          "today": 0,
           "yesterday": 4,
-          "delta": 0
+          "delta": -4
         },
         "totalTrails": 193
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Park Lane",
+          "difficulty": "Green",
+          "area": "Peak 8"
+        },
+        {
+          "name": "4 O'Clock",
+          "difficulty": "Blue",
+          "area": "Peak 8"
+        },
+        {
+          "name": "Freeway",
+          "difficulty": "Blue",
+          "area": "Peak 8"
+        },
+        {
+          "name": "Freeway Terrain Park",
+          "difficulty": "TerrainPark",
+          "area": "Peak 8"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -131,42 +152,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "One More Day",
-    "body": "4/193 trails spinning, 4 freshly groomed. 41° and Scattered T-Storms. Watch for crowds at Colorado SuperChair, which saw 9-minute waits yesterday. Light snow possible in the forecast.",
+    "headline": "Checking the Forecast",
+    "body": "No trails open yet. Current forecast: Scattered T-Storms.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_sunday",
-          "category": "time",
-          "priority": 38,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "lift_moderate",
-          "category": "lifts",
-          "priority": 60,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_flurries",
-          "category": "weather",
-          "priority": 30,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 6,
+      "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "sunday",
-        "variationIndex": 1,
-        "totalVariations": 5,
+        "condition": "resort_closed",
+        "variationIndex": 5,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "The Wait Continues"
+        "previousHeadline": "One More Day"
       },
       "dayOfWeek": "Sunday"
     }
