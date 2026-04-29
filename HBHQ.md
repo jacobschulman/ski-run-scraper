@@ -3,10 +3,12 @@ deploy:
   type: script
   working_dir: /srv/hbhq
   prod_command: ssh hetzner "sudo -u scraper bash /home/scraper/ski-run-scraper/hetzner/deploy.sh"
+  review_mode: prod-only
+  merge_deploys_prod: false
 actions:
   staging_label: No staging
-  ship_label: Ship to scraper server
-  merge_label: Merge PR
+  ship_label: Merge and deploy scraper
+  merge_label: Merge to Main
   setup_merge_label: Merge HBHQ.md
   send_back_label: Request changes
 ---
@@ -15,7 +17,7 @@ actions:
 
 Ski Run Scraper collects ski resort grooming, snow, terrain, and lift data. It publishes historical JSON through GitHub Pages and also runs persistent real-time scraper processes on a Hetzner server.
 
-This repo currently has a production-only deploy path. There is no separate staging environment configured for HBHQ.
+Each request should create a branch and PR. This repo currently has a production-only deploy path; there is no separate staging environment configured for HBHQ.
 
 ## Build And Test
 
