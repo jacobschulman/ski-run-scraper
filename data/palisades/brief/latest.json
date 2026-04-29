@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-04-29",
-  "generated": "2026-04-29T16:48:56.722Z",
+  "generated": "2026-04-29T18:18:48.219Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 14,
-      "7day_cm": 36,
+      "7day_inches": 3,
+      "7day_cm": 8,
       "season_total_inches": 362,
       "season_total_cm": 919,
       "conditions": {
@@ -107,27 +107,16 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-04-28",
-        "high_f": null,
-        "low_f": 33,
-        "high_c": null,
-        "low_c": 1,
-        "description": "Mostly Clear",
+        "date": "2026-04-29",
+        "high_f": 49,
+        "low_f": 37,
+        "high_c": 10,
+        "low_c": 3,
+        "description": "Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0
       },
       "outlook": [
-        {
-          "date": "2026-04-29",
-          "high_f": 49,
-          "low_f": 37,
-          "high_c": 10,
-          "low_c": 3,
-          "description": "Sunny",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 0,
-          "snowfall_expected": 0
-        },
         {
           "date": "2026-04-30",
           "high_f": 53,
@@ -145,19 +134,30 @@
           "low_f": 42,
           "high_c": 13,
           "low_c": 6,
-          "description": "Partly Cloudy",
+          "description": "Mostly Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-05-02",
+          "high_f": 52,
+          "low_f": 40,
+          "high_c": 11,
+          "low_c": 4,
+          "description": "Scattered T Storms",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
         }
       ],
       "tomorrow": {
-        "date": "2026-04-29",
-        "high_f": 49,
-        "low_f": 37,
-        "high_c": 10,
-        "low_c": 3,
-        "description": "Sunny",
+        "date": "2026-04-30",
+        "high_f": 53,
+        "low_f": 39,
+        "high_c": 11,
+        "low_c": 4,
+        "description": "Mostly Sunny",
         "snowfall_day_inches": 0,
         "snowfall_night_inches": 0,
         "snowfall_expected": 0
@@ -176,14 +176,13 @@
       "11 new trails opened today"
     ],
     "trends": [
-      "Great week for snow - 14\" in last 7 days",
       "11 more trails open than yesterday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Terrain Expanding",
-    "body": "The snow from earlier this week is aging gracefully. Still soft, still fun. 11 new runs just opened up. Time to explore fresh terrain.",
+    "headline": "More Mountain to Explore",
+    "body": "53 of 301 trails are open with 24 groomed. Sunny with a high of 49°F. 11 new runs just opened up. Time to explore fresh terrain. The sun is working overtime today. Expect 49° and soft, buttery snow by lunch.",
     "debug": {
       "firedRules": [
         {
@@ -193,9 +192,9 @@
           "usedFor": "headline"
         },
         {
-          "id": "snow_holding_strong",
+          "id": "fallback_headline",
           "category": "snow",
-          "priority": 60,
+          "priority": 10,
           "usedFor": "body"
         },
         {
@@ -203,15 +202,21 @@
           "category": "terrain",
           "priority": 75,
           "usedFor": "body"
+        },
+        {
+          "id": "temp_spring",
+          "category": "weather",
+          "priority": 50,
+          "usedFor": "body"
         }
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "terrain_expansion",
-        "variationIndex": 0,
+        "variationIndex": 2,
         "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Base Conditions Solid"
+        "previousHeadline": "Terrain Expanding"
       },
       "dayOfWeek": "Wednesday"
     }
