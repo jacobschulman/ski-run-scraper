@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-04-30",
-  "generated": "2026-04-30T14:14:21.751Z",
+  "generated": "2026-04-30T16:27:43.617Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 39,
+          "today": 42,
           "yesterday": 39,
-          "delta": 0
+          "delta": 3
         },
         "groomedTrails": {
           "today": 24,
@@ -34,7 +34,23 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall Face",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "North Bowl",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Slot",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,23 +128,27 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
+    "alerts": [
+      "3 new trails opened today"
+    ],
+    "trends": [
+      "3 more trails open than yesterday"
+    ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Fewer Crowds, More Turns",
-    "body": "39/301 trails spinning, 24 freshly groomed. Clear. 39/301 trails open, 24 groomed. Clear.",
+    "headline": "Patrol Opened 3 More",
+    "body": "42/301 trails spinning, 24 freshly groomed. Clear. 3 more trails opened today, expanding your options.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_midweek_mellow",
-          "category": "time",
-          "priority": 45,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
@@ -138,19 +158,19 @@
           "usedFor": "body"
         },
         {
-          "id": "fallback_body",
-          "category": "weather",
-          "priority": 5,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "midweek_mellow",
+        "condition": "terrain_few",
         "variationIndex": 2,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Quiet Days on the Hill"
+        "previousHeadline": "Fewer Crowds, More Turns"
       },
       "dayOfWeek": "Thursday"
     }
