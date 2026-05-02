@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-05-02",
-  "generated": "2026-05-02T14:57:02.585Z",
+  "generated": "2026-05-02T15:56:24.234Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,9 +23,9 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 38,
+          "today": 42,
           "yesterday": 38,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
           "today": 24,
@@ -34,7 +34,28 @@
         },
         "totalTrails": 301
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Headwall Face",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Hogsback",
+          "difficulty": "Very Difficult",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "North Bowl",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        },
+        {
+          "name": "Slot",
+          "difficulty": "Expert",
+          "area": "Palisades Peak"
+        }
+      ],
       "newlyClosed": [],
       "newlyGroomed": [],
       "ungroomed": []
@@ -112,31 +133,40 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
+    "alerts": [
+      "4 new trails opened today"
+    ],
     "trends": [
+      "4 more trails open than yesterday",
       "1\" snow expected Monday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Saturday at the Mountain",
-    "body": "38/301 trails spinning, 24 freshly groomed. Cloudy. Light snow possible in the forecast.",
+    "headline": "4 New Runs Open",
+    "body": "42/301 trails spinning, 24 freshly groomed. Cloudy. 4 more trails opened today, expanding your options. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_saturday",
-          "category": "time",
-          "priority": 38,
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "headline"
         },
         {
           "id": "fallback_headline",
           "category": "snow",
           "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
+          "category": "terrain",
+          "priority": 60,
           "usedFor": "body"
         },
         {
@@ -148,11 +178,11 @@
       ],
       "totalRulesFired": 5,
       "headlineSelection": {
-        "condition": "saturday",
-        "variationIndex": 0,
+        "condition": "terrain_few",
+        "variationIndex": 1,
         "totalVariations": 5,
         "usedWeekendVariation": false,
-        "previousHeadline": "Weekend Warrior Day"
+        "previousHeadline": "Saturday at the Mountain"
       },
       "dayOfWeek": "Saturday"
     }
