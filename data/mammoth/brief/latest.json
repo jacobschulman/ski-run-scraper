@@ -2,7 +2,7 @@
   "resort": "mammoth",
   "resortName": "Mammoth Mountain",
   "date": "2026-05-04",
-  "generated": "2026-05-04T16:55:23.007Z",
+  "generated": "2026-05-04T18:22:32.424Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -57,32 +57,21 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-05-03",
-        "high_f": null,
-        "low_f": 29,
-        "high_c": null,
-        "low_c": -2,
-        "description": "Scattered T Storms",
+        "date": "2026-05-04",
+        "high_f": 33,
+        "low_f": 27,
+        "high_c": 1,
+        "low_c": -3,
+        "description": "Snow",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 1
       },
       "outlook": [
         {
-          "date": "2026-05-04",
-          "high_f": 34,
-          "low_f": 27,
-          "high_c": 1,
-          "low_c": -3,
-          "description": "Snow",
-          "snowfall_day_inches": 1,
-          "snowfall_night_inches": 1,
-          "snowfall_expected": 2
-        },
-        {
           "date": "2026-05-05",
-          "high_f": 36,
+          "high_f": 37,
           "low_f": 34,
-          "high_c": 2,
+          "high_c": 3,
           "low_c": 1,
           "description": "Snow",
           "snowfall_day_inches": 1,
@@ -93,8 +82,19 @@
           "date": "2026-05-06",
           "high_f": 49,
           "low_f": 38,
-          "high_c": 10,
+          "high_c": 9,
           "low_c": 3,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-05-07",
+          "high_f": 52,
+          "low_f": 39,
+          "high_c": 11,
+          "low_c": 4,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -102,15 +102,15 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-05-04",
-        "high_f": 34,
-        "low_f": 27,
-        "high_c": 1,
-        "low_c": -3,
+        "date": "2026-05-05",
+        "high_f": 37,
+        "low_f": 34,
+        "high_c": 3,
+        "low_c": 1,
         "description": "Snow",
         "snowfall_day_inches": 1,
-        "snowfall_night_inches": 1,
-        "snowfall_expected": 2
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 1
       }
     }
   },
@@ -124,19 +124,19 @@
     },
     "alerts": [],
     "trends": [
-      "2\" snow expected Monday"
+      "1\" snow expected Tuesday"
     ],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "The Forecast Looks Promising",
-    "body": "86 trails open, 38 groomed. Scattered T Storms, temperatures TBD. Snow is in the cards for the next few days. Enough to freshen things up.",
+    "headline": "Your Morning Mountain Brief",
+    "body": "86 trails open, 38 groomed. Snow, high of 33°. Light snow possible in the forecast.",
     "debug": {
       "firedRules": [
         {
-          "id": "forecast_snow_coming",
-          "category": "weather",
-          "priority": 55,
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
           "usedFor": "headline"
         },
         {
@@ -146,19 +146,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_snow_coming",
+          "id": "forecast_flurries",
           "category": "weather",
-          "priority": 55,
+          "priority": 30,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "snow_coming",
-        "variationIndex": 4,
-        "totalVariations": 6,
+        "condition": "fallback",
+        "variationIndex": 0,
+        "totalVariations": 7,
         "usedWeekendVariation": false,
-        "previousHeadline": "Snow Showers Ahead"
+        "previousHeadline": "The Forecast Looks Promising"
       },
       "dayOfWeek": "Monday"
     }

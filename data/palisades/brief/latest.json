@@ -2,7 +2,7 @@
   "resort": "palisades",
   "resortName": "Palisades Tahoe",
   "date": "2026-05-04",
-  "generated": "2026-05-04T16:55:22.997Z",
+  "generated": "2026-05-04T18:22:32.412Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -11,8 +11,8 @@
       "24hour_cm": 0,
       "48hour_inches": 0,
       "48hour_cm": 0,
-      "7day_inches": 2,
-      "7day_cm": 5,
+      "7day_inches": 0,
+      "7day_cm": 0,
       "season_total_inches": 362,
       "season_total_cm": 919,
       "conditions": {
@@ -77,34 +77,23 @@
     },
     "forecast": {
       "today": {
-        "date": "2026-05-03",
-        "high_f": null,
-        "low_f": 35,
-        "high_c": null,
-        "low_c": 2,
-        "description": "Scattered T Storms",
+        "date": "2026-05-04",
+        "high_f": 39,
+        "low_f": 33,
+        "high_c": 4,
+        "low_c": 1,
+        "description": "Rain",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 0
+        "snowfall_night_inches": 2
       },
       "outlook": [
         {
-          "date": "2026-05-04",
-          "high_f": 40,
-          "low_f": 33,
-          "high_c": 5,
-          "low_c": 1,
-          "description": "Rain",
-          "snowfall_day_inches": 0,
-          "snowfall_night_inches": 2,
-          "snowfall_expected": 2
-        },
-        {
           "date": "2026-05-05",
           "high_f": 47,
-          "low_f": 41,
+          "low_f": 39,
           "high_c": 9,
-          "low_c": 5,
-          "description": "Cloudy",
+          "low_c": 4,
+          "description": "Mostly Cloudy",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
           "snowfall_expected": 0
@@ -112,9 +101,20 @@
         {
           "date": "2026-05-06",
           "high_f": 58,
-          "low_f": 46,
+          "low_f": 45,
           "high_c": 15,
-          "low_c": 8,
+          "low_c": 7,
+          "description": "Sunny",
+          "snowfall_day_inches": 0,
+          "snowfall_night_inches": 0,
+          "snowfall_expected": 0
+        },
+        {
+          "date": "2026-05-07",
+          "high_f": 58,
+          "low_f": 43,
+          "high_c": 14,
+          "low_c": 6,
           "description": "Sunny",
           "snowfall_day_inches": 0,
           "snowfall_night_inches": 0,
@@ -122,15 +122,15 @@
         }
       ],
       "tomorrow": {
-        "date": "2026-05-04",
-        "high_f": 40,
-        "low_f": 33,
-        "high_c": 5,
-        "low_c": 1,
-        "description": "Rain",
+        "date": "2026-05-05",
+        "high_f": 47,
+        "low_f": 39,
+        "high_c": 9,
+        "low_c": 4,
+        "description": "Mostly Cloudy",
         "snowfall_day_inches": 0,
-        "snowfall_night_inches": 2,
-        "snowfall_expected": 2
+        "snowfall_night_inches": 0,
+        "snowfall_expected": 0
       }
     }
   },
@@ -143,20 +143,18 @@
       "highLiftDemand": false
     },
     "alerts": [],
-    "trends": [
-      "2\" snow expected Monday"
-    ],
+    "trends": [],
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Building the Base",
-    "body": "34 of 301 trails are open with 22 groomed. Scattered T Storms with a temperatures TBD. Light snow possible in the forecast.",
+    "headline": "Rainy Day Reality",
+    "body": "34 of 301 trails are open with 22 groomed. Rain with a high of 39°F. The mountain is getting a rinse today. Conditions will be variable from base to summit.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_early",
-          "category": "context",
-          "priority": 15,
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
           "usedFor": "headline"
         },
         {
@@ -166,19 +164,19 @@
           "usedFor": "body"
         },
         {
-          "id": "forecast_flurries",
+          "id": "weather_rain",
           "category": "weather",
-          "priority": 30,
+          "priority": 200,
           "usedFor": "body"
         }
       ],
       "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "early_season",
-        "variationIndex": 0,
-        "totalVariations": 5,
+        "condition": "weather_rain",
+        "variationIndex": 4,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Early Season Conditions"
+        "previousHeadline": "Building the Base"
       },
       "dayOfWeek": "Monday"
     }
