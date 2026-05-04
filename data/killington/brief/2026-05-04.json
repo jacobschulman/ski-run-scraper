@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-05-04",
-  "generated": "2026-05-04T14:20:57.484Z",
+  "generated": "2026-05-04T16:55:23.032Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,55 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 7,
+          "today": 0,
           "yesterday": 7,
-          "delta": 0
+          "delta": -7
         },
         "groomedTrails": {
-          "today": 6,
+          "today": 0,
           "yesterday": 6,
-          "delta": 0
+          "delta": -6
         },
         "totalTrails": 225
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Bittersweet - Lower",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "High Road - Upper",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Skyehawk",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Skyelark - Upper",
+          "difficulty": "Blue",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -113,36 +149,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Opening Phase",
-    "body": "7 trails open, 6 groomed. Windy, high of 52°. Light snow possible in the forecast.",
+    "headline": "Stay Tuned for Opening",
+    "body": "Not open for the season yet. Current conditions: Windy.",
     "debug": {
       "firedRules": [
         {
-          "id": "percent_early",
-          "category": "context",
-          "priority": 15,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "forecast_flurries",
-          "category": "weather",
-          "priority": 30,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 4,
       "headlineSelection": {
-        "condition": "early_season",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "resort_closed",
+        "variationIndex": 2,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Limited Terrain, Great Times"
+        "previousHeadline": "Almost There..."
       },
       "dayOfWeek": "Monday"
     }
