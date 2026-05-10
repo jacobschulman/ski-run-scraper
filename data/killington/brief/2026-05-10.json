@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-05-10",
-  "generated": "2026-05-10T20:58:17.127Z",
+  "generated": "2026-05-10T21:56:11.085Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,19 +23,40 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 4,
+          "today": 0,
           "yesterday": 4,
-          "delta": 0
+          "delta": -4
         },
         "groomedTrails": {
-          "today": 3,
+          "today": 0,
           "yesterday": 3,
-          "delta": 0
+          "delta": -3
         },
         "totalTrails": 225
       },
       "newlyOpened": [],
-      "newlyClosed": [],
+      "newlyClosed": [
+        {
+          "name": "Skyehawk",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyGroomed": [],
       "ungroomed": []
     },
@@ -111,36 +132,30 @@
     "recommendations": []
   },
   "morningBrief": {
-    "headline": "Last Chance This Week",
-    "body": "4/225 trails spinning, 3 freshly groomed. Windy. Windy conditions expected. Upper lifts may have holds or delays.",
+    "headline": "Waiting for Opening Day",
+    "body": "No trails open yet. Current forecast: Windy.",
     "debug": {
       "firedRules": [
         {
-          "id": "time_sunday",
-          "category": "time",
-          "priority": 38,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "headline"
         },
         {
-          "id": "fallback_headline",
-          "category": "snow",
-          "priority": 10,
-          "usedFor": "body"
-        },
-        {
-          "id": "weather_windy",
-          "category": "weather",
-          "priority": 45,
+          "id": "resort_closed",
+          "category": "terrain",
+          "priority": 95,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 5,
+      "totalRulesFired": 3,
       "headlineSelection": {
-        "condition": "sunday",
-        "variationIndex": 3,
-        "totalVariations": 5,
+        "condition": "resort_closed",
+        "variationIndex": 0,
+        "totalVariations": 6,
         "usedWeekendVariation": false,
-        "previousHeadline": "Weekend Finale"
+        "previousHeadline": "The Wait Continues"
       },
       "dayOfWeek": "Sunday"
     }
