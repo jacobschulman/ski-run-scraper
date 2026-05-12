@@ -6,7 +6,7 @@ Reference doc for the lift data pipeline. Updated Feb 2026.
 
 | Tier | What it provides | Update frequency | Where it runs |
 |------|-----------------|-------------------|---------------|
-| **Real-time** | Actual wait time minutes | ~2min (live-scraper instances when enabled) | Hetzner VPS |
+| **Real-time** | Actual wait time minutes | 45s (Vail when enabled), ~2min (live-scraper instances when enabled) | Hetzner VPS |
 | **Status** | Open/Closed lift status | 10min (Vail via GH Actions), 2min (Ikon via Hetzner HTTP) | GH Actions + Hetzner |
 | **Schedule** | Published hours only | N/A | No scraping, hardcoded |
 
@@ -16,6 +16,7 @@ All managed via `hetzner/ecosystem.config.js`. Auto-deployed by `hetzner/deploy.
 
 | Process | Script | What it does | Memory limit |
 |---------|--------|--------------|-------------|
+| `vail-live-scraper` | `vail-live-scraper.js` | Paused off-season. Dedicated Vail-only scraper, 45s cycle, keeps browser alive when enabled. | 800M |
 | `lift-scraper-vail` | `lift-scraper-vail.js` | LEGACY queue scraper for `enabledResorts`. Keep during transition, remove after live-scrapers are stable. | 1200M |
 | `live-scraper-a` | `live-scraper.js a` | Fresh-browser-per-resort scraper for group a (breckenridge, parkcity, keystone). Currently commented out. | 400M |
 | `live-scraper-b` | `live-scraper.js b` | Group b (heavenly, northstar, kirkwood). Commented out. | 400M |
@@ -26,7 +27,7 @@ All managed via `hetzner/ecosystem.config.js`. Auto-deployed by `hetzner/deploy.
 | `api-server` | `api-server.js` | Express server on port 3000. Serves lift data to the app. | 500M |
 | `aggregates` | `generate-aggregates.js` | Hourly summary generation (cron). | N/A |
 
-`vail-live-scraper` is intentionally disabled while Vail is closed for the season. Re-add it to `hetzner/ecosystem.config.js` when Vail reopens.
+`vail-live-scraper` is intentionally paused while Vail is closed for the season. It remains registered in `hetzner/ecosystem.config.js`; deploy stops the PM2 app when `VAIL_LIVE_PAUSED=true`.
 
 ## GitHub Actions Processes
 

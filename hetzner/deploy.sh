@@ -51,11 +51,10 @@ log "Restarting PM2 apps..."
 cd "$REPO_DIR/hetzner"
 pm2 reload ecosystem.config.js >> "$LOG_FILE" 2>&1
 
-# PM2 reload leaves processes running if they were removed from the ecosystem.
-# Vail is closed for the season, so stop its dedicated live scraper when absent.
-if ! node -e "const { apps } = require('./ecosystem.config.js'); process.exit(apps.some(app => app.name === 'vail-live-scraper') ? 0 : 1);" >> "$LOG_FILE" 2>&1; then
-  log "Deleting removed PM2 app: vail-live-scraper"
-  pm2 delete vail-live-scraper >> "$LOG_FILE" 2>&1 || true
+# Keep paused apps registered in PM2, but stop them so they do not consume runtime resources.
+if node -e "const { apps } = require('./ecosystem.config.js'); const app = apps.find(app => app.name === 'vail-live-scraper'); process.exit(app && app.env && app.env.VAIL_LIVE_PAUSED === 'true' ? 0 : 1);" >> "$LOG_FILE" 2>&1; then
+  log "Stopping paused PM2 app: vail-live-scraper"
+  pm2 stop vail-live-scraper >> "$LOG_FILE" 2>&1 || true
 fi
 
 pm2 save >> "$LOG_FILE" 2>&1
