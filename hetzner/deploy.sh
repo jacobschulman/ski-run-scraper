@@ -51,8 +51,13 @@ log "Restarting PM2 apps..."
 cd "$REPO_DIR/hetzner"
 pm2 reload ecosystem.config.js >> "$LOG_FILE" 2>&1
 
-# Clean up any processes that were removed from ecosystem
-# PM2 reload doesn't stop processes that are no longer in the config
+# PM2 reload leaves processes running if they were removed from the ecosystem.
+# Vail is closed for the season, so stop its dedicated live scraper when absent.
+if ! node -e "const { apps } = require('./ecosystem.config.js'); process.exit(apps.some(app => app.name === 'vail-live-scraper') ? 0 : 1);" >> "$LOG_FILE" 2>&1; then
+  log "Deleting removed PM2 app: vail-live-scraper"
+  pm2 delete vail-live-scraper >> "$LOG_FILE" 2>&1 || true
+fi
+
 pm2 save >> "$LOG_FILE" 2>&1
 
 log "Deploy complete"

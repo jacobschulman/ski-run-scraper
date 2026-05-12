@@ -130,29 +130,8 @@ module.exports = {
     //   log_date_format: 'YYYY-MM-DD HH:mm:ss',
     // },
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // VAIL LIVE SCRAPER - Bare-bones Vail-only, scrapes every 45 seconds
-    // Keeps browser alive between cycles for maximum data frequency
-    // ═══════════════════════════════════════════════════════════════════════════
-    {
-      name: 'vail-live-scraper',
-      script: './vail-live-scraper.js',
-      cwd: __dirname,
-      instances: 1,
-      autorestart: true,
-      min_uptime: '30s',
-      watch: false,
-      max_memory_restart: '800M',
-      exp_backoff_restart_delay: 1000,
-      max_restarts: 50,
-      env: {
-        NODE_ENV: 'production',
-      },
-      error_file: '/home/scraper/logs/vail-live-error.log',
-      out_file: '/home/scraper/logs/vail-live-out.log',
-      merge_logs: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss',
-    },
+    // Vail's dedicated live scraper is disabled for the off-season.
+    // Re-add the vail-live-scraper app here when Vail reopens.
 
     // ═══════════════════════════════════════════════════════════════════════════
     // SNOW SCRAPER - Snow reports (every 30 minutes)
