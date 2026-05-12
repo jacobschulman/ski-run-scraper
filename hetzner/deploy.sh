@@ -51,8 +51,12 @@ log "Restarting PM2 apps..."
 cd "$REPO_DIR/hetzner"
 pm2 reload ecosystem.config.js >> "$LOG_FILE" 2>&1
 
-# Clean up any processes that were removed from ecosystem
-# PM2 reload doesn't stop processes that are no longer in the config
+# Keep paused apps registered in PM2, but stop them so they do not consume runtime resources.
+if node -e "const { apps } = require('./ecosystem.config.js'); const app = apps.find(app => app.name === 'vail-live-scraper'); process.exit(app && app.env && app.env.VAIL_LIVE_PAUSED === 'true' ? 0 : 1);" >> "$LOG_FILE" 2>&1; then
+  log "Stopping paused PM2 app: vail-live-scraper"
+  pm2 stop vail-live-scraper >> "$LOG_FILE" 2>&1 || true
+fi
+
 pm2 save >> "$LOG_FILE" 2>&1
 
 log "Deploy complete"
