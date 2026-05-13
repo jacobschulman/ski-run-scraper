@@ -607,8 +607,24 @@
       "resort": "whistlerblackcomb",
       "resortName": "Whistler Blackcomb",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:30.994Z",
+      "generated": "2026-05-13T16:27:39.390Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 0,
+          "48hour_cm": 0,
+          "7day_inches": 0,
+          "7day_cm": 0,
+          "season_total_inches": 316,
+          "season_total_cm": 804,
+          "conditions": {
+            "today": "Spring",
+            "yesterday": "Spring"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
@@ -634,6 +650,8 @@
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false
         },
@@ -641,7 +659,41 @@
         "trends": [],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Midweek Mountain Report",
+        "body": "20 of 152 trails are open with 12 groomed. Variable conditions with a temperatures TBD. 20/152 trails open, 12 groomed. Variable conditions.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "time_midweek_mellow",
+              "category": "time",
+              "priority": 45,
+              "usedFor": "headline"
+            },
+            {
+              "id": "fallback_headline",
+              "category": "snow",
+              "priority": 10,
+              "usedFor": "body"
+            },
+            {
+              "id": "fallback_body",
+              "category": "weather",
+              "priority": 5,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "midweek_mellow",
+            "variationIndex": 0,
+            "totalVariations": 5,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Fewer Crowds, More Turns"
+          },
+          "dayOfWeek": "Wednesday"
+        }
+      },
       "errors": []
     }
   },
@@ -707,24 +759,57 @@
       "resort": "palisades",
       "resortName": "Palisades Tahoe",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:34.318Z",
+      "generated": "2026-05-13T16:27:42.640Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 0,
+          "48hour_cm": 0,
+          "7day_inches": 0,
+          "7day_cm": 0,
+          "season_total_inches": 363,
+          "season_total_cm": 922,
+          "conditions": {
+            "today": "Machine Groomed Variable Conditions",
+            "yesterday": "Machine Groomed Variable Conditions"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 16,
+              "today": 15,
               "yesterday": 16,
-              "delta": 0
+              "delta": -1
             },
             "groomedTrails": {
-              "today": 11,
+              "today": 12,
               "yesterday": 11,
-              "delta": 0
+              "delta": 1
             },
             "totalTrails": 301
           },
-          "newlyOpened": [],
-          "newlyClosed": [],
+          "newlyOpened": [
+            {
+              "name": "Killy's",
+              "difficulty": "Intermediate",
+              "area": "Palisades Peak"
+            }
+          ],
+          "newlyClosed": [
+            {
+              "name": "Riviera",
+              "difficulty": "Easy",
+              "area": "Emigrant Peak"
+            },
+            {
+              "name": "Reuter's - 6th Tree",
+              "difficulty": "Intermediate",
+              "area": "Granite Peak"
+            }
+          ],
           "newlyGroomed": [],
           "ungroomed": []
         },
@@ -737,19 +822,115 @@
             "totalLiftsTracked": 39,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2026-05-13",
+            "high_f": 56,
+            "low_f": 41,
+            "high_c": 13,
+            "low_c": 5,
+            "description": "Sunny",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2026-05-14",
+              "high_f": 61,
+              "low_f": 42,
+              "high_c": 16,
+              "low_c": 6,
+              "description": "Sunny",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-15",
+              "high_f": 58,
+              "low_f": 39,
+              "high_c": 15,
+              "low_c": 4,
+              "description": "Sunny",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-16",
+              "high_f": 51,
+              "low_f": 35,
+              "high_c": 10,
+              "low_c": 2,
+              "description": "Partly Cloudy",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            }
+          ],
+          "tomorrow": {
+            "date": "2026-05-14",
+            "high_f": 61,
+            "low_f": 42,
+            "high_c": 16,
+            "low_c": 6,
+            "description": "Sunny",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 0
+          }
         }
       },
       "computedInsights": {
         "flags": {
-          "hasNewTrails": false,
+          "hasFreshSnow": false,
+          "isPowderDay": false,
+          "hasNewTrails": true,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
+        "alerts": [
+          "1 new trail opened today"
+        ],
         "trends": [],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Fewer Crowds, More Turns",
+        "body": "15/301 trails spinning, 12 freshly groomed. 56° and Sunny. 15/301 trails open, 12 groomed. 56° and Sunny.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "time_midweek_mellow",
+              "category": "time",
+              "priority": 45,
+              "usedFor": "headline"
+            },
+            {
+              "id": "fallback_headline",
+              "category": "snow",
+              "priority": 10,
+              "usedFor": "body"
+            },
+            {
+              "id": "fallback_body",
+              "category": "weather",
+              "priority": 5,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 4,
+          "headlineSelection": {
+            "condition": "midweek_mellow",
+            "variationIndex": 2,
+            "totalVariations": 5,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Quiet Days on the Hill"
+          },
+          "dayOfWeek": "Wednesday"
+        }
+      },
       "errors": []
     }
   },
@@ -1142,24 +1323,56 @@
       "resort": "mammoth",
       "resortName": "Mammoth Mountain",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:34.325Z",
+      "generated": "2026-05-13T16:27:42.651Z",
       "rawData": {
+        "snow": {
+          "overnight_inches": 0,
+          "overnight_cm": 0,
+          "24hour_inches": 0,
+          "24hour_cm": 0,
+          "48hour_inches": 0,
+          "48hour_cm": 0,
+          "7day_inches": 0,
+          "7day_cm": 0,
+          "season_total_inches": 293,
+          "season_total_cm": 744,
+          "conditions": {
+            "today": "Spring Conditions",
+            "yesterday": "Spring Conditions"
+          }
+        },
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 78,
+              "today": 75,
               "yesterday": 78,
-              "delta": 0
+              "delta": -3
             },
             "groomedTrails": {
-              "today": 34,
+              "today": 31,
               "yesterday": 34,
-              "delta": 0
+              "delta": -3
             },
             "totalTrails": 191
           },
           "newlyOpened": [],
-          "newlyClosed": [],
+          "newlyClosed": [
+            {
+              "name": "Road Runner Lower (Bottom Half)",
+              "difficulty": "Easiest",
+              "area": "Main Lodge"
+            },
+            {
+              "name": "Road Runner Lower (Top Half)",
+              "difficulty": "Slightly Difficult",
+              "area": "Main Lodge"
+            },
+            {
+              "name": "Road Runner (Middle)",
+              "difficulty": "Difficult",
+              "area": "Main Lodge"
+            }
+          ],
           "newlyGroomed": [],
           "ungroomed": []
         },
@@ -1172,10 +1385,70 @@
             "totalLiftsTracked": 25,
             "busiest": []
           }
+        },
+        "forecast": {
+          "today": {
+            "date": "2026-05-13",
+            "high_f": 52,
+            "low_f": 39,
+            "high_c": 11,
+            "low_c": 4,
+            "description": "Mostly Sunny",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0
+          },
+          "outlook": [
+            {
+              "date": "2026-05-14",
+              "high_f": 56,
+              "low_f": 40,
+              "high_c": 13,
+              "low_c": 5,
+              "description": "Sunny",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-15",
+              "high_f": 54,
+              "low_f": 36,
+              "high_c": 12,
+              "low_c": 2,
+              "description": "Sunny",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-16",
+              "high_f": 47,
+              "low_f": 32,
+              "high_c": 8,
+              "low_c": 0,
+              "description": "Mostly Sunny",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            }
+          ],
+          "tomorrow": {
+            "date": "2026-05-14",
+            "high_f": 56,
+            "low_f": 40,
+            "high_c": 13,
+            "low_c": 5,
+            "description": "Sunny",
+            "snowfall_day_inches": 0,
+            "snowfall_night_inches": 0,
+            "snowfall_expected": 0
+          }
         }
       },
       "computedInsights": {
         "flags": {
+          "hasFreshSnow": false,
+          "isPowderDay": false,
           "hasNewTrails": false,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
@@ -1184,7 +1457,41 @@
         "trends": [],
         "recommendations": []
       },
-      "morningBrief": null,
+      "morningBrief": {
+        "headline": "Midweek Bliss",
+        "body": "75 trails open, 31 groomed. Mostly Sunny, high of 52°. 75/191 trails open, 31 groomed. 52° and Mostly Sunny.",
+        "debug": {
+          "firedRules": [
+            {
+              "id": "time_midweek_mellow",
+              "category": "time",
+              "priority": 45,
+              "usedFor": "headline"
+            },
+            {
+              "id": "fallback_headline",
+              "category": "snow",
+              "priority": 10,
+              "usedFor": "body"
+            },
+            {
+              "id": "fallback_body",
+              "category": "weather",
+              "priority": 5,
+              "usedFor": "body"
+            }
+          ],
+          "totalRulesFired": 3,
+          "headlineSelection": {
+            "condition": "midweek_mellow",
+            "variationIndex": 1,
+            "totalVariations": 5,
+            "usedWeekendVariation": false,
+            "previousHeadline": "Midweek Mountain Report"
+          },
+          "dayOfWeek": "Wednesday"
+        }
+      },
       "errors": []
     }
   },
@@ -2843,7 +3150,7 @@
       "resort": "snowbird",
       "resortName": "Snowbird",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:34.344Z",
+      "generated": "2026-05-13T16:27:42.669Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -2892,27 +3199,18 @@
         },
         "forecast": {
           "today": {
-            "date": "2026-05-12",
-            "high_f": null,
-            "low_f": 52,
-            "description": "Mostly Clear",
+            "date": "2026-05-13",
+            "high_f": 54,
+            "low_f": 38,
+            "description": "Windy",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2026-05-13",
-              "high_f": 53,
-              "low_f": 38,
-              "description": "Windy",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2026-05-14",
               "high_f": 45,
-              "low_f": 41,
+              "low_f": 40,
               "description": "Sunny",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -2921,18 +3219,27 @@
             {
               "date": "2026-05-15",
               "high_f": 46,
-              "low_f": 42,
+              "low_f": 41,
               "description": "Sunny",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-16",
+              "high_f": 43,
+              "low_f": 31,
+              "description": "Cloudy",
+              "snowfall_day_inches": 1,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 1
             }
           ],
           "tomorrow": {
-            "date": "2026-05-13",
-            "high_f": 53,
-            "low_f": 38,
-            "description": "Windy",
+            "date": "2026-05-14",
+            "high_f": 45,
+            "low_f": 40,
+            "description": "Sunny",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
             "snowfall_expected": 0
@@ -2948,7 +3255,9 @@
           "highLiftDemand": false
         },
         "alerts": [],
-        "trends": [],
+        "trends": [
+          "1\" snow expected Saturday"
+        ],
         "recommendations": []
       },
       "morningBrief": {
@@ -2969,7 +3278,7 @@
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 2,
+          "totalRulesFired": 4,
           "headlineSelection": {
             "condition": "resort_closed",
             "variationIndex": 1,
@@ -3047,7 +3356,7 @@
       "resort": "killington",
       "resortName": "Killington",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:34.348Z",
+      "generated": "2026-05-13T16:27:42.674Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -3096,28 +3405,19 @@
         },
         "forecast": {
           "today": {
-            "date": "2026-05-12",
-            "high_f": null,
-            "low_f": 39,
-            "description": "Mostly Cloudy",
+            "date": "2026-05-13",
+            "high_f": 46,
+            "low_f": 44,
+            "description": "Scattered T Storms",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
           },
           "outlook": [
             {
-              "date": "2026-05-13",
-              "high_f": 46,
-              "low_f": 44,
-              "description": "Rain",
-              "snowfall_day_inches": 0,
-              "snowfall_night_inches": 0,
-              "snowfall_expected": 0
-            },
-            {
               "date": "2026-05-14",
-              "high_f": 46,
-              "low_f": 40,
-              "description": "Scattered T Storms",
+              "high_f": 45,
+              "low_f": 41,
+              "description": "Rain",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
@@ -3125,17 +3425,26 @@
             {
               "date": "2026-05-15",
               "high_f": 47,
-              "low_f": 46,
+              "low_f": 47,
               "description": "Rain",
+              "snowfall_day_inches": 0,
+              "snowfall_night_inches": 0,
+              "snowfall_expected": 0
+            },
+            {
+              "date": "2026-05-16",
+              "high_f": 58,
+              "low_f": 55,
+              "description": "Windy",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
               "snowfall_expected": 0
             }
           ],
           "tomorrow": {
-            "date": "2026-05-13",
-            "high_f": 46,
-            "low_f": 44,
+            "date": "2026-05-14",
+            "high_f": 45,
+            "low_f": 41,
             "description": "Rain",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
@@ -3157,7 +3466,7 @@
       },
       "morningBrief": {
         "headline": "Almost There...",
-        "body": "The mountain is still prepping for the season. Weather today: Mostly Cloudy.",
+        "body": "The mountain is still prepping for the season. Weather today: Scattered T Storms.",
         "debug": {
           "firedRules": [
             {
@@ -3777,7 +4086,7 @@
       "resort": "banff",
       "resortName": "Banff Sunshine Village",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:34.352Z",
+      "generated": "2026-05-13T16:27:42.679Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -3798,21 +4107,79 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 88,
+              "today": 86,
               "yesterday": 88,
-              "delta": 0
+              "delta": -2
             },
             "groomedTrails": {
-              "today": 38,
+              "today": 36,
               "yesterday": 38,
-              "delta": 0
+              "delta": -2
             },
             "totalTrails": 120
           },
           "newlyOpened": [],
-          "newlyClosed": [],
-          "newlyGroomed": [],
-          "ungroomed": []
+          "newlyClosed": [
+            {
+              "name": "GE. Sky Dive",
+              "difficulty": "Black",
+              "area": "All Terrain"
+            },
+            {
+              "name": "UM. Bye Bye Bowl",
+              "difficulty": "Black",
+              "area": "All Terrain"
+            }
+          ],
+          "newlyGroomed": [
+            {
+              "name": "UM. Cherub",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            },
+            {
+              "name": "St. Borderline",
+              "difficulty": "Green",
+              "area": "All Terrain"
+            },
+            {
+              "name": "Wa. Tilton Trail",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            },
+            {
+              "name": "Wa. Wawa Bowl",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            }
+          ],
+          "ungroomed": [
+            {
+              "name": "JW. Fireweed",
+              "difficulty": "Black",
+              "area": "All Terrain"
+            },
+            {
+              "name": "JW. Short and Sweet",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            },
+            {
+              "name": "JW. Trapper's Trail",
+              "difficulty": "Black",
+              "area": "All Terrain"
+            },
+            {
+              "name": "Wa. Old T-Bar",
+              "difficulty": "Black",
+              "area": "All Terrain"
+            },
+            {
+              "name": "SB. Strawberry Face",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            }
+          ]
         },
         "lifts": {
           "available": false
@@ -3830,7 +4197,7 @@
           },
           "outlook": [
             {
-              "date": "2026-05-14T10:37:42.498Z",
+              "date": "2026-05-14T14:55:44.330Z",
               "high_f": 44.6,
               "low_f": 32,
               "high_c": 7,
@@ -3841,11 +4208,11 @@
               "snowfall_expected": 0
             },
             {
-              "date": "2026-05-15T10:37:42.498Z",
-              "high_f": 39.2,
-              "low_f": 28.4,
-              "high_c": 4,
-              "low_c": -2,
+              "date": "2026-05-15T14:55:44.330Z",
+              "high_f": 42.8,
+              "low_f": 26.6,
+              "high_c": 6,
+              "low_c": -3,
               "description": "Unknown",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -3853,7 +4220,7 @@
             }
           ],
           "tomorrow": {
-            "date": "2026-05-14T10:37:42.498Z",
+            "date": "2026-05-14T14:55:44.330Z",
             "high_f": 44.6,
             "low_f": 32,
             "high_c": 7,
@@ -3872,13 +4239,19 @@
           "hasNewTrails": false,
           "significantGroomingIncrease": false
         },
-        "alerts": [],
+        "alerts": [
+          "4 trails freshly groomed"
+        ],
         "trends": [],
-        "recommendations": []
+        "recommendations": [
+          "Fresh corduroy on UM. Cherub - perfect for intermediate skiers",
+          "Fresh corduroy on St. Borderline - great for beginners",
+          "Fresh corduroy on Wa. Tilton Trail - perfect for intermediate skiers"
+        ]
       },
       "morningBrief": {
-        "headline": "Midweek Bliss",
-        "body": "88 trails open, 38 groomed. Unknown, high of 57.2°. 88/120 trails open, 38 groomed. 57.2° and Unknown.",
+        "headline": "Quiet Days on the Hill",
+        "body": "86 trails open, 36 groomed. Unknown, high of 57.2°. 86/120 trails open, 36 groomed. 57.2° and Unknown.",
         "debug": {
           "firedRules": [
             {
@@ -3906,7 +4279,7 @@
             "variationIndex": 1,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Quiet Days on the Hill"
+            "previousHeadline": "Midweek Bliss"
           },
           "dayOfWeek": "Wednesday"
         }
@@ -6895,7 +7268,7 @@
       "resort": "breckenridge",
       "resortName": "Breckenridge",
       "date": "2026-05-13",
-      "generated": "2026-05-13T13:22:30.989Z",
+      "generated": "2026-05-13T16:27:39.384Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -6939,9 +7312,9 @@
           "today": {
             "date": "2026-05-13",
             "high_f": 65,
-            "low_f": 39,
+            "low_f": 37,
             "high_c": 18,
-            "low_c": 4,
+            "low_c": 3,
             "description": "Scattered T-Storms",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0
@@ -6950,9 +7323,9 @@
             {
               "date": "2026-05-14T06:00:00Z",
               "high_f": 60,
-              "low_f": 40,
+              "low_f": 41,
               "high_c": 15,
-              "low_c": 4,
+              "low_c": 5,
               "description": "Mostly Clear",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -6961,9 +7334,9 @@
             {
               "date": "2026-05-15T06:00:00Z",
               "high_f": 59,
-              "low_f": 34,
+              "low_f": 36,
               "high_c": 15,
-              "low_c": 1,
+              "low_c": 2,
               "description": "Clear",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -6971,8 +7344,8 @@
             },
             {
               "date": "2026-05-16T06:00:00Z",
-              "high_f": 55,
-              "low_f": 35,
+              "high_f": 56,
+              "low_f": 36,
               "high_c": 13,
               "low_c": 2,
               "description": "Scattered T-Storms",
@@ -6984,9 +7357,9 @@
           "tomorrow": {
             "date": "2026-05-14T06:00:00Z",
             "high_f": 60,
-            "low_f": 40,
+            "low_f": 41,
             "high_c": 15,
-            "low_c": 4,
+            "low_c": 5,
             "description": "Mostly Clear",
             "snowfall_day_inches": 0,
             "snowfall_night_inches": 0,
@@ -7006,7 +7379,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Almost There...",
+        "headline": "Checking the Forecast",
         "body": "Not open for the season yet. Current conditions: Scattered T-Storms.",
         "debug": {
           "firedRules": [
@@ -7029,7 +7402,7 @@
             "variationIndex": 4,
             "totalVariations": 6,
             "usedWeekendVariation": false,
-            "previousHeadline": "Checking the Forecast"
+            "previousHeadline": "Almost There..."
           },
           "dayOfWeek": "Wednesday"
         }
