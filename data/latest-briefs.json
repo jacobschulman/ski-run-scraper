@@ -759,7 +759,7 @@
       "resort": "palisades",
       "resortName": "Palisades Tahoe",
       "date": "2026-05-14",
-      "generated": "2026-05-14T18:01:23.382Z",
+      "generated": "2026-05-14T19:58:33.419Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -878,7 +878,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Fewer Crowds, More Turns",
+        "headline": "Beat the Weekend Rush",
         "body": "15 trails open, 12 groomed. Sunny, high of 62°. 15/301 trails open, 12 groomed. 62° and Sunny.",
         "debug": {
           "firedRules": [
@@ -907,7 +907,7 @@
             "variationIndex": 3,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Beat the Weekend Rush"
+            "previousHeadline": "Fewer Crowds, More Turns"
           },
           "dayOfWeek": "Thursday"
         }
@@ -1304,7 +1304,7 @@
       "resort": "mammoth",
       "resortName": "Mammoth Mountain",
       "date": "2026-05-14",
-      "generated": "2026-05-14T18:01:23.393Z",
+      "generated": "2026-05-14T19:58:33.430Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -1434,7 +1434,7 @@
         "recommendations": []
       },
       "morningBrief": {
-        "headline": "Midweek Bliss",
+        "headline": "Fewer Crowds, More Turns",
         "body": "73/191 trails spinning, 29 freshly groomed. 56° and Sunny. 73/191 trails open, 29 groomed. 56° and Sunny.",
         "debug": {
           "firedRules": [
@@ -1463,7 +1463,7 @@
             "variationIndex": 2,
             "totalVariations": 5,
             "usedWeekendVariation": false,
-            "previousHeadline": "Fewer Crowds, More Turns"
+            "previousHeadline": "Midweek Bliss"
           },
           "dayOfWeek": "Thursday"
         }
@@ -3126,7 +3126,7 @@
       "resort": "snowbird",
       "resortName": "Snowbird",
       "date": "2026-05-14",
-      "generated": "2026-05-14T18:01:23.411Z",
+      "generated": "2026-05-14T19:58:33.448Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -3332,7 +3332,7 @@
       "resort": "killington",
       "resortName": "Killington",
       "date": "2026-05-14",
-      "generated": "2026-05-14T18:01:23.415Z",
+      "generated": "2026-05-14T19:58:33.453Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -3353,20 +3353,57 @@
         "terrain": {
           "stats": {
             "openTrails": {
-              "today": 0,
+              "today": 4,
               "yesterday": 0,
-              "delta": 0
+              "delta": 4
             },
             "groomedTrails": {
-              "today": 0,
+              "today": 3,
               "yesterday": 0,
-              "delta": 0
+              "delta": 3
             },
             "totalTrails": 225
           },
-          "newlyOpened": [],
+          "newlyOpened": [
+            {
+              "name": "Skyehawk",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            },
+            {
+              "name": "Superstar - Headwall",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            },
+            {
+              "name": "Superstar - Lower",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            },
+            {
+              "name": "Superstar - Middle",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            }
+          ],
           "newlyClosed": [],
-          "newlyGroomed": [],
+          "newlyGroomed": [
+            {
+              "name": "Superstar - Headwall",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            },
+            {
+              "name": "Superstar - Lower",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            },
+            {
+              "name": "Superstar - Middle",
+              "difficulty": "Black",
+              "area": "Skye Peak"
+            }
+          ],
           "ungroomed": []
         },
         "lifts": {
@@ -3432,17 +3469,26 @@
         "flags": {
           "hasFreshSnow": false,
           "isPowderDay": false,
-          "hasNewTrails": false,
+          "hasNewTrails": true,
           "significantGroomingIncrease": false,
           "highLiftDemand": false
         },
-        "alerts": [],
-        "trends": [],
-        "recommendations": []
+        "alerts": [
+          "4 new trails opened today",
+          "3 trails freshly groomed"
+        ],
+        "trends": [
+          "4 more trails open than yesterday"
+        ],
+        "recommendations": [
+          "Fresh corduroy on Superstar - Headwall - challenging for advanced skiers",
+          "Fresh corduroy on Superstar - Lower - challenging for advanced skiers",
+          "Fresh corduroy on Superstar - Middle - challenging for advanced skiers"
+        ]
       },
       "morningBrief": {
         "headline": "Rain in the Forecast",
-        "body": "No trails open yet. Current forecast: Rain.",
+        "body": "4/225 trails spinning, 3 freshly groomed. 45° and Rain. 4 more trails opened today, expanding your options. Heads up: rain in the forecast. Base area will be wet, but it should be snow up top.",
         "debug": {
           "firedRules": [
             {
@@ -3452,13 +3498,25 @@
               "usedFor": "headline"
             },
             {
-              "id": "resort_closed",
+              "id": "fallback_headline",
+              "category": "snow",
+              "priority": 10,
+              "usedFor": "body"
+            },
+            {
+              "id": "terrain_few",
               "category": "terrain",
-              "priority": 95,
+              "priority": 60,
+              "usedFor": "body"
+            },
+            {
+              "id": "weather_rain",
+              "category": "weather",
+              "priority": 200,
               "usedFor": "body"
             }
           ],
-          "totalRulesFired": 3,
+          "totalRulesFired": 5,
           "headlineSelection": {
             "condition": "weather_rain",
             "variationIndex": 0,
@@ -4062,7 +4120,7 @@
       "resort": "banff",
       "resortName": "Banff Sunshine Village",
       "date": "2026-05-14",
-      "generated": "2026-05-14T18:01:23.421Z",
+      "generated": "2026-05-14T19:58:33.459Z",
       "rawData": {
         "snow": {
           "overnight_inches": 0,
@@ -4088,9 +4146,9 @@
               "delta": 0
             },
             "groomedTrails": {
-              "today": 34,
+              "today": 35,
               "yesterday": 36,
-              "delta": -2
+              "delta": -1
             },
             "totalTrails": 120
           },
@@ -4099,6 +4157,11 @@
           "newlyGroomed": [
             {
               "name": "UM. Red 90",
+              "difficulty": "Blue",
+              "area": "All Terrain"
+            },
+            {
+              "name": "SB. Strawberry Face",
               "difficulty": "Blue",
               "area": "All Terrain"
             }
@@ -4137,7 +4200,7 @@
           },
           "outlook": [
             {
-              "date": "2026-05-15T15:25:54.663Z",
+              "date": "2026-05-15T18:01:31.334Z",
               "high_f": 41,
               "low_f": 26.6,
               "high_c": 5,
@@ -4148,11 +4211,11 @@
               "snowfall_expected": 0
             },
             {
-              "date": "2026-05-16T15:25:54.663Z",
-              "high_f": 33.8,
-              "low_f": 30.2,
-              "high_c": 1,
-              "low_c": -1,
+              "date": "2026-05-16T18:01:31.334Z",
+              "high_f": 35.6,
+              "low_f": 28.4,
+              "high_c": 2,
+              "low_c": -2,
               "description": "Unknown",
               "snowfall_day_inches": 0,
               "snowfall_night_inches": 0,
@@ -4160,7 +4223,7 @@
             }
           ],
           "tomorrow": {
-            "date": "2026-05-15T15:25:54.663Z",
+            "date": "2026-05-15T18:01:31.334Z",
             "high_f": 41,
             "low_f": 26.6,
             "high_c": 5,
@@ -4180,16 +4243,17 @@
           "significantGroomingIncrease": false
         },
         "alerts": [
-          "1 trail freshly groomed"
+          "2 trails freshly groomed"
         ],
         "trends": [],
         "recommendations": [
-          "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers"
+          "Fresh corduroy on UM. Red 90 - perfect for intermediate skiers",
+          "Fresh corduroy on SB. Strawberry Face - perfect for intermediate skiers"
         ]
       },
       "morningBrief": {
         "headline": "Fewer Crowds, More Turns",
-        "body": "86/120 trails spinning, 34 freshly groomed. 44.6° and Unknown. 86/120 trails open, 34 groomed. 44.6° and Unknown.",
+        "body": "86/120 trails spinning, 35 freshly groomed. 44.6° and Unknown. 86/120 trails open, 35 groomed. 44.6° and Unknown.",
         "debug": {
           "firedRules": [
             {

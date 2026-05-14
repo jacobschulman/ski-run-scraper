@@ -2,7 +2,7 @@
   "resort": "killington",
   "resortName": "Killington",
   "date": "2026-05-14",
-  "generated": "2026-05-14T18:01:23.415Z",
+  "generated": "2026-05-14T19:58:33.453Z",
   "rawData": {
     "snow": {
       "overnight_inches": 0,
@@ -23,20 +23,57 @@
     "terrain": {
       "stats": {
         "openTrails": {
-          "today": 0,
+          "today": 4,
           "yesterday": 0,
-          "delta": 0
+          "delta": 4
         },
         "groomedTrails": {
-          "today": 0,
+          "today": 3,
           "yesterday": 0,
-          "delta": 0
+          "delta": 3
         },
         "totalTrails": 225
       },
-      "newlyOpened": [],
+      "newlyOpened": [
+        {
+          "name": "Skyehawk",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "newlyClosed": [],
-      "newlyGroomed": [],
+      "newlyGroomed": [
+        {
+          "name": "Superstar - Headwall",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Lower",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        },
+        {
+          "name": "Superstar - Middle",
+          "difficulty": "Black",
+          "area": "Skye Peak"
+        }
+      ],
       "ungroomed": []
     },
     "lifts": {
@@ -102,17 +139,26 @@
     "flags": {
       "hasFreshSnow": false,
       "isPowderDay": false,
-      "hasNewTrails": false,
+      "hasNewTrails": true,
       "significantGroomingIncrease": false,
       "highLiftDemand": false
     },
-    "alerts": [],
-    "trends": [],
-    "recommendations": []
+    "alerts": [
+      "4 new trails opened today",
+      "3 trails freshly groomed"
+    ],
+    "trends": [
+      "4 more trails open than yesterday"
+    ],
+    "recommendations": [
+      "Fresh corduroy on Superstar - Headwall - challenging for advanced skiers",
+      "Fresh corduroy on Superstar - Lower - challenging for advanced skiers",
+      "Fresh corduroy on Superstar - Middle - challenging for advanced skiers"
+    ]
   },
   "morningBrief": {
     "headline": "Rain in the Forecast",
-    "body": "No trails open yet. Current forecast: Rain.",
+    "body": "4/225 trails spinning, 3 freshly groomed. 45° and Rain. 4 more trails opened today, expanding your options. Heads up: rain in the forecast. Base area will be wet, but it should be snow up top.",
     "debug": {
       "firedRules": [
         {
@@ -122,13 +168,25 @@
           "usedFor": "headline"
         },
         {
-          "id": "resort_closed",
+          "id": "fallback_headline",
+          "category": "snow",
+          "priority": 10,
+          "usedFor": "body"
+        },
+        {
+          "id": "terrain_few",
           "category": "terrain",
-          "priority": 95,
+          "priority": 60,
+          "usedFor": "body"
+        },
+        {
+          "id": "weather_rain",
+          "category": "weather",
+          "priority": 200,
           "usedFor": "body"
         }
       ],
-      "totalRulesFired": 3,
+      "totalRulesFired": 5,
       "headlineSelection": {
         "condition": "weather_rain",
         "variationIndex": 0,
