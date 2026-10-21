@@ -1,7 +1,7 @@
 # Liftie - Ski Scraper Monitor Agent
 # Docker container for running on Unraid or any Docker host
 
-FROM node:20-slim
+FROM node:22.23.4-bookworm-slim
 
 # Install dependencies for Claude Code, SSH, and GitHub CLI
 RUN apt-get update && apt-get install -y \
