@@ -131,15 +131,15 @@ module.exports = {
     // },
 
     // ═══════════════════════════════════════════════════════════════════════════
-    // VAIL LIVE SCRAPER - Bare-bones Vail-only, scrapes every 45 seconds
-    // Keeps browser alive between cycles for maximum data frequency
+    // VAIL LIVE SCRAPER - Paused while Vail is closed for the season
+    // Set VAIL_LIVE_PAUSED=false and autorestart=true when Vail reopens.
     // ═══════════════════════════════════════════════════════════════════════════
     {
       name: 'vail-live-scraper',
       script: './vail-live-scraper.js',
       cwd: __dirname,
       instances: 1,
-      autorestart: true,
+      autorestart: false,
       min_uptime: '30s',
       watch: false,
       max_memory_restart: '800M',
@@ -147,6 +147,7 @@ module.exports = {
       max_restarts: 50,
       env: {
         NODE_ENV: 'production',
+        VAIL_LIVE_PAUSED: 'true',
       },
       error_file: '/home/scraper/logs/vail-live-error.log',
       out_file: '/home/scraper/logs/vail-live-out.log',
