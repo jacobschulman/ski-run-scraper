@@ -32,6 +32,9 @@
 //
 // ═══════════════════════════════════════════════════════════════════════════════
 
+const { normalizeVailSnowReport } = require('./lib/vail-snow-normalization');
+const { validateSnowReport } = require('./lib/snow-freshness');
+const { fetchSource } = require('./lib/source-http');
 const puppeteer = require('puppeteer');
 const https = require('https');
 const fs = require('fs');
@@ -66,6 +69,25 @@ function getDb() {
   return db;
 }
 
+const runOutcomes = [];
+const dryRun = process.env.SCRAPER_DRY_RUN === '1';
+const runDirectory = path.resolve('.cache/scraper-recovery', new Date().toISOString().replace(/[:.]/g, '-') + '-' + process.pid);
+function allowSnowWrite(resortKey, provider, raw, record) {
+  const freshness = validateSnowReport(provider, raw, { timezone: RESORTS[resortKey].timezone });
+  runOutcomes.push({resort: resortKey, provider, ...freshness});
+  if (!freshness.accepted) {
+    console.warn(`Skipped ${resortKey}: ${freshness.reason} (${freshness.sourceUpdated || 'no source date'})`);
+    return false;
+  }
+  if (dryRun) {
+    fs.mkdirSync(runDirectory, {recursive:true});
+    fs.writeFileSync(path.join(runDirectory, `${resortKey}.json`), JSON.stringify(record, null, 2));
+    console.log(`Dry run: validated ${resortKey}; production files unchanged`);
+    return false;
+  }
+  return true;
+}
+
 // Reuse a single browser for all scrapes to reduce launch overhead
 let sharedBrowser = null;
 async function getSharedBrowser() {
@@ -88,32 +110,7 @@ async function getSharedBrowser() {
  * Fetch all resort data from Inspector API
  */
 function fetchAllInspectorData() {
-  return new Promise((resolve, reject) => {
-    const url = `${INSPECTOR_API_URL}?bearer_token=${BEARER_TOKEN}`;
-
-    https.get(url, (res) => {
-      let data = '';
-
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
-
-      res.on('end', () => {
-        if (res.statusCode === 200) {
-          try {
-            const json = JSON.parse(data);
-            resolve(json);
-          } catch (error) {
-            reject(new Error(`Failed to parse JSON: ${error.message}`));
-          }
-        } else {
-          reject(new Error(`HTTP ${res.statusCode}: ${res.statusMessage}`));
-        }
-      });
-    }).on('error', (error) => {
-      reject(new Error(`Request failed: ${error.message}`));
-    });
-  });
+  return fetchSource(`${INSPECTOR_API_URL}?bearer_token=${encodeURIComponent(BEARER_TOKEN)}`);
 }
 
 /**
@@ -123,6 +120,12 @@ async function scrapeVailSnowReport(resortKey, url) {
   console.log(`\n${'='.repeat(50)}`);
   console.log(`Scraping Snow Report for ${RESORTS[resortKey].name}...`);
   console.log('='.repeat(50));
+
+  if (process.env.VAIL_SNOW_TRANSPORT === 'http') {
+    const { extractJSONAssignment } = require('./lib/embedded-json');
+    const html = await fetchSource(url, {json:false});
+    return {snowReport:extractJSONAssignment(html, 'FR.snowReportData'), forecasts:extractJSONAssignment(html, 'FR.forecasts')};
+  }
 
   const browser = await getSharedBrowser();
   const page = await browser.newPage();
@@ -184,72 +187,9 @@ function saveVailSnowData(resortKey, rawData) {
   const today = seasonUtils.getResortLocalDate(timezone);
   const now = new Date();
 
-  const snow = rawData.snowReport;
-  const forecasts = rawData.forecasts;
+  const cleanData = normalizeVailSnowReport(resortKey, resort, rawData, today, now);
 
-  // Build clean, structured data format
-  const cleanData = {
-    resort: resortKey,
-    resortName: resortName,
-    provider: resort.provider || 'vail',
-    date: today,
-    timestamp: now.toISOString(),
-    lastUpdated: snow.LastUpdatedText || null,
-    conditions: snow.OverallSnowConditions || null,
-    snowfall: {
-      overnight_inches: parseFloat(snow.OvernightSnowfall?.Inches) || 0,
-      overnight_cm: parseFloat(snow.OvernightSnowfall?.Centimeters) || 0,
-      "24hour_inches": parseFloat(snow.TwentyFourHourSnowfall?.Inches) || 0,
-      "24hour_cm": parseFloat(snow.TwentyFourHourSnowfall?.Centimeters) || 0,
-      "48hour_inches": parseFloat(snow.FortyEightHourSnowfall?.Inches) || 0,
-      "48hour_cm": parseFloat(snow.FortyEightHourSnowfall?.Centimeters) || 0,
-      "7day_inches": parseFloat(snow.SevenDaySnowfall?.Inches) || 0,
-      "7day_cm": parseFloat(snow.SevenDaySnowfall?.Centimeters) || 0,
-      season_total_inches: parseFloat(snow.CurrentSeason?.Inches) || 0,
-      season_total_cm: parseFloat(snow.CurrentSeason?.Centimeters) || 0
-    },
-    baseDepth: {
-      inches: parseFloat(snow.BaseDepth?.Inches) || 0,
-      cm: parseFloat(snow.BaseDepth?.Centimeters) || 0
-    },
-    forecast: null
-  };
-
-  // Process forecast data if available
-  if (forecasts && Array.isArray(forecasts) && forecasts.length > 0) {
-    cleanData.forecast = {
-      locations: forecasts.map(location => {
-        const forecastData = location.ForecastData || [];
-        const today = forecastData.length > 0 ? forecastData[0] : null;
-
-        return {
-          name: location.Location || 'Unknown',
-          elevation: location.Elevation || null,
-          today: today ? {
-            high_f: parseInt(today.HighTempStandard) || null,
-            high_c: parseInt(today.HighTempMetric) || null,
-            low_f: parseInt(today.LowTempStandard) || null,
-            low_c: parseInt(today.LowTempMetric) || null,
-            description: today.WeatherShortDescription || null,
-            wind: today.Wind || null,
-            wind_speed: today.WindSpeed || null,
-            snowfall_day_inches: parseFloat(today.SnowFallDayStandard) || 0,
-            snowfall_night_inches: parseFloat(today.SnowFallNightStandard) || 0
-          } : null,
-          forecast_days: forecastData.slice(0, 5).map(day => ({
-            date: day.Date || null,
-            high_f: parseInt(day.HighTempStandard) || null,
-            high_c: parseInt(day.HighTempMetric) || null,
-            low_f: parseInt(day.LowTempStandard) || null,
-            low_c: parseInt(day.LowTempMetric) || null,
-            description: day.WeatherShortDescription || null,
-            snowfall_day_inches: parseFloat(day.SnowFallDayStandard) || 0,
-            snowfall_night_inches: parseFloat(day.SnowFallNightStandard) || 0
-          }))
-        };
-      })
-    };
-  }
+  if (!allowSnowWrite(resortKey, 'vail', rawData, cleanData)) return null;
 
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
@@ -344,6 +284,8 @@ function saveIkonSnowData(resortKey, inspectorData) {
     ...cleanData,
     provider: resort.provider || 'ikon'
   };
+
+  if (!allowSnowWrite(resortKey, 'inspector', inspectorData, snowDataWithProvider)) return null;
 
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
@@ -451,6 +393,8 @@ function saveZaneraySnowData(resortKey, zanerayData) {
     apiProvider: 'zaneray'
   };
 
+  if (!allowSnowWrite(resortKey, 'zaneray', zanerayData, snowDataWithProvider)) return null;
+
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
@@ -552,6 +496,8 @@ function saveSnoCountrySnowData(resortKey, snoCountryData, inspectorData) {
     apiProvider: 'snocountry',
     weatherProvider: inspectorData ? 'inspector' : null
   };
+
+  if (!allowSnowWrite(resortKey, 'snocountry', snoCountryData, snowDataWithProvider)) return null;
 
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
@@ -657,6 +603,8 @@ function saveReportPalSnowData(resortKey, reportPalData, inspectorData) {
     weatherProvider: inspectorData ? 'inspector' : null
   };
 
+  if (!allowSnowWrite(resortKey, 'reportpal', reportPalData, snowDataWithProvider)) return null;
+
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
@@ -759,6 +707,8 @@ function saveAspenSnowmassSnowData(resortKey, aspenData, inspectorData) {
     weatherProvider: inspectorData ? 'inspector' : null
   };
 
+  if (!allowSnowWrite(resortKey, 'aspensnowmass', aspenData, snowDataWithProvider)) return null;
+
   // Ensure directory structure exists
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
@@ -850,6 +800,7 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
         const result = saveZaneraySnowData(resort.key, rawData);
         if (result) scrapedData.push(result);
       } catch (error) {
+        runOutcomes.push({resort:resort.key,accepted:false,reason:'fetch-or-parse-error',error:error.message});
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
       }
     }
@@ -872,6 +823,7 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
         const result = saveReportPalSnowData(resort.key, rawData, inspectorData);
         if (result) scrapedData.push(result);
       } catch (error) {
+        runOutcomes.push({resort:resort.key,accepted:false,reason:'fetch-or-parse-error',error:error.message});
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
       }
     }
@@ -902,6 +854,7 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
         const result = saveSnoCountrySnowData(resort.key, rawData, inspectorData);
         if (result) scrapedData.push(result);
       } catch (error) {
+        runOutcomes.push({resort:resort.key,accepted:false,reason:'fetch-or-parse-error',error:error.message});
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
       }
     }
@@ -924,6 +877,7 @@ async function scrapeCustomProviderResorts(resortsToScrape, inspectorApiData) {
         const result = saveAspenSnowmassSnowData(resort.key, rawData, inspectorData);
         if (result) scrapedData.push(result);
       } catch (error) {
+        runOutcomes.push({resort:resort.key,accepted:false,reason:'fetch-or-parse-error',error:error.message});
         console.error(`❌ Error scraping ${resort.name}: ${error.message}`);
       }
     }
@@ -951,6 +905,7 @@ async function scrapeVailResorts(resortsToScrape) {
       const result = saveVailSnowData(resort.key, data);
       if (result) scrapedData.push(result);
     } catch (error) {
+      runOutcomes.push({resort:resort.key,accepted:false,reason:'fetch-or-parse-error',error:error.message});
       console.error(`\n❌ Error scraping snow report for ${resort.name}:`, error.message);
     }
   }
@@ -1112,11 +1067,14 @@ async function main() {
     : configLoader.getResortsByProvider(config, 'ikon', false);
 
   // Filter to in-season resorts
-  const inSeasonResorts = allResorts.filter(resort =>
-    seasonUtils.isResortInSeason(resort, config)
+  const selected = process.env.SCRAPER_RESORTS?.split(',').filter(Boolean);
+  if (!selected?.length) throw Error('Set SCRAPER_RESORTS to an explicit resort allowlist before running snow collection');
+  for (const key of selected) if (!allResorts.some(r=>r.key===key)) throw Error(`Unknown ${provider} resort: ${key}`);
+  const inSeasonResorts = allResorts.filter(resort => selected.includes(resort.key) &&
+    (dryRun || seasonUtils.isResortInSeason(resort, config))
   );
 
-  console.log(`\n📋 Found ${inSeasonResorts.length} in-season ${provider} resort(s)`);
+  console.log(`\n📋 Selected ${inSeasonResorts.length} ${provider} resort(s)${dryRun ? " (dry-run season bypass)" : " in season"}`);
 
   if (inSeasonResorts.length === 0) {
     console.log('\n✅ No resorts in season, skipping\n');
@@ -1140,9 +1098,12 @@ async function main() {
     scrapedData = await scrapeIkonResorts(inSeasonResorts);
   }
 
+  for (const resort of inSeasonResorts) {
+    if (!runOutcomes.some(r=>r.resort===resort.key)) runOutcomes.push({resort:resort.key,accepted:false,reason:'no-result-or-unsupported-provider'});
+  }
   // Summary
   console.log('\n' + '='.repeat(80));
-  console.log(`📊 Summary: ${scrapedData.length} resort(s) scraped`);
+  console.log(`📊 Summary: ${runOutcomes.filter(r=>r.accepted).length} accepted, ${runOutcomes.filter(r=>!r.accepted).length} rejected; ${scrapedData.length} published locally`);
   console.log('='.repeat(80));
 
   // Generate aggregated latest-snow.json
@@ -1160,4 +1121,10 @@ async function main() {
   }
 }
 
-main();
+if (require.main === module) main().catch(error => {console.error(error.message);process.exitCode=1;}).finally(async () => {
+  if (sharedBrowser) await sharedBrowser.close();
+  fs.mkdirSync(runDirectory, {recursive:true});
+  fs.writeFileSync(path.join(runDirectory, 'run.json'), JSON.stringify({dryRun,outcomes:runOutcomes}, null, 2));
+  console.log(`Run report: ${runDirectory}/run.json`);
+});
+module.exports = { allowSnowWrite, saveVailSnowData, saveIkonSnowData, saveZaneraySnowData, saveSnoCountrySnowData, saveReportPalSnowData, saveAspenSnowmassSnowData };

@@ -113,6 +113,9 @@ function saveSnowData(resortKey, data) {
   const today = seasonUtils.getResortLocalDate(timezone);
   const snowReport = canadianBig3.toSnowReport(data, resortKey, resort.name, today);
 
+  const freshness = require('./lib/snow-freshness').validateSnowReport('canadian-big3', data, { timezone: resort.timezone });
+  if (!freshness.accepted) { console.warn(`Skipped ${resortKey} snow: ${freshness.reason}`); return null; }
+
   const snowDir = path.join('data', resortKey, 'snow');
   fileStorage.ensureDirectoryExists(snowDir);
 

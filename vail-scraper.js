@@ -769,6 +769,9 @@ function saveSnowData(resortKey, rawData) {
   }
 
   // Ensure directory structure exists
+  const freshness = require('./lib/snow-freshness').validateSnowReport('vail', rawData, { timezone: resort.timezone });
+  if (!freshness.accepted) { console.warn(`Skipped ${resortKey} snow: ${freshness.reason}`); return null; }
+
   const snowDir = path.join('data', resortKey, 'snow');
   ensureDirectoryExists(snowDir);
 

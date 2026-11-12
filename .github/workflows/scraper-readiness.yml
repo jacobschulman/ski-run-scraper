@@ -1,0 +1,66 @@
+name: Scraper readiness (no publishing)
+on:
+  push:
+    branches: [codex/scraper-recovery]
+  workflow_dispatch:
+    inputs:
+      provider:
+        type: choice
+        options: [ikon, vail]
+        default: ikon
+        required: true
+      resorts:
+        description: Comma-separated resort keys to validate
+        default: abasin,mammoth,jacksonhole,bigsky,aspenmountain
+        required: true
+      vail_transport:
+        type: choice
+        options: [http, browser]
+        default: http
+permissions:
+  contents: read
+jobs:
+  readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run test:recovery
+      - name: Dry-run the two-resort snow and terrain pilot
+        run: node scripts/run-vail-pilot.js
+      - name: Collect candidates without publication
+        env:
+          SCRAPER_DRY_RUN: '1'
+          SCRAPER_RESORTS: ${{ inputs.resorts || 'breckenridge,keystone' }}
+          VAIL_SNOW_TRANSPORT: ${{ inputs.vail_transport || 'http' }}
+          SCRAPER_PROVIDER: ${{ inputs.provider || 'vail' }}
+        run: node snow-scraper.js "$SCRAPER_PROVIDER"
+      - name: Require selected sources to pass
+        run: node scripts/check-recovery-results.js
+      - name: Check Breckenridge terrain over HTTP and Chrome
+        if: always()
+        run: node scripts/audit-scrapers.js --resorts breckenridge,keystone --browser breckenridge,keystone
+      - name: Compare Breckenridge snow with Chrome
+        if: always()
+        run: node scripts/check-vail-snow-parity.js breckenridge
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scraper-readiness
+          include-hidden-files: true
+          path: |
+            .cache/pilot/
+            .cache/scraper-recovery/
+            .cache/scraper-audit/
+          if-no-files-found: warn
