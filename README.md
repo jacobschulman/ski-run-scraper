@@ -357,3 +357,95 @@ node generate-landing-pages.js
 - `templates/snow.html` - Universal snow report template
 
 Both templates use JavaScript to auto-detect which resort they're displaying based on the URL path.
+
+## Read-only preseason audit
+
+```bash
+npm run audit:scrapers
+# Limit sources, optionally compare lift values with local Chromium:
+npm run audit:scrapers -- --resorts keystone,stowe --browser keystone,stowe
+npm run test:audit
+```
+
+The audit checks configured public sources without running production scrapers,
+contacting deployment servers, or publishing data. It saves `report.json`,
+`report.txt`, and raw responses under `.cache/scraper-audit/<timestamp>/` (ignored
+by Git). Inspector is fetched once; requests have a 20-second deadline and use
+three workers. Optional browser checks use the installed Puppeteer browser.
+
+Results distinguish HTTP errors, missing embedded data, empty terrain, and
+extracted but unverified payloads. A successful response is not proof of accurate
+conditions. Source timestamps are preserved without replacing them with fetch
+time. Snow semantics and Canadian custom parsers still need separate validation;
+browser comparisons are sequential samples and do not establish cloud-network
+accessibility or ongoing freshness. The command exits successfully when the audit
+completes, even if sources fail; inspect the report for source outcomes.
+
+For a focused Vail browser/HTTP comparison and replay of its observed public
+terrain API request, run `node scripts/audit-vail-parity.js keystone`. This writes
+a separate audit directory and preserves exact status representations for comparison.
+
+### Historical snow compatibility
+
+Vail snow serialization is shared in `lib/vail-snow-normalization.js`. Run
+`npm run test:snow-compatibility` to check it against the committed Breckenridge
+2025-11-15 fixture (copied from `HEAD:data/breckenridge/snow/2025-11-15.json`
+during the November 2026 audit).
+
+Preserve existing snow field names, source-reported inches/cm, resort-local
+`date`, UTC collection `timestamp`, source `lastUpdated`, forecast structure,
+and the daily JSON/latest JSON/intraday NDJSON paths. `provider` is an existing
+additive field absent from the early historical fixture. Audit metadata stays
+outside published records. Legacy missing-number defaults are unchanged;
+compatibility does not establish freshness. A stale preseason zero report must
+not be treated as a new measured zero for year-over-year comparisons. Missing
+historical dates must likewise remain missing rather than being filled with zero.
+
+## Recovery runs (2026/27)
+
+Keep scheduled publishing disabled while qualifying sources. The snow collector
+now requires `SCRAPER_RESORTS` (comma-separated keys); existing broad commands
+without an allowlist deliberately stop. No Hetzner deployment is needed.
+
+```bash
+# Actual APIs; only accepted candidate files and diagnostics under .cache/
+SCRAPER_DRY_RUN=1 SCRAPER_RESORTS=abasin,mammoth,jacksonhole,bigsky,aspenmountain node snow-scraper.js ikon
+# Embedded JSON over HTTP, separately qualified from an API
+SCRAPER_DRY_RUN=1 SCRAPER_RESORTS=keystone,breckenridge VAIL_SNOW_TRANSPORT=http node snow-scraper.js vail
+# Compare the same raw snow fields with Chrome; nonzero exit on mismatch/rejection
+node scripts/check-vail-snow-parity.js keystone
+npm run test:recovery
+```
+
+Dry runs bypass season filtering for diagnostics, but never bypass freshness.
+Production runs still use configured season dates. Removing `SCRAPER_DRY_RUN`
+writes accepted records locally using the existing paths, schema, units and
+normalizers; it does not deploy or push. Restore historical data before a local
+production run: this checkout excludes `data/` through sparse checkout.
+
+The publication gate rejects snow reports older than 30 hours, more than 15
+minutes in the future, missing/unparseable timestamps, and payloads without snow
+measurements. Fresh measured zero is valid. It uses Inspector's **SnowReport**
+update, not the feed update; Zaneray's snow update, not its wrapper update.
+Vail timezone abbreviations are explicit; Aspen and Zaneray local report dates
+use the configured resort timezone. SnoCountry offset-free timestamps and
+Canadian source timestamps remain unqualified and blocked. Rejections preserve
+existing daily files, latest files, NDJSON history and database records. Audit
+reasons stay in separate `run.json` files, outside the historical data schema.
+The gate also covers the legacy root Vail/Inspector/Canadian snow writers;
+Hetzner scripts and servers have not been changed.
+
+A completed dry-run command can include rejected sources. Inspect its report or
+run `node scripts/check-recovery-results.js` to require every selected source to
+pass. The manual-only `Scraper readiness (no publishing)` GitHub workflow does
+this check and uploads candidates/reasons as artifacts. It has read-only repo
+permissions and no schedule or publishing steps. It must be pushed before it can
+be dispatched; it has not been run remotely during this audit.
+
+To qualify direct access: test the exact configured endpoint without browser
+cookies; require valid schema and source freshness (HTTP 200 alone is not enough);
+compare overlapping fields with the official page/browser; repeat during resort
+operating hours to check freshness; then run the same test on GitHub's cloud IP.
+Successful local access does not establish cloud accessibility. Vail lift waits
+remain unqualified: the observed background terrain endpoint returned an explicit
+failure even in Chrome. Do not replace the lift collector based on snow results.
