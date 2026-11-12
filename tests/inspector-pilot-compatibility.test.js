@@ -1,0 +1,20 @@
+const {test} = require('node:test');
+const assert = require('node:assert/strict');
+const {normalizeInspectorResort, normalizeInspectorSnowReport} = require('../lib/data-normalization');
+const contract = require('./fixtures/inspector-historical-contract.json');
+const sources = require('./fixtures/inspector-pilot-source.json');
+const config = require('../config.json');
+for (const key of ['abasin','mammoth']) test(`${key}: preserves historical Inspector snow and terrain contracts`, () => {
+  const resort = config.resorts.find(r => r.key === key);
+  const raw = sources.find(r => r.Name === (resort.inspectorName || resort.name));
+  assert(raw);
+  const snow = {...normalizeInspectorSnowReport(raw,key,resort.name,'2026-11-12'),provider:resort.provider};
+  assert.deepEqual(Object.keys(snow).sort(),contract[key].snow.fields);
+  for (const field of ['snowfall','baseDepth','terrain']) assert.deepEqual(Object.keys(snow[field]).sort(),contract[key].snow[field]);
+  assert.equal(snow.resort,key);
+  assert.equal(snow.provider,'ikon');
+  const terrain = {...normalizeInspectorResort(raw),scrapedAt:new Date().toISOString(),sourceLastUpdated:raw.LastUpdate};
+  if (key === 'mammoth') assert.deepEqual(Object.keys(JSON.parse(JSON.stringify(terrain))).sort(),contract.mammoth.terrain);
+  assert(terrain.GroomingAreas.flatMap(a=>a.Trails).length > 0);
+  assert.equal(terrain.sourceLastUpdated,raw.LastUpdate);
+});
