@@ -473,3 +473,10 @@ Source failures fail the job and retain the previous published data. Review the
 Actions result and `vail-pilot-evidence` artifact; enable GitHub failed-workflow
 notifications for ongoing monitoring. This pilot does not rebuild SQLite-derived
 per-trail streak pages or replace existing lift streams.
+
+The first pilot run exposed pre-existing nested merge-conflict markers in
+`data/latest-snow.json`. A one-time recovery recognizes only that file's exact
+SHA-256, parses its conflict variants, and retains the newest complete observation
+for each of all 65 resorts. It repairs the derived aggregate during the first
+successful pilot commit; daily history stays unchanged. Any other malformed
+aggregate still blocks publication.

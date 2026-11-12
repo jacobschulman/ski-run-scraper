@@ -7,6 +7,7 @@ const { fetchSource } = require('../lib/source-http');
 const { extractJSONAssignment } = require('../lib/embedded-json');
 const { extractVailTerrain, validateTerrainFreshness } = require('../lib/vail-terrain-normalization');
 const { validateSnowReport } = require('../lib/snow-freshness');
+const { readSnowAggregate } = require('../lib/recover-snow-aggregate');
 const { normalizeVailSnowReport } = require('../lib/vail-snow-normalization');
 const resorts = require('../config.json').resorts.filter(r => ['breckenridge', 'keystone'].includes(r.key));
 
@@ -30,7 +31,8 @@ function publicationPlan(candidate, root, now = new Date()) {
   if (candidate.records.length !== 2 || new Set(candidate.records.map(r => r.key)).size !== 2) throw Error('Incomplete pilot');
   const read = file => JSON.parse(fs.readFileSync(path.join(root, file), 'utf8'));
   // Require aggregates: a missing/sparse checkout must never erase other resorts.
-  const latest = read('latest.json'), latestSnow = read('latest-snow.json');
+  const latest = read('latest.json');
+  const latestSnow = readSnowAggregate(fs.readFileSync(path.join(root, 'latest-snow.json'), 'utf8'));
   const writes = new Map();
   for (const record of candidate.records) {
     const resort = resorts.find(r => r.key === record.key);
