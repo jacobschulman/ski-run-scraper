@@ -152,6 +152,13 @@ async function run() {
           const httpData = sample && extractJSONAssignment(sample,'FR.TerrainStatusFeed');
           const signature = d => JSON.stringify((d?.Lifts || []).map(l => ({name:l.Name,status:l.Status,wait:l.WaitTimeInMinutes})).sort((a,b)=>String(a.name).localeCompare(String(b.name))));
           row.liftValuesMatch = !!httpData && signature(httpData) === signature(data);
+          const trailStates = d => (d?.GroomingAreas || []).flatMap(area => (area.Trails || []).map(t => ({area:area.Name,id:t.Id,name:t.Name,open:t.IsOpen,groomed:t.IsGroomed}))).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+          row.terrainComparison = {
+            nonempty: trailStates(data).length > 0 && trailStates(httpData).length > 0,
+            trailCount: trailStates(data).length,
+            identityOpenGroomingMatch: !!httpData && JSON.stringify(trailStates(httpData)) === JSON.stringify(trailStates(data)),
+            note: 'Numeric difficulty/type/status codes in HTTP still require legacy label conversion before publication.'
+          };
           if (http) http.browserParity = row.liftValuesMatch ? 'lift-values-match-this-sample' : 'different-or-missing-http-feed';
         } catch(e) { row.error = e.name + ': ' + e.message.slice(0,150); }
         finally { await page.close(); }

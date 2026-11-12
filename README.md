@@ -437,10 +437,9 @@ Hetzner scripts and servers have not been changed.
 
 A completed dry-run command can include rejected sources. Inspect its report or
 run `node scripts/check-recovery-results.js` to require every selected source to
-pass. The manual-only `Scraper readiness (no publishing)` GitHub workflow does
+pass. The `Scraper readiness (no publishing)` GitHub workflow (manual or recovery-branch push) does
 this check and uploads candidates/reasons as artifacts. It has read-only repo
-permissions and no schedule or publishing steps. It must be pushed before it can
-be dispatched; it has not been run remotely during this audit.
+permissions and no schedule or publishing steps. It runs cloud diagnostics without checking out or modifying historical `data/`.
 
 To qualify direct access: test the exact configured endpoint without browser
 cookies; require valid schema and source freshness (HTTP 200 alone is not enough);
@@ -449,3 +448,7 @@ operating hours to check freshness; then run the same test on GitHub's cloud IP.
 Successful local access does not establish cloud accessibility. Vail lift waits
 remain unqualified: the observed background terrain endpoint returned an explicit
 failure even in Chrome. Do not replace the lift collector based on snow results.
+
+The accepted pilot cadence is every two hours for snow, with the historical dataset
+preserved. Live lift polling remains out of scope. Schedules are not enabled by
+the readiness workflow.
