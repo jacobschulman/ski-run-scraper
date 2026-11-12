@@ -37,6 +37,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run test:recovery
+      - name: Dry-run the two-resort snow and terrain pilot
+        run: node scripts/run-vail-pilot.js
       - name: Collect candidates without publication
         env:
           SCRAPER_DRY_RUN: '1'
@@ -48,7 +50,7 @@ jobs:
         run: node scripts/check-recovery-results.js
       - name: Check Breckenridge terrain over HTTP and Chrome
         if: always()
-        run: node scripts/audit-scrapers.js --resorts breckenridge --browser breckenridge
+        run: node scripts/audit-scrapers.js --resorts breckenridge,keystone --browser breckenridge,keystone
       - name: Compare Breckenridge snow with Chrome
         if: always()
         run: node scripts/check-vail-snow-parity.js breckenridge
@@ -58,6 +60,7 @@ jobs:
           name: scraper-readiness
           include-hidden-files: true
           path: |
+            .cache/pilot/
             .cache/scraper-recovery/
             .cache/scraper-audit/
           if-no-files-found: warn

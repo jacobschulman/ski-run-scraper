@@ -1,0 +1,89 @@
+name: Breck and Keystone pilot
+on:
+  schedule:
+    - cron: '17 */2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: vail-pilot
+  cancel-in-progress: false
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    outputs:
+      commit: ${{ steps.publish.outputs.commit }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          filter: blob:none
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/data/
+            /data/breckenridge/terrain/
+            /data/breckenridge/snow/
+            /data/keystone/terrain/
+            /data/keystone/snow/
+            /data/latest.json
+            /data/latest-snow.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+        env:
+          PUPPETEER_SKIP_DOWNLOAD: 'true'
+      - run: npm run test:recovery
+      - name: Collect and validate both resorts before writing
+        run: node scripts/run-vail-pilot.js --publish
+      - name: Commit only pilot outputs, preserving history
+        id: publish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          node scripts/commit-vail-pilot.js
+          git push origin HEAD:main
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: vail-pilot-evidence
+          include-hidden-files: true
+          path: .cache/pilot/
+          retention-days: 30
+  pages:
+    needs: collect
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      pages: write
+    steps:
+      - name: Rebuild the existing Pages site and verify the published commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          EXPECTED_COMMIT: ${{ needs.collect.outputs.commit }}
+        run: |
+          gh api --method POST "repos/$REPOSITORY/pages/builds"
+          for attempt in $(seq 1 80); do
+            gh api "repos/$REPOSITORY/pages/builds/latest" > /tmp/pages-build.json
+            state=$(jq -r .status /tmp/pages-build.json)
+            commit=$(jq -r .commit /tmp/pages-build.json)
+            if [ "$commit" = "$EXPECTED_COMMIT" ] && [ "$state" = built ]; then
+              echo "Pages published $commit"
+              exit 0
+            fi
+            if [ "$commit" = "$EXPECTED_COMMIT" ] && [ "$state" = errored ]; then
+              cat /tmp/pages-build.json
+              exit 1
+            fi
+            sleep 10
+          done
+          echo 'Pages did not confirm the expected commit in time'
+          exit 1

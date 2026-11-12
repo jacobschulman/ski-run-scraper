@@ -8,6 +8,7 @@ const config = require('../config.json');
 const normalizers = require('../lib/data-normalization');
 
 const { extractJSONAssignment } = require('../lib/embedded-json');
+const { extractVailTerrain } = require('../lib/vail-terrain-normalization');
 function redactURL(value) {
   const url = new URL(value);
   for (const key of [...url.searchParams.keys()]) if (/token|key|secret|password/i.test(key)) url.searchParams.set(key, 'REDACTED');
@@ -89,7 +90,7 @@ async function run() {
       else if (transport.status < 200 || transport.status >= 300) result.outcome = 'http-error';
       else if (t.mode === 'custom-unvalidated') { result.outcome = 'custom-parser-needed'; result.format = /^\s*</.test(body) ? 'html-or-xml' : 'other'; }
       else {
-        let data = t.variable ? extractJSONAssignment(body, t.variable) : JSON.parse(body);
+        let data = t.variable ? extractJSONAssignment(body, t.variable, {last: t.variable === 'FR.TerrainStatusFeed'}) : JSON.parse(body);
         if (!data) result.outcome = 'embedded-feed-missing';
         else {
           if (t.mode === 'inspector') {
@@ -149,7 +150,7 @@ async function run() {
           fs.writeFileSync(path.join(output,'raw',`${key}-browser.json`),JSON.stringify(data,null,2));
           const http = results.find(r => r.resort === key && r.kind === 'terrain');
           const sample = http?.rawFile && fs.readFileSync(path.join(output,http.rawFile),'utf8');
-          const httpData = sample && extractJSONAssignment(sample,'FR.TerrainStatusFeed');
+          const httpData = sample && extractVailTerrain(sample);
           const signature = d => JSON.stringify((d?.Lifts || []).map(l => ({name:l.Name,status:l.Status,wait:l.WaitTimeInMinutes})).sort((a,b)=>String(a.name).localeCompare(String(b.name))));
           row.liftValuesMatch = !!httpData && signature(httpData) === signature(data);
           const trailStates = d => (d?.GroomingAreas || []).flatMap(area => (area.Trails || []).map(t => ({area:area.Name,id:t.Id,name:t.Name,open:t.IsOpen,groomed:t.IsGroomed}))).sort((a,b)=>String(a.id).localeCompare(String(b.id)));
@@ -157,7 +158,8 @@ async function run() {
             nonempty: trailStates(data).length > 0 && trailStates(httpData).length > 0,
             trailCount: trailStates(data).length,
             identityOpenGroomingMatch: !!httpData && JSON.stringify(trailStates(httpData)) === JSON.stringify(trailStates(data)),
-            note: 'Numeric difficulty/type/status codes in HTTP still require legacy label conversion before publication.'
+            legacyRecordMatch: !!httpData && JSON.stringify({...httpData,Date:null}) === JSON.stringify({...data,Date:null}),
+            note: 'Labeled final page assignment plus browser area order; source timestamps excluded from sequential comparison.'
           };
           if (http) http.browserParity = row.liftValuesMatch ? 'lift-values-match-this-sample' : 'different-or-missing-http-feed';
         } catch(e) { row.error = e.name + ': ' + e.message.slice(0,150); }

@@ -7,7 +7,7 @@ const {validateSnowReport}=require('../lib/snow-freshness');
 async function main(){
  const key=process.argv[2]||'keystone';const r=require('../config.json').resorts.find(r=>r.key===key&&r.provider==='vail');if(!r)throw Error('Unknown Vail resort');
  const dir=path.resolve(__dirname,'../.cache/scraper-recovery',`${Date.now()}-${key}-parity`);fs.mkdirSync(dir,{recursive:true});
- const browser=await require('puppeteer').launch({headless:true, args:process.env.CI ? ['--no-sandbox'] : []});const report={resort:key,checkedAt:new Date().toISOString(),limitations:['Local network only; sequential samples; forecast not compared.']};
+ const browser=await require('puppeteer').launch({headless:true, args:process.env.CI ? ['--no-sandbox'] : []});const report={resort:key,checkedAt:new Date().toISOString(),limitations:['Runner network only; sequential samples; forecast not compared.']};
  try{
   const page=await browser.newPage();
   try{await page.goto(r.snowReportUrl,{waitUntil:'domcontentloaded',timeout:30000});}catch(e){report.navigationWarning=e.name;}

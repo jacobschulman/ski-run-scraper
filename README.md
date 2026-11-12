@@ -403,7 +403,7 @@ historical dates must likewise remain missing rather than being filled with zero
 
 ## Recovery runs (2026/27)
 
-Keep scheduled publishing disabled while qualifying sources. The snow collector
+Keep broad scheduled publishing disabled while qualifying sources. The snow collector
 now requires `SCRAPER_RESORTS` (comma-separated keys); existing broad commands
 without an allowlist deliberately stop. No Hetzner deployment is needed.
 
@@ -449,6 +449,27 @@ Successful local access does not establish cloud accessibility. Vail lift waits
 remain unqualified: the observed background terrain endpoint returned an explicit
 failure even in Chrome. Do not replace the lift collector based on snow results.
 
-The accepted pilot cadence is every two hours for snow, with the historical dataset
-preserved. Live lift polling remains out of scope. Schedules are not enabled by
-the readiness workflow.
+The `Breck and Keystone pilot` workflow collects snow and terrain at minute 17
+of every second UTC hour (`17 */2 * * *`), with manual dispatch available. GitHub
+may delay scheduled jobs. It uses direct HTTP to the public pages' embedded JSON;
+this is not the unreliable background terrain API. No browser or Hetzner host
+is needed. Live lift polling remains out of scope.
+
+Run `node scripts/run-vail-pilot.js` for a read-only dry run. Both resorts must
+pass before `--publish` writes anything. Terrain uses the final labeled
+`FR.TerrainStatusFeed` assignment and restores browser-added area `order`.
+It preserves source keys, labels, booleans, nulls, IDs, local daily filenames,
+the existing UTC terrain copy, and aggregate shapes. The feed timestamp must
+be within 30 hours; it does not prove when an operator last changed a trail.
+An all-closed, nonempty report is valid; an empty or failed feed is rejected.
+
+The pilot checks out both resorts' existing snow/terrain history and both global
+aggregates, merges only those resorts, appends snow NDJSON, and retains old index
+entries. A separate commit guard rejects deletions, historical daily rewrites,
+and unrelated paths. Concurrent main-branch changes cause a safe push failure;
+the next run retries with a fresh checkout. The existing branch-based Pages site is explicitly rebuilt through the GitHub
+Pages API after the data commit, and the job waits for that commit to publish.
+Source failures fail the job and retain the previous published data. Review the
+Actions result and `vail-pilot-evidence` artifact; enable GitHub failed-workflow
+notifications for ongoing monitoring. This pilot does not rebuild SQLite-derived
+per-trail streak pages or replace existing lift streams.
