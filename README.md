@@ -449,13 +449,13 @@ Successful local access does not establish cloud accessibility. Vail lift waits
 remain unqualified: the observed background terrain endpoint returned an explicit
 failure even in Chrome. Do not replace the lift collector based on snow results.
 
-The `Breck and Keystone pilot` workflow collects snow and terrain at minute 17
-of every second UTC hour (`17 */2 * * *`), with manual dispatch available. GitHub
+The `Six-resort snow and terrain pilot` workflow collects snow and terrain at minute 17
+of every second UTC hour (`17 */2 * * *`) for Breckenridge, Keystone, Vail, Beaver Creek, A-Basin and Mammoth, with manual dispatch available. GitHub
 may delay scheduled jobs. It uses direct HTTP to the public pages' embedded JSON;
 this is not the unreliable background terrain API. No browser or Hetzner host
 is needed. Live lift polling remains out of scope.
 
-Run `node scripts/run-vail-pilot.js` for a read-only dry run. Both resorts must
+Run `node scripts/run-vail-pilot.js` for a read-only dry run. All six resorts must
 pass before `--publish` writes anything. Terrain uses the final labeled
 `FR.TerrainStatusFeed` assignment and restores browser-added area `order`.
 It preserves source keys, labels, booleans, nulls, IDs, local daily filenames,
@@ -463,8 +463,8 @@ the existing UTC terrain copy, and aggregate shapes. The feed timestamp must
 be within 30 hours; it does not prove when an operator last changed a trail.
 An all-closed, nonempty report is valid; an empty or failed feed is rejected.
 
-The pilot checks out both resorts' existing snow/terrain history and both global
-aggregates, merges only those resorts, appends snow NDJSON, and retains old index
+The pilot checks out all six resorts' existing snow/terrain history and both global
+aggregates, merges only those six resorts, appends snow NDJSON, and retains old index
 entries. A separate commit guard rejects deletions, historical daily rewrites,
 and unrelated paths. Concurrent main-branch changes cause a safe push failure;
 the next run retries with a fresh checkout. The existing branch-based Pages site is explicitly rebuilt through the GitHub
@@ -480,3 +480,11 @@ SHA-256, parses its conflict variants, and retains the newest complete observati
 for each of all 65 resorts. It repairs the derived aggregate during the first
 successful pilot commit; daily history stays unchanged. Any other malformed
 aggregate still blocks publication.
+
+A-Basin and Mammoth use the existing Inspector terrain and snow normalizers,
+including their original provider metadata, condition/forecast fields and units.
+Snow freshness uses the snow report timestamp even when legacy `lastUpdated`
+uses the wrapper timestamp. Inspector terrain timestamps accept explicit offsets
+with or without a colon. Mammoth dates use America/Los_Angeles. A-Basin has no
+historical daily terrain directory in this repository; its new series starts on
+the first successful collection and does not synthesize past dates.

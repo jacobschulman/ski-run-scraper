@@ -1,4 +1,4 @@
-name: Breck and Keystone pilot
+name: Six-resort snow and terrain pilot
 on:
   schedule:
     - cron: '17 */2 * * *'
@@ -34,6 +34,22 @@ jobs:
             !/data/keystone/*
             /data/keystone/terrain/
             /data/keystone/snow/
+            /data/vail/
+            !/data/vail/*
+            /data/vail/terrain/
+            /data/vail/snow/
+            /data/beavercreek/
+            !/data/beavercreek/*
+            /data/beavercreek/terrain/
+            /data/beavercreek/snow/
+            /data/abasin/
+            !/data/abasin/*
+            /data/abasin/terrain/
+            /data/abasin/snow/
+            /data/mammoth/
+            !/data/mammoth/*
+            /data/mammoth/terrain/
+            /data/mammoth/snow/
             /data/latest.json
             /data/latest-snow.json
       - uses: actions/setup-node@v4
@@ -44,7 +60,7 @@ jobs:
         env:
           PUPPETEER_SKIP_DOWNLOAD: 'true'
       - run: npm run test:recovery
-      - name: Collect and validate both resorts before writing
+      - name: Collect and validate all six resorts before writing
         run: node scripts/run-vail-pilot.js --publish
       - name: Commit only pilot outputs, preserving history
         id: publish
