@@ -31,12 +31,15 @@ test('publication preserves history, other resorts, snow stream prefix, and comp
     assert.equal(writes.get(`${key}/terrain/2026-11-11.json`).sourceLastUpdated, candidate.records[0].terrain.Date);
   }
 });
-test('publication fails closed for incomplete, expired, missing aggregate, and newer existing data', t => {
+test('publication rejects empty/expired input and missing aggregates; newer resorts are isolated', t => {
   const {root, candidate, now} = fixture(t);
-  assert.throws(() => publicationPlan({...candidate, records:[candidate.records[0]]},root,now));
+  assert.throws(() => publicationPlan({...candidate, records:[]},root,now));
+  assert.doesNotThrow(() => publicationPlan({...candidate,records:[candidate.records[0]]},root,now));
   assert.throws(() => publicationPlan(candidate,root,new Date(+now+3600001)));
   fs.writeFileSync(path.join(root,'latest.json'), JSON.stringify({breckenridge:{data:{Date:'2026-11-12T06:00:00Z'}}}));
-  assert.throws(() => publicationPlan(candidate,root,now));
+  const writes = publicationPlan(candidate,root,now);
+  assert(!writes.has('breckenridge/snow/latest.json'));
+  assert(writes.has('vail/snow/latest.json'));
   fs.unlinkSync(path.join(root,'latest.json'));
   assert.throws(() => publicationPlan(candidate,root,now));
 });
@@ -46,4 +49,25 @@ test('A-Basin can create its first daily terrain series without inventing old da
   fs.rmSync(path.join(root,'abasin','terrain'),{recursive:true});
   const writes = publicationPlan(candidate,root,now);
   assert.deepEqual(writes.get('abasin/terrain/index.json').files,['2026-11-12','2026-11-11']);
+});
+
+test('stale resort leaves all its existing outputs untouched while healthy resorts publish', t => {
+  const {root,candidate,now} = fixture(t);
+  const stale = candidate.records.find(r=>r.key==='abasin');
+  stale.snowSource.SnowReport.LastUpdate = '2020-01-01T00:00:00Z';
+  const previous = {date:'2026-11-10',data:{timestamp:'2026-11-10T12:00:00Z'}};
+  fs.writeFileSync(path.join(root,'latest-snow.json'),JSON.stringify({abasin:previous}));
+  const writes = publicationPlan(candidate,root,now);
+  assert.equal([...writes.keys()].filter(f=>f.startsWith('abasin/')).length,0);
+  assert.deepEqual(writes.get('latest-snow.json').abasin,previous);
+  assert(writes.has('vail/snow/latest.json'));
+  assert.equal(writes.outcomes.filter(o=>o.accepted).length,5);
+});
+test('late per-resort validation failure cannot leak partial writes', t => {
+  const {root,candidate,now} = fixture(t);
+  fs.writeFileSync(path.join(root,'vail/snow/2026-11-11.ndjson'),'broken');
+  const writes=publicationPlan(candidate,root,now);
+  assert.equal([...writes.keys()].filter(f=>f.startsWith('vail/')).length,0);
+  assert(writes.has('mammoth/snow/latest.json'));
+  assert.throws(()=>publicationPlan({...candidate,records:[candidate.records.find(r=>r.key==='vail')]},root,now));
 });
