@@ -6,14 +6,14 @@
 const DATA_SOURCES = {
   LOCAL: {
     id: 'local',
-    name: 'Local (ski-run-scraper)',
+    name: 'GitHub Pages (current)',
     description: 'Data from this repository',
     baseUrl: '..',
     requiresCors: false
   },
   GITHUB: {
     id: 'github',
-    name: 'GitHub (ski-run-scraper-data)',
+    name: 'Separate data repo (legacy)',
     description: 'Data from ski-run-scraper-data repository',
     baseUrl: 'https://raw.githubusercontent.com/jacobschulman/ski-run-scraper-data/main',
     requiresCors: false
@@ -27,8 +27,9 @@ const DATA_SOURCES = {
   }
 };
 
-const STORAGE_KEY = 'ski-dashboard-data-source';
+const STORAGE_KEY = 'ski-dashboard-data-source-v2';
 const DEFAULT_SOURCE = 'local';
+const IS_PAGES = typeof location !== 'undefined' && location.hostname === 'jacobschulman.github.io';
 
 class DataSourceManager {
   constructor() {
@@ -40,6 +41,7 @@ class DataSourceManager {
    * Load user's data source preference from localStorage
    */
   loadSourcePreference() {
+    if (IS_PAGES) return DEFAULT_SOURCE;
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved && DATA_SOURCES[saved.toUpperCase()]) {
@@ -90,7 +92,7 @@ class DataSourceManager {
    * Get all available data sources
    */
   getAllSources() {
-    return Object.values(DATA_SOURCES);
+    return IS_PAGES ? [DATA_SOURCES.LOCAL] : Object.values(DATA_SOURCES);
   }
 
   /**
@@ -133,7 +135,7 @@ class DataSourceManager {
     }
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url, { cache: 'no-cache', ...options });
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);

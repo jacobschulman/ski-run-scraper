@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Live Lift Wait Times</title>
+  <title>Archived Lift Wait Times</title>
 
   <!-- Share preview / OG tags -->
-  <meta property="og:title" content="Live Lift Wait Times">
+  <meta property="og:title" content="Archived Lift Wait Times">
   <meta property="og:description" content="Real-time ski lift wait times with trend arrows. Auto-refreshes every 30s.">
   <meta property="og:image" content="http://46.62.169.104:3000/resources/goomd-icon-1024.png">
   <meta property="og:image:width" content="1024">
@@ -15,7 +15,7 @@
   <meta property="og:url" content="http://46.62.169.104:3000/dashboards/lift-debug.html">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Live Lifts">
+  <meta name="apple-mobile-web-app-title" content="Lift Archive">
   <meta name="theme-color" content="#0c1a2b">
   <link rel="apple-touch-icon" href="../resources/goomd-icon-1024.png">
   <link rel="icon" type="image/png" href="../resources/goomd-icon-1024.png">
@@ -232,7 +232,7 @@
 <body>
   <div class="page-header">
     <div class="header-row">
-      <span class="header-title" id="header-title">Live Lifts</span>
+      <span class="header-title" id="header-title">Lift Archive</span>
       <span class="header-sep" id="header-sep"></span>
       <span class="header-asof" id="header-asof"></span>
       <span class="header-spacer"></span>
@@ -413,8 +413,8 @@
     function updateHeader(resortKey, resortData, tz) {
       const info = resortMap[resortKey];
       const name = info?.name || resortKey;
-      $('header-title').textContent = name + ' Live Lifts';
-      document.title = name + ' Live Lifts';
+      $('header-title').textContent = name + ' Lift Archive';
+      document.title = name + ' Lift Archive';
 
       lastScrapeTime = resortData?.generated || null;
       currentTz = tz;

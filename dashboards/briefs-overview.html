@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Morning Briefs Dashboard</title>
+  <title>Brief Archive</title>
   <link rel="stylesheet" href="shared/theme.css">
   <style>
     .page { max-width: 1400px; }
@@ -385,8 +385,8 @@
   <div class="page">
     <div class="header">
       <div>
-        <h1>Morning Briefs Dashboard</h1>
-        <p class="subtitle">Debug and analyze brief generation across all resorts</p>
+        <h1>Brief Archive</h1>
+        <p class="subtitle">Historical briefs · generation is paused</p>
       </div>
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <div class="view-toggle">
@@ -429,6 +429,7 @@
   </div>
 
   <script src="shared/data-source-config.js"></script>
+  <script src="shared/published-data.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('briefs');
@@ -470,6 +471,10 @@
     async function loadBriefsIndex() {
       try {
         state.briefsIndex = await dataSourceManager.fetchData('data/briefs-index.json');
+
+        for (const resort of Object.values(state.briefsIndex.resorts || {})) {
+          resort.files = DashboardData.dates(resort.files);
+        }
 
         // Get all unique dates
         const dates = new Set();

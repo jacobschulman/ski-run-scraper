@@ -11,11 +11,11 @@ const hetznerBase = isHetznerPath ? '' : '../hetzner/';
 const NAV_PAGES = [
   { id: 'overview', label: 'Home', href: `${dashboardBase}resort-overview.html` },
   { id: 'terrain', label: 'Trails', href: `${dashboardBase}terrain-dashboard.html` },
-  { id: 'lifts', label: 'Lifts', href: `${dashboardBase}live-lifts.html` },
-  { id: 'lift-debug', label: 'Debug', href: `${dashboardBase}lift-debug.html` },
-  { id: 'briefs', label: 'Briefs', href: `${dashboardBase}briefs-overview.html` },
-  { id: 'api-providers', label: 'APIs Status', href: `${dashboardBase}api-providers.html` },
-  { id: 'monitor', label: 'Health', href: `${hetznerBase}monitor.html` }
+  { id: 'lifts', label: 'Lift archive', href: `${dashboardBase}live-lifts.html` },
+  { id: 'lift-debug', label: 'Lift debug', href: `${dashboardBase}lift-debug.html` },
+  { id: 'briefs', label: 'Brief archive', href: `${dashboardBase}briefs-overview.html` },
+  { id: 'api-providers', label: 'Providers', href: `${dashboardBase}api-providers.html` },
+  { id: 'monitor', label: 'Scraper runs', href: 'https://github.com/jacobschulman/ski-run-scraper/actions/workflows/vail-pilot.yml' }
 ];
 
 function initNav(currentPage) {
@@ -31,7 +31,7 @@ function initNav(currentPage) {
 
   // Create data source selector if dataSourceManager is available
   let dataSourceSelector = '';
-  if (typeof dataSourceManager !== 'undefined') {
+  if (typeof dataSourceManager !== 'undefined' && dataSourceManager.getAllSources().length > 1) {
     const currentSource = dataSourceManager.getCurrentSource();
     const allSources = dataSourceManager.getAllSources();
 
