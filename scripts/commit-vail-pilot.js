@@ -1,6 +1,8 @@
 // Independent publication guard: no deletes, no historical daily rewrites, no unrelated paths.
 const fs = require('node:fs');
 const { execFileSync } = require('node:child_process');
+const {seasonFor} = require('../lib/season-reports');
+const config = require('../config.json');
 const { keys } = require('../lib/pilot-resorts');
 const { formatInTimeZone } = require('date-fns-tz');
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
@@ -10,6 +12,12 @@ const now = new Date();
 const dates = new Set([formatInTimeZone(now, 'America/Denver', 'yyyy-MM-dd'), formatInTimeZone(now, 'America/Los_Angeles', 'yyyy-MM-dd'), now.toISOString().slice(0, 10)]);
 function allowed(file) {
   if (['data/latest.json', 'data/latest-snow.json'].includes(file)) return true;
+  const season = /^data\/(breckenridge|keystone|vail|beavercreek|abasin|mammoth)\/seasons\/(.+)$/.exec(file);
+  if(season) {
+    const resort=config.resorts.find(r=>r.key===season[1]);
+    const id=seasonFor(formatInTimeZone(now,resort.timezone,'yyyy-MM-dd'),resort).id;
+    return ['index.json',`${id}/index.json`,`${id}/report.json`].includes(season[2]);
+  }
   const match = /^data\/(breckenridge|keystone|vail|beavercreek|abasin|mammoth)\/(snow|terrain)\/(.+)$/.exec(file);
   if (!match || !keys.includes(match[1])) return false;
   if (match[3] === (match[2] === 'snow' ? 'latest.json' : 'index.json')) return true;

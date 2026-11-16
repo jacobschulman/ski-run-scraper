@@ -7,6 +7,7 @@ const { fetchSource } = require('../lib/source-http');
 const { extractJSONAssignment } = require('../lib/embedded-json');
 const { extractVailTerrain, validateTerrainFreshness } = require('../lib/vail-terrain-normalization');
 const { validateSnowReport } = require('../lib/snow-freshness');
+const { seasonOutputs } = require('../lib/season-reports');
 const { readSnowAggregate } = require('../lib/recover-snow-aggregate');
 const { normalizeVailSnowReport } = require('../lib/vail-snow-normalization');
 const config = require('../config.json');
@@ -88,6 +89,7 @@ function publicationPlan(candidate, root, now = new Date()) {
       files.add(date); files.add(utcDate);
       const sorted = [...files].sort().reverse();
       resortWrites.set(`${key}/terrain/index.json`, { resort: key, resortName: resort.name, provider: resort.provider, files: sorted, latest: sorted[0], count: sorted.length, generated: candidate.collectedAt });
+      for (const [file,value] of seasonOutputs(root,resort,resortWrites,now,{currentOnly:true})) resortWrites.set(file,value);
       for (const [file, value] of resortWrites) writes.set(file, value);
       writes.outcomes.push({key, accepted:true});
       latest[key] = { date, name: resort.name, provider: resort.provider, data: terrain };
