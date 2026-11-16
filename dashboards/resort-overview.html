@@ -303,8 +303,8 @@
         <span id="load-note" role="status"></span>
       </div>
       <div class="table-scroll"><table>
-        <thead><tr><th>Resort</th><th>Terrain<span class="th-subtitle">source timestamp</span></th><th>Snow<span class="th-subtitle">collection timestamp</span></th></tr></thead>
-        <tbody id="resort-table"><tr><td colspan="3">Loading reports…</td></tr></tbody>
+        <thead><tr><th>Resort</th><th>Opening watch<span class="th-subtitle">daily feed check</span></th><th>Terrain<span class="th-subtitle">source timestamp</span></th><th>Snow<span class="th-subtitle">collection timestamp</span></th></tr></thead>
+        <tbody id="resort-table"><tr><td colspan="4">Loading reports…</td></tr></tbody>
       </table></div>
     </div>
   </div>
@@ -329,6 +329,18 @@
       return `<a href="${href}">${report.recent ? 'Recent' : 'Stale'} report →</a>
         <div class="last-update ${report.recent ? '' : 'very-stale'}">${esc(date)}</div>${source}`;
     }
+    function watchCell(resort) {
+      const watch = feeds.watch;
+      const entry = watch?.resorts?.[resort.key];
+      if (!entry) return 'Not checked yet';
+      const fresh = DashboardData.recent(watch.checkedAt);
+      const labels = {'open-reported': 'Open reported', 'all-closed-reported': 'All closed reported', 'unconfirmed': 'Unconfirmed'};
+      const details = entry.status === 'unconfirmed' ? entry.reason.replaceAll('-', ' ') : `${entry.openTrails}/${entry.trails} trails open`;
+      return `<strong>${fresh ? esc(labels[entry.status] || 'Unconfirmed') : 'Check overdue'}</strong>
+        ${entry.newlyOpen && fresh ? '<div class="last-update">Newly reporting open</div>' : ''}
+        <div class="last-update">${esc(details)}</div>
+        <div class="last-update">Checked ${esc(new Date(entry.checkedAt).toLocaleString())}</div>`;
+    }
     function render() {
       const provider = document.getElementById('provider').value;
       const freshness = document.getElementById('freshness').value;
@@ -341,23 +353,24 @@
         ? r.terrain.recent || r.snow.recent : !r.terrain.recent || !r.snow.recent));
       document.getElementById('resort-table').innerHTML = rows.map(r => `<tr>
         <td><span class="resort-name">${esc(r.name)}</span><span class="resort-provider">${esc(r.provider)}</span></td>
-        <td data-label="Terrain">${reportCell(r, 'terrain')}</td><td data-label="Snow">${reportCell(r, 'snow')}</td></tr>`).join('') || '<tr><td colspan="3" class="no-results">No matching resorts</td></tr>';
+        <td data-label="Opening watch">${watchCell(r)}</td><td data-label="Terrain">${reportCell(r, 'terrain')}</td><td data-label="Snow">${reportCell(r, 'snow')}</td></tr>`).join('') || '<tr><td colspan="4" class="no-results">No matching resorts</td></tr>';
     }
     async function load() {
       try {
-        const [config, terrain, snow] = await Promise.all([
+        const [config, terrain, snow, watch] = await Promise.all([
           dataSourceManager.fetchData('config.json'),
           dataSourceManager.fetchData('data/latest.json').catch(() => null),
-          dataSourceManager.fetchData('data/latest-snow.json').catch(() => null)
+          dataSourceManager.fetchData('data/latest-snow.json').catch(() => null),
+          dataSourceManager.fetchData('data/resort-watch.json').catch(() => null)
         ]);
-        feeds.terrain = terrain; feeds.snow = snow;
+        feeds.terrain = terrain; feeds.snow = snow; feeds.watch = watch;
         resorts = config.resorts.map(r => ({...r,
           terrain: observation(terrain?.[r.key], 'terrain'), snow: observation(snow?.[r.key], 'snow')
         })).sort((a, b) => Number(b.terrain.recent || b.snow.recent) - Number(a.terrain.recent || a.snow.recent) || a.name.localeCompare(b.name));
         render();
         document.getElementById('load-note').textContent = terrain && snow ? '' : 'Some published feeds could not be loaded.';
       } catch (error) {
-        document.getElementById('resort-table').innerHTML = '<tr><td colspan="3">Could not load resorts. Reload to retry.</td></tr>';
+        document.getElementById('resort-table').innerHTML = '<tr><td colspan="4">Could not load resorts. Reload to retry.</td></tr>';
       }
     }
     document.getElementById('provider').addEventListener('change', render);
