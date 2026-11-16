@@ -514,3 +514,7 @@ two hours). Delayed runs collect immediately; manual dispatch always collects.
 Gaps over three hours produce an explicit warning and the Actions summary shows
 the last collection time. This increases opportunities but cannot guarantee
 two-hour delivery; a strict cadence would require an independent scheduler.
+
+Pages verification waits through transient `errored` statuses until the expected
+commit is built or the bounded polling window expires. A replacement Pages build
+can already be running when the API briefly reports the cancelled build as an error.
