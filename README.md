@@ -559,3 +559,17 @@ scheduled runs. Run `node scripts/build-season-reports.js` to deliberately rebui
 all additive views from the checked-out history; `--pilot` limits it to the pilot.
 The cloud test checkout includes shared `data/*.js` source assets required by UI
 regressions while still excluding unrelated raw historical data.
+
+## Daily opening watch
+
+`Daily resort opening watch` checks all configured public feeds at 17:23 UTC daily
+(12:23 PM Eastern in winter, 1:23 PM in summer), plus manual dispatch. It publishes
+`data/resort-watch.json` and the overview's Opening watch column. Fresh, nonempty
+Vail/Inspector terrain reports distinguish open-reported from all-closed-reported.
+Other providers remain unconfirmed until their winter semantics and source timestamps
+are qualified. Empty/error/stale feeds never establish closure. A failed recheck
+retains the last confirmed evidence separately; an overdue daily check is labeled.
+Feed-reported openness is not an official opening announcement or independent proof
+of winter operations. The watch does not automatically expand the collector allowlist.
+Raw diagnostics are retained in the workflow artifact for 14 days; historical
+conditions and the active collector are not modified by this workflow.

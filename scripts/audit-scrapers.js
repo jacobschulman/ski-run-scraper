@@ -19,6 +19,7 @@ function terrainSummary(data) {
   const trails = data.GroomingAreas.flatMap(a => a.Trails || []);
   return {
     lifts: data.Lifts.length, trails: trails.length,
+    openTrails: trails.filter(t => t.IsOpen === true).length,
     openLifts: data.Lifts.filter(l => /^(open|1)$/i.test(String(l.Status))).length,
     numericWaits: data.Lifts.filter(l => typeof l.WaitTimeInMinutes === 'number' && Number.isFinite(l.WaitTimeInMinutes)).length,
     positiveWaits: data.Lifts.filter(l => typeof l.WaitTimeInMinutes === 'number' && l.WaitTimeInMinutes > 0).length,
@@ -109,6 +110,9 @@ async function run() {
           else if (t.mode === 'aspensnowmass' && t.kind !== 'SnowReport') normalized = normalizers.normalizeAspenResort({[t.kind === 'LiftStatus' ? 'liftStatus' : 'groomingReport']:data},r.key);
           if (normalized) {
             result.counts = terrainSummary(normalized);
+            // Only retain actual source dates; several normalizers synthesize Date.
+            result.terrainSourceUpdated = t.variable === 'FR.TerrainStatusFeed' ? data.Date : t.mode === 'inspector' ? data.LastUpdate : null;
+            result.winterSemanticsQualified = t.variable === 'FR.TerrainStatusFeed' || t.mode === 'inspector';
             result.outcome = result.counts.lifts + result.counts.trails ? 'terrain-extracted-unverified' : 'empty-terrain';
             if (t.mode === 'dor') result.rawCounts = {lifts:data.lift?.length, trails:data.trail?.length};
           } else {

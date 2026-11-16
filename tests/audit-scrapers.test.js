@@ -16,7 +16,7 @@ test('redacts request credentials while retaining routing parameters', () => {
   assert(!value.includes('private')); assert(!value.includes('secret')); assert(value.includes('ids=123'));
 });
 test('counts numeric zero distinctly from missing wait times', () => {
-  assert.deepEqual(terrainSummary({Lifts:[{WaitTimeInMinutes:0},{WaitTimeInMinutes:null},{WaitTimeInMinutes:5},{WaitTimeInMinutes:'--'}],GroomingAreas:[{Trails:[{}]}]}),{lifts:4,trails:1,openLifts:0,numericWaits:2,positiveWaits:1});
+  assert.deepEqual(terrainSummary({Lifts:[{WaitTimeInMinutes:0},{WaitTimeInMinutes:null},{WaitTimeInMinutes:5},{WaitTimeInMinutes:'--'}],GroomingAreas:[{Trails:[{}]}]}),{lifts:4,trails:1,openTrails:0,openLifts:0,numericWaits:2,positiveWaits:1});
 });
 test('does not manufacture source freshness', () => {
   assert.deepEqual(sourceDates({lift:[{}]}),{});
