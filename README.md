@@ -522,3 +522,40 @@ can already be running when the API briefly reports the cancelled build as an er
 If another change advances main during deployment, the Pages verifier accepts a
 built descendant of the pilot data commit, verified through GitHub Compare. An
 older or divergent deployment never satisfies the check.
+
+## Seasons and current pages
+
+Daily JSON and NDJSON remain at their original URLs and keep their original
+schemas. A separate, additive data view distinguishes each ski season:
+
+- `data/{resort}/seasons/index.json`: current season and archive list.
+- `data/{resort}/seasons/2026-2027/index.json`: references to that season's
+  original terrain, snow and lift files; no raw observations are copied or moved.
+- `data/{resort}/seasons/2026-2027/report.json`: trail and lift summaries computed
+  only from that season's saved daily terrain observations.
+- `data/{resort}/seasons/2025-2026/`: equivalent archive views, retained separately.
+
+Northern seasons use July 1–June 30, independent of opening dates. Australian
+resorts use calendar-year seasons. UTC terrain compatibility copies are grouped
+by the observation's resort-local date and do not count as a second ski day.
+Statistics count observed days only. Missing days are not filled with zero or
+closed states; gaps break grooming streaks. Entities absent from the latest
+snapshot are marked unreported rather than carrying old open status forward.
+Invalid historical source files remain untouched and appear in report diagnostics.
+
+Trail and lift pages default to the current season and offer an explicit archive
+selector. Detail links preserve that selection. A current season with no saved
+observations stays empty, with no fallback to last year's records. Lift reports
+use dated terrain snapshots; legacy wait streams are preserved in the season
+indexes, but are not presented as live waits or mixed into new-season statistics.
+Older unpartitioned trail/lift summary files also remain at their original URLs,
+with explicit archive links. Some resorts (notably A-Basin) have legacy derived
+trail summaries but no saved daily terrain series for 2025/26; those summaries
+are preserved without inventing missing daily observations or season statistics.
+
+The pilot refreshes each accepted resort's current-season view in the same data
+commit. Archive-season reports and raw historical files are not rewritten by
+scheduled runs. Run `node scripts/build-season-reports.js` to deliberately rebuild
+all additive views from the checked-out history; `--pilot` limits it to the pilot.
+The cloud test checkout includes shared `data/*.js` source assets required by UI
+regressions while still excluding unrelated raw historical data.

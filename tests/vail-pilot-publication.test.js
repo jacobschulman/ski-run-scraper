@@ -25,6 +25,11 @@ test('publication preserves history, other resorts, snow stream prefix, and comp
   assert.deepEqual(writes.get('latest-snow.json').bigsky, {untouched:true});
   for (const key of keys) {
     assert(!writes.has(`${key}/terrain/2025-11-15.json`));
+    const season = writes.get(`${key}/seasons/2026-2027/report.json`);
+    assert.equal(season.season.id,'2026-2027');
+    assert.equal(season.observedDays,1);
+    assert.equal(season.snapshot.date,'2026-11-11');
+    assert(!writes.has(`${key}/seasons/2025-2026/report.json`));
     assert.equal(fs.readFileSync(path.join(root,key,'terrain/2025-11-15.json'),'utf8'), '{"historical":true}');
     assert.deepEqual(writes.get(`${key}/terrain/index.json`).files, ['2026-11-12','2026-11-11','2025-11-15']);
     assert(writes.get(`${key}/snow/2026-11-11.ndjson`).startsWith('{"earlier":true}\n'));

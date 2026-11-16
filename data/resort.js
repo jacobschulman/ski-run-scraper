@@ -42,9 +42,15 @@ function slugifyTrailName(name) {
 /**
  * Check if trail pages are available for this resort
  */
+function selectedReportSeason() {
+    const date=currentDate || getTodayDate();
+    const year=Number(date.slice(0,4));
+    if(['perisher','fallscreek','hotham'].includes(RESORT_KEY))return String(year);
+    const start=Number(date.slice(5,7))>=7?year:year-1;
+    return `${start}-${start+1}`;
+}
 function hasTrailPages() {
-    // For now, only Vail has trail pages
-    return RESORT_KEY === 'vail';
+    return true; // Season-aware trail pages are available for every configured resort.
 }
 
 /**
@@ -133,6 +139,9 @@ async function loadDate(date) {
 
         renderOverview();
         updateNavigation(date);
+        document.querySelectorAll?.('.bottom-nav a').forEach(link=>{
+            if(/(?:trails|lifts)\.html/.test(link.getAttribute('href'))) { const url=new URL(link.href);url.searchParams.set('season',selectedReportSeason());link.href=url.href; }
+        });
         await loadMorningBrief();
         const footer = document.getElementById('update-time');
         if (footer) footer.textContent = `Terrain snapshot: ${reportTimestamp(terrainData.sourceLastUpdated || terrainData.Date)}`;
@@ -498,7 +507,7 @@ function renderGroomedHighlightsWidget(groomedTrails, newlyGroomed, yesterdayGro
                 <span class="difficulty-dot ${diffClass}"></span>
                 <div class="trail-info">
                     ${hasTrailPages()
-                        ? `<a href="trail.html?name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
+                        ? `<a href="trail.html?season=${selectedReportSeason()}&name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
                         : `<span class="trail-name">${escapeHtml(trail.Name)}</span>`
                     }
                     <span class="trail-area">${escapeHtml(trail.areaName)}</span>
@@ -518,7 +527,7 @@ function renderGroomedHighlightsWidget(groomedTrails, newlyGroomed, yesterdayGro
                     <span class="widget-title">Groomed Highlights</span>
                     <span class="widget-subtitle">${showingNew ? 'Freshly corduroyed runs' : 'Today\'s groomed runs'}</span>
                 </div>
-                <a href="trails.html" class="widget-see-all">See all →</a>
+                <a href="trails.html?season=${selectedReportSeason()}" class="widget-see-all">See all →</a>
             </div>
             <ul class="trail-list">
                 ${trailsHtml}
@@ -549,7 +558,7 @@ function renderAreaSections(yesterdayGroomed) {
                     <span class="difficulty-indicator difficulty-${difficulty}"></span>
                     <div class="trail-info">
                         ${hasTrailPages()
-                            ? `<a href="trail.html?name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
+                            ? `<a href="trail.html?season=${selectedReportSeason()}&name=${encodeURIComponent(slugifyTrailName(trail.Name))}" class="trail-name trail-link">${escapeHtml(trail.Name)}</a>`
                             : `<span class="trail-name">${escapeHtml(trail.Name)}</span>`
                         }
                     </div>
