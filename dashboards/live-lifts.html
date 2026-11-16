@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Lift Wait Monitor</title>
+  <title>Lift Archive</title>
   <!-- Inline fallback styles for standalone deployment (Hetzner) -->
   <style>
     :root {
@@ -180,8 +180,8 @@
   <div class="page">
     <div class="header">
       <div>
-        <h1>Live Lift Wait Monitor</h1>
-        <p class="subtitle">Live lift wait times. All times shown in resort local time.</p>
+        <h1>Lift Archive</h1>
+        <p class="subtitle">Historical snapshots · live lift collection is paused</p>
       </div>
       <div class="pill" id="resort-count">Loading...</div>
     </div>
@@ -209,7 +209,7 @@
           <label for="hide-no-wait-filter" style="margin: 0; cursor: pointer;">Hide lifts without wait times</label>
         </div>
         <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="checkbox" id="auto-refresh" style="width: auto; margin: 0;" checked>
+          <input type="checkbox" id="auto-refresh" style="width: auto; margin: 0;">
           <label for="auto-refresh" style="margin: 0; cursor: pointer;">Auto-refresh (30s)</label>
         </div>
       </div>
@@ -228,7 +228,7 @@
           </tr>
         </thead>
         <tbody id="lift-rows">
-          <tr><td colspan="4" class="empty">Loading live data...</td></tr>
+          <tr><td colspan="4" class="empty">Loading archive...</td></tr>
         </tbody>
       </table>
       <div class="notice" id="notice"></div>
@@ -294,9 +294,9 @@
     };
 
     const deriveDateKey = (resort) => {
-      const fromGenerated = resort.generated ? resort.generated.split('T')[0] : null;
-      const fromLift = resort.lifts && resort.lifts.length ? resort.lifts[0].lastUpdated?.split('T')[0] : null;
-      return fromGenerated || fromLift || new Date().toISOString().slice(0, 10);
+      const timestamps = (resort.lifts || []).map(lift => lift.lastUpdated).filter(Boolean).sort();
+      return timestamps.at(-1)?.slice(0, 10) || resort.generated?.slice(0, 10) || '';
+
     };
 
     const showGraphTooltip = (dot, tooltip, container, event) => {
@@ -321,31 +321,15 @@
       const cacheKey = dataSourceManager.getCurrentSource().id + '-' + resortKey;
       if (availableDatesCache[cacheKey]) return availableDatesCache[cacheKey];
       const dates = new Set();
-      const fallbackDate = deriveDateKey(resortData || {});
-      if (fallbackDate) dates.add(fallbackDate);
-
+      // Only offer advertised history. A generated index date is not an NDJSON file.
       try {
         const list = await dataSourceManager.fetchData(`data/${resortKey}/lifts/dates.json`);
-        (list || []).forEach(d => dates.add(d));
-      } catch (_) {}
-
-      // Probe recent dates only if we still have very few options
-      if (dates.size < 3) {
-        const now = new Date();
-        for (let i = 0; i < 21; i++) {
-          const probe = new Date(now);
-          probe.setDate(now.getDate() - i);
-          const key = probe.toISOString().slice(0, 10);
-          if (dates.has(key)) continue;
-          try {
-            const url = dataSourceManager.buildDataUrl(`data/${resortKey}/lifts/${key}.ndjson`);
-            const res = await fetch(url, { method: 'HEAD' });
-            if (res.ok) dates.add(key);
-          } catch (_) {}
+        for (const value of Array.isArray(list) ? list : []) {
+          const date = String(value).replace(/\.ndjson$/, '');
+          if (/^\d{4}-\d{2}-\d{2}$/.test(date)) dates.add(date);
         }
-      }
+      } catch (_) { /* Snapshot is still usable when no history manifest exists. */ }
 
-      if (dates.size === 0) dates.add(new Date().toISOString().slice(0, 10));
       const sorted = Array.from(dates).sort();
       availableDatesCache[cacheKey] = sorted;
       return sorted;
@@ -368,6 +352,8 @@
     }
 
     async function fetchHistory(resortKey, dateKey, fullHistory = false) {
+      const available = await getAvailableDates(resortKey, {});
+      if (!available.includes(dateKey)) return {};
       const source = dataSourceManager.getCurrentSource();
       const cacheKey = source.id + '-' + resortKey + '-' + dateKey + (fullHistory ? '-full' : '');
       if (historyCache.has(cacheKey)) return historyCache.get(cacheKey);
@@ -477,8 +463,8 @@
 
       const metaItems = [
         { label: 'Lifts', value: resortData.liftCount || (resortData.lifts ? resortData.lifts.length : '\u2014') },
-        { label: 'Last scrape', value: resortData.generated ? timeAgo(resortData.generated) + ' \u00b7 ' + formatClock(resortData.generated, tz) : '\u2014' },
-        { label: 'Data file', value: dateKey + '.ndjson' }
+        { label: 'Snapshot', value: deriveDateKey(resortData) || 'Unknown' },
+        { label: 'Selected date', value: dateKey || 'Unknown' }
       ];
 
       metaItems.forEach(item => {
@@ -701,7 +687,10 @@
         liftMap.set(id, merged);
       };
 
-      (resortData && resortData.lifts ? resortData.lifts : []).forEach(addOrMergeLift);
+      (resortData && resortData.lifts ? resortData.lifts : []).forEach(lift => {
+        if (deriveDateKey(resortData) === dateKey) addOrMergeLift(lift);
+        else if (fullHistory[canonicalLiftId(lift)]) addOrMergeLift({ ...lift, status: null, waitMinutes: null, lastUpdated: null });
+      });
 
       // Ensure we include lifts seen in history even if not in index
       Object.keys(fullHistory || {}).forEach(liftId => {
@@ -853,7 +842,7 @@
         tbody.innerHTML = '<tr><td colspan="4" class="empty">No lifts match that filter.</td></tr>';
       }
 
-      $('notice').textContent = 'Showing ' + shown + ' of ' + lifts.length + ' lifts' + (filter ? ' (filtered)' : '') + '.';
+      $('notice').textContent = 'Showing ' + shown + ' of ' + lifts.length + ' lifts' + (filter ? ' (filtered)' : '') + (Object.keys(fullHistory).length ? '.' : ' · Intraday history unavailable for this date.');
     }
 
     async function loadResort(resortKey, requestedDate) {
@@ -907,7 +896,7 @@
           await loadResort(initial);
           startAutoRefresh(); // Start auto-refresh when resort is loaded from URL
         } else {
-          $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Pick a resort to load live lift waits.</td></tr>';
+          $('lift-rows').innerHTML = '<tr><td colspan="4" class="empty">Pick a resort to view its last published lift snapshot.</td></tr>';
           $('notice').textContent = 'Select a resort to load data.';
         }
       } catch (err) {

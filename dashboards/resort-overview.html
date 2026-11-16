@@ -281,355 +281,88 @@
       padding: 40px;
       color: var(--muted);
     }
+    @media (max-width: 860px) { .table-scroll { max-height: none; } }
   </style>
 </head>
 <body>
   <div class="page">
     <div class="header">
-      <div>
-        <h1>Resort Data Overview</h1>
-        <div class="subtitle">Data availability status for all resorts</div>
-      </div>
+      <div><h1>Resort Data</h1><div class="subtitle">Published terrain and snow · recent means within 30 hours</div></div>
       <div class="stats">
-        <div class="stat-pill">
-          <div class="stat-label">Total Resorts</div>
-          <div class="stat-value" id="total-resorts">-</div>
-        </div>
-        <div class="stat-pill">
-          <div class="stat-label">Vail Resorts</div>
-          <div class="stat-value" id="vail-count">-</div>
-        </div>
-        <div class="stat-pill">
-          <div class="stat-label">Ikon Resorts</div>
-          <div class="stat-value" id="ikon-count">-</div>
-        </div>
+        <div class="stat-pill"><div class="stat-label">Resorts</div><div class="stat-value" id="total-resorts">—</div></div>
+        <div class="stat-pill"><div class="stat-label">Recent terrain</div><div class="stat-value" id="terrain-count">—</div></div>
+        <div class="stat-pill"><div class="stat-label">Recent snow</div><div class="stat-value" id="snow-count">—</div></div>
       </div>
     </div>
-
     <div class="table-container">
-      <div class="summary-bar" id="summary-bar">
-        <!-- Summary stats will be inserted here -->
+      <div class="filter-bar">
+        <label for="provider">Provider</label>
+        <select id="provider"><option value="all">All</option><option value="vail">Vail</option><option value="ikon">Ikon</option></select>
+        <label for="freshness">Reports</label>
+        <select id="freshness"><option value="all">All</option><option value="recent">Recent</option><option value="stale">Stale or missing</option></select>
+        <span id="load-note" role="status"></span>
       </div>
-      <div class="filter-bar" id="filter-bar">
-        <span class="filter-label">Show:</span>
-        <div class="filter-group">
-          <button class="filter-btn active" data-filter="all">All<span class="filter-count" id="count-all"></span></button>
-          <button class="filter-btn" data-filter="vail">Vail<span class="filter-count" id="count-vail"></span></button>
-          <button class="filter-btn" data-filter="ikon">Ikon<span class="filter-count" id="count-ikon"></span></button>
-        </div>
-        <div class="filter-divider"></div>
-        <span class="filter-label">Missing:</span>
-        <div class="filter-group">
-          <button class="filter-btn filter-missing" data-filter="no-terrain">No Terrain<span class="filter-count" id="count-no-terrain"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-lifts">No Lift Status<span class="filter-count" id="count-no-lifts"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-waits">No Wait Times<span class="filter-count" id="count-no-waits"></span></button>
-          <button class="filter-btn filter-missing" data-filter="no-briefs">No Briefs<span class="filter-count" id="count-no-briefs"></span></button>
-        </div>
-      </div>
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Resort</th>
-              <th class="center">Terrain<span class="th-subtitle">trails &amp; areas</span></th>
-              <th class="center">Snow Report<span class="th-subtitle">conditions</span></th>
-              <th class="center">Lift Status<span class="th-subtitle">open/closed</span></th>
-              <th class="center">Wait Times<span class="th-subtitle">live polling</span></th>
-              <th class="center">Daily Brief<span class="th-subtitle">morning report</span></th>
-              <th>Data Files</th>
-            </tr>
-          </thead>
-          <tbody id="resort-table">
-            <tr>
-              <td colspan="7" style="text-align: center; padding: 40px; color: var(--muted);">
-                Loading resort data...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Resort</th><th>Terrain<span class="th-subtitle">source timestamp</span></th><th>Snow<span class="th-subtitle">collection timestamp</span></th></tr></thead>
+        <tbody id="resort-table"><tr><td colspan="3">Loading reports…</td></tr></tbody>
+      </table></div>
     </div>
   </div>
-
   <script src="shared/data-source-config.js"></script>
+  <script src="shared/published-data.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('overview');
-
-    // Individual resort landing pages are always on GitHub Pages
-    const liveBaseUrl = 'https://jacobschulman.github.io/ski-run-scraper/data';
-    let allResorts = [];
-    let currentFilter = 'all';
-    let providerFilter = 'all'; // Track provider filter separately
-
-    async function loadResortData() {
+    const { escape: esc, observation } = DashboardData;
+    let resorts = [];
+    const feeds = {};
+    function reportCell(resort, kind) {
+      if (feeds[kind] === null) return '<span class="last-update very-stale">Feed unavailable</span>';
+      const report = resort[kind];
+      if (!report.available) return '<span class="last-update">No published report</span>';
+      const href = kind === 'terrain'
+        ? `terrain-dashboard.html?resort=${encodeURIComponent(resort.key)}`
+        : `../data/${encodeURIComponent(resort.key)}/snow.html`;
+      const time = Date.parse(report.timestamp);
+      const date = Number.isFinite(time) ? new Date(time).toLocaleString() : (report.date || 'Timestamp unknown');
+      const source = kind === 'snow' && report.source ? `<div class="last-update">Source: ${esc(report.source)}</div>` : '';
+      return `<a href="${href}">${report.recent ? 'Recent' : 'Stale'} report →</a>
+        <div class="last-update ${report.recent ? '' : 'very-stale'}">${esc(date)}</div>${source}`;
+    }
+    function render() {
+      const provider = document.getElementById('provider').value;
+      const freshness = document.getElementById('freshness').value;
+      const base = resorts.filter(r => provider === 'all' || r.provider === provider);
+      document.getElementById('total-resorts').textContent = base.length;
+      for (const kind of ['terrain', 'snow']) {
+        document.getElementById(`${kind}-count`).textContent = feeds[kind] === null ? 'Unavailable' : base.filter(r => r[kind].recent).length;
+      }
+      const rows = base.filter(r => freshness === 'all' || (freshness === 'recent'
+        ? r.terrain.recent || r.snow.recent : !r.terrain.recent || !r.snow.recent));
+      document.getElementById('resort-table').innerHTML = rows.map(r => `<tr>
+        <td><span class="resort-name">${esc(r.name)}</span><span class="resort-provider">${esc(r.provider)}</span></td>
+        <td data-label="Terrain">${reportCell(r, 'terrain')}</td><td data-label="Snow">${reportCell(r, 'snow')}</td></tr>`).join('') || '<tr><td colspan="3" class="no-results">No matching resorts</td></tr>';
+    }
+    async function load() {
       try {
-        const data = await dataSourceManager.fetchData('data/index.json');
-
-        allResorts = Object.entries(data.resorts).map(([key, resort]) => ({
-          key,
-          ...resort
-        }));
-
-        // Calculate summary stats
-        const total = allResorts.length;
-        const vailCount = allResorts.filter(r => r.provider === 'vail').length;
-        const ikonCount = allResorts.filter(r => r.provider === 'ikon').length;
-
-        const terrainCount = allResorts.filter(r => r.dataCapabilities.terrainAvailable).length;
-        const snowCount = allResorts.filter(r => r.dataCapabilities.snowReportAvailable).length;
-        const liftStatusCount = allResorts.filter(r => r.dataCapabilities.liftStatusAvailable).length;
-        const waitTimesCount = allResorts.filter(r => r.dataCapabilities.liftWaitTimesAvailable).length;
-        const briefsCount = allResorts.filter(r => r.dataCapabilities.dailyBriefAvailable).length;
-
-        // Update header stats
-        document.getElementById('total-resorts').textContent = total;
-        document.getElementById('vail-count').textContent = vailCount;
-        document.getElementById('ikon-count').textContent = ikonCount;
-
-        // Update filter counts
-        document.getElementById('count-all').textContent = ` (${total})`;
-        document.getElementById('count-vail').textContent = ` (${vailCount})`;
-        document.getElementById('count-ikon').textContent = ` (${ikonCount})`;
-        document.getElementById('count-no-terrain').textContent = ` (${total - terrainCount})`;
-        document.getElementById('count-no-lifts').textContent = ` (${total - liftStatusCount})`;
-        document.getElementById('count-no-waits').textContent = ` (${total - waitTimesCount})`;
-        document.getElementById('count-no-briefs').textContent = ` (${total - briefsCount})`;
-
-        // Initial summary bar render (will be updated on filter change)
-        updateSummaryBar();
-
-        // Sort resorts by provider then name
-        allResorts.sort((a, b) => {
-          if (a.provider !== b.provider) {
-            return a.provider === 'vail' ? -1 : 1;
-          }
-          return a.name.localeCompare(b.name);
-        });
-
-        renderTable();
-        setupFilterListeners();
-
+        const [config, terrain, snow] = await Promise.all([
+          dataSourceManager.fetchData('config.json'),
+          dataSourceManager.fetchData('data/latest.json').catch(() => null),
+          dataSourceManager.fetchData('data/latest-snow.json').catch(() => null)
+        ]);
+        feeds.terrain = terrain; feeds.snow = snow;
+        resorts = config.resorts.map(r => ({...r,
+          terrain: observation(terrain?.[r.key], 'terrain'), snow: observation(snow?.[r.key], 'snow')
+        })).sort((a, b) => Number(b.terrain.recent || b.snow.recent) - Number(a.terrain.recent || a.snow.recent) || a.name.localeCompare(b.name));
+        render();
+        document.getElementById('load-note').textContent = terrain && snow ? '' : 'Some published feeds could not be loaded.';
       } catch (error) {
-        console.error('Error loading resort data:', error);
-        document.getElementById('resort-table').innerHTML = `
-          <tr>
-            <td colspan="7" style="text-align: center; padding: 40px; color: var(--negative);">
-              Error loading data: ${error.message}
-            </td>
-          </tr>
-        `;
+        document.getElementById('resort-table').innerHTML = '<tr><td colspan="3">Could not load resorts. Reload to retry.</td></tr>';
       }
     }
-
-    function getPercentClass(ratio) {
-      if (ratio >= 0.8) return '';
-      if (ratio >= 0.5) return 'medium';
-      return 'low';
-    }
-
-    function updateSummaryBar() {
-      // Get base set based on provider filter
-      let baseSet = allResorts;
-      if (providerFilter === 'vail') {
-        baseSet = allResorts.filter(r => r.provider === 'vail');
-      } else if (providerFilter === 'ikon') {
-        baseSet = allResorts.filter(r => r.provider === 'ikon');
-      }
-
-      const total = baseSet.length;
-      const terrainCount = baseSet.filter(r => r.dataCapabilities.terrainAvailable).length;
-      const snowCount = baseSet.filter(r => r.dataCapabilities.snowReportAvailable).length;
-      const liftStatusCount = baseSet.filter(r => r.dataCapabilities.liftStatusAvailable).length;
-      const waitTimesCount = baseSet.filter(r => r.dataCapabilities.liftWaitTimesAvailable).length;
-      const briefsCount = baseSet.filter(r => r.dataCapabilities.dailyBriefAvailable).length;
-
-      const providerLabel = providerFilter === 'all' ? '' : ` (${providerFilter.charAt(0).toUpperCase() + providerFilter.slice(1)})`;
-
-      const summaryBar = document.getElementById('summary-bar');
-      summaryBar.innerHTML = `
-        <div class="summary-item">
-          <div class="summary-label">Terrain Data${providerLabel}</div>
-          <div class="summary-value">
-            ${terrainCount}/${total}
-            <span class="summary-percent ${getPercentClass(terrainCount/total)}">${Math.round(terrainCount/total*100)}%</span>
-          </div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Snow Reports${providerLabel}</div>
-          <div class="summary-value">
-            ${snowCount}/${total}
-            <span class="summary-percent ${getPercentClass(snowCount/total)}">${Math.round(snowCount/total*100)}%</span>
-          </div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Lift Status${providerLabel}</div>
-          <div class="summary-value">
-            ${liftStatusCount}/${total}
-            <span class="summary-percent ${getPercentClass(liftStatusCount/total)}">${Math.round(liftStatusCount/total*100)}%</span>
-          </div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Live Wait Times${providerLabel}</div>
-          <div class="summary-value">
-            ${waitTimesCount}/${total}
-            <span class="summary-percent ${getPercentClass(waitTimesCount/total)}">${Math.round(waitTimesCount/total*100)}%</span>
-          </div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Daily Briefs${providerLabel}</div>
-          <div class="summary-value">
-            ${briefsCount}/${total}
-            <span class="summary-percent ${getPercentClass(briefsCount/total)}">${Math.round(briefsCount/total*100)}%</span>
-          </div>
-        </div>
-      `;
-    }
-
-    function getLastUpdateClass(dateStr) {
-      if (!dateStr) return 'very-stale';
-      const date = new Date(dateStr);
-      const now = new Date();
-      const hoursDiff = (now - date) / (1000 * 60 * 60);
-      if (hoursDiff > 48) return 'very-stale';
-      if (hoursDiff > 24) return 'stale';
-      return '';
-    }
-
-    function formatLastUpdate(dateStr) {
-      if (!dateStr) return 'Never';
-      const date = new Date(dateStr);
-      const now = new Date();
-      const hoursDiff = Math.floor((now - date) / (1000 * 60 * 60));
-
-      if (hoursDiff < 1) return 'Just now';
-      if (hoursDiff < 24) return `${hoursDiff}h ago`;
-      const daysDiff = Math.floor(hoursDiff / 24);
-      if (daysDiff === 1) return 'Yesterday';
-      return `${daysDiff} days ago`;
-    }
-
-    function filterResorts() {
-      return allResorts.filter(resort => {
-        const caps = resort.dataCapabilities;
-
-        // First apply provider filter
-        if (providerFilter === 'vail' && resort.provider !== 'vail') return false;
-        if (providerFilter === 'ikon' && resort.provider !== 'ikon') return false;
-
-        // Then apply missing data filter
-        switch (currentFilter) {
-          case 'all': return true;
-          case 'no-terrain': return !caps.terrainAvailable;
-          case 'no-lifts': return !caps.liftStatusAvailable;
-          case 'no-waits': return !caps.liftWaitTimesAvailable;
-          case 'no-briefs': return !caps.dailyBriefAvailable;
-          default: return true;
-        }
-      });
-    }
-
-    function renderTable() {
-      const filtered = filterResorts();
-      const tbody = document.getElementById('resort-table');
-
-      if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="no-results">No resorts match this filter</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = filtered.map(resort => {
-        const caps = resort.dataCapabilities;
-        const providerClass = `provider-${resort.provider}`;
-
-        // Links to live GitHub Pages GUI
-        const terrainLink = caps.terrainAvailable && resort.latest
-          ? `<a href="${liveBaseUrl}/${resort.key}/grooming.html" target="_blank">${statusIcon(true)}</a>`
-          : statusIcon(false);
-
-        const snowLink = caps.snowReportAvailable
-          ? `<a href="${liveBaseUrl}/${resort.key}/snow.html" target="_blank">${statusIcon(true)}</a>`
-          : statusIcon(false);
-
-        const briefLink = caps.dailyBriefAvailable
-          ? `<a href="${liveBaseUrl}/${resort.key}/brief.html" target="_blank">${statusIcon(true)}</a>`
-          : statusIcon(false);
-
-        // Lift status with link to lifts GUI
-        const liftStatusLink = caps.liftStatusAvailable
-          ? `<a href="${liveBaseUrl}/${resort.key}/lifts.html" target="_blank">${statusIcon(true)}</a>`
-          : statusIcon(false);
-
-        const filesInfo = resort.count > 0
-          ? `<span class="file-count">${resort.count} files</span><br><a href="${liveBaseUrl}/${resort.key}/grooming.html" target="_blank">View \u2192</a>`
-          : `<span class="file-count" style="opacity: 0.4;">No data</span>`;
-
-        const lastUpdate = caps.lastTerrainUpdate
-          ? `<div class="last-update ${getLastUpdateClass(caps.lastTerrainUpdate)}">Updated ${formatLastUpdate(caps.lastTerrainUpdate)}</div>`
-          : '';
-
-        return `
-          <tr data-provider="${resort.provider}" data-terrain="${caps.terrainAvailable}" data-lifts="${caps.liftStatusAvailable}" data-waits="${caps.liftWaitTimesAvailable}" data-briefs="${caps.dailyBriefAvailable}">
-            <td>
-              <span class="resort-name">${resort.name}</span>
-              <span class="resort-provider ${providerClass}">${resort.provider}</span>
-              ${lastUpdate}
-            </td>
-            <td class="center">${terrainLink}</td>
-            <td class="center">${snowLink}</td>
-            <td class="center">${liftStatusLink}</td>
-            <td class="center">${statusIcon(caps.liftWaitTimesAvailable)}</td>
-            <td class="center">${briefLink}</td>
-            <td>${filesInfo}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function setupFilterListeners() {
-      const providerBtns = document.querySelectorAll('.filter-btn[data-filter="all"], .filter-btn[data-filter="vail"], .filter-btn[data-filter="ikon"]');
-      const missingBtns = document.querySelectorAll('.filter-btn.filter-missing');
-
-      // Provider buttons are exclusive (All, Vail, Ikon)
-      providerBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          providerBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          providerFilter = btn.dataset.filter;
-          updateSummaryBar();
-          renderTable();
-        });
-      });
-
-      // Missing data buttons are toggleable
-      missingBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const filter = btn.dataset.filter;
-
-          if (btn.classList.contains('active')) {
-            // Turn off - go back to showing all
-            btn.classList.remove('active');
-            currentFilter = 'all';
-          } else {
-            // Turn on - deactivate other missing filters first
-            missingBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFilter = filter;
-          }
-          renderTable();
-        });
-      });
-    }
-
-    function statusIcon(available) {
-      if (available) {
-        return '<span class="status-icon status-yes">\u2713</span>';
-      } else {
-        return '<span class="status-icon status-no">\u2717</span>';
-      }
-    }
-
-    loadResortData();
+    document.getElementById('provider').addEventListener('change', render);
+    document.getElementById('freshness').addEventListener('change', render);
+    load();
   </script>
 </body>
 </html>

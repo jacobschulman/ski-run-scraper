@@ -135,7 +135,7 @@
     <div class="header">
       <div>
         <h1>Terrain & Grooming Dashboard</h1>
-        <p class="subtitle">Pick a resort to see raw terrain data: grooming counts, deltas vs yesterday, and the latest trail-level details.</p>
+        <p class="subtitle">Latest published terrain, grooming and trail details.</p>
       </div>
       <div class="pill" id="resort-count">Loading...</div>
     </div>
@@ -157,7 +157,7 @@
 
     <div class="grid secondary-grid">
       <div class="card">
-        <div class="section-title">Groomed Trend (last 7 days)</div>
+        <div class="section-title">Groomed Trend (last 7 reports)</div>
         <div id="trend" class="sparkline"></div>
       </div>
       <div class="card">
@@ -170,7 +170,7 @@
         <div id="areas" class="area-list"></div>
       </div>
       <div class="card">
-        <div class="section-title">Fresh Corduroy (new vs yesterday)</div>
+        <div class="section-title">Fresh Corduroy (new vs prior day)</div>
         <div id="new-trails" class="new-list"></div>
       </div>
     </div>
@@ -178,7 +178,7 @@
     <div class="card table-card">
       <div class="table-head">
         <div>
-          <div class="section-title">Currently Groomed Trails</div>
+          <div class="section-title">Groomed Trails</div>
           <div class="subtitle" id="table-sub">Showing latest scrape</div>
         </div>
         <div class="pill">Raw view from terrain JSON</div>
@@ -188,6 +188,7 @@
   </div>
 
   <script src="shared/data-source-config.js"></script>
+  <script src="shared/published-data.js"></script>
   <script src="shared/nav.js"></script>
   <script>
     initNav('terrain');
@@ -341,7 +342,7 @@
       const generated = data.Date || data.generated;
       const items = [
         { label: 'Data file', value: `${dateKey}.json` },
-        { label: 'Last scrape', value: generated ? timeAgo(generated) + ' \u00b7 ' + formatClock(generated, resortInfo?.timezone) : '\u2014' },
+        { label: DashboardData.recent(generated) ? 'Source updated' : 'Stale source', value: generated ? timeAgo(generated) + ' \u00b7 ' + formatClock(generated, resortInfo?.timezone) : '\u2014' },
         { label: 'Timezone', value: resortInfo?.timezone || 'Unknown' }
       ];
       items.forEach(item => {
@@ -359,23 +360,23 @@
 
       const cards = [
         {
-          label: 'Groomed Today',
+          label: 'Groomed',
           value: stats.groomed,
           sub: stats.groomedDelta === null ? 'No comparison yet' :
-            (stats.groomedDelta > 0 ? `+${stats.groomedDelta} vs yesterday` : `${stats.groomedDelta} vs yesterday`),
+            (stats.groomedDelta > 0 ? `+${stats.groomedDelta} vs prior day` : `${stats.groomedDelta} vs prior day`),
           deltaClass: stats.groomedDelta < 0 ? 'negative' : '',
         },
         {
           label: 'Newly Groomed',
-          value: stats.newGroomed.length,
-          sub: 'Not groomed yesterday',
+          value: stats.groomedDelta === null ? '—' : stats.newGroomed.length,
+          sub: stats.groomedDelta === null ? 'No previous-day report' : 'Not groomed the day before',
           deltaClass: ''
         },
         {
-          label: 'Open Now',
+          label: 'Open',
           value: stats.open,
           sub: stats.openDelta === null ? '' :
-            (stats.openDelta > 0 ? `+${stats.openDelta} vs yesterday` : `${stats.openDelta} vs yesterday`),
+            (stats.openDelta > 0 ? `+${stats.openDelta} vs prior day` : `${stats.openDelta} vs prior day`),
           deltaClass: stats.openDelta < 0 ? 'negative' : ''
         },
         {
@@ -482,8 +483,12 @@
     function renderNewTrails(stats) {
       const list = $('new-trails');
       list.innerHTML = '';
+      if (stats.groomedDelta === null) {
+        list.innerHTML = '<div class="empty">No previous-day report to compare.</div>';
+        return;
+      }
       if (!stats.newGroomed.length) {
-        list.innerHTML = '<div class="empty">No new grooming compared to yesterday.</div>';
+        list.innerHTML = '<div class="empty">No new grooming compared to the prior day.</div>';
         return;
       }
       stats.newGroomed.slice(0, 12).forEach(trail => {
@@ -579,6 +584,10 @@
 
     async function loadResort(resortKey) {
       state.currentResort = resortKey;
+      state.currentTrails = [];
+      for (const id of ['stats-grid', 'trend', 'difficulty', 'difficulty-bars', 'areas', 'new-trails', 'trail-list']) {
+        if ($(id)) $(id).innerHTML = '';
+      }
       const resortInfo = state.resortMap[resortKey];
 
       let indexEntry;
@@ -599,7 +608,7 @@
         return;
       }
 
-      const files = [...indexEntry.files].sort().reverse();
+      const files = DashboardData.dates(indexEntry.files);
 
       const pickAvailableDate = async () => {
         for (const date of files) {
@@ -622,7 +631,7 @@
         return;
       }
 
-      const previous = files.find(d => d !== latest);
+      const previous = files.includes(DashboardData.previousDay(latest)) ? DashboardData.previousDay(latest) : null;
 
       state.currentDate = latest;
       $('table-sub').textContent = `Latest scrape: ${latest}`;
