@@ -518,3 +518,7 @@ two-hour delivery; a strict cadence would require an independent scheduler.
 Pages verification waits through transient `errored` statuses until the expected
 commit is built or the bounded polling window expires. A replacement Pages build
 can already be running when the API briefly reports the cancelled build as an error.
+
+If another change advances main during deployment, the Pages verifier accepts a
+built descendant of the pilot data commit, verified through GitHub Compare. An
+older or divergent deployment never satisfies the check.

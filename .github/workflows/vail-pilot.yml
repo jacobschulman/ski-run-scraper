@@ -105,9 +105,12 @@ jobs:
             gh api "repos/$REPOSITORY/pages/builds/latest" > /tmp/pages-build.json
             state=$(jq -r .status /tmp/pages-build.json)
             commit=$(jq -r .commit /tmp/pages-build.json)
-            if [ "$commit" = "$EXPECTED_COMMIT" ] && [ "$state" = built ]; then
-              echo "Pages published $commit"
-              exit 0
+            if [ "$state" = built ]; then
+              relation=$(gh api "repos/$REPOSITORY/compare/$EXPECTED_COMMIT...$commit" --jq .status)
+              if [ "$relation" = identical ] || [ "$relation" = ahead ]; then
+                echo "Pages published $commit including pilot commit $EXPECTED_COMMIT"
+                exit 0
+              fi
             fi
             if [ "$commit" = "$EXPECTED_COMMIT" ] && [ "$state" = errored ]; then
               echo "Pages currently reports an error; waiting for any replacement build to finish"
