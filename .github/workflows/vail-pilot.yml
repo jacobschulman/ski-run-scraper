@@ -1,7 +1,7 @@
 name: Six-resort snow and terrain pilot
 on:
   schedule:
-    - cron: '17 */2 * * *'
+    - cron: '37 * * * *'
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,6 +17,7 @@ jobs:
       contents: write
     outputs:
       commit: ${{ steps.publish.outputs.commit }}
+      due: ${{ steps.cadence.outputs.due }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,18 +53,26 @@ jobs:
             /data/mammoth/snow/
             /data/latest.json
             /data/latest-snow.json
+      - name: Check whether collection is due
+        id: cadence
+        run: node scripts/check-pilot-cadence.js
       - uses: actions/setup-node@v4
+        if: steps.cadence.outputs.due == 'true'
         with:
           node-version: '22'
           cache: npm
       - run: npm ci
+        if: steps.cadence.outputs.due == 'true'
         env:
           PUPPETEER_SKIP_DOWNLOAD: 'true'
       - run: npm run test:recovery
-      - name: Collect and validate all six resorts before writing
+        if: steps.cadence.outputs.due == 'true'
+      - name: Collect and validate each resort independently
+        if: steps.cadence.outputs.due == 'true'
         run: node scripts/run-vail-pilot.js --publish
       - name: Commit only pilot outputs, preserving history
         id: publish
+        if: steps.cadence.outputs.due == 'true'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -71,7 +80,7 @@ jobs:
           git push origin HEAD:main
           echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && steps.cadence.outputs.due == 'true'
         with:
           name: vail-pilot-evidence
           include-hidden-files: true
@@ -79,6 +88,7 @@ jobs:
           retention-days: 30
   pages:
     needs: collect
+    if: needs.collect.outputs.due == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

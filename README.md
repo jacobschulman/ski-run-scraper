@@ -449,14 +449,15 @@ Successful local access does not establish cloud accessibility. Vail lift waits
 remain unqualified: the observed background terrain endpoint returned an explicit
 failure even in Chrome. Do not replace the lift collector based on snow results.
 
-The `Six-resort snow and terrain pilot` workflow collects snow and terrain at minute 17
-of every second UTC hour (`17 */2 * * *`) for Breckenridge, Keystone, Vail, Beaver Creek, A-Basin and Mammoth, with manual dispatch available. GitHub
+The `Six-resort snow and terrain pilot` covers Breckenridge, Keystone, Vail,
+Beaver Creek, A-Basin and Mammoth. It wakes hourly at minute 37 and collects
+when the newest accepted pilot observation is at least 105 minutes old.
+Manual dispatch is also available. GitHub
 may delay scheduled jobs. It uses direct HTTP to the public pages' embedded JSON;
 this is not the unreliable background terrain API. No browser or Hetzner host
 is needed. Live lift polling remains out of scope.
 
-Run `node scripts/run-vail-pilot.js` for a read-only dry run. All six resorts must
-pass before `--publish` writes anything. Terrain uses the final labeled
+Run `node scripts/run-vail-pilot.js` for a read-only dry run. Each resort must pass validation before its own records are published. A rejected resort keeps all of its existing files while healthy resorts continue. Terrain uses the final labeled
 `FR.TerrainStatusFeed` assignment and restores browser-added area `order`.
 It preserves source keys, labels, booleans, nulls, IDs, local daily filenames,
 the existing UTC terrain copy, and aggregate shapes. The feed timestamp must
@@ -488,3 +489,28 @@ uses the wrapper timestamp. Inspector terrain timestamps accept explicit offsets
 with or without a colon. Mammoth dates use America/Los_Angeles. A-Basin has no
 historical daily terrain directory in this repository; its new series starts on
 the first successful collection and does not synthesize past dates.
+
+### Failure isolation and scheduler recovery (November 16)
+
+Collection and publication validation isolate failures per resort. Accepted resorts
+retain their legacy serializer and output paths. A failed resort does not change
+its daily JSON, latest JSON, snow NDJSON or aggregate entries. Each candidate and
+`run.json` diagnostic is retained as an Actions artifact, including failed runs.
+Partial success produces warnings and an Actions summary naming skipped resorts;
+an all-rejected batch fails without a data commit. Aggregate corruption and unsafe
+commit paths still fail closed globally.
+
+Run history showed 5–9 hour gaps **before run creation**, while created jobs
+started promptly and finished in minutes. The workflow remained enabled on main
+with the correct two-hour cron. This rules out scraper runtime and concurrency
+as the explanation; GitHub does not expose a delivery diagnosis for missing
+scheduled events. GitHub documents delayed/dropped scheduled events under load:
+https://docs.github.com/en/actions/how-tos/troubleshoot-workflows
+
+The mitigation changes the cron to hourly at minute 37, checking cadence before
+dependency installation or source requests. A collection is due at 105 minutes
+since the newest accepted pilot observation (allowing scheduling jitter around
+two hours). Delayed runs collect immediately; manual dispatch always collects.
+Gaps over three hours produce an explicit warning and the Actions summary shows
+the last collection time. This increases opportunities but cannot guarantee
+two-hour delivery; a strict cadence would require an independent scheduler.
