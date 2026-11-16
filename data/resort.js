@@ -8,6 +8,24 @@ let currentDate = null;
 let terrainData = null;
 let weatherData = null;
 let liftData = null;
+const reportTimezones = {vail:'America/Denver',beavercreek:'America/Denver',breckenridge:'America/Denver',keystone:'America/Denver',abasin:'America/Denver',mammoth:'America/Los_Angeles'};
+function isRecentReport(timestamp, hours = 30) {
+    const age = Date.now() - Date.parse(timestamp);
+    return Number.isFinite(age) && age >= -900000 && age <= hours * 3600000;
+}
+function snowSourceTimestamp(snow) {
+    const text = snow?.lastUpdated || '';
+    const match = /^Updated (.+) at (.+) ([A-Z]{3,4})$/.exec(text);
+    const zones = {MST:'-0700',MDT:'-0600',PST:'-0800',PDT:'-0700',EST:'-0500',EDT:'-0400',CST:'-0600',CDT:'-0500'};
+    if (match && zones[match[3]]) {
+        const time = Date.parse(`${match[1]} ${match[2]} ${zones[match[3]]}`);
+        return Number.isFinite(time) ? new Date(time).toISOString() : null;
+    }
+    return /(?:Z|[+-]\d{2}:?\d{2})$/.test(text) ? text : null;
+}
+function reportTimestamp(timestamp) {
+    return timestamp ? new Date(timestamp).toLocaleString('en-US', {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}) : 'Unknown';
+}
 
 /**
  * Convert trail name to URL-safe slug (matches backend logic)
@@ -52,20 +70,18 @@ async function loadIndex() {
     showSkeletonLoading();
 
     try {
-        const response = await fetch('../index.json');
+        const response = await fetch('../index.json', {cache:'no-store'});
         const index = await response.json();
+        let dates = index.resorts?.[RESORT_KEY]?.files || [];
+        const currentIndex = await fetch(`../${RESORT_KEY}/terrain/index.json`, {cache:'no-store'});
+        if (currentIndex.ok) dates = (await currentIndex.json()).files || [];
+        availableDates = dates.map(f => f.replace('.json','')).filter(d=>d<=getTodayDate()).sort().reverse();
 
-        if (index.resorts && index.resorts[RESORT_KEY] && index.resorts[RESORT_KEY].files) {
-            availableDates = index.resorts[RESORT_KEY].files
-                .map(f => f.replace('.json', ''))
-                .sort()
-                .reverse(); // Most recent first
-
+        if (availableDates.length) {
             currentDateIndex = 0;
             await loadDate(availableDates[currentDateIndex]);
 
-            // Load morning brief after terrain data
-            loadMorningBrief();
+
         } else {
             showError('No data available for this resort.');
         }
@@ -82,7 +98,7 @@ async function loadDate(date) {
 
     try {
         const filePath = `../${RESORT_KEY}/terrain/${date}.json`;
-        const response = await fetch(filePath);
+        const response = await fetch(filePath, {cache:'no-store'});
 
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}`);
@@ -117,6 +133,9 @@ async function loadDate(date) {
 
         renderOverview();
         updateNavigation(date);
+        await loadMorningBrief();
+        const footer = document.getElementById('update-time');
+        if (footer) footer.textContent = `Terrain snapshot: ${reportTimestamp(terrainData.sourceLastUpdated || terrainData.Date)}`;
     } catch (error) {
         showError(`Failed to load data for ${date}: ${error.message}`);
     }
@@ -127,22 +146,13 @@ async function loadDate(date) {
  */
 async function loadWeatherData(date = null) {
     try {
-        let response;
-        let isHistorical = false;
-
-        if (date && date !== getTodayDate()) {
-            response = await fetch(`../${RESORT_KEY}/snow/${date}.json`);
-            isHistorical = true;
-        }
-
-        if (!response || !response.ok) {
-            response = await fetch(`../${RESORT_KEY}/snow/latest.json`);
-            isHistorical = false;
-        }
+        const isHistorical = date !== getTodayDate();
+        const response = await fetch(`../${RESORT_KEY}/snow/${isHistorical ? date : 'latest'}.json`, {cache:'no-store'});
 
         if (response.ok) {
             weatherData = await response.json();
             weatherData.isHistorical = isHistorical;
+            if (isHistorical && weatherData.date !== date) weatherData = null;
         } else {
             weatherData = null;
         }
@@ -155,23 +165,19 @@ async function loadWeatherData(date = null) {
  * Load lift data
  */
 async function loadLiftData() {
-    try {
-        const response = await fetch(`../${RESORT_KEY}/lifts/index.json`);
-        if (response.ok) {
-            liftData = await response.json();
-        } else {
-            liftData = null;
-        }
-    } catch (error) {
-        liftData = null;
-    }
+    // Periodic terrain status is available; the separate live wait stream is paused.
+    liftData = {
+        snapshot: true,
+        generated: terrainData?.sourceLastUpdated || terrainData?.Date,
+        lifts: (terrainData?.Lifts || []).map(l => ({name:l.Name,status:l.Status,waitMinutes:null}))
+    };
 }
 
 /**
  * Get today's date in YYYY-MM-DD format
  */
 function getTodayDate() {
-    return new Date().toISOString().split('T')[0];
+    return new Intl.DateTimeFormat('en-CA', {timeZone:reportTimezones[RESORT_KEY] || 'UTC',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 }
 
 /**
@@ -260,7 +266,7 @@ function getGroomedTrailsData() {
  */
 function renderSnowConditionsWidget(groomedCount) {
     const conditions = weatherData?.conditions || 'Unknown';
-    const snowfall24h = weatherData?.snowfall?.['24hour_inches'] ?? 0;
+    const snowfall24h = weatherData?.snowfall?.['24hour_inches'] ?? '--';
 
     // Get temperature - try forecast first, then currentConditions (Canadian resorts)
     let currentTemp = '--';
@@ -271,21 +277,12 @@ function renderSnowConditionsWidget(groomedCount) {
         const today = weatherData.forecast.locations[0].today;
         hiTemp = today.high_f ?? '--';
         loTemp = today.low_f ?? '--';
-        currentTemp = hiTemp; // Use high as current for now
+        // Forecast high is not a current temperature observation.
     } else if (weatherData?.currentConditions?.temperature_f) {
         // Fallback for Canadian resorts that only have currentConditions
         currentTemp = Math.round(weatherData.currentConditions.temperature_f);
         hiTemp = currentTemp;
         loTemp = '--';
-    }
-
-    // Get lift count
-    let openLifts = '--';
-    let totalLifts = '--';
-    if (liftData?.lifts) {
-        const lifts = liftData.lifts;
-        totalLifts = lifts.length;
-        openLifts = lifts.filter(l => l.status === 'Open').length;
     }
 
     // Get trail count
@@ -296,15 +293,17 @@ function renderSnowConditionsWidget(groomedCount) {
         }
     });
 
+    const openTrails = terrainData.GroomingAreas.flatMap(a=>a.Trails || []).filter(t=>t.IsOpen).length;
     const lastUpdated = weatherData?.lastUpdated || '';
     const updateTime = lastUpdated ? lastUpdated.replace('Updated ', '') : '';
+    const snowStale = !weatherData || (!weatherData.isHistorical && (!isRecentReport(weatherData.timestamp) || !isRecentReport(snowSourceTimestamp(weatherData)) || weatherData.date !== getTodayDate()));
 
     return `
         <div class="widget-card">
             <a href="snow.html" class="widget-header widget-header-link">
                 <div class="widget-title-group">
                     <span class="widget-title">Snow Conditions</span>
-                    <span class="widget-subtitle">${updateTime ? `Updated ${updateTime}` : 'Current conditions'}</span>
+                    <span class="widget-subtitle">${snowStale ? 'Stale · ' : weatherData?.isHistorical ? 'Archive · ' : ''}${updateTime ? `Updated ${escapeHtml(updateTime)}` : 'Snow report unavailable'}</span>
                 </div>
                 <span class="widget-see-all">See all →</span>
             </a>
@@ -325,8 +324,8 @@ function renderSnowConditionsWidget(groomedCount) {
             </div>
             <div class="weather-terrain-row">
                 <div class="terrain-stat">
-                    <span class="terrain-stat-value">${openLifts}/${totalLifts}</span>
-                    <span class="terrain-stat-label">Open Lifts</span>
+                    <span class="terrain-stat-value">${openTrails}/${totalTrails}</span>
+                    <span class="terrain-stat-label">Open trails</span>
                 </div>
                 <div class="terrain-stat">
                     <span class="terrain-stat-value">${groomedCount}/${totalTrails}</span>
@@ -387,6 +386,11 @@ function checkOperatingHours() {
  * Render Lift Status Widget
  */
 function renderLiftStatusWidget() {
+    if (liftData?.snapshot) {
+        const fresh = isRecentReport(liftData.generated);
+        const open = liftData.lifts.filter(l=>l.status==='Open');
+        return `<div class="widget-card"><div class="widget-header"><div class="widget-title-group"><span class="widget-title">Lift snapshot</span><span class="widget-subtitle">${fresh ? '' : 'Stale · '}${escapeHtml(reportTimestamp(liftData.generated))}</span></div></div><ul class="lift-list">${open.length ? open.slice(0,3).map(l=>`<li class="lift-item"><span class="lift-name">${escapeHtml(l.name)}</span><span class="lift-badge">Open in snapshot</span></li>`).join('') : '<li class="empty-state">No lifts marked open in this snapshot.</li>'}</ul><div class="widget-subtitle" style="padding:12px 16px">Live lift waits are not being collected.</div></div>`;
+    }
     // Check if resort is within operating hours
     const hoursCheck = checkOperatingHours();
 
@@ -692,13 +696,15 @@ async function loadMorningBrief() {
     }
 
     try {
-        const response = await fetch(`../${RESORT_KEY}/brief/latest.json`);
+        widget.style.display = 'none';
+        const response = await fetch(`../${RESORT_KEY}/brief/latest.json`, {cache:'no-store'});
         if (!response.ok) {
             widget.style.display = 'none';
             return;
         }
 
         const data = await response.json();
+        if (data.date !== currentDate || !isRecentReport(data.generated || data.generatedAt)) return;
         displayMorningBrief(data);
     } catch (error) {
         widget.style.display = 'none';
@@ -743,7 +749,7 @@ function displayMorningBrief(data) {
         alertsHtml += '</div>';
     }
 
-    const dateStr = new Date().toLocaleDateString('en-US', {
+    const dateStr = new Date(data.date + 'T12:00:00').toLocaleDateString('en-US', {
         weekday: 'long',
         month: 'short',
         day: 'numeric'
@@ -810,8 +816,7 @@ function isBriefDismissed() {
  */
 window.refreshData = async function() {
     if (currentDate) {
-        await loadDate(currentDate);
-        await loadMorningBrief();
+        await loadIndex();
     } else {
         await loadIndex();
     }
