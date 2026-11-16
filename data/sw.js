@@ -1,7 +1,7 @@
 // Service Worker for Ski Conditions PWA
-const CACHE_NAME = 'ski-conditions-v3';
-const STATIC_CACHE = 'ski-static-v3';
-const DATA_CACHE = 'ski-data-v3';
+const CACHE_NAME = 'ski-conditions-v4';
+const STATIC_CACHE = 'ski-static-v4';
+const DATA_CACHE = 'ski-data-v4';
 
 // Static assets to cache immediately
 const STATIC_ASSETS = [
@@ -49,7 +49,8 @@ self.addEventListener('activate', (event) => {
       await self.clients.claim();
       // An old cached app can otherwise keep presenting archived data as current.
       const windows = await self.clients.matchAll({type:'window'});
-      await Promise.all(windows.map(client => client.navigate(client.url)));
+      // Do not await navigation: its fetch may wait for this worker to activate.
+      windows.forEach(client => { client.navigate(client.url).catch(() => {}); });
     })
   );
 });
