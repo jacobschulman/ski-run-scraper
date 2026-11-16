@@ -110,8 +110,7 @@ jobs:
               exit 0
             fi
             if [ "$commit" = "$EXPECTED_COMMIT" ] && [ "$state" = errored ]; then
-              cat /tmp/pages-build.json
-              exit 1
+              echo "Pages currently reports an error; waiting for any replacement build to finish"
             fi
             sleep 10
           done
